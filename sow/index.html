@@ -14,6 +14,19 @@
             height: 100vh; 
             display: flex; 
             overflow: hidden; 
+            position: relative;
+        }
+
+        /* 🌧️ 배경 비 효과용 캔버스 스타일 */
+        #rainCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.25;
         }
 
         /* [좌측] 고정 사이드바 (PC) */
@@ -26,6 +39,7 @@
             padding: 35px 25px; 
             justify-content: space-between; 
             flex-shrink: 0;
+            z-index: 2;
         }
         .oc-summary { text-align: center; }
         .oc-portrait { 
@@ -40,11 +54,11 @@
         .oc-title h1 { color: #ffffff; font-size: 22px; margin-bottom: 4px; letter-spacing: -0.5px; }
         .oc-title p { color: #2a7b73; font-size: 11px; font-weight: bold; letter-spacing: 2px; }
 
-        /* 메뉴 네비게이션 버튼 */
+        /* 메뉴 네비게이션 버튼 (일본어로 전면 개정) */
         .nav-menu { margin-top: 30px; display: flex; flex-direction: column; gap: 6px; flex-grow: 1; }
         .nav-btn { 
             background: none; border: none; color: #718096; text-align: left; 
-            padding: 14px 18px; font-size: 13px; font-weight: bold; cursor: pointer; 
+            padding: 14px 18px; font-size: 14px; font-weight: bold; cursor: pointer; 
             border-radius: 4px; transition: all 0.25s ease; letter-spacing: 1px; 
         }
         .nav-btn:hover, .nav-btn.active { 
@@ -65,6 +79,7 @@
         .main-content { 
             flex: 1; padding: 55px 60px; overflow-y: auto; 
             background: radial-gradient(circle at 80% 20%, #13171b 0%, #090a0c 100%); 
+            z-index: 1;
         }
         
         /* 탭 전환 효과 */
@@ -109,12 +124,10 @@
         /* 관계도 대형 가로 병렬 그리드 (PC) */
         .relation-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 15px; }
         .relation-card { display: flex; flex-direction: column; background: rgba(18, 22, 26, 0.65); padding: 25px; border-radius: 8px; border: 1px solid rgba(42, 123, 115, 0.15); }
-        
-        /* ✨ [수정] 관계도 이미지 가로세로 비율 자동 맞춤 및 원본 전체 출력 세팅 */
         .relation-img { 
             width: 100%; 
-            height: auto; /* 고정 높이를 해제하여 이미지 비율대로 늘어나게 합니다 */
-            object-fit: contain; /* 캐릭터 시트 글자가 절대 잘리지 않도록 내부에 맞춤 */
+            height: auto; 
+            object-fit: contain; 
             border-radius: 6px; 
             border: 1px solid #2a7b73; 
             margin-bottom: 18px; 
@@ -134,16 +147,23 @@
             .oc-portrait { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 0; box-shadow: none; }
             .oc-title h1 { font-size: 18px; }
             
+            /* 모바일 카테고리 메뉴 세로 직렬 배치 세팅 */
             .nav-menu { 
-                flex-direction: row; flex-wrap: wrap; justify-content: center; 
-                gap: 5px; margin-top: 20px; width: 100%; 
+                flex-direction: column; 
+                gap: 6px; 
+                margin-top: 20px; 
+                width: 100%; 
             }
             .nav-btn { 
-                padding: 10px 12px; font-size: 11px; text-align: center; 
-                border-left: none !important; border-bottom: 2px solid transparent; 
+                width: 100%;
+                padding: 12px 16px; 
+                font-size: 13px; 
+                text-align: left; 
+                border-bottom: none !important;
+                border-left: 4px solid transparent; 
             }
             .nav-btn:hover, .nav-btn.active { 
-                background: rgba(42, 123, 115, 0.1); color: #93e1d8; border-bottom: 2px solid #2a7b73; 
+                background: rgba(42, 123, 115, 0.1); color: #93e1d8; border-left: 4px solid #2a7b73; 
             }
             
             .main-content { padding: 35px 20px; overflow-y: visible; }
@@ -156,26 +176,31 @@
 </head>
 <body>
 
+    <!-- 🌧️ 비가 그려질 배경 무대 (Canvas Layer) -->
+    <canvas id="rainCanvas"></canvas>
+
     <!-- [좌측] 고정 사이드바 메뉴 -->
     <div class="sidebar">
         <div class="oc-summary">
             <img class="oc-portrait" src="../Jin_k_middle_shot._A_highly_detailed_sharp_close-up_portrait__d6cd11d6-0f8e-4ff8-863d-f1e4aa63f54e_2.png" alt="소우">
             <div class="oc-title">
                 <h1>아사히나 소우</h1>
-                <p>ASAHINA SOW</p>
+                <p>あさひな そう</p>
             </div>
         </div>
 
+        <!-- 🌸 영어를 완전히 제거하고 묵직한 한자식 일본어 카테고리로 교체 -->
         <div class="nav-menu">
-            <button class="nav-btn active" onclick="openTab(event, 'profile')">CHARACTER PROFILE</button>
-            <button class="nav-btn" onclick="openTab(event, 'organization')">HASEGAWA GUMI</button>
-            <button class="nav-btn" onclick="openTab(event, 'relations')">RELATIONSHIPS</button>
+            <button class="nav-btn active" onclick="openTab(event, 'profile')">身上調書</button>
+            <button class="nav-btn" onclick="openTab(event, 'organization')">長谷川組</button>
+            <button class="nav-btn" onclick="openTab(event, 'relations')">相関系譜</button>
         </div>
 
         <div class="audio-box">
-            <div class="audio-title">🎵 夜에溶ける (밤에 녹아내리는)</div>
+            <div class="audio-title">🎵 夜に溶ける (밤에 녹아내리는)</div>
             <audio id="ocBgm" src="../「夜に溶ける (밤에 녹아내리는)」.mp3" loop autoplay></audio>
-            <button class="bgm-btn" onclick="toggleBgm()">BGM PLAY / PAUSE</button>
+            <!-- 영문 PLAY/PAUSE 문구 제거 -->
+            <button class="bgm-btn" onclick="toggleBgm()">音曲 演奏 / 停止</button>
         </div>
     </div>
 
@@ -184,27 +209,27 @@
         
         <!-- 탭 1: 캐릭터 프로필 -->
         <div id="profile" class="tab-content active">
-            <h2>CHARACTER PROFILE</h2>
+            <h2>身上調書 (인적사항 보고서)</h2>
             
             <div class="quote-block">
                 "첩의 자리도 나쁘지 않잖아. <br>당신의 그 맑고 투명한 영혼을 진흙탕에 섞지 않기 위해 내 은밀한 울타리 안에 가두려는 것뿐이니까. <br>그러니까 내 안방에서 숨만 쉬어."
             </div>
             
             <div class="info-grid">
-                <div class="info-item"><div class="info-label">NAME</div><div class="info-value">아사히나 소우 (朝比奈 蒼)</div></div>
-                <div class="info-item"><div class="info-label">BIRTHDAY</div><div class="info-value">5월 15일</div></div>
-                <div class="info-item"><div class="info-label">SPEC</div><div class="info-value">29세 / 186 cm, 78 kg</div></div>
-                <div class="info-item"><div class="info-label">RESIDENCE</div><div class="info-value">나고야 시라카베 최고급 저택가</div></div>
+                <div class="info-item"><div class="info-label">氏名 (성명)</div><div class="info-value">아사히나 소우 (朝比奈 蒼)</div></div>
+                <div class="info-item"><div class="info-label">誕生日 (생일)</div><div class="info-value">5월 15일</div></div>
+                <div class="info-item"><div class="info-label">体格 (체격)</div><div class="info-value">29세 / 186 cm, 78 kg</div></div>
+                <div class="info-item"><div class="info-label">居所 (거처)</div><div class="info-value">나고야 시라카베 최고급 저택가</div></div>
             </div>
 
-            <h3>VISUAL ASPECTS</h3>
+            <h3>容姿特徴 (외양 설정)</h3>
             <div class="info-grid">
-                <div class="info-item"><div class="info-label">HAIR & EYE</div><div class="info-value">포마드로 정갈하게 넘긴 올백 블랙 헤어, 시리도록 차가운 옥록색 눈동자.</div></div>
-                <div class="info-item"><div class="info-label">ATTIRE</div><div class="info-value">1930년대식 서양식 3피스 슈트 위에 최고급 프리미엄 옥색 실크 하오리를 걸침. 은테 안경 착용.</div></div>
-                <div class="info-item" style="grid-column: span 1;"><div class="info-label">TATTOO & ITEM</div><div class="info-value">왼쪽 가슴(심장)부터 어깨·등까지 이어지는 흑백 파도 이레즈미. 검은 파도 라인 끝에 피어난 선명한 안개꽃 봉오리. 은빛 라이터와 궐련 소지.</div></div>
+                <div class="info-item"><div class="info-label">頭髪・眼球 (머리와 눈)</div><div class="info-value">포마드로 정갈하게 넘긴 올백 블랙 헤어, 시리도록 차가운 옥록색 눈동자.</div></div>
+                <div class="info-item"><div class="info-label">衣類 (의복)</div><div class="info-value">1930년대식 서양식 3피스 슈트 위에 최고급 프리미엄 옥색 실크 하오리를 걸침. 은테 안경 착용.</div></div>
+                <div class="info-item" style="grid-column: span 1;"><div class="info-label">刺青・携帯品 (문신과 소지품)</div><div class="info-value">왼쪽 가슴(심장)부터 어깨·등까지 이어지는 흑백 파도 이레즈미. 검은 파도 라인 끝에 피어난 선명한 안개꽃 봉오리. 은빛 라이터와 궐련 소지.</div></div>
             </div>
 
-            <h3>CHARACTERISTICS</h3>
+            <h3>身上特徴 (개인 성향)</h3>
             <div class="desc-text">
                 <ul class="bullet-list">
                     <li>기사텐을 즐겨 찾는다. 커피를 마시며 조용한 여유를 즐기기 때문. 소음을 극도로 혐오한다.</li>
@@ -216,7 +241,7 @@
 
         <!-- 탭 2: 조직 설정 -->
         <div id="organization" class="tab-content">
-            <h2>ORGANIZATION SETTING</h2>
+            <h2>長谷川組 概要 (조직설정)</h2>
             
             <div class="org-card">
                 <div class="org-title">
@@ -229,8 +254,8 @@
                         <img class="org-symbol-img" src="../Gemini_Generated_Image_cgscmkcgscmkcgsc.png" alt="하세가와구미 조직 상징">
                     </div>
                     <div class="org-meta-box">
-                        <div class="info-item"><div class="info-label">조직 상징</div><div class="info-value">음양(균형, 회색지대), 안개</div></div>
-                        <div class="info-item"><div class="info-label">조직 구호</div><div class="info-value">돈은 진실이다.</div></div>
+                        <div class="info-item"><div class="info-label">組織象徴 (조직상징)</div><div class="info-value">음양(균형, 회색지대), 안개</div></div>
+                        <div class="info-item"><div class="info-label">組織口号 (조직구호)</div><div class="info-value">돈은 진실이다.</div></div>
                     </div>
                 </div>
                 
@@ -243,24 +268,24 @@
                 </p>
             </div>
 
-            <h3>조직 내부 구조 및 간부 라인업</h3>
+            <h3>組内役職 (조직 내부 구조 및 간부 라인업)</h3>
             <div class="info-vertical">
                 
                 <div class="info-item" style="border-left: 4px solid #2a7b73;">
-                    <div class="info-label">칸죠가타 (금융, 기획조) 간부</div>
+                    <div class="info-label">勘定方 幹部 (금융, 기획조 간부)</div>
                     <div class="info-value" style="font-weight: bold; font-size: 17px; color: #ffffff; margin-bottom: 5px;">아사히나 소우 (朝比奈 蒼)</div>
                     <p style="font-size: 13px; color: #a0aec0;">하세가와구미의 전체적인 자금과 브레인 기획을 지휘하는 핵심 직제.</p>
                 </div>
                 
                 <div class="info-item" style="border-left: 4px solid #d69e2e;">
-                    <div class="info-label">하테바슈 (운송, 현장조) 간부</div>
+                    <div class="info-label">波止場衆 幹部 (운송, 현장조 간부)</div>
                     <div class="info-value" style="font-weight: bold; font-size: 17px; color: #ffffff; margin-bottom: 5px;">사카모토 텟페이 (坂本 鉄平)</div>
                     <p style="font-size: 13px; color: #cbd5e0; margin-bottom: 4px;">스펙: 34세 / 188cm, 95kg / 전직 나고야 항만 하역 노동자 출신</p>
                     <p style="font-size: 13px; color: #718096;">특징 : 완벽한 급여와 항만 통관 서류 덕에 내 가솔들이 먹고산다는 것을 알아서 충성. 타고난 통뼈와 괴력을 지녔다.</p>
                 </div>
 
                 <div class="info-item" style="border-left: 4px solid #e53e3e;">
-                    <div class="info-label">구레나이타이 (보안 집행조) 간부</div>
+                    <div class="info-label">紅隊 幹部 (보안 집행조 간부)</div>
                     <div class="info-value" style="font-weight: bold; font-size: 17px; color: #ffffff; margin-bottom: 5px;">키타노 렌 (北野 蓮)</div>
                     <p style="font-size: 13px; color: #cbd5e0; margin-bottom: 4px;">스펙: 31세 / 182cm, 72kg / 하세가와구미의 정통 칼잡이</p>
                     <p style="font-size: 13px; color: #718096;">특징 : 전통 검술(발도술)의 달인. 돈도, 권력도, 여자도 관심 없고 오직 '하세가와구미의 규율과 오야분의 안위'만을 위해 살아가는 기계 같은 인간. 전통과 명예를 중시한다.</p>
@@ -271,7 +296,7 @@
 
         <!-- 탭 3: 주변 인물 및 관계도 -->
         <div id="relations" class="tab-content">
-            <h2>RELATIONSHIPS</h2>
+            <h2>相関系譜 (인물 관계보)</h2>
             
             <div class="relation-grid">
                 
@@ -279,7 +304,7 @@
                 <div class="relation-card">
                     <img class="relation-img" src="../KakaoTalk_20260630_120048729_01.png" alt="하세가와 에이지">
                     <div class="relation-info">
-                        <div class="info-label">오야붕 (THE BOSS)</div>
+                        <div class="info-label">組長 (오야붕)</div>
                         <div class="info-value" style="font-size: 18px; color: #ffffff; font-weight: bold; margin-bottom: 6px;">하세가와 에이지 (長谷川 栄二)</div>
                         <p style="font-size: 13px; color: #a0aec0; line-height: 1.6;">하세가와구미의 수장. 소우의 특출난 성과를 전폭 신뢰하며 조직의 거대한 금전 유통 및 기획 설계를 완전히 일임한 절대적인 위정자.</p>
                     </div>
@@ -289,7 +314,7 @@
                 <div class="relation-card">
                     <img class="relation-img" src="../KakaoTalk_20260630_102555150_02.png" alt="아사히나 소우">
                     <div class="relation-info">
-                        <div class="info-label">칸죠가타 간부 (KANJOGATA LEADER)</div>
+                        <div class="info-label">勘定方 幹部 (칸죠가타 간부)</div>
                         <div class="info-value" style="font-weight: bold; font-size: 18px; color: #ffffff; margin-bottom: 6px;">아사히나 소우 (朝比奈 蒼)</div>
                         <p style="font-size: 13px; color: #a0aec0; line-height: 1.6;">오야붕 아래에서 조직의 자금 흐름을 완벽히 통제하는 인물. 직속 보좌인 켄지를 대동하여 잔혹하고 철저한 연쇄 테스트와 집행 업무를 은밀히 수용 및 수행한다.</p>
                     </div>
@@ -333,6 +358,63 @@
                 });
             }
         }, { once: true });
+
+        // 🌧️ 배경 추적추적 비 효과 그래픽 스크립트
+        const canvas = document.getElementById('rainCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        const maxDrops = 110;
+        const drops = [];
+
+        for (let i = 0; i < maxDrops; i++) {
+            drops.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                l: Math.random() * 25 + 12,
+                v: Math.random() * 5 + 6,
+                w: Math.random() * 1 + 0.5
+            });
+        }
+
+        function drawRain() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.strokeStyle = 'rgba(147, 225, 216, 0.25)'; 
+            ctx.lineCap = 'round';
+
+            for (let i = 0; i < maxDrops; i++) {
+                const d = drops[i];
+                ctx.lineWidth = d.w;
+                ctx.beginPath();
+                ctx.moveTo(d.x, d.y);
+                ctx.lineTo(d.x - 1.5, d.y + d.l); 
+                ctx.stroke();
+
+                d.y += d.v;
+                d.x -= 1.5;
+
+                if (d.y > height || d.x < -20) {
+                    d.y = -d.l;
+                    d.x = Math.random() * width;
+                    d.v = Math.random() * 5 + 6;
+                }
+            }
+            requestAnimationFrame(drawRain);
+        }
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        drawRain();
     </script>
 </body>
 </html>
+```eof
+
+소우의 1930년대 느와르 감성을 한층 더 깊게 살리기 위해 영어를 일절 배제하고 묵직한 일본어 한자 타이틀과 빗소리 효과를 적용한 최종 업그레이드 코드가 완벽히 적용되었습니다.
+
+커밋하신 뒤 1~2분 정도 후에 강력 새로고침(`Ctrl + F5`) 하거나 모바일 스마트폰으로 접속하셔서 확인해 보세요! 확실히 영어보다 한자가 분위기를 압도하는 맛이 날 겁니다. 혹시 추가하고 싶은 설정이 있으시다면 언제든 편하게 말씀해 주세요!
