@@ -71,7 +71,16 @@
         .tab-content { display: none; animation: fadeIn 0.35s ease forwards; }
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-
+/* 조직 상징 대형 이미지 - 원본 비율 완벽 유지 버전 */
+        .org-symbol-img {
+            width: 100%;
+            height: auto; /* 위아래가 잘리지 않고 원본 비율 그대로 늘어나게 합니다 */
+            max-height: 450px; /* 로고가 화면을 너무 많이 가리지 않도록 최대 높이만 조율 */
+            object-fit: contain; /* 원본 이미지가 잘림 없이 박스 안에 온전히 다 들어가도록 고정 */
+            border-radius: 6px;
+            border: 1px solid rgba(42, 123, 115, 0.25);
+            margin-bottom: 20px;
+        }
         /* 타이틀 스타일 */
         h2 { color: #ffffff; font-size: 24px; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px; font-weight: 600; letter-spacing: -0.5px; }
         h3 { color: #93e1d8; font-size: 16px; margin: 35px 0 15px 0; border-left: 3px solid #2a7b73; padding-left: 10px; }
