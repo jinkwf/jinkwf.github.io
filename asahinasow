@@ -11,7 +11,7 @@
         .info { color: #666; font-size: 14px; margin-bottom: 20px; font-weight: 500; }
         .story { color: #333; font-size: 14px; line-height: 1.6; background: #f4f7f6; padding: 18px; border-radius: 12px; text-align: left; border-left: 4px solid #2a7b73; }
         .bgm-btn { margin-top: 25px; padding: 11px 22px; background: #2a7b73; color: white; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-        .bgm-btn:hover { background: #1d5751; }
+        .bgm-btn:hover { background: #1d5751; }https://github.com/aua235-lab/aua235.github.io/blob/main/asahinasow
     </style>
 </head>
 <body>
@@ -30,7 +30,7 @@
         </p>
 
         <!-- 3. 음악(BGM) 플레이어 (구상한 BGM 파일명을 매칭하세요) -->
-        <audio id="ocBgm" src="bgm.mp3" loop></audio>
+        <audio id="ocBgm" src="「夜に溶ける (밤에 녹아내리는)」.mp3" loop></audio>
         <button class="bgm-btn" onclick="toggleBgm()">🎵 BGM 재생 / 일시정지</button>
     </div>
 
