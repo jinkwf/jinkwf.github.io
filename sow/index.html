@@ -76,43 +76,67 @@
         h2 { color: #ffffff; font-size: 24px; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px; font-weight: 600; letter-spacing: -0.5px; }
         h3 { color: #93e1d8; font-size: 16px; margin: 35px 0 15px 0; border-left: 3px solid #2a7b73; padding-left: 10px; }
 
-        /* 인용구 (줄바꿈 반영) */
+        /* 인용구 */
         .quote-block { font-size: 15px; color: #93e1d8; font-style: italic; line-height: 1.8; margin-bottom: 30px; padding-left: 20px; border-left: 4px solid #2a7b73; }
         
-        /* 격자형 프로필 그리드 (기본 정보용) */
+        /* 기본 정보 그리드 */
         .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 25px; }
         .info-item { background: rgba(20, 24, 28, 0.5); padding: 15px 18px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.02); }
         .info-label { font-size: 11px; color: #4a5568; margin-bottom: 5px; font-weight: bold; letter-spacing: 0.5px; }
         .info-value { font-size: 14px; color: #e2e8f0; line-height: 1.5; }
         
-        /* 직렬(세로 배치) 구조용 스타일 */
+        /* 세로 직렬 구조 */
         .info-vertical { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
         
-        /* 일반 본문 텍스트 */
+        /* 본문 텍스트 */
         .desc-text { line-height: 1.8; font-size: 14px; color: #a0aec0; text-align: justify; margin-bottom: 15px; }
         .bullet-list { list-style: none; margin-top: 5px; }
         .bullet-list li { position: relative; padding-left: 15px; margin-bottom: 8px; font-size: 14px; color: #cbd5e0; line-height: 1.6; }
         .bullet-list li::before { content: "•"; color: #2a7b73; position: absolute; left: 0; font-weight: bold; }
 
-        /* 조직용 배너 카드 */
+        /* 조직 배너 카드 */
         .org-card { background: rgba(17, 20, 24, 0.7); padding: 25px; border-radius: 8px; border: 1px solid rgba(42, 123, 115, 0.15); margin-bottom: 25px; }
-        .org-title { margin-bottom: 20px; display: flex; align-items: baseline; gap: 8px; }
-        .org-title-hanja { font-size: 32px; font-weight: bold; color: #ffffff; letter-spacing: 1px; }
-        .org-title-ko { font-size: 16px; color: #a0aec0; font-weight: normal; }
+        .org-title { margin-bottom: 20px; display: flex; align-items: baseline; gap: 12px; }
+        .org-title-hanja { font-size: 38px; font-weight: bold; color: #ffffff; letter-spacing: 2px; }
+        .org-title-ko { font-size: 18px; color: #a0aec0; font-weight: normal; }
+        
+        /* 조직 상징 대형 이미지 */
+        .org-symbol-img {
+            width: 100%;
+            max-height: 240px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid rgba(42, 123, 115, 0.25);
+            margin-bottom: 20px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
+        }
 
-        /* 관계도 리스트 및 개별 카드 스타일 */
-        .relation-list { display: flex; flex-direction: column; gap: 16px; }
+        /* 관계도 대형 가로 병렬(2열) 그리드 레이아웃 */
+        .relation-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 24px; 
+            margin-top: 15px;
+        }
         .relation-card { 
-            display: flex; gap: 20px; background: rgba(20, 24, 28, 0.5); 
-            padding: 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.02); 
-            align-items: center; 
+            display: flex; 
+            flex-direction: column; 
+            background: rgba(18, 22, 26, 0.65); 
+            padding: 25px; 
+            border-radius: 8px; 
+            border: 1px solid rgba(42, 123, 115, 0.15); 
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
         }
         .relation-img { 
-            width: 85px; height: 85px; object-fit: cover; 
-            border-radius: 50%; border: 2px solid #2a7b73; flex-shrink: 0; 
+            width: 100%; 
+            height: 280px; 
+            object-fit: cover; 
+            border-radius: 6px; 
+            border: 1px solid #2a7b73; 
+            margin-bottom: 18px;
             background: #0d0f11;
         }
-        .relation-info { flex: 1; }
+        .relation-info { width: 100%; }
     </style>
 </head>
 <body>
@@ -135,7 +159,8 @@
 
         <div class="audio-box">
             <div class="audio-title">🎵 夜に溶ける (밤에 녹아내리는)</div>
-            <audio id="ocBgm" src="../「夜に溶ける (밤에 녹아내리는)」.mp3" loop></audio>
+            <!-- 자동재생 autoplay 선언 주입 -->
+            <audio id="ocBgm" src="../「夜に溶ける (밤에 녹아내리는)」.mp3" loop autoplay></audio>
             <button class="bgm-btn" onclick="toggleBgm()">BGM PLAY / PAUSE</button>
         </div>
     </div>
@@ -147,7 +172,6 @@
         <div id="profile" class="tab-content active">
             <h2>CHARACTER PROFILE</h2>
             
-            <!-- 1. 요청하신 대사 줄바꿈 구조 완벽 반영 -->
             <div class="quote-block">
                 "첩의 자리도 나쁘지 않잖아. <br>당신의 그 맑고 투명한 영혼을 진흙탕에 섞지 않기 위해 내 은밀한 울타리 안에 가두려는 것뿐이니까. <br>그러니까 내 안방에서 숨만 쉬어."
             </div>
@@ -181,19 +205,19 @@
             <h2>ORGANIZATION SETTING</h2>
             
             <div class="org-card">
-                <!-- 2. 한자 폰트가 확연히 크게 보이도록 세팅 변경 -->
                 <div class="org-title">
                     <span class="org-title-hanja">長谷川組</span>
                     <span class="org-title-ko">(하세가와구미)</span>
                 </div>
                 
-                <!-- 3. 상징과 구호를 가로 병렬이 아닌 세로 직렬 구조로 개조 -->
+                <!-- 조직 상징 이미지 추가 완료 -->
+                <img class="org-symbol-img" src="../Gemini_Generated_Image_cgscmkcgscmkcgsc.png" alt="하세가와구미 조직 상징">
+                
                 <div class="info-vertical">
                     <div class="info-item"><div class="info-label">조직 상징</div><div class="info-value">음양(균형, 회색지대), 안개</div></div>
                     <div class="info-item"><div class="info-label">조직 구호</div><div class="info-value">돈은 진실이다.</div></div>
                 </div>
                 
-                <!-- 4. 줄글 배치 및 문단 보완 -->
                 <p class="desc-text">
                     철저한 성과주의가 주는 은근한 긴장감이 흐른다. <br>
                     그러나 약속된 보상이 확실하기에 배신이 거의 없으며, 기묘할 정도로 정돈된 근대식 직제 시스템과 기존 야쿠자의 유구한 전통·의리가 공존하는 나고야의 거대 세력.
@@ -203,21 +227,20 @@
                 </p>
             </div>
 
-            <!-- 5. 내부 구조 및 간부 라인업 전체 직렬(세로 쌓기) 구조로 전면 변경 -->
             <h3>조직 내부 구조 및 간부 라인업</h3>
             <div class="info-vertical">
                 
                 <!-- 칸죠가타 -->
                 <div class="info-item" style="border-left: 4px solid #2a7b73;">
                     <div class="info-label">칸죠가타 (금융, 기획조) 간부</div>
-                    <div class="info-value" style="font-weight: bold; font-size: 16px; color: #ffffff; margin-bottom: 5px;">이름 : 아사히나 소우 (朝比奈 蒼)</div>
+                    <div class="info-value" style="font-weight: bold; font-size: 17px; color: #ffffff; margin-bottom: 5px;">아사히나 소우 (朝比奈 蒼)</div>
                     <p style="font-size: 13px; color: #a0aec0;">하세가와구미의 전체적인 자금과 브레인 기획을 지휘하는 핵심 직제.</p>
                 </div>
                 
                 <!-- 하테바슈 -->
                 <div class="info-item" style="border-left: 4px solid #d69e2e;">
                     <div class="info-label">하테바슈 (운송, 현장조) 간부</div>
-                    <div class="info-value" style="font-weight: bold; font-size: 16px; color: #ffffff; margin-bottom: 5px;">이름 : 사카모토 텟페이 (坂本 鉄平)</div>
+                    <div class="info-value" style="font-weight: bold; font-size: 17px; color: #ffffff; margin-bottom: 5px;">사카모토 텟페이 (坂本 鉄平)</div>
                     <p style="font-size: 13px; color: #cbd5e0; margin-bottom: 4px;">스펙: 34세 / 188cm, 95kg / 전직 나고야 항만 하역 노동자 출신</p>
                     <p style="font-size: 13px; color: #718096;">특징 : 완벽한 급여와 항만 통관 서류 덕에 내 가솔들이 먹고산다는 것을 알아서 충성. 타고난 통뼈와 괴력을 지녔다.</p>
                 </div>
@@ -225,7 +248,7 @@
                 <!-- 구레나이타이 -->
                 <div class="info-item" style="border-left: 4px solid #e53e3e;">
                     <div class="info-label">구레나이타이 (보안 집행조) 간부</div>
-                    <div class="info-value" style="font-weight: bold; font-size: 16px; color: #ffffff; margin-bottom: 5px;">이름 : 키타노 렌 (北野 蓮)</div>
+                    <div class="info-value" style="font-weight: bold; font-size: 17px; color: #ffffff; margin-bottom: 5px;">키타노 렌 (北野 蓮)</div>
                     <p style="font-size: 13px; color: #cbd5e0; margin-bottom: 4px;">스펙: 31세 / 182cm, 72kg / 하세가와구미의 정통 칼잡이</p>
                     <p style="font-size: 13px; color: #718096;">특징 : 전통 검술(발도술)의 달인. 돈도, 권력도, 여자도 관심 없고 오직 '하세가와구미의 규율과 오야분의 안위'만을 위해 살아가는 기계 같은 인간. 전통과 명예를 중시한다.</p>
                 </div>
@@ -237,38 +260,26 @@
         <div id="relations" class="tab-content">
             <h2>RELATIONSHIPS</h2>
             
-            <!-- 6. 릴레이션쉽 카테고리 내 요청 이미지 연결 및 디자인 최적화 -->
-            <div class="relation-list">
+            <!-- 가로 병렬형 대형 그리드 구조 -->
+            <div class="relation-grid">
                 
-                <!-- 연인: 유저 -->
-                <div class="relation-card">
-                    <div class="relation-img" style="border-color: #93e1d8; background-image: radial-gradient(#2a7b73, #090a0c);"></div>
-                    <div class="relation-info">
-                        <div class="info-label">LOVER (8 YEARS)</div>
-                        <div class="info-value" style="font-size: 16px; color: #93e1d8; font-weight: bold; margin-bottom: 4px;">{{user}}</div>
-                        <p style="font-size: 13px; color: #a0aec0;">소우와 8년째 연애 중인 특별한 존재. 남자의 냉혹한 통제 구역 안에 머무는 유일무이한 안식처.</p>
-                    </div>
-                </div>
-
                 <!-- 오야붕: 하세가와 에이지 -->
                 <div class="relation-card">
-                    <!-- 지정 이미지 적용 (상위폴더 탈출 경로 적용) -->
-                    <img class="relation-img" src="../KakaoTalk_20260629_232109248_01.jpg" alt="하세가와 에이지">
+                    <img class="relation-img" src="../KakaoTalk_20260630_120048729_01.png" alt="하세가와 에이지">
                     <div class="relation-info">
                         <div class="info-label">오야붕 (THE BOSS)</div>
-                        <div class="info-value" style="font-size: 16px; color: #ffffff; font-weight: bold; margin-bottom: 4px;">하세가와 에이지 (長谷川 栄二)</div>
-                        <p style="font-size: 13px; color: #a0aec0;">하세가와구미의 수장. 소우의 능력과 성과를 인정해 조직의 자금줄을 과감히 일임한 절대적인 상위자.</p>
+                        <div class="info-value" style="font-size: 18px; color: #ffffff; font-weight: bold; margin-bottom: 6px;">하세가와 에이지 (長谷川 栄二)</div>
+                        <p style="font-size: 13px; color: #a0aec0; line-height: 1.6;">하세가와구미의 수장. 소우의 특출난 성과를 전폭 신뢰하며 조직의 거대한 금전 유통 및 기획 설계를 완전히 일임한 절대적인 위정자.</p>
                     </div>
                 </div>
 
-                <!-- 본인: 아사히나 소우 -->
+                <!-- 간부: 아사히나 소우 -->
                 <div class="relation-card">
-                    <!-- 지정 이미지 적용 (상위폴더 탈출 경로 적용) -->
                     <img class="relation-img" src="../KakaoTalk_20260630_102555150_02.png" alt="아사히나 소우">
                     <div class="relation-info">
-                        <div class="info-label">간부 (KANJOGATA LEADER)</div>
-                        <div class="info-value" style="font-size: 16px; color: #ffffff; font-weight: bold; margin-bottom: 4px;">아사히나 소우 (朝比奈 蒼)</div>
-                        <p style="font-size: 13px; color: #a0aec0;">오야붕 하세가와 에이지 아래에서 하세가와구미의 전반적인 금융 기획을 설계하며, 수하 켄지를 보좌에 두고 무거운 테스트들을 처리 및 집행한다.</p>
+                        <div class="info-label">칸죠가타 간부 (KANJOGATA LEADER)</div>
+                        <div class="info-value" style="font-weight: bold; font-size: 18px; color: #ffffff; margin-bottom: 6px;">아사히나 소우 (朝比奈 蒼)</div>
+                        <p style="font-size: 13px; color: #a0aec0; line-height: 1.6;">오야붕 아래에서 조직의 자금 흐름을 완벽히 통제하는 인물. 직속 보좌인 켄지를 대동하여 잔혹하고 철저한 연쇄 테스트와 집행 업무를 은밀히 수용 및 수행한다.</p>
                     </div>
                 </div>
 
@@ -277,7 +288,7 @@
 
     </div>
 
-    <!-- 탭 제어 및 음악 스크립트 -->
+    <!-- 스크립트: 자동재생 및 터치 트리거 주입 완료 -->
     <script>
         function openTab(evt, tabName) {
             var i, tabcontent, navbtn;
@@ -301,6 +312,16 @@
             var myAudio = document.getElementById("ocBgm");
             if (myAudio.paused) { myAudio.play(); } else { myAudio.pause(); }
         }
+
+        // [우회 편법] 사이트 진입 후 사용자가 화면 아무 곳이나 처음 '딸깍' 누르면 BGM 자동 재생 시작
+        document.addEventListener('click', function() {
+            var myAudio = document.getElementById("ocBgm");
+            if (myAudio.paused) {
+                myAudio.play().catch(function(error) {
+                    console.log("브라우저 자동재생 차단 제어:", error);
+                });
+            }
+        }, { once: true });
     </script>
 </body>
 </html>
