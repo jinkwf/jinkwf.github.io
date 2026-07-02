@@ -17,7 +17,7 @@
             position: relative;
         }
 
-        /* 🌧️ 배경에 추적추적 내리는 녹록색 빛깔의 빗줄기 효과 */
+        /* 🌧️ 레이어 1: 배경에 내리는 차가운 비 무대 */
         #rainCanvas {
             position: fixed;
             top: 0;
@@ -26,23 +26,67 @@
             height: 100vh;
             z-index: 10;
             pointer-events: none;
-            opacity: 0.25;
+            opacity: 0.22;
         }
 
-        /* 🌸 [요청사항 반영] 검은 배경에서 은은하게 피어오르는 하얀 안개꽃 그래픽 포인트 */
-        .flower-bg {
+        /* 🌸 레이어 2: 하단에서 위로 민들레씨처럼 흩날려 올라가는 안개꽃 파티클 무대 */
+        #flowerCanvas {
             position: fixed;
-            width: 320px;
-            height: 320px;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 5; 
             pointer-events: none;
-            opacity: 0.15; /* 어두운 느와르 감성을 해치지 않는 은근한 투명도 */
-            z-index: 1;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g fill="%23ffffff" stroke="%2393e1d8" stroke-width="0.3"><circle cx="20" cy="30" r="2.5"/><circle cx="25" cy="25" r="2"/><circle cx="35" cy="20" r="1.5"/><circle cx="45" cy="22" r="2.5"/><circle cx="50" cy="35" r="2"/><circle cx="30" cy="40" r="1.5"/><circle cx="60" cy="45" r="2.5"/><circle cx="65" cy="30" r="2"/><circle cx="75" cy="25" r="1.5"/><circle cx="70" cy="15" r="2"/><circle cx="80" cy="40" r="2.5"/><circle cx="55" cy="55" r="1.5"/><path d="M20,30 Q30,50 55,75 M25,25 Q35,40 55,75 M45,22 Q45,45 55,75 M65,30 Q60,55 55,75 M75,25 Q65,50 55,75 M55,55 Q55,65 55,75 M55,75 L55,95" fill="none" stroke="%232a7b73" stroke-width="0.4"/></g></svg>');
-            background-size: contain;
-            background-repeat: no-repeat;
         }
-        .flower-top-right { top: -10px; right: -10px; transform: scaleX(-1); }
-        .flower-bottom-left { bottom: -30px; left: 350px; opacity: 0.08; }
+
+        /* 🌫️ [추가기능 1] 하세가와구미의 상징: 지면을 은밀하게 일렁이는 반투명 실시간 운무(안개) 구역 */
+        .fog-container {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: calc(100vw - 340px);
+            height: 160px;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 3; /* 안개꽃 화단 바로 뒷바탕에 배치하여 입체감 조성 */
+        }
+        .fog-wave {
+            position: absolute;
+            width: 250%;
+            height: 100%;
+            bottom: -30px;
+            background: radial-gradient(circle at 50% 100%, rgba(42, 123, 115, 0.15), transparent 65%);
+            filter: blur(40px);
+            animation: fogDrift 28s linear infinite;
+        }
+        .fog-wave-secondary {
+            background: radial-gradient(circle at 30% 100%, rgba(255, 255, 255, 0.05), transparent 55%);
+            animation: fogDrift 42s linear infinite reverse;
+            animation-delay: -7s;
+        }
+        @keyframes fogDrift {
+            0% { transform: translateX(0) translateY(0); }
+            50% { transform: translateX(-20%) translateY(5px); }
+            100% { transform: translateX(0) translateY(0); }
+        }
+
+        /* 🌿 하단부 안개꽃 덩굴 화단 지면 패널 */
+        .flower-bed-floor {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: calc(100vw - 340px); 
+            height: 80px;
+            pointer-events: none;
+            z-index: 4;
+            opacity: 0.25; 
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30" preserveAspectRatio="none"><g fill="%23ffffff" opacity="0.8"><circle cx="5" cy="28" r="1.5"/><circle cx="8" cy="24" r="1"/><circle cx="14" cy="26" r="2"/><circle cx="22" cy="22" r="1.2"/><circle cx="28" cy="27" r="1.8"/><circle cx="35" cy="25" r="1.5"/><circle cx="42" cy="23" r="2"/><circle cx="50" cy="26" r="1.2"/><circle cx="58" cy="22" r="1.5"/><circle cx="64" cy="27" r="2"/><circle cx="72" cy="24" r="1.3"/><circle cx="80" cy="23" r="1.7"/><circle cx="88" cy="26" r="1.5"/><circle cx="95" cy="22" r="2"/><circle cx="92" cy="28" r="1.2"/><path d="M5,30 L14,26 M22,30 L22,22 M35,30 L42,23 M58,30 L58,22 M72,30 L80,23 M88,30 L88,26" stroke="%232a7b73" stroke-width="0.3"/></g></svg>');
+            background-size: 350px 80px;
+            background-repeat: repeat-x;
+            background-position: bottom;
+            filter: drop-shadow(0px -5px 15px rgba(147, 225, 216, 0.15));
+        }
 
         /* [좌측] 고정 사이드바 */
         .sidebar { 
@@ -57,7 +101,9 @@
             z-index: 11;
         }
         .oc-summary { text-align: center; }
-        .oc-portrait { 
+        
+        /* ⚡ [추가기능 2] 마우스 호버 시 옥록색 네온 글로우 및 차가운 지터 노이즈 잔상 물리 효과 */
+        .oc-portrait, .relation-img { 
             width: 100%; 
             height: 260px; 
             object-fit: cover; 
@@ -65,7 +111,25 @@
             border: 1px solid rgba(42, 123, 115, 0.3); 
             margin-bottom: 18px; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
         }
+        .oc-portrait:hover, .relation-img:hover {
+            border-color: #93e1d8 !important;
+            box-shadow: 0 0 25px rgba(147, 225, 216, 0.65) !important;
+            transform: scale(1.015) translateY(-2px);
+            cursor: pointer;
+            animation: executiveNoise 0.25s linear infinite;
+        }
+        /* 슈트 속 숨겨진 잔혹도를 상징하는 미세 진동 노이즈 디스토션 */
+        @keyframes executiveNoise {
+            0% { filter: contrast(105%) brightness(100%); }
+            20% { filter: contrast(125%) brightness(110%); transform: scale(1.015) translate(0.5px, -0.5px); }
+            40% { filter: contrast(95%) brightness(95%); transform: scale(1.015) translate(-0.5px, 0.5px); }
+            60% { filter: contrast(135%) brightness(115%); transform: scale(1.015) translate(0px, 0px); }
+            80% { filter: contrast(105%) brightness(105%); transform: scale(1.015) translate(0.5px, 0.5px); }
+            100% { filter: contrast(105%) brightness(100%); }
+        }
+
         .oc-title h1 { color: #ffffff; font-size: 22px; margin-bottom: 4px; letter-spacing: -0.5px; }
         .oc-title p { color: #2a7b73; font-size: 11px; font-weight: bold; letter-spacing: 2px; }
 
@@ -145,12 +209,11 @@
             object-fit: contain; 
             border-radius: 6px; 
             border: 1px solid #2a7b73; 
-            margin-bottom: 18px; 
+            margin-bottom: 0px; /* 지터 애니메이션 시 여백 보정기능 */
             background: #0d0f11; 
         }
-        .relation-info { width: 100%; }
 
-        /* 📑 전국 지부 연합 가로 병렬(2열) 그리드 레이아웃 */
+        /* 📑 전국 지부 연합 가로 병렬 그리드 양식 */
         .branch-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 15px; }
         .branch-card { display: flex; flex-direction: column; background: rgba(18, 22, 26, 0.6); padding: 22px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.02); justify-content: space-between; }
         .branch-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 10px; }
@@ -163,7 +226,7 @@
         .badge-job { font-size: 11px; color: #2a7b73; font-weight: bold; }
         .badge-name { font-size: 13px; color: #cbd5e0; }
 
-        /* 📱 [모바일 환경 전용 최적화 레이아웃 - 깔끔한 세로 정렬 구조] */
+        /* 📱 [모바일 환경 전용 최적화 레이아웃] */
         @media (max-width: 768px) {
             body { flex-direction: column; overflow-y: auto; height: auto; }
             
@@ -173,26 +236,15 @@
             }
             .oc-summary { display: flex; align-items: center; text-align: left; gap: 15px; }
             .oc-portrait { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 0; box-shadow: none; }
+            .oc-portrait:hover { animation: none; box-shadow: none !important; }
             .oc-title h1 { font-size: 18px; }
             
-            /* 모바일 카테고리 메뉴 세로 직렬 배치 */
-            .nav-menu { 
-                flex-direction: column; 
-                gap: 6px; 
-                margin-top: 20px; 
-                width: 100%; 
-            }
+            .nav-menu { flex-direction: column; gap: 6px; margin-top: 20px; width: 100%; }
             .nav-btn { 
-                width: 100%;
-                padding: 12px 16px; 
-                font-size: 13px; 
-                text-align: left; 
-                border-bottom: none !important;
-                border-left: 4px solid transparent; 
+                width: 100%; padding: 12px 16px; font-size: 13px; text-align: left; 
+                border-bottom: none !important; border-left: 4px solid transparent; 
             }
-            .nav-btn:hover, .nav-btn.active { 
-                background: rgba(42, 123, 115, 0.1); color: #93e1d8; border-left: 4px solid #2a7b73; 
-            }
+            .nav-btn:hover, .nav-btn.active { background: rgba(42, 123, 115, 0.1); color: #93e1d8; border-left: 4px solid #2a7b73; }
             
             .main-content { padding: 35px 20px; overflow-y: visible; }
             .info-grid, .relation-grid, .branch-grid { grid-template-columns: 1fr; gap: 16px; }
@@ -200,18 +252,28 @@
             .org-dashboard { flex-direction: column; align-items: center; gap: 16px; }
             .org-logo-box { width: 100%; max-width: 240px; height: 240px; }
             .branch-roster { flex-direction: column; align-items: stretch; }
-            .flower-bg { display: none; } 
+            
+            /* 모바일 운무/화단 리사이즈 보정 */
+            .flower-bed-floor, .fog-container { width: 100vw; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 🌧️ 배경 비 효과 무대 -->
+    <!-- 🌧️ 비 효과 레이어 캔버스 -->
     <canvas id="rainCanvas"></canvas>
+    
+    <!-- 🌸 민들레씨처럼 하늘거리는 안개꽃 파티클 엔진 캔버스 -->
+    <canvas id="flowerCanvas"></canvas>
 
-    <!-- 🌸 배경 안개꽃 포인트 (칠흑 속의 백색 광채) -->
-    <div class="flower-bg flower-top-right"></div>
-    <div class="flower-bg flower-bottom-left"></div>
+    <!-- 🌫️ 하단 운무(안개) 이펙트 레이어 배치 구역 -->
+    <div class="fog-container">
+        <div class="fog-wave"></div>
+        <div class="fog-wave fog-wave-secondary"></div>
+    </div>
+
+    <!-- 🌿 하단부 안개꽃 덩굴 화단 지면 패널 -->
+    <div class="flower-bed-floor"></div>
 
     <!-- [좌측] 고정 사이드바 메뉴 -->
     <div class="sidebar">
@@ -317,7 +379,7 @@
                 </div>
 
                 <div class="info-item" style="border-left: 4px solid #e53e3e;">
-                    <div class="info-label">紅隊 幹부 (보안 집행조 간부)</div>
+                    <div class="info-label">紅隊 幹部 (보안 집행조 간부)</div>
                     <div class="info-value" style="font-weight: bold; font-size: 17px; color: #ffffff; margin-bottom: 5px;">키타노 렌 (北野 蓮)</div>
                     <p style="font-size: 13px; color: #cbd5e0; margin-bottom: 4px;">스펙: 31세 / 182cm, 72kg / 하세가와구미의 정통 칼잡이</p>
                     <p style="font-size: 13px; color: #718096;">특징 : 전통 검술(발도술)의 달인. 돈도, 권력도, 여자도 관심 없고 오직 '하세가와구미의 규율과 오야분의 안위'만을 위해 살아가는 기계 같은 인간. 전통과 명예를 중시한다.</p>
@@ -331,32 +393,28 @@
             <h2>相관系譜 (인물 관계보)</h2>
             
             <div class="relation-grid">
-                <!-- 오야붕: 하세가와 에이지 -->
                 <div class="relation-card">
                     <img class="relation-img" src="../KakaoTalk_20260630_120048729_01.png" alt="하세가와 에이지">
-                    <div class="relation-info">
+                    <div class="relation-info" style="margin-top: 18px;">
                         <div class="info-label">組長 (오야붕)</div>
                         <div class="info-value" style="font-size: 18px; color: #ffffff; font-weight: bold; margin-bottom: 6px;">하세가와 에이지 (長谷川 栄二)</div>
                         <p style="font-size: 13px; color: #a0aec0; line-height: 1.6;">하세가와구미의 수장. 소우의 특출난 성과를 전폭 신뢰하며 조직의 거대한 금전 유통 및 기획 설계를 완전히 일임한 절대적인 위정자.</p>
                     </div>
                 </div>
 
-                <!-- 간부: 아사히나 소우 -->
                 <div class="relation-card">
                     <img class="relation-img" src="../KakaoTalk_20260630_102555150_02.png" alt="아사히나 소우">
-                    <div class="relation-info">
-                        <div class="info-label">勘定方 幹部 (칸죠가타 간부)</div>
+                    <div class="relation-info" style="margin-top: 18px;">
+                        <div class="info-label">勘定方 幹부 (칸죠가타 간부)</div>
                         <div class="info-value" style="font-weight: bold; font-size: 18px; color: #ffffff; margin-bottom: 6px;">아사히나 소우 (朝比奈 蒼)</div>
                         <p style="font-size: 13px; color: #a0aec0; line-height: 1.6;">오야붕 아래에서 조직의 자금 흐름을 완벽히 통제하는 인물. 직속 보좌인 켄지를 대동하여 잔혹하고 철저한 연쇄 테스트와 집행 업무를 은밀히 수용 및 수행한다.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- 전국 지부 연합 가로 병렬 그리드 -->
-            <h3 style="margin-top: 45px; border-color: #2a7b73; color: #ffffff; font-size: 18px; letter-spacing: 1px;">殘花悲刀 (전국 광역 연합 계보)</h3>
+            <h3>殘花悲刀 (전국 광역 연합 계보)</h3>
             <div class="branch-grid">
                 
-                <!-- 교토 지부 -->
                 <div class="branch-card">
                     <div>
                         <div class="branch-header">
@@ -376,7 +434,6 @@
                     </div>
                 </div>
 
-                <!-- 도쿄 지부 -->
                 <div class="branch-card">
                     <div>
                         <div class="branch-header">
@@ -392,12 +449,11 @@
                     <div class="branch-roster">
                         <div class="roster-badge"><span class="badge-job">組長</span><span class="badge-name">세이겐지 료</span></div>
                         <div class="roster-badge"><span class="badge-job">幹部</span><span class="badge-name">카에데시로 아키라</span></div>
-                        <div class="roster-badge"><span class="badge-job">幹部</span><span class="badge-name">사치하라 렌지</span></div>
+                        <div class="roster-badge"><span class="badge-job">幹부</span><span class="badge-name">사치하라 렌지</span></div>
                         <div class="roster-badge"><span class="badge-job">幹부</span><span class="badge-name">오가사와라 슈지</span></div>
                     </div>
                 </div>
 
-                <!-- 오사카 지부 -->
                 <div class="branch-card">
                     <div>
                         <div class="branch-header">
@@ -417,7 +473,6 @@
                     </div>
                 </div>
 
-                <!-- 나고야 지부 -->
                 <div class="branch-card">
                     <div>
                         <div class="branch-header">
@@ -431,12 +486,11 @@
                         </div>
                     </div>
                     <div class="branch-roster">
-                        <div class="roster-badge"><span class="badge-job">親分</span><span class="badge-name">하세가와 에이지</span></div>
-                        <div class="roster-badge"><span class="badge-job">幹부</span><span class="badge-name">아사히나 소우</span></div>
+                        <div class="roster-badge"><span class="badge-job">親분</span><span class="badge-name">하세가와 에이지</span></div>
+                        <div class="roster-badge"><span class="badge-job">幹部</span><span class="badge-name">아사히나 소우</span></div>
                     </div>
                 </div>
 
-                <!-- 후쿠오카 지부 -->
                 <div class="branch-card">
                     <div>
                         <div class="branch-header">
@@ -461,7 +515,7 @@
 
     </div>
 
-    <!-- 스크립트 엔진 제어 -->
+    <!-- 스크립트 제어 -->
     <script>
         function openTab(evt, tabName) {
             var i, tabcontent, navbtn;
@@ -495,16 +549,14 @@
             }
         }, { once: true });
 
-        // 🌧️ 배경에 추적추적 내리는 녹록색 빗줄기 그래픽 엔진
+        // 🌧️ [1] 추적추적 내리는 비 효과 엔진 (Canvas 1)
         const canvas = document.getElementById('rainCanvas');
         const ctx = canvas.getContext('2d');
-        
         let width = canvas.width = window.innerWidth;
         let height = canvas.height = window.innerHeight;
 
         const maxDrops = 110;
         const drops = [];
-
         for (let i = 0; i < maxDrops; i++) {
             drops.push({
                 x: Math.random() * width,
@@ -517,9 +569,8 @@
 
         function drawRain() {
             ctx.clearRect(0, 0, width, height);
-            ctx.strokeStyle = 'rgba(147, 225, 216, 0.25)'; /* 녹록색 투명 광채 물리 빗줄기 */
+            ctx.strokeStyle = 'rgba(147, 225, 216, 0.25)'; 
             ctx.lineCap = 'round';
-
             for (let i = 0; i < maxDrops; i++) {
                 const d = drops[i];
                 ctx.lineWidth = d.w;
@@ -527,25 +578,74 @@
                 ctx.moveTo(d.x, d.y);
                 ctx.lineTo(d.x - 1.5, d.y + d.l); 
                 ctx.stroke();
-
-                d.y += d.v;
-                d.x -= 1.5;
-
+                d.y += d.v; d.x -= 1.5;
                 if (d.y > height || d.x < -20) {
-                    d.y = -d.l;
-                    d.x = Math.random() * width;
-                    d.v = Math.random() * 5 + 6;
+                    d.y = -d.l; d.x = Math.random() * width; d.v = Math.random() * 5 + 6;
                 }
             }
             requestAnimationFrame(drawRain);
         }
 
+        // 🌸 [2] 하단 화단에서 생성되어 위로 민들레씨처럼 흔들흔들 흩날리는 안개꽃 파티클 엔진 (Canvas 2)
+        const flowerCanvas = document.getElementById('flowerCanvas');
+        const fCtx = flowerCanvas.getContext('2d');
+        let fWidth = flowerCanvas.width = window.innerWidth;
+        let fHeight = flowerCanvas.height = window.innerHeight;
+
+        const maxFlowers = 50; 
+        const flowers = [];
+        for (let i = 0; i < maxFlowers; i++) {
+            flowers.push({
+                x: Math.random() * fWidth,
+                y: fHeight + Math.random() * 150, // 하단 안개꽃 지면 라인 안쪽에서 생성
+                r: Math.random() * 1.6 + 1,       // 영롱하고 가벼운 안개꽃 알갱이 크기
+                vx: -(Math.random() * 0.7 + 0.3),  // 비바람의 방향에 맞춰 미세한 좌상향 이동
+                vy: -(Math.random() * 1.1 + 0.5),  // 민들레씨처럼 중력을 거스르고 아련하게 상승하는 속도
+                opacity: Math.random() * 0.4 + 0.2, 
+                wobble: Math.random() * Math.PI,    
+                wobbleSpeed: Math.random() * 0.02 + 0.012 
+            });
+        }
+
+        function drawFlowers() {
+            fCtx.clearRect(0, 0, fWidth, fHeight);
+            for (let i = 0; i < maxFlowers; i++) {
+                const f = flowers[i];
+                fCtx.beginPath();
+                fCtx.fillStyle = `rgba(255, 255, 255, ${f.opacity})`;
+                fCtx.shadowBlur = 5;
+                fCtx.shadowColor = '#93e1d8'; // 녹록색 백그라운드와 어우러지는 미세 야광 효과
+                
+                // 사인파 곡선 물리엔진을 적용해 바람에 흩날리는 아련한 움직임 연출
+                const finalX = f.x + Math.sin(f.wobble) * 22;
+                fCtx.arc(finalX, f.y, f.r, 0, Math.PI * 2);
+                fCtx.fill();
+                
+                f.y += f.vy;
+                f.x += f.vx;
+                f.wobble += f.wobbleSpeed;
+                
+                // 화면 꼭대기 위나 왼쪽 임계점을 넘어가면 다시 하부 화단에서 스폰되도록 무한 루프 구현
+                if (f.y < -10 || f.x < -10) {
+                    f.y = fHeight + Math.random() * 40;
+                    f.x = Math.random() * fWidth + 80;
+                    f.opacity = Math.random() * 0.4 + 0.2;
+                }
+            }
+            fCtx.shadowBlur = 0; 
+            requestAnimationFrame(drawFlowers);
+        }
+
         window.addEventListener('resize', () => {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
+            fWidth = flowerCanvas.width = window.innerWidth;
+            fHeight = flowerCanvas.height = window.innerHeight;
         });
 
+        // 두 엔진 완벽 동시 가동
         drawRain();
+        drawFlowers();
     </script>
 </body>
 </html>
