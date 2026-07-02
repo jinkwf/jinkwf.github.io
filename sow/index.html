@@ -72,29 +72,47 @@
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 대타이틀 */
+        /* 타이틀 스타일 */
         h2 { color: #ffffff; font-size: 24px; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px; font-weight: 600; letter-spacing: -0.5px; }
-        h3 { color: #93e1d8; font-size: 16px; margin: 25px 0 12px 0; border-left: 3px solid #2a7b73; padding-left: 10px; }
+        h3 { color: #93e1d8; font-size: 16px; margin: 35px 0 15px 0; border-left: 3px solid #2a7b73; padding-left: 10px; }
 
-        /* 인용구 */
+        /* 인용구 (줄바꿈 반영) */
         .quote-block { font-size: 15px; color: #93e1d8; font-style: italic; line-height: 1.8; margin-bottom: 30px; padding-left: 20px; border-left: 4px solid #2a7b73; }
         
-        /* 격자형 프로필 그리드 */
+        /* 격자형 프로필 그리드 (기본 정보용) */
         .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 25px; }
         .info-item { background: rgba(20, 24, 28, 0.5); padding: 15px 18px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.02); }
         .info-label { font-size: 11px; color: #4a5568; margin-bottom: 5px; font-weight: bold; letter-spacing: 0.5px; }
         .info-value { font-size: 14px; color: #e2e8f0; line-height: 1.5; }
         
-        /* 일반 텍스트 및 서사 블록 */
-        .desc-text { line-height: 1.8; font-size: 14px; color: #a0aec0; text-align: justify; }
+        /* 직렬(세로 배치) 구조용 스타일 */
+        .info-vertical { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
+        
+        /* 일반 본문 텍스트 */
+        .desc-text { line-height: 1.8; font-size: 14px; color: #a0aec0; text-align: justify; margin-bottom: 15px; }
         .bullet-list { list-style: none; margin-top: 5px; }
         .bullet-list li { position: relative; padding-left: 15px; margin-bottom: 8px; font-size: 14px; color: #cbd5e0; line-height: 1.6; }
         .bullet-list li::before { content: "•"; color: #2a7b73; position: absolute; left: 0; font-weight: bold; }
 
         /* 조직용 배너 카드 */
         .org-card { background: rgba(17, 20, 24, 0.7); padding: 25px; border-radius: 8px; border: 1px solid rgba(42, 123, 115, 0.15); margin-bottom: 25px; }
-        .org-title { font-size: 20px; color: #ffffff; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
-        .org-badge { background: #2a7b73; color: #ffffff; font-size: 11px; padding: 3px 8px; border-radius: 3px; font-weight: bold; }
+        .org-title { margin-bottom: 20px; display: flex; align-items: baseline; gap: 8px; }
+        .org-title-hanja { font-size: 32px; font-weight: bold; color: #ffffff; letter-spacing: 1px; }
+        .org-title-ko { font-size: 16px; color: #a0aec0; font-weight: normal; }
+
+        /* 관계도 리스트 및 개별 카드 스타일 */
+        .relation-list { display: flex; flex-direction: column; gap: 16px; }
+        .relation-card { 
+            display: flex; gap: 20px; background: rgba(20, 24, 28, 0.5); 
+            padding: 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.02); 
+            align-items: center; 
+        }
+        .relation-img { 
+            width: 85px; height: 85px; object-fit: cover; 
+            border-radius: 50%; border: 2px solid #2a7b73; flex-shrink: 0; 
+            background: #0d0f11;
+        }
+        .relation-info { flex: 1; }
     </style>
 </head>
 <body>
@@ -128,14 +146,16 @@
         <!-- 탭 1: 캐릭터 프로필 -->
         <div id="profile" class="tab-content active">
             <h2>CHARACTER PROFILE</h2>
+            
+            <!-- 1. 요청하신 대사 줄바꿈 구조 완벽 반영 -->
             <div class="quote-block">
-                "첩의 자리도 나쁘지 않잖아. 당신의 그 맑고 투명한 영혼을 진흙탕에 섞지 않기 위해 내 은밀한 울타리 안에 가두려는 것뿐이니까. 그러니까 내 안방에서 숨만 쉬어."
+                "첩의 자리도 나쁘지 않잖아. <br>당신의 그 맑고 투명한 영혼을 진흙탕에 섞지 않기 위해 내 은밀한 울타리 안에 가두려는 것뿐이니까. <br>그러니까 내 안방에서 숨만 쉬어."
             </div>
             
             <div class="info-grid">
                 <div class="info-item"><div class="info-label">NAME</div><div class="info-value">아사히나 소우 (朝比奈 蒼)</div></div>
                 <div class="info-item"><div class="info-label">BIRTHDAY</div><div class="info-value">5월 15일</div></div>
-                <div class="info-item"><div class="info-label">SPEC</div><div class="info-value">29세 / 186 cm / 78 kg</div></div>
+                <div class="info-item"><div class="info-label">SPEC</div><div class="info-value">29세 / 186 cm, 78 kg</div></div>
                 <div class="info-item"><div class="info-label">RESIDENCE</div><div class="info-value">나고야 시라카베 최고급 저택가</div></div>
             </div>
 
@@ -143,16 +163,15 @@
             <div class="info-grid">
                 <div class="info-item"><div class="info-label">HAIR & EYE</div><div class="info-value">포마드로 정갈하게 넘긴 올백 블랙 헤어, 시리도록 차가운 옥록색 눈동자.</div></div>
                 <div class="info-item"><div class="info-label">ATTIRE</div><div class="info-value">1930년대식 서양식 3피스 슈트 위에 최고급 프리미엄 옥색 실크 하오리를 걸침. 은테 안경 착용.</div></div>
-                <div class="info-item" style="grid-column: span 2;"><div class="info-label">TATTOO (이레즈미)</div><div class="info-value">왼쪽 가슴(심장)부터 어깨, 등까지 휘몰아치듯 이어지는 흑백 파도 문신. 잔혹하게 뻗은 검은 파도 라인의 끝자락에는 기묘하리만치 선명하고 순결한 안개꽃 봉오리들이 피어있다.</div></div>
+                <div class="info-item" style="grid-column: span 2;"><div class="info-label">TATTOO & ITEM</div><div class="info-value">왼쪽 가슴(심장)부터 어깨·등까지 이어지는 흑백 파도 이레즈미. 검은 파도 라인 끝에 피어난 선명한 안개꽃 봉오리. 은빛 라이터와 궐련 소지.</div></div>
             </div>
 
             <h3>CHARACTERISTICS</h3>
             <div class="desc-text">
                 <ul class="bullet-list">
-                    <li>포커페이스 뒤에 지독한 소유욕과 부재에 대한 생리적 집착을 감춘 남자. 모든 관계를 숫자로 환산하는 '냉혹한 인간 계산기'이다.</li>
-                    <li>지독한 소음을 혐오하며, 평소 고요하고 정돈된 분위기의 기사텐을 찾아 홀로 커피를 즐기는 것이 오랜 습관이다.</li>
-                    <li>집에 머무를 때는 낡은 축음기에서 흘러나오는 서양 클래식 선율을 가만히 감상하곤 한다. 그의 손에는 항상 은빛 라이터와 궐련이 들려 있다.</li>
-                    <li><strong>{{user}}과 연애 8년 차 :</strong> 숫자로 세상을 보던 남자의 생에 유일하게 침범한 예외이자 완벽한 집착의 대상. 그의 자당착적 순애가 향하는 단 한 사람.</li>
+                    <li>기사텐으로 커피를 마시러 즐겨 찾아 조용한 여유를 즐긴다. 소음을 극도로 혐오하기 때문이다.</li>
+                    <li>집에 있을 때는 오래된 축음기로 서양 클래식을 감상하는 것이 취미이다.</li>
+                    <li><strong>{{user}}과 연애 8년 차 :</strong> 그의 차가운 수식 체계에 균열을 낸 유일한 예외이자 온전한 순애의 대상.</li>
                 </ul>
             </div>
         </div>
@@ -162,37 +181,55 @@
             <h2>ORGANIZATION SETTING</h2>
             
             <div class="org-card">
-                <div class="org-title">하세가와구미 <span class="org-badge">長谷川組</span></div>
-                <div class="info-grid" style="margin-bottom: 15px;">
-                    <div class="info-item"><div class="info-label">조직 상징</div><div class="info-value">음양 (균형과 회색지대), 안개</div></div>
-                    <div class="info-item"><div class="info-label">조직 구호</div><div class="info-value">"돈은 진실이다."</div></div>
+                <!-- 2. 한자 폰트가 확연히 크게 보이도록 세팅 변경 -->
+                <div class="org-title">
+                    <span class="org-title-hanja">長谷川組</span>
+                    <span class="org-title-ko">(하세가와구미)</span>
                 </div>
-                <p class="desc-text" style="font-size: 13px;">
-                    <strong>조직 분위기:</strong> 철저한 성과주의가 주는 은근한 긴장감이 흐른다. 그러나 약속된 보상이 확실하기에 배신이 거의 없으며, 기묘할 정도로 정돈된 근대식 직제 시스템과 기존 야쿠자의 유구한 전통·의리가 공존하는 나고야의 거대 세력. 조직원들은 회장을 '샤쵸(사장님)' 혹은 '오야붕'이라 칭한다.
+                
+                <!-- 3. 상징과 구호를 가로 병렬이 아닌 세로 직렬 구조로 개조 -->
+                <div class="info-vertical">
+                    <div class="info-item"><div class="info-label">조직 상징</div><div class="info-value">음양(균형, 회색지대), 안개</div></div>
+                    <div class="info-item"><div class="info-label">조직 구호</div><div class="info-value">돈은 진실이다.</div></div>
+                </div>
+                
+                <!-- 4. 줄글 배치 및 문단 보완 -->
+                <p class="desc-text">
+                    철저한 성과주의가 주는 은근한 긴장감이 흐른다. <br>
+                    그러나 약속된 보상이 확실하기에 배신이 거의 없으며, 기묘할 정도로 정돈된 근대식 직제 시스템과 기존 야쿠자의 유구한 전통·의리가 공존하는 나고야의 거대 세력.
+                </p>
+                <p class="desc-text" style="color: #718096; font-size: 13px; margin-top: 10px;">
+                    조직원들은 회장을 '샤쵸(社長, 사장님)' 혹은 '오야붕'이라 칭한다.
                 </p>
             </div>
 
-            <h3>THREE PILLARS (조직 내부 구조 및 간부 라인업)</h3>
-            <div class="info-grid">
-                <div class="info-item" style="border-top: 3px solid #2a7b73;">
-                    <div class="info-label">칸죠가타 (금융 · 기획조)</div>
-                    <div class="info-value" style="font-weight: bold; margin-bottom: 5px; color: #ffffff;">간부 : 아사히나 소우</div>
-                    <p style="font-size: 12px; color: #a0aec0;">하세가와구미의 자금줄과 기획을 담당하는 핵심 부서. 숫자로 움직이는 브레인 조직.</p>
+            <!-- 5. 내부 구조 및 간부 라인업 전체 직렬(세로 쌓기) 구조로 전면 변경 -->
+            <h3>조직 내부 구조 및 간부 라인업</h3>
+            <div class="info-vertical">
+                
+                <!-- 칸죠가타 -->
+                <div class="info-item" style="border-left: 4px solid #2a7b73;">
+                    <div class="info-label">칸죠가타 (금융, 기획조) 간부</div>
+                    <div class="info-value" style="font-weight: bold; font-size: 16px; color: #ffffff; margin-bottom: 5px;">이름 : 아사히나 소우 (朝比奈 蒼)</div>
+                    <p style="font-size: 13px; color: #a0aec0;">하세가와구미의 전체적인 자금과 브레인 기획을 지휘하는 핵심 직제.</p>
                 </div>
                 
-                <div class="info-item" style="border-top: 3px solid #d69e2e;">
-                    <div class="info-label">하테바シュ (운송 · 현장조)</div>
-                    <div class="info-value" style="font-weight: bold; margin-bottom: 5px; color: #ffffff;">간부 : 사카모토 텟페이 (34세)</div>
-                    <p style="font-size: 12px; color: #a0aec0; margin-bottom: 5px;">188cm / 95kg / 전직 나고야 항만 하역 노동자 출신.</p>
-                    <p style="font-size: 12px; color: #718096;">"완벽한 급여와 항만 통관 서류 덕에 내 가솔들이 먹고산다." 타고난 통뼈와 괴력의 소유자로, 확실한 보상 시스템에 무한한 충성을 바친다.</p>
+                <!-- 하테바슈 -->
+                <div class="info-item" style="border-left: 4px solid #d69e2e;">
+                    <div class="info-label">하테바슈 (운송, 현장조) 간부</div>
+                    <div class="info-value" style="font-weight: bold; font-size: 16px; color: #ffffff; margin-bottom: 5px;">이름 : 사카모토 텟페이 (坂本 鉄平)</div>
+                    <p style="font-size: 13px; color: #cbd5e0; margin-bottom: 4px;">스펙: 34세 / 188cm, 95kg / 전직 나고야 항만 하역 노동자 출신</p>
+                    <p style="font-size: 13px; color: #718096;">특징 : 완벽한 급여와 항만 통관 서류 덕에 내 가솔들이 먹고산다는 것을 알아서 충성. 타고난 통뼈와 괴력을 지녔다.</p>
                 </div>
 
-                <div class="info-item" style="border-top: 3px solid #e53e3e; grid-column: span 2;">
-                    <div class="info-label">구레나이타이 (보안 · 집행조)</div>
-                    <div class="info-value" style="font-weight: bold; margin-bottom: 5px; color: #ffffff;">간부 : 키타노 렌 (31세)</div>
-                    <p style="font-size: 12px; color: #a0aec0; margin-bottom: 5px;">182cm / 72kg / 하세가와구미의 정통 칼잡이 및 전통 검술(발도술)의 달인.</p>
-                    <p style="font-size: 12px; color: #718096;">돈, 권력, 여자 그 어떤 사욕에도 관심이 없다. 오직 '하세가와구미의 규율과 오야붕의 안위'만을 목적으로 움직이는 기계 같은 인간. 명예와 전통을 극도로 중시한다.</p>
+                <!-- 구레나이타이 -->
+                <div class="info-item" style="border-left: 4px solid #e53e3e;">
+                    <div class="info-label">구레나이타이 (보안 집행조) 간부</div>
+                    <div class="info-value" style="font-weight: bold; font-size: 16px; color: #ffffff; margin-bottom: 5px;">이름 : 키타노 렌 (北野 蓮)</div>
+                    <p style="font-size: 13px; color: #cbd5e0; margin-bottom: 4px;">스펙: 31세 / 182cm, 72kg / 하세가와구미의 정통 칼잡이</p>
+                    <p style="font-size: 13px; color: #718096;">특징 : 전통 검술(발도술)의 달인. 돈도, 권력도, 여자도 관심 없고 오직 '하세가와구미의 규율과 오야분의 안위'만을 위해 살아가는 기계 같은 인간. 전통과 명예를 중시한다.</p>
                 </div>
+                
             </div>
         </div>
 
@@ -200,26 +237,41 @@
         <div id="relations" class="tab-content">
             <h2>RELATIONSHIPS</h2>
             
-            <div class="info-grid">
-                <div class="info-item" style="grid-column: span 2; border-left: 4px solid #93e1d8;">
-                    <div class="info-label">DEAR PERSON (8 YEARS)</div>
-                    <div class="info-value" style="font-size: 16px; color: #93e1d8; font-weight: bold; margin-bottom: 5px;">{{user}}</div>
-                    <p class="desc-text" style="font-size: 13px;">
-                        소우와 8년째 연애 중인 유일한 연인. 피와 숫자로 얼룩진 1930년대 느와르 세계 속에서 냉혹한 소우를 안착시키는 단 하나의 울타리. 소우는 당신의 '맑고 투명한 영혼'에 지독하게 집착하며, 자신의 그늘 아래 가두어 영원히 소유하고자 한다.
-                    </p>
+            <!-- 6. 릴레이션쉽 카테고리 내 요청 이미지 연결 및 디자인 최적화 -->
+            <div class="relation-list">
+                
+                <!-- 연인: 유저 -->
+                <div class="relation-card">
+                    <div class="relation-img" style="border-color: #93e1d8; background-image: radial-gradient(#2a7b73, #090a0c);"></div>
+                    <div class="relation-info">
+                        <div class="info-label">LOVER (8 YEARS)</div>
+                        <div class="info-value" style="font-size: 16px; color: #93e1d8; font-weight: bold; margin-bottom: 4px;">{{user}}</div>
+                        <p style="font-size: 13px; color: #a0aec0;">소우와 8년째 연애 중인 특별한 존재. 남자의 냉혹한 통제 구역 안에 머무는 유일무이한 안식처.</p>
+                    </div>
                 </div>
 
-                <div class="info-item">
-                    <div class="info-label">THE BOSS</div>
-                    <div class="info-value" style="font-weight: bold; color: #ffffff; margin-bottom: 5px;">하세가와 에이지 (長谷川 栄二)</div>
-                    <p style="font-size: 12px; color: #a0aec0;">하세가와구미의 최고 권력자이자 오야붕(회장). 철저한 성과주의로 조직을 이끌며, 소우의 비범한 계산 능력을 높이 사 자금줄을 전적으로 일임했다.</p>
+                <!-- 오야붕: 하세가와 에이지 -->
+                <div class="relation-card">
+                    <!-- 지정 이미지 적용 (상위폴더 탈출 경로 적용) -->
+                    <img class="relation-img" src="../KakaoTalk_20260629_232109248_01.jpg" alt="하세가와 에이지">
+                    <div class="relation-info">
+                        <div class="info-label">오야붕 (THE BOSS)</div>
+                        <div class="info-value" style="font-size: 16px; color: #ffffff; font-weight: bold; margin-bottom: 4px;">하세가와 에이지 (長谷川 栄二)</div>
+                        <p style="font-size: 13px; color: #a0aec0;">하세가와구미의 수장. 소우의 능력과 성과를 인정해 조직의 자금줄을 과감히 일임한 절대적인 상위자.</p>
+                    </div>
                 </div>
 
-                <div class="info-item">
-                    <div class="info-label">SUBORDINATE</div>
-                    <div class="info-value" style="font-weight: bold; color: #ffffff; margin-bottom: 5px;">켄지 ( Kenji )</div>
-                    <p style="font-size: 12px; color: #a0aec0;">소우의 직속 수하. 간부인 소우가 내려트리는 가혹하고 철저한 '테스트'나 금융 기획 업무를 묵묵히 보좌하고 실행에 옮기는 인물.</p>
+                <!-- 본인: 아사히나 소우 -->
+                <div class="relation-card">
+                    <!-- 지정 이미지 적용 (상위폴더 탈출 경로 적용) -->
+                    <img class="relation-img" src="../KakaoTalk_20260630_102555150_02.png" alt="아사히나 소우">
+                    <div class="relation-info">
+                        <div class="info-label">간부 (KANJOGATA LEADER)</div>
+                        <div class="info-value" style="font-size: 16px; color: #ffffff; font-weight: bold; margin-bottom: 4px;">아사히나 소우 (朝比奈 蒼)</div>
+                        <p style="font-size: 13px; color: #a0aec0;">오야붕 하세가와 에이지 아래에서 하세가와구미의 전반적인 금융 기획을 설계하며, 수하 켄지를 보좌에 두고 무거운 테스트들을 처리 및 집행한다.</p>
+                    </div>
                 </div>
+
             </div>
         </div>
 
