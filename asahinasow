@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>아사히나 소우 (朝比奈 蒼)</title>
     <style>
-        /* 소우의 아이덴티티인 옥록색과 1930년대 흑백 느와르 무드에 맞춰 색상을 조율했습니다. */
         body { background-color: #131517; font-family: 'Malgun Gothic', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
         .card { background: #ffffff; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.6); text-align: center; max-width: 360px; width: 100%; border-top: 6px solid #2a7b73; }
         .oc-img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid #2a7b73; }
@@ -18,8 +17,7 @@
 <body>
 
     <div class="card">
-        <!-- 1. 캐릭터 이미지 (기존 이미지 파일명이나 소우 일러스트 경로를 넣으시면 됩니다) -->
-        <img class="oc-img" src="char_img.png" alt="아사히나 소우">
+        <img class="oc-img" src="Jin_k_middle_shot._A_highly_detailed_sharp_close-up_portrait__d6cd11d6-0f8e-4ff8-863d-f1e4aa63f54e_2.png" alt="아사히나 소우">
         
         <!-- 2. 캐릭터 프로필 설정 -->
         <h1>아사히나 소우 (朝比奈 蒼)</h1>
@@ -28,7 +26,7 @@
         <p class="story">
             "첩의 자리도 나쁘지 않잖아. 당신의 그 맑고 투명한 영혼을 진흙탕에 섞지 않기 위해 내 은밀한 울타리 안에 가두려는 것뿐이니까. 그러니까 내 안방에서 숨만 쉬어."
             <br><br>
-            1930년대 나고야 하세가와구미의 칸죠가타(금융·기획) 간부이자 '냉혹한 인간 계산기'. 은테 안경 너머 시리도록 차가운 옥록색 눈동자를 지녔다. 모든 관계를 숫자로 환산하는 자당착적 순애를 태우며, 완벽한 포커페이스 뒤에 지독한 소유욕과 부재에 대한 생리적 집착을 감춘 남자.
+            1930년대 나고야 하세가와구미의 칸죠가타(금융·기획) 간부이자 '냉혹한 인간 계산기'. 은테 안경 너머 시리도록 차가운 옥록색 눈동자를 지녔다.
         </p>
 
         <!-- 3. 음악(BGM) 플레이어 (구상한 BGM 파일명을 매칭하세요) -->
