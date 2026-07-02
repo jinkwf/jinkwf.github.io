@@ -2,34 +2,36 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>내 OC의 프로필 안내서</title>
+    <title>아사히나 소우 (朝比奈 蒼)</title>
     <style>
-        /* 여기서 사이트의 분위기(색상, 글꼴 등)를 바꿀 수 있어요! */
-        body { background-color: #f5f7fa; font-family: 'Malgun Gothic', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); text-align: center; max-width: 350px; width: 100%; }
-        .oc-img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid #ff758c; }
-        h1 { color: #333; margin: 15px 0 5px 0; }
-        .info { color: #666; font-size: 14px; margin-bottom: 20px; }
-        .story { color: #444; font-size: 15px; line-height: 1.6; background: #fafafa; padding: 15px; border-radius: 10px; }
-        .bgm-btn { margin-top: 25px; padding: 10px 20px; background: #ff758c; color: white; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-        .bgm-btn:hover { background: #ff5274; }
+        /* 소우의 아이덴티티인 옥록색과 1930년대 흑백 느와르 무드에 맞춰 색상을 조율했습니다. */
+        body { background-color: #131517; font-family: 'Malgun Gothic', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: #ffffff; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.6); text-align: center; max-width: 360px; width: 100%; border-top: 6px solid #2a7b73; }
+        .oc-img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid #2a7b73; }
+        h1 { color: #111; margin: 18px 0 5px 0; font-size: 22px; letter-spacing: -0.5px; }
+        .info { color: #666; font-size: 14px; margin-bottom: 20px; font-weight: 500; }
+        .story { color: #333; font-size: 14px; line-height: 1.6; background: #f4f7f6; padding: 18px; border-radius: 12px; text-align: left; border-left: 4px solid #2a7b73; }
+        .bgm-btn { margin-top: 25px; padding: 11px 22px; background: #2a7b73; color: white; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .bgm-btn:hover { background: #1d5751; }
     </style>
 </head>
 <body>
 
     <div class="card">
-        <!-- 1. 캐릭터 이미지 (나중에 바꿀 수 있어요) -->
-        <img class="oc-img" src="char_img.png" alt="OC 이미지">
+        <!-- 1. 캐릭터 이미지 (기존 이미지 파일명이나 소우 일러스트 경로를 넣으시면 됩니다) -->
+        <img class="oc-img" src="char_img.png" alt="아사히나 소우">
         
         <!-- 2. 캐릭터 프로필 설정 -->
-        <h1>캐릭터 이름</h1>
-        <div class="info">나이: ??세 | 성별: ?? | 키: ???cm</div>
+        <h1>아사히나 소우 (朝比奈 蒼)</h1>
+        <div class="info">나이: 29세 | 성별: 남성 | 키: 186cm</div>
         
         <p class="story">
-            "여기에 캐릭터의 한 줄 대사나 성격, 짧은 배경 스토리를 적어주세요. 썰을 풀어도 좋습니다!"
+            "첩의 자리도 나쁘지 않잖아. 당신의 그 맑고 투명한 영혼을 진흙탕에 섞지 않기 위해 내 은밀한 울타리 안에 가두려는 것뿐이니까. 그러니까 내 안방에서 숨만 쉬어."
+            <br><br>
+            1930년대 나고야 하세가와구미의 칸죠가타(금융·기획) 간부이자 '냉혹한 인간 계산기'. 은테 안경 너머 시리도록 차가운 옥록색 눈동자를 지녔다. 모든 관계를 숫자로 환산하는 자당착적 순애를 태우며, 완벽한 포커페이스 뒤에 지독한 소유욕과 부재에 대한 생리적 집착을 감춘 남자.
         </p>
 
-        <!-- 3. 음악(BGM) 플레이어 -->
+        <!-- 3. 음악(BGM) 플레이어 (구상한 BGM 파일명을 매칭하세요) -->
         <audio id="ocBgm" src="bgm.mp3" loop></audio>
         <button class="bgm-btn" onclick="toggleBgm()">🎵 BGM 재생 / 일시정지</button>
     </div>
