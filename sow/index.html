@@ -72,27 +72,36 @@
             100% { transform: translateX(0) translateY(0); }
         }
 
-        /* 🌿 레이어 4: [대개조] 실제 안개꽃(Gypsophila)의 세밀한 생태 구조를 재현한 3중 플로럴 매트릭스 지면 화단 */
+        /* 🌿 레이어 4: 실제 안개꽃(Gypsophila)의 세밀한 생태 구조를 재현한 3중 플로럴 매트릭스 지면 화단 */
         .flower-bed-floor {
             position: fixed;
             bottom: 0;
             right: 0;
             width: calc(100vw - 340px); 
-            height: 130px; /* 화단 높이와 해상도를 높여 촌티를 완벽히 박멸 */
+            height: 130px; 
             pointer-events: none;
             z-index: 3; 
             opacity: 0.65; 
             background-image: 
-                /* 1층 대형: 리얼한 초미세 가지 분기선과 그 끝에 매달린 선명한 백색 안개꽃송이 구조 */
                 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 60"><g fill="%23ffffff"><path d="M10,60 Q13,42 20,32 T32,18 M20,32 Q24,26 16,22 M32,18 Q36,12 30,6" stroke="%231d5751" stroke-width="0.25" fill="none"/><circle cx="30" cy="6" r="0.9"/><circle cx="32" cy="5" r="0.6"/><circle cx="28" cy="7" r="0.7"/><circle cx="16" cy="22" r="0.8"/><circle cx="14" cy="21" r="0.5"/><path d="M50,60 Q48,38 56,26 T66,10 M56,26 Q61,20 53,15 M66,10 Q63,6 69,3" stroke="%231d5751" stroke-width="0.25" fill="none"/><circle cx="69" cy="3" r="1"/><circle cx="67" cy="2" r="0.6"/><circle cx="71" cy="4" r="0.7"/><circle cx="53" cy="15" r="0.8"/><path d="M90,60 Q88,40 96,28 T104,13 M96,28 Q93,22 99,18" stroke="%231d5751" stroke-width="0.25" fill="none"/><circle cx="104" cy="13" r="1.1"/><circle cx="106" cy="12" r="0.6"/><circle cx="99" cy="18" r="0.7"/></g></svg>'),
-                /* 2층 대형: 밀도감과 볼륨을 꽉 채워주는 자잘한 미세 전술 꽃송이 입자 레이어 */
                 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50"><g fill="%23ffffff" opacity="0.75"><circle cx="5" cy="45" r="0.6"/><circle cx="8" cy="42" r="0.5"/><circle cx="12" cy="46" r="0.7"/><circle cx="18" cy="36" r="0.6"/><circle cx="22" cy="33" r="0.8"/><circle cx="25" cy="37" r="0.5"/><circle cx="36" cy="40" r="0.7"/><circle cx="40" cy="38" r="0.6"/><circle cx="48" cy="31" r="0.8"/><circle cx="51" cy="28" r="0.5"/><circle cx="54" cy="33" r="0.6"/><circle cx="66" cy="35" r="0.7"/><circle cx="70" cy="33" r="0.5"/><circle cx="80" cy="26" r="0.8"/><circle cx="83" cy="23" r="0.6"/><circle cx="86" cy="28" r="0.5"/><circle cx="94" cy="42" r="0.7"/></g></svg>'),
-                /* 3층 대형: 하단 운무 필터와 결합하여 몽환적인 덩굴 숲의 깊이를 깔아주는 옥빛 베이스 군락 */
                 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 40"><g fill="%2393e1d8" opacity="0.3"><circle cx="8" cy="36" r="2.5"/><circle cx="14" cy="33" r="3.5"/><circle cx="22" cy="37" r="3"/><circle cx="32" cy="31" r="4.5"/><circle cx="42" cy="34" r="3.5"/><circle cx="52" cy="29" r="4"/><circle cx="62" cy="35" r="3"/><circle cx="72" cy="33" r="3.5"/></g></svg>');
             background-size: 170px 130px, 120px 130px, 200px 130px;
             background-repeat: repeat-x;
             background-position: bottom;
             filter: drop-shadow(0px -8px 20px rgba(147, 225, 216, 0.2));
+        }
+
+        /* 🎬 [추가기능] 스크롤 및 탭 전환 시 글자와 박스가 순차 배포되는 고능한 릴리즈 모션 스타일 */
+        .reveal-item {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1), transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: opacity, transform;
+        }
+        .reveal-item.revealed {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* [좌측] 고정 사이드바 */
@@ -109,7 +118,7 @@
         }
         .oc-summary { text-align: center; }
         
-        /* ⚡ 마우스 호버 시 옥록색 네온 글로우 및 차가운 지터 노이즈 잔상 이펙트 구조 */
+        /* 마우스 호버 시 옥록색 네온 글로우 및 차가운 지터 노이즈 잔상 이펙트 */
         .oc-portrait, .relation-img { 
             width: 100%; 
             height: 260px; 
@@ -169,9 +178,8 @@
         }
         
         /* 탭 전환 효과 */
-        .tab-content { display: none; animation: fadeIn 0.35s ease forwards; }
+        .tab-content { display: none; }
         .tab-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
         /* 타이틀 및 명세 카드 디자인 */
         h2 { color: #ffffff; font-size: 24px; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px; font-weight: 600; letter-spacing: -0.5px; }
@@ -285,7 +293,7 @@
             <img class="oc-portrait" src="../Jin_k_middle_shot._A_highly_detailed_sharp_close-up_portrait__d6cd11d6-0f8e-4ff8-863d-f1e4aa63f54e_2.png" alt="소우">
             <div class="oc-title">
                 <h1>아사히나 소우</h1>
-                <p>あさ히나 소우</p>
+                <p>あさひ나 소우</p>
             </div>
         </div>
 
@@ -349,7 +357,8 @@
                 
                 <div class="org-dashboard">
                     <div class="org-logo-box">
-                        <img class="org-symbol-img" src="../Gemini_Generated_Image_cgscmkcgscmkcgsc.png" alt="하세가와구미 조직 상징">
+                        <!-- 📂 [요청반영] 조직 상징 이미지 파일명 전면 교체 완료 -->
+                        <img class="org-symbol-img" src="../KakaoTalk_20260702_173047870_01.png" alt="하세가와구미 조직 상징">
                     </div>
                     <div class="org-meta-box">
                         <div class="info-item"><div class="info-label">組織象徴 (조직상징)</div><div class="info-value">음양(균형, 회색지대), 안개</div></div>
@@ -370,20 +379,20 @@
             <div class="info-vertical">
                 
                 <div class="info-item" style="border-left: 4px solid #2a7b73;">
-                    <div class="info-label">勘定方 幹部 (금융, 기획조 간부)</div>
+                    <div class="info-label">勘定方 幹부 (금융, 기획조 간부)</div>
                     <div class="info-value" style="font-weight: bold; font-size: 17px; color: #ffffff; margin-bottom: 5px;">아사히나 소우 (朝比奈 蒼)</div>
                     <p style="font-size: 13px; color: #a0aec0;">하세가와구미의 전체적인 자금과 브레인 기획을 지휘하는 핵심 직제.</p>
                 </div>
                 
                 <div class="info-item" style="border-left: 4px solid #d69e2e;">
-                    <div class="info-label">波止場衆 幹部 (운송, 현장조 간부)</div>
+                    <div class="info-label">波止場衆 幹부 (운송, 현장조 간부)</div>
                     <div class="info-value" style="font-weight: bold; font-size: 17px; color: #ffffff; margin-bottom: 5px;">사카모토 텟페이 (坂本 鉄平)</div>
                     <p style="font-size: 13px; color: #cbd5e0; margin-bottom: 4px;">스펙: 34세 / 188cm, 95kg / 전직 나고야 항만 하역 노동자 출신</p>
                     <p style="font-size: 13px; color: #718096;">특징 : 완벽한 급여와 항만 통관 서류 덕에 내 가솔들이 먹고산다는 것을 알아서 충성. 타고난 통뼈와 괴력을 지녔다.</p>
                 </div>
 
                 <div class="info-item" style="border-left: 4px solid #e53e3e;">
-                    <div class="info-label">紅隊 幹部 (보안 집행조 간부)</div>
+                    <div class="info-label">紅隊 幹부 (보안 집행조 간부)</div>
                     <div class="info-value" style="font-weight: bold; font-size: 17px; color: #ffffff; margin-bottom: 5px;">키타노 렌 (北野 蓮)</div>
                     <p style="font-size: 13px; color: #cbd5e0; margin-bottom: 4px;">스펙: 31세 / 182cm, 72kg / 하세가와구미의 정통 칼잡이</p>
                     <p style="font-size: 13px; color: #718096;">특징 : 전통 검술(발도술)의 달인. 돈도, 권력도, 여자도 관심 없고 오직 '하세가와구미의 규율과 오야분의 안위'만을 위해 살아가는 기계 같은 인간. 전통과 명예를 중시한다.</p>
@@ -410,7 +419,7 @@
                     <img class="relation-img" src="../KakaoTalk_20260630_102555150_02.png" alt="아사히나 소우">
                     <div class="relation-info" style="margin-top: 18px;">
                         <div class="info-label">勘定方 幹부 (칸죠가타 간부)</div>
-                        <div class="info-value" style="font-weight: bold; font-size: 18px; color: #ffffff; margin-bottom: 6px;">아사히나 소우 (朝比奈 蒼)</div>
+                        <div class="info-value" style="font-weight: bold; font-size: 17px; color: #ffffff; margin-bottom: 6px;">아사히나 소우 (朝比奈 蒼)</div>
                         <p style="font-size: 13px; color: #a0aec0; line-height: 1.6;">오야붕 아래에서 조직의 자금 흐름을 완벽히 통제하는 인물. 직속 보좌인 켄지를 대동하여 잔혹하고 철저한 연쇄 테스트와 집행 업무를 은밀히 수용 및 수행한다.</p>
                     </div>
                 </div>
@@ -452,7 +461,7 @@
                     </div>
                     <div class="branch-roster">
                         <div class="roster-badge"><span class="badge-job">組長</span><span class="badge-name">세이겐지 료</span></div>
-                        <div class="roster-badge"><span class="badge-job">幹部</span><span class="badge-name">카에데시로 아키라</span></div>
+                        <div class="roster-badge"><span class="badge-job">幹부</span><span class="badge-name">카에데시로 아키라</span></div>
                         <div class="roster-badge"><span class="badge-job">幹부</span><span class="badge-name">사치하라 렌지</span></div>
                         <div class="roster-badge"><span class="badge-job">幹부</span><span class="badge-name">오가사와라 슈지</span></div>
                     </div>
@@ -462,7 +471,7 @@
                     <div>
                         <div class="branch-header">
                             <span class="branch-region">大阪 支部 (오사카)</span>
-                            <span class="branch-name">高山一会</span>
+                            <span class="branch-name">高山一회</span>
                         </div>
                         <div class="branch-meta-vertical">
                             <div class="info-item"><div class="info-label">組織象徴</div><div class="info-value">까마귀</div></div>
@@ -509,7 +518,7 @@
                     </div>
                     <div class="branch-roster">
                         <div class="roster-badge"><span class="badge-job">堂主</span><span class="badge-name">쿠제 리오</span></div>
-                        <div class="roster-badge"><span class="badge-job">幹부</span><span class="badge-name">시라누이 리츠</span></div>
+                        <div class="roster-badge"><span class="badge-job">幹部</span><span class="badge-name">시라누이 리츠</span></div>
                         <div class="roster-badge"><span class="badge-job">幹부</span><span class="badge-name">키리시마 슈우</span></div>
                     </div>
                 </div>
@@ -533,8 +542,11 @@
                 navbtn[i].classList.remove("active");
             }
             document.getElementById(tabName).style.display = "block";
+            
+            // 🎬 탭 전환 순간 가시 영역에 드러난 카드들을 재관측하여 순차 모션을 트리거하는 매핑 로직
             setTimeout(() => {
                 document.getElementById(tabName).classList.add("active");
+                if (window.refreshRevealObserver) window.refreshRevealObserver();
             }, 10);
             evt.currentTarget.classList.add("active");
         }
@@ -641,6 +653,46 @@
             fCtx.shadowBlur = 0; 
             requestAnimationFrame(drawFlowers);
         }
+
+        // 🎬 [3] 순차적 스크롤 모션을 집행하는 고성능 교차 관측기(IntersectionObserver) 연동
+        document.addEventListener("DOMContentLoaded", () => {
+            const scrollContainer = document.querySelector('.main-content');
+            // 애니메이션을 적용할 핵심 타겟 상자 및 텍스트 덩어리 전원 색인
+            const revealTargets = document.querySelectorAll('.info-item, .org-card, .relation-card, .branch-card, h2, h3, .quote-block');
+            
+            revealTargets.forEach(el => el.classList.add('reveal-item'));
+
+            const observerOptions = {
+                root: scrollContainer, // 본문 안쪽 스크롤 영역에 특화 매핑
+                threshold: 0.02,       // 2% 정도 스치듯 들어와도 감지 작동
+                rootMargin: "0px 0px -30px 0px"
+            };
+
+            const revealObserver = new IntersectionObserver((entries) => {
+                let staggerDelay = 0;
+                entries.forEach((entry) => {
+                    // 가시 영역 교차가 확인되었고 아직 등장하지 않은 아이템일 때
+                    if (entry.isIntersecting && !entry.target.classList.contains('revealed')) {
+                        setTimeout(() => {
+                            entry.target.classList.add('revealed');
+                        }, staggerDelay);
+                        staggerDelay += 120; // 0.12초 간격으로 리드미컬하게 순차 공개
+                        revealObserver.unobserve(entry.target); // 한 번 뜨면 관측 해제하여 리소스 절약
+                    }
+                });
+            }, observerOptions);
+
+            revealTargets.forEach(target => revealObserver.observe(target));
+
+            // 탭 변경 시 숨어있던 요소들을 즉각 재연산하기 위한 전역 안전 스위치 바인딩
+            window.refreshRevealObserver = () => {
+                revealTargets.forEach(target => {
+                    if (!target.classList.contains('revealed')) {
+                        revealObserver.observe(target);
+                    }
+                });
+            };
+        });
 
         window.addEventListener('resize', () => {
             width = canvas.width = window.innerWidth;
