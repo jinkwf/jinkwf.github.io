@@ -8,7 +8,6 @@
         /* 🖤 [검은색 & 녹록색 기반 느와르 테마 베이스] */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
-            /* 칠흑 배경을 맨 바닥에 깔아 모든 효과가 투명하게 비치도록 세팅 */
             background: #090a0c; 
             color: #cbd5e0; 
             font-family: 'Malgun Gothic', sans-serif; 
@@ -25,19 +24,19 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            z-index: 20; /* 빗줄기가 모든 요소 위로 떨어지도록 배치 */
+            z-index: 20; 
             pointer-events: none;
             opacity: 0.25;
         }
 
-        /* 🌸 레이어 2: [핵심기능] 하단 화단에서 위로 민들레씨처럼 아련하게 흩날려 퍼지는 안개꽃 파티클 무대 */
+        /* 🌸 레이어 2: 하단 화단에서 위로 민들레씨처럼 아련하게 흩날려 퍼지는 안개꽃 파티클 무대 */
         #flowerCanvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            z-index: 2; /* 카드와 배경 사이 공간에서 부드럽게 표류 */
+            z-index: 2; 
             pointer-events: none;
         }
 
@@ -47,10 +46,10 @@
             bottom: 0;
             right: 0;
             width: calc(100vw - 340px);
-            height: 240px; /* 안개가 눈에 확실히 띄도록 고도 대폭 업 */
+            height: 240px; 
             overflow: hidden;
             pointer-events: none;
-            z-index: 1; /* 맨 밑바탕에 깔려 은근한 공간감 형성 */
+            z-index: 1; 
             opacity: 0.65;
         }
         .fog-wave {
@@ -73,20 +72,27 @@
             100% { transform: translateX(0) translateY(0); }
         }
 
-        /* 🌿 레이어 4: 하단부에 흐드러지게 피어있는 안개꽃 덩굴 화단 지면 패널 */
+        /* 🌿 레이어 4: [대개조] 실제 안개꽃(Gypsophila)의 세밀한 생태 구조를 재현한 3중 플로럴 매트릭스 지면 화단 */
         .flower-bed-floor {
             position: fixed;
             bottom: 0;
             right: 0;
             width: calc(100vw - 340px); 
-            height: 110px; /* 화단 크기를 키워 선명하게 노출 */
+            height: 130px; /* 화단 높이와 해상도를 높여 촌티를 완벽히 박멸 */
             pointer-events: none;
-            z-index: 3; /* 안개보다는 위, 본문보다는 뒤 */
-            opacity: 0.55; /* 안개꽃 화단이 아주 확실하게 보이도록 농도 업 */
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30" preserveAspectRatio="none"><g fill="%23ffffff" opacity="0.95"><circle cx="3" cy="28" r="1.4"/><circle cx="6" cy="24" r="1.1"/><circle cx="10" cy="26" r="1.6"/><circle cx="15" cy="23" r="1.3"/><circle cx="21" cy="27" r="1.5"/><circle cx="26" cy="24" r="1.8"/><circle cx="32" cy="22" r="1.3"/><circle cx="38" cy="26" r="1.6"/><circle cx="44" cy="23" r="1.4"/><circle cx="50" cy="25" r="1.7"/><circle cx="56" cy="22" r="1.2"/><circle cx="62" cy="27" r="1.9"/><circle cx="68" cy="24" r="1.4"/><circle cx="74" cy="23" r="1.6"/><circle cx="80" cy="26" r="1.3"/><circle cx="86" cy="22" r="1.8"/><circle cx="92" cy="25" r="1.5"/><circle cx="97" cy="23" r="1.7"/><path d="M3,30 L10,26 M15,30 L21,27 M32,30 L38,26 M50,30 L56,22 M68,30 L74,23 M86,30 L92,25" stroke="%232a7b73" stroke-width="0.35"/></g></svg>');
-            background-size: 280px 110px;
+            z-index: 3; 
+            opacity: 0.65; 
+            background-image: 
+                /* 1층 대형: 리얼한 초미세 가지 분기선과 그 끝에 매달린 선명한 백색 안개꽃송이 구조 */
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 60"><g fill="%23ffffff"><path d="M10,60 Q13,42 20,32 T32,18 M20,32 Q24,26 16,22 M32,18 Q36,12 30,6" stroke="%231d5751" stroke-width="0.25" fill="none"/><circle cx="30" cy="6" r="0.9"/><circle cx="32" cy="5" r="0.6"/><circle cx="28" cy="7" r="0.7"/><circle cx="16" cy="22" r="0.8"/><circle cx="14" cy="21" r="0.5"/><path d="M50,60 Q48,38 56,26 T66,10 M56,26 Q61,20 53,15 M66,10 Q63,6 69,3" stroke="%231d5751" stroke-width="0.25" fill="none"/><circle cx="69" cy="3" r="1"/><circle cx="67" cy="2" r="0.6"/><circle cx="71" cy="4" r="0.7"/><circle cx="53" cy="15" r="0.8"/><path d="M90,60 Q88,40 96,28 T104,13 M96,28 Q93,22 99,18" stroke="%231d5751" stroke-width="0.25" fill="none"/><circle cx="104" cy="13" r="1.1"/><circle cx="106" cy="12" r="0.6"/><circle cx="99" cy="18" r="0.7"/></g></svg>'),
+                /* 2층 대형: 밀도감과 볼륨을 꽉 채워주는 자잘한 미세 전술 꽃송이 입자 레이어 */
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50"><g fill="%23ffffff" opacity="0.75"><circle cx="5" cy="45" r="0.6"/><circle cx="8" cy="42" r="0.5"/><circle cx="12" cy="46" r="0.7"/><circle cx="18" cy="36" r="0.6"/><circle cx="22" cy="33" r="0.8"/><circle cx="25" cy="37" r="0.5"/><circle cx="36" cy="40" r="0.7"/><circle cx="40" cy="38" r="0.6"/><circle cx="48" cy="31" r="0.8"/><circle cx="51" cy="28" r="0.5"/><circle cx="54" cy="33" r="0.6"/><circle cx="66" cy="35" r="0.7"/><circle cx="70" cy="33" r="0.5"/><circle cx="80" cy="26" r="0.8"/><circle cx="83" cy="23" r="0.6"/><circle cx="86" cy="28" r="0.5"/><circle cx="94" cy="42" r="0.7"/></g></svg>'),
+                /* 3층 대형: 하단 운무 필터와 결합하여 몽환적인 덩굴 숲의 깊이를 깔아주는 옥빛 베이스 군락 */
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 40"><g fill="%2393e1d8" opacity="0.3"><circle cx="8" cy="36" r="2.5"/><circle cx="14" cy="33" r="3.5"/><circle cx="22" cy="37" r="3"/><circle cx="32" cy="31" r="4.5"/><circle cx="42" cy="34" r="3.5"/><circle cx="52" cy="29" r="4"/><circle cx="62" cy="35" r="3"/><circle cx="72" cy="33" r="3.5"/></g></svg>');
+            background-size: 170px 130px, 120px 130px, 200px 130px;
             background-repeat: repeat-x;
             background-position: bottom;
+            filter: drop-shadow(0px -8px 20px rgba(147, 225, 216, 0.2));
         }
 
         /* [좌측] 고정 사이드바 */
@@ -103,7 +109,7 @@
         }
         .oc-summary { text-align: center; }
         
-        /* ⚡ 마우스 호버 시 옥록색 네온 글로우 및 차가운 지터 노이즈 잔상 이펙트 */
+        /* ⚡ 마우스 호버 시 옥록색 네온 글로우 및 차가운 지터 노이즈 잔상 이펙트 구조 */
         .oc-portrait, .relation-img { 
             width: 100%; 
             height: 260px; 
@@ -154,11 +160,11 @@
         }
         .bgm-btn:hover { background: #1d5751; }
 
-        /* [우측] 콘텐츠 메인 영역 - 배경을 투명하게 뚫어 이펙트가 관통해 노출되도록 개조 */
+        /* [우측] 콘텐츠 메인 영역 - 관통 레이아웃 */
         .main-content { 
             flex: 1; padding: 55px 60px; overflow-y: auto; 
             background: transparent; 
-            z-index: 4; /* 글씨 가독성을 위해 이펙트들보다 상위 레이어로 배치 */
+            z-index: 4; 
             position: relative;
         }
         
@@ -167,7 +173,7 @@
         .tab-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 타이틀 및 개별 정보 카드에 고정 다크 배경을 주어 흩날리는 파티클 뒤에서도 글자가 완벽히 읽히도록 조율 */
+        /* 타이틀 및 명세 카드 디자인 */
         h2 { color: #ffffff; font-size: 24px; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px; font-weight: 600; letter-spacing: -0.5px; }
         h3 { color: #93e1d8; font-size: 16px; margin: 35px 0 15px 0; border-left: 3px solid #2a7b73; padding-left: 10px; }
         .quote-block { font-size: 15px; color: #93e1d8; font-style: italic; line-height: 1.8; margin-bottom: 30px; padding-left: 20px; border-left: 4px solid #2a7b73; }
@@ -279,14 +285,14 @@
             <img class="oc-portrait" src="../Jin_k_middle_shot._A_highly_detailed_sharp_close-up_portrait__d6cd11d6-0f8e-4ff8-863d-f1e4aa63f54e_2.png" alt="소우">
             <div class="oc-title">
                 <h1>아사히나 소우</h1>
-                <p>あさひな そう</p>
+                <p>あさ히나 소우</p>
             </div>
         </div>
 
         <div class="nav-menu">
             <button class="nav-btn active" onclick="openTab(event, 'profile')">身上調書</button>
             <button class="nav-btn" onclick="openTab(event, 'organization')">長谷川組</button>
-            <button class="nav-btn" onclick="openTab(event, 'relations')">相관系譜</button>
+            <button class="nav-btn" onclick="openTab(event, 'relations')">相関系譜</button>
         </div>
 
         <div class="audio-box">
@@ -484,7 +490,7 @@
                         </div>
                     </div>
                     <div class="branch-roster">
-                        <div class="roster-badge"><span class="badge-job">親分</span><span class="badge-name">하세가와 에이지</span></div>
+                        <div class="roster-badge"><span class="badge-job">親분</span><span class="badge-name">하세가와 에이지</span></div>
                         <div class="roster-badge"><span class="badge-job">幹部</span><span class="badge-name">아사히나 소우</span></div>
                     </div>
                 </div>
@@ -590,15 +596,15 @@
         let fWidth = flowerCanvas.width = window.innerWidth;
         let fHeight = flowerCanvas.height = window.innerHeight;
 
-        const maxFlowers = 65; // 입자 수를 늘려 풍성함 연출
+        const maxFlowers = 65; 
         const flowers = [];
         for (let i = 0; i < maxFlowers; i++) {
             flowers.push({
                 x: Math.random() * fWidth,
-                y: fHeight - Math.random() * 80, // 하단부 화단 밀집 구역에서 명확히 스폰
-                r: Math.random() * 2.2 + 1.4,     // 민들레씨처럼 눈에 띄도록 알갱이 크기 확대 보정
-                vx: -(Math.random() * 0.5 + 0.2),  // 바람에 맞춰 부드러운 좌사향 상승
-                vy: -(Math.random() * 1.4 + 0.4),  // 중력을 거스르는 아련한 상승 속도
+                y: fHeight - Math.random() * 80, 
+                r: Math.random() * 2.2 + 1.4,     
+                vx: -(Math.random() * 0.5 + 0.2),  
+                vy: -(Math.random() * 1.4 + 0.4),  
                 opacity: Math.random() * 0.7 + 0.3, 
                 wobble: Math.random() * Math.PI,    
                 wobbleSpeed: Math.random() * 0.025 + 0.012 
@@ -611,15 +617,13 @@
                 const f = flowers[i];
                 fCtx.beginPath();
                 
-                // [민들레씨 연출 핵심] 위로 높이 올라갈수록 점진적으로 흐려지며 넓게 흩어지는 디스퍼전 페이드 기믹 주입
                 let currentOpacity = f.opacity * (f.y / fHeight);
                 if (currentOpacity < 0) currentOpacity = 0;
                 
                 fCtx.fillStyle = `rgba(255, 255, 255, ${currentOpacity})`;
                 fCtx.shadowBlur = 6;
-                fCtx.shadowColor = '#93e1d8'; // 옥색 야광 입자감 부여
+                fCtx.shadowColor = '#93e1d8'; 
                 
-                // 부드러운 스윙 운동 연출
                 const finalX = f.x + Math.sin(f.wobble) * 24;
                 fCtx.arc(finalX, f.y, f.r, 0, Math.PI * 2);
                 fCtx.fill();
@@ -628,7 +632,6 @@
                 f.x += f.vx;
                 f.wobble += f.wobbleSpeed;
                 
-                // 화면 상단으로 사라지면 다시 하단 화단 매트릭스에서 안전하게 리스폰
                 if (f.y < -10 || f.x < -10) {
                     f.y = fHeight + Math.random() * 30;
                     f.x = Math.random() * fWidth + 60;
@@ -646,7 +649,6 @@
             fHeight = flowerCanvas.height = window.innerHeight;
         });
 
-        // 엔진 가동
         drawRain();
         drawFlowers();
     </script>
