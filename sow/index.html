@@ -17,44 +17,48 @@
             position: relative;
         }
 
-        /* 🔐 [업그레이드 2] 기밀 서버 암호 해독 진입 오버레이 (3D 종이 접힘 연출) */
+        /* 🔐 [대개조] 기밀 서버 옛 서체 세로쓰기(좌->우) 진입 오버레이 시스템 */
         #decryption-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: #050608; z-index: 99999;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            perspective: 1500px; /* 3D 공간 왜곡 축 지표 세팅 */
+            perspective: 1500px;
             transform-origin: center center;
-            transition: transform 1.2s cubic-bezier(0.76, 0, 0.24, 1), opacity 1s ease;
+            transition: transform 1.3s cubic-bezier(0.76, 0, 0.24, 1), opacity 1s ease;
         }
-        /* 장부 종이가 반으로 날카롭게 꺾이며 화면 뒤로 완전히 영멸하는 기믹 */
         #decryption-overlay.fold-away {
             transform: rotateX(85deg) rotateY(15deg) translateZ(-800px) scale(0.1);
             opacity: 0;
             pointer-events: none;
         }
         .terminal-box {
-            font-family: 'Courier New', monospace;
+            /* 🖋️ 전통 세로쓰기(위에서 아래로, 줄바꿈은 좌에서 우로) 및 고전 활판 서체 명세 */
+            writing-mode: vertical-lr;
+            text-orientation: upright;
+            font-family: 'Gungsuh', 'GungsuhChe', '궁서', 'Georgia', serif;
             color: #93e1d8;
-            font-size: 22px;
+            font-size: 28px;
             font-weight: bold;
-            letter-spacing: 4px;
-            text-align: center;
-            line-height: 2.2;
-            text-shadow: 0 0 10px rgba(147, 225, 216, 0.4);
+            letter-spacing: 6px; /* 세로형 자간 조율 */
+            line-height: 2.6;    /* 세로 줄(열) 사이의 간격 격차 보정 */
+            text-shadow: 0 0 15px rgba(147, 225, 216, 0.5);
+            height: auto;
+            max-height: 70vh;    /* 가시 화면을 벗어나지 않도록 한계 고도 설정 */
+            margin: auto;
         }
-        .terminal-cursor { animation: blink 0.8s infinite; color: #ffffff; }
+        .terminal-cursor { animation: blink 0.8s infinite; color: #ffffff; font-family: sans-serif; margin-top: -5px; }
         @keyframes blink { 50% { opacity: 0; } }
 
         /* 🌧️ 레이어 1: 최상단에서 화면 전체에 내리는 차가운 비 무대 */
         #rainCanvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 20; pointer-events: none; opacity: 0.25; }
 
-        /* 🚬 [업그레이드 4] 레이어 2: 궐련 담배 설정을 반영한 실시간 마우스 안개 연기 트레일 무대 */
+        /* 🚬 레이어 2: 궐련 담배 설정을 반영한 실시간 마우스 안개 연기 트레일 무대 */
         #smokeCanvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 15; pointer-events: none; }
 
         /* 🌸 레이어 3: 하단 화단에서 위로 민들레씨처럼 아련하게 흩날려 퍼지는 안개꽃 파티클 무대 */
         #flowerCanvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 2; pointer-events: none; }
 
-        /* 🌫️ [업그레이드 1-2] 레이어 4: 지면을 두텁고 은밀하게 일렁이는 리얼 운무(안개) 이펙트 */
+        /* 🌫️ 레이어 4: 지면을 두텁고 은밀하게 일렁이는 리얼 운무(안개) 이펙트 */
         .fog-container {
             position: fixed; bottom: 0; right: 0; width: calc(100vw - 340px); height: 240px; 
             overflow: hidden; pointer-events: none; z-index: 1; opacity: 0.65;
@@ -122,7 +126,7 @@
         }
         .nav-btn:hover, .nav-btn.active { background: rgba(42, 123, 115, 0.1); color: #93e1d8; border-left: 4px solid #2a7b73; }
 
-        /* 🎚️ [업그레이드 1] 축음기 LP 레코드 플레이어 레이아웃 시스템 */
+        /* 🎚️ 축음기 LP 레코드 플레이어 레이아웃 시스템 */
         .audio-container {
             display: flex; align-items: center; gap: 15px; margin-top: 15px;
             background: #14171a; padding: 14px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.02);
@@ -139,15 +143,11 @@
         .audio-controls-box { flex: 1; display: flex; flex-direction: column; gap: 8px; }
         .audio-title { font-size: 11px; color: #718096; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
         
-        /* 미세 수식 일렁임 오디오 시각 파형 바 */
         .visualizer-mini { display: flex; align-items: flex-end; gap: 2px; height: 12px; opacity: 0.4; transition: opacity 0.3s; }
         .visualizer-mini.playing { opacity: 1; }
         .v-bar { width: 2px; height: 3px; background: #2a7b73; transition: height 0.15s ease; }
         
-        .bgm-btn { 
-            width: 100%; padding: 8px; background: #2a7b73; color: white; border: none; 
-            border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 11px; transition: 0.2s; 
-        }
+        .bgm-btn { width: 100%; padding: 8px; background: #2a7b73; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 11px; }
         .bgm-btn:hover { background: #1d5751; }
 
         /* [우측] 콘텐츠 메인 영역 - 관통형 공학 설계 */
@@ -160,10 +160,8 @@
         h3 { color: #93e1d8; font-size: 16px; margin: 35px 0 15px 0; border-left: 3px solid #2a7b73; padding-left: 10px; }
         .quote-block { font-size: 15px; color: #93e1d8; font-style: italic; line-height: 1.8; margin-bottom: 30px; padding-left: 20px; border-left: 4px solid #2a7b73; }
         
-        /* 🔍 [업그레이드 3] 시크릿 조서 텍스트 오버레이 상호작용 디자인 */
-        .secret-lore-trigger {
-            position: relative; color: #ffffff; border-bottom: 1px dashed #93e1d8; cursor: help; display: inline-block;
-        }
+        /* 🔍 시크릿 조서 텍스트 오버레이 상호작용 디자인 */
+        .secret-lore-trigger { position: relative; color: #ffffff; border-bottom: 1px dashed #93e1d8; cursor: help; display: inline-block; }
         .secret-lore-trigger::after {
             content: attr(data-lore); position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%) translateY(5px);
             width: 240px; background: rgba(11, 13, 16, 0.96); color: #93e1d8; font-size: 12px; font-family: sans-serif;
@@ -233,71 +231,62 @@
             .org-logo-box { width: 100%; max-width: 240px; height: 240px; }
             .branch-roster { flex-direction: column; align-items: stretch; }
             .flower-bed-floor, .fog-container { width: 100vw; }
+            .terminal-box { font-size: 20px; max-height: 50vh; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 🔐 [업그레이드 2] 기밀 서버 암호 해독 오버레이 무대 -->
     <div id="decryption-overlay">
         <div class="terminal-box">
             <span id="overlay-line1"></span><br>
-            <span id="overlay-line2"></span><span class="terminal-cursor">_</span>
+            <span id="overlay-line2"></span><span class="terminal-cursor">┃</span>
         </div>
     </div>
 
-    <!-- 🌧️ 비 효과 레이어 캔버스 -->
     <canvas id="rainCanvas"></canvas>
     
-    <!-- 🚬 [업그레이드 4] 궐련 연기 가동 캔버스 -->
     <canvas id="smokeCanvas"></canvas>
     
-    <!-- 🌸 민들레씨 안개꽃 파티클 엔진 캔버스 -->
     <canvas id="flowerCanvas"></canvas>
 
-    <!-- 🌫️ 하단 운무 이펙트 구역 -->
     <div class="fog-container">
         <div class="fog-wave"></div>
         <div class="fog-wave fog-wave-secondary"></div>
     </div>
 
-    <!-- 🌿 하단부 안개꽃 덩굴 화단 지면 패널 -->
     <div class="flower-bed-floor"></div>
 
-    <!-- [좌측] 고정 사이드바 메뉴 -->
     <div class="sidebar">
         <div class="oc-summary">
             <img class="oc-portrait" src="../Jin_k_middle_shot._A_highly_detailed_sharp_close-up_portrait__d6cd11d6-0f8e-4ff8-863d-f1e4aa63f54e_2.png" alt="소우">
             <div class="oc-title">
                 <h1>아사히나 소우</h1>
-                <p>あさひな そう</p>
+                <p>あさ히나 소우</p>
             </div>
         </div>
 
         <div class="nav-menu">
             <button class="nav-btn active" onclick="openTab(event, 'profile')">身上調書</button>
             <button class="nav-btn" onclick="openTab(event, 'organization')">長谷川組</button>
-            <button class="nav-btn" onclick="openTab(event, 'relations')">相관系譜</button>
+            <button class="nav-btn" onclick="openTab(event, 'relations')">相関系譜</button>
         </div>
 
-        <!-- 🎚️ [업그레이드 1] 소우의 클래식 축음기 LP 레코드 플레이어 구역 -->
-        <div class="audio-container">
-            <div class="lp-record-disc" id="lpDisc"></div>
-            <div class="audio-controls-box">
-                <div class="audio-title">🎵 夜에溶ける (밤에 녹아내리는)</div>
-                <div class="visualizer-mini" id="miniVisualizer">
-                    <div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div>
+        <div class="audio-box">
+            <div class="audio-container">
+                <div class="lp-record-disc" id="lpDisc"></div>
+                <div class="audio-controls-box">
+                    <div class="audio-title">🎵 夜에溶ける (밤에 녹아내리는)</div>
+                    <div class="visualizer-mini" id="miniVisualizer"><div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div></div>
+                    <audio id="ocBgm" src="../「夜に溶ける (밤에 녹아내리는)」.mp3" loop autoplay></audio>
+                    <button class="bgm-btn" onclick="toggleBgm()">音曲 演奏 / 停止</button>
                 </div>
-                <audio id="ocBgm" src="../「夜에溶ける (밤에 녹아내리는)」.mp3" loop autoplay></audio>
-                <button class="bgm-btn" onclick="toggleBgm()">音曲 演奏 / 停止</button>
             </div>
         </div>
     </div>
 
-    <!-- [우측] 콘텐츠 메인 영역 -->
     <div class="main-content">
         
-        <!-- 탭 1: 캐릭터 프로필 -->
         <div id="profile" class="tab-content active">
             <h2>身上調書 (인적사항 보고서)</h2>
             
@@ -312,7 +301,7 @@
                 <div class="info-item"><div class="info-label">居所 (거처)</div><div class="info-value">나고야 시라카베 최고급 저택가</div></div>
             </div>
 
-            <h3>容姿特徴 (외양)</h3>
+            <h3>容姿特徴 (외양 설정)</h3>
             <div class="info-grid">
                 <div class="info-item"><div class="info-label">頭髪・眼球 (머리와 눈)</div><div class="info-value">포마드로 정갈하게 넘긴 올백 블랙 헤어, 시리도록 차가운 옥록색 눈동자.</div></div>
                 <div class="info-item"><div class="info-label">衣類 (의복)</div><div class="info-value">1930년대식 서양식 3피스 슈트 위에 최고급 프리미엄 옥색 실크 하오리를 걸침. 은테 안경 착용.</div></div>
@@ -324,15 +313,13 @@
                 <ul class="bullet-list">
                     <li>기사텐을 즐겨 찾는다. 커피를 마시며 조용한 여유를 즐기기 때문. 소음을 극도로 혐오한다.</li>
                     <li>집에 있을 때는 오래된 축음기로 서양 클래식을 감상하는 것이 취미.</li>
-                    <!-- 🔍 [업그레이드 3] 시크릿 기밀 조서 호버 팝업 반영 위치 -->
                     <li><span class="secret-lore-trigger" data-lore="소우가 구축한 기계적이고 차가운 수식 체계에 치명적인 균열과 오류를 낸 유일한 예외이자 온전한 순애의 대상."><strong>{{user}}과 연애 8년 차 :</strong></span> 그의 차가운 수식 체계에 균열을 낸 유일한 예외이자 온전한 순애의 대상.</li>
                 </ul>
             </div>
         </div>
 
-        <!-- 탭 2: 조직 설정 -->
         <div id="organization" class="tab-content">
-            <h2>長谷川組 概要 (조직)</h2>
+            <h2>長谷川組 概要 (조직설정)</h2>
             
             <div class="org-card">
                 <div class="org-title">
@@ -345,7 +332,7 @@
                         <img class="org-symbol-img" src="../KakaoTalk_20260702_173047870_01.png" alt="하세가와구미 조직 상징">
                     </div>
                     <div class="org-meta-box">
-                        <div class="info-item"><div class="info-label">組織象徴 (조직상징)</div><div class="info-value">음양(균형, 회색지대)</div></div>
+                        <div class="info-item"><div class="info-label">組織象徴 (조직상징)</div><div class="info-value">음양(균형, 회색지대), 안개</div></div>
                         <div class="info-item"><div class="info-label">組織口号 (조직구호)</div><div class="info-value"><span class="secret-lore-trigger" data-lore="수단과 의리는 변형될지언정, 오직 금전만이 배신하지 않는 불변의 통계적 정답이라는 신념.">돈은 진실이다.</span></div></div>
                     </div>
                 </div>
@@ -385,7 +372,6 @@
             </div>
         </div>
 
-        <!-- 탭 3: 주변 인물 및 관계도 -->
         <div id="relations" class="tab-content">
             <h2>相관系譜 (인물 관계보)</h2>
             
@@ -393,7 +379,7 @@
                 <div class="relation-card">
                     <img class="relation-img" src="../KakaoTalk_20260630_120048729_01.png" alt="하세가와 에이지">
                     <div class="relation-info" style="margin-top: 18px;">
-                        <div class="info-label">組장 (오야붕)</div>
+                        <div class="info-label">組長 (오야붕)</div>
                         <div class="info-value" style="font-size: 18px; color: #ffffff; font-weight: bold; margin-bottom: 6px;">하세가와 에이지 (長谷川 栄二)</div>
                         <p style="font-size: 13px; color: #a0aec0; line-height: 1.6;">하세가와구미의 수장. 소우의 특출난 성과를 전폭 신뢰하며 조직의 거대한 금전 유통 및 기획 설계를 완전히 일임한 절대적인 위정자.</p>
                     </div>
@@ -501,7 +487,7 @@
                         </div>
                     </div>
                     <div class="branch-roster">
-                        <div class="roster-badge"><span class="badge-job">堂주</span><span class="badge-name">쿠제 리오</span></div>
+                        <div class="roster-badge"><span class="badge-job">堂主</span><span class="badge-name">쿠제 리오</span></div>
                         <div class="roster-badge"><span class="badge-job">幹部</span><span class="badge-name">시라누이 리츠</span></div>
                         <div class="roster-badge"><span class="badge-job">幹부</span><span class="badge-name">키리시마 슈우</span></div>
                     </div>
@@ -547,6 +533,15 @@
             }
         }
 
+        document.addEventListener('click', function() {
+            var myAudio = document.getElementById("ocBgm");
+            if (myAudio.paused) {
+                myAudio.play().catch(function(error) {
+                    console.log("자동재생 작동 트리거 활성화:", error);
+                });
+            }
+        }, { once: true });
+
         // 🌧️ [1] 비 효과 엔진
         const canvas = document.getElementById('rainCanvas');
         const ctx = canvas.getContext('2d');
@@ -587,14 +582,14 @@
             fCtx.shadowBlur = 0; requestAnimationFrame(drawFlowers);
         }
 
-        // 🚬 [업그레이드 4] 궐련 담배 연기 트레일 엔진
+        // 🚬 [3] 궐련 담배 연기 트레일 엔진
         const smokeCanvas = document.getElementById('smokeCanvas');
         const sCtx = smokeCanvas.getContext('2d');
         let sWidth = smokeCanvas.width = window.innerWidth;
         let sHeight = smokeCanvas.height = window.innerHeight;
         const smokeParticles = [];
         window.addEventListener('mousemove', (e) => {
-            if (Math.random() < 0.35) { // 적절한 방출 밀도 제어
+            if (Math.random() < 0.35) {
                 smokeParticles.push({ x: e.clientX, y: e.clientY, r: Math.random() * 4 + 2, vx: (Math.random() - 0.5) * 0.4, vy: -Math.random() * 0.6 - 0.2, opacity: 0.35 });
             }
         });
@@ -621,7 +616,7 @@
             setTimeout(animateVisualizer, 120);
         }
 
-        // 🔐 [업그레이드 2 연동] 진입 오버레이 정밀 시퀀스 타이핑 및 종이 접기 제어 시스템
+        // 🔐 [세로쓰기 특화] 진입 오버레이 정밀 타이핑 시퀀스 개조
         function runDecryptionSequence() {
             const line1Target = "[長谷川組]";
             const line2Target = "[돈은 진실이다.]";
@@ -631,32 +626,31 @@
 
             function typeLine1() {
                 if (idx1 < line1Target.length) {
-                    el1.textContent += line1Target[idx1++]; setTimeout(typeLine1, 120);
+                    el1.textContent += line1Target[idx1++]; setTimeout(typeLine1, 140);
                 } else { setTimeout(typeLine2, 400); }
             }
+            // 세로쓰기 vertical-lr 모드이므로 line1이 먼저 위에서 아래로 완성된 뒤, line2가 그 우측에 아래로 정렬되어 생성됩니다.
             function typeLine2() {
                 if (idx2 < line2Target.length) {
-                    el2.textContent += line2Target[idx2++]; setTimeout(typeLine2, 120);
+                    el2.textContent += line2Target[idx2++]; setTimeout(typeLine2, 140);
                 } else {
-                    // 타이핑이 모두 완결된 뒤 1초 홀드 후 종이 접기 모션 발동
                     setTimeout(() => {
                         const overlay = document.getElementById('decryption-overlay');
                         overlay.classList.add('fold-away');
-                        // 오버레이가 완전히 사라진 직후 오디오 장치 동기화 구동
                         setTimeout(() => {
                             var myAudio = document.getElementById("ocBgm");
                             myAudio.play().then(() => {
                                 document.getElementById("lpDisc").classList.add("playing");
                                 document.getElementById("miniVisualizer").classList.add("playing");
-                            }).catch(e => console.log("축음기 자동 구동 제한 우회 대기"));
+                            }).catch(e => console.log("축음기 자동 구동 제한 우회"));
                         }, 1000);
-                    }, 1000);
+                    }, 1200);
                 }
             }
-            setTimeout(typeLine1, 500);
+            setTimeout(typeLine1, 600);
         }
 
-        // 🎬 순차 스크롤 배포 시스템 연동
+        // 🎬 스크롤 배포 시스템 연동
         document.addEventListener("DOMContentLoaded", () => {
             runDecryptionSequence(); animateVisualizer();
             const scrollContainer = document.querySelector('.main-content');
