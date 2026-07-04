@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>차선태의 디지털 포트폴리오 - Cheongnam Diary</title>
     <style>
-        /* 동글동글하고 귀여운 구글 폰트 불러오기 */
-        @import url('https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Gowun+Dodum&display=swap');
+        /* 가독성이 훌륭하면서도 귀여운 손글씨풍 구글 폰트 불러오기 */
+        @import url('https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Gowun+Dodum&display=swap');
 
         :root {
             --primary-blue: #a3d8f4;
@@ -15,7 +15,8 @@
             --bg-white: #ffffff;
             --accent-yellow: #fdf6e3;
             --accent-green: #e9f5e1;
-            --font-family: 'Gaegu', 'Gowun Dodum', 'Malgun Gothic', sans-serif;
+            --font-family: 'Gowun Dodum', sans-serif;
+            --title-family: 'Gamja Flower', sans-serif;
         }
 
         body {
@@ -23,57 +24,56 @@
             font-family: var(--font-family);
             background-color: var(--primary-blue);
             color: var(--text-blue);
-            /* 전체 배경 이미지 교체 및 은은한 블렌딩 */
             background-image: linear-gradient(rgba(163, 216, 244, 0.82), rgba(163, 216, 244, 0.82)), url('/Jin_k______--ar_43_--profile_7wchirn_--niji_7_f1641363-14cb-464b-8d17-d07bdf59ef7d_1.png');
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
             position: relative;
-            font-size: 1.15em; /* 폰트 특성상 가독성을 위해 살짝 키움 */
+            overflow-x: hidden;
         }
 
-        /* 🫧 은은하고 몽글몽글한 물방울 모션 레이어 */
+        /* 🫧 화려하고 역동적으로 상승하는 물방울 모션 효과 */
         .water-bubble-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
             pointer-events: none;
             z-index: 997;
             background-image: 
-                radial-gradient(circle, rgba(255,255,255,0.5) 8%, transparent 9%),
-                radial-gradient(circle, rgba(255,255,255,0.4) 12%, transparent 13%),
-                radial-gradient(circle, rgba(255,255,255,0.6) 6%, transparent 7%);
-            background-size: 450px 450px, 380px 380px, 520px 520px;
-            background-position: 0 0, 60px 40px, 150px 290px;
-            animation: bubbleFloat 10s infinite alternate ease-in-out;
+                radial-gradient(circle, rgba(255,255,255,0.6) 6%, transparent 7%),
+                radial-gradient(circle, rgba(255,255,255,0.4) 10%, transparent 11%),
+                radial-gradient(circle, rgba(255,255,255,0.5) 5%, transparent 6%);
+            background-size: 550px 550px, 420px 420px, 600px 600px;
+            animation: bubbleRise 12s infinite linear;
+            opacity: 0.6;
         }
 
-        @keyframes bubbleFloat {
-            0% { transform: translateY(0) scale(1); opacity: 0.4; }
-            100% { transform: translateY(-30px) scale(1.04); opacity: 0.7; }
+        @keyframes bubbleRise {
+            0% { background-position: 0 0, 50px 100px, 120px 300px; }
+            50% { background-position: 60px -250px, -30px -150px, 200px -50px; }
+            100% { background-position: 120px -550px, -110px -420px, 280px -600px; }
         }
 
-        /* ✨ 빛에 반사되는 작은 레인보우 스파클 모션 */
-        .sparkle {
+        /* 🌈 빛에 반사되어 영롱하게 번지는 레인보우 빛무리 (Halo) 효과 */
+        .halo {
             position: fixed;
             pointer-events: none;
             z-index: 999;
-            /* 무지개빛 그라데이션 텍스트 처리 */
-            background: linear-gradient(45deg, #ff7675, #ffeaa7, #55efc4, #74b9ff, #a29bfe);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: sparkleTwinkle 3.5s infinite ease-in-out;
+            border-radius: 50%;
+            /* 은은하게 퍼지는 빛무리 그라데이션 기법 */
+            background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,234,167,0.5) 25%, rgba(116,185,255,0.3) 55%, transparent 70%);
+            animation: haloGlow 5s infinite ease-in-out;
             opacity: 0;
-            font-weight: bold;
+            filter: blur(4px);
         }
-        .s1 { top: 12%; left: 8%; animation-delay: 0s; font-size: 22px; }
-        .s2 { top: 38%; left: 88%; animation-delay: 0.7s; font-size: 30px; }
-        .s3 { top: 72%; left: 12%; animation-delay: 1.4s; font-size: 24px; }
-        .s4 { top: 22%; left: 72%; animation-delay: 2.1s; font-size: 19px; }
-        .s5 { top: 64%; left: 45%; animation-delay: 2.8s; font-size: 26px; }
+        .h1 { top: 15%; left: 10%; width: 120px; height: 120px; animation-delay: 0s; }
+        .h2 { top: 42%; left: 82%; width: 160px; height: 160px; animation-delay: 1s; }
+        .h3 { top: 75%; left: 5%; width: 100px; height: 100px; animation-delay: 2s; }
+        .h4 { top: 25%; left: 68%; width: 140px; height: 140px; animation-delay: 3s; }
+        .h5 { top: 60%; left: 38%; width: 110px; height: 110px; animation-delay: 4s; }
 
-        @keyframes sparkleTwinkle {
-            0%, 100% { transform: scale(0.4) rotate(0deg); opacity: 0; filter: drop-shadow(0 0 0px #fff); }
-            50% { transform: scale(1.2) rotate(180deg); opacity: 0.9; filter: drop-shadow(0 0 5px rgba(255,255,255,0.9)); }
+        @keyframes haloGlow {
+            0%, 100% { transform: scale(0.6); opacity: 0; filter: blur(4px) hue-rotate(0deg); }
+            50% { transform: scale(1.3); opacity: 0.65; filter: blur(6px) hue-rotate(360deg); } /* 색상이 무지개처럼 자연스럽게 순환 */
         }
 
         .header {
@@ -85,9 +85,11 @@
 
         .header h1 {
             margin: 0;
-            font-size: 2.5em;
+            font-family: var(--title-family);
+            font-size: 3em;
             color: var(--text-blue);
             font-weight: bold;
+            letter-spacing: 1px;
         }
 
         .nav-container {
@@ -225,8 +227,9 @@
         }
 
         .banner h2 {
-            font-size: 2.5em;
-            margin: 0 0 10px 0;
+            font-family: var(--title-family);
+            font-size: 3em;
+            margin: 0 0 5px 0;
         }
 
         .banner p {
@@ -257,7 +260,8 @@
         }
 
         .section-title {
-            font-size: 1.5em;
+            font-family: var(--title-family);
+            font-size: 2em;
             font-weight: bold;
             margin-bottom: 15px;
             display: flex;
@@ -268,7 +272,7 @@
         .chat-line {
             display: flex;
             margin-bottom: 10px;
-            font-size: 0.95em;
+            font-size: 1em;
             line-height: 1.5;
         }
 
@@ -311,7 +315,7 @@
             border: 3px solid var(--bg-white);
         }
 
-        /* 📅 학사일정 타임라인 UI 디자인 */
+        /* 📅 세련된 타임라인 레이아웃 */
         .timeline {
             position: relative;
             padding-left: 25px;
@@ -330,7 +334,7 @@
             content: '';
             position: absolute;
             left: -32px;
-            top: 4px;
+            top: 6px;
             width: 10px;
             height: 10px;
             border-radius: 50%;
@@ -347,16 +351,16 @@
 
         .timeline-title {
             font-weight: bold;
-            font-size: 1.1em;
+            font-size: 1.15em;
             color: var(--text-blue);
         }
 
         .timeline-desc {
-            font-size: 0.9em;
+            font-size: 0.95em;
             color: #444;
             margin-top: 5px;
             background-color: var(--accent-green);
-            padding: 8px 12px;
+            padding: 10px 14px;
             border-radius: 8px;
             line-height: 1.4;
         }
@@ -375,7 +379,7 @@
             text-align: center;
             padding: 15px;
             margin-top: 30px;
-            font-size: 0.9em;
+            font-size: 0.95em;
         }
 
         @media (max-width: 1024px) {
@@ -392,7 +396,7 @@
             }
 
             .header h1 {
-                font-size: 1.8em;
+                font-size: 2.2em;
             }
 
             .nav-container {
@@ -408,11 +412,7 @@
             }
 
             .banner h2 {
-                font-size: 1.8em;
-            }
-
-            .banner p {
-                font-size: 0.95em;
+                font-size: 2em;
             }
             
             .card {
@@ -424,11 +424,11 @@
 <body>
 
 <div class="water-bubble-overlay"></div>
-<div class="sparkle s1">✦</div>
-<div class="sparkle s2">✦</div>
-<div class="sparkle s3">✦</div>
-<div class="sparkle s4">✦</div>
-<div class="sparkle s5">✦</div>
+<div class="halo h1"></div>
+<div class="halo h2"></div>
+<div class="halo h3"></div>
+<div class="halo h4"></div>
+<div class="halo h5"></div>
 
 <audio id="bgm" src="/선태.mp3" loop></audio>
 
@@ -454,8 +454,8 @@
     <div class="sidebar">
         <div class="card" style="text-align: center;">
             <img src="/KakaoTalk_20260704_102926361.png" alt="차선태 메인 비주얼" class="main-profile-img">
-            <h3 style="margin: 5px 0; color: var(--secondary-blue);">차선태 (19)</h3>
-            <p style="margin: 0; font-size: 0.9em; color: #666;">청람고등학교 수영부 에이스</p>
+            <h3 style="margin: 5px 0; color: var(--secondary-blue); font-family: var(--title-family); font-size: 1.8em;">차선태 (19)</h3>
+            <p style="margin: 0; font-size: 0.95em; color: #666;">청람고등학교 수영부 에이스</p>
         </div>
 
         <div class="card">
@@ -473,7 +473,7 @@
         
         <div class="card">
             <div class="section-title">ㅊx2ㄱㅎ</div>
-            <div class="chat-content" style="font-size: 0.9em;">
+            <div class="chat-content">
                 <div class="chat-line"><span class="chat-author">최진형:</span> 운동장 나가서 눈싸움 할 사람??</div>
                 <div class="chat-line"><span class="chat-author">강민우:</span> 아까 선태 매점에서 온캔커피 두 개 사서 뛰어가던데?</div>
                 <div class="chat-line"><span class="chat-author">한서연:</span> 뻔하지 뭐. {{user}} 주러 갔겠지.</div>
@@ -506,22 +506,22 @@
                 <div class="friend-profile-card highlight">
                     <img src="/KakaoTalk_20260704_102926361.png" alt="차선태" class="friend-photo">
                     <p><strong>차선태</strong></p>
-                    <p style="font-size: 0.75em; color: #555;">#수영부 #뚝딱이</p>
+                    <p style="font-size: 0.8em; color: #555;">#수영부 #뚝딱이</p>
                 </div>
                 <div class="friend-profile-card">
                     <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCIgdmlld0JveD0iMCAwIDgwIDgwIj48Y2lyY2xlIGN4PSI0MCIgY3k9IjQwIiByPSIzNSIgZmlsbD0idXJsKCNnKSIvPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2EzZDhmNCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2U5ZjVlMSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjwvc3ZnPg==" class="friend-photo" alt="강민우">
                     <p><strong>강민우</strong></p>
-                    <p style="font-size: 0.75em; color: #555;">#수영메이트 #소꿉친구</p>
+                    <p style="font-size: 0.8em; color: #555;">#수영메이트 #소꿉친구</p>
                 </div>
                 <div class="friend-profile-card">
                     <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCIgdmlld0JveD0iMCAwIDgwIDgwIj48Y2lyY2xlIGN4PSI0MCIgY3k9IjQwIiByPSIzNSIgZmlsbD0idXJsKCNnKSIvPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2EzZDhmNCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2U5ZjVlMSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjwvc3ZnPg==" class="friend-photo" alt="한서연">
                     <p><strong>한서연</strong></p>
-                    <p style="font-size: 0.75em; color: #555;">#미술과 #3-2반장</p>
+                    <p style="font-size: 0.8em; color: #555;">#미술과 #3-2반장</p>
                 </div>
                 <div class="friend-profile-card">
                     <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCIgdmlld0JveD0iMCAwIDgwIDgwIj48Y2lyY2xlIGN4PSI0MCIgY3k9IjQwIiByPSIzNSIgZmlsbD0idXJsKCNnKSIvPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2EzZDhmNCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2U5ZjVlMSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjwvc3ZnPg==" class="friend-photo" alt="최진형">
                     <p><strong>최진형</strong></p>
-                    <p style="font-size: 0.75em; color: #555;">#일반과 #분위기메이커</p>
+                    <p style="font-size: 0.8em; color: #555;">#일반과 #분위기메이커</p>
                 </div>
             </div>
         </div>
@@ -613,21 +613,19 @@
         }
     }
 
-    // 1단계: DOM이 세팅되면 무조건 바로 플레이 시도
     window.addEventListener('DOMContentLoaded', () => {
         audio.play()
             .then(updatePlayState)
             .catch(() => {
-                console.log("Autoplay waiting for user interaction...");
+                console.log("Autoplay bound to first user interaction.");
             });
     });
 
-    // 2단계: 브라우저가 자동 차단했을 때를 대비해, 사용자가 최초로 화면 어디든 누르는 즉시 바로 플레이
     document.addEventListener('click', () => {
         if (audio.paused) {
             audio.play().then(updatePlayState);
         }
-    }, { once: true }); // 단 한 번만 실행하고 소멸하도록 세팅
+    }, { once: true });
 </script>
 
 </body>
