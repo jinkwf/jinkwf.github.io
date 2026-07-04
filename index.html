@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>차선태의 디지털 포트폴리오 - Cheongnam Diary</title>
+    <style>
+        :root {
+            --primary-blue: #a3d8f4;
+            --secondary-blue: #1e3a8a;
+            --text-blue: #004080;
+            --bg-white: #ffffff;
+            --accent-yellow: #fdf6e3;
+            --accent-green: #e9f5e1;
+            --font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            font-family: var(--font-family);
+            background-color: var(--primary-blue);
+            color: var(--text-blue);
+            background-image: linear-gradient(rgba(163, 216, 244, 0.85), rgba(163, 216, 244, 0.85)), url('KakaoTalk_20260704_102926361.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+
+        .header {
+            background-color: var(--accent-yellow);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid var(--primary-blue);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: var(--text-blue);
+            font-weight: bold;
+        }
+
+        /* 네비게이션 & BGM 영역 */
+        .nav-container {
+            background-color: var(--accent-yellow);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: var(--text-blue);
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: color 0.3s;
+        }
+
+        .nav a:hover {
+            color: #4CAF50;
+        }
+
+        /* LP판 뮤직 플레이어 스타일 */
+        .lp-player {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--bg-white);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            border: 2px solid var(--primary-blue);
+            user-select: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .lp-disk {
+            width: 28px;
+            height: 28px;
+            background: radial-gradient(circle, #444 35%, #111 36%, #111 55%, #444 56%, #111 100%);
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .lp-disk::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px; height: 8px;
+            background: var(--accent-yellow);
+            border-radius: 50%;
+        }
+
+        .lp-text {
+            font-size: 0.85em;
+            font-weight: bold;
+            color: var(--text-blue);
+        }
+
+        /* 음악 재생 중일 때 회전 애니메이션 */
+        .lp-player.playing .lp-disk {
+            animation: spin 3s linear infinite;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 레이아웃 구조 */
+        .container {
+            display: flex;
+            gap: 30px;
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .sidebar {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .main-content {
+            flex: 2.5;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .card {
+            background-color: var(--bg-white);
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            padding: 25px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+        }
+
+        .main-profile-img {
+            width: 100%;
+            max-width: 320px;
+            border-radius: 15px;
+            object-fit: cover;
+            margin: 0 auto 15px auto;
+            display: block;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+        }
+
+        .banner {
+            height: 220px;
+            background-image: linear-gradient(to right, rgba(163, 216, 244, 0.85), rgba(253, 246, 227, 0.75)), url('KakaoTalk_20260704_102926361_01.png');
+            background-size: cover;
+            background-position: center;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--text-blue);
+            padding: 10px;
+        }
+
+        .banner h2 {
+            font-size: 2.5em;
+            margin: 0 0 10px 0;
+        }
+
+        .banner p {
+            font-size: 1.1em;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            border: 2px solid var(--primary-blue);
+            border-radius: 30px;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            background-color: var(--accent-yellow);
+        }
+
+        .search-container input {
+            border: none;
+            background: none;
+            outline: none;
+            flex: 1;
+            font-size: 1em;
+            color: var(--text-blue);
+            width: 100%;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chat-line {
+            display: flex;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .chat-author {
+            font-weight: bold;
+            margin-right: 8px;
+            color: var(--secondary-blue);
+            white-space: nowrap;
+        }
+
+        .chat-line.sunter .chat-author {
+            color: #ff4d4d;
+        }
+
+        /* 4인방 그리드 구조 */
+        .friends-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .friend-profile-card {
+            background-color: var(--accent-green);
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+        }
+
+        .friend-profile-card.highlight {
+            background-color: var(--accent-yellow);
+            border: 2px solid var(--primary-blue);
+        }
+
+        .friend-photo {
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            object-fit: cover;
+            border: 3px solid var(--bg-white);
+        }
+
+        /* 달력 세션 구조 */
+        .calendar-section {
+            display: flex;
+            gap: 20px;
+        }
+
+        .calendar-grid {
+            flex: 2;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            background-color: var(--accent-yellow);
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .calendar-day {
+            background-color: var(--bg-white);
+            padding: 8px 4px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 0.85em;
+            min-height: 45px;
+        }
+
+        .calendar-day-header {
+            font-weight: bold;
+            color: var(--secondary-blue);
+            min-height: auto;
+        }
+
+        .calendar-day-highlight {
+            background-color: var(--primary-blue);
+            color: var(--text-blue);
+            font-weight: bold;
+        }
+
+        .calendar-day-event {
+            font-size: 0.7em;
+            margin-top: 3px;
+            color: #ff4d4d;
+            display: block;
+            word-break: keep-all;
+        }
+
+        .school-info-side {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .school-img {
+            width: 100%;
+            border-radius: 10px;
+            border: 3px solid var(--accent-green);
+            object-fit: cover;
+        }
+
+        .note-item {
+            background-color: #fef3c7;
+            border-radius: 10px;
+            padding: 15px;
+            font-style: italic;
+            line-height: 1.5;
+        }
+
+        .footer {
+            background-color: var(--text-blue);
+            color: var(--bg-white);
+            text-align: center;
+            padding: 15px;
+            margin-top: 30px;
+            font-size: 0.9em;
+        }
+
+        /* ==========================================================================
+           📱 모바일 및 태블릿 최적화 미디어 쿼리 (Responsive Design)
+           ========================================================================== */
+        @media (max-width: 1024px) {
+            .friends-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                margin: 15px auto;
+                gap: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .nav-container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .nav {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            .banner h2 {
+                font-size: 1.8em;
+            }
+
+            .banner p {
+                font-size: 0.95em;
+            }
+
+            .calendar-section {
+                flex-direction: column;
+            }
+
+            .school-info-side {
+                align-items: center;
+            }
+
+            .school-img {
+                max-width: 100%;
+            }
+            
+            .card {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 오디오 태그 주입 -->
+<audio id="bgm" src="선태.mp3" loop></audio>
+
+<div class="header">
+    <h1>SUNTAE'S DIGITAL PORTFOLIO</h1>
+</div>
+
+<!-- 상단 네비게이션 바 및 LP 아이콘 플레이어 -->
+<div class="nav-container">
+    <div class="nav">
+        <a href="#">HOME</a>
+        <a href="#cha-sun-tae">CHA SUN-TAE</a>
+        <a href="#cheongnam-4">청람 4인방</a>
+        <a href="#cheongnam-high">청람고등학교</a>
+    </div>
+    
+    <!-- LP플레이어 버턴 -->
+    <div class="lp-player" id="lpButton" onclick="toggleAudio()">
+        <div class="lp-disk"></div>
+        <span class="lp-text" id="lpText">BGM PLAY</span>
+    </div>
+</div>
+
+<div class="container">
+    <!-- 좌측 사이드바 구역 -->
+    <div class="sidebar">
+        <!-- 차선태 메인 이미지 카드 -->
+        <div class="card" style="text-align: center;">
+            <img src="Jin_k______--ar_43_--profile_7wchirn_--niji_7_f1641363-14cb-464b-8d17-d07bdf59ef7d_0.png" alt="차선태 메인 비주얼" class="main-profile-img">
+            <h3 style="margin: 5px 0; color: var(--secondary-blue);">차선태 (19)</h3>
+            <p style="margin: 0; font-size: 0.9em; color: #666;">청람고등학교 수영부 에이스</p>
+        </div>
+
+        <!-- !검색 커맨드 카드 -->
+        <div class="card">
+            <div class="search-container">
+                <input type="text" placeholder="!PHONE SEARCH '주말에 영화...' " readonly>
+            </div>
+            <p><strong>최근 검색 기록:</strong></p>
+            <ul style="padding-left: 20px; line-height: 1.8; margin: 0;">
+                <li>주말에 영화보러가자고 하는 법</li>
+                <li>자연스럽게 손 잡는 타이밍</li>
+                <li>만우절 고백 레전드 실패 후기 모음</li>
+                <li>거절할 때를 대비한 멘트 짜기</li>
+            </ul>
+        </div>
+        
+        <!-- 단톡방 카드 -->
+        <div class="card">
+            <div class="section-title">GROUP CHAT: 고3들의 모임</div>
+            <div class="chat-content" style="font-size: 0.9em;">
+                <div class="chat-line"><span class="chat-author">최진형:</span> 운동장 나가서 눈싸움 할 사람??</div>
+                <div class="chat-line"><span class="chat-author">강민우:</span> 아까 선태 매점에서 온캔커피 두 개 사서 뛰어가던데?</div>
+                <div class="chat-line"><span class="chat-author">한서연:</span> 뻔하지 뭐. {{user}} 주러 갔겠지.</div>
+                <div class="chat-line sunter"><span class="chat-author">차선태:</span> 야 조용히 해라 진짜;;;</div>
+                <div class="chat-line"><span class="chat-author">강민우:</span> 청람고 캔커피 매출 지분 80%는 얘임ㄹㅇ</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 우측 메인 콘텐츠 구역 -->
+    <div class="main-content">
+        <div class="banner">
+            <h2>EVERY SEASON IS FOR YOU</h2>
+            <p>모든 계절이 네게 불어올 때, 내 마음도 함께 너에게로.</p>
+        </div>
+
+        <!-- 차선태 상세 정보 프로필 -->
+        <div class="card" id="cha-sun-tae">
+            <div class="section-title">CHA SUN-TAE PROFILE</div>
+            <div style="line-height: 1.8;">
+                <p><strong>이름:</strong> 차선태 (3학년 2반)</p>
+                <p><strong>생일:</strong> 3월 26일</p>
+                <p><strong>소속:</strong> 수영부 엘리트 에이스</p>
+                <p><strong>피지컬:</strong> 키 188cm / 몸무게 76kg (역삼각형 swimmer's build)</p>
+                <p><strong>특징:</strong> 평소엔 장난기 넘치는 인싸지만 `{{user}}` 앞에만 서면 귀 끝까지 빨개져서 뚝딱거림.</p>
+            </div>
+        </div>
+
+        <!-- 청람 4인방 카테고리 -->
+        <div class="card" id="cheongnam-4">
+            <div class="section-title">청람 4인방 (CHEONGNAM 4)</div>
+            <div class="friends-grid">
+                <!-- 선태 미니프로필 이미지 교체 -->
+                <div class="friend-profile-card highlight">
+                    <img src="Jin_k______--ar_43_--profile_7wchirn_--niji_7_f1641363-14cb-464b-8d17-d07bdf59ef7d_1.png" alt="차선태" class="friend-photo">
+                    <p><strong>차선태</strong></p>
+                    <p style="font-size: 0.75em; color: #555;">#수영부 #뚝딱이</p>
+                </div>
+                <div class="friend-profile-card">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCIgdmlld0JveD0iMCAwIDgwIDgwIj48Y2lyY2xlIGN4PSI0MCIgY3k9IjQwIiByPSIzNSIgZmlsbD0idXJsKCNnKSIvPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2EzZDhmNCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2U5ZjVlMSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjwvc3ZnPg==" class="friend-photo" alt="강민우">
+                    <p><strong>강민우</strong></p>
+                    <p style="font-size: 0.75em; color: #555;">#수영메이트 #소꿉친구</p>
+                </div>
+                <div class="friend-profile-card">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCIgdmlld0JveD0iMCAwIDgwIDgwIj48Y2lyY2xlIGN4PSI0MCIgY3k9IjQwIiByPSIzNSIgZmlsbD0idXJsKCNnKSIvPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2EzZDhmNCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2U5ZjVlMSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjwvc3ZnPg==" class="friend-photo" alt="한서연">
+                    <p><strong>한서연</strong></p>
+                    <p style="font-size: 0.75em; color: #555;">#미술과 #3-2반장</p>
+                </div>
+                <div class="friend-profile-card">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCIgdmlld0JveD0iMCAwIDgwIDgwIj48Y2lyY2xlIGN4PSI0MCIgY3k9IjQwIiByPSIzNSIgZmlsbD0idXJsKCNnKSIvPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2EzZDhmNCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2U5ZjVlMSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjwvc3ZnPg==" class="friend-photo" alt="최진형">
+                    <p><strong>최진형</strong></p>
+                    <p style="font-size: 0.75em; color: #555;">#일반과 #분위기메이커</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 청람고등학교 학사일정 및 풍경 카테고리 -->
+        <div class="card" id="cheongnam-high">
+            <div class="section-title">청람고등학교 학사 일정</div>
+            <div class="calendar-section">
+                <div class="calendar-grid">
+                    <div class="calendar-day calendar-day-header">Sun</div>
+                    <div class="calendar-day calendar-day-header">Mon</div>
+                    <div class="calendar-day calendar-day-header">Tue</div>
+                    <div class="calendar-day calendar-day-header">Wed</div>
+                    <div class="calendar-day calendar-day-header">Thu</div>
+                    <div class="calendar-day calendar-day-header">Fri</div>
+                    <div class="calendar-day calendar-day-header">Sat</div>
+                    
+                    <div class="calendar-day"></div><div class="calendar-day"></div>
+                    <div class="calendar-day">1</div><div class="calendar-day">2</div><div class="calendar-day">3</div>
+                    <div class="calendar-day calendar-day-highlight">10<span class="calendar-day-event">해변축제</span></div>
+                    <div class="calendar-day">11</div>
+                    
+                    <div class="calendar-day calendar-day-highlight">12<span class="calendar-day-event">사생대회</span></div>
+                    <div class="calendar-day">13</div><div class="calendar-day">14</div><div class="calendar-day">15</div><div class="calendar-day">16</div><div class="calendar-day">17</div><div class="calendar-day">18</div>
+                    
+                    <div class="calendar-day">19</div><div class="calendar-day">20</div><div class="calendar-day">21</div><div class="calendar-day">22</div><div class="calendar-day">23</div>
+                    <div class="calendar-day calendar-day-highlight">26<span class="calendar-day-event">교내수영</span></div>
+                    <div class="calendar-day">27</div>
+                    
+                    <div class="calendar-day">28</div><div class="calendar-day">29</div><div class="calendar-day">30</div>
+                    <div class="calendar-day calendar-day-highlight">31<span class="calendar-day-event">전국대회</span></div>
+                </div>
+                <div class="school-info-side">
+                    <p style="margin: 0 0 5px 0; font-weight: bold; font-size: 0.9em;">교정 풍경</p>
+                    <img src="KakaoTalk_20260704_102926361_01.png" alt="청람고등학교 전경" class="school-img">
+                </div>
+            </div>
+        </div>
+
+        <!-- !쪽지 내용 보관함 -->
+        <div class="card">
+            <div class="section-title">MY MEMO (!쪽지 보관함)</div>
+            <div class="note-container">
+                <div class="note-item">
+                    "야 {{user}}. 너 5교시 내내 졸더라ㅋㅋㅋ 기가 막혀서 원. 이거 매점 새로 나온 젤린데 네 생각 나서 삼. 먹고 잠 깨라. 이따 집 갈 때 우산 없으면 체육관 앞으로 와. 나 우산 장대우산 있음."
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <p>Every moment spent with you is like a blue ocean, fresh and cool.</p>
+</div>
+
+<!-- 오디오 제어 스크립트 -->
+<script>
+    const audio = document.getElementById('bgm');
+    const lpButton = document.getElementById('lpButton');
+    const lpText = document.getElementById('lpText');
+
+    function toggleAudio() {
+        if (audio.paused) {
+            audio.play().then(() => {
+                lpButton.classList.add('playing');
+                lpText.innerText = "BGM STOP";
+            }).catch(error => {
+                alert("브라우저 보안 정책으로 인해 먼저 화면을 클릭한 뒤 재생해 주세요!");
+            });
+        } else {
+            audio.pause();
+            lpButton.classList.remove('playing');
+            lpText.innerText = "BGM PLAY";
+        }
+    }
+</script>
+
+</body>
+</html>
