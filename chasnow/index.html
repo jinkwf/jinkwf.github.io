@@ -2,10 +2,10 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>오령국 ｜ 청해 차씨 가주 차설하</title>
     <style>
-        /* 폰트 및 기본 스타일 설정 */
+        /* 가독성 높은 동양풍 Serif 구글 웹폰트 로드 */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;500;700&display=swap');
         
         * {
@@ -17,14 +17,15 @@
         body, html {
             width: 100%;
             height: 100%;
-            font-family: 'Gungsuh', 'GungsuhChe', 'Noto Serif KR', serif;
-            background-color: #0b1325; /* 깊은 밤하늘색 */
+            font-family: 'Noto Serif KR', 'ChosunGu', 'Batang', serif;
+            background-color: #0b1325;
             color: #e2e8f0;
             overflow-x: hidden;
             scroll-behavior: smooth;
+            word-break: keep-all; /* 모바일에서 단어 단위 줄바꿈으로 가독성 향상 */
         }
 
-        /* 배경 이미지 투명도 조절용 의사 요소 */
+        /* 배경 이미지 투명도 및 최적화 */
         body::before {
             content: "";
             position: fixed;
@@ -35,12 +36,11 @@
             background-image: url('Jin_k_an_epic_majestic_East_Asian_mountain_palace_complex_per_128f8123-3a96-4605-b655-6bd3b83e7571_2.png');
             background-size: cover;
             background-position: center;
-            opacity: 0.25; /* 투명도 낮춤 */
+            opacity: 0.15; /* 가독성을 위해 투명도를 더 낮춰 투명하게 조절 */
             z-index: -2;
             pointer-events: none;
         }
 
-        /* 푸른빛 은은한 그라데이션 오버레이 */
         body::after {
             content: "";
             position: fixed;
@@ -48,13 +48,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(180deg, rgba(11, 19, 37, 0.6) 0%, rgba(27, 38, 59, 0.8) 100%);
+            background: linear-gradient(180deg, rgba(11, 19, 37, 0.7) 0%, rgba(27, 38, 59, 0.85) 100%);
             z-index: -1;
             pointer-events: none;
         }
 
-        /* 눈꽃송이 애니메이션 컨테이너 */
-        #snow-container {
+        /* 눈꽃 및 유리 조각 컨테이너 */
+        #fx-container {
             position: fixed;
             top: 0;
             left: 0;
@@ -64,29 +64,96 @@
             pointer-events: none;
         }
 
-        .snowflake {
+        .particle {
             position: absolute;
-            top: -10px;
-            color: #e0f2fe;
-            font-size: 1em;
-            opacity: 0.8;
+            top: -20px;
+            pointer-events: none;
             animation: fall linear infinite;
+        }
+
+        .snowflake {
+            color: #e0f2fe;
+        }
+
+        .shard {
+            color: #bae6fd;
+            text-shadow: 0 0 8px rgba(224, 242, 254, 0.9);
+            font-weight: bold;
         }
 
         @keyframes fall {
             0% {
-                top: -10px;
+                top: -20px;
                 transform: translateX(0) rotate(0deg);
-                opacity: 0.8;
+                opacity: 0.9;
+            }
+            50% {
+                opacity: 0.6;
             }
             100% {
                 top: 105vh;
-                transform: translateX(80px) rotate(360deg);
-                opacity: 0.2;
+                transform: translateX(60px) rotate(360deg);
+                opacity: 0;
             }
         }
 
-        /* 인트로 세로쓰기 영역 */
+        /* 미니 LP 플레이어 스타일 */
+        #lp-player {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            background: rgba(11, 19, 37, 0.8);
+            padding: 6px 12px;
+            border-radius: 30px;
+            border: 1px solid rgba(135, 206, 235, 0.3);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .lp-disc {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #87ceeb 20%, #1b263b 21%, #0f172a 60%, #020617 100%);
+            border: 2px solid #000;
+            position: relative;
+            box-shadow: inset 0 0 4px rgba(255,255,255,0.4);
+        }
+
+        .lp-disc::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 6px;
+            height: 6px;
+            background-color: #0b1325;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .lp-text {
+            font-size: 0.75rem;
+            color: #87ceeb;
+            margin-left: 8px;
+            letter-spacing: 0.05rem;
+            font-weight: 500;
+        }
+
+        /* 재생 중일 때 회전 애니메이션 */
+        .spinning {
+            animation: spin 3s linear infinite;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 인트로 세로쓰기 영역 (모바일 최적화) */
         .intro-wrapper {
             width: 100%;
             height: 100vh;
@@ -94,209 +161,218 @@
             justify-content: center;
             align-items: center;
             position: relative;
-            border-bottom: 1px solid rgba(135, 206, 235, 0.2);
+            padding: 0 20px;
         }
 
         .intro-text {
             writing-mode: vertical-rl;
             text-orientation: upright;
-            font-size: 2.2rem;
-            letter-spacing: 0.4rem;
-            color: #e0f2fe; /* 깨끗하고 청렴한 하늘색 */
-            text-shadow: 0 0 15px rgba(135, 206, 235, 0.6);
-            line-height: 2.5;
-            text-align: center;
+            font-size: 1.8rem;
+            line-height: 2.2;
+            letter-spacing: 0.5rem;
+            color: #e0f2fe;
+            text-shadow: 0 0 15px rgba(135, 206, 235, 0.5);
             font-weight: 500;
+            text-align: center;
         }
 
         .scroll-hint {
             position: absolute;
             bottom: 40px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #87ceeb;
-            letter-spacing: 0.2rem;
+            letter-spacing: 0.15rem;
             animation: bounce 2s infinite;
         }
 
         @keyframes bounce {
             0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
+            40% { transform: translateY(-8px); }
+            60% { transform: translateY(-4px); }
         }
 
-        /* 메인 콘텐츠 영역 */
+        /* 메인 본문 컨테이너 */
         .main-container {
-            max-width: 900px;
+            max-width: 800px;
             margin: 0 auto;
-            padding: 80px 20px;
+            padding: 40px 20px 80px 20px;
         }
 
-        /* 프로필 섹션 */
+        /* 프로필 카드 최적화 */
         .profile-card {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            margin-bottom: 80px;
-            padding: 40px;
+            margin-bottom: 50px;
+            padding: 30px 20px;
             background: rgba(15, 32, 67, 0.5);
-            border: 1px solid rgba(135, 206, 235, 0.3);
-            border-radius: 4px;
+            border: 1px solid rgba(135, 206, 235, 0.25);
+            border-radius: 6px;
             backdrop-filter: blur(8px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .profile-img {
-            width: 180px;
-            height: 180px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid #87ceeb;
-            box-shadow: 0 0 20px rgba(135, 206, 235, 0.4);
-            margin-bottom: 20px;
+            border: 2px solid #87ceeb;
+            box-shadow: 0 0 15px rgba(135, 206, 235, 0.3);
+            margin-bottom: 18px;
         }
 
         .profile-name {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             color: #e0f2fe;
-            margin-bottom: 8px;
-            letter-spacing: 0.1rem;
+            margin-bottom: 6px;
+            font-weight: 700;
         }
 
         .profile-title {
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: #87ceeb;
-            letter-spacing: 0.2rem;
+            letter-spacing: 0.1rem;
         }
 
-        /* 카테고리 스타일 구조 */
+        /* 카테고리 제목 및 카드 */
         .section-title {
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             color: #87ceeb;
-            margin: 60px 0 25px 0;
-            padding-bottom: 10px;
+            margin: 50px 0 20px 0;
+            padding-bottom: 8px;
             border-bottom: 2px solid #1e3a8a;
-            display: flex;
-            align-items: center;
-            letter-spacing: 0.1rem;
+            font-weight: 700;
+            letter-spacing: 0.05rem;
         }
 
         .section-card {
             background: rgba(11, 19, 37, 0.7);
             border-left: 4px solid #3b82f6;
-            padding: 25px;
-            margin-bottom: 25px;
-            border-radius: 0 4px 4px 0;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 0 6px 6px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
         .section-card h3 {
             color: #e0f2fe;
-            margin-bottom: 15px;
-            font-size: 1.3rem;
+            margin-bottom: 12px;
+            font-size: 1.15rem;
         }
 
         p {
-            line-height: 1.8;
-            margin-bottom: 12px;
+            line-height: 1.9;
+            margin-bottom: 14px;
             color: #cbd5e1;
-            font-size: 1.05rem;
+            font-size: 1rem;
+            font-weight: 300;
+            text-align: justify;
         }
 
-        .highlight-blue {
-            color: #38bdf8;
-            font-weight: bold;
-        }
+        .highlight-blue { color: #38bdf8; font-weight: 500; }
+        .highlight-darkblue { color: #60a5fa; font-weight: 500; }
 
-        .highlight-darkblue {
-            color: #60a5fa;
-        }
-
-        /* 오대가문 상세 격자 배열 */
+        /* 가문 배치 그리드 (모바일 1열 최적화) */
         .clan-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
 
         .clan-box {
-            background: rgba(15, 32, 67, 0.4);
+            background: rgba(15, 32, 67, 0.45);
             border: 1px solid rgba(135, 206, 235, 0.15);
-            padding: 20px;
-            border-radius: 4px;
+            padding: 18px;
+            border-radius: 6px;
         }
 
         .clan-box h4 {
             color: #87ceeb;
-            font-size: 1.2rem;
-            margin-bottom: 10px;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
             border-left: 3px solid #87ceeb;
-            padding-left: 10px;
+            padding-left: 8px;
         }
 
         .clan-detail {
-            font-size: 0.95rem;
-            margin-left: 10px;
+            margin-left: 4px;
             border-left: 1px dashed rgba(255,255,255,0.1);
-            padding-left: 15px;
+            padding-left: 12px;
         }
 
-        /* 테이블 / 역학관계 스타일 */
+        .clan-detail p {
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+        }
+
+        .clan-detail p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* 역학 관계 블록 */
         .relation-block {
-            background: rgba(30, 41, 59, 0.5);
-            padding: 20px;
-            border-radius: 4px;
-            margin-bottom: 15px;
-            border: 1px dashed rgba(135, 206, 235, 0.3);
+            background: rgba(30, 41, 59, 0.55);
+            padding: 18px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            border: 1px dashed rgba(135, 206, 235, 0.25);
         }
 
-        /* 고서풍 인용구 (무구체) */
+        /* 무구체 고서풍 인용구 */
         .ancient-scroll {
-            background: rgba(20, 30, 55, 0.8);
-            border: 2px solid #1e40af;
-            padding: 35px;
-            border-radius: 4px;
-            position: relative;
-            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6);
-        }
-
-        .ancient-scroll::before {
-            content: "«";
-            position: absolute;
-            top: 10px;
-            left: 20px;
-            font-size: 3rem;
-            color: rgba(135, 206, 235, 0.15);
+            background: rgba(20, 30, 55, 0.85);
+            border: 1px solid #1e40af;
+            padding: 25px 20px;
+            border-radius: 6px;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+            margin-top: 15px;
         }
 
         .ancient-title {
             text-align: center;
-            font-size: 1.3rem;
+            font-size: 1.15rem;
             color: #87ceeb;
-            margin-bottom: 25px;
-            letter-spacing: 0.2rem;
+            margin-bottom: 20px;
+            letter-spacing: 0.1rem;
+            font-weight: 700;
         }
 
         .ancient-body {
-            font-family: 'Noto Serif KR', serif;
             font-size: 0.95rem;
             line-height: 2;
             color: #94a3b8;
             text-align: justify;
         }
 
-        /* 반응형 모바일 대응 */
-        @media (max-width: 768px) {
-            .intro-text { font-size: 1.6rem; }
-            .section-title { font-size: 1.4rem; }
-            .profile-card { padding: 20px; }
+        /* 모바일 디바이스 초정밀 최적화 레이아웃 변형 */
+        @media (max-width: 480px) {
+            .intro-text {
+                font-size: 1.5rem;
+                line-height: 2;
+                letter-spacing: 0.35rem;
+            }
+            .section-title { font-size: 1.25rem; }
+            .profile-card { padding: 20px 15px; }
+            .profile-img { width: 125px; height: 125px; }
+            p, .ancient-body { font-size: 0.95rem; line-height: 1.8; }
+            .section-card, .clan-box, .relation-block { padding: 15px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 눈송이 이펙트가 노출되는 컨테이너 -->
-    <div id="snow-container"></div>
+    <!-- 오디오 엘리먼트 (지정된 파일명 매칭) -->
+    <audio id="bgm" src="snow.mp3" loop></audio>
+
+    <!-- 시각 효과 컨테이너 (눈꽃 + 유리조각) -->
+    <div id="fx-container"></div>
+
+    <!-- 미니 LP 레코드 플레이어 인터페이스 -->
+    <div id="lp-player" onclick="toggleBGM()">
+        <div id="lp-disc" class="lp-disc"></div>
+        <div id="lp-text" class="lp-text">BGM OFF</div>
+    </div>
 
     <!-- 인트로 세로쓰기 영역 -->
     <div class="intro-wrapper">
@@ -309,9 +385,9 @@
     <!-- 메인 콘텐츠 영역 -->
     <div class="main-container">
         
-        <!-- 설하 프로필 카드 -->
+        <!-- 지정된 긴 파일명을 오타 없이 삽입한 프로필 카드 -->
         <div class="profile-card">
-            <img class="profile-img" src="realistic, photorealistic, 3d, incredibly absurdres, highly detailed, depth of f s-116744706 (7).png" alt="차설하 프로필 이미지">
+            <img class="profile-img" src="realistic, photorealistic, 3d, incredibly absurdres, highly detailed, depth of f s-116744706 (7).png" alt="차설하 프로필">
             <div class="profile-name">차 설 하 (車雪夏)</div>
             <div class="profile-title">청해 차씨 가주 ｜ 물의 혈통</div>
         </div>
@@ -332,18 +408,15 @@
         <!-- 2. 오대가문 -->
         <div class="section-title">2. 오대 가문 (五大家門)</div>
         <div class="clan-grid">
-            
-            <!-- 차가문 -->
             <div class="clan-box" style="border-color: #38bdf8;">
                 <h4>차 가 문 ｜ 물의 혈통, 명예로운 무가</h4>
                 <div class="clan-detail">
                     <p><strong>권능 [제수]:</strong> 물 흐름 지배, 상처 정화 등 파괴적인 광역 무력의 정점.</p>
-                    <p><strong>저주 [심상투영]:</strong> 한독 누적. 가주의 감정 상태가 주변 수기에 투영된다 (당황 시 서리꽃, 분노 시 물이 끓어오름).</p>
+                    <p><strong>저주 [심상투영]:</strong> 한독 누적. 가주의 감정 상태가 주변 수기에 투영된다 (당황 시 서리, 분노 시 물 끓음).</p>
                     <p style="margin-bottom:0;"><strong>신념 [순백지심]:</strong> 가식과 음모를 혐오하며, 올곧고 투명한 삶을 지향한다.</p>
                 </div>
             </div>
 
-            <!-- 표가문 -->
             <div class="clan-box">
                 <h4>표 가 문 ｜ 금속의 혈통, 무구 장인의 가문</h4>
                 <div class="clan-detail">
@@ -353,7 +426,6 @@
                 </div>
             </div>
 
-            <!-- 해가문 -->
             <div class="clan-box">
                 <h4>해 가 문 ｜ 화염의 혈통, 충성심 높은 무가</h4>
                 <div class="clan-detail">
@@ -363,17 +435,15 @@
                 </div>
             </div>
 
-            <!-- 윤가문 -->
             <div class="clan-box">
                 <h4>윤 가 문 ｜ 생명의 혈통, 치료사 가문</h4>
                 <div class="clan-detail">
                     <p><strong>권능 [생목]:</strong> 식물 성장 및 땅의 생명력 지배. 거대한 가시 덩굴로 적을 궤멸.</p>
                     <p><strong>저주 [기생]:</strong> 힘을 쓸 때마다 식물의 영혼이 육체를 잠식하며, 사망 시 고목으로 변함.</p>
-                    <p style="margin-bottom:0;"><strong>신념 [여민동락]:</strong> 저주를 순리로 받아되는 자비롭고 다정한 성정.</p>
+                    <p style="margin-bottom:0;"><strong>신념 [여민동락]:</strong> 저주를 순리로 받아들이는 자비롭고 다정한 성정.</p>
                 </div>
             </div>
 
-            <!-- 수가문 -->
             <div class="clan-box">
                 <h4>수 가 문 ｜ 그림자의 혈통, 뒷세계의 그림자 가문</h4>
                 <div class="clan-detail">
@@ -387,15 +457,15 @@
         <!-- 3. 상생상극 역학 관계 -->
         <div class="section-title">3. 상생상극 역학 관계 (相生相剋)</div>
         <div class="relation-block">
-            <h3 style="color: #67e8f9; margin-bottom: 10px;">🔄 상생의 고리 (저주 완화 순환)</h3>
-            <p style="font-size: 1rem; color: #e2e8f0;"><strong>차가문 ➔ 윤가문 ➔ 해가문 ➔ 수가문 ➔ 표가문 ➔ 차가문</strong></p>
-            <p style="font-size: 0.95rem; color: #94a3b8; margin-bottom: 0;">앞 가문이 뒤 가문의 저주를 보완하며, 이 흐름대로 정략결혼 시 가주들의 수명이 연장된다.<br>
+            <h3 style="color: #67e8f9; margin-bottom: 8px;">🔄 상생의 고리 (저주 완화 순환)</h3>
+            <p style="color: #e2e8f0; font-weight:500;">차가문 ➔ 윤가문 ➔ 해가문 ➔ 수가문 ➔ 표가문 ➔ 차가문</p>
+            <p style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 0;">앞 가문이 뒤 가문의 저주를 보완하며, 이 흐름대로 정략결혼 시 가주들의 수명이 연장된다.<br>
             (물은 식물화 정화 ➔ 나무는 화상 재생 ➔ 불은 허상 고정 ➔ 그림자는 철혈 완화 ➔ 쇠는 한독 파쇄)</p>
         </div>
         <div class="relation-block" style="border-color: #f87171;">
-            <h3 style="color: #f87171; margin-bottom: 10px;">⚡ 상극의 사선 (파멸과 금기)</h3>
-            <p style="font-size: 0.95rem; color: #fca5a5; font-weight: bold;">차가문 ⚡ 해가문 : 절대 혼인 금기 (물과 불의 충돌로 폭주 및 사산율 최고)</p>
-            <p style="font-size: 0.95rem; color: #94a3b8; margin-bottom: 0;">불(해)은 쇠(표)를 녹임 ➔ 쇠(표)는 나무(윤)를 베어냄 ➔ 나무(윤)는 그림자(수)를 뿌리로 포박 ➔ 그림자(수)는 물(차)의 심상을 흔들어 수기를 오염시킴.</p>
+            <h3 style="color: #f87171; margin-bottom: 8px;">⚡ 상극의 사선 (파멸과 금기)</h3>
+            <p style="font-size: 0.95rem; color: #fca5a5; font-weight: 500;">차가문 ⚡ 해가문 : 절대 혼인 금기 (물과 불의 충돌로 폭주 및 사산율 최고)</p>
+            <p style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 0;">불(해)은 쇠(표)를 녹임 ➔ 쇠(표)는 나무(윤)를 베어냄 ➔ 나무(윤)는 그림자(수)를 뿌리로 포박 ➔ 그림자(수)는 물(차)의 심상을 흔들어 수기를 오염시킴.</p>
         </div>
 
         <!-- 4. 무구체 -->
@@ -407,41 +477,91 @@
                 세간의 기록에 이르기를, 천년 결계의 마모로 인해 음기(陰氣)의 저주를 온몸으로 받아내는 자—오직 가주들만이 이 체질을 알아볼 수 있다 전한다. 가주를 갉아먹는 독(毒)은 세상 그 어떤 영약으로도 다스릴 수 없으나, 오직 무구체의 살결이 단 한 치라도 맞닿는 순간, 뼈마디를 조이던 오한이 눈 녹듯 사라지며 가주는 난생처음 인간의 온전한 평온을 얻으리라.<br><br>
                 그러나 이는 영원한 완치가 아닌, 흐르는 물을 잠시 가두는 처방에 불과하다. 
                 가주가 권능을 휘둘러 위상을 떨칠 때마다, 천명(天命)의 저주는 다시금 그의 신방을 피로 채우고 골수를 얼릴 것이니라.<br><br>
-                고로 무구체는 가주에게 평생을 곁에 두고 갈구해야 할 단 하나의 처절한 명줄이요, 저주을 이기기 위해 제 품에 평생 가둘 수밖에 없는 잔혹한 구원의 쇠사슬이라 기록되어 있다. 」
+                고로 무구체는 가주에게 평생을 곁에 두고 갈구해야 할 단 하나의 처절한 명줄이요, 저주를 이기기 위해 제 품에 평생 가둘 수밖에 없는 잔혹한 구원의 쇠사슬이라 기록되어 있다. 」
             </div>
         </div>
 
     </div>
 
-    <!-- 눈꽃송이 생성 자바스크립트 -->
+    <!-- 스크립트 기능 처리 -->
     <script>
-        const snowContainer = document.getElementById('snow-container');
-        const snowflakesCount = 45; // 화면에 표시될 눈꽃 개수
+        const bgm = document.getElementById('bgm');
+        const lpDisc = document.getElementById('lp-disc');
+        const lpText = document.getElementById('lp-text');
+        const fxContainer = document.getElementById('fx-container');
+        
+        // 파티클 세팅 (눈송이 + 유리조각)
+        const particleCharacters = ['❄', '✦', '✧']; 
+        const maxParticles = 40;
 
-        function createSnowflake() {
-            const snowflake = document.createElement('div');
-            snowflake.classList.add('snowflake');
-            snowflake.textContent = '❄';
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
             
-            // 랜덤 위치 및 스타일 지정
-            snowflake.style.left = Math.random() * 100 + 'vw';
-            snowflake.style.animationDuration = Math.random() * 4 + 4 + 's'; // 4s ~ 8s
-            snowflake.style.opacity = Math.random() * 0.6 + 0.4;
-            snowflake.style.fontSize = Math.random() * 0.7 + 0.6 + 'em';
+            // 타입 결정 (눈송이 또는 유리조각)
+            const randomChar = particleCharacters[Math.floor(Math.random() * particleCharacters.length)];
+            particle.textContent = randomChar;
             
-            snowContainer.appendChild(snowflake);
+            if (randomChar === '❄') {
+                particle.classList.add('snowflake');
+            } else {
+                particle.classList.add('shard');
+            }
+            
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.animationDuration = Math.random() * 4 + 4 + 's';
+            particle.style.opacity = Math.random() * 0.7 + 0.3;
+            particle.style.fontSize = Math.random() * 0.8 + 0.5 + 'em';
+            
+            fxContainer.appendChild(particle);
 
-            // 애니메이션이 끝나면 제거 후 재생성
             setTimeout(() => {
-                snowflake.remove();
-                createSnowflake();
+                particle.remove();
+                createParticle();
             }, 8000);
         }
 
-        // 초기 눈송이 생성
-        for (let i = 0; i < snowflakesCount; i++) {
-            setTimeout(createSnowflake, Math.random() * 5000);
+        // 초기 이펙트 로드
+        for (let i = 0; i < maxParticles; i++) {
+            setTimeout(createParticle, Math.random() * 5000);
         }
+
+        // BGM 컨트롤 시스템
+        function playAudio() {
+            bgm.play().then(() => {
+                lpDisc.classList.add('spinning');
+                lpText.textContent = "BGM ON";
+            }).catch(err => {
+                console.log("Autoplay blocked. Awaiting user interaction.");
+            });
+        }
+
+        function toggleBGM() {
+            if (bgm.paused) {
+                bgm.play();
+                lpDisc.classList.add('spinning');
+                lpText.textContent = "BGM ON";
+            } else {
+                bgm.pause();
+                lpDisc.classList.remove('spinning');
+                lpText.textContent = "BGM OFF";
+            }
+        }
+
+        // 페이지 진입 및 터치/클릭 즉시 자동 재생 연동
+        window.addEventListener('DOMContentLoaded', playAudio);
+        window.addEventListener('click', function firstPlay() {
+            if(bgm.paused && lpText.textContent === "BGM OFF") {
+                playAudio();
+            }
+            window.removeEventListener('click', firstPlay);
+        });
+        window.addEventListener('touchstart', function firstTouch() {
+            if(bgm.paused && lpText.textContent === "BGM OFF") {
+                playAudio();
+            }
+            window.removeEventListener('touchstart', firstTouch);
+        });
     </script>
 </body>
 </html>
