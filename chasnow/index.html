@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>오령국 ｜ 청해 차씨 가주 차설하</title>
     <style>
-        /* 모바일 가독성을 최대로 높인 고급 동양풍 Serif 웹폰트 */
+        /* 가독성을 극대화한 동양풍 프리미엄 Serif 웹폰트 */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;800&display=swap');
         
         * {
@@ -25,7 +25,7 @@
             word-break: keep-all; 
         }
 
-        /* [경로 수정] 한 칸 위 상위 폴더(../)에 있는 배경 이미지 정확히 로드 */
+        /* [경로 수정] chasnow 폴더 바깥에 있는 원본 배경 이미지 명 명확히 로드 */
         #bg-layer {
             position: fixed;
             top: 0;
@@ -35,12 +35,12 @@
             background-image: url("../Jin_k_an_epic_majestic_East_Asian_mountain_palace_complex_per_128f8123-3a96-4605-b655-6bd3b83e7571_2.png");
             background-size: cover;
             background-position: center;
-            opacity: 0.5; /* 배경이 시각적으로 확실히 드러나도록 투명도 최적화 */
+            opacity: 0.5; /* 배경 이미지가 모바일/PC에서 선명하게 보이도록 조정 */
             z-index: -2;
             pointer-events: none;
         }
 
-        /* 텍스트 가독성을 안전하게 확보해주는 블루 블랙 안개 그라데이션 */
+        /* 텍스트 시인성을 지켜주는 블루 블랙 안개 그라데이션 */
         #bg-overlay {
             position: fixed;
             top: 0;
@@ -322,20 +322,17 @@
 </head>
 <body>
 
-    <!-- [경로 수정] 한 칸 위 폴더에 있는 snow.mp3를 정확하게 호출 및 자동재생 대기 -->
     <audio id="bgm" src="../snow.mp3" loop preload="auto"></audio>
 
     <div id="bg-layer"></div>
     <div id="bg-overlay"></div>
     <div id="fx-container"></div>
 
-    <!-- LP 플레이어 컨트롤러 -->
     <div id="lp-player" onclick="toggleBGM()">
         <div id="lp-disc" class="lp-disc"></div>
         <div id="lp-text" class="lp-text">BGM OFF</div>
     </div>
 
-    <!-- 대문 영역 -->
     <div class="intro-wrapper">
         <div class="intro-text">
             거짓없는 맑은 마음이,<br>가장 단단한 무기다.
@@ -345,14 +342,12 @@
 
     <div class="main-container">
         
-        <!-- [경로 수정] 한 칸 위 폴더(../)로 이동해 원래의 긴 파일명을 공백 인코딩 처리하여 완전 매칭 -->
         <div class="profile-card">
             <img class="profile-img" src="../realistic,%20photorealistic,%203d,%20incredibly%20absurdres,%20highly%20detailed,%20depth%20of%20f%20s-116744706%20(7).png" alt="차설하 프로필">
             <div class="profile-name">차 설 하 (車雪夏)</div>
             <div class="profile-title">청해 차씨 가주 ｜ 물의 혈통</div>
         </div>
 
-        <!-- 1. 천제가문 -->
         <div class="section-title">1. 천제 가문 (天帝家門)</div>
         <div class="section-card">
             <p>하늘의 뜻을 받드는 절대 수장인 <span class="highlight-blue">'천제(天帝)'</span>를 중심으로, 나라의 동서남북과 중앙을 수호하는 다섯 명문 가문이 지탱하고 있다.</p>
@@ -365,7 +360,6 @@
             <p style="margin-bottom: 0; color: #f87171; font-weight: 600;">➔ 최근, 검은 불순물들이 섞여 지급되는 것 같다. 약효가 급감하고 있으며 복용 시 몸에 흑선이 돋아나는 증상이 발현된다.</p>
         </div>
 
-        <!-- 2. 오대가문 -->
         <div class="section-title">2. 오대 가문 (五大家門)</div>
         <div class="clan-grid">
             <div class="clan-box" style="border-color: #38bdf8;">
@@ -414,7 +408,6 @@
             </div>
         </div>
 
-        <!-- 3. 상생상극 역학 관계 -->
         <div class="section-title">3. 상생상극 역학 관계 (相生相剋)</div>
         <div class="relation-block">
             <h3 style="color: #67e8f9; margin-bottom: 8px;">🔄 상생의 고리 (저주 완화 순환)</h3>
@@ -428,7 +421,6 @@
             <p style="font-size: 0.95rem; color: #94a3b8; margin-bottom: 0;">불(해)은 쇠(표)를 녹임 ➔ 쇠(표)는 나무(윤)를 베어냄 ➔ 나무(윤)는 그림자(수)를 뿌리로 포박 ➔ 그림자(수)는 물(차)의 심상을 흔들어 수기를 오염시킴.</p>
         </div>
 
-        <!-- 4. 무구체 -->
         <div class="section-title">4. 무구체 (無垢體)</div>
         <div class="ancient-scroll">
             <div class="ancient-title">《오령비사(五靈秘史) ｜ 기이편(奇異篇) 제칠장》</div>
@@ -443,7 +435,6 @@
 
     </div>
 
-    <!-- 브라우저 보안 우회 강제 구동 스크립트 -->
     <script>
         const bgm = document.getElementById('bgm');
         const lpDisc = document.getElementById('lp-disc');
@@ -478,16 +469,17 @@
             setTimeout(createParticle, Math.random() * 5000);
         }
 
-        // 브라우저 락(Lock)을 관통하는 동기식 음악 재생 엔진
+        // [브라우저 락 브레이커] 사용자가 화면에 주는 첫 상호작용 신호를 포착해 동기적으로 재생시키는 함수
         const forceAudioPlay = () => {
             bgm.play().then(() => {
                 lpDisc.classList.add('spinning');
                 lpText.textContent = "BGM ON";
+                // 정상 작동 시 전역 이벤트 즉시 해제해 리소스 보호
                 ['click', 'touchstart', 'scroll', 'keydown', 'mousemove'].forEach(event => {
                     document.removeEventListener(event, forceAudioPlay);
                 });
             }).catch(err => {
-                console.log("Audio unlock interaction pending...");
+                console.log("Awaiting core user interaction...");
             });
         };
 
@@ -496,6 +488,7 @@
                 lpDisc.classList.add('spinning');
                 lpText.textContent = "BGM ON";
             }).catch(() => {
+                // 브라우저 차단망이 발동되면 화면 어디를 터치/클릭/스크롤하든 찰나에 바로 재생 잠금 해제
                 ['click', 'touchstart', 'scroll', 'keydown', 'mousemove'].forEach(event => {
                     document.addEventListener(event, forceAudioPlay, { passive: true });
                 });
