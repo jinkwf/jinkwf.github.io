@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>아렌 · 潮流</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Pretendard:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --abyss: #041525;
+      --deep: #09345a;
+      --ocean: #126a9c;
+      --tide: #7ed8ff;
+      --foam: #f4fcff;
+      --paper: #f4faff;
+      --ink: #15334f;
+      --ink-soft: rgba(21, 51, 79, 0.68);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Pretendard", sans-serif;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    section {
+      padding: 84px 20px;
+    }
+
+    .serif {
+      font-family: "Gowun Batang", serif;
+    }
+
+    .container {
+      width: min(100%, 1000px);
+      margin: 0 auto;
+    }
+
+    .container.narrow {
+      max-width: 660px;
+    }
+
+    .section-head {
+      margin-bottom: 48px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      margin-bottom: 16px;
+      color: var(--tide);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+
+    .section-head h2 {
+      color: var(--ink);
+      font-family: "Gowun Batang", serif;
+      font-size: 30px;
+    }
+
+    .section-head p {
+      margin-top: 12px;
+      color: var(--ink-soft);
+      font-size: 13.5px;
+      line-height: 1.8;
+    }
+
+    /* 메인 */
+
+    .hero {
+      min-height: 100vh;
+      padding: 88px 20px 110px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background:
+        radial-gradient(
+          ellipse at 50% 0%,
+          rgba(126, 216, 255, 0.18),
+          transparent 60%
+        ),
+        linear-gradient(
+          180deg,
+          var(--abyss),
+          var(--deep) 70%,
+          var(--ocean)
+        );
+      color: var(--foam);
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-family: "Gowun Batang", serif;
+      font-size: clamp(54px, 12vw, 84px);
+      line-height: 1;
+    }
+
+    .hero > p {
+      margin-top: 8px;
+    }
+
+    .portrait-frame {
+      width: min(88vw, 420px);
+      margin-top: 40px;
+    }
+
+    .hero .img-slot {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 210px 210px 28px 28px;
+    }
+
+    .hero .img-slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    /* 구분선 */
+
+    .wave-divider {
+      height: 72px;
+      overflow: hidden;
+      background: var(--ocean);
+      line-height: 0;
+    }
+
+    .wave-divider svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* 세계관 */
+
+    .world {
+      background:
+        linear-gradient(
+          180deg,
+          var(--ocean),
+          var(--deep) 60%,
+          var(--abyss)
+        );
+      color: var(--foam);
+    }
+
+    .world .section-head h2 {
+      color: var(--foam);
+    }
+
+    .world .section-head p {
+      color: rgba(251, 248, 255, 0.82);
+    }
+
+    .world-grid {
+      display: grid;
+      gap: 24px;
+    }
+
+    .world-grid + .world-grid {
+      margin-top: 28px;
+    }
+
+    .world-block h3 {
+      margin-bottom: 10px;
+      color: var(--tide);
+      font-size: 14px;
+    }
+
+    .world-block ul {
+      list-style: none;
+    }
+
+    .world-block li {
+      position: relative;
+      padding-left: 16px;
+      color: rgba(251, 248, 255, 0.82);
+      font-size: 13.5px;
+      line-height: 1.9;
+    }
+
+    .world-block li::before {
+      position: absolute;
+      left: 0;
+      content: "—";
+      color: var(--tide);
+    }
+
+    /* 프로필 */
+
+    .brothers {
+      background:
+        linear-gradient(
+          180deg,
+          #eaf7ff,
+          var(--paper)
+        );
+    }
+
+    .profile-grid {
+      display: grid;
+      max-width: 720px;
+      margin: 0 auto;
+      gap: 24px;
+    }
+
+    .profile-card {
+      padding: 28px;
+      border: 1px solid rgba(126, 216, 255, 0.32);
+      border-radius: 22px;
+      background: #ffffff;
+      color: var(--ink);
+      box-shadow: 0 22px 50px -34px rgba(7, 48, 80, 0.4);
+    }
+
+    .profile-top {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 18px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(126, 216, 255, 0.24);
+    }
+
+    .profile-kicker {
+      color: var(--ocean);
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .profile-card h3 {
+      margin-top: 6px;
+      color: var(--ink);
+      font-family: "Gowun Batang", serif;
+      font-size: 26px;
+    }
+
+    .profile-index {
+      color: rgba(18, 106, 156, 0.24);
+      font-family: "Gowun Batang", serif;
+      font-size: 34px;
+    }
+
+    .profile-image {
+      width: 100%;
+      margin-bottom: 22px;
+      overflow: hidden;
+      border-radius: 16px;
+      line-height: 0;
+    }
+
+    .profile-image img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .profile-list {
+      display: grid;
+      grid-template-columns: 112px 1fr;
+      row-gap: 12px;
+      font-size: 15px;
+    }
+
+    .profile-list dt {
+      color: #5d7589;
+      font-weight: 500;
+    }
+
+    .profile-list dd {
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    /* 가족 */
+
+    .cast {
+      padding-top: 20px;
+      padding-bottom: 56px;
+      background: #111111;
+      color: var(--foam);
+    }
+
+    .cast .section-head h2 {
+      color: var(--foam);
+    }
+
+    .cast-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      max-width: 1080px;
+      margin: 0 auto;
+      gap: 28px;
+    }
+
+    .cast-card {
+      text-align: center;
+    }
+
+    .cast-card .img-slot {
+      width: 100%;
+      overflow: hidden;
+      border-radius: 16px;
+      line-height: 0;
+    }
+
+    .cast-card .img-slot img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .cast-card .role {
+      margin-top: 16px;
+      color: var(--tide);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .cast-card h3 {
+      margin: 8px 0 10px;
+      color: var(--foam);
+      font-family: "Gowun Batang", serif;
+      font-size: 19px;
+    }
+
+    .cast-card p {
+      color: rgba(251, 248, 255, 0.72);
+      font-size: 12.5px;
+      line-height: 1.8;
+    }
+
+    .meet-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 16px;
+      padding: 10px 20px;
+      border: 1px solid rgba(126, 216, 255, 0.45);
+      border-radius: 999px;
+      background: rgba(126, 216, 255, 0.12);
+      color: var(--foam);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-decoration: none;
+      transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .meet-btn:hover {
+      background: var(--tide);
+      color: var(--abyss);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(126, 216, 255, 0.35);
+    }
+
+    /* 인트로 */
+
+    .intros {
+      background: var(--paper);
+    }
+
+    .intro-list {
+      display: grid;
+      gap: 16px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .intro-card {
+      overflow: hidden;
+      border: 1px solid rgba(126, 216, 255, 0.34);
+      border-radius: 18px;
+      background: #ffffff;
+      box-shadow: 0 18px 44px -34px rgba(7, 48, 80, 0.38);
+    }
+
+    .intro-card summary {
+      position: relative;
+      padding: 21px 56px 21px 24px;
+      color: var(--ink);
+      font-family: "Gowun Batang", serif;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.5;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .intro-card summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .intro-card summary::after {
+      position: absolute;
+      top: 50%;
+      right: 24px;
+      width: 9px;
+      height: 9px;
+      border-right: 2px solid rgba(18, 106, 156, 0.62);
+      border-bottom: 2px solid rgba(18, 106, 156, 0.62);
+      content: "";
+      transform: translateY(-65%) rotate(45deg);
+      transition: transform 0.22s ease;
+    }
+
+    .intro-card[open] summary::after {
+      transform: translateY(-25%) rotate(225deg);
+    }
+
+    .intro-card[open] summary {
+      border-bottom: 1px solid rgba(126, 216, 255, 0.24);
+    }
+
+    .intro-content {
+      padding: 24px;
+    }
+
+    .prop-card {
+      position: relative;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 28px;
+      border-radius: 14px;
+      background: #f4faff;
+      color: var(--ink);
+    }
+
+    .prop-label {
+      margin-bottom: 18px;
+      color: var(--ocean);
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .prop-title {
+      margin-bottom: 18px;
+      font-family: "Gowun Batang", serif;
+      font-size: 23px;
+      line-height: 1.45;
+    }
+
+    .prop-note,
+    .prop-info,
+    .prop-list {
+      color: #35546d;
+      font-size: 13px;
+      line-height: 1.9;
+    }
+
+    .prop-list {
+      display: grid;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .prop-list li::before {
+      margin-right: 9px;
+      content: "□";
+      color: var(--ocean);
+    }
+
+    .prop-divider {
+      height: 1px;
+      margin: 20px 0;
+      background: rgba(126, 216, 255, 0.28);
+    }
+
+    .prop-row {
+      display: grid;
+      grid-template-columns: 104px 1fr;
+      gap: 12px;
+      padding: 7px 0;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .prop-row dt {
+      color: #61798d;
+      font-weight: 500;
+    }
+
+    .prop-row dd {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .shopping-note {
+      background:
+        linear-gradient(rgba(18, 106, 156, 0.06) 1px, transparent 1px),
+        #fffdf8;
+      background-size: 100% 30px;
+      border: 1px solid rgba(153, 124, 76, 0.22);
+      transform: rotate(-0.35deg);
+    }
+
+    .hotel-confirmation {
+      border: 1px solid rgba(126, 216, 255, 0.38);
+      background:
+        radial-gradient(circle at top right, rgba(126, 216, 255, 0.18), transparent 34%),
+        #ffffff;
+    }
+
+    .recruit-poster {
+      border: 1px solid rgba(7, 48, 80, 0.14);
+      background: #ffffff;
+    }
+
+
+    /* 심해 기포 이펙트 */
+
+    .hero,
+    .world {
+      position: relative;
+      isolation: isolate;
+    }
+
+    .hero > *,
+    .world > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero::before,
+    .world::before {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      content: "";
+      opacity: 0.68;
+      background-image:
+        radial-gradient(circle, rgba(220, 247, 255, 0.78) 0 1px, rgba(126, 216, 255, 0.26) 2px, transparent 4px),
+        radial-gradient(circle, rgba(255, 255, 255, 0.62) 0 2px, rgba(126, 216, 255, 0.20) 3px, transparent 6px),
+        radial-gradient(circle, rgba(188, 235, 255, 0.58) 0 1px, rgba(126, 216, 255, 0.16) 2px, transparent 5px),
+        radial-gradient(circle, rgba(245, 253, 255, 0.54) 0 3px, rgba(126, 216, 255, 0.14) 4px, transparent 8px);
+      background-size:
+        92px 150px,
+        158px 220px,
+        126px 186px,
+        236px 310px;
+      background-position:
+        12px 110px,
+        68px 190px,
+        34px 260px,
+        118px 340px;
+      animation: deepBubbleRise 18s linear infinite;
+    }
+
+    .hero::after,
+    .world::after {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      content: "";
+      background:
+        radial-gradient(circle at 20% 78%, rgba(89, 196, 255, 0.13), transparent 18%),
+        radial-gradient(circle at 76% 30%, rgba(126, 216, 255, 0.10), transparent 20%),
+        radial-gradient(circle at 52% 88%, rgba(182, 235, 255, 0.08), transparent 24%);
+      animation: deepWaterGlow 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes deepBubbleRise {
+      0% {
+        background-position:
+          12px 120%,
+          68px 135%,
+          34px 150%,
+          118px 165%;
+        transform: scale(0.92);
+        opacity: 0;
+      }
+
+      12% {
+        opacity: 0.62;
+      }
+
+      70% {
+        opacity: 0.72;
+      }
+
+      100% {
+        background-position:
+          42px -30%,
+          28px -45%,
+          82px -60%,
+          74px -75%;
+        transform: scale(1.12);
+        opacity: 0;
+      }
+    }
+
+    @keyframes deepWaterGlow {
+      from {
+        opacity: 0.46;
+        transform: scale(1);
+      }
+
+      to {
+        opacity: 0.82;
+        transform: scale(1.06);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero::before,
+      .hero::after,
+      .world::before,
+      .world::after {
+        animation: none;
+      }
+    }
+
+
+    /* 수면광 · 인터랙션 · 글래스모피즘 */
+
+    :root {
+      --pointer-x: 50%;
+      --pointer-y: 28%;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    .hero {
+      background:
+        radial-gradient(
+          ellipse at var(--pointer-x) var(--pointer-y),
+          rgba(137, 222, 255, 0.18),
+          transparent 32%
+        ),
+        radial-gradient(
+          ellipse at 50% -8%,
+          rgba(191, 239, 255, 0.22),
+          transparent 54%
+        ),
+        linear-gradient(
+          180deg,
+          var(--abyss),
+          var(--deep) 70%,
+          var(--ocean)
+        );
+    }
+
+    .hero .surface-light {
+      position: absolute;
+      top: -14%;
+      left: -12%;
+      z-index: 1;
+      width: 124%;
+      height: 46%;
+      pointer-events: none;
+      opacity: 0.62;
+      filter: blur(9px);
+      mix-blend-mode: screen;
+      background:
+        repeating-radial-gradient(
+          ellipse at 50% 0%,
+          rgba(213, 247, 255, 0.24) 0 2px,
+          rgba(113, 211, 255, 0.08) 4px 9px,
+          transparent 12px 28px
+        );
+      transform-origin: center top;
+      animation: surfaceCaustics 9s ease-in-out infinite alternate;
+    }
+
+    .hero .pointer-ripple {
+      position: absolute;
+      left: var(--pointer-x);
+      top: var(--pointer-y);
+      z-index: 1;
+      width: 260px;
+      height: 260px;
+      pointer-events: none;
+      border: 1px solid rgba(176, 232, 255, 0.14);
+      border-radius: 50%;
+      opacity: 0.54;
+      box-shadow:
+        0 0 32px rgba(103, 207, 255, 0.12),
+        inset 0 0 24px rgba(213, 247, 255, 0.08);
+      transform: translate(-50%, -50%) scale(0.72);
+      transition:
+        left 0.16s ease-out,
+        top 0.16s ease-out;
+      animation: pointerRipple 4.8s ease-in-out infinite;
+    }
+
+    .profile-card,
+    .intro-card,
+    .prop-card {
+      border-color: rgba(162, 225, 255, 0.30);
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.82),
+          rgba(231, 247, 255, 0.66)
+        );
+      box-shadow:
+        0 22px 54px -34px rgba(4, 37, 67, 0.46),
+        inset 0 1px 0 rgba(255, 255, 255, 0.76);
+      backdrop-filter: blur(16px) saturate(125%);
+      -webkit-backdrop-filter: blur(16px) saturate(125%);
+    }
+
+    .profile-card,
+    .intro-card,
+    .cast-card,
+    .world-block,
+    .section-head {
+      opacity: 0;
+      transform: translateY(28px) scale(0.985);
+      transition:
+        opacity 0.85s ease,
+        transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+
+    .reveal-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .profile-card:hover,
+    .intro-card:hover {
+      transform: translateY(-4px);
+      box-shadow:
+        0 28px 62px -34px rgba(4, 37, 67, 0.55),
+        inset 0 1px 0 rgba(255, 255, 255, 0.82);
+    }
+
+    .profile-image img,
+    .cast-card .img-slot img,
+    .hero .img-slot img {
+      transition:
+        transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.7s ease;
+    }
+
+    .profile-card:hover .profile-image img,
+    .cast-card:hover .img-slot img {
+      transform: scale(1.025);
+      filter: brightness(1.035) saturate(1.04);
+    }
+
+    @keyframes surfaceCaustics {
+      0% {
+        transform: translate3d(-2%, 0, 0) scaleX(1.02) rotate(-1deg);
+        opacity: 0.42;
+      }
+
+      50% {
+        transform: translate3d(2%, 4%, 0) scaleX(1.08) rotate(1deg);
+        opacity: 0.70;
+      }
+
+      100% {
+        transform: translate3d(-1%, 7%, 0) scaleX(0.98) rotate(-0.4deg);
+        opacity: 0.54;
+      }
+    }
+
+    @keyframes pointerRipple {
+      0%,
+      100% {
+        transform: translate(-50%, -50%) scale(0.70);
+        opacity: 0.24;
+      }
+
+      50% {
+        transform: translate(-50%, -50%) scale(1.05);
+        opacity: 0.56;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero .pointer-ripple {
+        display: none;
+      }
+
+      .hero .surface-light {
+        opacity: 0.42;
+      }
+
+      .profile-card,
+      .intro-card,
+      .prop-card {
+        backdrop-filter: blur(10px) saturate(115%);
+        -webkit-backdrop-filter: blur(10px) saturate(115%);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero .surface-light,
+      .hero .pointer-ripple {
+        animation: none;
+      }
+
+      .profile-card,
+      .intro-card,
+      .cast-card,
+      .world-block,
+      .section-head {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+
+    /* 모바일 */
+
+    @media (max-width: 640px) {
+      section {
+        padding: 68px 16px;
+      }
+
+      .portrait-frame {
+        width: min(90vw, 360px);
+      }
+
+      .cast-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .intro-card summary {
+        padding: 18px 50px 18px 20px;
+        font-size: 15px;
+      }
+
+      .intro-content,
+      .prop-card {
+        padding: 20px;
+      }
+
+      .prop-row {
+        grid-template-columns: 88px 1fr;
+      }
+
+      .profile-card {
+        padding: 22px;
+      }
+
+      .profile-list {
+        grid-template-columns: 96px 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="hero">
+    <div class="surface-light" aria-hidden="true"></div>
+    <div class="pointer-ripple" aria-hidden="true"></div>
+    <div class="eyebrow">Half-Merfolk</div>
+
+    <h1 class="serif">ARÉN</h1>
+
+    <p>인간과 인어 사이에서 태어난 혼혈 인어.</p>
+
+    <div class="portrait-frame">
+      <div class="img-slot">
+        <img
+          src="https://i.ibb.co/7J4kWnnt/didicomi-ar-5877-profile-ay4c287-niji-7-5e3adf63-44d1-4b43-9e05-0ee1d412d454.png"
+          alt="아렌 메인 이미지"
+        >
+      </div>
+    </div>
+  </header>
+
+  <div class="wave-divider" aria-hidden="true">
+    <svg viewBox="0 0 2400 90" preserveAspectRatio="none">
+      <path
+        d="M0,45 C 200,90 400,0 600,45 C 800,90 1000,0 1200,45 C 1400,90 1600,0 1800,45 C 2000,90 2200,0 2400,45 L2400,90 L0,90 Z"
+        fill="#eaf7ff"
+      ></path>
+    </svg>
+  </div>
+
+  <main>
+    <section class="world">
+      <div class="container narrow">
+        <div class="section-head">
+          <div class="eyebrow">World</div>
+          <h2>인어</h2>
+          <p>
+            인간과 유사한 지능과 감정을 지닌 채,<br>
+            오랜 세월 바다 깊은 곳에서 살아온 이들.
+          </p>
+        </div>
+
+        <div class="world-grid">
+          <div class="world-block">
+            <h3>신체 · 생태</h3>
+
+            <ul>
+              <li>
+                상반신은 인간과 거의 동일하지만,
+                하반신은 커다란 물고기의 꼬리
+              </li>
+              <li>귀 대신 지느러미 형태의 기관</li>
+              <li>인간보다 뛰어난 청각</li>
+              <li>수압과 저온에서도 자유롭게 활동</li>
+              <li>
+                바다 깊은 곳에 마을을 이루어 공동체 생활,<br>
+                가족 간 유대가 강함
+              </li>
+            </ul>
+          </div>
+
+          <div class="world-block">
+            <h3>인간과의 관계</h3>
+
+            <ul>
+              <li>대부분의 인간은 인어의 존재를 알지 못함</li>
+              <li>인어는 인간에게 정체를 드러내지 않는 것이 원칙</li>
+              <li>적대하지 않지만, 불필요한 접촉은 피함</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="world-grid">
+          <div class="world-block">
+            <h3>혼혈 인어</h3>
+
+            <ul>
+              <li>인간과 인어 사이에서 태어난 매우 드문 존재</li>
+              <li>
+                물과의 접촉, 본인의 의지, 신체 상태에 따라<br>
+                인간형과 인어형을 오갈 수 있음
+              </li>
+              <li>
+                뛰어난 청각과 균형 감각,
+                물의 흐름·기후 변화를 민감하게 감지
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="brothers">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow">Profiles</div>
+        </div>
+
+        <div class="profile-grid">
+          <article class="profile-card">
+            <div class="profile-image">
+              <img
+                src="https://i.ibb.co/kgDCWMS4/image19.png"
+                alt="아렌 프로필 이미지"
+              >
+            </div>
+
+            <dl class="profile-list">
+              <dt>인간 이름</dt>
+              <dd>한유명</dd>
+
+              <dt>인어 이름</dt>
+              <dd>ARÉN(아렌)</dd>
+
+              <dt>나이</dt>
+              <dd>24세 (만 22세)</dd>
+
+              <dt>생년월일</dt>
+              <dd>2003.09.17</dd>
+
+              <dt>신장</dt>
+              <dd>182cm</dd>
+
+              <dt>종족</dt>
+              <dd>혼혈 인어</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cast">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow">Cast</div>
+        </div>
+
+        <div class="cast-grid">
+          <article class="cast-card">
+            <div class="img-slot">
+              <img
+                src="https://i.ibb.co/7dtXDSmm/didicomi-masterpiece-best-quality-absurdres-ultra-detailed-pr-1c6b466d-258a-43d0-9a0a-7f818e44f8b2-2.png"
+                alt="한서린"
+              >
+            </div>
+
+            <div class="role">Mother</div>
+
+            <h3 class="serif">한서린</h3>
+
+            <p>
+              청담 DIDI 대표.<br>
+              표현이 서툴 뿐 가족을 누구보다 깊이 아낀다.
+            </p>
+          </article>
+
+          <article class="cast-card">
+            <div class="img-slot">
+              <img
+                src="https://i.ibb.co/S7J5DsY7/didicomi-masterpiece-best-quality-absurdres-ultra-detailed-pr-92fa148c-1bfc-4971-8953-6d046162dd09-0.png"
+                alt="에른"
+              >
+            </div>
+
+            <div class="role">Father · 故</div>
+
+            <h3 class="serif">에른</h3>
+
+            <p>
+              온화하고 여유로운 성격의 인어.<br>
+              인어의 문화와 가치관을 가르쳐준 존재.
+            </p>
+          </article>
+
+          <article class="cast-card">
+            <div class="img-slot">
+              <img
+                src="https://i.ibb.co/V5wnNkV/ddfsf.png"
+                alt="루엔"
+              >
+            </div>
+
+            <div class="role">Younger Twin</div>
+
+            <h3 class="serif">루엔</h3>
+
+            <p>아렌의 쌍둥이 동생.</p>
+
+            <a
+              class="meet-btn"
+              href=""
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              만나보기 →
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="intros">
+      <div class="container">
+        <div class="section-head">
+          <div class="eyebrow">Intro</div>
+        </div>
+
+        <div class="intro-list">
+          <details class="intro-card" open>
+            <summary>저녁거리 사러 가기 🐟🛒</summary>
+
+            <div class="intro-content">
+              <div class="prop-card shopping-note">
+                <div class="prop-label">Today’s Shopping List</div>
+                <h3 class="prop-title">오늘 저녁 장보기</h3>
+
+                <ul class="prop-list">
+                  <li>싱싱한 생선</li>
+                  <li>조개류</li>
+                  <li>새우</li>
+                  <li>저녁 반찬거리</li>
+                </ul>
+
+                <div class="prop-divider"></div>
+
+                <dl>
+                  <div class="prop-row">
+                    <dt>장소</dt>
+                    <dd>청해수산시장</dd>
+                  </div>
+
+                  <div class="prop-row">
+                    <dt>방문 시간</dt>
+                    <dd>오후 6시 전</dd>
+                  </div>
+
+                  <div class="prop-row">
+                    <dt>메모</dt>
+                    <dd>안쪽 창고에서 주문한 물건 수령</dd>
+                  </div>
+                </dl>
+              </div>
+            </div>
+          </details>
+
+          <details class="intro-card">
+            <summary>호캉스 즐기러 가기 🍸✨</summary>
+
+            <div class="intro-content">
+              <div class="prop-card hotel-confirmation">
+                <div class="prop-label">Reservation Confirmation</div>
+                <h3 class="prop-title">호텔 예약 확인서</h3>
+
+                <dl>
+                  <div class="prop-row">
+                    <dt>예약자</dt>
+                    <dd>{{user}}</dd>
+                  </div>
+
+                  <div class="prop-row">
+                    <dt>상품</dt>
+                    <dd>ONE NIGHT STAY</dd>
+                  </div>
+
+                  <div class="prop-row">
+                    <dt>체크인</dt>
+                    <dd>15:00</dd>
+                  </div>
+
+                  <div class="prop-row">
+                    <dt>체크아웃</dt>
+                    <dd>11:00</dd>
+                  </div>
+                </dl>
+
+                <div class="prop-divider"></div>
+
+                <p class="prop-info">
+                  객실 1박 · 조식 1인 · 루프탑 수영장 이용 · 웰컴 드링크
+                </p>
+
+                <div class="prop-divider"></div>
+
+                <dl>
+                  <div class="prop-row">
+                    <dt>수영장</dt>
+                    <dd>06:00 — 22:00</dd>
+                  </div>
+                </dl>
+              </div>
+            </div>
+          </details>
+
+          <details class="intro-card">
+            <summary>면접 보러 가기 🛍️📄</summary>
+
+            <div class="intro-content">
+              <div class="prop-card recruit-poster">
+                <div class="prop-label">Chungdam DIDI Recruit</div>
+                <h3 class="prop-title">쇼룸 스태프 모집</h3>
+
+                <p class="prop-note">
+                  청담동 프리미엄 여성 의류 편집숍<br>
+                  청담 DIDI에서 함께 근무할 쇼룸 스태프를 모집합니다.
+                </p>
+
+                <div class="prop-divider"></div>
+
+                <dl>
+                  <div class="prop-row">
+                    <dt>모집 분야</dt>
+                    <dd>쇼룸 스태프</dd>
+                  </div>
+
+                  <div class="prop-row">
+                    <dt>담당 업무</dt>
+                    <dd>고객 응대 · 상품 정리 및 진열 · 매장 운영 보조</dd>
+                  </div>
+
+                  <div class="prop-row">
+                    <dt>근무지</dt>
+                    <dd>서울 강남구 청담동</dd>
+                  </div>
+
+                  <div class="prop-row">
+                    <dt>면접 장소</dt>
+                    <dd>청담 DIDI 쇼룸</dd>
+                  </div>
+
+                  <div class="prop-row">
+                    <dt>채용 절차</dt>
+                    <dd>지원서 확인 → 대면 면접</dd>
+                  </div>
+                </dl>
+              </div>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const hero = document.querySelector(".hero");
+      const revealTargets = document.querySelectorAll(
+        ".profile-card, .intro-card, .cast-card, .world-block, .section-head"
+      );
+
+      if (hero && window.matchMedia("(pointer: fine)").matches) {
+        hero.addEventListener("pointermove", (event) => {
+          const rect = hero.getBoundingClientRect();
+          const x = ((event.clientX - rect.left) / rect.width) * 100;
+          const y = ((event.clientY - rect.top) / rect.height) * 100;
+
+          root.style.setProperty("--pointer-x", `${x.toFixed(2)}%`);
+          root.style.setProperty("--pointer-y", `${y.toFixed(2)}%`);
+        });
+
+        hero.addEventListener("pointerleave", () => {
+          root.style.setProperty("--pointer-x", "50%");
+          root.style.setProperty("--pointer-y", "28%");
+        });
+      }
+
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("reveal-visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          {
+            threshold: 0.12,
+            rootMargin: "0px 0px -7% 0px"
+          }
+        );
+
+        revealTargets.forEach((target, index) => {
+          target.style.transitionDelay = `${Math.min(index % 4, 3) * 85}ms`;
+          observer.observe(target);
+        });
+      } else {
+        revealTargets.forEach((target) => {
+          target.classList.add("reveal-visible");
+        });
+      }
+    })();
+  </script>
+
+</body>
+
+</html>
