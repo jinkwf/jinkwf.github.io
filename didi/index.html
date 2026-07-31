@@ -546,306 +546,6 @@
     }
 
 
-    /* 심해 기포 이펙트 */
-
-    .hero,
-    .world {
-      position: relative;
-      isolation: isolate;
-    }
-
-    .hero > *,
-    .world > * {
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero::before,
-    .world::before {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      pointer-events: none;
-      content: "";
-      opacity: 0.68;
-      background-image:
-        radial-gradient(circle, rgba(220, 247, 255, 0.78) 0 1px, rgba(126, 216, 255, 0.26) 2px, transparent 4px),
-        radial-gradient(circle, rgba(255, 255, 255, 0.62) 0 2px, rgba(126, 216, 255, 0.20) 3px, transparent 6px),
-        radial-gradient(circle, rgba(188, 235, 255, 0.58) 0 1px, rgba(126, 216, 255, 0.16) 2px, transparent 5px),
-        radial-gradient(circle, rgba(245, 253, 255, 0.54) 0 3px, rgba(126, 216, 255, 0.14) 4px, transparent 8px);
-      background-size:
-        92px 150px,
-        158px 220px,
-        126px 186px,
-        236px 310px;
-      background-position:
-        12px 110px,
-        68px 190px,
-        34px 260px,
-        118px 340px;
-      animation: deepBubbleRise 18s linear infinite;
-    }
-
-    .hero::after,
-    .world::after {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      pointer-events: none;
-      content: "";
-      background:
-        radial-gradient(circle at 20% 78%, rgba(89, 196, 255, 0.13), transparent 18%),
-        radial-gradient(circle at 76% 30%, rgba(126, 216, 255, 0.10), transparent 20%),
-        radial-gradient(circle at 52% 88%, rgba(182, 235, 255, 0.08), transparent 24%);
-      animation: deepWaterGlow 8s ease-in-out infinite alternate;
-    }
-
-    @keyframes deepBubbleRise {
-      0% {
-        background-position:
-          12px 120%,
-          68px 135%,
-          34px 150%,
-          118px 165%;
-        transform: scale(0.92);
-        opacity: 0;
-      }
-
-      12% {
-        opacity: 0.62;
-      }
-
-      70% {
-        opacity: 0.72;
-      }
-
-      100% {
-        background-position:
-          42px -30%,
-          28px -45%,
-          82px -60%,
-          74px -75%;
-        transform: scale(1.12);
-        opacity: 0;
-      }
-    }
-
-    @keyframes deepWaterGlow {
-      from {
-        opacity: 0.46;
-        transform: scale(1);
-      }
-
-      to {
-        opacity: 0.82;
-        transform: scale(1.06);
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .hero::before,
-      .hero::after,
-      .world::before,
-      .world::after {
-        animation: none;
-      }
-    }
-
-
-    /* 수면광 · 인터랙션 · 글래스모피즘 */
-
-    :root {
-      --pointer-x: 50%;
-      --pointer-y: 28%;
-    }
-
-    body {
-      overflow-x: hidden;
-    }
-
-    .hero {
-      background:
-        radial-gradient(
-          ellipse at var(--pointer-x) var(--pointer-y),
-          rgba(137, 222, 255, 0.18),
-          transparent 32%
-        ),
-        radial-gradient(
-          ellipse at 50% -8%,
-          rgba(191, 239, 255, 0.22),
-          transparent 54%
-        ),
-        linear-gradient(
-          180deg,
-          var(--abyss),
-          var(--deep) 70%,
-          var(--ocean)
-        );
-    }
-
-    .hero .surface-light {
-      position: absolute;
-      top: -14%;
-      left: -12%;
-      z-index: 1;
-      width: 124%;
-      height: 46%;
-      pointer-events: none;
-      opacity: 0.62;
-      filter: blur(9px);
-      mix-blend-mode: screen;
-      background:
-        repeating-radial-gradient(
-          ellipse at 50% 0%,
-          rgba(213, 247, 255, 0.24) 0 2px,
-          rgba(113, 211, 255, 0.08) 4px 9px,
-          transparent 12px 28px
-        );
-      transform-origin: center top;
-      animation: surfaceCaustics 9s ease-in-out infinite alternate;
-    }
-
-    .hero .pointer-ripple {
-      position: absolute;
-      left: var(--pointer-x);
-      top: var(--pointer-y);
-      z-index: 1;
-      width: 260px;
-      height: 260px;
-      pointer-events: none;
-      border: 1px solid rgba(176, 232, 255, 0.14);
-      border-radius: 50%;
-      opacity: 0.54;
-      box-shadow:
-        0 0 32px rgba(103, 207, 255, 0.12),
-        inset 0 0 24px rgba(213, 247, 255, 0.08);
-      transform: translate(-50%, -50%) scale(0.72);
-      transition:
-        left 0.16s ease-out,
-        top 0.16s ease-out;
-      animation: pointerRipple 4.8s ease-in-out infinite;
-    }
-
-    .profile-card,
-    .intro-card,
-    .prop-card {
-      border-color: rgba(162, 225, 255, 0.30);
-      background:
-        linear-gradient(
-          145deg,
-          rgba(255, 255, 255, 0.82),
-          rgba(231, 247, 255, 0.66)
-        );
-      box-shadow:
-        0 22px 54px -34px rgba(4, 37, 67, 0.46),
-        inset 0 1px 0 rgba(255, 255, 255, 0.76);
-      backdrop-filter: blur(16px) saturate(125%);
-      -webkit-backdrop-filter: blur(16px) saturate(125%);
-    }
-
-    .profile-card,
-    .intro-card,
-    .cast-card,
-    .world-block,
-    .section-head {
-      opacity: 0;
-      transform: translateY(28px) scale(0.985);
-      transition:
-        opacity 0.85s ease,
-        transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
-      will-change: opacity, transform;
-    }
-
-    .reveal-visible {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-
-    .profile-card:hover,
-    .intro-card:hover {
-      transform: translateY(-4px);
-      box-shadow:
-        0 28px 62px -34px rgba(4, 37, 67, 0.55),
-        inset 0 1px 0 rgba(255, 255, 255, 0.82);
-    }
-
-    .profile-image img,
-    .cast-card .img-slot img,
-    .hero .img-slot img {
-      transition:
-        transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-        filter 0.7s ease;
-    }
-
-    .profile-card:hover .profile-image img,
-    .cast-card:hover .img-slot img {
-      transform: scale(1.025);
-      filter: brightness(1.035) saturate(1.04);
-    }
-
-    @keyframes surfaceCaustics {
-      0% {
-        transform: translate3d(-2%, 0, 0) scaleX(1.02) rotate(-1deg);
-        opacity: 0.42;
-      }
-
-      50% {
-        transform: translate3d(2%, 4%, 0) scaleX(1.08) rotate(1deg);
-        opacity: 0.70;
-      }
-
-      100% {
-        transform: translate3d(-1%, 7%, 0) scaleX(0.98) rotate(-0.4deg);
-        opacity: 0.54;
-      }
-    }
-
-    @keyframes pointerRipple {
-      0%,
-      100% {
-        transform: translate(-50%, -50%) scale(0.70);
-        opacity: 0.24;
-      }
-
-      50% {
-        transform: translate(-50%, -50%) scale(1.05);
-        opacity: 0.56;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .hero .pointer-ripple {
-        display: none;
-      }
-
-      .hero .surface-light {
-        opacity: 0.42;
-      }
-
-      .profile-card,
-      .intro-card,
-      .prop-card {
-        backdrop-filter: blur(10px) saturate(115%);
-        -webkit-backdrop-filter: blur(10px) saturate(115%);
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .hero .surface-light,
-      .hero .pointer-ripple {
-        animation: none;
-      }
-
-      .profile-card,
-      .intro-card,
-      .cast-card,
-      .world-block,
-      .section-head {
-        opacity: 1;
-        transform: none;
-        transition: none;
-      }
-    }
 
     /* 모바일 */
 
@@ -885,51 +585,31 @@
       }
     }
 
-    /* =========================================================
-       전체 페이지 심해 배경 통합
-       ========================================================= */
+    /* 경량 심해 테마 */
 
-    html {
+    html,
+    body {
       min-height: 100%;
-      background: #03111f;
+      background: #041525;
     }
 
     body {
       position: relative;
-      min-height: 100%;
       overflow-x: hidden;
       background:
         radial-gradient(
-          ellipse at 50% -5%,
-          rgba(191, 239, 255, 0.24) 0%,
-          rgba(95, 199, 244, 0.12) 24%,
-          transparent 48%
-        ),
-        radial-gradient(
-          circle at 12% 32%,
-          rgba(43, 156, 214, 0.16),
-          transparent 28%
-        ),
-        radial-gradient(
-          circle at 84% 61%,
-          rgba(30, 122, 188, 0.14),
-          transparent 30%
+          ellipse at 50% 0%,
+          rgba(126, 216, 255, 0.16),
+          transparent 42%
         ),
         linear-gradient(
           180deg,
-          #0a6090 0%,
-          #07466e 17%,
-          #052f50 40%,
-          #041f37 67%,
-          #031522 100%
+          #0b5e8c 0%,
+          #083f65 28%,
+          #062d4b 58%,
+          #041525 100%
         );
-      background-attachment: fixed;
       color: var(--foam);
-    }
-
-    body > * {
-      position: relative;
-      z-index: 2;
     }
 
     main,
@@ -941,65 +621,31 @@
       background: transparent;
     }
 
-    .hero,
-    .world {
-      isolation: auto;
-    }
-
-    .hero::before,
-    .hero::after,
-    .world::before,
-    .world::after {
-      display: none;
-    }
-
-    /* 페이지 전체에서 계속 올라오는 기포 */
+    /* 한 겹만 사용하는 가벼운 기포 효과 */
     body::before {
       position: fixed;
-      inset: -12vh 0 0;
+      inset: 0;
       z-index: 0;
       pointer-events: none;
       content: "";
-      opacity: 0.78;
+      opacity: 0.45;
       background-image:
-        radial-gradient(circle, transparent 0 2px, rgba(220, 247, 255, 0.70) 2.5px 3.5px, transparent 4.5px),
-        radial-gradient(circle, transparent 0 3px, rgba(255, 255, 255, 0.48) 3.5px 5px, transparent 6px),
-        radial-gradient(circle, transparent 0 1px, rgba(166, 229, 255, 0.66) 1.5px 2.5px, transparent 3.5px),
-        radial-gradient(circle, transparent 0 5px, rgba(193, 239, 255, 0.28) 5.5px 7px, transparent 8px);
+        radial-gradient(circle, transparent 0 2px, rgba(222, 247, 255, 0.45) 2.5px 3px, transparent 4px),
+        radial-gradient(circle, transparent 0 3px, rgba(159, 225, 255, 0.28) 3.5px 4.5px, transparent 5.5px);
       background-size:
-        94px 152px,
-        171px 238px,
-        127px 191px,
-        269px 348px;
+        130px 190px,
+        220px 300px;
       background-position:
-        10px 115%,
-        72px 134%,
-        38px 148%,
-        126px 166%;
-      animation: wholePageBubbleRise 19s linear infinite;
-      will-change: background-position, transform, opacity;
+        20px 110%,
+        90px 135%;
+      animation: lightBubbleRise 24s linear infinite;
     }
 
-    /* 물속을 부유하는 미세한 빛 입자 */
-    body::after {
-      position: fixed;
-      inset: 0;
+    body > * {
+      position: relative;
       z-index: 1;
-      pointer-events: none;
-      content: "";
-      opacity: 0.58;
-      background-image:
-        radial-gradient(circle, rgba(255, 255, 255, 0.72) 0 0.8px, transparent 1.4px),
-        radial-gradient(circle, rgba(132, 218, 255, 0.58) 0 1px, transparent 1.8px),
-        radial-gradient(circle, rgba(226, 249, 255, 0.46) 0 1.2px, transparent 2px);
-      background-size:
-        53px 61px,
-        89px 103px,
-        137px 149px;
-      animation: floatingLightDust 15s ease-in-out infinite alternate;
     }
 
-    /* 모든 섹션의 텍스트를 심해 배경에 맞게 통일 */
     .section-head h2,
     .section-head p,
     .brothers .section-head h2,
@@ -1008,231 +654,99 @@
     }
 
     .section-head p {
-      color: rgba(235, 249, 255, 0.78);
+      color: rgba(239, 250, 255, 0.76);
     }
 
     .eyebrow,
     .world-block h3,
     .cast-card .role {
-      color: #8bdeff;
-      text-shadow: 0 0 18px rgba(126, 216, 255, 0.28);
+      color: var(--tide);
     }
 
-    /* 프로필·인트로 카드: 밝고 투명한 유리질감 */
+    /* backdrop-filter를 제거한 가벼운 반투명 카드 */
     .profile-card,
     .intro-card,
     .prop-card {
-      border: 1px solid rgba(190, 235, 255, 0.30);
-      background:
-        linear-gradient(
-          145deg,
-          rgba(248, 253, 255, 0.84),
-          rgba(218, 243, 255, 0.68)
-        );
-      box-shadow:
-        0 24px 58px -34px rgba(0, 10, 25, 0.78),
-        inset 0 1px 0 rgba(255, 255, 255, 0.78),
-        0 0 24px rgba(85, 194, 241, 0.06);
-      backdrop-filter: blur(17px) saturate(128%);
-      -webkit-backdrop-filter: blur(17px) saturate(128%);
+      border-color: rgba(181, 232, 255, 0.26);
+      background: rgba(244, 251, 255, 0.92);
+      box-shadow: 0 16px 36px -28px rgba(0, 12, 28, 0.72);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
     }
 
-    /* 가족 카드도 배경과 자연스럽게 연결 */
     .cast-card {
-      padding: 14px 14px 20px;
-      border: 1px solid rgba(177, 229, 255, 0.18);
-      border-radius: 20px;
-      background:
-        linear-gradient(
-          145deg,
-          rgba(133, 207, 240, 0.10),
-          rgba(4, 30, 53, 0.24)
-        );
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.12),
-        0 20px 48px -34px rgba(0, 5, 16, 0.88);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      padding: 12px;
+      border: 1px solid rgba(181, 232, 255, 0.14);
+      border-radius: 18px;
+      background: rgba(5, 35, 58, 0.42);
     }
 
-    .cast-card .img-slot {
-      border: 1px solid rgba(205, 241, 255, 0.22);
-      box-shadow: 0 12px 30px -20px rgba(0, 8, 22, 0.82);
-    }
-
-    /* 월드 위 반투명 반사 물결 */
+    /* 반투명 반사 물결 */
     .wave-divider {
-      position: relative;
-      z-index: 3;
-      height: 82px;
-      overflow: hidden;
+      height: 66px;
       background: transparent;
-      filter:
-        drop-shadow(0 0 9px rgba(201, 243, 255, 0.22))
-        drop-shadow(0 0 24px rgba(105, 210, 255, 0.14));
-    }
-
-    .wave-divider::before {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      content: "";
-      background:
-        linear-gradient(
-          100deg,
-          transparent 8%,
-          rgba(255, 255, 255, 0.08) 27%,
-          rgba(220, 247, 255, 0.28) 45%,
-          rgba(255, 255, 255, 0.06) 62%,
-          transparent 86%
-        );
-      mix-blend-mode: screen;
-      animation: waveShimmer 6.5s ease-in-out infinite;
+      filter: drop-shadow(0 0 8px rgba(206, 244, 255, 0.18));
     }
 
     .wave-divider svg {
-      width: calc(100% + 80px);
+      width: 104%;
       height: 100%;
-      margin-left: -40px;
-      overflow: visible;
-      animation: reflectedWaveFloat 8.5s ease-in-out infinite;
-      will-change: transform;
+      margin-left: -2%;
+      animation: lightWaveFloat 10s ease-in-out infinite;
     }
 
-    .wave-reflection-back {
-      transform: translateY(5px);
-      filter: blur(2.8px);
+    /* 기존 스크롤 등장 강제 제거 */
+    .profile-card,
+    .intro-card,
+    .cast-card,
+    .world-block,
+    .section-head {
+      opacity: 1;
+      transform: none;
+      transition: none;
+      will-change: auto;
     }
 
-    .wave-reflection-front {
-      mix-blend-mode: screen;
-    }
-
-    /* 구간 경계가 끊겨 보이지 않도록 */
-    section {
-      position: relative;
-    }
-
-    .brothers,
-    .cast,
-    .intros {
-      border-top: 1px solid rgba(179, 232, 255, 0.05);
-    }
-
-    /* 커서 반응광이 hero뿐 아니라 전체 화면에 자연스럽게 비침 */
-    body {
-      background-position: center top;
-    }
-
-    @keyframes wholePageBubbleRise {
-      0% {
+    @keyframes lightBubbleRise {
+      from {
         background-position:
-          10px 118%,
-          72px 136%,
-          38px 151%,
-          126px 168%;
-        transform: translate3d(0, 0, 0) scale(0.94);
-        opacity: 0;
+          20px 115%,
+          90px 140%;
       }
 
-      12% {
-        opacity: 0.64;
-      }
-
-      72% {
-        opacity: 0.80;
-      }
-
-      100% {
+      to {
         background-position:
-          43px -35%,
-          29px -48%,
-          86px -64%,
-          75px -78%;
-        transform: translate3d(0, -2vh, 0) scale(1.10);
-        opacity: 0;
+          45px -25%,
+          55px -45%;
       }
     }
 
-    @keyframes floatingLightDust {
-      0% {
-        background-position:
-          0 0,
-          24px 18px,
-          51px 33px;
-        transform: translate3d(-0.6%, 0, 0);
-        opacity: 0.34;
-      }
-
-      50% {
-        opacity: 0.64;
-      }
-
-      100% {
-        background-position:
-          18px -34px,
-          -11px -42px,
-          28px -58px;
-        transform: translate3d(0.8%, -1.2%, 0);
-        opacity: 0.46;
-      }
-    }
-
-    @keyframes reflectedWaveFloat {
+    @keyframes lightWaveFloat {
       0%,
       100% {
-        transform: translate3d(0, 0, 0) scaleX(1.02);
+        transform: translateX(0);
       }
 
       50% {
-        transform: translate3d(-22px, 4px, 0) scaleX(1.055);
-      }
-    }
-
-    @keyframes waveShimmer {
-      0%,
-      100% {
-        opacity: 0.22;
-        transform: translateX(-28%) skewX(-8deg);
-      }
-
-      50% {
-        opacity: 0.72;
-        transform: translateX(28%) skewX(-8deg);
+        transform: translateX(-16px) translateY(2px);
       }
     }
 
     @media (max-width: 640px) {
-      body {
-        background-attachment: scroll;
-      }
-
       body::before {
-        opacity: 0.58;
+        opacity: 0.34;
         background-size:
-          82px 145px,
-          154px 224px,
-          114px 180px,
-          242px 328px;
-      }
-
-      body::after {
-        opacity: 0.38;
-      }
-
-      .cast-card {
-        padding: 12px 12px 18px;
+          115px 180px,
+          205px 285px;
       }
 
       .wave-divider {
-        height: 66px;
+        height: 56px;
       }
     }
 
     @media (prefers-reduced-motion: reduce) {
       body::before,
-      body::after,
-      .wave-divider::before,
       .wave-divider svg {
         animation: none;
       }
@@ -1243,8 +757,6 @@
 
 <body>
   <header class="hero">
-    <div class="surface-light" aria-hidden="true"></div>
-    <div class="pointer-ripple" aria-hidden="true"></div>
     <div class="eyebrow">Half-Merfolk</div>
 
     <h1 class="serif">ARÉN</h1>
@@ -1263,34 +775,10 @@
 
   <div class="wave-divider" aria-hidden="true">
     <svg viewBox="0 0 2400 90" preserveAspectRatio="none">
-      <defs>
-        <linearGradient id="waveLight" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.42"></stop>
-          <stop offset="58%" stop-color="#bdeeff" stop-opacity="0.18"></stop>
-          <stop offset="100%" stop-color="#7ed8ff" stop-opacity="0.04"></stop>
-        </linearGradient>
-        <filter id="waveGlow" x="-20%" y="-80%" width="140%" height="260%">
-          <feGaussianBlur stdDeviation="2.2" result="blur"></feGaussianBlur>
-          <feMerge>
-            <feMergeNode in="blur"></feMergeNode>
-            <feMergeNode in="SourceGraphic"></feMergeNode>
-          </feMerge>
-        </filter>
-      </defs>
-
       <path
-        class="wave-reflection wave-reflection-back"
-        d="M0,48 C 200,93 400,3 600,48 C 800,93 1000,3 1200,48 C 1400,93 1600,3 1800,48 C 2000,93 2200,3 2400,48 L2400,90 L0,90 Z"
-        fill="url(#waveLight)"
-        opacity="0.34"
-      ></path>
-
-      <path
-        class="wave-reflection wave-reflection-front"
         d="M0,45 C 200,90 400,0 600,45 C 800,90 1000,0 1200,45 C 1400,90 1600,0 1800,45 C 2000,90 2200,0 2400,45 L2400,90 L0,90 Z"
-        fill="url(#waveLight)"
-        filter="url(#waveGlow)"
-        opacity="0.62"
+        fill="#ffffff"
+        fill-opacity="0.16"
       ></path>
     </svg>
   </div>
@@ -1606,58 +1094,6 @@
       </div>
     </section>
   </main>
-
-  <script>
-    (() => {
-      const root = document.documentElement;
-      const hero = document.querySelector(".hero");
-      const revealTargets = document.querySelectorAll(
-        ".profile-card, .intro-card, .cast-card, .world-block, .section-head"
-      );
-
-      if (hero && window.matchMedia("(pointer: fine)").matches) {
-        hero.addEventListener("pointermove", (event) => {
-          const rect = hero.getBoundingClientRect();
-          const x = ((event.clientX - rect.left) / rect.width) * 100;
-          const y = ((event.clientY - rect.top) / rect.height) * 100;
-
-          root.style.setProperty("--pointer-x", `${x.toFixed(2)}%`);
-          root.style.setProperty("--pointer-y", `${y.toFixed(2)}%`);
-        });
-
-        hero.addEventListener("pointerleave", () => {
-          root.style.setProperty("--pointer-x", "50%");
-          root.style.setProperty("--pointer-y", "28%");
-        });
-      }
-
-      if ("IntersectionObserver" in window) {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add("reveal-visible");
-                observer.unobserve(entry.target);
-              }
-            });
-          },
-          {
-            threshold: 0.12,
-            rootMargin: "0px 0px -7% 0px"
-          }
-        );
-
-        revealTargets.forEach((target, index) => {
-          target.style.transitionDelay = `${Math.min(index % 4, 3) * 85}ms`;
-          observer.observe(target);
-        });
-      } else {
-        revealTargets.forEach((target) => {
-          target.classList.add("reveal-visible");
-        });
-      }
-    })();
-  </script>
 
 </body>
 
