@@ -884,6 +884,360 @@
         grid-template-columns: 96px 1fr;
       }
     }
+
+    /* =========================================================
+       전체 페이지 심해 배경 통합
+       ========================================================= */
+
+    html {
+      min-height: 100%;
+      background: #03111f;
+    }
+
+    body {
+      position: relative;
+      min-height: 100%;
+      overflow-x: hidden;
+      background:
+        radial-gradient(
+          ellipse at 50% -5%,
+          rgba(191, 239, 255, 0.24) 0%,
+          rgba(95, 199, 244, 0.12) 24%,
+          transparent 48%
+        ),
+        radial-gradient(
+          circle at 12% 32%,
+          rgba(43, 156, 214, 0.16),
+          transparent 28%
+        ),
+        radial-gradient(
+          circle at 84% 61%,
+          rgba(30, 122, 188, 0.14),
+          transparent 30%
+        ),
+        linear-gradient(
+          180deg,
+          #0a6090 0%,
+          #07466e 17%,
+          #052f50 40%,
+          #041f37 67%,
+          #031522 100%
+        );
+      background-attachment: fixed;
+      color: var(--foam);
+    }
+
+    body > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    main,
+    .hero,
+    .world,
+    .brothers,
+    .cast,
+    .intros {
+      background: transparent;
+    }
+
+    .hero,
+    .world {
+      isolation: auto;
+    }
+
+    .hero::before,
+    .hero::after,
+    .world::before,
+    .world::after {
+      display: none;
+    }
+
+    /* 페이지 전체에서 계속 올라오는 기포 */
+    body::before {
+      position: fixed;
+      inset: -12vh 0 0;
+      z-index: 0;
+      pointer-events: none;
+      content: "";
+      opacity: 0.78;
+      background-image:
+        radial-gradient(circle, transparent 0 2px, rgba(220, 247, 255, 0.70) 2.5px 3.5px, transparent 4.5px),
+        radial-gradient(circle, transparent 0 3px, rgba(255, 255, 255, 0.48) 3.5px 5px, transparent 6px),
+        radial-gradient(circle, transparent 0 1px, rgba(166, 229, 255, 0.66) 1.5px 2.5px, transparent 3.5px),
+        radial-gradient(circle, transparent 0 5px, rgba(193, 239, 255, 0.28) 5.5px 7px, transparent 8px);
+      background-size:
+        94px 152px,
+        171px 238px,
+        127px 191px,
+        269px 348px;
+      background-position:
+        10px 115%,
+        72px 134%,
+        38px 148%,
+        126px 166%;
+      animation: wholePageBubbleRise 19s linear infinite;
+      will-change: background-position, transform, opacity;
+    }
+
+    /* 물속을 부유하는 미세한 빛 입자 */
+    body::after {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      content: "";
+      opacity: 0.58;
+      background-image:
+        radial-gradient(circle, rgba(255, 255, 255, 0.72) 0 0.8px, transparent 1.4px),
+        radial-gradient(circle, rgba(132, 218, 255, 0.58) 0 1px, transparent 1.8px),
+        radial-gradient(circle, rgba(226, 249, 255, 0.46) 0 1.2px, transparent 2px);
+      background-size:
+        53px 61px,
+        89px 103px,
+        137px 149px;
+      animation: floatingLightDust 15s ease-in-out infinite alternate;
+    }
+
+    /* 모든 섹션의 텍스트를 심해 배경에 맞게 통일 */
+    .section-head h2,
+    .section-head p,
+    .brothers .section-head h2,
+    .intros .section-head h2 {
+      color: var(--foam);
+    }
+
+    .section-head p {
+      color: rgba(235, 249, 255, 0.78);
+    }
+
+    .eyebrow,
+    .world-block h3,
+    .cast-card .role {
+      color: #8bdeff;
+      text-shadow: 0 0 18px rgba(126, 216, 255, 0.28);
+    }
+
+    /* 프로필·인트로 카드: 밝고 투명한 유리질감 */
+    .profile-card,
+    .intro-card,
+    .prop-card {
+      border: 1px solid rgba(190, 235, 255, 0.30);
+      background:
+        linear-gradient(
+          145deg,
+          rgba(248, 253, 255, 0.84),
+          rgba(218, 243, 255, 0.68)
+        );
+      box-shadow:
+        0 24px 58px -34px rgba(0, 10, 25, 0.78),
+        inset 0 1px 0 rgba(255, 255, 255, 0.78),
+        0 0 24px rgba(85, 194, 241, 0.06);
+      backdrop-filter: blur(17px) saturate(128%);
+      -webkit-backdrop-filter: blur(17px) saturate(128%);
+    }
+
+    /* 가족 카드도 배경과 자연스럽게 연결 */
+    .cast-card {
+      padding: 14px 14px 20px;
+      border: 1px solid rgba(177, 229, 255, 0.18);
+      border-radius: 20px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(133, 207, 240, 0.10),
+          rgba(4, 30, 53, 0.24)
+        );
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.12),
+        0 20px 48px -34px rgba(0, 5, 16, 0.88);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .cast-card .img-slot {
+      border: 1px solid rgba(205, 241, 255, 0.22);
+      box-shadow: 0 12px 30px -20px rgba(0, 8, 22, 0.82);
+    }
+
+    /* 월드 위 반투명 반사 물결 */
+    .wave-divider {
+      position: relative;
+      z-index: 3;
+      height: 82px;
+      overflow: hidden;
+      background: transparent;
+      filter:
+        drop-shadow(0 0 9px rgba(201, 243, 255, 0.22))
+        drop-shadow(0 0 24px rgba(105, 210, 255, 0.14));
+    }
+
+    .wave-divider::before {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      content: "";
+      background:
+        linear-gradient(
+          100deg,
+          transparent 8%,
+          rgba(255, 255, 255, 0.08) 27%,
+          rgba(220, 247, 255, 0.28) 45%,
+          rgba(255, 255, 255, 0.06) 62%,
+          transparent 86%
+        );
+      mix-blend-mode: screen;
+      animation: waveShimmer 6.5s ease-in-out infinite;
+    }
+
+    .wave-divider svg {
+      width: calc(100% + 80px);
+      height: 100%;
+      margin-left: -40px;
+      overflow: visible;
+      animation: reflectedWaveFloat 8.5s ease-in-out infinite;
+      will-change: transform;
+    }
+
+    .wave-reflection-back {
+      transform: translateY(5px);
+      filter: blur(2.8px);
+    }
+
+    .wave-reflection-front {
+      mix-blend-mode: screen;
+    }
+
+    /* 구간 경계가 끊겨 보이지 않도록 */
+    section {
+      position: relative;
+    }
+
+    .brothers,
+    .cast,
+    .intros {
+      border-top: 1px solid rgba(179, 232, 255, 0.05);
+    }
+
+    /* 커서 반응광이 hero뿐 아니라 전체 화면에 자연스럽게 비침 */
+    body {
+      background-position: center top;
+    }
+
+    @keyframes wholePageBubbleRise {
+      0% {
+        background-position:
+          10px 118%,
+          72px 136%,
+          38px 151%,
+          126px 168%;
+        transform: translate3d(0, 0, 0) scale(0.94);
+        opacity: 0;
+      }
+
+      12% {
+        opacity: 0.64;
+      }
+
+      72% {
+        opacity: 0.80;
+      }
+
+      100% {
+        background-position:
+          43px -35%,
+          29px -48%,
+          86px -64%,
+          75px -78%;
+        transform: translate3d(0, -2vh, 0) scale(1.10);
+        opacity: 0;
+      }
+    }
+
+    @keyframes floatingLightDust {
+      0% {
+        background-position:
+          0 0,
+          24px 18px,
+          51px 33px;
+        transform: translate3d(-0.6%, 0, 0);
+        opacity: 0.34;
+      }
+
+      50% {
+        opacity: 0.64;
+      }
+
+      100% {
+        background-position:
+          18px -34px,
+          -11px -42px,
+          28px -58px;
+        transform: translate3d(0.8%, -1.2%, 0);
+        opacity: 0.46;
+      }
+    }
+
+    @keyframes reflectedWaveFloat {
+      0%,
+      100% {
+        transform: translate3d(0, 0, 0) scaleX(1.02);
+      }
+
+      50% {
+        transform: translate3d(-22px, 4px, 0) scaleX(1.055);
+      }
+    }
+
+    @keyframes waveShimmer {
+      0%,
+      100% {
+        opacity: 0.22;
+        transform: translateX(-28%) skewX(-8deg);
+      }
+
+      50% {
+        opacity: 0.72;
+        transform: translateX(28%) skewX(-8deg);
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        background-attachment: scroll;
+      }
+
+      body::before {
+        opacity: 0.58;
+        background-size:
+          82px 145px,
+          154px 224px,
+          114px 180px,
+          242px 328px;
+      }
+
+      body::after {
+        opacity: 0.38;
+      }
+
+      .cast-card {
+        padding: 12px 12px 18px;
+      }
+
+      .wave-divider {
+        height: 66px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      body::before,
+      body::after,
+      .wave-divider::before,
+      .wave-divider svg {
+        animation: none;
+      }
+    }
+
   </style>
 </head>
 
@@ -909,9 +1263,34 @@
 
   <div class="wave-divider" aria-hidden="true">
     <svg viewBox="0 0 2400 90" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="waveLight" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.42"></stop>
+          <stop offset="58%" stop-color="#bdeeff" stop-opacity="0.18"></stop>
+          <stop offset="100%" stop-color="#7ed8ff" stop-opacity="0.04"></stop>
+        </linearGradient>
+        <filter id="waveGlow" x="-20%" y="-80%" width="140%" height="260%">
+          <feGaussianBlur stdDeviation="2.2" result="blur"></feGaussianBlur>
+          <feMerge>
+            <feMergeNode in="blur"></feMergeNode>
+            <feMergeNode in="SourceGraphic"></feMergeNode>
+          </feMerge>
+        </filter>
+      </defs>
+
       <path
+        class="wave-reflection wave-reflection-back"
+        d="M0,48 C 200,93 400,3 600,48 C 800,93 1000,3 1200,48 C 1400,93 1600,3 1800,48 C 2000,93 2200,3 2400,48 L2400,90 L0,90 Z"
+        fill="url(#waveLight)"
+        opacity="0.34"
+      ></path>
+
+      <path
+        class="wave-reflection wave-reflection-front"
         d="M0,45 C 200,90 400,0 600,45 C 800,90 1000,0 1200,45 C 1400,90 1600,0 1800,45 C 2000,90 2200,0 2400,45 L2400,90 L0,90 Z"
-        fill="#eaf7ff"
+        fill="url(#waveLight)"
+        filter="url(#waveGlow)"
+        opacity="0.62"
       ></path>
     </svg>
   </div>
