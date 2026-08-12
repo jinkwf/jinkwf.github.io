@@ -1,0 +1,2573 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#050505">
+
+<title>나의 X</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+  --black:#040404;
+  --black2:#080808;
+  --panel:#0d0d0e;
+  --panel2:#111112;
+  --white:#eeeeef;
+  --gray:#8b8b8f;
+  --gray2:#5b5b60;
+  --gray3:#333337;
+  --line:#202023;
+  --red:#a20f1c;
+  --red2:#d11b2c;
+}
+
+/* ─────────────────────────────
+   BASE
+───────────────────────────── */
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  background:var(--black);
+  color:var(--white);
+  font-family:"Noto Sans KR",sans-serif;
+  word-break:keep-all;
+  overflow-x:hidden;
+}
+
+button{
+  font:inherit;
+}
+
+::selection{
+  background:var(--red);
+  color:#fff;
+}
+
+/* ─────────────────────────────
+   INTRO
+───────────────────────────── */
+
+#intro{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:#020202;
+  cursor:pointer;
+
+  overflow:hidden;
+
+  transition:
+    opacity .9s ease,
+    visibility .9s ease;
+}
+
+#intro.hide{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+
+.intro-bg{
+  position:absolute;
+  inset:-30px;
+
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+
+  opacity:.12;
+
+  filter:
+    grayscale(1)
+    contrast(1.22);
+}
+
+.intro-bg-item{
+  position:relative;
+  background-size:cover;
+  background-position:center top;
+}
+
+.intro-bg-item::after{
+  content:"";
+  position:absolute;
+  inset:0;
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(0,0,0,.32),
+      rgba(0,0,0,.86)
+    );
+}
+
+.intro-vignette{
+  position:absolute;
+  inset:0;
+
+  background:
+    radial-gradient(
+      circle at center,
+      transparent 0%,
+      rgba(0,0,0,.22) 30%,
+      rgba(0,0,0,.75) 80%,
+      #010101 100%
+    );
+}
+
+.intro-noise{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+
+  opacity:.035;
+
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.8'/%3E%3C/svg%3E");
+}
+
+.intro-content{
+  position:relative;
+  z-index:2;
+
+  text-align:center;
+}
+
+.intro-caption{
+  margin-bottom:22px;
+
+  color:#777;
+
+  font-size:8px;
+  letter-spacing:.55em;
+}
+
+.intro-title{
+  margin:0;
+
+  font-family:"Cormorant Garamond","Noto Sans KR",serif;
+
+  font-size:clamp(64px,14vw,140px);
+  line-height:.78;
+
+  font-weight:400;
+  letter-spacing:-.07em;
+}
+
+.intro-x{
+  display:inline-block;
+
+  color:var(--red2);
+
+  font-size:1.22em;
+  font-style:italic;
+
+  text-shadow:
+    0 0 25px rgba(209,27,44,.22);
+
+  animation:xShake 4.2s infinite;
+}
+
+@keyframes xShake{
+
+  0%,
+  83%,
+  100%{
+    transform:translate(0,0) rotate(-5deg);
+  }
+
+  84%{
+    transform:translate(-2px,1px) rotate(-7deg);
+  }
+
+  85%{
+    transform:translate(4px,-1px) rotate(-2deg);
+  }
+
+  86%{
+    transform:translate(-3px,2px) rotate(-6deg);
+  }
+
+  87%{
+    transform:translate(2px,-2px) rotate(-4deg);
+  }
+
+  89%{
+    transform:translate(0,0) rotate(-5deg);
+  }
+
+}
+
+.intro-line{
+  width:1px;
+  height:45px;
+
+  margin:34px auto 22px;
+
+  background:
+    linear-gradient(
+      transparent,
+      #777,
+      transparent
+    );
+}
+
+.intro-enter{
+  color:#777;
+
+  font-size:8px;
+  letter-spacing:.42em;
+
+  animation:enterBlink 2.4s infinite;
+}
+
+@keyframes enterBlink{
+
+  0%,100%{
+    opacity:.3;
+  }
+
+  50%{
+    opacity:1;
+  }
+
+}
+
+/* ─────────────────────────────
+   MAIN
+───────────────────────────── */
+
+main{
+  opacity:0;
+  transform:translateY(12px);
+
+  transition:
+    opacity 1s ease .15s,
+    transform 1s ease .15s;
+}
+
+main.show{
+  opacity:1;
+  transform:none;
+}
+
+.wrap{
+  width:min(1180px,calc(100% - 40px));
+  margin:auto;
+}
+
+/* ─────────────────────────────
+   NAV
+───────────────────────────── */
+
+nav{
+  position:sticky;
+  top:0;
+
+  z-index:100;
+
+  border-bottom:1px solid rgba(255,255,255,.06);
+
+  backdrop-filter:blur(18px);
+
+  background:
+    rgba(4,4,4,.82);
+}
+
+.nav-inner{
+  width:min(1180px,calc(100% - 40px));
+
+  height:64px;
+
+  margin:auto;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.logo{
+  font-family:"Cormorant Garamond",serif;
+
+  font-size:24px;
+  letter-spacing:-.04em;
+}
+
+.logo b{
+  color:var(--red2);
+
+  font-size:31px;
+  font-weight:400;
+  font-style:italic;
+}
+
+.nav-right{
+  color:#555;
+
+  font-size:8px;
+  letter-spacing:.3em;
+}
+
+/* ─────────────────────────────
+   HERO
+───────────────────────────── */
+
+.hero{
+  position:relative;
+
+  min-height:610px;
+  height:82vh;
+  max-height:850px;
+
+  display:flex;
+  align-items:center;
+
+  overflow:hidden;
+
+  border-bottom:1px solid var(--line);
+}
+
+.hero-bg{
+  position:absolute;
+
+  top:0;
+  right:0;
+
+  width:67%;
+  height:100%;
+
+  opacity:.22;
+
+  filter:
+    grayscale(1)
+    contrast(1.1);
+
+  background:
+    linear-gradient(
+      90deg,
+      #040404 0%,
+      rgba(4,4,4,.72) 22%,
+      transparent 65%
+    ),
+    linear-gradient(
+      0deg,
+      #040404 0%,
+      transparent 45%
+    ),
+    url("https://github.com/jinkwf/jinkwf.github.io/blob/main/imgflll/Adobe%20Express%202026-07-24%2017.14.17.gif?raw=true")
+    center top / cover no-repeat;
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+
+  max-width:600px;
+}
+
+.eyebrow{
+  margin-bottom:25px;
+
+  color:var(--red2);
+
+  font-size:8px;
+  font-weight:600;
+  letter-spacing:.46em;
+}
+
+.hero-title{
+  margin:0;
+
+  font-family:"Cormorant Garamond","Noto Sans KR",serif;
+
+  font-size:clamp(70px,11vw,130px);
+  font-weight:400;
+
+  line-height:.8;
+  letter-spacing:-.075em;
+}
+
+.hero-title i{
+  color:var(--red2);
+  font-weight:400;
+}
+
+.hero-desc{
+  margin-top:36px;
+
+  max-width:450px;
+
+  color:#777;
+
+  font-size:11px;
+  line-height:2.1;
+}
+
+.scroll-guide{
+  margin-top:55px;
+
+  display:flex;
+  align-items:center;
+  gap:15px;
+
+  color:#505054;
+
+  font-size:8px;
+  letter-spacing:.32em;
+}
+
+.scroll-guide::before{
+  content:"";
+
+  display:block;
+
+  width:42px;
+  height:1px;
+
+  background:#505054;
+}
+
+/* ─────────────────────────────
+   CHARACTER NAV
+───────────────────────────── */
+
+.character-section{
+  padding:95px 0 0;
+}
+
+.section-heading{
+  margin-bottom:35px;
+
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+
+  border-bottom:1px solid var(--line);
+
+  padding-bottom:25px;
+}
+
+.section-no{
+  color:var(--red2);
+
+  font-family:"Cormorant Garamond",serif;
+
+  font-size:15px;
+  font-style:italic;
+}
+
+.section-heading h2{
+  margin:5px 0 0;
+
+  font-family:"Cormorant Garamond","Noto Sans KR",serif;
+
+  font-size:clamp(42px,6vw,62px);
+  font-weight:400;
+  letter-spacing:-.05em;
+}
+
+.section-sub{
+  color:#535357;
+
+  font-size:8px;
+  letter-spacing:.25em;
+}
+
+.character-tabs{
+  position:sticky;
+  top:64px;
+
+  z-index:80;
+
+  display:flex;
+
+  background:
+    rgba(4,4,4,.94);
+
+  backdrop-filter:blur(16px);
+
+  border-bottom:1px solid var(--line);
+}
+
+.char-tab{
+  flex:1;
+
+  min-width:110px;
+
+  padding:20px 15px;
+
+  border:0;
+  border-bottom:1px solid transparent;
+
+  background:transparent;
+
+  color:#5d5d61;
+
+  cursor:pointer;
+
+  font-size:11px;
+  letter-spacing:.18em;
+
+  transition:.3s ease;
+}
+
+.char-tab:hover{
+  color:#aaa;
+}
+
+.char-tab.active{
+  color:#fff;
+  border-bottom-color:var(--red2);
+}
+
+/* ─────────────────────────────
+   CHARACTER PANEL
+───────────────────────────── */
+
+.character-panel{
+  display:none;
+
+  padding:55px 0 140px;
+}
+
+.character-panel.active{
+  display:block;
+
+  animation:panelFade .65s ease;
+}
+
+@keyframes panelFade{
+
+  from{
+    opacity:0;
+  }
+
+  to{
+    opacity:1;
+  }
+
+}
+
+.character-layout{
+  display:grid;
+
+  grid-template-columns:
+    minmax(300px,.86fr)
+    minmax(380px,1.14fr);
+
+  gap:70px;
+
+  align-items:start;
+}
+
+/* LEFT IMAGE */
+
+.character-left{
+  position:sticky;
+
+  top:160px;
+
+  height:
+    calc(100vh - 190px);
+
+  min-height:520px;
+  max-height:760px;
+}
+
+.portrait{
+  position:relative;
+
+  width:100%;
+  height:100%;
+
+  overflow:hidden;
+
+  background:#080808;
+
+  border:1px solid var(--line);
+}
+
+.portrait img{
+  position:absolute;
+  inset:0;
+
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+  object-position:center top;
+
+  filter:
+    grayscale(1)
+    contrast(1.06)
+    brightness(.82);
+
+  transition:
+    transform 1s ease,
+    filter 1s ease;
+}
+
+.portrait:hover img{
+  transform:scale(1.025);
+
+  filter:
+    grayscale(.8)
+    contrast(1.04)
+    brightness(.88);
+}
+
+.portrait-overlay{
+  position:absolute;
+  inset:0;
+
+  pointer-events:none;
+
+  background:
+    linear-gradient(
+      to bottom,
+      transparent 55%,
+      rgba(0,0,0,.83) 100%
+    );
+}
+
+.portrait-index{
+  position:absolute;
+
+  left:27px;
+  bottom:26px;
+
+  z-index:2;
+}
+
+.portrait-index small{
+  display:block;
+
+  margin-bottom:5px;
+
+  color:var(--red2);
+
+  font-family:"Cormorant Garamond",serif;
+  font-style:italic;
+
+  font-size:12px;
+}
+
+.portrait-index strong{
+  display:block;
+
+  font-size:12px;
+  font-weight:400;
+  letter-spacing:.18em;
+}
+
+/* RIGHT TEXT */
+
+.character-right{
+  padding-top:10px;
+}
+
+.story-block{
+  margin-bottom:115px;
+}
+
+.story-block:last-child{
+  margin-bottom:20px;
+}
+
+/* SCROLL REVEAL */
+
+.reveal{
+  opacity:0;
+
+  transform:translateY(28px);
+
+  filter:blur(3px);
+
+  transition:
+    opacity .85s cubic-bezier(.2,.7,.2,1),
+    transform .85s cubic-bezier(.2,.7,.2,1),
+    filter .85s ease;
+}
+
+.reveal.visible{
+  opacity:1;
+
+  transform:translateY(0);
+
+  filter:blur(0);
+}
+
+.reveal.delay-1{
+  transition-delay:.05s;
+}
+
+.reveal.delay-2{
+  transition-delay:.12s;
+}
+
+.reveal.delay-3{
+  transition-delay:.18s;
+}
+
+/* QUOTE */
+
+.main-quote{
+  position:relative;
+
+  margin:0;
+
+  padding-left:28px;
+
+  font-family:"Cormorant Garamond","Noto Sans KR",serif;
+
+  font-size:clamp(23px,3.1vw,35px);
+  line-height:1.65;
+
+  font-weight:400;
+  font-style:italic;
+
+  color:#e4e4e5;
+}
+
+.main-quote::before{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  top:8px;
+
+  width:2px;
+  height:70px;
+
+  background:var(--red2);
+}
+
+.scene-desc{
+  margin-top:34px;
+
+  color:#777;
+
+  font-size:11px;
+  line-height:2.15;
+}
+
+.scene-dialogue{
+  margin-top:25px;
+
+  color:#aaa;
+
+  font-family:"Cormorant Garamond","Noto Sans KR",serif;
+
+  font-size:17px;
+  font-style:italic;
+}
+
+/* BLOCK HEADER */
+
+.block-header{
+  margin-bottom:32px;
+
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.block-number{
+  color:var(--red2);
+
+  font-family:"Cormorant Garamond",serif;
+
+  font-size:12px;
+  font-style:italic;
+}
+
+.block-header h3{
+  margin:0;
+
+  font-size:12px;
+  font-weight:500;
+
+  letter-spacing:.18em;
+}
+
+.block-line{
+  flex:1;
+
+  height:1px;
+
+  background:var(--line);
+}
+
+/* PROFILE */
+
+.profile-name{
+  margin-bottom:32px;
+
+  font-size:clamp(36px,5vw,55px);
+
+  font-weight:300;
+
+  letter-spacing:-.06em;
+}
+
+.profile-list{
+  border-top:1px solid var(--line);
+}
+
+.profile-row{
+  display:grid;
+
+  grid-template-columns:120px 1fr;
+
+  gap:25px;
+
+  padding:15px 0;
+
+  border-bottom:1px solid var(--line);
+
+  font-size:11px;
+  line-height:1.8;
+}
+
+.profile-row span:first-child{
+  color:#555;
+}
+
+.profile-row span:last-child{
+  color:#aaa;
+}
+
+.profile-note{
+  margin-top:28px;
+
+  color:#68686c;
+
+  font-size:10px;
+  line-height:2;
+}
+
+/* PEOPLE */
+
+.people-list{
+  border-top:1px solid var(--line);
+}
+
+.person-row{
+  padding:20px 0;
+
+  border-bottom:1px solid var(--line);
+}
+
+.person-name{
+  margin-bottom:6px;
+
+  color:#c9c9cb;
+
+  font-size:11px;
+  font-weight:500;
+}
+
+.person-desc{
+  color:#606064;
+
+  font-size:10px;
+  line-height:1.9;
+}
+
+/* COMMAND */
+
+.command-list{
+  display:grid;
+
+  gap:10px;
+}
+
+.command{
+  position:relative;
+
+  padding:18px 20px 18px 24px;
+
+  background:#0b0b0c;
+
+  border:1px solid #1c1c1f;
+
+  transition:.3s ease;
+}
+
+.command::before{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  top:0;
+  bottom:0;
+
+  width:2px;
+
+  background:#28282c;
+
+  transition:.3s ease;
+}
+
+.command:hover{
+  transform:translateX(4px);
+
+  background:#101011;
+
+  border-color:#303034;
+}
+
+.command:hover::before{
+  background:var(--red2);
+}
+
+.command-name{
+  margin-bottom:6px;
+
+  color:#d9d9da;
+
+  font-size:11px;
+  font-weight:600;
+
+  letter-spacing:.06em;
+}
+
+.command-desc{
+  color:#626267;
+
+  font-size:9px;
+  line-height:1.8;
+}
+
+/* CHARACTER END */
+
+.character-end{
+  padding-top:60px;
+
+  text-align:center;
+
+  color:#333337;
+}
+
+.character-end .end-x{
+  font-family:"Cormorant Garamond",serif;
+
+  color:var(--red);
+
+  font-size:48px;
+  font-style:italic;
+}
+
+.character-end span{
+  display:block;
+
+  margin-top:-8px;
+
+  font-size:7px;
+  letter-spacing:.4em;
+}
+
+/* ─────────────────────────────
+   WORLD
+───────────────────────────── */
+
+.world-section{
+  padding:110px 0;
+
+  background:#070707;
+
+  border-top:1px solid var(--line);
+}
+
+.world-grid{
+  display:grid;
+  gap:12px;
+}
+
+.world-card{
+  padding:38px 40px;
+
+  background:#0d0d0e;
+
+  border:1px solid var(--line);
+
+  transition:.35s ease;
+}
+
+.world-card:hover{
+  background:#111112;
+
+  border-color:#303034;
+
+  transform:translateX(4px);
+}
+
+.world-head{
+  display:flex;
+
+  align-items:center;
+  justify-content:space-between;
+
+  gap:20px;
+}
+
+.world-name{
+  font-size:19px;
+}
+
+.world-eng{
+  color:var(--red2);
+
+  font-family:"Cormorant Garamond",serif;
+
+  font-size:11px;
+  letter-spacing:.2em;
+}
+
+.world-desc{
+  max-width:800px;
+
+  margin:17px 0 25px;
+
+  color:#66666a;
+
+  font-size:10px;
+  line-height:2;
+}
+
+.world-person-list{
+  border-top:1px solid var(--line);
+}
+
+.world-person{
+  display:grid;
+
+  grid-template-columns:120px 1fr;
+
+  gap:20px;
+
+  padding:13px 0;
+
+  border-bottom:1px solid #1c1c1f;
+
+  font-size:10px;
+  line-height:1.8;
+}
+
+.world-person strong{
+  color:#b5b5b7;
+
+  font-weight:500;
+}
+
+.world-person span{
+  color:#5f5f63;
+}
+
+/* ─────────────────────────────
+   FOOTER
+───────────────────────────── */
+
+footer{
+  padding:100px 20px 75px;
+
+  text-align:center;
+
+  border-top:1px solid var(--line);
+}
+
+.footer-x{
+  color:var(--red2);
+
+  font-family:"Cormorant Garamond",serif;
+
+  font-size:58px;
+  font-style:italic;
+}
+
+.footer-title{
+  margin-top:-10px;
+
+  color:#777;
+
+  font-size:9px;
+  letter-spacing:.35em;
+}
+
+.footer-copy{
+  margin-top:32px;
+
+  color:#343438;
+
+  font-size:7px;
+  letter-spacing:.18em;
+}
+
+/* ─────────────────────────────
+   MOBILE
+───────────────────────────── */
+
+@media(max-width:760px){
+
+  .wrap{
+    width:min(100% - 28px,1180px);
+  }
+
+  .nav-inner{
+    width:min(100% - 28px,1180px);
+    height:57px;
+  }
+
+  .hero{
+    min-height:630px;
+    height:88vh;
+  }
+
+  .hero-bg{
+    width:100%;
+
+    opacity:.2;
+
+    background:
+      linear-gradient(
+        0deg,
+        #040404 0%,
+        rgba(4,4,4,.5) 65%,
+        rgba(4,4,4,.2)
+      ),
+      url("https://github.com/jinkwf/jinkwf.github.io/blob/main/imgflll/Adobe%20Express%202026-07-24%2017.14.17.gif?raw=true")
+      68% top / cover no-repeat;
+  }
+
+  .hero-content{
+    align-self:flex-end;
+
+    padding-bottom:70px;
+  }
+
+  .character-section{
+    padding-top:75px;
+  }
+
+  .section-heading{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .section-sub{
+    margin-top:12px;
+  }
+
+  .character-tabs{
+    top:57px;
+
+    overflow-x:auto;
+
+    scrollbar-width:none;
+  }
+
+  .character-tabs::-webkit-scrollbar{
+    display:none;
+  }
+
+  .character-layout{
+    display:block;
+  }
+
+  .character-left{
+    position:relative;
+
+    top:auto;
+
+    height:68vh;
+    min-height:480px;
+    max-height:650px;
+
+    margin-bottom:65px;
+  }
+
+  .character-right{
+    padding:0 4px;
+  }
+
+  .story-block{
+    margin-bottom:90px;
+  }
+
+  .main-quote{
+    padding-left:22px;
+
+    font-size:24px;
+  }
+
+  .profile-row{
+    grid-template-columns:90px 1fr;
+    gap:18px;
+  }
+
+  .world-card{
+    padding:28px 23px;
+  }
+
+  .world-head{
+    display:block;
+  }
+
+  .world-eng{
+    margin-top:8px;
+  }
+
+  .world-person{
+    grid-template-columns:90px 1fr;
+  }
+
+  .intro-bg{
+    grid-template-columns:1fr;
+  }
+
+  .intro-bg-item:not(:nth-child(2)){
+    display:none;
+  }
+
+}
+
+/* 모션 감소 설정 */
+
+@media(prefers-reduced-motion:reduce){
+
+  *,
+  *::before,
+  *::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+    scroll-behavior:auto!important;
+  }
+
+  .reveal{
+    opacity:1;
+    filter:none;
+    transform:none;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ═══════════════════════════
+     INTRO
+═══════════════════════════ -->
+
+<div id="intro"
+     role="button"
+     tabindex="0"
+     onclick="enterSite()">
+
+  <div class="intro-bg">
+
+    <div
+      class="intro-bg-item"
+      style="background-image:url('https://github.com/jinkwf/jinkwf.github.io/blob/main/imgflll/Adobe%20Express%202026-07-24%2017.14.17.gif?raw=true')">
+    </div>
+
+    <div
+      class="intro-bg-item"
+      style="background-image:url('https://github.com/jinkwf/jinkwf.github.io/blob/main/imgflll/masterpiece,%20high%20quality,%20highly%20detailed,%20sharp%20focus,%20cinematic%20lighting,%20bea%20s-4222136508.png?raw=true')">
+    </div>
+
+    <div
+      class="intro-bg-item"
+      style="background-image:url('https://github.com/jinkwf/jinkwf.github.io/blob/main/imgflll/%EC%9C%A4%ED%83%9C%EC%9A%B0.png?raw=true')">
+    </div>
+
+  </div>
+
+  <div class="intro-vignette"></div>
+  <div class="intro-noise"></div>
+
+  <div class="intro-content">
+
+    <div class="intro-caption">
+      PRIVATE RELATIONSHIP ARCHIVE
+    </div>
+
+    <h1 class="intro-title">
+      나의 <span class="intro-x">X</span>
+    </h1>
+
+    <div class="intro-line"></div>
+
+    <div class="intro-enter">
+      CLICK TO ENTER
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ═══════════════════════════
+     MAIN
+═══════════════════════════ -->
+
+<main id="main">
+
+<!-- NAV -->
+
+<nav>
+
+  <div class="nav-inner">
+
+    <div class="logo">
+      나의 <b>X</b>
+    </div>
+
+    <div class="nav-right">
+      MY X ARCHIVE
+    </div>
+
+  </div>
+
+</nav>
+
+
+<!-- HERO -->
+
+<header class="hero">
+
+  <div class="hero-bg"></div>
+
+  <div class="wrap">
+
+    <div class="hero-content">
+
+      <div class="eyebrow">
+        MY X — PRIVATE ARCHIVE
+      </div>
+
+      <h1 class="hero-title">
+        나의<br><i>X</i>
+      </h1>
+
+      <div class="hero-desc">
+        끝났다고 사라지는 관계는 없다.<br>
+        기억과 버릇, 말투와 흔적.<br>
+        그리고 아직 정리되지 않은 사람들.
+      </div>
+
+      <div class="scroll-guide">
+        SCROLL
+      </div>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<!-- ═══════════════════════════
+     CHARACTERS
+═══════════════════════════ -->
+
+<section class="character-section">
+
+<div class="wrap">
+
+  <div class="section-heading">
+
+    <div>
+
+      <div class="section-no">
+        01.
+      </div>
+
+      <h2>
+        Characters
+      </h2>
+
+    </div>
+
+    <div class="section-sub">
+      THREE MEN / THREE STORIES
+    </div>
+
+  </div>
+
+
+  <!-- TAB -->
+
+  <div class="character-tabs">
+
+    <button
+      class="char-tab active"
+      onclick="showCharacter('jooseok',this)">
+      권주석
+    </button>
+
+    <button
+      class="char-tab"
+      onclick="showCharacter('dohoon',this)">
+      서도훈
+    </button>
+
+    <button
+      class="char-tab"
+      onclick="showCharacter('taewoo',this)">
+      윤태우
+    </button>
+
+  </div>
+
+
+  <!-- ═══════════════════════
+       권주석
+  ═══════════════════════ -->
+
+  <article
+    id="jooseok"
+    class="character-panel active">
+
+    <div class="character-layout">
+
+      <!-- LEFT -->
+
+      <aside class="character-left">
+
+        <div class="portrait">
+
+          <img
+            src="https://github.com/jinkwf/jinkwf.github.io/blob/main/imgflll/Adobe%20Express%202026-07-24%2017.14.17.gif?raw=true"
+            alt="권주석">
+
+          <div class="portrait-overlay"></div>
+
+          <div class="portrait-index">
+            <small>X — 01</small>
+            <strong>KWON JOO SEOK</strong>
+          </div>
+
+        </div>
+
+      </aside>
+
+
+      <!-- RIGHT -->
+
+      <div class="character-right">
+
+
+        <!-- QUOTE -->
+
+        <section class="story-block reveal">
+
+          <blockquote class="main-quote">
+            “당신처럼 직접 벗겨 보고 싶은 건 처음이야.”
+          </blockquote>
+
+          <div class="scene-desc">
+            권주석은 결혼반지가 끼워진 손으로
+            넥타이를 느슨하게 풀었다.
+          </div>
+
+          <div class="scene-dialogue">
+            “그런 표정 짓지 마. 아직은 생각만 하고 있으니까.”
+          </div>
+
+        </section>
+
+
+        <!-- PROFILE -->
+
+        <section class="story-block reveal">
+
+          <div class="block-header">
+
+            <span class="block-number">01</span>
+
+            <h3>PROFILE</h3>
+
+            <div class="block-line"></div>
+
+          </div>
+
+          <div class="profile-name">
+            권주석
+          </div>
+
+          <div class="profile-list">
+
+            <div class="profile-row">
+              <span>AGE</span>
+              <span>40세</span>
+            </div>
+
+            <div class="profile-row">
+              <span>POSITION</span>
+              <span>속옷 브랜드 비엘리 전무</span>
+            </div>
+
+            <div class="profile-row">
+              <span>MARRIAGE</span>
+              <span>有</span>
+            </div>
+
+            <div class="profile-row">
+              <span>BDSM</span>
+              <span>有</span>
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- PEOPLE -->
+
+        <section class="story-block reveal">
+
+          <div class="block-header">
+
+            <span class="block-number">02</span>
+
+            <h3>PEOPLE AROUND HIM</h3>
+
+            <div class="block-line"></div>
+
+          </div>
+
+          <div class="people-list">
+
+            <div class="person-row">
+
+              <div class="person-name">
+                은하리
+              </div>
+
+              <div class="person-desc">
+                40세 · 리빙 브랜드 ‘주이’ 그룹의 막내 딸.<br>
+                권주석의 아내.
+              </div>
+
+            </div>
+
+            <div class="person-row">
+
+              <div class="person-name">
+                한성운
+              </div>
+
+              <div class="person-desc">
+                32세 · 권주석 전무 전속 비서실장.
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- COMMAND -->
+
+        <section class="story-block reveal">
+
+          <div class="block-header">
+
+            <span class="block-number">03</span>
+
+            <h3>COMMAND</h3>
+
+            <div class="block-line"></div>
+
+          </div>
+
+          <div class="command-list">
+
+            <div class="command">
+              <div class="command-name">!비서</div>
+              <div class="command-desc">
+                {{char}}의 스케줄, 한성운의 의견 확인
+              </div>
+            </div>
+
+            <div class="command">
+              <div class="command-name">!수집</div>
+              <div class="command-desc">
+                {{char}}가 수집한 상자 확인
+              </div>
+            </div>
+
+            <div class="command">
+              <div class="command-name">!지갑</div>
+              <div class="command-desc">
+                {{char}}의 자산 및 생각 확인
+              </div>
+            </div>
+
+            <div class="command">
+              <div class="command-name">!커뮤</div>
+              <div class="command-desc">
+                비엘리 커뮤니티 확인
+              </div>
+            </div>
+
+            <div class="command">
+              <div class="command-name">!정신체뤼</div>
+              <div class="command-desc">
+                AI 날조로 인해 정신 못차릴때 한번씩 써주세요
+              </div>
+            </div>
+
+            <div class="command">
+              <div class="command-name">!요약</div>
+              <div class="command-desc">
+                서사를 요약합니다.
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <div class="character-end reveal">
+          <div class="end-x">X</div>
+          <span>END OF FILE 01</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </article>
+
+
+  <!-- ═══════════════════════
+       서도훈
+  ═══════════════════════ -->
+
+  <article
+    id="dohoon"
+    class="character-panel">
+
+    <div class="character-layout">
+
+      <!-- LEFT -->
+
+      <aside class="character-left">
+
+        <div class="portrait">
+
+          <img
+            src="https://github.com/jinkwf/jinkwf.github.io/blob/main/imgflll/masterpiece,%20high%20quality,%20highly%20detailed,%20sharp%20focus,%20cinematic%20lighting,%20bea%20s-4222136508.png?raw=true"
+            alt="서도훈">
+
+          <div class="portrait-overlay"></div>
+
+          <div class="portrait-index">
+            <small>X — 02</small>
+            <strong>SEO DO HOON</strong>
+          </div>
+
+        </div>
+
+      </aside>
+
+
+      <!-- RIGHT -->
+
+      <div class="character-right">
+
+
+        <!-- QUOTE -->
+
+        <section class="story-block reveal">
+
+          <blockquote class="main-quote">
+            “클럽 간 게 뭐 죽을 죄야? 난 그냥 친구들이 가자고 해서 쪽수 맞춰준 것뿐이야. 왜 이렇게 숨 막히게 굴어?”
+          </blockquote>
+
+          <div class="scene-desc">
+            1주년 기념일, 약속은커녕 연락도 잘 안 되더니
+            다른 사람과 밤을 보내고 온 {{char}}.
+          </div>
+
+        </section>
+
+
+        <!-- PROFILE -->
+
+        <section class="story-block reveal">
+
+          <div class="block-header">
+
+            <span class="block-number">01</span>
+
+            <h3>PROFILE</h3>
+
+            <div class="block-line"></div>
+
+          </div>
+
+          <div class="profile-name">
+            서도훈
+          </div>
+
+          <div class="profile-list">
+
+            <div class="profile-row">
+              <span>AGE</span>
+              <span>23세</span>
+            </div>
+
+            <div class="profile-row">
+              <span>BODY</span>
+              <span>187cm · 85kg</span>
+            </div>
+
+            <div class="profile-row">
+              <span>SCHOOL</span>
+              <span>경세대학교 경영학과 2학년</span>
+            </div>
+
+            <div class="profile-row">
+              <span>FAMILY</span>
+              <span>2남 1녀 중 막내</span>
+            </div>
+
+            <div class="profile-row">
+              <span>RELATION</span>
+              <span>{{user}}와 1년째 연애 중</span>
+            </div>
+
+            <div class="profile-row">
+              <span>1ST ANNIV.</span>
+              <span>2026. 07. 10 (금)</span>
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- PEOPLE -->
+
+        <section class="story-block reveal">
+
+          <div class="block-header">
+
+            <span class="block-number">02</span>
+
+            <h3>PEOPLE AROUND HIM</h3>
+
+            <div class="block-line"></div>
+
+          </div>
+
+          <div class="people-list">
+
+            <div class="person-row">
+
+              <div class="person-name">
+                하태진
+              </div>
+
+              <div class="person-desc">
+                23세 · 남 · 경영학과 2학년
+              </div>
+
+            </div>
+
+            <div class="person-row">
+
+              <div class="person-name">
+                강재현
+              </div>
+
+              <div class="person-desc">
+                23세 · 남 · 법학과 2학년
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- COMMAND -->
+
+        <section class="story-block reveal">
+
+          <div class="block-header">
+
+            <span class="block-number">03</span>
+
+            <h3>COMMAND</h3>
+
+            <div class="block-line"></div>
+
+          </div>
+
+          <div class="command-list">
+
+            <div class="command">
+              <div class="command-name">!커뮤</div>
+              <div class="command-desc">
+                경세대 커뮤니티
+              </div>
+            </div>
+
+            <div class="command">
+              <div class="command-name">!속마음</div>
+              <div class="command-desc">
+                {{char}}의 속마음
+              </div>
+            </div>
+
+            <div class="command">
+              <div class="command-name">!핸드폰</div>
+              <div class="command-desc">
+                {{char}}의 메세지 내용 및 결제 내역
+              </div>
+            </div>
+
+            <div class="command">
+              <div class="command-name">!톡</div>
+              <div class="command-desc">
+                !톡 [ 내용 ] 입력 시 메세지를 보내고
+                보낸 메세지에 대한 답변을 받을 수 있습니다.
+              </div>
+            </div>
+
+            <div class="command">
+              <div class="command-name">!요약</div>
+              <div class="command-desc">
+                서사를 요약합니다.
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <div class="character-end reveal">
+          <div class="end-x">X</div>
+          <span>END OF FILE 02</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </article>
+
+
+  <!-- ═══════════════════════
+       윤태우
+  ═══════════════════════ -->
+
+  <article
+    id="taewoo"
+    class="character-panel">
+
+    <div class="character-layout">
+
+      <!-- LEFT -->
+
+      <aside class="character-left">
+
+        <div class="portrait">
+
+          <img
+            src="https://github.com/jinkwf/jinkwf.github.io/blob/main/imgflll/%EC%9C%A4%ED%83%9C%EC%9A%B0.png?raw=true"
+            alt="윤태우">
+
+          <div class="portrait-overlay"></div>
+
+          <div class="portrait-index">
+            <small>X — 03</small>
+            <strong>YOON TAE WOO</strong>
+          </div>
+
+        </div>
+
+      </aside>
+
+
+      <!-- RIGHT -->
+
+      <div class="character-right">
+
+
+        <!-- QUOTE -->
+
+        <section class="story-block reveal">
+
+          <blockquote class="main-quote">
+            “여기 살 좀 붙었다, 그치? 내가 말했잖아, 자기는 조금만 방심해도 살찌는 체질이라니까. 내가 매일 체크해 줘야겠네.”
+          </blockquote>
+
+        </section>
+
+
+        <!-- PROFILE -->
+
+        <section class="story-block reveal">
+
+          <div class="block-header">
+
+            <span class="block-number">01</span>
+
+            <h3>PROFILE</h3>
+
+            <div class="block-line"></div>
+
+          </div>
+
+          <div class="profile-name">
+            윤태우
+          </div>
+
+          <div class="profile-list">
+
+            <div class="profile-row">
+              <span>AGE</span>
+              <span>25세</span>
+            </div>
+
+            <div class="profile-row">
+              <span>BODY</span>
+              <span>186cm · 80kg</span>
+            </div>
+
+            <div class="profile-row">
+              <span>JOB</span>
+              <span>공인중개사 실장</span>
+            </div>
+
+            <div class="profile-row">
+              <span>FAMILY</span>
+              <span>외동아들</span>
+            </div>
+
+            <div class="profile-row">
+              <span>CAR</span>
+              <span>흰색 아우디</span>
+            </div>
+
+          </div>
+
+          <div class="profile-note">
+            젊은 나이에 비해 말재주가 좋고 수완이 뛰어나 실적이 좋다.<br><br>
+            운동으로 다져진 깔끔한 핏.<br>
+            단정하면서도 트렌디한 남친룩.<br>
+            신뢰감을 주는 훈훈한 인상.
+          </div>
+
+        </section>
+
+
+        <!-- FAMILY -->
+
+        <section class="story-block reveal">
+
+          <div class="block-header">
+
+            <span class="block-number">02</span>
+
+            <h3>FAMILY</h3>
+
+            <div class="block-line"></div>
+
+          </div>
+
+          <div class="people-list">
+
+            <div class="person-row">
+
+              <div class="person-name">
+                父 · 윤창현
+              </div>
+
+              <div class="person-desc">
+                54세 · 토목건설업체 대표.<br>
+                가부장적 사상.
+              </div>
+
+            </div>
+
+            <div class="person-row">
+
+              <div class="person-name">
+                母 · 박혜숙
+              </div>
+
+              <div class="person-desc">
+                52세 · 부동산 재테크 전문가.<br>
+                헬리콥터 맘.
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- PEOPLE -->
+
+        <section class="story-block reveal">
+
+          <div class="block-header">
+
+            <span class="block-number">03</span>
+
+            <h3>PEOPLE AROUND HIM</h3>
+
+            <div class="block-line"></div>
+
+          </div>
+
+          <div class="people-list">
+
+            <div class="person-row">
+
+              <div class="person-name">
+                마석구
+              </div>
+
+              <div class="person-desc">
+                48세 · {{char}}가 일하는
+                ‘대박 공인중개사 사무소’ 소장.<br>
+                윤창현과 오랜 사업 파트너.
+              </div>
+
+            </div>
+
+            <div class="person-row">
+
+              <div class="person-name">
+                정현우
+              </div>
+
+              <div class="person-desc">
+                25세 · {{char}}의 친구 · 공인중개사.<br>
+                닉네임 : 훈남부동산
+              </div>
+
+            </div>
+
+            <div class="person-row">
+
+              <div class="person-name">
+                한수진
+              </div>
+
+              <div class="person-desc">
+                34세 · 헤드헌터 회사 대표.<br>
+                자산가 집안의 딸.
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- COMMAND -->
+
+        <section class="story-block reveal">
+
+          <div class="block-header">
+
+            <span class="block-number">04</span>
+
+            <h3>COMMAND</h3>
+
+            <div class="block-line"></div>
+
+          </div>
+
+          <div class="command-list">
+
+            <div class="command">
+              <div class="command-name">!속마음</div>
+              <div class="command-desc">
+                {{char}}의 속마음
+              </div>
+            </div>
+
+            <div class="command">
+              <div class="command-name">!지식인</div>
+              <div class="command-desc">
+                {{char}}가 남긴 지식인의 글
+              </div>
+            </div>
+
+            <div class="command">
+              <div class="command-name">!요약</div>
+              <div class="command-desc">
+                서사를 요약합니다.
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <div class="character-end reveal">
+          <div class="end-x">X</div>
+          <span>END OF FILE 03</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </article>
+
+</div>
+
+</section>
+
+
+<!-- ═══════════════════════════
+     WORLD
+═══════════════════════════ -->
+
+<section class="world-section">
+
+<div class="wrap">
+
+  <div class="section-heading">
+
+    <div>
+
+      <div class="section-no">
+        02.
+      </div>
+
+      <h2>
+        World
+      </h2>
+
+    </div>
+
+    <div class="section-sub">
+      PLACE / COMPANY / PEOPLE
+    </div>
+
+  </div>
+
+
+  <div class="world-grid">
+
+
+    <!-- 경세대학교 -->
+
+    <article class="world-card reveal">
+
+      <div class="world-head">
+
+        <div class="world-name">
+          경세대학교
+        </div>
+
+        <div class="world-eng">
+          GYEONGSE UNIVERSITY
+        </div>
+
+      </div>
+
+      <div class="world-desc">
+        서울 마포구에 위치한 정·재계 인사 및 자산가 자제들이
+        대거 포진한 가상의 명문 사립대학교.
+      </div>
+
+      <div class="world-person-list">
+
+        <div class="world-person">
+          <strong>서도훈</strong>
+          <span>23세 · 경영학과 2학년</span>
+        </div>
+
+        <div class="world-person">
+          <strong>하태진</strong>
+          <span>23세 · 경영학과 2학년</span>
+        </div>
+
+        <div class="world-person">
+          <strong>강재현</strong>
+          <span>23세 · 법학과 2학년</span>
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- 대박 공인중개사 -->
+
+    <article class="world-card reveal">
+
+      <div class="world-head">
+
+        <div class="world-name">
+          대박 공인중개사 사무소
+        </div>
+
+        <div class="world-eng">
+          DAEBAK REAL ESTATE
+        </div>
+
+      </div>
+
+      <div class="world-person-list">
+
+        <div class="world-person">
+          <strong>마석구</strong>
+          <span>48세 · 대박 공인중개사 사무소 소장</span>
+        </div>
+
+        <div class="world-person">
+          <strong>정현우</strong>
+          <span>25세 · 공인중개사</span>
+        </div>
+
+        <div class="world-person">
+          <strong>한수진</strong>
+          <span>
+            34세 · 헤드헌터 회사 대표 · 자산가 집안의 딸 ·
+            윤태우가 신경 쓰는 VIP
+          </span>
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- VIELI -->
+
+    <article class="world-card reveal">
+
+      <div class="world-head">
+
+        <div class="world-name">
+          비엘리
+        </div>
+
+        <div class="world-eng">
+          VIELI
+        </div>
+
+      </div>
+
+      <div class="world-desc">
+        국내 최정상 및 글로벌 란제리·언더웨어 시장을 독점하고 있는
+        하이엔드 패션·뷰티 그룹.
+        단순 속옷을 넘어 최고급 실크와 레이스 라인,
+        라이프스타일 브랜드까지 거느리고 있다.
+      </div>
+
+      <div class="world-person-list">
+
+        <div class="world-person">
+          <strong>권주석</strong>
+          <span>40세 · 비엘리 전무</span>
+        </div>
+
+        <div class="world-person">
+          <strong>은하리</strong>
+          <span>
+            40세 · 리빙 브랜드 ‘주이’ 그룹의 막내 딸 ·
+            권주석의 아내
+          </span>
+        </div>
+
+        <div class="world-person">
+          <strong>한성운</strong>
+          <span>32세 · 권주석 전무 전속 비서실장</span>
+        </div>
+
+      </div>
+
+    </article>
+
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+  <div class="footer-x">
+    X
+  </div>
+
+  <div class="footer-title">
+    나의 X
+  </div>
+
+  <div class="footer-copy">
+    MY X · PRIVATE CHARACTER ARCHIVE
+  </div>
+
+</footer>
+
+</main>
+
+
+<script>
+
+/* ─────────────────────────────
+   INTRO
+───────────────────────────── */
+
+function enterSite(){
+
+  const intro =
+    document.getElementById("intro");
+
+  const main =
+    document.getElementById("main");
+
+  intro.classList.add("hide");
+
+  main.classList.add("show");
+
+  setTimeout(function(){
+
+    intro.style.display="none";
+
+    refreshReveal();
+
+  },950);
+
+}
+
+
+/* Enter / Space */
+
+document
+  .getElementById("intro")
+  .addEventListener("keydown",function(e){
+
+    if(
+      e.key==="Enter" ||
+      e.key===" "
+    ){
+      enterSite();
+    }
+
+  });
+
+
+/* ─────────────────────────────
+   CHARACTER TAB
+───────────────────────────── */
+
+function showCharacter(id,button){
+
+  const panels =
+    document.querySelectorAll(
+      ".character-panel"
+    );
+
+  const tabs =
+    document.querySelectorAll(
+      ".char-tab"
+    );
+
+  panels.forEach(function(panel){
+
+    panel.classList.remove("active");
+
+  });
+
+  tabs.forEach(function(tab){
+
+    tab.classList.remove("active");
+
+  });
+
+
+  const selected =
+    document.getElementById(id);
+
+  selected.classList.add("active");
+
+  button.classList.add("active");
+
+
+  /* 탭을 누르면 캐릭터 영역 상단으로 */
+
+  const tabArea =
+    document.querySelector(
+      ".character-tabs"
+    );
+
+  const offset =
+    window.innerWidth <= 760
+      ? 105
+      : 120;
+
+  window.scrollTo({
+    top:
+      tabArea.getBoundingClientRect().top
+      + window.scrollY
+      - offset,
+
+    behavior:"smooth"
+  });
+
+
+  /* 새 캐릭터 reveal 초기화 */
+
+  selected
+    .querySelectorAll(".reveal")
+    .forEach(function(item){
+
+      item.classList.remove("visible");
+
+    });
+
+
+  setTimeout(function(){
+
+    refreshReveal();
+
+  },450);
+
+}
+
+
+/* ─────────────────────────────
+   SCROLL REVEAL
+───────────────────────────── */
+
+const observerOptions = {
+
+  root:null,
+
+  rootMargin:
+    "0px 0px -12% 0px",
+
+  threshold:.08
+
+};
+
+
+const revealObserver =
+  new IntersectionObserver(
+    function(entries){
+
+      entries.forEach(
+        function(entry){
+
+          if(entry.isIntersecting){
+
+            entry.target
+              .classList
+              .add("visible");
+
+          }
+
+        }
+      );
+
+    },
+    observerOptions
+  );
+
+
+function observeReveal(){
+
+  document
+    .querySelectorAll(".reveal")
+    .forEach(function(item){
+
+      revealObserver.observe(item);
+
+    });
+
+}
+
+
+function refreshReveal(){
+
+  document
+    .querySelectorAll(
+      ".character-panel.active .reveal, .world-section .reveal"
+    )
+    .forEach(function(item){
+
+      const rect =
+        item.getBoundingClientRect();
+
+      if(
+        rect.top <
+        window.innerHeight * .88
+      ){
+
+        item.classList.add("visible");
+
+      }
+
+    });
+
+}
+
+
+/* 실행 */
+
+observeReveal();
+
+window.addEventListener(
+  "scroll",
+  refreshReveal,
+  {passive:true}
+);
+
+window.addEventListener(
+  "resize",
+  refreshReveal
+);
+
+</script>
+
+</body>
+</html>
