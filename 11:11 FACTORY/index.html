@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>11:11 FACTORY | 캐릭터 참가 모집</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: #f7f2eb;
+      color: #2b211c;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Pretendard",
+        "Noto Sans KR",
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+      line-height: 1.7;
+      word-break: keep-all;
+    }
+
+    .container {
+      width: min(900px, calc(100% - 36px));
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: 90px 0;
+    }
+
+    .eyebrow {
+      margin-bottom: 10px;
+
+      color: #8f1d1d;
+
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    .section-title {
+      margin-bottom: 20px;
+
+      font-size: clamp(32px, 6vw, 52px);
+      line-height: 1.15;
+      letter-spacing: -0.045em;
+    }
+
+    .description {
+      max-width: 680px;
+
+      color: #75685f;
+      font-size: 16px;
+    }
+
+    /* HERO */
+
+    .hero {
+      min-height: 100vh;
+
+      display: flex;
+      align-items: center;
+
+      background:
+        radial-gradient(
+          circle at 85% 15%,
+          rgba(143, 29, 29, 0.13),
+          transparent 30%
+        ),
+        #f7f2eb;
+
+      border-bottom: 1px solid #ddd0c3;
+    }
+
+    .hero-inner {
+      padding: 80px 0;
+    }
+
+    .brand {
+      margin-bottom: 65px;
+
+      font-size: 13px;
+      font-weight: 950;
+      letter-spacing: 0.22em;
+    }
+
+    .hero h1 {
+      max-width: 820px;
+      margin: 0;
+
+      font-size: clamp(50px, 9vw, 92px);
+      line-height: 1;
+      letter-spacing: -0.065em;
+    }
+
+    .hero .red {
+      color: #8f1d1d;
+    }
+
+    .hero-copy {
+      max-width: 630px;
+      margin-top: 35px;
+
+      color: #4f4139;
+      font-size: 18px;
+    }
+
+    .hero-warning {
+      margin-top: 18px;
+
+      color: #8f1d1d;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .hero-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      margin-top: 35px;
+
+      padding: 14px 26px;
+
+      border-radius: 999px;
+
+      background: #211915;
+      color: white;
+
+      font-weight: 900;
+      text-decoration: none;
+
+      transition: 0.2s;
+    }
+
+    .hero-button:hover {
+      background: #8f1d1d;
+      transform: translateY(-2px);
+    }
+
+    /* INFO */
+
+    .info-grid {
+      display: grid;
+
+      grid-template-columns: repeat(3, 1fr);
+
+      gap: 12px;
+
+      margin-top: 40px;
+    }
+
+    .info-card {
+      min-height: 135px;
+
+      padding: 22px;
+
+      border: 1px solid #ddd0c3;
+      border-radius: 18px;
+
+      background: rgba(255,255,255,0.5);
+    }
+
+    .info-label {
+      margin-bottom: 8px;
+
+      color: #998a80;
+
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+    }
+
+    .info-value {
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .info-value.red {
+      color: #8f1d1d;
+    }
+
+    /* QUESTION */
+
+    .question {
+      background: #17110e;
+      color: white;
+    }
+
+    .question .section {
+      padding-top: 120px;
+      padding-bottom: 120px;
+    }
+
+    .question-title {
+      max-width: 750px;
+
+      margin: 0;
+
+      font-size: clamp(36px, 6vw, 60px);
+      line-height: 1.25;
+      letter-spacing: -0.045em;
+    }
+
+    .question-line {
+      height: 1px;
+
+      margin: 55px 0 18px;
+
+      background: #56473f;
+    }
+
+    .question-small {
+      color: #b9aaa1;
+      font-size: 13px;
+    }
+
+    /* 11:11 */
+
+    .factory {
+      background: #120e0c;
+      color: white;
+    }
+
+    .factory-box {
+      margin-top: 40px;
+
+      padding: 35px;
+
+      border: 1px solid #4b3d35;
+      border-radius: 22px;
+
+      background:
+        radial-gradient(
+          circle at top right,
+          rgba(143,29,29,.22),
+          transparent 40%
+        );
+    }
+
+    .factory-number {
+      font-size: clamp(75px, 15vw, 150px);
+      font-weight: 950;
+      line-height: 0.9;
+      letter-spacing: -0.09em;
+    }
+
+    .factory-copy {
+      max-width: 620px;
+
+      margin-top: 30px;
+
+      color: #d4c7bf;
+
+      font-size: 19px;
+    }
+
+    .factory-copy strong {
+      color: #ffaca4;
+    }
+
+    /* APPLICATION */
+
+    .application-section {
+      background: #eee4da;
+    }
+
+    .form {
+      max-width: 720px;
+
+      margin-top: 45px;
+    }
+
+    .form-group {
+      margin-bottom: 30px;
+    }
+
+    .label {
+      display: block;
+
+      margin-bottom: 9px;
+
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .required {
+      color: #8f1d1d;
+    }
+
+    .optional {
+      margin-left: 6px;
+      color: #998a80;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    input[type="text"],
+    textarea,
+    input[type="file"] {
+      width: 100%;
+
+      border: 1px solid #c9baad;
+      border-radius: 14px;
+
+      background: #fbf7f2;
+
+      color: #2b211c;
+
+      font: inherit;
+
+      outline: none;
+    }
+
+    input[type="text"],
+    textarea {
+      padding: 16px;
+    }
+
+    input[type="file"] {
+      padding: 13px;
+    }
+
+    textarea {
+      min-height: 170px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: #8f1d1d;
+
+      box-shadow:
+        0 0 0 3px rgba(143,29,29,0.08);
+    }
+
+    .help {
+      margin-top: 8px;
+
+      color: #83756c;
+
+      font-size: 12px;
+    }
+
+    /* IMAGE PREVIEW */
+
+    .image-preview-box {
+      display: none;
+
+      margin-top: 15px;
+
+      padding: 14px;
+
+      border: 1px solid #d2c4b8;
+      border-radius: 15px;
+
+      background: rgba(255,255,255,0.45);
+    }
+
+    .image-preview-box.show {
+      display: block;
+    }
+
+    #imagePreview {
+      display: block;
+
+      width: 100%;
+      max-height: 450px;
+
+      object-fit: contain;
+
+      border-radius: 11px;
+
+      background: #ddd3cb;
+    }
+
+    .file-name {
+      margin-top: 10px;
+
+      color: #776961;
+
+      font-size: 12px;
+    }
+
+    /* CHECKBOX */
+
+    .checkbox {
+      display: flex;
+      align-items: flex-start;
+
+      gap: 10px;
+
+      margin-bottom: 13px;
+
+      font-size: 13px;
+    }
+
+    .checkbox input {
+      margin-top: 5px;
+    }
+
+    /* NOTICE */
+
+    .notice {
+      margin: 28px 0;
+
+      padding: 18px;
+
+      border: 1px solid #c9baad;
+      border-radius: 14px;
+
+      background: rgba(255,255,255,.45);
+
+      color: #74665d;
+
+      font-size: 12px;
+    }
+
+    /* SUBMIT */
+
+    .submit-button {
+      width: 100%;
+      min-height: 58px;
+
+      border: 0;
+      border-radius: 999px;
+
+      background: #211915;
+      color: white;
+
+      font-size: 16px;
+      font-weight: 950;
+
+      cursor: pointer;
+
+      transition: 0.2s;
+    }
+
+    .submit-button:hover {
+      background: #8f1d1d;
+      transform: translateY(-1px);
+    }
+
+    .submit-button:disabled {
+      opacity: .5;
+      cursor: wait;
+      transform: none;
+    }
+
+    /* RESULT */
+
+    .result {
+      display: none;
+
+      margin-top: 25px;
+
+      padding: 28px;
+
+      border-radius: 18px;
+
+      background: #211915;
+      color: white;
+    }
+
+    .result.show {
+      display: block;
+    }
+
+    .result-small {
+      color: #b9aaa1;
+
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .15em;
+    }
+
+    .result h3 {
+      margin: 7px 0 12px;
+
+      font-size: 26px;
+    }
+
+    /* FOOTER */
+
+    footer {
+      padding: 50px 20px;
+
+      background: #110d0b;
+      color: #81746c;
+
+      text-align: center;
+
+      font-size: 11px;
+      letter-spacing: .12em;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 720px) {
+
+      .section {
+        padding: 70px 0;
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .hero-inner {
+        padding: 70px 0 90px;
+      }
+
+      .brand {
+        margin-bottom: 45px;
+      }
+
+    }
+  </style>
+</head>
+
+
+<body>
+
+
+<!-- HERO -->
+
+<header class="hero">
+
+  <div class="container hero-inner">
+
+    <div class="brand">
+      11:11 FACTORY · CHARACTER APPLICATION
+    </div>
+
+    <div class="eyebrow">
+      SPECIAL PROGRAM
+    </div>
+
+    <h1>
+      당신의 캐릭터는<br>
+      <span class="red">11월 11일</span>에<br>
+      무엇을 원하게 될까요?
+    </h1>
+
+    <p class="hero-copy">
+      《11시 11분 생산라인》에 참가할 캐릭터를 모집합니다.
+      가장 간절한 소원을 품은 캐릭터들은
+      제11제과의 11일간 특별 프로그램에 참가하게 됩니다.
+    </p>
+
+    <p class="hero-warning">
+      ※ 처음 품었던 소원과 마지막 순간의 욕망이
+      같다는 보장은 없습니다.
+    </p>
+
+    <a
+      href="#application"
+      class="hero-button"
+    >
+      캐릭터 신청하기
+    </a>
+
+  </div>
+
+</header>
+
+
+<!-- PROGRAM -->
+
+<section>
+
+  <div class="container section">
+
+    <div class="eyebrow">
+      PROGRAM INFORMATION
+    </div>
+
+    <h2 class="section-title">
+      제11제과 특별 프로그램
+    </h2>
+
+    <p class="description">
+      참가 캐릭터는 11월 1일부터 11월 11일까지
+      제11제과의 숙소와 생산시설에서 생활합니다.
+      선택·신뢰·욕망·비밀·관계를 중심으로 한 공정을 수행하며,
+      진행 과정에서 캐릭터의 관계와 욕망이 변화할 수 있습니다.
+    </p>
+
+    <div class="info-grid">
+
+      <div class="info-card">
+        <div class="info-label">
+          PERIOD
+        </div>
+
+        <div class="info-value">
+          11월 1일 — 11월 11일
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-label">
+          CHARACTER
+        </div>
+
+        <div class="info-value">
+          만 20세 이상 성인
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-label">
+          GENRE
+        </div>
+
+        <div class="info-value">
+          성인 로맨스
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-label">
+          RELATIONSHIP
+        </div>
+
+        <div class="info-value">
+          자유 관계 형성
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-label">
+          APPLICATION
+        </div>
+
+        <div class="info-value">
+          캐릭터 러프안
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-label">
+          FINAL REWARD
+        </div>
+
+        <div class="info-value red">
+          단 하나의 소원
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- QUESTION -->
+
+<section class="question">
+
+  <div class="container section">
+
+    <div class="eyebrow">
+      APPLICATION QUESTION
+    </div>
+
+    <h2 class="question-title">
+      캐릭터가 가장 간절하게 원하는 것은 무엇입니까?
+    </h2>
+
+    <div class="question-line"></div>
+
+    <p class="question-small">
+      귀하가 생각하는 캐릭터의 소원과,
+      실제로 그 캐릭터가 가장 강하게 욕망하는 것은
+      다를 수 있습니다.
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- 11:11 -->
+
+<section class="factory">
+
+  <div class="container section">
+
+    <div class="eyebrow">
+      SPECIAL PRODUCT
+    </div>
+
+    <h2 class="section-title">
+      WHAT IS 11:11?
+    </h2>
+
+    <p class="description">
+      제11제과의 특수 제조 공정을 통해
+      프로그램 마지막 날 단 하나의 제품이 완성됩니다.
+    </p>
+
+    <div class="factory-box">
+
+      <div class="factory-number">
+        11:11
+      </div>
+
+      <p class="factory-copy">
+
+        섭취자의
+
+        <strong>
+          현재 가장 강한 욕망
+        </strong>
+
+        을 현실화합니다.
+
+      </p>
+
+      <p class="factory-copy">
+        처음 이곳에 들어왔을 때 원하는 것과
+        마지막 순간 원하는 것은
+        같지 않을 수 있습니다.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- APPLICATION -->
+
+<section
+  class="application-section"
+  id="application"
+>
+
+  <div class="container section">
+
+    <div class="eyebrow">
+      CHARACTER APPLICATION
+    </div>
+
+    <h2 class="section-title">
+      캐릭터 참가 신청
+    </h2>
+
+    <p class="description">
+      작가 닉네임을 입력해주세요.
+      캐릭터 러프안과 한마디는 선택사항입니다.
+    </p>
+
+
+    <form
+      class="form"
+      id="characterForm"
+    >
+
+
+      <!-- 작가 닉네임 -->
+
+      <div class="form-group">
+
+        <label
+          class="label"
+          for="authorName"
+        >
+          작가 닉네임
+          <span class="required">*</span>
+        </label>
+
+        <input
+          type="text"
+          id="authorName"
+          name="authorName"
+          maxlength="50"
+          autocomplete="off"
+          required
+          placeholder="활동 중인 작가 닉네임을 입력해주세요."
+        >
+
+      </div>
+
+
+      <!-- 캐릭터 러프안 -->
+
+      <div class="form-group">
+
+        <label
+          class="label"
+          for="characterImage"
+        >
+          캐릭터 러프안
+          <span class="optional">선택</span>
+        </label>
+
+        <input
+          type="file"
+          id="characterImage"
+          name="characterImage"
+          accept="image/jpeg,image/png,image/webp"
+        >
+
+        <p class="help">
+          선택사항 / JPG · PNG · WEBP / 최대 10MB
+        </p>
+
+
+        <div
+          class="image-preview-box"
+          id="previewBox"
+        >
+
+          <img
+            src=""
+            alt="캐릭터 러프안 미리보기"
+            id="imagePreview"
+          >
+
+          <div
+            class="file-name"
+            id="fileName"
+          ></div>
+
+        </div>
+
+      </div>
+
+
+      <!-- 한마디 -->
+
+      <div class="form-group">
+
+        <label
+          class="label"
+          for="message"
+        >
+          한마디
+          <span class="optional">선택</span>
+        </label>
+
+        <textarea
+          id="message"
+          name="message"
+          maxlength="1200"
+          placeholder="캐릭터 소개, 분위기, 참가시키고 싶은 이유, 하고 싶은 말 등을 자유롭게 작성해주세요. 작성하지 않아도 됩니다."
+        ></textarea>
+
+      </div>
+
+
+      <!-- 성인 확인 -->
+
+      <label class="checkbox">
+
+        <input
+          type="checkbox"
+          id="adultCheck"
+          required
+        >
+
+        <span>
+          신청자는 성인이며,
+          참가 캐릭터 역시 만 20세 이상의 성인으로 설정함을 확인합니다.
+          <span class="required">*</span>
+        </span>
+
+      </label>
+
+
+      <!-- 수집 동의 -->
+
+      <label class="checkbox">
+
+        <input
+          type="checkbox"
+          id="consentCheck"
+          required
+        >
+
+        <span>
+          제출한 작가 닉네임·캐릭터 러프안·한마디가
+          참가자 선정 및 설정 검토 목적으로 수집되는 것에 동의합니다.
+          <span class="required">*</span>
+        </span>
+
+      </label>
+
+
+      <!-- 안내 -->
+
+      <div class="notice">
+
+        <strong>
+          제출 정보
+        </strong>
+
+        <br><br>
+
+        필수:
+        작가 닉네임 / 성인 확인 / 수집 동의
+
+        <br><br>
+
+        선택:
+        캐릭터 러프안 / 한마디
+
+        <br><br>
+
+        캐릭터 러프안은 추후
+        운영자 Google Drive에 저장되며,
+        신청 정보는 운영자 전용 Google Sheet에 기록될 예정입니다.
+
+      </div>
+
+
+      <!-- 제출 -->
+
+      <button
+        type="submit"
+        class="submit-button"
+        id="submitButton"
+      >
+        참가 신청하기
+      </button>
+
+
+      <!-- TEST RESULT -->
+
+      <div
+        class="result"
+        id="testResult"
+      >
+
+        <div class="result-small">
+          APPLICATION TEST
+        </div>
+
+        <h3>
+          입력 확인 완료
+        </h3>
+
+        <p>
+          현재는 HTML 화면 테스트 단계입니다.
+        </p>
+
+        <p>
+          Google Sheet 연결 후에는
+          실제 신청 정보가 저장됩니다.
+        </p>
+
+      </div>
+
+
+    </form>
+
+  </div>
+
+</section>
+
+
+<footer>
+  11:11 FACTORY · CHARACTER APPLICATION
+</footer>
+
+
+<script>
+
+  /* =========================
+     이미지 미리보기
+  ========================= */
+
+  const imageInput =
+    document.getElementById("characterImage");
+
+  const previewBox =
+    document.getElementById("previewBox");
+
+  const imagePreview =
+    document.getElementById("imagePreview");
+
+  const fileName =
+    document.getElementById("fileName");
+
+
+  imageInput.addEventListener(
+    "change",
+    function () {
+
+      const file =
+        this.files[0];
+
+
+      /*
+        파일을 선택하지 않은 경우
+        그냥 공란으로 유지
+      */
+
+      if (!file) {
+
+        previewBox.classList.remove("show");
+
+        imagePreview.src = "";
+
+        fileName.textContent = "";
+
+        return;
+
+      }
+
+
+      const allowedTypes = [
+
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+
+      ];
+
+
+      if (!allowedTypes.includes(file.type)) {
+
+        alert(
+          "JPG, PNG, WEBP 이미지만 첨부할 수 있습니다."
+        );
+
+        this.value = "";
+
+        previewBox.classList.remove("show");
+
+        return;
+
+      }
+
+
+      const maxSize =
+        10 * 1024 * 1024;
+
+
+      if (file.size > maxSize) {
+
+        alert(
+          "이미지는 10MB 이하로 첨부해주세요."
+        );
+
+        this.value = "";
+
+        previewBox.classList.remove("show");
+
+        return;
+
+      }
+
+
+      const reader =
+        new FileReader();
+
+
+      reader.onload =
+        function (event) {
+
+          imagePreview.src =
+            event.target.result;
+
+          fileName.textContent =
+            file.name;
+
+          previewBox.classList.add("show");
+
+        };
+
+
+      reader.readAsDataURL(file);
+
+    }
+  );
+
+
+  /* =========================
+     제출 테스트
+  ========================= */
+
+  const form =
+    document.getElementById("characterForm");
+
+  const testResult =
+    document.getElementById("testResult");
+
+
+  form.addEventListener(
+    "submit",
+    function (event) {
+
+      event.preventDefault();
+
+
+      const authorName =
+        document
+          .getElementById("authorName")
+          .value
+          .trim();
+
+
+      const adultCheck =
+        document
+          .getElementById("adultCheck")
+          .checked;
+
+
+      const consentCheck =
+        document
+          .getElementById("consentCheck")
+          .checked;
+
+
+      /*
+        필수 1
+        작가 닉네임
+      */
+
+      if (!authorName) {
+
+        alert(
+          "작가 닉네임을 입력해주세요."
+        );
+
+        return;
+
+      }
+
+
+      /*
+        필수 2
+        성인 확인
+      */
+
+      if (!adultCheck) {
+
+        alert(
+          "성인 확인 항목에 동의해주세요."
+        );
+
+        return;
+
+      }
+
+
+      /*
+        필수 3
+        수집 동의
+      */
+
+      if (!consentCheck) {
+
+        alert(
+          "정보 수집 항목에 동의해주세요."
+        );
+
+        return;
+
+      }
+
+
+      /*
+        characterImage
+        message
+
+        위 두 항목은 공란이어도
+        제출 가능
+      */
+
+
+      testResult.classList.add("show");
+
+
+      testResult.scrollIntoView({
+
+        behavior: "smooth",
+        block: "center"
+
+      });
+
+    }
+  );
+
+</script>
+
+
+</body>
+</html>
