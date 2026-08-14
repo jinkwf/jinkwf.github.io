@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <meta
+    name="description"
+    content="11:11 FACTORY - 제11제과 캐릭터 참가 모집"
+  >
+
   <title>11:11 FACTORY | 캐릭터 참가 모집</title>
 
   <style>
@@ -17,6 +22,7 @@
 
     body {
       margin: 0;
+
       background: #f7f2eb;
       color: #2b211c;
 
@@ -31,6 +37,17 @@
 
       line-height: 1.7;
       word-break: keep-all;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
     }
 
     .container {
@@ -74,7 +91,9 @@
       font-size: 16px;
     }
 
-    /* HERO */
+    /* =========================
+       HERO
+    ========================= */
 
     .hero {
       min-height: 100vh;
@@ -88,7 +107,11 @@
           rgba(143, 29, 29, 0.13),
           transparent 30%
         ),
-        #f7f2eb;
+        linear-gradient(
+          180deg,
+          #fbf7f2 0%,
+          #f7f2eb 100%
+        );
 
       border-bottom: 1px solid #ddd0c3;
     }
@@ -140,18 +163,16 @@
       justify-content: center;
 
       margin-top: 35px;
-
       padding: 14px 26px;
 
       border-radius: 999px;
 
       background: #211915;
-      color: white;
+      color: #fff;
 
       font-weight: 900;
-      text-decoration: none;
 
-      transition: 0.2s;
+      transition: 0.2s ease;
     }
 
     .hero-button:hover {
@@ -159,15 +180,15 @@
       transform: translateY(-2px);
     }
 
-    /* INFO */
+    /* =========================
+       INFO
+    ========================= */
 
     .info-grid {
       display: grid;
-
       grid-template-columns: repeat(3, 1fr);
 
       gap: 12px;
-
       margin-top: 40px;
     }
 
@@ -201,11 +222,13 @@
       color: #8f1d1d;
     }
 
-    /* QUESTION */
+    /* =========================
+       QUESTION
+    ========================= */
 
     .question {
       background: #17110e;
-      color: white;
+      color: #fff;
     }
 
     .question .section {
@@ -215,7 +238,6 @@
 
     .question-title {
       max-width: 750px;
-
       margin: 0;
 
       font-size: clamp(36px, 6vw, 60px);
@@ -236,16 +258,21 @@
       font-size: 13px;
     }
 
-    /* 11:11 */
+    /* =========================
+       FACTORY
+    ========================= */
 
     .factory {
       background: #120e0c;
-      color: white;
+      color: #fff;
+    }
+
+    .factory .description {
+      color: #a99a91;
     }
 
     .factory-box {
       margin-top: 40px;
-
       padding: 35px;
 
       border: 1px solid #4b3d35;
@@ -272,7 +299,6 @@
       margin-top: 30px;
 
       color: #d4c7bf;
-
       font-size: 19px;
     }
 
@@ -280,7 +306,9 @@
       color: #ffaca4;
     }
 
-    /* APPLICATION */
+    /* =========================
+       APPLICATION
+    ========================= */
 
     .application-section {
       background: #eee4da;
@@ -311,43 +339,43 @@
 
     .optional {
       margin-left: 6px;
+
       color: #998a80;
+
       font-size: 11px;
       font-weight: 700;
     }
 
     input[type="text"],
-    textarea,
-    input[type="file"] {
+    textarea {
       width: 100%;
+
+      padding: 16px;
 
       border: 1px solid #c9baad;
       border-radius: 14px;
 
       background: #fbf7f2;
-
       color: #2b211c;
 
-      font: inherit;
-
       outline: none;
-    }
 
-    input[type="text"],
-    textarea {
-      padding: 16px;
-    }
-
-    input[type="file"] {
-      padding: 13px;
+      transition: 0.2s ease;
     }
 
     textarea {
-      min-height: 170px;
       resize: vertical;
     }
 
-    input:focus,
+    #characterDraft {
+      min-height: 300px;
+    }
+
+    #message {
+      min-height: 150px;
+    }
+
+    input[type="text"]:focus,
     textarea:focus {
       border-color: #8f1d1d;
 
@@ -363,47 +391,18 @@
       font-size: 12px;
     }
 
-    /* IMAGE PREVIEW */
+    .counter {
+      margin-top: 7px;
 
-    .image-preview-box {
-      display: none;
+      color: #998a80;
 
-      margin-top: 15px;
-
-      padding: 14px;
-
-      border: 1px solid #d2c4b8;
-      border-radius: 15px;
-
-      background: rgba(255,255,255,0.45);
+      font-size: 11px;
+      text-align: right;
     }
 
-    .image-preview-box.show {
-      display: block;
-    }
-
-    #imagePreview {
-      display: block;
-
-      width: 100%;
-      max-height: 450px;
-
-      object-fit: contain;
-
-      border-radius: 11px;
-
-      background: #ddd3cb;
-    }
-
-    .file-name {
-      margin-top: 10px;
-
-      color: #776961;
-
-      font-size: 12px;
-    }
-
-    /* CHECKBOX */
+    /* =========================
+       CHECKBOX
+    ========================= */
 
     .checkbox {
       display: flex;
@@ -414,13 +413,17 @@
       margin-bottom: 13px;
 
       font-size: 13px;
+      cursor: pointer;
     }
 
     .checkbox input {
       margin-top: 5px;
+      flex-shrink: 0;
     }
 
-    /* NOTICE */
+    /* =========================
+       NOTICE
+    ========================= */
 
     .notice {
       margin: 28px 0;
@@ -433,11 +436,12 @@
       background: rgba(255,255,255,.45);
 
       color: #74665d;
-
       font-size: 12px;
     }
 
-    /* SUBMIT */
+    /* =========================
+       SUBMIT
+    ========================= */
 
     .submit-button {
       width: 100%;
@@ -447,14 +451,14 @@
       border-radius: 999px;
 
       background: #211915;
-      color: white;
+      color: #fff;
 
       font-size: 16px;
       font-weight: 950;
 
       cursor: pointer;
 
-      transition: 0.2s;
+      transition: 0.2s ease;
     }
 
     .submit-button:hover {
@@ -463,24 +467,27 @@
     }
 
     .submit-button:disabled {
-      opacity: .5;
+      opacity: 0.55;
+
       cursor: wait;
+
       transform: none;
     }
 
-    /* RESULT */
+    /* =========================
+       RESULT
+    ========================= */
 
     .result {
       display: none;
 
       margin-top: 25px;
-
       padding: 28px;
 
       border-radius: 18px;
 
       background: #211915;
-      color: white;
+      color: #fff;
     }
 
     .result.show {
@@ -492,7 +499,7 @@
 
       font-size: 11px;
       font-weight: 800;
-      letter-spacing: .15em;
+      letter-spacing: 0.15em;
     }
 
     .result h3 {
@@ -501,7 +508,49 @@
       font-size: 26px;
     }
 
-    /* FOOTER */
+    .application-id {
+      display: inline-block;
+
+      margin: 5px 0 18px;
+      padding: 8px 12px;
+
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 8px;
+
+      color: #ffaca4;
+
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: .04em;
+
+      background: rgba(255,255,255,.04);
+    }
+
+    /* =========================
+       ERROR
+    ========================= */
+
+    .error-box {
+      display: none;
+
+      margin-top: 20px;
+      padding: 18px;
+
+      border-radius: 14px;
+
+      background: #6b1d1d;
+      color: #fff;
+
+      font-size: 13px;
+    }
+
+    .error-box.show {
+      display: block;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
 
     footer {
       padding: 50px 20px;
@@ -515,7 +564,9 @@
       letter-spacing: .12em;
     }
 
-    /* MOBILE */
+    /* =========================
+       MOBILE
+    ========================= */
 
     @media (max-width: 720px) {
 
@@ -539,6 +590,10 @@
         margin-bottom: 45px;
       }
 
+      #characterDraft {
+        min-height: 250px;
+      }
+
     }
   </style>
 </head>
@@ -547,7 +602,9 @@
 <body>
 
 
-<!-- HERO -->
+<!-- =========================
+     HERO
+========================= -->
 
 <header class="hero">
 
@@ -557,9 +614,11 @@
       11:11 FACTORY · CHARACTER APPLICATION
     </div>
 
+
     <div class="eyebrow">
       SPECIAL PROGRAM
     </div>
+
 
     <h1>
       당신의 캐릭터는<br>
@@ -567,16 +626,19 @@
       무엇을 원하게 될까요?
     </h1>
 
+
     <p class="hero-copy">
       《11시 11분 생산라인》에 참가할 캐릭터를 모집합니다.
       가장 간절한 소원을 품은 캐릭터들은
       제11제과의 11일간 특별 프로그램에 참가하게 됩니다.
     </p>
 
+
     <p class="hero-warning">
       ※ 처음 품었던 소원과 마지막 순간의 욕망이
       같다는 보장은 없습니다.
     </p>
+
 
     <a
       href="#application"
@@ -590,7 +652,9 @@
 </header>
 
 
-<!-- PROGRAM -->
+<!-- =========================
+     PROGRAM
+========================= -->
 
 <section>
 
@@ -600,9 +664,11 @@
       PROGRAM INFORMATION
     </div>
 
+
     <h2 class="section-title">
       제11제과 특별 프로그램
     </h2>
+
 
     <p class="description">
       참가 캐릭터는 11월 1일부터 11월 11일까지
@@ -611,9 +677,11 @@
       진행 과정에서 캐릭터의 관계와 욕망이 변화할 수 있습니다.
     </p>
 
+
     <div class="info-grid">
 
       <div class="info-card">
+
         <div class="info-label">
           PERIOD
         </div>
@@ -621,9 +689,12 @@
         <div class="info-value">
           11월 1일 — 11월 11일
         </div>
+
       </div>
 
+
       <div class="info-card">
+
         <div class="info-label">
           CHARACTER
         </div>
@@ -631,9 +702,12 @@
         <div class="info-value">
           만 20세 이상 성인
         </div>
+
       </div>
 
+
       <div class="info-card">
+
         <div class="info-label">
           GENRE
         </div>
@@ -641,9 +715,12 @@
         <div class="info-value">
           성인 로맨스
         </div>
+
       </div>
 
+
       <div class="info-card">
+
         <div class="info-label">
           RELATIONSHIP
         </div>
@@ -651,9 +728,12 @@
         <div class="info-value">
           자유 관계 형성
         </div>
+
       </div>
 
+
       <div class="info-card">
+
         <div class="info-label">
           APPLICATION
         </div>
@@ -661,9 +741,12 @@
         <div class="info-value">
           캐릭터 러프안
         </div>
+
       </div>
 
+
       <div class="info-card">
+
         <div class="info-label">
           FINAL REWARD
         </div>
@@ -671,6 +754,7 @@
         <div class="info-value red">
           단 하나의 소원
         </div>
+
       </div>
 
     </div>
@@ -680,7 +764,9 @@
 </section>
 
 
-<!-- QUESTION -->
+<!-- =========================
+     QUESTION
+========================= -->
 
 <section class="question">
 
@@ -690,11 +776,14 @@
       APPLICATION QUESTION
     </div>
 
+
     <h2 class="question-title">
       캐릭터가 가장 간절하게 원하는 것은 무엇입니까?
     </h2>
 
+
     <div class="question-line"></div>
+
 
     <p class="question-small">
       귀하가 생각하는 캐릭터의 소원과,
@@ -707,7 +796,9 @@
 </section>
 
 
-<!-- 11:11 -->
+<!-- =========================
+     11:11
+========================= -->
 
 <section class="factory">
 
@@ -717,14 +808,17 @@
       SPECIAL PRODUCT
     </div>
 
+
     <h2 class="section-title">
       WHAT IS 11:11?
     </h2>
+
 
     <p class="description">
       제11제과의 특수 제조 공정을 통해
       프로그램 마지막 날 단 하나의 제품이 완성됩니다.
     </p>
+
 
     <div class="factory-box">
 
@@ -732,17 +826,13 @@
         11:11
       </div>
 
+
       <p class="factory-copy">
-
         섭취자의
-
-        <strong>
-          현재 가장 강한 욕망
-        </strong>
-
-        을 현실화합니다.
-
+        <strong>현재 가장 강한 욕망</strong>을
+        현실화합니다.
       </p>
+
 
       <p class="factory-copy">
         처음 이곳에 들어왔을 때 원하는 것과
@@ -757,7 +847,9 @@
 </section>
 
 
-<!-- APPLICATION -->
+<!-- =========================
+     APPLICATION
+========================= -->
 
 <section
   class="application-section"
@@ -770,13 +862,16 @@
       CHARACTER APPLICATION
     </div>
 
+
     <h2 class="section-title">
       캐릭터 참가 신청
     </h2>
 
+
     <p class="description">
-      작가 닉네임을 입력해주세요.
-      캐릭터 러프안과 한마디는 선택사항입니다.
+      작가 닉네임만 필수로 입력해주세요.
+      캐릭터 러프안과 한마디는 아직 정해지지 않았다면
+      비워두셔도 됩니다.
     </p>
 
 
@@ -798,6 +893,7 @@
           <span class="required">*</span>
         </label>
 
+
         <input
           type="text"
           id="authorName"
@@ -817,40 +913,40 @@
 
         <label
           class="label"
-          for="characterImage"
+          for="characterDraft"
         >
           캐릭터 러프안
           <span class="optional">선택</span>
         </label>
 
-        <input
-          type="file"
-          id="characterImage"
-          name="characterImage"
-          accept="image/jpeg,image/png,image/webp"
-        >
+
+        <textarea
+          id="characterDraft"
+          name="characterDraft"
+          maxlength="5000"
+          placeholder="현재 생각해둔 캐릭터 설정을 자유롭게 작성해주세요.
+
+예)
+이름:
+나이:
+직업:
+외형:
+성격:
+소원:
+기타:
+
+형식 없이 자유롭게 작성해도 되며,
+아직 정해지지 않았다면 비워두셔도 됩니다."
+        ></textarea>
+
 
         <p class="help">
-          선택사항 / JPG · PNG · WEBP / 최대 10MB
+          선택사항 / 이름·나이·외형·성격·직업·소원·관계성 등 자유 작성
         </p>
 
 
-        <div
-          class="image-preview-box"
-          id="previewBox"
-        >
-
-          <img
-            src=""
-            alt="캐릭터 러프안 미리보기"
-            id="imagePreview"
-          >
-
-          <div
-            class="file-name"
-            id="fileName"
-          ></div>
-
+        <div class="counter">
+          <span id="draftCount">0</span> / 5000
         </div>
 
       </div>
@@ -868,12 +964,18 @@
           <span class="optional">선택</span>
         </label>
 
+
         <textarea
           id="message"
           name="message"
           maxlength="1200"
-          placeholder="캐릭터 소개, 분위기, 참가시키고 싶은 이유, 하고 싶은 말 등을 자유롭게 작성해주세요. 작성하지 않아도 됩니다."
+          placeholder="참가시키고 싶은 이유, 조율이 필요한 부분, 하고 싶은 말 등을 자유롭게 적어주세요. 비워두셔도 됩니다."
         ></textarea>
+
+
+        <div class="counter">
+          <span id="messageCount">0</span> / 1200
+        </div>
 
       </div>
 
@@ -920,30 +1022,32 @@
 
       <div class="notice">
 
-        <strong>
-          제출 정보
-        </strong>
+        <strong>제출 정보</strong>
 
         <br><br>
 
-        필수:
+        <strong>필수</strong><br>
         작가 닉네임 / 성인 확인 / 수집 동의
 
         <br><br>
 
-        선택:
+        <strong>선택</strong><br>
         캐릭터 러프안 / 한마디
 
         <br><br>
 
-        캐릭터 러프안은 추후
-        운영자 Google Drive에 저장되며,
-        신청 정보는 운영자 전용 Google Sheet에 기록될 예정입니다.
+        러프안과 한마디를 비워두어도
+        정상적으로 신청할 수 있습니다.
+
+        <br><br>
+
+        제출 정보는 운영자 전용
+        Google Sheet에 기록됩니다.
 
       </div>
 
 
-      <!-- 제출 -->
+      <!-- 제출 버튼 -->
 
       <button
         type="submit"
@@ -954,28 +1058,54 @@
       </button>
 
 
-      <!-- TEST RESULT -->
+      <!-- 오류 -->
+
+      <div
+        class="error-box"
+        id="errorBox"
+      ></div>
+
+
+      <!-- 성공 -->
 
       <div
         class="result"
-        id="testResult"
+        id="resultBox"
       >
 
         <div class="result-small">
-          APPLICATION TEST
+          APPLICATION ACCEPTED
         </div>
 
+
         <h3>
-          입력 확인 완료
+          참가 신청이 접수되었습니다.
         </h3>
 
-        <p>
-          현재는 HTML 화면 테스트 단계입니다.
-        </p>
 
         <p>
-          Google Sheet 연결 후에는
-          실제 신청 정보가 저장됩니다.
+          접수번호
+        </p>
+
+
+        <div
+          class="application-id"
+          id="applicationId"
+        >
+          -
+        </div>
+
+
+        <p>
+          제출된 캐릭터 신청서는
+          운영자 확인 후 검토됩니다.
+        </p>
+
+
+        <p>
+          당신의 캐릭터가
+          11월 11일까지 같은 소원을 품고 있을지는
+          아무도 알 수 없습니다.
         </p>
 
       </div>
@@ -995,175 +1125,121 @@
 
 <script>
 
-  /* =========================
-     이미지 미리보기
-  ========================= */
+  /* ========================================
+     GOOGLE APPS SCRIPT URL
+  ======================================== */
 
-  const imageInput =
-    document.getElementById("characterImage");
-
-  const previewBox =
-    document.getElementById("previewBox");
-
-  const imagePreview =
-    document.getElementById("imagePreview");
-
-  const fileName =
-    document.getElementById("fileName");
+  const SCRIPT_URL =
+    "https://script.google.com/macros/s/AKfycbxC7vpkEokX93oMnV_syOBVfb4SNhwmPNJfKmKDw25zMioJMFIr9XmFTcUufhJJv02c/exec";
 
 
-  imageInput.addEventListener(
-    "change",
+  /* ========================================
+     ELEMENTS
+  ======================================== */
+
+  const form =
+    document.getElementById("characterForm");
+
+  const authorName =
+    document.getElementById("authorName");
+
+  const characterDraft =
+    document.getElementById("characterDraft");
+
+  const message =
+    document.getElementById("message");
+
+  const adultCheck =
+    document.getElementById("adultCheck");
+
+  const consentCheck =
+    document.getElementById("consentCheck");
+
+  const submitButton =
+    document.getElementById("submitButton");
+
+  const resultBox =
+    document.getElementById("resultBox");
+
+  const errorBox =
+    document.getElementById("errorBox");
+
+  const applicationId =
+    document.getElementById("applicationId");
+
+  const draftCount =
+    document.getElementById("draftCount");
+
+  const messageCount =
+    document.getElementById("messageCount");
+
+
+  /* ========================================
+     CHARACTER COUNT
+  ======================================== */
+
+  characterDraft.addEventListener(
+    "input",
     function () {
 
-      const file =
-        this.files[0];
-
-
-      /*
-        파일을 선택하지 않은 경우
-        그냥 공란으로 유지
-      */
-
-      if (!file) {
-
-        previewBox.classList.remove("show");
-
-        imagePreview.src = "";
-
-        fileName.textContent = "";
-
-        return;
-
-      }
-
-
-      const allowedTypes = [
-
-        "image/jpeg",
-        "image/png",
-        "image/webp"
-
-      ];
-
-
-      if (!allowedTypes.includes(file.type)) {
-
-        alert(
-          "JPG, PNG, WEBP 이미지만 첨부할 수 있습니다."
-        );
-
-        this.value = "";
-
-        previewBox.classList.remove("show");
-
-        return;
-
-      }
-
-
-      const maxSize =
-        10 * 1024 * 1024;
-
-
-      if (file.size > maxSize) {
-
-        alert(
-          "이미지는 10MB 이하로 첨부해주세요."
-        );
-
-        this.value = "";
-
-        previewBox.classList.remove("show");
-
-        return;
-
-      }
-
-
-      const reader =
-        new FileReader();
-
-
-      reader.onload =
-        function (event) {
-
-          imagePreview.src =
-            event.target.result;
-
-          fileName.textContent =
-            file.name;
-
-          previewBox.classList.add("show");
-
-        };
-
-
-      reader.readAsDataURL(file);
+      draftCount.textContent =
+        characterDraft.value.length;
 
     }
   );
 
 
-  /* =========================
-     제출 테스트
-  ========================= */
+  message.addEventListener(
+    "input",
+    function () {
 
-  const form =
-    document.getElementById("characterForm");
+      messageCount.textContent =
+        message.value.length;
 
-  const testResult =
-    document.getElementById("testResult");
+    }
+  );
 
+
+  /* ========================================
+     FORM SUBMIT
+  ======================================== */
 
   form.addEventListener(
     "submit",
-    function (event) {
+    async function (event) {
 
       event.preventDefault();
 
 
-      const authorName =
-        document
-          .getElementById("authorName")
-          .value
-          .trim();
-
-
-      const adultCheck =
-        document
-          .getElementById("adultCheck")
-          .checked;
-
-
-      const consentCheck =
-        document
-          .getElementById("consentCheck")
-          .checked;
-
-
       /*
-        필수 1
-        작가 닉네임
+        기존 메시지 숨기기
       */
 
-      if (!authorName) {
+      resultBox.classList.remove("show");
+
+      errorBox.classList.remove("show");
+
+      errorBox.textContent = "";
+
+
+      /* ====================================
+         필수값 검증
+      ==================================== */
+
+      if (!authorName.value.trim()) {
 
         alert(
           "작가 닉네임을 입력해주세요."
         );
+
+        authorName.focus();
 
         return;
 
       }
 
 
-      /*
-        필수 2
-        성인 확인
-      */
-
-      if (!adultCheck) {
+      if (!adultCheck.checked) {
 
         alert(
           "성인 확인 항목에 동의해주세요."
@@ -1174,12 +1250,7 @@
       }
 
 
-      /*
-        필수 3
-        수집 동의
-      */
-
-      if (!consentCheck) {
+      if (!consentCheck.checked) {
 
         alert(
           "정보 수집 항목에 동의해주세요."
@@ -1190,27 +1261,213 @@
       }
 
 
-      /*
-        characterImage
-        message
+      /* ====================================
+         DATA
+      ==================================== */
 
-        위 두 항목은 공란이어도
-        제출 가능
-      */
+      const payload = {
+
+        authorName:
+          authorName.value.trim(),
+
+        characterDraft:
+          characterDraft.value.trim(),
+
+        message:
+          message.value.trim(),
+
+        adultConfirmed:
+          adultCheck.checked,
+
+        consentConfirmed:
+          consentCheck.checked
+
+      };
 
 
-      testResult.classList.add("show");
+      /* ====================================
+         버튼 잠금
+      ==================================== */
+
+      submitButton.disabled = true;
+
+      submitButton.textContent =
+        "신청서를 접수하는 중...";
 
 
-      testResult.scrollIntoView({
+      try {
 
-        behavior: "smooth",
-        block: "center"
+        /* ====================================
+           Google Apps Script 전송
+        ==================================== */
 
-      });
+        const response =
+          await fetch(
+            SCRIPT_URL,
+            {
+
+              method: "POST",
+
+              headers: {
+
+                "Content-Type":
+                  "text/plain;charset=utf-8"
+
+              },
+
+              body:
+                JSON.stringify(payload)
+
+            }
+          );
+
+
+        /* ====================================
+           응답 확인
+        ==================================== */
+
+        if (!response.ok) {
+
+          throw new Error(
+            "서버 응답 오류 (" +
+            response.status +
+            ")"
+          );
+
+        }
+
+
+        const result =
+          await response.json();
+
+
+        if (!result.success) {
+
+          throw new Error(
+            result.message ||
+            "신청 접수에 실패했습니다."
+          );
+
+        }
+
+
+        /* ====================================
+           SUCCESS
+        ==================================== */
+
+        applicationId.textContent =
+          result.applicationId ||
+          "접수 완료";
+
+
+        resultBox.classList.add(
+          "show"
+        );
+
+
+        /*
+          제출 후 폼 초기화
+        */
+
+        form.reset();
+
+
+        draftCount.textContent =
+          "0";
+
+
+        messageCount.textContent =
+          "0";
+
+
+        /*
+          완료 메시지 위치로 이동
+        */
+
+        resultBox.scrollIntoView({
+
+          behavior: "smooth",
+
+          block: "center"
+
+        });
+
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "APPLICATION ERROR:",
+          error
+        );
+
+
+        errorBox.innerHTML = `
+
+          <strong>
+            신청서를 전송하지 못했습니다.
+          </strong>
+
+          <br><br>
+
+          ${escapeHtml(
+            error.message
+          )}
+
+          <br><br>
+
+          잠시 후 다시 시도해주세요.
+
+        `;
+
+
+        errorBox.classList.add(
+          "show"
+        );
+
+
+        errorBox.scrollIntoView({
+
+          behavior: "smooth",
+
+          block: "center"
+
+        });
+
+      }
+
+      finally {
+
+        /* ====================================
+           버튼 원상복구
+        ==================================== */
+
+        submitButton.disabled = false;
+
+        submitButton.textContent =
+          "참가 신청하기";
+
+      }
 
     }
   );
+
+
+  /* ========================================
+     HTML ESCAPE
+  ======================================== */
+
+  function escapeHtml(value) {
+
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
 
 </script>
 
