@@ -6,12 +6,63 @@
 
   <meta
     name="description"
-    content="11:11 FACTORY - 제11제과 캐릭터 참가 모집"
+    content="11:11 FACTORY - 제11제과 특별초청 공문 및 캐릭터 참가 모집"
   >
 
-  <title>11:11 FACTORY | 캐릭터 참가 모집</title>
+  <title>11:11 FACTORY | 제11제과 특별초청 공문</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Song+Myung&family=Noto+Serif+KR:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+    rel="stylesheet"
+  >
 
   <style>
+
+    /* =========================
+       TOKENS
+    ========================= */
+
+    :root {
+
+      /* color — dreamy fantasy bakery */
+      --cream: #f2e8da;
+      --paper: #fbf6ec;
+      --ink: #2a2130;
+      --ink-soft: #4d3f56;
+      --ink-mute: #74647e;
+      --ink-faint: #9c8fa6;
+      --line: #ddcfe0;
+      --line-soft: #cbb8cf;
+
+      --black: #110a1c;
+      --black-soft: #180f26;
+      --black-mid: #1c1130;
+
+      --violet: #6b4ba3;
+      --violet-soft: #a68bd6;
+      --violet-deep: #3c2a5c;
+
+      --blue: #4a6fa5;
+      --blue-soft: #a9c5e8;
+
+      --red: #9c2b3c;
+      --red-deep: #6c1f2c;
+      --rose: #ffaca4;
+
+      --gold: #c98a3e;
+      --gold-soft: #e3bd82;
+
+      /* type */
+      --font-display: 'Song Myung', 'Noto Serif KR', serif;
+      --font-body: 'Pretendard', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Menlo, monospace;
+
+      /* motion */
+      --ease: cubic-bezier(.22,.61,.36,1);
+    }
+
     * {
       box-sizing: border-box;
     }
@@ -23,20 +74,18 @@
     body {
       margin: 0;
 
-      background: #f7f2eb;
-      color: #2b211c;
+      background: var(--cream);
+      color: var(--ink);
 
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Pretendard",
-        "Noto Sans KR",
-        "Segoe UI",
-        Arial,
-        sans-serif;
+      font-family: var(--font-body);
 
       line-height: 1.7;
       word-break: keep-all;
+    }
+
+    body.pre-reveal {
+      height: 100vh;
+      overflow: hidden;
     }
 
     a {
@@ -56,17 +105,32 @@
     }
 
     .section {
-      padding: 90px 0;
+      padding: 100px 0;
     }
 
     .eyebrow {
-      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
 
-      color: #8f1d1d;
+      margin-bottom: 14px;
 
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: 0.18em;
+      color: var(--red);
+
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+
+      width: 16px;
+      height: 1px;
+
+      background: var(--red);
     }
 
     h1,
@@ -77,18 +141,309 @@
     }
 
     .section-title {
-      margin-bottom: 20px;
+      margin-bottom: 22px;
 
-      font-size: clamp(32px, 6vw, 52px);
-      line-height: 1.15;
-      letter-spacing: -0.045em;
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(32px, 5.4vw, 50px);
+      line-height: 1.22;
+      letter-spacing: -0.01em;
     }
 
     .description {
       max-width: 680px;
 
-      color: #75685f;
+      color: var(--ink-mute);
       font-size: 16px;
+    }
+
+    /* scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+
+      transition: opacity .9s var(--ease), transform .9s var(--ease);
+    }
+
+    .reveal.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =========================
+       GRAIN OVERLAY
+    ========================= */
+
+    #grain {
+      position: fixed;
+      inset: 0;
+
+      z-index: 999;
+
+      pointer-events: none;
+
+      opacity: 0.05;
+      mix-blend-mode: multiply;
+
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    }
+
+    /* =========================
+       GATE (INVITATION)
+    ========================= */
+
+    #gate {
+      position: fixed;
+      inset: 0;
+
+      z-index: 500;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 24px;
+
+      background:
+        radial-gradient(circle at 50% 20%, rgba(143,29,29,0.16), transparent 55%),
+        var(--black);
+
+      transition: opacity .8s var(--ease), visibility .8s;
+    }
+
+    #gate.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .invitation {
+      position: relative;
+      width: min(380px, 100%);
+
+      padding: 46px 34px 38px;
+
+      background: var(--paper);
+      color: var(--ink);
+
+      border-radius: 4px;
+
+      text-align: center;
+
+      box-shadow: 0 40px 90px rgba(0,0,0,.55);
+
+      transform: scale(1) rotate(0deg);
+      transition: transform .7s var(--ease), opacity .7s var(--ease);
+    }
+
+    .invitation::before,
+    .invitation::after {
+      content: "";
+
+      position: absolute;
+      top: 50%;
+
+      width: 26px;
+      height: 26px;
+
+      background: var(--black);
+      border-radius: 50%;
+
+      transform: translateY(-50%);
+    }
+
+    .invitation::before { left: -13px; }
+    .invitation::after  { right: -13px; }
+
+    .invitation-perf {
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      top: 50%;
+
+      border-top: 1px dashed var(--line-soft);
+
+      transform: translateY(-50%);
+    }
+
+    .invitation-seal {
+      width: 62px;
+      height: 62px;
+      margin: 0 auto 22px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 50%;
+      border: 1px solid var(--red);
+
+      color: var(--red);
+
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .04em;
+
+      transition: transform .6s var(--ease), background .6s var(--ease), color .6s var(--ease);
+    }
+
+    .invitation-eyebrow {
+      color: var(--ink-faint);
+
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    .invitation h2 {
+      margin: 12px 0 14px;
+
+      font-family: var(--font-display);
+      font-size: 27px;
+      line-height: 1.4;
+    }
+
+    .invitation p {
+      margin: 0 0 26px;
+
+      color: var(--ink-mute);
+      font-size: 13.5px;
+      line-height: 1.75;
+    }
+
+    .invitation-open {
+      width: 100%;
+
+      padding: 15px;
+
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+
+      background: transparent;
+      color: var(--ink);
+
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: .1em;
+
+      cursor: pointer;
+
+      transition: .3s var(--ease);
+    }
+
+    .invitation-open:hover {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+    }
+
+    /* opening state */
+    .invitation.opening {
+      transform: scale(1.04) rotate(-0.5deg);
+    }
+
+    .invitation.opening .invitation-seal {
+      background: var(--red);
+      color: #fff;
+      transform: scale(1.15) rotate(180deg);
+    }
+
+    #gate.leaving .invitation {
+      transform: scale(.94) translateY(-14px);
+      opacity: 0;
+    }
+
+    /* =========================
+       INTRO SEQUENCE
+    ========================= */
+
+    #introScreen {
+      position: fixed;
+      inset: 0;
+
+      z-index: 480;
+
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+
+      padding: 40px;
+
+      background: var(--black);
+      color: var(--gold-soft);
+
+      text-align: center;
+
+      opacity: 0;
+
+      transition: opacity 1s var(--ease);
+    }
+
+    #introScreen.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    #introScreen.leaving {
+      opacity: 0;
+    }
+
+    .intro-line {
+      max-width: 560px;
+
+      font-family: var(--font-mono);
+      font-size: clamp(13px, 2vw, 16px);
+      letter-spacing: .04em;
+      line-height: 1.9;
+
+      opacity: 0;
+      transform: translateY(8px);
+
+      transition: opacity 1.1s var(--ease), transform 1.1s var(--ease);
+    }
+
+    .intro-line.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .intro-line[data-emph="1"] {
+      color: var(--rose);
+      font-family: var(--font-display);
+      font-size: clamp(18px, 3vw, 24px);
+      letter-spacing: 0;
+    }
+
+    .intro-skip {
+      position: absolute;
+      right: 26px;
+      bottom: 24px;
+
+      color: #6b5c53;
+
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: .12em;
+
+      background: none;
+      border: 1px solid #3a2f29;
+      border-radius: 999px;
+      padding: 8px 16px;
+
+      cursor: pointer;
+
+      transition: .3s;
+    }
+
+    .intro-skip:hover {
+      color: var(--rose);
+      border-color: var(--rose);
     }
 
     /* =========================
@@ -102,18 +457,11 @@
       align-items: center;
 
       background:
-        radial-gradient(
-          circle at 85% 15%,
-          rgba(143, 29, 29, 0.13),
-          transparent 30%
-        ),
-        linear-gradient(
-          180deg,
-          #fbf7f2 0%,
-          #f7f2eb 100%
-        );
+        radial-gradient(circle at 85% 15%, rgba(143, 29, 29, 0.13), transparent 30%),
+        radial-gradient(circle at 10% 90%, rgba(201, 138, 62, 0.10), transparent 40%),
+        linear-gradient(180deg, var(--paper) 0%, var(--cream) 100%);
 
-      border-bottom: 1px solid #ddd0c3;
+      border-bottom: 1px solid var(--line);
     }
 
     .hero-inner {
@@ -121,62 +469,94 @@
     }
 
     .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
       margin-bottom: 65px;
 
-      font-size: 13px;
-      font-weight: 950;
-      letter-spacing: 0.22em;
+      color: var(--ink-soft);
+
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+    }
+
+    .brand::before {
+      content: "";
+
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+
+      background: var(--red);
     }
 
     .hero h1 {
       max-width: 820px;
       margin: 0;
 
-      font-size: clamp(50px, 9vw, 92px);
-      line-height: 1;
-      letter-spacing: -0.065em;
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(46px, 8.4vw, 84px);
+      line-height: 1.18;
+      letter-spacing: -0.01em;
     }
 
     .hero .red {
-      color: #8f1d1d;
+      color: var(--red);
     }
 
     .hero-copy {
       max-width: 630px;
-      margin-top: 35px;
+      margin-top: 32px;
 
-      color: #4f4139;
+      color: var(--ink-soft);
       font-size: 18px;
     }
 
     .hero-warning {
-      margin-top: 18px;
+      display: flex;
+      gap: 10px;
 
-      color: #8f1d1d;
-      font-size: 14px;
-      font-weight: 800;
+      max-width: 560px;
+      margin-top: 22px;
+      padding: 14px 16px;
+
+      border-left: 2px solid var(--red);
+      background: rgba(143,29,29,0.06);
+
+      color: var(--red);
+      font-size: 13.5px;
+      font-weight: 600;
+      line-height: 1.6;
     }
 
     .hero-button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 10px;
 
-      margin-top: 35px;
-      padding: 14px 26px;
+      margin-top: 38px;
+      padding: 15px 28px;
 
       border-radius: 999px;
 
-      background: #211915;
+      background: var(--ink);
       color: #fff;
 
-      font-weight: 900;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: .06em;
 
-      transition: 0.2s ease;
+      transition: .3s var(--ease);
     }
 
     .hero-button:hover {
-      background: #8f1d1d;
+      background: var(--red);
       transform: translateY(-2px);
     }
 
@@ -189,7 +569,7 @@
       grid-template-columns: repeat(3, 1fr);
 
       gap: 12px;
-      margin-top: 40px;
+      margin-top: 44px;
     }
 
     .info-card {
@@ -197,29 +577,37 @@
 
       padding: 22px;
 
-      border: 1px solid #ddd0c3;
-      border-radius: 18px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
 
       background: rgba(255,255,255,0.5);
+
+      transition: border-color .3s, transform .3s;
+    }
+
+    .info-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-3px);
     }
 
     .info-label {
-      margin-bottom: 8px;
+      margin-bottom: 10px;
 
-      color: #998a80;
+      color: var(--ink-faint);
 
-      font-size: 11px;
-      font-weight: 900;
-      letter-spacing: 0.12em;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
     }
 
     .info-value {
-      font-size: 18px;
-      font-weight: 900;
+      font-family: var(--font-display);
+      font-size: 19px;
     }
 
     .info-value.red {
-      color: #8f1d1d;
+      color: var(--red);
     }
 
     /* =========================
@@ -227,22 +615,24 @@
     ========================= */
 
     .question {
-      background: #17110e;
+      background: var(--black-mid);
       color: #fff;
     }
 
     .question .section {
-      padding-top: 120px;
-      padding-bottom: 120px;
+      padding-top: 130px;
+      padding-bottom: 130px;
     }
 
     .question-title {
       max-width: 750px;
       margin: 0;
 
-      font-size: clamp(36px, 6vw, 60px);
-      line-height: 1.25;
-      letter-spacing: -0.045em;
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(32px, 5.6vw, 54px);
+      line-height: 1.35;
+      letter-spacing: 0;
     }
 
     .question-line {
@@ -250,12 +640,15 @@
 
       margin: 55px 0 18px;
 
-      background: #56473f;
+      background: linear-gradient(90deg, #56473f, transparent);
     }
 
     .question-small {
       color: #b9aaa1;
-      font-size: 13px;
+
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      letter-spacing: .02em;
     }
 
     /* =========================
@@ -263,7 +656,7 @@
     ========================= */
 
     .factory {
-      background: #120e0c;
+      background: var(--black-soft);
       color: #fff;
     }
 
@@ -272,38 +665,42 @@
     }
 
     .factory-box {
-      margin-top: 40px;
-      padding: 35px;
+      position: relative;
+      overflow: hidden;
+
+      margin-top: 42px;
+      padding: 38px;
 
       border: 1px solid #4b3d35;
-      border-radius: 22px;
+      border-radius: 14px;
 
-      background:
-        radial-gradient(
-          circle at top right,
-          rgba(143,29,29,.22),
-          transparent 40%
-        );
+      background: radial-gradient(circle at top right, rgba(143,29,29,.22), transparent 40%);
     }
 
     .factory-number {
-      font-size: clamp(75px, 15vw, 150px);
-      font-weight: 950;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      font-size: clamp(70px, 14vw, 140px);
       line-height: 0.9;
-      letter-spacing: -0.09em;
+      letter-spacing: -0.03em;
+
+      background: linear-gradient(180deg, #fff 0%, var(--gold-soft) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
 
     .factory-copy {
       max-width: 620px;
-
       margin-top: 30px;
 
       color: #d4c7bf;
-      font-size: 19px;
+      font-size: 18.5px;
     }
 
     .factory-copy strong {
-      color: #ffaca4;
+      color: var(--rose);
+      font-weight: 600;
     }
 
     /* =========================
@@ -311,7 +708,7 @@
     ========================= */
 
     .application-section {
-      background: #eee4da;
+      background: var(--cream);
     }
 
     .form {
@@ -329,21 +726,24 @@
 
       margin-bottom: 9px;
 
-      font-size: 14px;
-      font-weight: 900;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: .02em;
     }
 
     .required {
-      color: #8f1d1d;
+      color: var(--red);
     }
 
     .optional {
       margin-left: 6px;
 
-      color: #998a80;
+      color: var(--ink-faint);
 
-      font-size: 11px;
-      font-weight: 700;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 500;
     }
 
     input[type="text"],
@@ -352,15 +752,15 @@
 
       padding: 16px;
 
-      border: 1px solid #c9baad;
-      border-radius: 14px;
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
 
-      background: #fbf7f2;
-      color: #2b211c;
+      background: var(--paper);
+      color: var(--ink);
 
       outline: none;
 
-      transition: 0.2s ease;
+      transition: .25s var(--ease);
     }
 
     textarea {
@@ -377,16 +777,15 @@
 
     input[type="text"]:focus,
     textarea:focus {
-      border-color: #8f1d1d;
+      border-color: var(--red);
 
-      box-shadow:
-        0 0 0 3px rgba(143,29,29,0.08);
+      box-shadow: 0 0 0 3px rgba(143,29,29,0.08);
     }
 
     .help {
       margin-top: 8px;
 
-      color: #83756c;
+      color: var(--ink-mute);
 
       font-size: 12px;
     }
@@ -394,8 +793,9 @@
     .counter {
       margin-top: 7px;
 
-      color: #998a80;
+      color: var(--ink-faint);
 
+      font-family: var(--font-mono);
       font-size: 11px;
       text-align: right;
     }
@@ -419,6 +819,7 @@
     .checkbox input {
       margin-top: 5px;
       flex-shrink: 0;
+      accent-color: var(--red);
     }
 
     /* =========================
@@ -428,15 +829,22 @@
     .notice {
       margin: 28px 0;
 
-      padding: 18px;
+      padding: 20px;
 
-      border: 1px solid #c9baad;
-      border-radius: 14px;
+      border: 1px solid var(--line-soft);
+      border-radius: 10px;
 
       background: rgba(255,255,255,.45);
 
-      color: #74665d;
-      font-size: 12px;
+      color: var(--ink-mute);
+      font-size: 12.5px;
+    }
+
+    .notice strong {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: .06em;
+      color: var(--ink-soft);
     }
 
     /* =========================
@@ -450,19 +858,21 @@
       border: 0;
       border-radius: 999px;
 
-      background: #211915;
+      background: var(--ink);
       color: #fff;
 
-      font-size: 16px;
-      font-weight: 950;
+      font-family: var(--font-mono);
+      font-size: 14.5px;
+      font-weight: 600;
+      letter-spacing: .04em;
 
       cursor: pointer;
 
-      transition: 0.2s ease;
+      transition: .3s var(--ease);
     }
 
     .submit-button:hover {
-      background: #8f1d1d;
+      background: var(--red);
       transform: translateY(-1px);
     }
 
@@ -475,19 +885,35 @@
     }
 
     /* =========================
-       RESULT
+       RESULT (TICKET STUB)
     ========================= */
 
     .result {
       display: none;
+      position: relative;
 
       margin-top: 25px;
-      padding: 28px;
+      padding: 30px 28px;
 
-      border-radius: 18px;
+      border-radius: 10px;
 
-      background: #211915;
+      background: var(--black-soft);
       color: #fff;
+
+      overflow: hidden;
+    }
+
+    .result::before {
+      content: "";
+
+      position: absolute;
+      inset: 0;
+
+      background-image: repeating-linear-gradient(
+        transparent, transparent 7px, rgba(255,255,255,.03) 7px, rgba(255,255,255,.03) 8px
+      );
+
+      pointer-events: none;
     }
 
     .result.show {
@@ -497,31 +923,34 @@
     .result-small {
       color: #b9aaa1;
 
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.15em;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
     }
 
     .result h3 {
-      margin: 7px 0 12px;
+      margin: 8px 0 14px;
 
-      font-size: 26px;
+      font-family: var(--font-display);
+      font-size: 25px;
     }
 
     .application-id {
       display: inline-block;
 
       margin: 5px 0 18px;
-      padding: 8px 12px;
+      padding: 9px 14px;
 
-      border: 1px solid rgba(255,255,255,.15);
-      border-radius: 8px;
+      border: 1px dashed rgba(255,255,255,.25);
+      border-radius: 6px;
 
-      color: #ffaca4;
+      color: var(--rose);
 
-      font-size: 18px;
-      font-weight: 900;
-      letter-spacing: .04em;
+      font-family: var(--font-mono);
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: .05em;
 
       background: rgba(255,255,255,.04);
     }
@@ -536,9 +965,9 @@
       margin-top: 20px;
       padding: 18px;
 
-      border-radius: 14px;
+      border-radius: 10px;
 
-      background: #6b1d1d;
+      background: var(--red-deep);
       color: #fff;
 
       font-size: 13px;
@@ -555,13 +984,33 @@
     footer {
       padding: 50px 20px;
 
-      background: #110d0b;
-      color: #81746c;
+      background: var(--black);
+      color: #6b5c53;
 
       text-align: center;
 
-      font-size: 11px;
-      letter-spacing: .12em;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      letter-spacing: .14em;
+    }
+
+    /* =========================
+       ACCESSIBILITY
+    ========================= */
+
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+      }
     }
 
     /* =========================
@@ -594,167 +1043,2169 @@
         min-height: 250px;
       }
 
+      .intro-skip {
+        right: 16px;
+        bottom: 16px;
+      }
+
     }
+  
+    /* =========================================================
+       ROYAL FANTASY OFFICIAL NOTICE
+       고급 판타지 기관 공문 + 마법 제과점 초청장
+    ========================================================= */
+
+    :root {
+      --royal-paper: #f7efdf;
+      --royal-paper-deep: #eadcc4;
+      --royal-ink: #2b2430;
+      --royal-violet: #5b4575;
+      --royal-violet-deep: #33243f;
+      --royal-gold: #b9904d;
+      --royal-gold-light: #dbc18a;
+      --royal-red: #8d3341;
+      --royal-line: #c9b791;
+      --royal-shadow: rgba(52, 42, 47, .16);
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 15% 20%, rgba(185,144,77,.08), transparent 32%),
+        radial-gradient(circle at 85% 80%, rgba(91,69,117,.07), transparent 34%),
+        linear-gradient(180deg, #eadfcf 0%, #e5d8c7 100%);
+      color: var(--royal-ink);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      opacity: .23;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          rgba(88, 67, 48, .025) 0,
+          rgba(88, 67, 48, .025) 1px,
+          transparent 1px,
+          transparent 5px
+        );
+      mix-blend-mode: multiply;
+    }
+
+    .container {
+      width: min(960px, calc(100% - 34px));
+    }
+
+    /* gold ornament helpers */
+    .royal-rule {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 20px 0;
+      color: var(--royal-gold);
+      font-family: var(--font-display);
+      font-size: 15px;
+    }
+
+    .royal-rule::before,
+    .royal-rule::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--royal-gold), transparent);
+    }
+
+    /* =========================
+       GATE — SEALED ROYAL LETTER
+    ========================= */
+
+    #gate {
+      background:
+        radial-gradient(circle at 50% 20%, rgba(185,144,77,.18), transparent 45%),
+        radial-gradient(circle at 20% 80%, rgba(91,69,117,.18), transparent 40%),
+        linear-gradient(180deg, #1a1222 0%, #21142d 100%);
+    }
+
+    .invitation {
+      width: min(430px, 100%);
+      padding: 0;
+      overflow: hidden;
+      border-radius: 6px;
+      border: 1px solid rgba(219,193,138,.72);
+      background:
+        linear-gradient(rgba(255,255,255,.18), rgba(255,255,255,.04)),
+        var(--royal-paper);
+      box-shadow:
+        0 40px 100px rgba(0,0,0,.58),
+        inset 0 0 0 1px rgba(255,255,255,.55);
+      text-align: center;
+    }
+
+    .invitation::before,
+    .invitation::after,
+    .invitation-perf {
+      display: none;
+    }
+
+    .invitation-crest {
+      padding: 10px 18px;
+      background:
+        linear-gradient(90deg, #33243f, #4d3560 50%, #33243f);
+      color: #e9d9b4;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    .invitation-inner {
+      position: relative;
+      padding: 34px 30px 32px;
+    }
+
+    .invitation-inner::before,
+    .invitation-inner::after {
+      content: "✦";
+      position: absolute;
+      top: 18px;
+      color: rgba(185,144,77,.72);
+      font-size: 16px;
+    }
+
+    .invitation-inner::before { left: 22px; }
+    .invitation-inner::after { right: 22px; }
+
+    .invitation-seal {
+      width: 74px;
+      height: 74px;
+      margin: 0 auto 20px;
+      border: 2px solid var(--royal-red);
+      color: var(--royal-red);
+      background:
+        radial-gradient(circle, rgba(141,51,65,.08), transparent 65%);
+      box-shadow:
+        inset 0 0 0 4px rgba(141,51,65,.05),
+        0 5px 15px rgba(141,51,65,.08);
+      font-family: var(--font-display);
+      font-size: 15px;
+      letter-spacing: .03em;
+    }
+
+    .invitation-eyebrow {
+      color: #8f7d66;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: .18em;
+    }
+
+    .invitation h2 {
+      margin: 12px 0 14px;
+      color: #332a37;
+      font-family: var(--font-display);
+      font-size: 29px;
+      line-height: 1.5;
+    }
+
+    .invitation p {
+      margin-bottom: 24px;
+      color: #6d5d67;
+      font-family: var(--font-body);
+      font-size: 13.5px;
+      line-height: 1.85;
+    }
+
+    .invitation-open {
+      border-radius: 4px;
+      border: 1px solid var(--royal-violet-deep);
+      background: var(--royal-violet-deep);
+      color: #f3e6cc;
+      letter-spacing: .07em;
+    }
+
+    .invitation-open:hover {
+      background: var(--royal-red);
+      border-color: var(--royal-red);
+    }
+
+    /* =========================
+       INTRO — enchanted registry
+    ========================= */
+
+    #introScreen {
+      background:
+        radial-gradient(circle at center, rgba(185,144,77,.08), transparent 35%),
+        linear-gradient(180deg, #17101d, #201429);
+      color: var(--royal-gold-light);
+    }
+
+    #introScreen::before {
+      content: "✦ 11:11 FACTORY · ROYAL REGISTRY ✦";
+      position: absolute;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #6f5d78;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: .2em;
+      white-space: nowrap;
+    }
+
+    .intro-line {
+      font-family: var(--font-display);
+      color: #d3c2a2;
+      letter-spacing: 0;
+    }
+
+    .intro-line[data-emph="1"] {
+      color: #e8b9be;
+    }
+
+    /* =========================
+       HERO — official royal notice
+    ========================= */
+
+    .hero {
+      min-height: auto;
+      padding: 70px 0 88px;
+      background:
+        linear-gradient(rgba(248,241,228,.95), rgba(241,231,214,.97)),
+        repeating-linear-gradient(0deg, rgba(80,62,48,.03) 0 1px, transparent 1px 6px);
+      border-bottom: 1px solid #c9b791;
+    }
+
+    .hero .container {
+      position: relative;
+      padding: 0;
+      background:
+        linear-gradient(rgba(255,255,255,.2), rgba(255,255,255,.05)),
+        var(--royal-paper);
+      border: 1px solid var(--royal-line);
+      box-shadow: 0 24px 70px var(--royal-shadow);
+    }
+
+    .royal-header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: end;
+      padding: 22px 28px 18px;
+      border-bottom: 3px double #6e5b46;
+      background:
+        linear-gradient(90deg, rgba(185,144,77,.08), transparent 60%);
+    }
+
+    .royal-agency {
+      color: #392f3b;
+      font-family: var(--font-display);
+      font-size: clamp(21px, 4vw, 32px);
+      letter-spacing: .02em;
+    }
+
+    .royal-docno {
+      margin-bottom: 4px;
+      color: #8b765d;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: .1em;
+    }
+
+    .royal-meta {
+      text-align: right;
+      color: #776775;
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      line-height: 1.7;
+    }
+
+    .royal-band {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 8px 28px;
+      background: #382846;
+      color: #e7d6b7;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    .royal-band span:last-child {
+      color: #d8bb80;
+    }
+
+    .hero-inner {
+      position: relative;
+      padding: 48px 44px 56px;
+    }
+
+    .hero-inner::before {
+      content: "✦";
+      position: absolute;
+      right: 34px;
+      top: 32px;
+      color: rgba(185,144,77,.55);
+      font-size: 24px;
+    }
+
+    .brand {
+      margin-bottom: 30px;
+      color: #71627a;
+    }
+
+    .hero h1 {
+      max-width: 760px;
+      font-family: var(--font-display);
+      font-size: clamp(40px, 7vw, 68px);
+      font-weight: 400;
+      line-height: 1.25;
+      letter-spacing: -.01em;
+    }
+
+    .hero-copy {
+      max-width: 650px;
+      color: #5c4e5c;
+      font-size: 17px;
+      line-height: 1.85;
+    }
+
+    .hero-warning {
+      max-width: 650px;
+      margin-top: 24px;
+      padding: 15px 17px;
+      border: 1px solid rgba(141,51,65,.28);
+      border-left: 4px solid var(--royal-red);
+      background: rgba(141,51,65,.045);
+      color: var(--royal-red);
+      font-size: 13px;
+    }
+
+    .hero-button {
+      margin-top: 34px;
+      border-radius: 4px;
+      background: var(--royal-violet-deep);
+      color: #f2e7d3;
+    }
+
+    .hero-button:hover {
+      background: var(--royal-red);
+    }
+
+    .royal-seal-watermark {
+      position: absolute;
+      right: 38px;
+      bottom: 24px;
+      width: 118px;
+      height: 118px;
+      border: 2px solid rgba(141,51,65,.12);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: rgba(141,51,65,.12);
+      font-family: var(--font-display);
+      font-size: 28px;
+      transform: rotate(-8deg);
+      pointer-events: none;
+    }
+
+    /* =========================
+       CONTENT — archival paper sections
+    ========================= */
+
+    section:not(.question):not(.factory):not(.application-section) .container.section,
+    .application-section .container.section {
+      position: relative;
+      padding-left: 40px;
+      padding-right: 40px;
+      background: rgba(250,245,235,.72);
+      border-left: 1px solid rgba(185,160,119,.65);
+      border-right: 1px solid rgba(185,160,119,.65);
+    }
+
+    .section-title {
+      color: #3b3040;
+    }
+
+    .section-title::after {
+      content: "";
+      display: block;
+      width: 88px;
+      height: 1px;
+      margin-top: 17px;
+      background: linear-gradient(90deg, var(--royal-gold), transparent);
+    }
+
+    .eyebrow {
+      color: var(--royal-red);
+    }
+
+    .eyebrow::before {
+      background: var(--royal-red);
+    }
+
+    .info-grid {
+      gap: 14px;
+    }
+
+    .info-card {
+      position: relative;
+      border-radius: 4px;
+      border: 1px solid #cfbea0;
+      background:
+        linear-gradient(rgba(255,255,255,.26), rgba(255,255,255,.08)),
+        #f8f0df;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.42);
+    }
+
+    .info-card::before {
+      content: "✧";
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      color: rgba(185,144,77,.48);
+      font-size: 14px;
+    }
+
+    .info-card:hover {
+      border-color: var(--royal-gold);
+      transform: translateY(-2px);
+    }
+
+    .info-label {
+      color: #97846c;
+    }
+
+    /* =========================
+       QUESTION — ceremonial dark page
+    ========================= */
+
+    .question {
+      background:
+        radial-gradient(circle at 80% 20%, rgba(185,144,77,.06), transparent 30%),
+        linear-gradient(180deg, #25172e 0%, #1c1424 100%);
+    }
+
+    .question .container {
+      position: relative;
+      border-top: 1px solid rgba(219,193,138,.23);
+      border-bottom: 1px solid rgba(219,193,138,.23);
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+
+    .question .container::after {
+      content: "✦  REGISTERED DESIRE  ✦";
+      position: absolute;
+      right: 0;
+      top: 26px;
+      color: rgba(219,193,138,.28);
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: .16em;
+    }
+
+    .question-title {
+      font-family: var(--font-display);
+      color: #f1e5cf;
+    }
+
+    .question-line {
+      background: linear-gradient(90deg, var(--royal-gold), transparent);
+    }
+
+    .question-small {
+      color: #b8a99d;
+    }
+
+    /* =========================
+       FACTORY — enchanted confection archive
+    ========================= */
+
+    .factory {
+      background:
+        radial-gradient(circle at 78% 20%, rgba(185,144,77,.09), transparent 34%),
+        linear-gradient(180deg, #19121f 0%, #201426 100%);
+    }
+
+    .factory-box {
+      position: relative;
+      border-radius: 6px;
+      border: 1px solid rgba(219,193,138,.42);
+      background:
+        linear-gradient(145deg, rgba(91,69,117,.12), transparent 50%),
+        rgba(255,255,255,.015);
+      box-shadow: inset 0 0 40px rgba(185,144,77,.025);
+    }
+
+    .factory-box::before {
+      content: "THE ELEVENTH CONFECTION · FINAL PRODUCT";
+      position: absolute;
+      top: 18px;
+      right: 20px;
+      color: #71647a;
+      font-family: var(--font-mono);
+      font-size: 8.5px;
+      letter-spacing: .15em;
+    }
+
+    .factory-number {
+      background: linear-gradient(180deg, #fff8e8 0%, var(--royal-gold-light) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .factory-copy strong {
+      color: #e8a3ad;
+    }
+
+    /* =========================
+       APPLICATION — official appendix form
+    ========================= */
+
+    .application-section {
+      background:
+        linear-gradient(rgba(237,226,208,.96), rgba(230,216,195,.96)),
+        repeating-linear-gradient(0deg, rgba(85,65,50,.025) 0 1px, transparent 1px 6px);
+    }
+
+    .application-section .container.section::before {
+      content: "附錄 第十一號";
+      position: absolute;
+      right: 38px;
+      top: 34px;
+      color: rgba(141,51,65,.42);
+      font-family: var(--font-display);
+      font-size: 15px;
+      letter-spacing: .13em;
+    }
+
+    .label {
+      color: #493b4b;
+      font-family: var(--font-mono);
+    }
+
+    input[type="text"],
+    textarea {
+      border-radius: 4px;
+      border-color: #c9b894;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent 0,
+          transparent 30px,
+          rgba(91,69,117,.055) 31px
+        ),
+        #fbf5e8;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus {
+      border-color: var(--royal-violet);
+      box-shadow: 0 0 0 3px rgba(91,69,117,.09);
+    }
+
+    .notice {
+      border-radius: 4px;
+      border: 1px dashed #bfa879;
+      background: rgba(255,255,255,.25);
+    }
+
+    .submit-button {
+      border-radius: 4px;
+      background:
+        linear-gradient(180deg, #463252, #35253f);
+      color: #f3e5cc;
+    }
+
+    .submit-button:hover {
+      background:
+        linear-gradient(180deg, #9a4050, #7e2f3f);
+    }
+
+    .result {
+      border-radius: 6px;
+      border: 1px solid rgba(219,193,138,.28);
+      background:
+        radial-gradient(circle at top right, rgba(185,144,77,.08), transparent 30%),
+        #1a1220;
+    }
+
+    .application-id {
+      border-color: rgba(219,193,138,.28);
+      color: #e8b4bb;
+    }
+
+    footer {
+      border-top: 1px solid #3d3046;
+      background: #140e19;
+      color: #74677c;
+    }
+
+    @media (max-width: 720px) {
+      .royal-header {
+        grid-template-columns: 1fr;
+      }
+
+      .royal-meta {
+        text-align: left;
+      }
+
+      .royal-band {
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .hero-inner,
+      section:not(.question):not(.factory):not(.application-section) .container.section,
+      .application-section .container.section,
+      .question .container {
+        padding-left: 22px;
+        padding-right: 22px;
+      }
+
+      .application-section .container.section::before,
+      .question .container::after,
+      .royal-seal-watermark {
+        display: none;
+      }
+    }
+
+  
+
+    /* =========================================================
+       READABILITY UPGRADE
+       문단 간격 · 줄 단락 · 여백 보정
+    ========================================================= */
+
+    .hero-copy,
+    .description,
+    .question-small,
+    .factory-copy,
+    .notice,
+    .result p,
+    .error-box,
+    .intro-line {
+      line-height: 1.95;
+      letter-spacing: 0.01em;
+    }
+
+    .hero-copy,
+    .description,
+    .question-small,
+    .factory-copy {
+      max-width: 700px;
+    }
+
+    .hero-copy,
+    .description,
+    .question-small,
+    .factory-copy,
+    .notice {
+      margin-top: 18px;
+      margin-bottom: 0;
+    }
+
+    .description + .info-grid,
+    .question-small + .question-line,
+    .factory-copy + .factory-copy,
+    .notice + .submit-button {
+      margin-top: 24px;
+    }
+
+    .hero-copy br,
+    .description br,
+    .question-small br,
+    .factory-copy br,
+    .notice br {
+      content: "";
+    }
+
+    .notice {
+      padding: 22px 24px;
+    }
+
+    .notice strong {
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+
+    .notice .notice-block + .notice-block {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px dashed rgba(121, 93, 58, .28);
+    }
+
+    .spaced-lines > span,
+    .notice-list > span {
+      display: block;
+    }
+
+    .spaced-lines > span + span,
+    .notice-list > span + span {
+      margin-top: 8px;
+    }
+
+    .factory-box {
+      padding-top: 40px;
+      padding-bottom: 34px;
+    }
+
+    .question-title {
+      margin-bottom: 18px;
+    }
+
+    .question-line {
+      margin: 30px 0 18px;
+    }
+
+    .form-group {
+      margin-bottom: 34px;
+    }
+
+  
+
+    /* =========================================================
+       POLISH UPGRADE
+       문장 우아화 · 금박 강조 · 공문 메타 정리
+    ========================================================= */
+
+    .gold-emph {
+      color: var(--royal-gold);
+      font-weight: 700;
+    }
+
+    .royal-brief {
+      margin: 28px 0 26px;
+      padding: 18px 20px;
+      border: 1px solid rgba(185,144,77,.42);
+      border-radius: 4px;
+      background: rgba(255,255,255,.28);
+    }
+
+    .royal-brief-row {
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 7px 0;
+      border-bottom: 1px dashed rgba(144,118,79,.22);
+      font-size: 14px;
+      line-height: 1.85;
+    }
+
+    .royal-brief-row:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .royal-brief-label {
+      color: #7f6a53;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .royal-brief-value {
+      color: #4f4150;
+    }
+
+    .fine-note {
+      margin-top: 18px;
+      color: #796975;
+      font-size: 12.5px;
+      line-height: 1.9;
+    }
+
+    .section-lead {
+      margin-top: 16px;
+      margin-bottom: 4px;
+      color: #6f5d66;
+      font-size: 13px;
+      line-height: 1.85;
+    }
+
+    .highlight-box {
+      margin-top: 26px;
+      padding: 18px 20px;
+      border-left: 4px solid var(--royal-gold);
+      background: rgba(185,144,77,.06);
+      color: #5d4f5f;
+      line-height: 1.9;
+    }
+
+    .notice-list strong,
+    .spaced-lines strong,
+    .section-lead strong,
+    .highlight-box strong {
+      color: var(--royal-violet-deep);
+    }
+
+  
+
+    /* =========================================================
+       CREST & ORNAMENT ENHANCEMENT
+    ========================================================= */
+
+    .crest-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin: 14px 0 4px;
+      color: var(--royal-gold);
+      font-family: var(--font-display);
+      font-size: 15px;
+      letter-spacing: .12em;
+    }
+
+    .crest-row::before,
+    .crest-row::after {
+      content: "";
+      width: min(110px, 22vw);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--royal-gold), transparent);
+    }
+
+    .royal-crest {
+      display: inline-grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      border: 1px solid rgba(185,144,77,.7);
+      border-radius: 50%;
+      color: var(--royal-gold);
+      font-family: var(--font-display);
+      font-size: 18px;
+      box-shadow: inset 0 0 0 4px rgba(185,144,77,.06);
+    }
+
+    .corner-ornament {
+      position: absolute;
+      width: 44px;
+      height: 44px;
+      pointer-events: none;
+      opacity: .42;
+    }
+
+    .corner-ornament::before,
+    .corner-ornament::after {
+      content: "";
+      position: absolute;
+      background: var(--royal-gold);
+    }
+
+    .corner-ornament::before {
+      width: 34px;
+      height: 1px;
+    }
+
+    .corner-ornament::after {
+      width: 1px;
+      height: 34px;
+    }
+
+    .corner-ornament.tl { left: 14px; top: 14px; }
+    .corner-ornament.tr { right: 14px; top: 14px; transform: scaleX(-1); }
+    .corner-ornament.bl { left: 14px; bottom: 14px; transform: scaleY(-1); }
+    .corner-ornament.br { right: 14px; bottom: 14px; transform: scale(-1); }
+
+    .sigil-line {
+      margin: 28px 0 0;
+      text-align: center;
+      color: rgba(185,144,77,.72);
+      font-family: var(--font-display);
+      font-size: 18px;
+      letter-spacing: .3em;
+    }
+
+    .sigil-line span {
+      display: inline-block;
+      padding: 0 10px;
+    }
+
+    .royal-header .royal-agency::before {
+      content: "✦ ";
+      color: var(--royal-gold);
+    }
+
+    .section-title::before {
+      content: "❦";
+      display: inline-block;
+      margin-right: 10px;
+      color: rgba(185,144,77,.82);
+      font-size: .72em;
+      transform: translateY(-1px);
+    }
+
+    .factory-number::after {
+      content: " ✦";
+      font-size: .18em;
+      vertical-align: top;
+      color: var(--royal-gold-light);
+      -webkit-text-fill-color: var(--royal-gold-light);
+    }
+
+    /* =========================================================
+       MOBILE SPACING OPTIMIZATION
+    ========================================================= */
+
+    @media (max-width: 720px) {
+      .container {
+        width: min(100%, calc(100% - 24px));
+      }
+
+      .section {
+        padding-top: 56px;
+        padding-bottom: 56px;
+      }
+
+      .hero {
+        padding-top: 20px;
+        padding-bottom: 52px;
+      }
+
+      .hero-inner {
+        padding: 34px 18px 40px;
+      }
+
+      .royal-header {
+        padding: 18px 18px 15px;
+        gap: 10px;
+      }
+
+      .royal-band {
+        padding: 8px 18px;
+      }
+
+      .brand {
+        margin-bottom: 22px;
+        font-size: 10px;
+        letter-spacing: .12em;
+      }
+
+      .hero h1 {
+        font-size: clamp(34px, 11vw, 48px);
+        line-height: 1.22;
+      }
+
+      .hero-copy {
+        margin-top: 24px;
+        font-size: 15px;
+        line-height: 1.85;
+      }
+
+      .royal-brief {
+        margin: 22px 0;
+        padding: 15px 16px;
+      }
+
+      .royal-brief-row {
+        grid-template-columns: 62px 1fr;
+        gap: 8px;
+        font-size: 12.5px;
+      }
+
+      .royal-brief-label {
+        font-size: 9.5px;
+      }
+
+      .hero-warning {
+        margin-top: 18px;
+        padding: 13px 14px;
+        font-size: 12px;
+      }
+
+      .hero-button {
+        width: 100%;
+        margin-top: 24px;
+        padding: 14px 18px;
+      }
+
+      .section-title {
+        margin-bottom: 16px;
+        font-size: clamp(28px, 8.8vw, 38px);
+        line-height: 1.25;
+      }
+
+      .description,
+      .section-lead,
+      .question-small,
+      .factory-copy,
+      .fine-note {
+        font-size: 14px;
+        line-height: 1.8;
+      }
+
+      .info-grid {
+        gap: 10px;
+        margin-top: 30px;
+      }
+
+      .info-card {
+        min-height: 0;
+        padding: 18px;
+      }
+
+      .question .section {
+        padding-top: 72px;
+        padding-bottom: 72px;
+      }
+
+      .question-title {
+        font-size: clamp(29px, 8.8vw, 40px);
+        line-height: 1.35;
+      }
+
+      .factory-box {
+        margin-top: 28px;
+        padding: 28px 20px 26px;
+      }
+
+      .factory-number {
+        font-size: clamp(58px, 19vw, 84px);
+      }
+
+      .highlight-box {
+        margin-top: 20px;
+        padding: 15px 16px;
+        font-size: 13px;
+      }
+
+      .form {
+        margin-top: 32px;
+      }
+
+      .form-group {
+        margin-bottom: 26px;
+      }
+
+      input[type="text"],
+      textarea {
+        padding: 14px;
+        font-size: 14px;
+      }
+
+      #characterDraft {
+        min-height: 220px;
+      }
+
+      #message {
+        min-height: 120px;
+      }
+
+      .checkbox {
+        font-size: 12.5px;
+        line-height: 1.65;
+      }
+
+      .notice {
+        margin: 24px 0;
+        padding: 16px;
+        font-size: 12px;
+      }
+
+      .submit-button {
+        min-height: 54px;
+        font-size: 14px;
+      }
+
+      .result {
+        padding: 24px 20px;
+      }
+
+      .crest-row {
+        gap: 10px;
+        font-size: 13px;
+      }
+
+      .royal-crest {
+        width: 44px;
+        height: 44px;
+        font-size: 15px;
+      }
+
+      .corner-ornament {
+        display: none;
+      }
+    }
+
+  
+    /* =========================================================
+       WORLD / STORY RECORD SECTIONS
+    ========================================================= */
+
+    .record-section {
+      background:
+        linear-gradient(rgba(246,238,223,.96), rgba(239,228,209,.96)),
+        repeating-linear-gradient(0deg, rgba(85,65,50,.022) 0 1px, transparent 1px 6px);
+    }
+
+    .record-section.alt {
+      background:
+        radial-gradient(circle at 80% 18%, rgba(185,144,77,.06), transparent 30%),
+        linear-gradient(180deg, #211629 0%, #19111f 100%);
+      color: #f2e6d2;
+    }
+
+    .record-section .container.section {
+      position: relative;
+      padding-left: 40px;
+      padding-right: 40px;
+      border-left: 1px solid rgba(185,160,119,.62);
+      border-right: 1px solid rgba(185,160,119,.62);
+    }
+
+    .record-section.alt .container.section {
+      border-left-color: rgba(219,193,138,.18);
+      border-right-color: rgba(219,193,138,.18);
+    }
+
+    .record-section.alt .section-title {
+      color: #f2e6d2;
+    }
+
+    .record-section.alt .description,
+    .record-section.alt .section-lead {
+      color: #c4b4b7;
+    }
+
+    .premise-card {
+      margin-top: 28px;
+      padding: 28px 30px;
+      border: 1px solid rgba(185,144,77,.48);
+      border-radius: 5px;
+      background:
+        radial-gradient(circle at 100% 0%, rgba(185,144,77,.09), transparent 34%),
+        rgba(255,255,255,.23);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.22);
+    }
+
+    .premise-card .premise-mark {
+      margin-bottom: 12px;
+      color: var(--royal-gold);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: .16em;
+    }
+
+    .premise-card p {
+      margin: 0;
+      color: #413444;
+      font-family: var(--font-display);
+      font-size: clamp(21px, 3.5vw, 29px);
+      line-height: 1.65;
+    }
+
+    .record-section.alt .premise-card p {
+      color: #f1e2c8;
+    }
+
+    .conflict-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .conflict-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      min-height: 94px;
+      padding: 18px 18px;
+      border: 1px solid #cfbea0;
+      border-radius: 4px;
+      background: rgba(255,252,245,.48);
+      color: #594a57;
+      line-height: 1.75;
+      font-size: 13.5px;
+    }
+
+    .conflict-item::before {
+      content: "✦";
+      flex: 0 0 auto;
+      color: var(--royal-gold);
+      margin-top: 1px;
+    }
+
+    .timeline-sheet {
+      margin-top: 30px;
+      border-top: 1px solid #c7b48f;
+      border-bottom: 1px solid #c7b48f;
+    }
+
+    .timeline-row {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 22px;
+      padding: 18px 4px;
+      border-bottom: 1px dashed rgba(126,99,64,.25);
+    }
+
+    .timeline-row:last-child {
+      border-bottom: 0;
+    }
+
+    .timeline-label {
+      color: #8b7257;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .timeline-value {
+      color: #4b3c4b;
+      font-weight: 600;
+      line-height: 1.8;
+    }
+
+    .recruitment-notice {
+      margin-top: 30px;
+      padding: 30px;
+      border: 1px solid rgba(219,193,138,.33);
+      border-radius: 5px;
+      background: rgba(255,255,255,.025);
+    }
+
+    .notice-question {
+      margin: 0 0 22px;
+      color: #f4e5ca;
+      font-family: var(--font-display);
+      font-size: clamp(25px, 4vw, 38px);
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .notice-promise {
+      margin: 0 auto 26px;
+      max-width: 620px;
+      color: #d1bec1;
+      font-size: 15px;
+      line-height: 2;
+      text-align: center;
+    }
+
+    .notice-conditions {
+      max-width: 590px;
+      margin: 0 auto;
+      padding-top: 22px;
+      border-top: 1px solid rgba(219,193,138,.20);
+    }
+
+    .notice-conditions span {
+      display: block;
+      padding: 5px 0;
+      color: #bbaaad;
+      line-height: 1.8;
+    }
+
+    .notice-conditions .adult-only {
+      margin-top: 12px;
+      color: #efb0b7;
+      font-weight: 700;
+    }
+
+    .wish-law {
+      margin-top: 32px;
+    }
+
+    .wish-law-intro {
+      padding: 22px 24px;
+      border-left: 4px solid var(--royal-red);
+      background: rgba(141,51,65,.045);
+      color: #584851;
+      line-height: 1.95;
+    }
+
+    .wish-law-intro strong {
+      color: var(--royal-red);
+    }
+
+    .wish-example-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .wish-example {
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) 36px minmax(0, 1.35fr);
+      gap: 12px;
+      align-items: center;
+      padding: 19px 20px;
+      border: 1px solid #cfbea0;
+      border-radius: 4px;
+      background: rgba(255,252,245,.50);
+    }
+
+    .wish-said {
+      color: #62515e;
+      line-height: 1.7;
+    }
+
+    .wish-arrow {
+      color: var(--royal-gold);
+      text-align: center;
+      font-size: 17px;
+    }
+
+    .wish-real {
+      color: #47354d;
+      font-weight: 700;
+      line-height: 1.7;
+    }
+
+    .wish-real small,
+    .wish-said small {
+      display: block;
+      margin-bottom: 4px;
+      color: #9b846c;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: .12em;
+    }
+
+    .extraction-note {
+      margin-top: 28px;
+      padding: 24px;
+      text-align: center;
+      border: 1px solid rgba(185,144,77,.43);
+      background: rgba(185,144,77,.045);
+      color: #594a57;
+      line-height: 1.95;
+    }
+
+    .extraction-note strong {
+      color: var(--royal-violet-deep);
+      font-size: 1.08em;
+    }
+
+    @media (max-width: 720px) {
+      .record-section .container.section {
+        padding-left: 22px;
+        padding-right: 22px;
+        border-left: 0;
+        border-right: 0;
+      }
+
+      .premise-card,
+      .recruitment-notice {
+        padding: 22px 18px;
+      }
+
+      .conflict-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .conflict-item {
+        min-height: auto;
+        padding: 15px 15px;
+      }
+
+      .timeline-row {
+        grid-template-columns: 1fr;
+        gap: 4px;
+        padding: 15px 2px;
+      }
+
+      .wish-example {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .wish-arrow {
+        transform: rotate(90deg);
+      }
+    }
+
+  
+    /* =========================================================
+       LIVE 11:11 BADGE / D-DAY
+    ========================================================= */
+
+    .live-1111 {
+      position: fixed;
+      top: 22px;
+      right: 22px;
+      z-index: 1200;
+
+      min-width: 118px;
+      padding: 12px 14px 11px;
+
+      border: 1px solid rgba(219,193,138,.46);
+      border-radius: 10px;
+
+      background:
+        radial-gradient(circle at 50% 0%, rgba(219,193,138,.10), transparent 58%),
+        rgba(28,19,35,.86);
+
+      box-shadow:
+        0 10px 30px rgba(0,0,0,.22),
+        inset 0 0 0 1px rgba(255,255,255,.025);
+
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .live-1111-time {
+      position: relative;
+      display: inline-block;
+
+      color: #f4deb0;
+      font-family: var(--font-mono);
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: .13em;
+
+      text-shadow:
+        0 0 8px rgba(255,224,162,.34),
+        0 0 18px rgba(219,193,138,.16);
+
+      animation: elevenTwinkle 2.8s ease-in-out infinite;
+    }
+
+    .live-1111-time::before,
+    .live-1111-time::after {
+      content: "✦";
+      position: absolute;
+      top: 50%;
+
+      color: #e1bb73;
+      font-size: 8px;
+
+      transform: translateY(-50%);
+      opacity: .25;
+
+      animation: elevenStar 2.2s ease-in-out infinite;
+    }
+
+    .live-1111-time::before {
+      left: -15px;
+      animation-delay: -.7s;
+    }
+
+    .live-1111-time::after {
+      right: -15px;
+      animation-delay: -.1s;
+    }
+
+    .live-1111-dday {
+      margin-top: 5px;
+
+      color: #cbbbcf;
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      letter-spacing: .08em;
+      line-height: 1.45;
+      white-space: nowrap;
+    }
+
+    .live-1111-dday strong {
+      color: #e8b5bd;
+      font-size: 10.5px;
+      font-weight: 600;
+    }
+
+    @keyframes elevenTwinkle {
+      0%, 100% {
+        opacity: .82;
+        filter: brightness(.9);
+        transform: translateY(0);
+      }
+
+      50% {
+        opacity: 1;
+        filter: brightness(1.26);
+        transform: translateY(-1px);
+      }
+    }
+
+    @keyframes elevenStar {
+      0%, 100% {
+        opacity: .18;
+        transform: translateY(-50%) scale(.72) rotate(0deg);
+      }
+
+      50% {
+        opacity: 1;
+        transform: translateY(-50%) scale(1.18) rotate(45deg);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .live-1111-time,
+      .live-1111-time::before,
+      .live-1111-time::after {
+        animation: none !important;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .live-1111 {
+        top: 12px;
+        right: 12px;
+
+        min-width: 102px;
+        padding: 9px 11px 8px;
+
+        border-radius: 8px;
+      }
+
+      .live-1111-time {
+        font-size: 15px;
+        letter-spacing: .11em;
+      }
+
+      .live-1111-time::before {
+        left: -12px;
+      }
+
+      .live-1111-time::after {
+        right: -12px;
+      }
+
+      .live-1111-dday {
+        margin-top: 3px;
+        font-size: 8px;
+      }
+
+      .live-1111-dday strong {
+        font-size: 9px;
+      }
+    }
+
+  
+    /* =========================================================
+       READABILITY / GLOW / MOBILE REFINEMENT
+    ========================================================= */
+
+    .glow-phrase {
+      display: inline-block;
+      color: #ffecc7;
+      font-weight: 700;
+      text-shadow:
+        0 0 8px rgba(255, 223, 164, .18),
+        0 0 16px rgba(255, 208, 120, .20),
+        0 0 28px rgba(208, 120, 255, .10);
+    }
+
+    .glow-phrase.soft {
+      color: #ffd4df;
+      text-shadow:
+        0 0 8px rgba(255, 182, 198, .18),
+        0 0 18px rgba(237, 173, 255, .18),
+        0 0 32px rgba(255, 207, 109, .10);
+    }
+
+    .description,
+    .factory-copy,
+    .section-lead,
+    .fine-note,
+    .notice-promise,
+    .notice-conditions span,
+    .wish-law-intro,
+    .wish-real,
+    .wish-said,
+    .timeline-value,
+    .conflict-item,
+    .highlight-box {
+      line-height: 1.95;
+      letter-spacing: -0.01em;
+    }
+
+    .description.spaced-lines span,
+    .factory-copy.spaced-lines span,
+    .question-small.spaced-lines span,
+    .hero-copy.spaced-lines span {
+      display: block;
+    }
+
+    .description.spaced-lines span + span,
+    .factory-copy.spaced-lines span + span,
+    .question-small.spaced-lines span + span,
+    .hero-copy.spaced-lines span + span {
+      margin-top: 9px;
+    }
+
+    /* 첫 번째 다크 섹션 가독성 개선 */
+    .record-section.alt .section-title {
+      color: #fff2d6;
+      text-shadow: 0 0 10px rgba(255, 219, 149, .08);
+    }
+
+    .record-section.alt .description,
+    .record-section.alt .section-lead,
+    .record-section.alt .notice-promise,
+    .record-section.alt .notice-conditions span {
+      color: #eadad0;
+    }
+
+    .record-section.alt .eyebrow {
+      color: #f4c875 !important;
+    }
+
+    .record-section.alt .eyebrow::before {
+      background: #d75d70 !important;
+    }
+
+    .recruitment-notice {
+      margin-top: 34px;
+      padding: 34px 34px;
+      border: 1px solid rgba(219,193,138,.38);
+      border-radius: 8px;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255,255,255,.05), transparent 40%),
+        linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.02));
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.015),
+        0 12px 40px rgba(0,0,0,.12);
+    }
+
+    .notice-question {
+      margin-bottom: 20px;
+      color: #fff0d1;
+      text-shadow:
+        0 0 8px rgba(255, 223, 164, .10),
+        0 0 18px rgba(255, 223, 164, .06);
+      line-height: 1.55;
+    }
+
+    .notice-promise {
+      font-size: 16px;
+      color: #f0e0d7;
+    }
+
+    .notice-conditions {
+      max-width: 640px;
+      margin: 0 auto;
+      padding-top: 24px;
+    }
+
+    .notice-conditions span {
+      padding: 6px 0;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .notice-conditions .adult-only {
+      margin-top: 10px;
+      color: #ffb9c3;
+      font-weight: 700;
+    }
+
+    /* 제품 섹션 가독성 / 아웃글로우 */
+    .highlight-box {
+      margin-top: 28px;
+      padding: 22px 24px;
+      border-left: 4px solid var(--royal-gold);
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      color: #f1e7d8;
+      font-size: 16px;
+    }
+
+    .highlight-box strong,
+    .highlight-box .glow-phrase {
+      font-size: 1.03em;
+    }
+
+    .factory-copy {
+      color: #efe4d5;
+      font-size: 18px;
+    }
+
+    .factory-copy .glow-phrase,
+    .factory-copy .gold-emph {
+      font-weight: 700;
+    }
+
+    .wish-law-intro {
+      font-size: 16px;
+    }
+
+    /* 모바일 최적화 */
+    @media (max-width: 720px) {
+      .section {
+        padding: 62px 0;
+      }
+
+      .section-title {
+        line-height: 1.35;
+      }
+
+      .description,
+      .factory-copy,
+      .section-lead,
+      .wish-law-intro,
+      .highlight-box,
+      .conflict-item,
+      .timeline-value,
+      .notice-promise,
+      .notice-conditions span {
+        font-size: 15px !important;
+        line-height: 1.88;
+      }
+
+      .record-section .container.section,
+      .record-section.alt .container.section,
+      .question .container,
+      .application-section .container.section,
+      section:not(.question):not(.factory):not(.application-section) .container.section {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+      }
+
+      .recruitment-notice,
+      .premise-card,
+      .highlight-box,
+      .wish-law-intro {
+        padding: 20px 16px;
+        border-radius: 6px;
+      }
+
+      .notice-question {
+        font-size: 29px;
+        line-height: 1.45;
+      }
+
+      .notice-promise {
+        font-size: 15px;
+      }
+
+      .conflict-grid {
+        gap: 10px;
+      }
+
+      .timeline-sheet {
+        margin-top: 24px;
+      }
+
+      .timeline-row {
+        padding: 14px 0;
+      }
+
+      .factory-box {
+        padding: 26px 16px 24px !important;
+      }
+
+      .factory-number {
+        margin-bottom: 10px;
+      }
+
+      .wish-example {
+        padding: 16px 14px;
+      }
+    }
+
+  
+    /* =========================================================
+       VISIBILITY HOTFIX
+       다크 섹션 글씨가 흐려지는 문제 강제 해결
+    ========================================================= */
+
+    /* 다크 섹션에서는 reveal 투명도 효과를 사용하지 않음 */
+    .record-section.alt .reveal,
+    .factory .reveal,
+    .question .reveal {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+
+    /* 매년 11월 모집공고 섹션 */
+    .record-section.alt {
+      background: #1b1123 !important;
+      color: #fff6e7 !important;
+    }
+
+    .record-section.alt .container.section {
+      background: transparent !important;
+    }
+
+    .record-section.alt .section-title {
+      color: #fff4dc !important;
+      opacity: 1 !important;
+      text-shadow: 0 2px 14px rgba(0,0,0,.28) !important;
+    }
+
+    .record-section.alt .eyebrow {
+      color: #e6b95f !important;
+      opacity: 1 !important;
+    }
+
+    .record-section.alt .description,
+    .record-section.alt .description span,
+    .record-section.alt .section-lead {
+      color: #eadde3 !important;
+      opacity: 1 !important;
+    }
+
+    .record-section.alt .recruitment-notice {
+      background: #27182f !important;
+      border: 1px solid #7c6243 !important;
+      box-shadow:
+        0 18px 42px rgba(0,0,0,.24),
+        inset 0 0 0 1px rgba(255,255,255,.025) !important;
+    }
+
+    .record-section.alt .notice-question {
+      color: #fff1cc !important;
+      opacity: 1 !important;
+      text-shadow:
+        0 0 10px rgba(255,224,157,.18),
+        0 2px 12px rgba(0,0,0,.30) !important;
+    }
+
+    .record-section.alt .notice-promise {
+      color: #f2e7eb !important;
+      opacity: 1 !important;
+      font-weight: 500 !important;
+    }
+
+    .record-section.alt .notice-conditions span {
+      color: #e6d9df !important;
+      opacity: 1 !important;
+    }
+
+    .record-section.alt .notice-conditions .adult-only {
+      color: #ff9dab !important;
+      opacity: 1 !important;
+      font-weight: 800 !important;
+      text-shadow: 0 0 9px rgba(255,107,130,.13);
+    }
+
+    /* 특별 생산품 섹션 */
+    .factory {
+      background: #160d1c !important;
+    }
+
+    .factory .section-title {
+      color: #fff4df !important;
+      opacity: 1 !important;
+    }
+
+    .factory .description,
+    .factory .description span,
+    .factory-copy,
+    .factory-copy span {
+      color: #efe4dd !important;
+      opacity: 1 !important;
+    }
+
+    .factory .highlight-box {
+      background: #24162b !important;
+      color: #f4e8df !important;
+      opacity: 1 !important;
+      border-left-color: #d2aa58 !important;
+    }
+
+    .glow-phrase {
+      color: #ffe6a8 !important;
+      opacity: 1 !important;
+      text-shadow:
+        0 0 5px rgba(255,232,173,.65),
+        0 0 12px rgba(255,205,107,.42),
+        0 0 24px rgba(202,122,255,.20) !important;
+    }
+
+    .glow-phrase.soft {
+      color: #ffc4d1 !important;
+      text-shadow:
+        0 0 5px rgba(255,190,204,.70),
+        0 0 13px rgba(230,155,255,.38),
+        0 0 24px rgba(255,205,107,.12) !important;
+    }
+
+    /* 모바일에서도 명암 유지 */
+    @media (max-width: 720px) {
+      .record-section.alt {
+        background: #1b1123 !important;
+      }
+
+      .record-section.alt .section-title {
+        font-size: clamp(31px, 10vw, 44px) !important;
+        line-height: 1.28 !important;
+      }
+
+      .record-section.alt .description,
+      .record-section.alt .notice-promise,
+      .record-section.alt .notice-conditions span,
+      .factory .description,
+      .factory-copy,
+      .factory .highlight-box {
+        font-size: 15px !important;
+        line-height: 1.9 !important;
+      }
+
+      .record-section.alt .recruitment-notice {
+        padding: 22px 17px !important;
+      }
+
+      .record-section.alt .notice-question {
+        font-size: 27px !important;
+        line-height: 1.5 !important;
+      }
+    }
+
   </style>
 </head>
 
 
-<body>
+<body class="pre-reveal">
 
+<!-- LIVE 11:11 / D-DAY -->
+<div class="live-1111" aria-label="11월 11일까지 남은 시간">
+  <div class="live-1111-time">11:11</div>
+  <div class="live-1111-dday" id="liveDday">
+    <strong>D-88</strong>
+  </div>
+</div>
+
+<div id="grain"></div>
 
 <!-- =========================
-     HERO
+     GATE — INVITATION
 ========================= -->
+
+<div id="gate">
+
+  <div class="invitation" id="invitationCard">
+
+    <div class="invitation-crest">
+      11:11 FACTORY · SPECIAL CONFECTION · OFFICIAL RECORDION OFFICE
+    </div>
+
+    <div class="invitation-inner">
+
+      <div class="invitation-eyebrow">
+        SEALED OFFICIAL INVITATION · 第十一號
+      </div>
+
+      <div class="crest-row">
+        <span>✧</span>
+        <div class="royal-crest">11</div>
+        <span>✧</span>
+      </div>
+
+      <div class="invitation-seal">11:11</div>
+
+      <h2>
+        제11제과로부터<br>
+        <strong>정식 초청장</strong>이 도착했습니다
+      </h2>
+
+      <div class="royal-rule">✦</div>
+
+      <p>
+        귀하에게 11월 특별 생산라인의 외부 참가 캐릭터를
+        추천할 권한이 부여되었음을 알려드립니다.<br><br>
+        초청 대상은 하나 이상의 간절한 소원을 지닌
+        만 20세 이상의 성인 캐릭터에 한합니다.
+      </p>
+
+      <button type="button" class="invitation-open" id="openInvitation">
+        확인하기
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- =========================
+     INTRO SEQUENCE
+========================= -->
+
+<div id="introScreen">
+
+  <p class="intro-line" data-line>제11제과 특별생산국이 제11호 초청 문서를 개봉합니다.</p>
+  <p class="intro-line" data-line>등록 항목 — 참가자가 가장 간절히 원하는 단 하나의 소원.</p>
+  <p class="intro-line" data-line>시행 기간: 11월 1일 — 11월 11일. 최종 산출물은 단 하나.</p>
+  <p class="intro-line" data-line data-emph="1">단, 최초의 소원이<br>마지막 순간까지 같은 이름으로 남는다는 보장은 없습니다.</p>
+
+  <button type="button" class="intro-skip" id="skipIntro">건너뛰기</button>
+
+</div>
+
+<!-- =========================
+     SITE CONTENT
+========================= -->
+
+<div id="siteContent">
+
+<!-- HERO -->
 
 <header class="hero">
 
-  <div class="container hero-inner">
+  <div class="container">
 
-    <div class="brand">
-      11:11 FACTORY · CHARACTER APPLICATION
+    <span class="corner-ornament tl"></span>
+    <span class="corner-ornament tr"></span>
+    <span class="corner-ornament bl"></span>
+    <span class="corner-ornament br"></span>
+
+    <div class="royal-band">
+      <span>OFFICIAL NOTICE · 제11제과 특별생산국</span>
+      <span>PUBLIC NOTICE NO. 11-11</span>
     </div>
 
+    <div class="royal-header">
 
-    <div class="eyebrow">
-      SPECIAL PROGRAM
+      <div>
+        <div class="royal-docno">
+          문서번호 제11제과-특생국-11/11호
+        </div>
+
+        <div class="royal-agency">
+          제11제과 특별생산국
+        </div>
+      </div>
+
+      <div class="royal-meta">
+        시행일 · 11월 1일<br>
+        등록기한 · 모집 종료 시까지<br>
+        열람등급 · 공개
+      </div>
+
     </div>
+
+    <div class="hero-inner">
+
+      <div class="brand">
+        11:11 FACTORY · OFFICIAL CHARACTER INVITATION
+      </div>
+
+
+      <div class="eyebrow">
+        11월 특별 생산라인 참가 캐릭터 모집에 관한 건
+      </div>
 
 
     <h1>
-      당신의 캐릭터는<br>
-      <span class="red">11월 11일</span>에<br>
-      무엇을 원하게 될까요?
+      11월 특별 생산라인<br>
+      <span class="red">참가 캐릭터</span><br>
+      공식 모집 안내
     </h1>
 
 
-    <p class="hero-copy">
-      《11시 11분 생산라인》에 참가할 캐릭터를 모집합니다.
-      가장 간절한 소원을 품은 캐릭터들은
-      제11제과의 11일간 특별 프로그램에 참가하게 됩니다.
+    <p class="hero-copy spaced-lines">
+      <span>제11제과 특별생산국에서는 11월 11일에 진행되는 특별 생산 프로그램에 참가할 외부 캐릭터를 모집합니다.</span>
+      <span>참가자는 각자의 소원을 품고 생산시설에 입소하며, 정해진 공정과 관측 과정을 거치게 됩니다.</span>
+      <span>그리고 마지막 날 완성되는 특별 제품 <strong class="gold-emph">「11:11」</strong>을 통해 단 하나의 소원을 이룰 기회를 얻게 됩니다.</span>
     </p>
 
+    <div class="royal-brief">
+      <div class="royal-brief-row">
+        <div class="royal-brief-label">수신</div>
+        <div class="royal-brief-value">본 공문을 열람한 작가 귀하</div>
+      </div>
+      <div class="royal-brief-row">
+        <div class="royal-brief-label">발신</div>
+        <div class="royal-brief-value">제11제과 특별생산국</div>
+      </div>
+      <div class="royal-brief-row">
+        <div class="royal-brief-label">제목</div>
+        <div class="royal-brief-value">11월 특별 생산라인 참가 캐릭터 모집에 관한 건</div>
+      </div>
+      <div class="royal-brief-row">
+        <div class="royal-brief-label">요지</div>
+        <div class="royal-brief-value">간절한 소원을 지닌 성인 캐릭터를 초청하고, 11일의 공정 후 <strong class="gold-emph">「11:11」</strong>의 자격을 부여함.</div>
+      </div>
+    </div>
 
     <p class="hero-warning">
-      ※ 처음 품었던 소원과 마지막 순간의 욕망이
-      같다는 보장은 없습니다.
+      ※ 종료 시점의 소원이 최초 등록 내용과 같다는 보장은 없습니다.
     </p>
 
 
-    <a
-      href="#application"
-      class="hero-button"
-    >
-      캐릭터 신청하기
+    <div class="royal-rule">✦</div>
+
+    <a href="#application" class="hero-button">
+      별지 제11호 참가 신청서 작성
     </a>
 
+    <div class="royal-seal-watermark">
+      第十一
+    </div>
+
+    <div class="sigil-line"><span>✦</span><span>❦</span><span>✦</span></div>
+
+    </div>
   </div>
 
 </header>
 
 
-<!-- =========================
-     PROGRAM
-========================= -->
+<!-- PROGRAM -->
 
 <section>
 
-  <div class="container section">
+  <div class="container section reveal">
 
     <div class="eyebrow">
-      PROGRAM INFORMATION
+      OFFICIAL PROGRAM SUMMARY
     </div>
 
 
     <h2 class="section-title">
-      제11제과 특별 프로그램
+      제11제과 11월 특별 생산계획
     </h2>
 
 
-    <p class="description">
-      참가 캐릭터는 11월 1일부터 11월 11일까지
-      제11제과의 숙소와 생산시설에서 생활합니다.
-      선택·신뢰·욕망·비밀·관계를 중심으로 한 공정을 수행하며,
-      진행 과정에서 캐릭터의 관계와 욕망이 변화할 수 있습니다.
+    <p class="description spaced-lines">
+      <span><strong class="gold-emph">빼빼로 생산 공정 단계는 총 11단계로 구성됩니다.</strong></span>
+      <span>등록된 참가 캐릭터는 11월 11일, 단 하루를 위해 제11제과의 숙소 및 생산시설에 11월 1일부터 11월 11일까지 머물며 지정 공정을 수행합니다.</span>
+      <span>공정은 <strong class="gold-emph">선택 · 신뢰 · 욕망 · 비밀 · 관계</strong>의 변화를 중심으로 진행됩니다.</span>
+      <span>모든 관계는 사전 확정 없이, 실제 상호작용과 선택에 따라 자연스럽게 형성됩니다.</span>
+    </p>
+
+    <p class="section-lead">
+      각 공정은 참가 캐릭터가 무엇을 선택하고, 누구를 향하며, 무엇을 끝내 포기하지 못하는지를 기록하는 <strong>욕망 관측 절차</strong>입니다.
     </p>
 
 
     <div class="info-grid">
 
       <div class="info-card">
-
-        <div class="info-label">
-          PERIOD
-        </div>
-
-        <div class="info-value">
-          11월 1일 — 11월 11일
-        </div>
-
+        <div class="info-label">PERIOD</div>
+        <div class="info-value">11월 1일 — 11월 11일</div>
       </div>
 
-
       <div class="info-card">
-
-        <div class="info-label">
-          CHARACTER
-        </div>
-
-        <div class="info-value">
-          만 20세 이상 성인
-        </div>
-
+        <div class="info-label">CHARACTER</div>
+        <div class="info-value">만 20세 이상 성인</div>
       </div>
 
-
       <div class="info-card">
-
-        <div class="info-label">
-          GENRE
-        </div>
-
-        <div class="info-value">
-          성인 로맨스
-        </div>
-
+        <div class="info-label">GENRE</div>
+        <div class="info-value">성인 로맨스</div>
       </div>
 
-
       <div class="info-card">
-
-        <div class="info-label">
-          RELATIONSHIP
-        </div>
-
-        <div class="info-value">
-          자유 관계 형성
-        </div>
-
+        <div class="info-label">RELATIONSHIP</div>
+        <div class="info-value">자유 관계 형성</div>
       </div>
 
-
       <div class="info-card">
-
-        <div class="info-label">
-          APPLICATION
-        </div>
-
-        <div class="info-value">
-          캐릭터 러프안
-        </div>
-
+        <div class="info-label">APPLICATION</div>
+        <div class="info-value">캐릭터</div>
       </div>
 
-
       <div class="info-card">
-
-        <div class="info-label">
-          FINAL REWARD
-        </div>
-
-        <div class="info-value red">
-          단 하나의 소원
-        </div>
-
+        <div class="info-label">FINAL REWARD</div>
+        <div class="info-value red">단 하나의 소원</div>
       </div>
 
     </div>
@@ -764,31 +3215,210 @@
 </section>
 
 
-<!-- =========================
-     QUESTION
-========================= -->
+
+<!-- STORY PREMISE / CONFLICT -->
+
+<section class="record-section">
+
+  <div class="container section reveal">
+
+    <div class="eyebrow">
+      STORY RECORD · CORE PREMISE
+    </div>
+
+    <h2 class="section-title">
+      제11생산라인 기본 기록
+    </h2>
+
+    <div class="premise-card">
+      <div class="premise-mark">CORE STATEMENT / 11 DAYS</div>
+      <p>
+        가장 간절한 소원을 이루기 위해 들어온 공장에서,
+        참가자들은 11일 동안 자신의 욕망을 증명해야 한다.
+      </p>
+    </div>
+
+    <div class="royal-rule">✦</div>
+
+    <p class="section-lead">
+      제11생산라인에서 가장 중요한 것은 처음 적어낸 소원이 아닙니다.
+      공정이 진행될수록 드러나는 선택과 관계, 그리고 끝내 외면하지 못하는 욕망입니다.
+    </p>
+
+    <h3 class="record-subtitle" style="margin:34px 0 0;font-family:var(--font-display);font-size:24px;font-weight:400;">
+      주요 갈등 소재
+    </h3>
+
+    <div class="conflict-grid">
+      <div class="conflict-item">소원과 사랑 사이의 선택</div>
+      <div class="conflict-item">육체적 욕망과 감정적 욕망의 혼동</div>
+      <div class="conflict-item">욕망을 인정하는 것에 대한 수치와 두려움</div>
+      <div class="conflict-item">경쟁 상대에 대한 질투</div>
+      <div class="conflict-item">파트너에 대한 소유욕</div>
+      <div class="conflict-item">처음 품었던 목적이 관계로 인해 변하는 과정</div>
+    </div>
+
+    <div class="timeline-sheet">
+      <div class="timeline-row">
+        <div class="timeline-label">START</div>
+        <div class="timeline-value">11월 1일 오후 8시 30분 · 제11제과 참가자 합숙 첫날</div>
+      </div>
+      <div class="timeline-row">
+        <div class="timeline-label">FINAL</div>
+        <div class="timeline-value">11월 11일 오후 11시 11분 · 최종 생산 완료</div>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- RECRUITMENT NOTICE -->
+
+<section class="record-section alt">
+
+  <div class="container section reveal">
+
+    <div class="eyebrow" style="color:var(--gold-soft);">
+      ANNUAL RECRUITMENT NOTICE
+    </div>
+
+    <h2 class="section-title">
+      매년 11월, 제11제과에 올라오는 공고
+    </h2>
+
+    <p class="description spaced-lines">
+      <span>제11제과에는 매년 11월, 이상한 모집공고가 올라옵니다.</span>
+      <span>그 공고가 가장 먼저 묻는 것은 단 하나입니다.</span>
+    </p>
+
+    <div class="recruitment-notice">
+
+      <p class="notice-question">
+        당신에게<br>
+        이루고 싶은 소원이 있습니까?
+      </p>
+
+      <p class="notice-promise">
+        11일 동안의 모든 공정을 완료한 참가자에게<br>
+        단 하나의 소원을 이루어드립니다.
+      </p>
+
+      <div class="notice-conditions">
+        <span>참가비 없음.</span>
+        <span>학력, 직업, 재산 제한 없음.</span>
+        <span class="adult-only">단, 만 20세 이상의 성인만 참가 가능.</span>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- LAW OF WISH -->
+
+<section class="record-section">
+
+  <div class="container section reveal">
+
+    <div class="eyebrow">
+      RULE OF WISH · OFFICIAL NOTE
+    </div>
+
+    <h2 class="section-title">
+      소원의 법칙
+    </h2>
+
+    <div class="wish-law">
+
+      <div class="wish-law-intro">
+        제11제과가 생산하는 특별한 과자 <strong>「11:11」</strong>은
+        섭취자의 가장 강한 욕망을 현실화합니다.
+        <br><br>
+        그러나 한 가지 중요한 점이 있습니다.
+        <br>
+        <strong>사람이 말하는 소원과 실제 욕망은 다를 수 있습니다.</strong>
+      </div>
+
+      <div class="wish-example-list">
+
+        <div class="wish-example">
+          <div class="wish-said">
+            <small>DECLARED WISH</small>
+            “돈이 필요하다.”
+          </div>
+          <div class="wish-arrow">→</div>
+          <div class="wish-real">
+            <small>ACTUAL DESIRE</small>
+            다시는 누구에게도 버림받지 않을 힘을 갖고 싶다.
+          </div>
+        </div>
+
+        <div class="wish-example">
+          <div class="wish-said">
+            <small>DECLARED WISH</small>
+            “성공하고 싶다.”
+          </div>
+          <div class="wish-arrow">→</div>
+          <div class="wish-real">
+            <small>ACTUAL DESIRE</small>
+            자신을 떠난 사람에게 후회시키고 싶다.
+          </div>
+        </div>
+
+        <div class="wish-example">
+          <div class="wish-said">
+            <small>DECLARED WISH</small>
+            “첫사랑을 다시 만나고 싶다.”
+          </div>
+          <div class="wish-arrow">→</div>
+          <div class="wish-real">
+            <small>ACTUAL DESIRE</small>
+            누군가에게 다시 사랑받고 싶다.
+          </div>
+        </div>
+
+      </div>
+
+      <div class="extraction-note">
+        따라서 제11공장은 참가자가 처음 제출한 소원을 그대로 이루어주는 곳이 아닙니다.
+        <br>
+        11일 동안의 행동과 관계를 통해
+        <strong>‘진짜 욕망’을 추출합니다.</strong>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- QUESTION -->
 
 <section class="question">
 
-  <div class="container section">
+  <div class="container section reveal">
 
-    <div class="eyebrow">
-      APPLICATION QUESTION
+    <div class="eyebrow" style="color:var(--rose);">
+      DECLARATION OF WISH
     </div>
 
 
     <h2 class="question-title">
-      캐릭터가 가장 간절하게 원하는 것은 무엇입니까?
+      참가 캐릭터가 최초로<br>등록할 소원은 무엇입니까?
     </h2>
 
 
     <div class="question-line"></div>
 
 
-    <p class="question-small">
-      귀하가 생각하는 캐릭터의 소원과,
-      실제로 그 캐릭터가 가장 강하게 욕망하는 것은
-      다를 수 있습니다.
+    <p class="question-small spaced-lines">
+      <span>등록된 소원은 참가 시점의 자기진술입니다.</span>
+      <span>따라서 프로그램 종료 시점에 남는 최우선 욕망과 반드시 같은 이름으로 남아 있으리라는 보장은 없습니다.</span>
     </p>
 
   </div>
@@ -796,48 +3426,46 @@
 </section>
 
 
-<!-- =========================
-     11:11
-========================= -->
+<!-- 11:11 -->
 
 <section class="factory">
 
-  <div class="container section">
+  <div class="container section reveal">
 
-    <div class="eyebrow">
-      SPECIAL PRODUCT
+    <div class="eyebrow" style="color:var(--gold-soft);">
+      SPECIAL CONFECTION · OFFICIAL RECORD
     </div>
 
 
-    <h2 class="section-title">
-      WHAT IS 11:11?
+    <h2 class="section-title" style="color:#fff;">
+      특별 생산품 「11:11」
     </h2>
 
 
-    <p class="description">
-      제11제과의 특수 제조 공정을 통해
-      프로그램 마지막 날 단 하나의 제품이 완성됩니다.
+    <p class="description spaced-lines">
+      <span>제11제과의 특수 제조 공정을 통해, 11월 11일 오후 11시 11분 단 하나의 특별 생산품이 완성됩니다.</span>
+      <span>완성된 생산품은 모든 공정의 결과와 참가자의 최종 욕망을 반영하는 유일한 산출물입니다.</span>
     </p>
+
+    <div class="highlight-box">
+      <strong>「11:11」은 최초 소원을 보상하는 제품이 아닙니다.</strong><br>
+      마지막 순간 가장 강한 욕망을 읽어, 그에 가까운 결과를 현실로 이끕니다.
+    </div>
 
 
     <div class="factory-box">
 
-      <div class="factory-number">
-        11:11
-      </div>
+      <div class="factory-number">11:11</div>
 
 
-      <p class="factory-copy">
-        섭취자의
-        <strong>현재 가장 강한 욕망</strong>을
-        현실화합니다.
+      <p class="factory-copy spaced-lines">
+        <span>섭취자의 <strong>현재 가장 강한 욕망</strong>을 현실로 구현합니다.</span>
       </p>
 
 
-      <p class="factory-copy">
-        처음 이곳에 들어왔을 때 원하는 것과
-        마지막 순간 원하는 것은
-        같지 않을 수 있습니다.
+      <p class="factory-copy spaced-lines">
+        <span>최초 소원과 마지막 욕망은 서로 다를 수 있습니다.</span>
+        <span>최종 완성품은 끝까지 남은 욕망을 기준으로 작동합니다.</span>
       </p>
 
     </div>
@@ -847,52 +3475,44 @@
 </section>
 
 
-<!-- =========================
-     APPLICATION
-========================= -->
+<!-- APPLICATION -->
 
-<section
-  class="application-section"
-  id="application"
->
+<section class="application-section" id="application">
 
-  <div class="container section">
+  <div class="container section reveal">
 
     <div class="eyebrow">
-      CHARACTER APPLICATION
+      APPENDIX FORM · CHARACTER APPLICATION
     </div>
 
 
     <h2 class="section-title">
-      캐릭터 참가 신청
+      별지 제11호 · 참가 캐릭터 신청서
     </h2>
 
 
-    <p class="description">
-      작가 닉네임만 필수로 입력해주세요.
-      캐릭터 러프안과 한마디는 아직 정해지지 않았다면
-      비워두셔도 됩니다.
+    <p class="description spaced-lines">
+      <span>아래 별지 서식을 작성하여 제출해주시기 바랍니다.</span>
+      <span>작가 닉네임·성인 확인·수집 동의는 <strong class="gold-emph">필수 항목</strong>입니다.</span>
+      <span>캐릭터와 작가 한마디는 아직 미정일 경우 공란으로 제출하셔도 됩니다.</span>
+    </p>
+
+    <p class="fine-note">
+      신청서는 운영 측 검토 후 기록되며, 필요 시 별도 조율을 요청할 수 있습니다.
     </p>
 
 
-    <form
-      class="form"
-      id="characterForm"
-    >
+    <div class="sigil-line"><span>✦</span><span>❦</span><span>✦</span></div>
 
+    <form class="form" id="characterForm">
 
-      <!-- 작가 닉네임 -->
 
       <div class="form-group">
 
-        <label
-          class="label"
-          for="authorName"
-        >
+        <label class="label" for="authorName">
           작가 닉네임
           <span class="required">*</span>
         </label>
-
 
         <input
           type="text"
@@ -907,24 +3527,18 @@
       </div>
 
 
-      <!-- 캐릭터 러프안 -->
-
       <div class="form-group">
 
-        <label
-          class="label"
-          for="characterDraft"
-        >
-          캐릭터 러프안
+        <label class="label" for="characterDraft">
+          캐릭터
           <span class="optional">선택</span>
         </label>
-
 
         <textarea
           id="characterDraft"
           name="characterDraft"
           maxlength="5000"
-          placeholder="현재 생각해둔 캐릭터 설정을 자유롭게 작성해주세요.
+          placeholder="현재 생각해둔 캐릭터를 자유롭게 작성해주세요.
 
 예)
 이름:
@@ -939,11 +3553,9 @@
 아직 정해지지 않았다면 비워두셔도 됩니다."
         ></textarea>
 
-
         <p class="help">
-          선택사항 / 이름·나이·외형·성격·직업·소원·관계성 등 자유 작성
+          선택사항 / 이름·나이·직업·외형·성격·소원·관계성 등 자유 작성
         </p>
-
 
         <div class="counter">
           <span id="draftCount">0</span> / 5000
@@ -952,26 +3564,23 @@
       </div>
 
 
-      <!-- 한마디 -->
-
       <div class="form-group">
 
-        <label
-          class="label"
-          for="message"
-        >
-          한마디
+        <label class="label" for="message">
+          작가 한마디
           <span class="optional">선택</span>
         </label>
-
 
         <textarea
           id="message"
           name="message"
           maxlength="1200"
-          placeholder="참가시키고 싶은 이유, 조율이 필요한 부분, 하고 싶은 말 등을 자유롭게 적어주세요. 비워두셔도 됩니다."
-        ></textarea>
+          placeholder="참가시키고 싶은 이유,
+조율이 필요한 부분,
+하고 싶은 말 등을 자유롭게 적어주세요.
 
+비워두셔도 됩니다."
+        ></textarea>
 
         <div class="counter">
           <span id="messageCount">0</span> / 1200
@@ -980,127 +3589,70 @@
       </div>
 
 
-      <!-- 성인 확인 -->
-
       <label class="checkbox">
-
-        <input
-          type="checkbox"
-          id="adultCheck"
-          required
-        >
-
+        <input type="checkbox" id="adultCheck" required>
         <span>
           신청자는 성인이며,
           참가 캐릭터 역시 만 20세 이상의 성인으로 설정함을 확인합니다.
           <span class="required">*</span>
         </span>
-
       </label>
 
 
-      <!-- 수집 동의 -->
-
       <label class="checkbox">
-
-        <input
-          type="checkbox"
-          id="consentCheck"
-          required
-        >
-
+        <input type="checkbox" id="consentCheck" required>
         <span>
-          제출한 작가 닉네임·캐릭터 러프안·한마디가
+          제출한 작가 닉네임·캐릭터·작가 한마디가
           참가자 선정 및 설정 검토 목적으로 수집되는 것에 동의합니다.
           <span class="required">*</span>
         </span>
-
       </label>
 
 
-      <!-- 안내 -->
-
       <div class="notice">
+        <div class="notice-block">
+          <strong>제출 항목 안내</strong>
+        </div>
 
-        <strong>제출 정보</strong>
+        <div class="notice-block notice-list">
+          <span><strong>필수</strong></span>
+          <span>작가 닉네임 / 성인 확인 / 수집 동의</span>
+        </div>
 
-        <br><br>
+        <div class="notice-block notice-list">
+          <span><strong>선택</strong></span>
+          <span>캐릭터 / 작가 한마디</span>
+        </div>
 
-        <strong>필수</strong><br>
-        작가 닉네임 / 성인 확인 / 수집 동의
-
-        <br><br>
-
-        <strong>선택</strong><br>
-        캐릭터 러프안 / 한마디
-
-        <br><br>
-
-        러프안과 한마디를 비워두어도
-        정상적으로 신청할 수 있습니다.
-
-        <br><br>
-
-        제출 정보는 운영자 전용
-        Google Sheet에 기록됩니다.
-
+        <div class="notice-block notice-list">
+          <span>캐릭터와 작가 한마디를 비워두어도 정상적으로 신청할 수 있습니다.</span>
+          <span>제출된 정보는 운영자 전용 Google Sheet에 기록되며, 외부에는 공개되지 않습니다.</span>
+        </div>
       </div>
 
 
-      <!-- 제출 버튼 -->
-
-      <button
-        type="submit"
-        class="submit-button"
-        id="submitButton"
-      >
-        참가 신청하기
+      <button type="submit" class="submit-button" id="submitButton">
+        공식 참가 신청서 제출
       </button>
 
 
-      <!-- 오류 -->
-
-      <div
-        class="error-box"
-        id="errorBox"
-      ></div>
+      <div class="error-box" id="errorBox"></div>
 
 
-      <!-- 성공 -->
+      <div class="result" id="resultBox">
 
-      <div
-        class="result"
-        id="resultBox"
-      >
+        <div class="result-small">APPLICATION RECEIVED · 제11호 접수완료</div>
 
-        <div class="result-small">
-          APPLICATION ACCEPTED
-        </div>
+        <h3>참가 신청서가 정상적으로 접수되었습니다.</h3>
 
+        <p>접수번호</p>
 
-        <h3>
-          참가 신청이 접수되었습니다.
-        </h3>
-
-
-        <p>
-          접수번호
-        </p>
-
-
-        <div
-          class="application-id"
-          id="applicationId"
-        >
-          -
-        </div>
-
+        <div class="application-id" id="applicationId">-</div>
 
         <p>
           제출된 캐릭터 신청서는
           운영자 확인 후 검토됩니다.
         </p>
-
 
         <p>
           당신의 캐릭터가
@@ -1119,8 +3671,10 @@
 
 
 <footer>
-  11:11 FACTORY · CHARACTER APPLICATION
+  11:11 FACTORY · APPENDIX FORM · CHARACTER APPLICATION
 </footer>
+
+</div>
 
 
 <script>
@@ -1134,324 +3688,257 @@
 
 
   /* ========================================
+     GATE / INTRO FLOW
+  ======================================== */
+
+  const reduceMotion =
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const gate = document.getElementById("gate");
+  const invitationCard = document.getElementById("invitationCard");
+  const openInvitation = document.getElementById("openInvitation");
+  const introScreen = document.getElementById("introScreen");
+  const skipIntro = document.getElementById("skipIntro");
+  const introLines = Array.from(document.querySelectorAll(".intro-line"));
+
+  function unlockSite() {
+
+    document.body.classList.remove("pre-reveal");
+
+    introScreen.classList.remove("active");
+    introScreen.style.display = "none";
+
+    window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
+
+    initReveal();
+
+  }
+
+  function playIntro() {
+
+    introScreen.classList.add("active");
+
+    if (reduceMotion) {
+
+      introLines.forEach(function (line) {
+        line.classList.add("show");
+      });
+
+      setTimeout(function () {
+        introScreen.classList.add("leaving");
+        setTimeout(unlockSite, 300);
+      }, 900);
+
+      return;
+
+    }
+
+    introLines.forEach(function (line, index) {
+
+      setTimeout(function () {
+        line.classList.add("show");
+      }, 500 + index * 1300);
+
+    });
+
+    const totalDelay = 500 + introLines.length * 1300 + 1600;
+
+    setTimeout(function () {
+      introScreen.classList.add("leaving");
+      setTimeout(unlockSite, 900);
+    }, totalDelay);
+
+  }
+
+  openInvitation.addEventListener("click", function () {
+
+    invitationCard.classList.add("opening");
+
+    const openDelay = reduceMotion ? 50 : 650;
+
+    setTimeout(function () {
+
+      gate.classList.add("leaving");
+
+      setTimeout(function () {
+
+        gate.classList.add("hidden");
+        playIntro();
+
+      }, reduceMotion ? 50 : 550);
+
+    }, openDelay);
+
+  });
+
+  skipIntro.addEventListener("click", function () {
+    introScreen.classList.add("leaving");
+    setTimeout(unlockSite, reduceMotion ? 20 : 400);
+  });
+
+
+  /* ========================================
+     SCROLL REVEAL
+  ======================================== */
+
+  function initReveal() {
+
+    const revealEls = document.querySelectorAll(".reveal");
+
+    if (reduceMotion || !("IntersectionObserver" in window)) {
+
+      revealEls.forEach(function (el) {
+        el.classList.add("in-view");
+      });
+
+      return;
+
+    }
+
+    const observer = new IntersectionObserver(function (entries) {
+
+      entries.forEach(function (entry) {
+
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in-view");
+          observer.unobserve(entry.target);
+        }
+
+      });
+
+    }, { threshold: 0.15 });
+
+    revealEls.forEach(function (el) {
+      observer.observe(el);
+    });
+
+  }
+
+
+  /* ========================================
      ELEMENTS
   ======================================== */
 
-  const form =
-    document.getElementById("characterForm");
-
-  const authorName =
-    document.getElementById("authorName");
-
-  const characterDraft =
-    document.getElementById("characterDraft");
-
-  const message =
-    document.getElementById("message");
-
-  const adultCheck =
-    document.getElementById("adultCheck");
-
-  const consentCheck =
-    document.getElementById("consentCheck");
-
-  const submitButton =
-    document.getElementById("submitButton");
-
-  const resultBox =
-    document.getElementById("resultBox");
-
-  const errorBox =
-    document.getElementById("errorBox");
-
-  const applicationId =
-    document.getElementById("applicationId");
-
-  const draftCount =
-    document.getElementById("draftCount");
-
-  const messageCount =
-    document.getElementById("messageCount");
+  const form = document.getElementById("characterForm");
+  const authorName = document.getElementById("authorName");
+  const characterDraft = document.getElementById("characterDraft");
+  const message = document.getElementById("message");
+  const adultCheck = document.getElementById("adultCheck");
+  const consentCheck = document.getElementById("consentCheck");
+  const submitButton = document.getElementById("submitButton");
+  const resultBox = document.getElementById("resultBox");
+  const errorBox = document.getElementById("errorBox");
+  const applicationId = document.getElementById("applicationId");
+  const draftCount = document.getElementById("draftCount");
+  const messageCount = document.getElementById("messageCount");
 
 
   /* ========================================
      CHARACTER COUNT
   ======================================== */
 
-  characterDraft.addEventListener(
-    "input",
-    function () {
+  characterDraft.addEventListener("input", function () {
+    draftCount.textContent = characterDraft.value.length;
+  });
 
-      draftCount.textContent =
-        characterDraft.value.length;
-
-    }
-  );
-
-
-  message.addEventListener(
-    "input",
-    function () {
-
-      messageCount.textContent =
-        message.value.length;
-
-    }
-  );
+  message.addEventListener("input", function () {
+    messageCount.textContent = message.value.length;
+  });
 
 
   /* ========================================
      FORM SUBMIT
   ======================================== */
 
-  form.addEventListener(
-    "submit",
-    async function (event) {
+  form.addEventListener("submit", async function (event) {
 
-      event.preventDefault();
+    event.preventDefault();
 
+    resultBox.classList.remove("show");
+    errorBox.classList.remove("show");
+    errorBox.textContent = "";
 
-      /*
-        기존 메시지 숨기기
-      */
+    if (!authorName.value.trim()) {
+      alert("작가 닉네임을 입력해주세요.");
+      authorName.focus();
+      return;
+    }
 
-      resultBox.classList.remove("show");
+    if (!adultCheck.checked) {
+      alert("성인 확인 항목에 동의해주세요.");
+      return;
+    }
 
-      errorBox.classList.remove("show");
+    if (!consentCheck.checked) {
+      alert("정보 수집 항목에 동의해주세요.");
+      return;
+    }
 
-      errorBox.textContent = "";
+    const payload = {
+      authorName: authorName.value.trim(),
+      characterDraft: characterDraft.value.trim(),
+      message: message.value.trim(),
+      adultConfirmed: adultCheck.checked,
+      consentConfirmed: consentCheck.checked
+    };
 
+    submitButton.disabled = true;
+    submitButton.textContent = "신청서를 접수하는 중...";
 
-      /* ====================================
-         필수값 검증
-      ==================================== */
+    try {
 
-      if (!authorName.value.trim()) {
+      const response = await fetch(SCRIPT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload)
+      });
 
-        alert(
-          "작가 닉네임을 입력해주세요."
-        );
-
-        authorName.focus();
-
-        return;
-
+      if (!response.ok) {
+        throw new Error("서버 응답 오류 (" + response.status + ")");
       }
 
+      const result = await response.json();
 
-      if (!adultCheck.checked) {
-
-        alert(
-          "성인 확인 항목에 동의해주세요."
-        );
-
-        return;
-
+      if (!result.success) {
+        throw new Error(result.message || "신청 접수에 실패했습니다.");
       }
 
+      applicationId.textContent = result.applicationId || "접수 완료";
 
-      if (!consentCheck.checked) {
+      resultBox.classList.add("show");
 
-        alert(
-          "정보 수집 항목에 동의해주세요."
-        );
+      form.reset();
 
-        return;
+      draftCount.textContent = "0";
+      messageCount.textContent = "0";
 
-      }
-
-
-      /* ====================================
-         DATA
-      ==================================== */
-
-      const payload = {
-
-        authorName:
-          authorName.value.trim(),
-
-        characterDraft:
-          characterDraft.value.trim(),
-
-        message:
-          message.value.trim(),
-
-        adultConfirmed:
-          adultCheck.checked,
-
-        consentConfirmed:
-          consentCheck.checked
-
-      };
-
-
-      /* ====================================
-         버튼 잠금
-      ==================================== */
-
-      submitButton.disabled = true;
-
-      submitButton.textContent =
-        "신청서를 접수하는 중...";
-
-
-      try {
-
-        /* ====================================
-           Google Apps Script 전송
-        ==================================== */
-
-        const response =
-          await fetch(
-            SCRIPT_URL,
-            {
-
-              method: "POST",
-
-              headers: {
-
-                "Content-Type":
-                  "text/plain;charset=utf-8"
-
-              },
-
-              body:
-                JSON.stringify(payload)
-
-            }
-          );
-
-
-        /* ====================================
-           응답 확인
-        ==================================== */
-
-        if (!response.ok) {
-
-          throw new Error(
-            "서버 응답 오류 (" +
-            response.status +
-            ")"
-          );
-
-        }
-
-
-        const result =
-          await response.json();
-
-
-        if (!result.success) {
-
-          throw new Error(
-            result.message ||
-            "신청 접수에 실패했습니다."
-          );
-
-        }
-
-
-        /* ====================================
-           SUCCESS
-        ==================================== */
-
-        applicationId.textContent =
-          result.applicationId ||
-          "접수 완료";
-
-
-        resultBox.classList.add(
-          "show"
-        );
-
-
-        /*
-          제출 후 폼 초기화
-        */
-
-        form.reset();
-
-
-        draftCount.textContent =
-          "0";
-
-
-        messageCount.textContent =
-          "0";
-
-
-        /*
-          완료 메시지 위치로 이동
-        */
-
-        resultBox.scrollIntoView({
-
-          behavior: "smooth",
-
-          block: "center"
-
-        });
-
-
-      }
-
-      catch (error) {
-
-        console.error(
-          "APPLICATION ERROR:",
-          error
-        );
-
-
-        errorBox.innerHTML = `
-
-          <strong>
-            신청서를 전송하지 못했습니다.
-          </strong>
-
-          <br><br>
-
-          ${escapeHtml(
-            error.message
-          )}
-
-          <br><br>
-
-          잠시 후 다시 시도해주세요.
-
-        `;
-
-
-        errorBox.classList.add(
-          "show"
-        );
-
-
-        errorBox.scrollIntoView({
-
-          behavior: "smooth",
-
-          block: "center"
-
-        });
-
-      }
-
-      finally {
-
-        /* ====================================
-           버튼 원상복구
-        ==================================== */
-
-        submitButton.disabled = false;
-
-        submitButton.textContent =
-          "참가 신청하기";
-
-      }
+      resultBox.scrollIntoView({ behavior: "smooth", block: "center" });
 
     }
-  );
+
+    catch (error) {
+
+      console.error("APPLICATION ERROR:", error);
+
+      errorBox.innerHTML =
+        "<strong>신청서를 전송하지 못했습니다.</strong><br><br>" +
+        escapeHtml(error.message) +
+        "<br><br>잠시 후 다시 시도해주세요.";
+
+      errorBox.classList.add("show");
+
+      errorBox.scrollIntoView({ behavior: "smooth", block: "center" });
+
+    }
+
+    finally {
+
+      submitButton.disabled = false;
+      submitButton.textContent = "공식 참가 신청서 제출";
+
+    }
+
+  });
 
 
   /* ========================================
@@ -1468,6 +3955,51 @@
       .replace(/'/g, "&#039;");
 
   }
+
+
+  /* ========================================
+     LIVE D-DAY TO NOVEMBER 11
+     기준 시각: 2026-11-11 23:11:00 KST
+  ======================================== */
+
+  const liveDday = document.getElementById("liveDday");
+
+  function updateLiveDday() {
+    if (!liveDday) return;
+
+    /*
+      ISO 문자열에 +09:00을 명시해
+      방문자의 기기 시간대와 무관하게
+      한국 시간 2026-11-11 23:11을 목표 시각으로 사용합니다.
+    */
+    const target = new Date("2026-11-11T23:11:00+09:00");
+    const now = new Date();
+
+    let diff = target.getTime() - now.getTime();
+
+    if (diff <= 0) {
+      liveDday.innerHTML = "<strong>D-DAY</strong> · 23:11";
+      return;
+    }
+
+    const totalSeconds = Math.floor(diff / 1000);
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    const hh = String(hours).padStart(2, "0");
+    const mm = String(minutes).padStart(2, "0");
+    const ss = String(seconds).padStart(2, "0");
+
+    liveDday.innerHTML =
+      "<strong>D-" + days + "</strong>" +
+      " · " + hh + ":" + mm + ":" + ss;
+  }
+
+  updateLiveDday();
+  setInterval(updateLiveDday, 1000);
+
 
 </script>
 
