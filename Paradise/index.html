@@ -1551,8 +1551,7 @@ body.intro-open .lp-control{
 @media(max-width:420px){
   .season-grid{grid-template-columns:1fr}
   .season-card{min-height:135px}
-  .portrait-orbit{width:132px;height:132px}
-  .portrait{width:109px;height:109px}
+  
 }
 
 
@@ -1572,6 +1571,143 @@ body.intro-open .lp-control{
 
   .character-role{
     line-height:1.8;
+  }
+}
+
+
+/* ---------- Image responsive optimization ---------- */
+
+/* 인트로 메인 이미지는 어떤 화면 비율에서도 원본 전체가 최대한 보이도록 */
+.intro-cover{
+  display:grid;
+  place-items:center;
+  background:#000;
+}
+
+.intro-cover img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  object-position:center center;
+  display:block;
+  transform:none;
+}
+
+/* 가로형 PC에서는 너무 작아 보이지 않도록 최대 화면을 넓게 사용 */
+@media (min-width:1024px){
+  .intro-cover img{
+    width:min(100vw, 1600px);
+    height:min(100vh, 1000px);
+    object-fit:contain;
+  }
+}
+
+/* 모바일에서도 원본 비율 우선 */
+@media (max-width:680px){
+  .intro-cover img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    object-position:center center;
+  }
+}
+
+/* 캐릭터 초상은 머리 위쪽이 잘리지 않도록 시선 중심을 위로 이동 */
+.portrait{
+  overflow:hidden;
+}
+
+.portrait img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:50% 22%;
+  display:block;
+}
+
+/* PC: 캐릭터 카드와 초상을 조금 더 여유 있게 */
+@media (min-width:1024px){
+  .character-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:22px;
+  }
+
+  .character-card{
+    padding:26px 24px 25px;
+  }
+
+  .portrait-orbit{
+    width:154px;
+    height:154px;
+  }
+
+  .portrait{
+    width:128px;
+    height:128px;
+  }
+
+  .portrait img{
+    object-position:50% 18%;
+  }
+}
+
+/* 태블릿: 2열 유지 + 초상 비율 안정화 */
+@media (min-width:681px) and (max-width:1023px){
+  .character-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:16px;
+  }
+
+  .portrait-orbit{
+    width:144px;
+    height:144px;
+  }
+
+  .portrait{
+    width:120px;
+    height:120px;
+  }
+
+  .portrait img{
+    object-position:50% 20%;
+  }
+}
+
+/* 모바일: 1열 + 얼굴 잘림 최소화 */
+@media (max-width:680px){
+  .character-grid{
+    grid-template-columns:1fr;
+  }
+
+  .character-card{
+    padding:22px 18px 23px;
+  }
+
+  .portrait-orbit{
+    width:138px;
+    height:138px;
+  }
+
+  .portrait{
+    width:116px;
+    height:116px;
+  }
+
+  .portrait img{
+    object-position:50% 18%;
+  }
+}
+
+/* 아주 작은 모바일 */
+@media (max-width:390px){
+  .portrait-orbit{
+    width:128px;
+    height:128px;
+  }
+
+  .portrait{
+    width:106px;
+    height:106px;
   }
 }
 
