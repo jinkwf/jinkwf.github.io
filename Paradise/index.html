@@ -910,6 +910,77 @@ a{color:inherit}
 }
 
 
+
+/* ---------- Persona copy button ---------- */
+.persona-title-wrap{
+  min-width:0;
+}
+.persona-title-wrap span{
+  display:block;
+  margin-top:5px;
+}
+.persona-copy{
+  flex:0 0 auto;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  min-width:74px;
+  height:38px;
+  padding:0 12px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:14px;
+  color:#eeeaff;
+  background:
+    linear-gradient(145deg,rgba(167,146,255,.12),rgba(90,162,190,.07)),
+    rgba(255,255,255,.025);
+  cursor:pointer;
+  transition:
+    transform .2s ease,
+    border-color .2s ease,
+    background .2s ease,
+    box-shadow .2s ease,
+    color .2s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.persona-copy:hover{
+  transform:translateY(-2px);
+  border-color:rgba(210,199,255,.3);
+  background:
+    linear-gradient(145deg,rgba(167,146,255,.2),rgba(90,162,190,.11)),
+    rgba(255,255,255,.04);
+  box-shadow:0 0 18px rgba(151,132,255,.12);
+}
+.persona-copy:active{
+  transform:translateY(0) scale(.97);
+}
+.persona-copy.copied{
+  color:#fff;
+  border-color:rgba(186,235,221,.35);
+  background:rgba(116,195,170,.14);
+  box-shadow:0 0 20px rgba(125,218,189,.12);
+}
+.copy-icon{
+  font-size:15px;
+  line-height:1;
+}
+.copy-text{
+  font-size:10.5px;
+  font-weight:600;
+  letter-spacing:.02em;
+}
+@media(max-width:680px){
+  .persona-top{
+    align-items:center;
+  }
+  .persona-copy{
+    min-width:66px;
+    height:36px;
+    padding:0 10px;
+  }
+  .copy-text{font-size:10px}
+}
+
 /* ---------- Rolling dice ---------- */
 .dice{
   position:relative;
@@ -1733,8 +1804,14 @@ body.intro-open .lp-control{
 
         <div class="persona-sheet" aria-live="polite">
           <div class="persona-top">
-            <h3 id="pName">미배정</h3>
-            <span id="pSpecies">기록 대기</span>
+            <div class="persona-title-wrap">
+              <h3 id="pName">미배정</h3>
+              <span id="pSpecies">기록 대기</span>
+            </div>
+            <button class="persona-copy" id="personaCopyBtn" type="button" aria-label="현재 페르소나 내용 복사">
+              <span class="copy-icon">⧉</span>
+              <span class="copy-text">복사</span>
+            </button>
           </div>
           <div class="persona-row"><b>성격</b><span id="pPersonality">—</span></div>
           <div class="persona-row"><b>외형</b><span id="pAppearance">—</span></div>
@@ -2164,6 +2241,94 @@ function rollPersonaDice(){
 }
 
 el("diceBtn").addEventListener("click",rollPersonaDice);
+
+
+/* =========================
+   PERSONA · copy result
+========================= */
+const personaCopyBtn=document.getElementById("personaCopyBtn");
+
+function getPersonaCopyText(){
+  const name=el("pName").textContent.trim();
+  const speciesName=el("pSpecies").textContent.trim();
+
+  if(name==="미배정"){
+    return "";
+  }
+
+  return [
+    `페르소나 : ${name}`,
+    `종족 : ${speciesName}`,
+    ``,
+    `성격 : ${el("pPersonality").textContent.trim()}`,
+    `외형 : ${el("pAppearance").textContent.trim()}`,
+    `귀로 : ${el("pRoute").textContent.trim()}`,
+    `귀소점 : ${el("pHomePoint").textContent.trim()}`,
+    `실향병 여부 : ${el("pLost").textContent.trim()}`,
+    `잔류민 여부 : ${el("pRemain").textContent.trim()}`,
+    `고향 : ${el("pOrigin").textContent.trim()}`,
+    `특징 : ${el("pFeature").textContent.trim()}`
+  ].join("\n");
+}
+
+async function copyPersonaResult(){
+  const copyText=getPersonaCopyText();
+
+  if(!copyText){
+    const label=personaCopyBtn.querySelector(".copy-text");
+    const original=label.textContent;
+    label.textContent="먼저 굴려주세요";
+    personaCopyBtn.classList.add("copied");
+    setTimeout(()=>{
+      label.textContent=original;
+      personaCopyBtn.classList.remove("copied");
+    },1200);
+    return;
+  }
+
+  let success=false;
+
+  try{
+    if(navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(copyText);
+      success=true;
+    }
+  }catch(err){}
+
+  if(!success){
+    try{
+      const textarea=document.createElement("textarea");
+      textarea.value=copyText;
+      textarea.setAttribute("readonly","");
+      textarea.style.position="fixed";
+      textarea.style.opacity="0";
+      textarea.style.pointerEvents="none";
+      textarea.style.left="-9999px";
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      textarea.setSelectionRange(0,textarea.value.length);
+      success=document.execCommand("copy");
+      textarea.remove();
+    }catch(err){}
+  }
+
+  const label=personaCopyBtn.querySelector(".copy-text");
+  if(success){
+    label.textContent="복사 완료 ✦";
+    personaCopyBtn.classList.add("copied");
+  }else{
+    label.textContent="복사 실패";
+  }
+
+  setTimeout(()=>{
+    label.textContent="복사";
+    personaCopyBtn.classList.remove("copied");
+  },1400);
+}
+
+personaCopyBtn.addEventListener("click",copyPersonaResult);
+
 
 // 크레딧 모바일 터치 시 잠시 멈춤
 const creditRoll=document.querySelector(".credit-roll");
