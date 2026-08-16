@@ -656,6 +656,37 @@ a{color:inherit}
   object-position:center;
   display:block;
 }
+
+.character-quote{
+  margin:0 auto 16px;
+  min-height:58px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:13px 10px 15px;
+  color:#f8f5ff;
+  font-family:"Noto Serif KR",serif;
+  font-size:15px;
+  font-weight:500;
+  line-height:1.75;
+  letter-spacing:-.02em;
+  text-align:center;
+  text-shadow:
+    0 0 8px rgba(255,255,255,.14),
+    0 0 22px rgba(173,157,255,.16);
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.character-quote::before{content:"“";margin-right:2px;color:#bfb3ff}
+.character-quote::after{content:"”";margin-left:2px;color:#bfb3ff}
+.character-desc{
+  margin:0;
+  min-height:138px;
+  color:#b9bac8;
+  font-size:11.5px;
+  line-height:1.95;
+  text-align:left;
+}
+
 .character-name{
   margin:0;
   font-family:"Noto Serif KR",serif;
@@ -1058,6 +1089,8 @@ body.intro-open .lp-control{
   .character-grid{grid-template-columns:1fr;gap:12px}
   .character-card{border-radius:26px;padding:22px 20px}
   .character-desc{min-height:0}
+
+  .character-quote{min-height:0;font-size:14px;padding:11px 8px 13px}
   .persona-machine,.persona-sheet{border-radius:26px}
   .persona-sheet{padding:22px 18px}
   .persona-row{grid-template-columns:84px 1fr;gap:9px}
@@ -1293,108 +1326,186 @@ body.intro-open .lp-control{
       <div class="portrait-orbit"><div class="portrait">
         <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/%EC%95%84%EB%8D%B8%EB%A6%AC%ED%8E%AD%EA%B7%84.webp?raw=true" alt="아델">
       </div></div>
+      <div class="character-quote">빠졌으면 허우적대지 마. 내가 건져 줄 테니까.</div>
       <h3 class="character-name">아델</h3>
-      <div class="character-role">32 · 아델리펭귄 · 후미단 제3기관실</div>
-      <p class="character-desc">180cm. 흑발, 웃는 인상, 근육질. 문란하고 난폭한 성격. 잠수에 능하며 주머니에 돌을 넣고 다닌다. 반말을 사용한다.</p>
-      <div class="character-tags">ADELE · REAR GUARD ENGINE ROOM</div>
+      <div class="character-role">32 · 아델리펭귄 수인 · 후미단 제3기관실</div>
+      <p class="character-desc">
+        180cm. 웃는 인상의 흑발 남자로, 비행 대신 물과 기관부에 누구보다 익숙하다.
+        잠수 실력이 뛰어나 후미단의 위험한 수중 작업에도 거리낌 없이 뛰어들며,
+        주머니에는 이유를 알 수 없는 돌멩이를 몇 개씩 넣고 다닌다.
+        성격은 거칠고 난폭하고 관계에도 가벼운 편. 말은 늘 툭툭 던지는 반말이다.
+      </p>
+      <div class="character-tags">ADELE · ADÉLIE PENGUIN · REAR ENGINE ROOM</div>
     </article>
 
     <article class="character-card">
-      <div class="portrait-orbit"><div class="portrait">?</div></div>
+      <div class="portrait-orbit"><div class="portrait">
+        <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/%EB%8F%85%EC%88%98%EB%A6%AC.webp?raw=true" alt="진휘령">
+      </div></div>
+      <div class="character-quote">돌아오실 곳이 필요하시다면, 제가 그 자리에 있겠습니다.</div>
       <h3 class="character-name">진휘령</h3>
-      <div class="character-role">29 · 독수리 · 순환천국 장례 명가 장남</div>
-      <p class="character-desc">190cm. 갈발·갈안. 무심한 듯 다정하고 한 사람에게 깊게 마음을 두는 순애형. 차분한 존댓말을 사용한다.</p>
-      <div class="character-tags">JIN HWIRYEONG · EAGLE</div>
+      <div class="character-role">29 · 독수리 수인 · 순환천국 장례 명가 장남</div>
+      <p class="character-desc">
+        190cm. 차분한 갈색 머리와 갈색 눈을 지닌 독수리 수인.
+        대대로 장례를 맡아 온 명가의 장남답게 죽음과 이별 앞에서도 쉽게 흔들리지 않는다.
+        무심해 보일 만큼 담담하지만 가까운 사람을 챙기는 손길은 세심하고 오래간다.
+        사랑에서는 한 사람만을 바라보는 순애형이며, 언제나 정중한 존댓말을 쓴다.
+      </p>
+      <div class="character-tags">JIN HWIRYEONG · EAGLE · FUNERAL HOUSE</div>
     </article>
 
     <article class="character-card">
       <div class="portrait-orbit"><div class="portrait">
         <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/%EC%86%A1%EA%B3%A8%EB%A7%A4.webp?raw=true" alt="알샤인">
       </div></div>
+      <div class="character-quote">떨어져도 괜찮아. 내가 더 빠르니까.</div>
       <h3 class="character-name">알샤인</h3>
-      <div class="character-role">23 · 송골매 · 공중기사단 후미구조대</div>
-      <p class="character-desc">189cm. 갈발·백색 브릿지·금안·잿빛 날개. 무심하고 덤덤하며 자신의 비행 속도에 강한 자부심을 가진다.</p>
-      <div class="character-tags">ALSHAIN · PEREGRINE FALCON</div>
+      <div class="character-role">23 · 송골매 수인 · 공중기사단 후미구조대</div>
+      <p class="character-desc">
+        189cm. 갈색 머리 사이로 백색 브릿지가 섞여 있고, 금빛 눈과 잿빛 날개가 눈에 띈다.
+        공중기사단 후미구조대 소속으로, 추락자와 낙오자를 가장 먼저 낚아채는 고속 비행의 전문가.
+        무심하고 덤덤해 감정 표현은 적지만 자신의 비행 속도만큼은 누구에게도 양보하지 않는다.
+      </p>
+      <div class="character-tags">ALSHAIN · PEREGRINE FALCON · AIR RESCUE</div>
     </article>
 
     <article class="character-card">
-      <div class="portrait-orbit"><div class="portrait">?</div></div>
+      <div class="portrait-orbit"><div class="portrait">
+        <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/%EC%B0%B8%EC%83%88.webp?raw=true" alt="이안">
+      </div></div>
+      <div class="character-quote">길 잃었어? 일단 밥부터 먹자. 배고프면 길도 더 안 보여.</div>
       <h3 class="character-name">이안</h3>
-      <div class="character-role">26 · 참새 · 길잡이·정보상</div>
-      <p class="character-desc">176cm. 갈발·갈안·작은 날개. 귀소점 없음. 밝은 반말을 사용하고 미아를 그냥 지나치지 못한다. 대식가.</p>
-      <div class="character-tags">IAN · SPARROW</div>
+      <div class="character-role">26 · 참새 수인 · 길잡이·정보상</div>
+      <p class="character-desc">
+        176cm. 갈색 머리와 갈색 눈, 몸집에 비해 작은 날개를 지닌 참새 수인.
+        길잡이이자 정보상으로 시장과 골목의 소문에 밝고, 밝은 반말로 누구에게나 거리 없이 다가간다.
+        정작 본인에게는 귀소점이 없지만 길 잃은 사람, 특히 미아를 그냥 지나치지 못한다.
+        먹는 양이 체격에 비해 믿기지 않을 만큼 많다.
+      </p>
+      <div class="character-tags">IAN · SPARROW · GUIDE & INFORMATION BROKER</div>
     </article>
 
     <article class="character-card">
-      <div class="portrait-orbit"><div class="portrait">?</div></div>
+      <div class="portrait-orbit"><div class="portrait">
+        <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/%EA%B8%B4%EA%BC%AC%EB%A6%AC%EB%94%B1%EC%83%88.webp?raw=true" alt="백유현">
+      </div></div>
+      <div class="character-quote">정해진 길만 길은 아닙니다. 돌아갈 수 있다면, 그 또한 귀로니까요.</div>
       <h3 class="character-name">백유현</h3>
-      <div class="character-role">32 · 긴꼬리딱새 · 천로원 측로안내관</div>
-      <p class="character-desc">187cm. 청흑발·백색 브릿지·벽안·긴 꼬리깃. 차분하고 부드러운 존댓말을 사용하며 측로와 우회 항로에 밝다.</p>
-      <div class="character-tags">BAEK YUHYEON · PARADISE FLYCATCHER</div>
+      <div class="character-role">32 · 긴꼬리딱새 수인 · 천로원 측로안내관</div>
+      <p class="character-desc">
+        187cm. 청흑색 머리에 백색 브릿지가 흐르고, 벽안과 길게 늘어진 꼬리깃이 인상적이다.
+        천로원에서 정규 항로 바깥의 우회로와 측로를 안내하는 일을 맡고 있다.
+        목소리와 태도는 늘 차분하고 부드러우며, 상대를 재촉하기보다 스스로 길을 고를 시간을 준다.
+        존댓말을 사용한다.
+      </p>
+      <div class="character-tags">BAEK YUHYEON · PARADISE FLYCATCHER · SIDE ROUTE GUIDE</div>
     </article>
 
     <article class="character-card">
       <div class="portrait-orbit"><div class="portrait">
         <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/%ED%9D%91%EC%A1%B0.webp?raw=true" alt="리엔">
       </div></div>
+      <div class="character-quote">귀소점? 그런 걸 만들면 돌아가야 하잖아. 난 그게 싫어.</div>
       <h3 class="character-name">리엔</h3>
       <div class="character-role">27 · 백조×흑조 혼혈 · 귀향청 귀로기록관</div>
-      <p class="character-desc">191cm. 흑발·적안. 사생아 출신. 기록 조작에 관여하며 귀소 각인을 거부한다. 귀소점 없음. 나른한 반말을 사용한다.</p>
-      <div class="character-tags">LIEN · SWAN HYBRID</div>
+      <p class="character-desc">
+        191cm. 검은 머리와 붉은 눈을 가진 백조와 흑조의 혼혈.
+        사생아로 태어나 귀향청의 기록 속에서 오래 살아왔고, 이제는 그 기록을 직접 다루고 조작하는 위치에 있다.
+        관계에는 가볍고 귀소 각인을 완강히 거부하며, 자신에게 귀소점은 없다고 말한다.
+        말투는 느슨하고 나른한 반말이다.
+      </p>
+      <div class="character-tags">LIEN · SWAN HYBRID · HOMECOMING ARCHIVIST</div>
     </article>
 
     <article class="character-card">
-      <div class="portrait-orbit"><div class="portrait">?</div></div>
+      <div class="portrait-orbit"><div class="portrait">
+        <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/%EC%95%B5%EB%AC%B4%EC%83%88.webp?raw=true" alt="황유하">
+      </div></div>
+      <div class="character-quote">나한테 돌아올 거면, 굳이 길 같은 건 외우지 않아도 되잖아?</div>
       <h3 class="character-name">황유하</h3>
-      <div class="character-role">26 · 코카투앵무 · 유랑가수</div>
-      <p class="character-desc">186cm. 백발·노란 레이어드·흑안. 능글맞고 플러팅이 잦다. 장난과 달리 진심을 말할 때는 크레스트가 선다.</p>
-      <div class="character-tags">HWANG YUHA · COCKATOO</div>
+      <div class="character-role">26 · 코카투앵무 수인 · 유랑가수</div>
+      <p class="character-desc">
+        186cm. 백발 위로 노란 레이어드가 섞여 있고, 검은 눈과 화려한 크레스트가 시선을 끈다.
+        계절 수도와 잔류 거점을 오가며 노래하는 유랑가수로, 어디서든 금세 사람을 끌어모은다.
+        능글맞고 플러팅이 습관처럼 자연스럽지만, 진심을 말할 때만큼은 감정을 숨기지 못해 크레스트가 곧게 선다.
+      </p>
+      <div class="character-tags">HWANG YUHA · COCKATOO · WANDERING SINGER</div>
     </article>
 
     <article class="character-card">
       <div class="portrait-orbit"><div class="portrait">
         <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/%EB%91%90%EB%A3%A8%EB%AF%B8.webp?raw=true" alt="에론">
       </div></div>
+      <div class="character-quote">내가 앞에 있는 동안, 길은 끊기지 않는다.</div>
       <h3 class="character-name">에론</h3>
-      <div class="character-role">37 · 두루미 · 선도익</div>
-      <p class="character-desc">193cm. 흑발·붉은 앞머리·회안. 침착하고 절제되어 있으며 주변의 신뢰가 두텁다. 아들 에이븐이 있다.</p>
-      <div class="character-tags">ERON · CRANE</div>
+      <div class="character-role">37 · 두루미 수인 · 선도익</div>
+      <p class="character-desc">
+        193cm. 검은 머리에 붉은 앞머리가 섞여 있고 회색 눈을 지닌 두루미 수인.
+        순환 행렬의 가장 앞에서 길을 여는 선도익으로, 침착하고 절제된 판단 덕분에 주변의 신뢰가 두텁다.
+        말보다 행동으로 책임을 보여 주는 사람이며, 아들 에이븐을 둔 아버지이기도 하다.
+      </p>
+      <div class="character-tags">ERON · CRANE · LEAD WING</div>
     </article>
 
     <article class="character-card">
-      <div class="portrait-orbit"><div class="portrait">?</div></div>
+      <div class="portrait-orbit"><div class="portrait">
+        <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/%EB%B6%80%EC%97%89%EC%9D%B4.webp?raw=true" alt="류이내">
+      </div></div>
+      <div class="character-quote">규정대로 움직여. …그 밖의 일은 해가 뜬 뒤에 생각하지.</div>
       <h3 class="character-name">류이내</h3>
-      <div class="character-role">24 · 부엉이 · 경비대 야간항로 담당</div>
-      <p class="character-desc">187cm. 고동발·갈안. 냉정한 원칙주의자. 야간 항로를 담당하며 겉으로 드러내지 않는 문란한 본능을 숨기고 있다.</p>
-      <div class="character-tags">RYU INAE · OWL</div>
+      <div class="character-role">24 · 부엉이 수인 · 경비대 야간항로 담당</div>
+      <p class="character-desc">
+        187cm. 고동색 머리와 갈색 눈을 가진 부엉이 수인.
+        별과 달빛을 읽어 야간 항로를 지키는 경비대원으로, 원칙과 규정을 누구보다 철저하게 따른다.
+        겉으로는 차갑고 흐트러짐이 없지만, 자신 안의 방종하고 문란한 충동은 철저히 감춰 두고 살아간다.
+      </p>
+      <div class="character-tags">RYU INAE · OWL · NIGHT ROUTE GUARD</div>
     </article>
 
     <article class="character-card">
       <div class="portrait-orbit"><div class="portrait">
         <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/%EA%B8%88%ED%99%94%EC%A1%B0.webp?raw=true" alt="니코">
       </div></div>
+      <div class="character-quote">나, 진짜 잘할 수 있어! 그러니까 이번엔 나도 같이 가게 해줘.</div>
       <h3 class="character-name">니코</h3>
-      <div class="character-role">20 · 금화조 · 공동육아시설 보조</div>
-      <p class="character-desc">178cm. 회색머리·주황 브릿지·흑안·눈밑점. 평소에는 어리광 많고 허당이지만 위기가 오면 놀랄 만큼 단단하고 강단 있게 변한다.</p>
-      <div class="character-tags">NICO · ZEBRA FINCH</div>
+      <div class="character-role">20 · 금화조 수인 · 공동육아시설 보조</div>
+      <p class="character-desc">
+        178cm. 회색 머리에 주황색 브릿지가 섞여 있고, 검은 눈 아래 작은 점이 있다.
+        공동육아시설에서 아이들을 돌보며 평소에는 어리광도 많고 실수도 잦은 허당처럼 보인다.
+        하지만 정말 위험한 순간이 오면 누구보다 빠르게 정신을 차리고, 예상 밖의 강단으로 사람들 앞에 선다.
+      </p>
+      <div class="character-tags">NICO · ZEBRA FINCH · COMMUNAL NURSERY</div>
     </article>
 
     <article class="character-card">
-      <div class="portrait-orbit"><div class="portrait">?</div></div>
+      <div class="portrait-orbit"><div class="portrait">
+        <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/%EC%95%8C%EB%B9%84%EB%85%B8%EA%B3%B5%EC%9E%91%EC%83%88.webp?raw=true" alt="백서우">
+      </div></div>
+      <div class="character-quote">돌아갈 곳이 없으시다면, 제가 하나 만들어 드리지요. 대가는 비싸겠지만.</div>
       <h3 class="character-name">백서우</h3>
-      <div class="character-role">38 · 공작새 · 범죄조직 ‘잔익’ 보스</div>
-      <p class="character-desc">190cm. 긴 백발·적안·근육질. 공적인 자리에서는 냉정한 존댓말을 사용하지만 사적으로는 느긋하고 능글맞다.</p>
-      <div class="character-tags">BAEK SEOWOO · PEACOCK</div>
+      <div class="character-role">38 · 공작새 수인 · 범죄조직 ‘잔익’ 보스</div>
+      <p class="character-desc">
+        190cm. 허리까지 흐르는 긴 백발과 붉은 눈, 단단한 근육질 체격을 지닌 공작새 수인.
+        순환 바깥의 거래와 잔류 거점을 장악한 범죄조직 ‘잔익’의 보스다.
+        공적인 자리에서는 냉정하고 빈틈없는 존댓말을 사용하지만, 사적인 순간에는 긴장을 풀고 느긋하고 능글맞은 얼굴을 드러낸다.
+      </p>
+      <div class="character-tags">BAEK SEOWOO · PEACOCK · JANIK BOSS</div>
     </article>
 
     <article class="character-card">
       <div class="portrait-orbit"><div class="portrait">
         <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/%EA%B9%8C%EB%A7%88%EA%B7%80.webp?raw=true" alt="카시엔">
       </div></div>
+      <div class="character-quote">길 잃었어? 잘됐네. 후미진은 그런 애들 주워 오는 데거든.</div>
       <h3 class="character-name">카시엔</h3>
-      <div class="character-role">27 · 까마귀 · 후미단 보호관</div>
-      <p class="character-desc">186cm. 검은 생머리·회색 눈·검은 날개. 낙오자를 후미진으로 데려가 보호하고 다룬다. 문란하고 나른하며 능글맞은 반말을 사용한다.</p>
-      <div class="character-tags">CASSIEN · CROW</div>
+      <div class="character-role">27 · 까마귀 수인 · 후미단 보호관</div>
+      <p class="character-desc">
+        186cm. 검은 생머리와 회색 눈, 짙은 검은 날개를 지닌 까마귀 수인.
+        순환에서 낙오된 사람을 찾아 후미진으로 데려오고, 그들이 다시 움직일 수 있을 때까지 보호하고 관리한다.
+        관계에는 거리낌이 없고 말과 태도는 늘 나른하며 능글맞다.
+        진지한 상황에서도 느슨한 반말을 좀처럼 거두지 않는다.
+      </p>
+      <div class="character-tags">CASSIEN · CROW · REAR GUARD PROTECTOR</div>
     </article>
 
   </div>
