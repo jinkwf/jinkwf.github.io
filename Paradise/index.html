@@ -587,6 +587,80 @@ a{color:inherit}
   font-size:10.5px;
 }
 
+
+/* ---------- Species sparkle interaction ---------- */
+.species span{
+  position:relative;
+  cursor:pointer;
+  user-select:none;
+  -webkit-tap-highlight-color:transparent;
+  transition:
+    transform .2s ease,
+    border-color .25s ease,
+    color .25s ease,
+    background .25s ease,
+    box-shadow .25s ease;
+}
+.species span:hover{
+  color:#fff;
+  border-color:rgba(205,194,255,.28);
+  background:rgba(176,158,255,.075);
+}
+.species span.sparkle-active{
+  color:#fff;
+  transform:translateY(-2px) scale(1.025);
+  border-color:rgba(224,217,255,.5);
+  background:
+    linear-gradient(135deg,rgba(189,170,255,.18),rgba(130,207,230,.10));
+  box-shadow:
+    0 0 10px rgba(255,255,255,.12),
+    0 0 26px rgba(168,148,255,.25),
+    inset 0 0 16px rgba(255,255,255,.05);
+}
+.species-spark{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:4px;
+  height:4px;
+  border-radius:50%;
+  pointer-events:none;
+  z-index:5;
+  background:#fff;
+  box-shadow:
+    0 0 4px #fff,
+    0 0 10px rgba(199,188,255,.95);
+  animation:speciesSpark .72s ease-out forwards;
+}
+.species-spark::before,
+.species-spark::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  background:rgba(255,255,255,.85);
+  transform:translate(-50%,-50%);
+}
+.species-spark::before{width:10px;height:1px}
+.species-spark::after{width:1px;height:10px}
+@keyframes speciesSpark{
+  0%{
+    opacity:0;
+    transform:translate(-50%,-50%) scale(.3) rotate(0deg);
+  }
+  24%{opacity:1}
+  100%{
+    opacity:0;
+    transform:
+      translate(
+        calc(-50% + var(--sx)),
+        calc(-50% + var(--sy))
+      )
+      scale(.08)
+      rotate(90deg);
+  }
+}
+
 /* ---------- characters ---------- */
 .character-grid{
   display:grid;
@@ -833,6 +907,41 @@ a{color:inherit}
 .persona-row b{
   color:#cbc6ed;
   font-weight:500;
+}
+
+
+/* ---------- Rolling dice ---------- */
+.dice{
+  position:relative;
+  transform-origin:center;
+  will-change:transform;
+}
+.dice.rolling{
+  pointer-events:none;
+  animation:diceTumble .78s cubic-bezier(.22,.78,.24,1);
+}
+@keyframes diceTumble{
+  0%{
+    transform:translateX(0) translateY(0) rotate(0deg) scale(1);
+  }
+  14%{
+    transform:translateX(-10px) translateY(-8px) rotate(-85deg) scale(.94);
+  }
+  30%{
+    transform:translateX(13px) translateY(-3px) rotate(135deg) scale(1.05);
+  }
+  47%{
+    transform:translateX(-7px) translateY(2px) rotate(270deg) scale(.96);
+  }
+  65%{
+    transform:translateX(11px) translateY(-2px) rotate(410deg) scale(1.03);
+  }
+  82%{
+    transform:translateX(-3px) translateY(0) rotate(520deg) scale(.98);
+  }
+  100%{
+    transform:translateX(0) translateY(0) rotate(720deg) scale(1);
+  }
 }
 
 /* ---------- credits ---------- */
@@ -1413,6 +1522,7 @@ body.intro-open .lp-control{
           <span class="section-kicker">02 · CHARACTERS</span>
           <h2>순환 속의 사람들</h2>
         </div>
+        
       </div>
 
       <div class="character-grid">
@@ -1434,7 +1544,7 @@ body.intro-open .lp-control{
 
         <article class="character-card">
           <div class="portrait-orbit"><div class="portrait">
-            <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/%EB%8F%85%EC%88%98%EB%A6%AC.webp?raw=true" alt="진휘령">
+            <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/%EC%A7%84%ED%9C%98%EB%A0%B9.webp?raw=true" alt="진휘령">
           </div></div>
           <div class="character-quote">돌아오실 곳이 필요하시다면, 제가 그 자리에 있겠습니다.</div>
           <h3 class="character-name">진휘령</h3>
@@ -1479,7 +1589,7 @@ body.intro-open .lp-control{
 
         <article class="character-card">
           <div class="portrait-orbit"><div class="portrait">
-            <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/%EA%B8%B4%EA%BC%AC%EB%A6%AC%EB%94%B1%EC%83%88.webp?raw=true" alt="백유현">
+            <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/1male_mature_male_6__aged_up______portrait_close-up_-5__hands_____sky_s-2987228802.webp?raw=true" alt="백유현">
           </div></div>
           <div class="character-quote">정해진 길만 길은 아닙니다. 돌아갈 수 있다면, 그 또한 귀로니까요.</div>
           <h3 class="character-name">백유현</h3>
@@ -1494,7 +1604,7 @@ body.intro-open .lp-control{
 
         <article class="character-card">
           <div class="portrait-orbit"><div class="portrait">
-            <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/%ED%9D%91%EC%A1%B0.webp?raw=true" alt="리엔">
+            <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/%EB%A6%AC%EC%97%94.webp?raw=true" alt="리엔">
           </div></div>
           <div class="character-quote">귀소점? 그런 걸 만들면 돌아가야 하잖아. 난 그게 싫어.</div>
           <h3 class="character-name">리엔</h3>
@@ -1554,7 +1664,7 @@ body.intro-open .lp-control{
 
         <article class="character-card">
           <div class="portrait-orbit"><div class="portrait">
-            <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/%EA%B8%88%ED%99%94%EC%A1%B0.webp?raw=true" alt="니코">
+            <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/%EB%8B%88%EC%BD%94.png?raw=true" alt="니코">
           </div></div>
           <div class="character-quote">나, 진짜 잘할 수 있어! 그러니까 이번엔 나도 같이 가게 해줘.</div>
           <h3 class="character-name">니코</h3>
@@ -1584,7 +1694,7 @@ body.intro-open .lp-control{
 
         <article class="character-card">
           <div class="portrait-orbit"><div class="portrait">
-            <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/%EA%B9%8C%EB%A7%88%EA%B7%80.webp?raw=true" alt="카시엔">
+            <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/%EC%B9%B4%EC%8B%9C%EC%97%94.webp?raw=true" alt="카시엔">
           </div></div>
           <div class="character-quote">길 잃었어? 잘됐네. 후미진은 그런 애들 주워 오는 데거든.</div>
           <h3 class="character-name">카시엔</h3>
@@ -1607,7 +1717,10 @@ body.intro-open .lp-control{
           <span class="section-kicker">03 · PERSONA</span>
           <h2>당신의 날개를 배정합니다</h2>
         </div>
-        <p>주사위를 누를 때마다 이름·종족·귀로·귀소점까지 새로운 조합으로 바뀝니다. 횟수 제한은 없습니다.</p>
+        <p>
+          주사위를 누를 때마다 이름·종족·귀로·귀소점까지 새로운 조합으로 바뀝니다.<br>
+          횟수 제한은 없으니 원하는 만큼 굴려보세요!
+        </p>
       </div>
 
       <div class="persona-zone">
@@ -1836,6 +1949,49 @@ navButtons.forEach(btn=>{
 });
 
 
+
+/* =========================
+   SPECIES · sparkle click
+========================= */
+document.querySelectorAll(".species span").forEach(tag=>{
+  tag.setAttribute("role","button");
+  tag.setAttribute("tabindex","0");
+
+  const sparkle=()=>{
+    tag.classList.remove("sparkle-active");
+    void tag.offsetWidth;
+    tag.classList.add("sparkle-active");
+
+    for(let i=0;i<10;i++){
+      const s=document.createElement("i");
+      s.className="species-spark";
+      const angle=Math.random()*Math.PI*2;
+      const distance=22+Math.random()*34;
+      s.style.setProperty("--sx",(Math.cos(angle)*distance)+"px");
+      s.style.setProperty("--sy",(Math.sin(angle)*distance)+"px");
+      s.style.left=(18+Math.random()*64)+"%";
+      s.style.top=(20+Math.random()*60)+"%";
+      s.style.animationDelay=(Math.random()*.08)+"s";
+      tag.appendChild(s);
+      setTimeout(()=>s.remove(),850);
+    }
+
+    clearTimeout(tag._sparkleTimer);
+    tag._sparkleTimer=setTimeout(()=>{
+      tag.classList.remove("sparkle-active");
+    },680);
+  };
+
+  tag.addEventListener("click",sparkle);
+  tag.addEventListener("keydown",e=>{
+    if(e.key==="Enter" || e.key===" "){
+      e.preventDefault();
+      sparkle();
+    }
+  });
+});
+
+
 /* =========================
    PERSONA RANDOMIZER
 ========================= */
@@ -1953,7 +2109,8 @@ const el=id=>document.getElementById(id);
 const faces=["⚀","⚁","⚂","⚃","⚄","⚅"];
 let lastSignature="";
 
-function generatePersona(){
+
+function applyPersona(){
   let sp,name,home,signature;
   do{
     sp=pick(species);
@@ -1973,19 +2130,40 @@ function generatePersona(){
   el("pRemain").textContent=pick(remainStatuses);
   el("pOrigin").textContent=pick(origins);
   el("pFeature").textContent=sp.trait+" "+pick(features);
+}
+
+let diceRolling=false;
+function rollPersonaDice(){
+  if(diceRolling) return;
 
   const dice=el("diceBtn");
-  dice.textContent=pick(faces);
-  dice.animate(
-    [
-      {transform:"rotate(0deg) scale(1)"},
-      {transform:"rotate(180deg) scale(.83)"},
-      {transform:"rotate(390deg) scale(1)"}
-    ],
-    {duration:420,easing:"cubic-bezier(.2,.8,.2,1)"}
-  );
+  diceRolling=true;
+  dice.classList.remove("rolling");
+  void dice.offsetWidth;
+  dice.classList.add("rolling");
+
+  let tick=0;
+  const rollTimer=setInterval(()=>{
+    dice.textContent=faces[tick%faces.length];
+    tick++;
+  },72);
+
+  setTimeout(()=>{
+    clearInterval(rollTimer);
+
+    const finalIndex=Math.floor(Math.random()*faces.length);
+    dice.textContent=faces[finalIndex];
+
+    applyPersona();
+
+    setTimeout(()=>{
+      dice.classList.remove("rolling");
+      diceRolling=false;
+    },70);
+  },720);
 }
-el("diceBtn").addEventListener("click",generatePersona);
+
+el("diceBtn").addEventListener("click",rollPersonaDice);
 
 // 크레딧 모바일 터치 시 잠시 멈춤
 const creditRoll=document.querySelector(".credit-roll");
