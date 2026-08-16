@@ -922,6 +922,76 @@ a{color:inherit}
 .footer small{font-family:"Marcellus",serif;letter-spacing:.20em}
 
 
+
+/* ---------- Korean readability / line rhythm ---------- */
+body,
+button,
+p,
+span,
+div,
+h1,h2,h3,
+strong,
+small{
+  word-break:keep-all;
+  overflow-wrap:break-word;
+}
+
+.hero h1,
+.hero-quote,
+.intro-question h1,
+.intro-copy strong,
+.section-heading h2,
+.character-quote,
+.character-name,
+.credit-final,
+.footer .question{
+  text-wrap:balance;
+}
+
+.hero-sub,
+.intro-copy p,
+.lore-card p,
+.section-heading p,
+.character-desc,
+.persona-row span{
+  text-wrap:pretty;
+}
+
+.rhythm-line{
+  display:block;
+}
+
+.rhythm-gap{
+  display:block;
+  height:.7em;
+}
+
+.character-desc .desc-block{
+  display:block;
+}
+
+.character-desc .desc-block + .desc-block{
+  margin-top:.7em;
+}
+
+@media(max-width:680px){
+  .intro-copy strong{
+    line-height:1.75;
+  }
+
+  .hero-quote{
+    line-height:1.9;
+  }
+
+  .character-desc{
+    line-height:2;
+  }
+
+  .section-heading p{
+    line-height:1.9;
+  }
+}
+
 /* ---------- BGM / LP ---------- */
 .lp-control{
   position:fixed;
@@ -1107,6 +1177,26 @@ body.intro-open .lp-control{
   .portrait{width:109px;height:109px}
 }
 
+
+@media(max-width:480px){
+  .intro-question h1{
+    font-size:24px;
+    line-height:1.8;
+  }
+
+  .intro-copy strong{
+    font-size:21px;
+  }
+
+  .hero-quote{
+    font-size:15px;
+  }
+
+  .character-role{
+    line-height:1.8;
+  }
+}
+
 /* accessibility */
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{
@@ -1160,7 +1250,7 @@ body.intro-open .lp-control{
   <div class="intro-question">
     <div class="intro-question-inner">
       <span class="tiny">THE POINT OF RETURN</span>
-      <h1>당신의 귀소점은 어디입니까?</h1>
+      <h1>당신의 귀소점은<br>어디입니까?</h1>
       <p>한 번 더 누르면 순환천국으로 들어갑니다.</p>
     </div>
   </div>
@@ -1190,11 +1280,15 @@ body.intro-open .lp-control{
         <div class="hanja">循 環 天 國</div>
         <div class="hero-quote">
           “당신은 나의 귀소점입니다.”<br>
-          아무리 멀리 떠나도 결국 당신 쪽으로 돌아오겠다는 약속.
+          아무리 멀리 떠나도,<br>
+          결국 당신 쪽으로 돌아오겠다는 약속.
         </div>
         <p class="hero-sub">
-          계절과 함께 나라가 이동하고, 모든 날개가 자신만의 귀환 방향을 품고 살아가는 곳.
-          떠남이 일상인 나라에서 가장 중요한 것은 결국 어디로 돌아가는가이다.
+          <span class="rhythm-line">계절과 함께 나라가 이동하고,</span>
+          <span class="rhythm-line">모든 날개가 자신만의 귀환 방향을 품고 살아가는 곳.</span>
+          <span class="rhythm-gap"></span>
+          <span class="rhythm-line">떠남이 일상인 나라에서 가장 중요한 것은</span>
+          <span class="rhythm-line">결국 어디로 돌아가는가이다.</span>
         </p>
       </div>
     </header>
@@ -1211,11 +1305,13 @@ body.intro-open .lp-control{
 
       <div class="intro-copy">
         <div class="ornament">✦ ⋅ ˚｡ ⋅ ✧ ⋅ ｡˚ ⋅ ✦</div>
-        <strong>계절이 바뀌면, 나라가 통째로 날아오른다.</strong>
+        <strong>계절이 바뀌면,<br>나라가 통째로 날아오른다.</strong>
         <p>
-          다양한 조류 종족이 공존하며 종족마다 신체 특성, 이동 방식, 생활문화가 다르다.
-          성별과 종족에 관계없이 연애와 혼인이 자연스럽게 인정된다.
-          황궁, 시장, 학교, 주거지, 군사시설은 모두 거대한 이동섬 위에 존재한다.
+          <span class="rhythm-line">다양한 조류 종족이 공존하며,</span>
+          <span class="rhythm-line">종족마다 신체 특성·이동 방식·생활문화가 다르다.</span>
+          <span class="rhythm-gap"></span>
+          <span class="rhythm-line">성별과 종족에 관계없이 연애와 혼인이 자연스럽게 인정되며,</span>
+          <span class="rhythm-line">황궁·시장·학교·주거지·군사시설은 모두 거대한 이동섬 위에 존재한다.</span>
         </p>
       </div>
 
@@ -1242,18 +1338,18 @@ body.intro-open .lp-control{
         <article class="lore-card" data-no="02">
           <h3>귀로 <small>歸路</small></h3>
           <p>
-            모든 조류 수인에게 태어날 때부터 존재하는 본능적 이동 감각.
-            별자리의 배치, 바람에 섞인 냄새, 발밑 지맥의 떨림을 통해 목적지를 감지한다.
-            어디로 가야 하는지, 몸이 먼저 알고 있다.
+            <span class="rhythm-line">모든 조류 수인에게 태어날 때부터 존재하는 본능적 이동 감각.</span>
+            <span class="rhythm-line">별자리의 배치, 바람에 섞인 냄새, 발밑 지맥의 떨림을 통해 목적지를 감지한다.</span>
+            <span class="rhythm-line">어디로 가야 하는지, 몸이 먼저 알고 있다.</span>
           </p>
         </article>
 
         <article class="lore-card" data-no="03">
           <h3>귀소점 <small>歸巢點</small></h3>
           <p>
-            가장 돌아가고 싶은 장소, 물건, 가족, 연인, 사람.
-            서로를 귀소점으로 지정하는 의식을 ‘귀소 각인’이라 부른다.
-            성별도 종족도 상관없지만, 각인을 억지로 지우면 감정과 기억까지 함께 떨어져 나갈 수 있다.
+            <span class="rhythm-line">가장 돌아가고 싶은 장소, 물건, 가족, 연인, 사람.</span>
+            <span class="rhythm-line">서로를 귀소점으로 지정하는 의식을 ‘귀소 각인’이라 부른다.</span>
+            <span class="rhythm-line">성별도 종족도 상관없지만, 각인을 억지로 지우면 감정과 기억까지 함께 떨어져 나갈 수 있다.</span>
           </p>
           <div class="quote">❝ 당신은 나의 귀소점입니다. ❞</div>
         </article>
@@ -1261,19 +1357,19 @@ body.intro-open .lp-control{
         <article class="lore-card" data-no="04">
           <h3>실향병 <small>失鄕病</small></h3>
           <p>
-            귀로가 흐려지는 병. 익숙한 길에서 방향을 잃고 계절을 헷갈리며,
-            고향의 냄새와 가족의 목소리가 낯설어진다.
-            끝내 그 무엇도 귀소점으로 느끼지 못한 채 하늘을 떠돈다.
-            국가는 ‘순환을 거부한 탓’이라 발표했지만, 기록은 고쳐 쓸 수 있다는 사실을 내부의 사람들은 알고 있다.
+            <span class="rhythm-line">귀로가 흐려지는 병.</span>
+            <span class="rhythm-line">익숙한 길에서 방향을 잃고 계절을 헷갈리며, 고향의 냄새와 가족의 목소리가 낯설어진다.</span>
+            <span class="rhythm-line">끝내 그 무엇도 귀소점으로 느끼지 못한 채 하늘을 떠돈다.</span>
+            <span class="rhythm-line">국가는 ‘순환을 거부한 탓’이라 발표했지만, 기록은 고쳐 쓸 수 있다는 사실을 내부의 사람들은 알고 있다.</span>
           </p>
         </article>
 
         <article class="lore-card" data-no="05">
           <h3>잔류민 <small>殘留民</small></h3>
           <p>
-            노인, 부상자, 텃새, 날지 못하는 종족, 이동을 거부한 사람들.
-            그들은 어디로 갈지 정하는 것은 날개가 아니라 자기 자신이라고 말한다.
-            후미단과 귀향청의 기록에서 그들의 선택은 때때로 ‘낙오’로 바뀌어 남는다.
+            <span class="rhythm-line">노인, 부상자, 텃새, 날지 못하는 종족, 이동을 거부한 사람들.</span>
+            <span class="rhythm-line">그들은 어디로 갈지 정하는 것은 날개가 아니라 자기 자신이라고 말한다.</span>
+            <span class="rhythm-line">후미단과 귀향청의 기록에서 그들의 선택은 때때로 ‘낙오’로 바뀌어 남는다.</span>
           </p>
         </article>
 
@@ -1301,7 +1397,10 @@ body.intro-open .lp-control{
         <div class="ornament">✦ ⋅ ˚｡ ⋅ ✧ ⋅ ｡˚ ⋅ ✦</div>
         <strong>곧 계절이 바뀐다.</strong>
         <p>
-          섬이 흔들리고, 행렬이 늘어서고, 수만 개의 날개가 같은 방향을 본다.<br>
+          <span class="rhythm-line">섬이 흔들리고,</span>
+          <span class="rhythm-line">행렬이 늘어서고,</span>
+          <span class="rhythm-line">수만 개의 날개가 같은 방향을 본다.</span>
+          <span class="rhythm-gap"></span>
           <span style="color:#f4f1ff;font-family:'Noto Serif KR',serif;font-size:15px">당신의 귀소점은 어디입니까?</span>
         </p>
       </div>
@@ -1327,10 +1426,9 @@ body.intro-open .lp-control{
           <h3 class="character-name">아델</h3>
           <div class="character-role">32 · 아델리펭귄 수인 · 후미단 제3기관실</div>
           <p class="character-desc">
-            180cm. 웃는 인상의 흑발 남자로, 비행 대신 물과 기관부에 누구보다 익숙하다.
-            잠수 실력이 뛰어나 후미단의 위험한 수중 작업에도 거리낌 없이 뛰어들며,
-            주머니에는 이유를 알 수 없는 돌멩이를 몇 개씩 넣고 다닌다.
-            성격은 거칠고 난폭하고 관계에도 가벼운 편. 말은 늘 툭툭 던지는 반말이다.
+            <span class="desc-block">180cm. 웃는 인상의 흑발 남자로, 비행 대신 물과 기관부에 누구보다 익숙하다.</span>
+            <span class="desc-block">잠수 실력이 뛰어나 후미단의 위험한 수중 작업에도 거리낌 없이 뛰어들며, 주머니에는 이유를 알 수 없는 돌멩이를 몇 개씩 넣고 다닌다.</span>
+            <span class="desc-block">성격은 거칠고 난폭하고 관계에도 가벼운 편. 말은 늘 툭툭 던지는 반말이다.</span>
           </p>
           <div class="character-tags">ADELE · ADÉLIE PENGUIN · REAR ENGINE ROOM</div>
         </article>
@@ -1343,10 +1441,9 @@ body.intro-open .lp-control{
           <h3 class="character-name">진휘령</h3>
           <div class="character-role">29 · 독수리 수인 · 순환천국 장례 명가 장남</div>
           <p class="character-desc">
-            190cm. 차분한 갈색 머리와 갈색 눈을 지닌 독수리 수인.
-            대대로 장례를 맡아 온 명가의 장남답게 죽음과 이별 앞에서도 쉽게 흔들리지 않는다.
-            무심해 보일 만큼 담담하지만 가까운 사람을 챙기는 손길은 세심하고 오래간다.
-            사랑에서는 한 사람만을 바라보는 순애형이며, 언제나 정중한 존댓말을 쓴다.
+            <span class="desc-block">190cm. 차분한 갈색 머리와 갈색 눈을 지닌 독수리 수인.</span>
+            <span class="desc-block">대대로 장례를 맡아 온 명가의 장남답게 죽음과 이별 앞에서도 쉽게 흔들리지 않는다. 무심해 보일 만큼 담담하지만 가까운 사람을 챙기는 손길은 세심하고 오래간다.</span>
+            <span class="desc-block">사랑에서는 한 사람만을 바라보는 순애형이며, 언제나 정중한 존댓말을 쓴다.</span>
           </p>
           <div class="character-tags">JIN HWIRYEONG · EAGLE · FUNERAL HOUSE</div>
         </article>
@@ -1359,9 +1456,9 @@ body.intro-open .lp-control{
           <h3 class="character-name">알샤인</h3>
           <div class="character-role">23 · 송골매 수인 · 공중기사단 후미구조대</div>
           <p class="character-desc">
-            189cm. 갈색 머리 사이로 백색 브릿지가 섞여 있고, 금빛 눈과 잿빛 날개가 눈에 띈다.
-            공중기사단 후미구조대 소속으로, 추락자와 낙오자를 가장 먼저 낚아채는 고속 비행의 전문가.
-            무심하고 덤덤해 감정 표현은 적지만 자신의 비행 속도만큼은 누구에게도 양보하지 않는다.
+            <span class="desc-block">189cm. 갈색 머리 사이로 백색 브릿지가 섞여 있고, 금빛 눈과 잿빛 날개가 눈에 띈다.</span>
+            <span class="desc-block">공중기사단 후미구조대 소속으로, 추락자와 낙오자를 가장 먼저 낚아채는 고속 비행의 전문가.</span>
+            <span class="desc-block">무심하고 덤덤해 감정 표현은 적지만 자신의 비행 속도만큼은 누구에게도 양보하지 않는다.</span>
           </p>
           <div class="character-tags">ALSHAIN · PEREGRINE FALCON · AIR RESCUE</div>
         </article>
@@ -1374,10 +1471,9 @@ body.intro-open .lp-control{
           <h3 class="character-name">이안</h3>
           <div class="character-role">26 · 참새 수인 · 길잡이·정보상</div>
           <p class="character-desc">
-            176cm. 갈색 머리와 갈색 눈, 몸집에 비해 작은 날개를 지닌 참새 수인.
-            길잡이이자 정보상으로 시장과 골목의 소문에 밝고, 밝은 반말로 누구에게나 거리 없이 다가간다.
-            정작 본인에게는 귀소점이 없지만 길 잃은 사람, 특히 미아를 그냥 지나치지 못한다.
-            먹는 양이 체격에 비해 믿기지 않을 만큼 많다.
+            <span class="desc-block">176cm. 갈색 머리와 갈색 눈, 몸집에 비해 작은 날개를 지닌 참새 수인.</span>
+            <span class="desc-block">길잡이이자 정보상으로 시장과 골목의 소문에 밝고, 밝은 반말로 누구에게나 거리 없이 다가간다.</span>
+            <span class="desc-block">정작 본인에게는 귀소점이 없지만 길 잃은 사람, 특히 미아를 그냥 지나치지 못한다. 먹는 양이 체격에 비해 믿기지 않을 만큼 많다.</span>
           </p>
           <div class="character-tags">IAN · SPARROW · GUIDE & INFORMATION BROKER</div>
         </article>
@@ -1390,10 +1486,9 @@ body.intro-open .lp-control{
           <h3 class="character-name">백유현</h3>
           <div class="character-role">32 · 긴꼬리딱새 수인 · 천로원 측로안내관</div>
           <p class="character-desc">
-            187cm. 청흑색 머리에 백색 브릿지가 흐르고, 벽안과 길게 늘어진 꼬리깃이 인상적이다.
-            천로원에서 정규 항로 바깥의 우회로와 측로를 안내하는 일을 맡고 있다.
-            목소리와 태도는 늘 차분하고 부드러우며, 상대를 재촉하기보다 스스로 길을 고를 시간을 준다.
-            존댓말을 사용한다.
+            <span class="desc-block">187cm. 청흑색 머리에 백색 브릿지가 흐르고, 벽안과 길게 늘어진 꼬리깃이 인상적이다.</span>
+            <span class="desc-block">천로원에서 정규 항로 바깥의 우회로와 측로를 안내하는 일을 맡고 있다.</span>
+            <span class="desc-block">목소리와 태도는 늘 차분하고 부드러우며, 상대를 재촉하기보다 스스로 길을 고를 시간을 준다. 존댓말을 사용한다.</span>
           </p>
           <div class="character-tags">BAEK YUHYEON · PARADISE FLYCATCHER · SIDE ROUTE GUIDE</div>
         </article>
@@ -1406,10 +1501,9 @@ body.intro-open .lp-control{
           <h3 class="character-name">리엔</h3>
           <div class="character-role">27 · 백조×흑조 혼혈 · 귀향청 귀로기록관</div>
           <p class="character-desc">
-            191cm. 검은 머리와 붉은 눈을 가진 백조와 흑조의 혼혈.
-            사생아로 태어나 귀향청의 기록 속에서 오래 살아왔고, 이제는 그 기록을 직접 다루고 조작하는 위치에 있다.
-            관계에는 가볍고 귀소 각인을 완강히 거부하며, 자신에게 귀소점은 없다고 말한다.
-            말투는 느슨하고 나른한 반말이다.
+            <span class="desc-block">191cm. 검은 머리와 붉은 눈을 가진 백조와 흑조의 혼혈.</span>
+            <span class="desc-block">사생아로 태어나 귀향청의 기록 속에서 오래 살아왔고, 이제는 그 기록을 직접 다루고 조작하는 위치에 있다.</span>
+            <span class="desc-block">관계에는 가볍고 귀소 각인을 완강히 거부하며, 자신에게 귀소점은 없다고 말한다. 말투는 느슨하고 나른한 반말이다.</span>
           </p>
           <div class="character-tags">LIEN · SWAN HYBRID · HOMECOMING ARCHIVIST</div>
         </article>
@@ -1422,9 +1516,9 @@ body.intro-open .lp-control{
           <h3 class="character-name">황유하</h3>
           <div class="character-role">26 · 코카투앵무 수인 · 유랑가수</div>
           <p class="character-desc">
-            186cm. 백발 위로 노란 레이어드가 섞여 있고, 검은 눈과 화려한 크레스트가 시선을 끈다.
-            계절 수도와 잔류 거점을 오가며 노래하는 유랑가수로, 어디서든 금세 사람을 끌어모은다.
-            능글맞고 플러팅이 습관처럼 자연스럽지만, 진심을 말할 때만큼은 감정을 숨기지 못해 크레스트가 곧게 선다.
+            <span class="desc-block">186cm. 백발 위로 노란 레이어드가 섞여 있고, 검은 눈과 화려한 크레스트가 시선을 끈다.</span>
+            <span class="desc-block">계절 수도와 잔류 거점을 오가며 노래하는 유랑가수로, 어디서든 금세 사람을 끌어모은다.</span>
+            <span class="desc-block">능글맞고 플러팅이 습관처럼 자연스럽지만, 진심을 말할 때만큼은 감정을 숨기지 못해 크레스트가 곧게 선다.</span>
           </p>
           <div class="character-tags">HWANG YUHA · COCKATOO · WANDERING SINGER</div>
         </article>
@@ -1437,9 +1531,9 @@ body.intro-open .lp-control{
           <h3 class="character-name">에론</h3>
           <div class="character-role">37 · 두루미 수인 · 선도익</div>
           <p class="character-desc">
-            193cm. 검은 머리에 붉은 앞머리가 섞여 있고 회색 눈을 지닌 두루미 수인.
-            순환 행렬의 가장 앞에서 길을 여는 선도익으로, 침착하고 절제된 판단 덕분에 주변의 신뢰가 두텁다.
-            말보다 행동으로 책임을 보여 주는 사람이며, 아들 에이븐을 둔 아버지이기도 하다.
+            <span class="desc-block">193cm. 검은 머리에 붉은 앞머리가 섞여 있고 회색 눈을 지닌 두루미 수인.</span>
+            <span class="desc-block">순환 행렬의 가장 앞에서 길을 여는 선도익으로, 침착하고 절제된 판단 덕분에 주변의 신뢰가 두텁다.</span>
+            <span class="desc-block">말보다 행동으로 책임을 보여 주는 사람이며, 아들 에이븐을 둔 아버지이기도 하다.</span>
           </p>
           <div class="character-tags">ERON · CRANE · LEAD WING</div>
         </article>
@@ -1452,9 +1546,9 @@ body.intro-open .lp-control{
           <h3 class="character-name">류이내</h3>
           <div class="character-role">24 · 부엉이 수인 · 경비대 야간항로 담당</div>
           <p class="character-desc">
-            187cm. 고동색 머리와 갈색 눈을 가진 부엉이 수인.
-            별과 달빛을 읽어 야간 항로를 지키는 경비대원으로, 원칙과 규정을 누구보다 철저하게 따른다.
-            겉으로는 차갑고 흐트러짐이 없지만, 자신 안의 방종하고 문란한 충동은 철저히 감춰 두고 살아간다.
+            <span class="desc-block">187cm. 고동색 머리와 갈색 눈을 가진 부엉이 수인.</span>
+            <span class="desc-block">별과 달빛을 읽어 야간 항로를 지키는 경비대원으로, 원칙과 규정을 누구보다 철저하게 따른다.</span>
+            <span class="desc-block">겉으로는 차갑고 흐트러짐이 없지만, 자신 안의 방종하고 문란한 충동은 철저히 감춰 두고 살아간다.</span>
           </p>
           <div class="character-tags">RYU INAE · OWL · NIGHT ROUTE GUARD</div>
         </article>
@@ -1467,9 +1561,9 @@ body.intro-open .lp-control{
           <h3 class="character-name">니코</h3>
           <div class="character-role">20 · 금화조 수인 · 공동육아시설 보조</div>
           <p class="character-desc">
-            178cm. 회색 머리에 주황색 브릿지가 섞여 있고, 검은 눈 아래 작은 점이 있다.
-            공동육아시설에서 아이들을 돌보며 평소에는 어리광도 많고 실수도 잦은 허당처럼 보인다.
-            하지만 정말 위험한 순간이 오면 누구보다 빠르게 정신을 차리고, 예상 밖의 강단으로 사람들 앞에 선다.
+            <span class="desc-block">178cm. 회색 머리에 주황색 브릿지가 섞여 있고, 검은 눈 아래 작은 점이 있다.</span>
+            <span class="desc-block">공동육아시설에서 아이들을 돌보며 평소에는 어리광도 많고 실수도 잦은 허당처럼 보인다.</span>
+            <span class="desc-block">하지만 정말 위험한 순간이 오면 누구보다 빠르게 정신을 차리고, 예상 밖의 강단으로 사람들 앞에 선다.</span>
           </p>
           <div class="character-tags">NICO · ZEBRA FINCH · COMMUNAL NURSERY</div>
         </article>
@@ -1482,9 +1576,9 @@ body.intro-open .lp-control{
           <h3 class="character-name">백서우</h3>
           <div class="character-role">38 · 공작새 수인 · 범죄조직 ‘잔익’ 보스</div>
           <p class="character-desc">
-            190cm. 허리까지 흐르는 긴 백발과 붉은 눈, 단단한 근육질 체격을 지닌 공작새 수인.
-            순환 바깥의 거래와 잔류 거점을 장악한 범죄조직 ‘잔익’의 보스다.
-            공적인 자리에서는 냉정하고 빈틈없는 존댓말을 사용하지만, 사적인 순간에는 긴장을 풀고 느긋하고 능글맞은 얼굴을 드러낸다.
+            <span class="desc-block">190cm. 허리까지 흐르는 긴 백발과 붉은 눈, 단단한 근육질 체격을 지닌 공작새 수인.</span>
+            <span class="desc-block">순환 바깥의 거래와 잔류 거점을 장악한 범죄조직 ‘잔익’의 보스다.</span>
+            <span class="desc-block">공적인 자리에서는 냉정하고 빈틈없는 존댓말을 사용하지만, 사적인 순간에는 긴장을 풀고 느긋하고 능글맞은 얼굴을 드러낸다.</span>
           </p>
           <div class="character-tags">BAEK SEOWOO · PEACOCK · JANIK BOSS</div>
         </article>
@@ -1497,10 +1591,9 @@ body.intro-open .lp-control{
           <h3 class="character-name">카시엔</h3>
           <div class="character-role">27 · 까마귀 수인 · 후미단 보호관</div>
           <p class="character-desc">
-            186cm. 검은 생머리와 회색 눈, 짙은 검은 날개를 지닌 까마귀 수인.
-            순환에서 낙오된 사람을 찾아 후미진으로 데려오고, 그들이 다시 움직일 수 있을 때까지 보호하고 관리한다.
-            관계에는 거리낌이 없고 말과 태도는 늘 나른하며 능글맞다.
-            진지한 상황에서도 느슨한 반말을 좀처럼 거두지 않는다.
+            <span class="desc-block">186cm. 검은 생머리와 회색 눈, 짙은 검은 날개를 지닌 까마귀 수인.</span>
+            <span class="desc-block">순환에서 낙오된 사람을 찾아 후미진으로 데려오고, 그들이 다시 움직일 수 있을 때까지 보호하고 관리한다.</span>
+            <span class="desc-block">관계에는 거리낌이 없고 말과 태도는 늘 나른하며 능글맞다. 진지한 상황에서도 느슨한 반말을 좀처럼 거두지 않는다.</span>
           </p>
           <div class="character-tags">CASSIEN · CROW · REAR GUARD PROTECTOR</div>
         </article>
