@@ -1,1 +1,1798 @@
+<!DOCTYPE html>
 
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#070912">
+<title>순환천국 · 당신의 귀소점은 어디입니까?</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&family=Marcellus&family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap');
+
+:root{
+  --bg:#070912;
+  --bg2:#0c1020;
+  --ink:#f8f5ff;
+  --muted:#b8b9c9;
+  --line:rgba(255,255,255,.12);
+  --glass:rgba(18,23,43,.48);
+  --glass2:rgba(255,255,255,.055);
+  --violet:#b9a5ff;
+  --blue:#9adcf7;
+  --mint:#b5f1df;
+  --gold:#f0dba1;
+  --rose:#efb8d5;
+  --shadow:0 24px 80px rgba(0,0,0,.35);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  min-height:100vh;
+  overflow-x:hidden;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 15% 5%, rgba(114,93,192,.20), transparent 30%),
+    radial-gradient(circle at 80% 20%, rgba(64,145,180,.14), transparent 28%),
+    radial-gradient(circle at 55% 85%, rgba(123,88,151,.16), transparent 32%),
+    linear-gradient(180deg,#060810 0%, #0a0d19 45%, #080a14 100%);
+  font-family:"Noto Sans KR",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+body.intro-open{overflow:hidden}
+button{font:inherit}
+a{color:inherit}
+
+/* ---------- fixed dreamy atmosphere ---------- */
+.sky{
+  position:fixed;
+  inset:0;
+  z-index:-4;
+  overflow:hidden;
+  pointer-events:none;
+}
+.sky::before{
+  content:"";
+  position:absolute;
+  inset:-20%;
+  background:
+    radial-gradient(ellipse at 30% 40%, rgba(156,126,255,.13), transparent 35%),
+    radial-gradient(ellipse at 72% 62%, rgba(88,200,225,.11), transparent 34%),
+    radial-gradient(ellipse at 50% 90%, rgba(228,159,200,.09), transparent 30%);
+  filter:blur(48px);
+  animation:aurora 16s ease-in-out infinite alternate;
+}
+.sky::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  opacity:.48;
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,.9) 0 1px, transparent 1.3px),
+    radial-gradient(circle, rgba(188,221,255,.75) 0 1px, transparent 1.3px);
+  background-size:79px 79px, 123px 123px;
+  background-position:0 0, 31px 43px;
+  mask-image:linear-gradient(to bottom,black 0%,rgba(0,0,0,.4) 80%,transparent 100%);
+}
+@keyframes aurora{
+  0%{transform:translate3d(-3%,-2%,0) rotate(-2deg) scale(1)}
+  100%{transform:translate3d(4%,3%,0) rotate(3deg) scale(1.08)}
+}
+
+.orb{
+  position:fixed;
+  border-radius:50%;
+  filter:blur(5px);
+  opacity:.23;
+  pointer-events:none;
+  z-index:-3;
+}
+.orb.one{width:260px;height:260px;left:-90px;top:28vh;background:#785fba;animation:floatOrb 13s ease-in-out infinite}
+.orb.two{width:210px;height:210px;right:-80px;top:56vh;background:#4a9cb4;animation:floatOrb 16s ease-in-out infinite reverse}
+@keyframes floatOrb{50%{transform:translateY(-28px) translateX(18px)}}
+
+/* ---------- intro ---------- */
+.intro{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:#000;
+  overflow:hidden;
+  cursor:pointer;
+  isolation:isolate;
+  transition:opacity 1.05s ease, visibility 1.05s ease;
+}
+.intro.hide{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+.intro-cover{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  transition:opacity 1.35s ease, transform 2.2s ease, filter 1.8s ease;
+}
+.intro-cover img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+}
+.intro-cover::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.20) 60%,rgba(0,0,0,.58)),
+    radial-gradient(circle at center,transparent 28%,rgba(0,0,0,.28));
+}
+.intro-black{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  background:#000;
+  opacity:0;
+  transition:opacity 1.15s ease;
+}
+.intro.question-stage .intro-cover{
+  opacity:0;
+  transform:scale(1.08);
+  filter:blur(7px);
+}
+.intro.question-stage .intro-black{opacity:1}
+
+.intro-first-hint{
+  position:absolute;
+  left:50%;
+  bottom:max(28px,env(safe-area-inset-bottom));
+  z-index:4;
+  transform:translateX(-50%);
+  color:rgba(255,255,255,.78);
+  font-family:"Noto Serif KR",serif;
+  font-size:12px;
+  letter-spacing:.24em;
+  white-space:nowrap;
+  text-shadow:0 0 18px rgba(255,255,255,.28);
+  animation:hintPulse 2.2s ease-in-out infinite;
+  transition:opacity .5s ease;
+}
+.intro.question-stage .intro-first-hint{opacity:0}
+
+.intro-question{
+  position:absolute;
+  inset:0;
+  z-index:5;
+  display:grid;
+  place-items:center;
+  padding:24px;
+  text-align:center;
+  opacity:0;
+  transform:translateY(10px);
+  transition:opacity 1.35s ease .58s, transform 1.35s ease .58s;
+  pointer-events:none;
+}
+.intro.question-stage .intro-question{
+  opacity:1;
+  transform:none;
+}
+.intro-question-inner{
+  max-width:900px;
+}
+.intro-question .tiny{
+  display:block;
+  margin-bottom:22px;
+  color:rgba(222,228,255,.52);
+  font-family:"Marcellus",serif;
+  font-size:10px;
+  letter-spacing:.42em;
+}
+.intro-question h1{
+  margin:0;
+  color:#fff;
+  font-family:"Noto Serif KR",serif;
+  font-size:clamp(24px,5vw,48px);
+  font-weight:400;
+  letter-spacing:.10em;
+  line-height:1.65;
+  text-shadow:
+    0 0 5px rgba(255,255,255,.82),
+    0 0 16px rgba(197,218,255,.48),
+    0 0 38px rgba(152,161,255,.35);
+  animation:questionGlow 3.4s ease-in-out infinite;
+}
+.intro-question p{
+  margin:30px 0 0;
+  color:rgba(255,255,255,.36);
+  font-size:10px;
+  letter-spacing:.22em;
+}
+@keyframes questionGlow{
+  50%{
+    text-shadow:
+      0 0 7px rgba(255,255,255,1),
+      0 0 22px rgba(197,218,255,.70),
+      0 0 52px rgba(152,161,255,.52);
+  }
+}
+@keyframes hintPulse{50%{opacity:.35;transform:translateX(-50%) translateY(3px)}}
+
+.intro-star{
+  position:absolute;
+  z-index:4;
+  width:2px;height:2px;
+  border-radius:50%;
+  background:white;
+  opacity:.18;
+  box-shadow:0 0 6px rgba(255,255,255,.95),0 0 12px rgba(184,204,255,.55);
+  animation:starTwinkle var(--dur) ease-in-out infinite var(--delay);
+  pointer-events:none;
+}
+@keyframes starTwinkle{
+  0%,100%{opacity:.05;transform:scale(.65)}
+  50%{opacity:.95;transform:scale(1.65)}
+}
+
+.trail-star{
+  position:fixed;
+  z-index:10020;
+  width:4px;height:4px;
+  border-radius:50%;
+  pointer-events:none;
+  background:#fff;
+  box-shadow:0 0 5px #fff,0 0 12px rgba(186,208,255,.95),0 0 22px rgba(165,131,255,.65);
+  animation:trailFade .78s ease-out forwards;
+}
+.trail-star::before,
+.trail-star::after{
+  content:"";
+  position:absolute;
+  left:50%;top:50%;
+  background:rgba(255,255,255,.72);
+  transform:translate(-50%,-50%);
+}
+.trail-star::before{width:10px;height:1px}
+.trail-star::after{width:1px;height:10px}
+@keyframes trailFade{
+  to{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(45deg) scale(.1)}
+}
+
+/* ---------- page ---------- */
+.site{
+  min-height:100vh;
+  opacity:0;
+  transition:opacity 1.4s ease .2s;
+}
+.site.ready{opacity:1}
+
+.nav-shell{
+  position:sticky;
+  top:0;
+  z-index:80;
+  padding:14px clamp(12px,3vw,28px);
+  pointer-events:none;
+}
+.nav{
+  width:min(980px,100%);
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:10px 12px 10px 18px;
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:999px;
+  background:rgba(7,9,18,.58);
+  backdrop-filter:blur(22px) saturate(135%);
+  -webkit-backdrop-filter:blur(22px) saturate(135%);
+  box-shadow:0 12px 38px rgba(0,0,0,.22);
+  pointer-events:auto;
+}
+.brand-mini{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  min-width:max-content;
+  font-family:"Noto Serif KR",serif;
+  font-size:13px;
+}
+.brand-mini .mini-star{
+  color:var(--violet);
+  text-shadow:0 0 12px currentColor;
+}
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:3px;
+}
+.nav-btn{
+  border:0;
+  background:transparent;
+  color:rgba(239,239,248,.58);
+  border-radius:999px;
+  padding:9px 14px;
+  cursor:pointer;
+  font-size:12px;
+  transition:.25s ease;
+}
+.nav-btn:hover{color:#fff;background:rgba(255,255,255,.06)}
+.nav-btn.active{
+  color:#fff;
+  background:linear-gradient(135deg,rgba(184,164,255,.22),rgba(133,208,232,.15));
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);
+}
+
+.page{
+  width:min(1140px,calc(100% - 30px));
+  margin:auto;
+}
+
+.hero{
+  min-height:76vh;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  padding:80px 20px 110px;
+  position:relative;
+}
+.hero::before{
+  content:"";
+  position:absolute;
+  width:min(680px,80vw);
+  aspect-ratio:1;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.055);
+  box-shadow:
+    0 0 0 56px rgba(255,255,255,.018),
+    0 0 0 120px rgba(255,255,255,.012);
+  animation:heroOrbit 24s linear infinite;
+}
+@keyframes heroOrbit{to{transform:rotate(360deg)}}
+.hero-content{position:relative;z-index:1}
+.hero-eyebrow{
+  color:rgba(198,207,242,.48);
+  font-family:"Marcellus",serif;
+  font-size:10px;
+  letter-spacing:.45em;
+  text-transform:uppercase;
+}
+.hero h1{
+  margin:20px 0 14px;
+  font-family:"Noto Serif KR",serif;
+  font-size:clamp(48px,9vw,100px);
+  font-weight:500;
+  letter-spacing:-.045em;
+  line-height:1.05;
+  background:linear-gradient(180deg,#fff 10%,#e8e9ff 54%,#b6b9d6);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  text-shadow:0 18px 70px rgba(167,154,255,.12);
+}
+.hero .hanja{
+  font-family:"Marcellus","Noto Serif KR",serif;
+  font-size:12px;
+  color:rgba(255,255,255,.35);
+  letter-spacing:.55em;
+}
+.hero-quote{
+  margin:40px auto 0;
+  max-width:680px;
+  color:#e9e8f5;
+  font-family:"Noto Serif KR",serif;
+  font-size:clamp(16px,2vw,21px);
+  font-weight:400;
+  line-height:2;
+}
+.hero-sub{
+  margin:18px auto 0;
+  max-width:650px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.9;
+}
+
+.panel{
+  display:none;
+  padding:34px 0 100px;
+  animation:fadePanel .55s ease;
+}
+.panel.active{display:block}
+@keyframes fadePanel{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+.section-heading{
+  margin-bottom:30px;
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:20px;
+}
+.section-kicker{
+  display:block;
+  margin-bottom:9px;
+  font-family:"Marcellus",serif;
+  color:rgba(202,199,238,.45);
+  letter-spacing:.34em;
+  font-size:10px;
+}
+.section-heading h2{
+  margin:0;
+  font-family:"Noto Serif KR",serif;
+  font-weight:500;
+  font-size:clamp(28px,4vw,42px);
+  letter-spacing:-.035em;
+}
+.section-heading p{
+  margin:0;
+  max-width:420px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.8;
+  text-align:right;
+}
+
+/* ---------- World ---------- */
+.intro-copy{
+  margin-bottom:22px;
+  padding:34px clamp(22px,5vw,54px);
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:30px;
+  background:
+    linear-gradient(135deg,rgba(134,113,207,.10),rgba(84,154,177,.065)),
+    rgba(255,255,255,.025);
+  backdrop-filter:blur(18px);
+  box-shadow:var(--shadow);
+  text-align:center;
+}
+.intro-copy .ornament{
+  color:rgba(216,211,255,.52);
+  letter-spacing:.25em;
+  font-size:11px;
+}
+.intro-copy strong{
+  display:block;
+  margin:16px 0;
+  font-family:"Noto Serif KR",serif;
+  font-size:clamp(20px,3vw,28px);
+  font-weight:500;
+}
+.intro-copy p{
+  margin:0 auto;
+  max-width:760px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:2;
+}
+
+.season-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-bottom:20px;
+}
+.season-card{
+  position:relative;
+  overflow:hidden;
+  min-height:180px;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:26px;
+  padding:22px;
+  background:rgba(255,255,255,.035);
+  backdrop-filter:blur(18px);
+}
+.season-card::after{
+  content:"";
+  position:absolute;
+  width:130px;height:130px;
+  border-radius:50%;
+  right:-54px;bottom:-58px;
+  filter:blur(2px);
+  opacity:.22;
+}
+.spring::after{background:#ffb6dc}
+.summer::after{background:#5ed5e8}
+.autumn::after{background:#e7bd70}
+.winter::after{background:#e16c55}
+.season-card .icon{font-size:24px}
+.season-card b{
+  display:block;
+  margin:20px 0 8px;
+  font-family:"Noto Serif KR",serif;
+  font-size:18px;
+}
+.season-card span{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.7;
+}
+.season-card em{
+  display:block;
+  margin-top:12px;
+  color:#f5f2ff;
+  font-style:normal;
+  font-size:12px;
+}
+
+.lore-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+.lore-card{
+  min-height:260px;
+  border:1px solid rgba(255,255,255,.085);
+  border-radius:28px;
+  padding:28px;
+  background:linear-gradient(145deg,rgba(255,255,255,.047),rgba(255,255,255,.018));
+  backdrop-filter:blur(16px);
+  box-shadow:0 16px 55px rgba(0,0,0,.15);
+  position:relative;
+  overflow:hidden;
+}
+.lore-card::before{
+  content:attr(data-no);
+  position:absolute;
+  right:20px;
+  top:12px;
+  color:rgba(255,255,255,.035);
+  font-family:"Marcellus",serif;
+  font-size:72px;
+  line-height:1;
+}
+.lore-card h3{
+  margin:0 0 18px;
+  font-family:"Noto Serif KR",serif;
+  font-size:22px;
+  font-weight:500;
+}
+.lore-card h3 small{
+  color:rgba(204,199,236,.48);
+  font-family:"Marcellus",serif;
+  font-size:11px;
+  margin-left:7px;
+  letter-spacing:.12em;
+}
+.lore-card p{
+  margin:0;
+  color:#bec0ce;
+  font-size:12.5px;
+  line-height:2;
+}
+.lore-card .quote{
+  margin-top:22px;
+  padding-top:18px;
+  border-top:1px solid rgba(255,255,255,.075);
+  color:#f5f2ff;
+  font-family:"Noto Serif KR",serif;
+  font-size:14px;
+  line-height:1.9;
+}
+.lore-card.full{grid-column:1/-1;min-height:auto}
+
+.species{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:20px;
+}
+.species span{
+  padding:9px 12px;
+  border:1px solid rgba(255,255,255,.085);
+  border-radius:999px;
+  background:rgba(255,255,255,.035);
+  color:#d4d3df;
+  font-size:10.5px;
+}
+
+/* ---------- characters ---------- */
+.character-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:17px;
+}
+.character-card{
+  border:1px solid rgba(255,255,255,.095);
+  border-radius:30px;
+  padding:24px 22px 23px;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(165,150,255,.075),transparent 43%),
+    rgba(255,255,255,.032);
+  backdrop-filter:blur(18px);
+  box-shadow:0 18px 60px rgba(0,0,0,.18);
+  text-align:center;
+  transition:transform .28s ease,border-color .28s ease,background .28s ease;
+}
+.character-card:hover{
+  transform:translateY(-5px);
+  border-color:rgba(201,193,255,.24);
+  background:
+    radial-gradient(circle at 50% 0%,rgba(165,150,255,.12),transparent 46%),
+    rgba(255,255,255,.046);
+}
+.portrait-orbit{
+  width:142px;
+  height:142px;
+  margin:0 auto 19px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  position:relative;
+  background:linear-gradient(145deg,rgba(196,186,255,.33),rgba(117,190,217,.12),rgba(255,255,255,.05));
+  box-shadow:0 0 35px rgba(150,141,255,.12);
+}
+.portrait-orbit::before{
+  content:"";
+  position:absolute;
+  inset:5px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.13);
+}
+.portrait{
+  width:118px;
+  height:118px;
+  border-radius:50%;
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+  position:relative;
+  z-index:1;
+  background:
+    radial-gradient(circle at 40% 30%,rgba(255,255,255,.12),transparent 34%),
+    linear-gradient(145deg,#171c31,#10131f);
+  border:1px solid rgba(255,255,255,.15);
+  color:rgba(255,255,255,.48);
+  font-family:"Marcellus",serif;
+  font-size:38px;
+  box-shadow:inset 0 0 30px rgba(0,0,0,.25);
+}
+.portrait img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+}
+.character-name{
+  margin:0;
+  font-family:"Noto Serif KR",serif;
+  font-size:21px;
+  font-weight:600;
+}
+.character-role{
+  margin:7px 0 15px;
+  color:#b7b3d9;
+  font-size:10.5px;
+  letter-spacing:.02em;
+}
+.character-desc{
+  margin:0;
+  min-height:108px;
+  color:#b9bac8;
+  font-size:11.5px;
+  line-height:1.9;
+  text-align:left;
+}
+.character-tags{
+  margin-top:16px;
+  padding-top:14px;
+  border-top:1px solid rgba(255,255,255,.07);
+  color:rgba(225,223,242,.46);
+  font-size:9.5px;
+  letter-spacing:.06em;
+}
+
+/* ---------- persona ---------- */
+.persona-zone{
+  display:grid;
+  grid-template-columns:320px 1fr;
+  gap:18px;
+}
+.persona-machine,
+.persona-sheet{
+  border:1px solid rgba(255,255,255,.095);
+  border-radius:32px;
+  background:rgba(255,255,255,.035);
+  backdrop-filter:blur(20px);
+  box-shadow:var(--shadow);
+}
+.persona-machine{
+  min-height:550px;
+  padding:30px 22px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+}
+.persona-machine::before{
+  content:"";
+  position:absolute;
+  width:260px;height:260px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(159,142,255,.18),transparent 68%);
+  top:30px;
+}
+.persona-caption{
+  position:relative;
+  font-family:"Marcellus",serif;
+  font-size:10px;
+  letter-spacing:.34em;
+  color:rgba(229,225,255,.48);
+  margin-bottom:22px;
+}
+.persona-box{
+  width:176px;
+  height:176px;
+  border-radius:30px;
+  border:1px solid rgba(255,255,255,.14);
+  position:relative;
+  display:grid;
+  place-items:center;
+  color:#f6f4ff;
+  font-family:"Noto Serif KR",serif;
+  font-size:70px;
+  background:
+    linear-gradient(145deg,rgba(170,151,255,.13),rgba(85,150,184,.08)),
+    rgba(8,11,23,.72);
+  box-shadow:
+    inset 0 0 0 8px rgba(255,255,255,.018),
+    0 18px 45px rgba(0,0,0,.28),
+    0 0 45px rgba(144,129,255,.09);
+}
+.persona-box::after{
+  content:"";
+  position:absolute;
+  inset:13px;
+  border-radius:22px;
+  border:1px solid rgba(255,255,255,.07);
+}
+.dice{
+  width:68px;height:68px;
+  margin-top:28px;
+  border-radius:24px;
+  border:1px solid rgba(255,255,255,.16);
+  cursor:pointer;
+  color:white;
+  font-size:31px;
+  background:linear-gradient(145deg,rgba(152,131,237,.64),rgba(68,120,150,.56));
+  box-shadow:0 12px 35px rgba(87,72,167,.25);
+  transition:.22s ease;
+}
+.dice:hover{transform:translateY(-3px) rotate(7deg);filter:brightness(1.1)}
+.dice-note{
+  margin-top:15px;
+  color:rgba(221,219,235,.44);
+  font-size:10px;
+  line-height:1.8;
+  text-align:center;
+}
+.persona-sheet{padding:27px 30px}
+.persona-top{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  align-items:end;
+  padding-bottom:18px;
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+.persona-top h3{
+  margin:0;
+  font-family:"Noto Serif KR",serif;
+  font-size:32px;
+  font-weight:500;
+}
+.persona-top span{
+  color:#bdb8e4;
+  font-size:11px;
+}
+.persona-row{
+  display:grid;
+  grid-template-columns:110px 1fr;
+  gap:16px;
+  padding:14px 0;
+  border-bottom:1px solid rgba(255,255,255,.055);
+  font-size:11.5px;
+  line-height:1.8;
+}
+.persona-row:last-child{border-bottom:0}
+.persona-row b{
+  color:#cbc6ed;
+  font-weight:500;
+}
+
+/* ---------- credits ---------- */
+.credits-window{
+  height:620px;
+  overflow:hidden;
+  position:relative;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:32px;
+  background:
+    radial-gradient(circle at 50% 25%,rgba(127,108,204,.10),transparent 36%),
+    rgba(2,4,10,.74);
+  box-shadow:var(--shadow);
+}
+.credits-window::before,
+.credits-window::after{
+  content:"";
+  position:absolute;
+  left:0;right:0;
+  height:115px;
+  z-index:3;
+  pointer-events:none;
+}
+.credits-window::before{top:0;background:linear-gradient(#070912,transparent)}
+.credits-window::after{bottom:0;background:linear-gradient(transparent,#070912)}
+.credit-roll{
+  text-align:center;
+  padding:650px 20px 280px;
+  animation:creditRoll 38s linear infinite;
+}
+.credits-window:hover .credit-roll{animation-play-state:paused}
+@keyframes creditRoll{
+  from{transform:translateY(0)}
+  to{transform:translateY(-1380px)}
+}
+.credit-main{
+  font-family:"Noto Serif KR",serif;
+  font-size:40px;
+  font-weight:500;
+  letter-spacing:.05em;
+  margin-bottom:12px;
+}
+.credit-small{
+  margin-bottom:72px;
+  color:rgba(255,255,255,.34);
+  font-family:"Marcellus",serif;
+  font-size:10px;
+  letter-spacing:.35em;
+}
+.credit-person{margin-bottom:23px}
+.credit-person b{
+  display:block;
+  font-family:"Noto Serif KR",serif;
+  font-size:19px;
+  font-weight:500;
+}
+.credit-person span{
+  display:block;
+  margin-top:5px;
+  color:rgba(255,255,255,.38);
+  font-size:10.5px;
+}
+.credit-final{
+  margin:95px auto 0;
+  max-width:620px;
+  padding-top:30px;
+  border-top:1px solid rgba(255,255,255,.12);
+  font-family:"Noto Serif KR",serif;
+  font-size:20px;
+  line-height:2;
+  color:#f4f1ff;
+  text-shadow:0 0 22px rgba(184,170,255,.22);
+}
+
+.footer{
+  padding:50px 16px 80px;
+  text-align:center;
+  color:rgba(255,255,255,.28);
+}
+.footer .question{
+  margin-bottom:8px;
+  font-family:"Noto Serif KR",serif;
+  color:rgba(244,241,255,.62);
+  font-size:14px;
+  text-shadow:0 0 20px rgba(190,178,255,.18);
+}
+.footer small{font-family:"Marcellus",serif;letter-spacing:.20em}
+
+
+/* ---------- BGM / LP ---------- */
+.lp-control{
+  position:fixed;
+  top:18px;
+  right:18px;
+  z-index:10050;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:6px 10px 6px 6px;
+  border:1px solid rgba(255,255,255,.13);
+  border-radius:999px;
+  color:#fff;
+  background:rgba(5,7,15,.54);
+  backdrop-filter:blur(18px) saturate(135%);
+  -webkit-backdrop-filter:blur(18px) saturate(135%);
+  box-shadow:0 10px 32px rgba(0,0,0,.28);
+  cursor:pointer;
+  transition:background .25s ease,border-color .25s ease,transform .25s ease,top .35s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.lp-control:hover{
+  transform:translateY(-1px);
+  background:rgba(10,13,25,.72);
+  border-color:rgba(215,207,255,.25);
+}
+.lp-disc{
+  position:relative;
+  width:42px;
+  height:42px;
+  flex:0 0 42px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:
+    radial-gradient(circle at center,
+      #d8d0ff 0 8%,
+      #9187c8 9% 15%,
+      #141721 16% 23%,
+      #05060a 24% 35%,
+      #181b24 36% 39%,
+      #05060a 40% 52%,
+      #171922 53% 56%,
+      #05060a 57% 70%,
+      #151821 71% 74%,
+      #05060a 75% 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.12),
+    0 0 18px rgba(164,147,255,.16);
+}
+.lp-disc::before{
+  content:"";
+  position:absolute;
+  inset:3px;
+  border-radius:50%;
+  background:conic-gradient(
+    from 30deg,
+    transparent 0 18%,
+    rgba(255,255,255,.07) 19% 20%,
+    transparent 21% 48%,
+    rgba(255,255,255,.05) 49% 50%,
+    transparent 51% 100%
+  );
+}
+.lp-disc::after{
+  content:"";
+  position:absolute;
+  width:4px;
+  height:4px;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:0 0 7px rgba(255,255,255,.9);
+}
+.lp-label{
+  position:relative;
+  z-index:2;
+  margin-top:-1px;
+  color:rgba(255,255,255,.86);
+  font-family:"Marcellus",serif;
+  font-size:7px;
+  letter-spacing:.08em;
+  pointer-events:none;
+}
+.lp-control.playing .lp-disc{
+  animation:lpSpin 4.8s linear infinite;
+}
+.lp-info{
+  max-width:0;
+  opacity:0;
+  overflow:hidden;
+  white-space:nowrap;
+  text-align:left;
+  transition:max-width .32s ease,opacity .25s ease,margin .32s ease;
+}
+.lp-control:hover .lp-info,
+.lp-control:focus-visible .lp-info{
+  max-width:116px;
+  opacity:1;
+  margin-right:3px;
+}
+.lp-info b{
+  display:block;
+  font-family:"Noto Serif KR",serif;
+  font-size:10px;
+  font-weight:500;
+}
+.lp-info small{
+  display:block;
+  margin-top:2px;
+  color:rgba(255,255,255,.42);
+  font-family:"Marcellus",serif;
+  font-size:7px;
+  letter-spacing:.16em;
+}
+.lp-control.playing .lp-info small{color:rgba(194,186,255,.72)}
+@keyframes lpSpin{to{transform:rotate(360deg)}}
+
+body.intro-open .lp-control{
+  top:18px;
+  background:rgba(0,0,0,.38);
+}
+
+@media(max-width:680px){
+  .lp-control{
+    top:70px;
+    right:10px;
+    padding:5px;
+  }
+  body.intro-open .lp-control{top:12px}
+  .lp-disc{
+    width:38px;
+    height:38px;
+    flex-basis:38px;
+  }
+  .lp-info{display:none}
+}
+
+/* ---------- responsive ---------- */
+@media(max-width:940px){
+  .season-grid{grid-template-columns:repeat(2,1fr)}
+  .character-grid{grid-template-columns:repeat(2,1fr)}
+  .persona-zone{grid-template-columns:1fr}
+  .persona-machine{min-height:auto;padding:42px 20px}
+}
+@media(max-width:680px){
+  .nav-shell{padding:10px 9px}
+  .nav{padding:8px;border-radius:23px}
+  .brand-mini{display:none}
+  .nav-links{width:100%;display:grid;grid-template-columns:repeat(4,1fr)}
+  .nav-btn{padding:10px 4px;font-size:10.5px}
+  .page{width:min(100% - 20px,1140px)}
+  .hero{min-height:68vh;padding:64px 12px 80px}
+  .hero::before{width:72vw;box-shadow:0 0 0 35px rgba(255,255,255,.014),0 0 0 70px rgba(255,255,255,.009)}
+  .hero h1{font-size:52px}
+  .hero-quote{font-size:15px}
+  .panel{padding-top:20px}
+  .section-heading{display:block}
+  .section-heading p{text-align:left;margin-top:10px}
+  .intro-copy{border-radius:24px;padding:28px 18px}
+  .season-grid{grid-template-columns:1fr 1fr;gap:9px}
+  .season-card{min-height:154px;border-radius:22px;padding:18px}
+  .lore-grid{grid-template-columns:1fr}
+  .lore-card,.lore-card.full{grid-column:auto;border-radius:24px;padding:23px}
+  .character-grid{grid-template-columns:1fr;gap:12px}
+  .character-card{border-radius:26px;padding:22px 20px}
+  .character-desc{min-height:0}
+  .persona-machine,.persona-sheet{border-radius:26px}
+  .persona-sheet{padding:22px 18px}
+  .persona-row{grid-template-columns:84px 1fr;gap:9px}
+  .persona-top h3{font-size:26px}
+  .credits-window{height:540px;border-radius:26px}
+  .credit-roll{padding-top:560px}
+  .credit-main{font-size:32px}
+  .intro-question h1{font-size:25px;letter-spacing:.06em}
+  .intro-first-hint{font-size:10px;letter-spacing:.18em}
+}
+@media(max-width:420px){
+  .season-grid{grid-template-columns:1fr}
+  .season-card{min-height:135px}
+  .portrait-orbit{width:132px;height:132px}
+  .portrait{width:109px;height:109px}
+}
+
+/* accessibility */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms!important;
+    animation-iteration-count:1!important;
+    scroll-behavior:auto!important;
+  }
+  .credit-roll{transform:none!important;padding:70px 20px 130px}
+  .credits-window{height:auto;max-height:620px;overflow:auto}
+}
+</style>
+
+</head>
+
+<body class="intro-open">
+
+<div class="sky"></div>
+<div class="orb one"></div>
+<div class="orb two"></div>
+
+<!-- ==================== BGM ==================== -->
+
+<audio id="bgm" preload="auto" loop playsinline>
+  <source src="https://jinkwf.github.io/Paradise/%EB%B0%A4%EC%9D%98%20%EA%B6%A4%EB%8F%84.mp3" type="audio/mpeg">
+  <source src="https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/Paradise/%EB%B0%A4%EC%9D%98%20%EA%B6%A4%EB%8F%84.mp3" type="audio/mpeg">
+</audio>
+
+<button class="lp-control" id="lpControl" type="button"
+     aria-label="배경음악 밤의 궤도 재생 또는 일시정지"
+     title="밤의 궤도 · 재생/일시정지">
+<span class="lp-disc"><span class="lp-label">LP</span></span>
+<span class="lp-info">
+<b>밤의 궤도</b>
+<small id="lpStatus">READY</small>
+</span>
+</button>
+
+<!-- ==================== INTRO ==================== -->
+
+<section class="intro" id="intro" aria-label="순환천국 인트로">
+  <div class="intro-cover">
+    <img
+      src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/%EC%88%9C%ED%99%98%EC%B2%9C%EA%B5%AD.webp?raw=true"
+      alt="순환천국"
+      draggable="false">
+  </div>
+  <div class="intro-black"></div>
+  <div id="introStars"></div>
+
+  <div class="intro-first-hint">화면을 눌러 귀로를 따라가세요</div>
+
+  <div class="intro-question">
+    <div class="intro-question-inner">
+      <span class="tiny">THE POINT OF RETURN</span>
+      <h1>당신의 귀소점은 어디입니까?</h1>
+      <p>한 번 더 누르면 순환천국으로 들어갑니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SITE ==================== -->
+
+<div class="site" id="site">
+
+  <div class="nav-shell">
+    <nav class="nav">
+      <div class="brand-mini"><span class="mini-star">✦</span> 순환천국</div>
+      <div class="nav-links">
+        <button class="nav-btn active" data-panel="world">세계관</button>
+        <button class="nav-btn" data-panel="characters">등장인물</button>
+        <button class="nav-btn" data-panel="persona">페소추천</button>
+        <button class="nav-btn" data-panel="credits">크레딧</button>
+      </div>
+    </nav>
+  </div>
+
+  <main class="page">
+
+<header class="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">A MIGRATORY KINGDOM ABOVE THE SEAS</div>
+    <h1>순환천국</h1>
+    <div class="hanja">循 環 天 國</div>
+    <div class="hero-quote">
+      “당신은 나의 귀소점입니다.”<br>
+      아무리 멀리 떠나도 결국 당신 쪽으로 돌아오겠다는 약속.
+    </div>
+    <p class="hero-sub">
+      계절과 함께 나라가 이동하고, 모든 날개가 자신만의 귀환 방향을 품고 살아가는 곳.
+      떠남이 일상인 나라에서 가장 중요한 것은 결국 어디로 돌아가는가이다.
+    </p>
+  </div>
+</header>
+
+<!-- WORLD -->
+<section id="world" class="panel active">
+  <div class="section-heading">
+    <div>
+      <span class="section-kicker">01 · THE WORLD</span>
+      <h2>날개가 기억하는 나라</h2>
+    </div>
+    <p>조류 수인의 본능적 귀환 감각과 계절 순환을 중심으로 만들어진 이동국가.</p>
+  </div>
+
+  <div class="intro-copy">
+    <div class="ornament">✦ ⋅ ˚｡ ⋅ ✧ ⋅ ｡˚ ⋅ ✦</div>
+    <strong>계절이 바뀌면, 나라가 통째로 날아오른다.</strong>
+    <p>
+      다양한 조류 종족이 공존하며 종족마다 신체 특성, 이동 방식, 생활문화가 다르다.
+      성별과 종족에 관계없이 연애와 혼인이 자연스럽게 인정된다.
+      황궁, 시장, 학교, 주거지, 군사시설은 모두 거대한 이동섬 위에 존재한다.
+    </p>
+  </div>
+
+  <div class="season-grid">
+    <article class="season-card spring">
+      <div class="icon">🌸</div><b>봄 · 초익원</b>
+      <span>북쪽 꽃안개 군도</span><em>꽃안개 사이로 첫 순환이 시작된다.</em>
+    </article>
+    <article class="season-card summer">
+      <div class="icon">🌊</div><b>여름 · 청해진</b>
+      <span>동쪽 푸른 해역</span><em>수로와 공중 항로가 가장 활발해지는 계절.</em>
+    </article>
+    <article class="season-card autumn">
+      <div class="icon">🍂</div><b>가을 · 금림궁</b>
+      <span>서쪽 황금숲</span><em>수확과 저장, 다음 이동을 준비한다.</em>
+    </article>
+    <article class="season-card winter">
+      <div class="icon">🔥</div><b>겨울 · 온익성</b>
+      <span>남쪽 화산지대</span><em>뜨거운 지맥 위에서 마지막 계절을 보낸다.</em>
+    </article>
+  </div>
+
+  <div class="lore-grid">
+    <article class="lore-card" data-no="02">
+      <h3>귀로 <small>歸路</small></h3>
+      <p>
+        모든 조류 수인에게 태어날 때부터 존재하는 본능적 이동 감각.
+        별자리의 배치, 바람에 섞인 냄새, 발밑 지맥의 떨림을 통해 목적지를 감지한다.
+        어디로 가야 하는지, 몸이 먼저 알고 있다.
+      </p>
+    </article>
+
+    <article class="lore-card" data-no="03">
+      <h3>귀소점 <small>歸巢點</small></h3>
+      <p>
+        가장 돌아가고 싶은 장소, 물건, 가족, 연인, 사람.
+        서로를 귀소점으로 지정하는 의식을 ‘귀소 각인’이라 부른다.
+        성별도 종족도 상관없지만, 각인을 억지로 지우면 감정과 기억까지 함께 떨어져 나갈 수 있다.
+      </p>
+      <div class="quote">❝ 당신은 나의 귀소점입니다. ❞</div>
+    </article>
+
+    <article class="lore-card" data-no="04">
+      <h3>실향병 <small>失鄕病</small></h3>
+      <p>
+        귀로가 흐려지는 병. 익숙한 길에서 방향을 잃고 계절을 헷갈리며,
+        고향의 냄새와 가족의 목소리가 낯설어진다.
+        끝내 그 무엇도 귀소점으로 느끼지 못한 채 하늘을 떠돈다.
+        국가는 ‘순환을 거부한 탓’이라 발표했지만, 기록은 고쳐 쓸 수 있다는 사실을 내부의 사람들은 알고 있다.
+      </p>
+    </article>
+
+    <article class="lore-card" data-no="05">
+      <h3>잔류민 <small>殘留民</small></h3>
+      <p>
+        노인, 부상자, 텃새, 날지 못하는 종족, 이동을 거부한 사람들.
+        그들은 어디로 갈지 정하는 것은 날개가 아니라 자기 자신이라고 말한다.
+        후미단과 귀향청의 기록에서 그들의 선택은 때때로 ‘낙오’로 바뀌어 남는다.
+      </p>
+    </article>
+
+    <article class="lore-card full" data-no="06">
+      <h3>조류 종족과 역할 <small>SPECIES & LIFE</small></h3>
+      <p>
+        장거리 철새는 전령·길잡이·외교·원정을, 군집조는 통신·상업·정보 전달을,
+        맹금류는 호위·구조·군사를 담당한다. 야행성 조류는 밤의 항로를,
+        해조·수조류는 항구와 수로를, 텃새는 계절 거점과 건물·농지·창고를 관리한다.
+        펭귄·타조·에뮤·키위처럼 비행이 어려운 종족은 이동섬 내부 기관과 지상 운송을 맡는다.
+      </p>
+      <div class="species">
+        <span>기러기 · 제비 · 두루미 · 황새 · 알바트로스</span>
+        <span>참새 · 비둘기 · 찌르레기</span>
+        <span>매 · 독수리 · 솔개</span>
+        <span>올빼미 · 부엉이</span>
+        <span>갈매기 · 가마우지 · 백조 · 오리</span>
+        <span>까치 · 까마귀 · 딱따구리 · 닭 · 꿩</span>
+        <span>펭귄 · 타조 · 에뮤 · 키위</span>
+      </div>
+    </article>
+  </div>
+
+  <div class="intro-copy" style="margin-top:20px">
+    <div class="ornament">✦ ⋅ ˚｡ ⋅ ✧ ⋅ ｡˚ ⋅ ✦</div>
+    <strong>곧 계절이 바뀐다.</strong>
+    <p>
+      섬이 흔들리고, 행렬이 늘어서고, 수만 개의 날개가 같은 방향을 본다.<br>
+      <span style="color:#f4f1ff;font-family:'Noto Serif KR',serif;font-size:15px">당신의 귀소점은 어디입니까?</span>
+    </p>
+  </div>
+</section>
+
+<!-- CHARACTERS -->
+<section id="characters" class="panel">
+  <div class="section-heading">
+    <div>
+      <span class="section-kicker">02 · CHARACTERS</span>
+      <h2>순환 속의 사람들</h2>
+    </div>
+    <p>초상은 이중 원형 프레임으로 배치했습니다. 아직 이미지가 없는 인물은 ? 표기로 유지됩니다.</p>
+  </div>
+
+  <div class="character-grid">
+
+    <article class="character-card">
+      <div class="portrait-orbit"><div class="portrait">
+        <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/%EC%95%84%EB%8D%B8%EB%A6%AC%ED%8E%AD%EA%B7%84.webp?raw=true" alt="아델">
+      </div></div>
+      <h3 class="character-name">아델</h3>
+      <div class="character-role">32 · 아델리펭귄 · 후미단 제3기관실</div>
+      <p class="character-desc">180cm. 흑발, 웃는 인상, 근육질. 문란하고 난폭한 성격. 잠수에 능하며 주머니에 돌을 넣고 다닌다. 반말을 사용한다.</p>
+      <div class="character-tags">ADELE · REAR GUARD ENGINE ROOM</div>
+    </article>
+
+    <article class="character-card">
+      <div class="portrait-orbit"><div class="portrait">?</div></div>
+      <h3 class="character-name">진휘령</h3>
+      <div class="character-role">29 · 독수리 · 순환천국 장례 명가 장남</div>
+      <p class="character-desc">190cm. 갈발·갈안. 무심한 듯 다정하고 한 사람에게 깊게 마음을 두는 순애형. 차분한 존댓말을 사용한다.</p>
+      <div class="character-tags">JIN HWIRYEONG · EAGLE</div>
+    </article>
+
+    <article class="character-card">
+      <div class="portrait-orbit"><div class="portrait">
+        <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/%EC%86%A1%EA%B3%A8%EB%A7%A4.webp?raw=true" alt="알샤인">
+      </div></div>
+      <h3 class="character-name">알샤인</h3>
+      <div class="character-role">23 · 송골매 · 공중기사단 후미구조대</div>
+      <p class="character-desc">189cm. 갈발·백색 브릿지·금안·잿빛 날개. 무심하고 덤덤하며 자신의 비행 속도에 강한 자부심을 가진다.</p>
+      <div class="character-tags">ALSHAIN · PEREGRINE FALCON</div>
+    </article>
+
+    <article class="character-card">
+      <div class="portrait-orbit"><div class="portrait">?</div></div>
+      <h3 class="character-name">이안</h3>
+      <div class="character-role">26 · 참새 · 길잡이·정보상</div>
+      <p class="character-desc">176cm. 갈발·갈안·작은 날개. 귀소점 없음. 밝은 반말을 사용하고 미아를 그냥 지나치지 못한다. 대식가.</p>
+      <div class="character-tags">IAN · SPARROW</div>
+    </article>
+
+    <article class="character-card">
+      <div class="portrait-orbit"><div class="portrait">?</div></div>
+      <h3 class="character-name">백유현</h3>
+      <div class="character-role">32 · 긴꼬리딱새 · 천로원 측로안내관</div>
+      <p class="character-desc">187cm. 청흑발·백색 브릿지·벽안·긴 꼬리깃. 차분하고 부드러운 존댓말을 사용하며 측로와 우회 항로에 밝다.</p>
+      <div class="character-tags">BAEK YUHYEON · PARADISE FLYCATCHER</div>
+    </article>
+
+    <article class="character-card">
+      <div class="portrait-orbit"><div class="portrait">
+        <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/%ED%9D%91%EC%A1%B0.webp?raw=true" alt="리엔">
+      </div></div>
+      <h3 class="character-name">리엔</h3>
+      <div class="character-role">27 · 백조×흑조 혼혈 · 귀향청 귀로기록관</div>
+      <p class="character-desc">191cm. 흑발·적안. 사생아 출신. 기록 조작에 관여하며 귀소 각인을 거부한다. 귀소점 없음. 나른한 반말을 사용한다.</p>
+      <div class="character-tags">LIEN · SWAN HYBRID</div>
+    </article>
+
+    <article class="character-card">
+      <div class="portrait-orbit"><div class="portrait">?</div></div>
+      <h3 class="character-name">황유하</h3>
+      <div class="character-role">26 · 코카투앵무 · 유랑가수</div>
+      <p class="character-desc">186cm. 백발·노란 레이어드·흑안. 능글맞고 플러팅이 잦다. 장난과 달리 진심을 말할 때는 크레스트가 선다.</p>
+      <div class="character-tags">HWANG YUHA · COCKATOO</div>
+    </article>
+
+    <article class="character-card">
+      <div class="portrait-orbit"><div class="portrait">
+        <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/%EB%91%90%EB%A3%A8%EB%AF%B8.webp?raw=true" alt="에론">
+      </div></div>
+      <h3 class="character-name">에론</h3>
+      <div class="character-role">37 · 두루미 · 선도익</div>
+      <p class="character-desc">193cm. 흑발·붉은 앞머리·회안. 침착하고 절제되어 있으며 주변의 신뢰가 두텁다. 아들 에이븐이 있다.</p>
+      <div class="character-tags">ERON · CRANE</div>
+    </article>
+
+    <article class="character-card">
+      <div class="portrait-orbit"><div class="portrait">?</div></div>
+      <h3 class="character-name">류이내</h3>
+      <div class="character-role">24 · 부엉이 · 경비대 야간항로 담당</div>
+      <p class="character-desc">187cm. 고동발·갈안. 냉정한 원칙주의자. 야간 항로를 담당하며 겉으로 드러내지 않는 문란한 본능을 숨기고 있다.</p>
+      <div class="character-tags">RYU INAE · OWL</div>
+    </article>
+
+    <article class="character-card">
+      <div class="portrait-orbit"><div class="portrait">
+        <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/%EA%B8%88%ED%99%94%EC%A1%B0.webp?raw=true" alt="니코">
+      </div></div>
+      <h3 class="character-name">니코</h3>
+      <div class="character-role">20 · 금화조 · 공동육아시설 보조</div>
+      <p class="character-desc">178cm. 회색머리·주황 브릿지·흑안·눈밑점. 평소에는 어리광 많고 허당이지만 위기가 오면 놀랄 만큼 단단하고 강단 있게 변한다.</p>
+      <div class="character-tags">NICO · ZEBRA FINCH</div>
+    </article>
+
+    <article class="character-card">
+      <div class="portrait-orbit"><div class="portrait">?</div></div>
+      <h3 class="character-name">백서우</h3>
+      <div class="character-role">38 · 공작새 · 범죄조직 ‘잔익’ 보스</div>
+      <p class="character-desc">190cm. 긴 백발·적안·근육질. 공적인 자리에서는 냉정한 존댓말을 사용하지만 사적으로는 느긋하고 능글맞다.</p>
+      <div class="character-tags">BAEK SEOWOO · PEACOCK</div>
+    </article>
+
+    <article class="character-card">
+      <div class="portrait-orbit"><div class="portrait">
+        <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/Paradise/%EA%B9%8C%EB%A7%88%EA%B7%80.webp?raw=true" alt="카시엔">
+      </div></div>
+      <h3 class="character-name">카시엔</h3>
+      <div class="character-role">27 · 까마귀 · 후미단 보호관</div>
+      <p class="character-desc">186cm. 검은 생머리·회색 눈·검은 날개. 낙오자를 후미진으로 데려가 보호하고 다룬다. 문란하고 나른하며 능글맞은 반말을 사용한다.</p>
+      <div class="character-tags">CASSIEN · CROW</div>
+    </article>
+
+  </div>
+</section>
+
+<!-- PERSONA -->
+<section id="persona" class="panel">
+  <div class="section-heading">
+    <div>
+      <span class="section-kicker">03 · PERSONA</span>
+      <h2>당신의 날개를 배정합니다</h2>
+    </div>
+    <p>주사위를 누를 때마다 이름·종족·귀로·귀소점까지 새로운 조합으로 바뀝니다. 횟수 제한은 없습니다.</p>
+  </div>
+
+  <div class="persona-zone">
+    <div class="persona-machine">
+      <div class="persona-caption">PERSONA</div>
+      <div class="persona-box">?</div>
+      <button class="dice" id="diceBtn" type="button" aria-label="페르소나 랜덤 생성">⚄</button>
+      <div class="dice-note">주사위를 눌러<br>새로운 귀로 기록을 생성합니다.</div>
+    </div>
+
+    <div class="persona-sheet" aria-live="polite">
+      <div class="persona-top">
+        <h3 id="pName">미배정</h3>
+        <span id="pSpecies">기록 대기</span>
+      </div>
+      <div class="persona-row"><b>성격</b><span id="pPersonality">—</span></div>
+      <div class="persona-row"><b>외형</b><span id="pAppearance">—</span></div>
+      <div class="persona-row"><b>귀로</b><span id="pRoute">—</span></div>
+      <div class="persona-row"><b>귀소점</b><span id="pHomePoint">—</span></div>
+      <div class="persona-row"><b>실향병 여부</b><span id="pLost">—</span></div>
+      <div class="persona-row"><b>잔류민 여부</b><span id="pRemain">—</span></div>
+      <div class="persona-row"><b>고향</b><span id="pOrigin">—</span></div>
+      <div class="persona-row"><b>특징</b><span id="pFeature">—</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CREDITS -->
+<section id="credits" class="panel">
+  <div class="section-heading">
+    <div>
+      <span class="section-kicker">04 · CREDITS</span>
+      <h2>모든 날개의 기록자</h2>
+    </div>
+    <p>마우스를 올리거나 화면을 터치하는 동안 잠시 멈춰 천천히 읽을 수 있습니다.</p>
+  </div>
+
+  <div class="credits-window">
+    <div class="credit-roll">
+      <div class="credit-main">«순환천국»</div>
+      <div class="credit-small">THE CYCLE OF RETURN</div>
+
+      <div class="credit-person"><b>카시엔</b><span>@yunhari_</span></div>
+      <div class="credit-person"><b>에론</b><span>@yeoning</span></div>
+      <div class="credit-person"><b>니코</b><span>@Jin_K</span></div>
+      <div class="credit-person"><b>알샤인</b><span>@Pi_12dium</span></div>
+      <div class="credit-person"><b>류이내</b><span>@Zrmi52</span></div>
+      <div class="credit-person"><b>백서우</b><span>@Buring_</span></div>
+      <div class="credit-person"><b>황유하</b><span>@Dae_Bang_Uh</span></div>
+      <div class="credit-person"><b>백유현</b><span>@Cheong</span></div>
+      <div class="credit-person"><b>리엔</b><span>@yunhari_</span></div>
+      <div class="credit-person"><b>이안</b><span>@EungKi</span></div>
+      <div class="credit-person"><b>아델</b><span>@mmd</span></div>
+      <div class="credit-person"><b>진휘령</b><span>@Ya_m_a_a_m</span></div>
+
+      <div class="credit-final">
+        「모든 날개는 언젠가<br>
+        자신이 돌아갈 곳을 기억한다」
+      </div>
+    </div>
+  </div>
+</section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="question">당신의 귀소점은 어디입니까?</div>
+    <small>循環天國 · THE CYCLE OF RETURN</small>
+  </footer>
+</div>
+
+<script>
+
+/* =========================
+   BGM · 밤의 궤도
+========================= */
+const bgm=document.getElementById("bgm");
+const lpControl=document.getElementById("lpControl");
+const lpStatus=document.getElementById("lpStatus");
+let bgmUserPaused=false;
+
+bgm.volume=.42;
+
+function updateLP(){
+  const playing=!bgm.paused && !bgm.ended;
+  lpControl.classList.toggle("playing",playing);
+  lpStatus.textContent=playing ? "PLAYING" : (bgmUserPaused ? "PAUSED" : "READY");
+  lpControl.setAttribute(
+    "aria-label",
+    playing ? "배경음악 밤의 궤도 일시정지" : "배경음악 밤의 궤도 재생"
+  );
+}
+
+async function startBGM(){
+  if(bgmUserPaused) return;
+  try{
+    await bgm.play();
+  }catch(err){
+    // 대부분의 모바일/브라우저는 사용자 동작 전 자동재생을 차단합니다.
+    // 첫 클릭/터치 시 아래 전역 pointerdown 핸들러가 즉시 다시 재생을 시도합니다.
+  }
+  updateLP();
+}
+
+// 페이지 진입 시 자동재생 우선 시도
+window.addEventListener("load",()=>{
+  startBGM();
+},{once:true});
+
+// 자동재생이 차단된 경우 첫 클릭/터치와 동시에 재생
+document.addEventListener("pointerdown",(e)=>{
+  if(e.target.closest("#lpControl")) return;
+  if(!bgmUserPaused && bgm.paused) startBGM();
+},{passive:true});
+
+lpControl.addEventListener("pointerdown",(e)=>e.stopPropagation());
+lpControl.addEventListener("click",(e)=>{
+  e.stopPropagation();
+  if(bgm.paused){
+    bgmUserPaused=false;
+    startBGM();
+  }else{
+    bgmUserPaused=true;
+    bgm.pause();
+    updateLP();
+  }
+});
+
+bgm.addEventListener("play",updateLP);
+bgm.addEventListener("pause",updateLP);
+bgm.addEventListener("ended",updateLP);
+
+
+/* =========================
+   INTRO
+========================= */
+const intro = document.getElementById('intro');
+const site = document.getElementById('site');
+const introStars = document.getElementById('introStars');
+let introStage = 0;
+let enterTimer = null;
+
+// 별가루
+const starCount = window.innerWidth < 700 ? 42 : 76;
+for(let i=0;i<starCount;i++){
+  const s=document.createElement('i');
+  s.className='intro-star';
+  const size=(Math.random()*2.2+1).toFixed(2);
+  s.style.width=size+'px';
+  s.style.height=size+'px';
+  s.style.left=(Math.random()*100)+'%';
+  s.style.top=(Math.random()*100)+'%';
+  s.style.setProperty('--dur',(2.1+Math.random()*3.7)+'s');
+  s.style.setProperty('--delay',(-Math.random()*5)+'s');
+  introStars.appendChild(s);
+}
+
+function enterSite(){
+  if(introStage===2) return;
+  introStage=2;
+  clearTimeout(enterTimer);
+  intro.classList.add('hide');
+  site.classList.add('ready');
+  document.body.classList.remove('intro-open');
+  setTimeout(()=>{ intro.style.display='none'; },1100);
+}
+
+intro.addEventListener('click',()=>{
+  if(!bgmUserPaused && bgm.paused) startBGM();
+  if(introStage===0){
+    introStage=1;
+    intro.classList.add('question-stage');
+    enterTimer=setTimeout(enterSite,4600);
+  }else if(introStage===1){
+    enterSite();
+  }
+});
+
+// 마우스 / 터치 별무리 트레일
+let lastTrail=0;
+function spawnTrail(x,y,count=1){
+  const now=performance.now();
+  if(now-lastTrail<28 && count===1) return;
+  lastTrail=now;
+
+  for(let i=0;i<count;i++){
+    const star=document.createElement('span');
+    star.className='trail-star';
+    const jitter=14;
+    star.style.left=(x+(Math.random()-.5)*jitter)+'px';
+    star.style.top=(y+(Math.random()-.5)*jitter)+'px';
+    star.style.setProperty('--dx',((Math.random()-.5)*34)+'px');
+    star.style.setProperty('--dy',((Math.random()-.5)*34)+'px');
+    const scale=.55+Math.random()*.9;
+    star.style.transform=`scale(${scale}) rotate(${Math.random()*45}deg)`;
+    document.body.appendChild(star);
+    setTimeout(()=>star.remove(),800);
+  }
+}
+window.addEventListener('pointermove',e=>{
+  if(e.pointerType==='mouse') spawnTrail(e.clientX,e.clientY,Math.random()>.7?2:1);
+},{passive:true});
+window.addEventListener('pointerdown',e=>{
+  if(e.pointerType!=='mouse') spawnTrail(e.clientX,e.clientY,5);
+},{passive:true});
+
+
+/* =========================
+   NAV
+========================= */
+const navButtons=document.querySelectorAll('.nav-btn');
+const panels=document.querySelectorAll('.panel');
+
+navButtons.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    navButtons.forEach(b=>b.classList.remove('active'));
+    panels.forEach(p=>p.classList.remove('active'));
+
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.panel).classList.add('active');
+
+    const navHeight=document.querySelector('.nav-shell').offsetHeight;
+    const target=document.querySelector('.hero').offsetHeight;
+    window.scrollTo({top:Math.max(0,target-navHeight-12),behavior:'smooth'});
+  });
+});
+
+
+/* =========================
+   PERSONA RANDOMIZER
+========================= */
+const names=[
+  "윤해온","서라진","한유익","차은결","문해류","정하람","백연수","류시우",
+  "남윤슬","도이경","하진명","주세온","이로하","권유현","진서란","채아린",
+  "에일","루시안","세렌","하엘","레온","아르엔","리오","네아","카엘","엘린"
+];
+
+const species=[
+  {name:"기러기 수인",route:"장거리 귀로형. 북두칠성과 고층 기류를 동시에 읽으며 먼 항로에서도 방향 오차가 적다.",trait:"장거리 이동 뒤에는 반드시 동료의 수를 다시 센다."},
+  {name:"제비 수인",route:"풍향 귀로형. 처마와 골목을 통과한 바람의 냄새를 기억해 도시 안의 길을 찾는다.",trait:"새 수도에 도착하면 가장 먼저 처마 아래 둥지 자리를 확인한다."},
+  {name:"두루미 수인",route:"지맥 귀로형. 발끝으로 이동섬의 떨림과 지상 지맥을 읽어 항로를 보정한다.",trait:"한 번 정한 행렬 위치를 좀처럼 바꾸지 않는다."},
+  {name:"알바트로스 수인",route:"해류 귀로형. 염분, 기압, 파도의 장주기를 감지해 바다 위 장거리 항로를 찾는다.",trait:"땅에 너무 오래 머물면 오히려 불안해진다."},
+  {name:"참새 수인",route:"군집 귀로형. 익숙한 사람의 목소리와 생활 소음이 방향 감각의 기준점이 된다.",trait:"시장 골목과 지붕길을 지도 없이 외운다."},
+  {name:"비둘기 수인",route:"자기장 귀로형. 이동섬의 금속 구조물과 지자기 변화를 민감하게 감지한다.",trait:"어디를 가든 자신만 알아볼 수 있는 귀환 표식을 남긴다."},
+  {name:"송골매 수인",route:"시야 귀로형. 지평선의 윤곽과 햇빛 각도를 이용해 가장 짧은 귀환선을 계산한다.",trait:"속도를 줄이는 것을 답답해하지만 구조 신호에는 반드시 반응한다."},
+  {name:"독수리 수인",route:"고도 귀로형. 상승기류와 산맥, 구름층의 높낮이를 기준으로 방향을 잡는다.",trait:"높은 곳에서 주변을 한 번 훑어야 마음이 놓인다."},
+  {name:"부엉이 수인",route:"성도 귀로형. 별자리와 달빛의 밝기 차이를 이용해 야간 항로를 읽는다.",trait:"낮보다 밤에 말수가 늘고 방향 감각도 또렷해진다."},
+  {name:"가마우지 수인",route:"수맥 귀로형. 물의 냄새와 수온, 흐름을 따라 항구와 해상 거점을 찾아간다.",trait:"중요한 물건을 작은 방수 주머니 여러 개에 나누어 보관한다."},
+  {name:"백조 수인",route:"수면 귀로형. 물결의 반사광과 수로의 진동을 이용해 귀환 방향을 감지한다.",trait:"귀환 전에는 반드시 깃을 정돈하는 개인 의식이 있다."},
+  {name:"까마귀 수인",route:"기억 귀로형. 풍경과 사물의 배열을 세밀하게 기억해 역순으로 길을 되짚는다.",trait:"쓸모없어 보이는 작은 물건도 귀환 표식으로 수집한다."},
+  {name:"딱따구리 수인",route:"진동 귀로형. 목재와 지반을 두드려 울림의 차이로 구조와 방향을 읽는다.",trait:"벽과 난간을 손끝으로 가볍게 두드리는 버릇이 있다."},
+  {name:"아델리펭귄 수인",route:"지상 귀로형. 발바닥으로 이동섬 기관부의 진동과 온도 차이를 읽는다.",trait:"매끈하거나 반짝이는 돌을 행운물처럼 모은다."},
+  {name:"키위 수인",route:"후각 귀로형. 흙, 뿌리, 비 냄새를 층별로 구분해 지상 경로를 찾는다.",trait:"어두운 창고와 지하 통로의 구조를 누구보다 빨리 익힌다."}
+];
+
+const personalities=[
+  "다정하지만 낯을 많이 가린다. 한 번 신뢰한 사람에게는 놀랄 만큼 오래 마음을 준다.",
+  "말이 빠르고 호기심이 많다. 새로운 길을 발견하면 위험보다 궁금증이 먼저 앞선다.",
+  "원칙적이고 신중하다. 약속 시간과 귀환 약속을 어기는 일을 가장 싫어한다.",
+  "능글맞고 사교적이지만 정말 중요한 감정은 농담 뒤에 숨긴다.",
+  "무뚝뚝하고 행동이 먼저다. 부탁받기 전에 필요한 일을 처리해 두는 편이다.",
+  "평소에는 겁이 많아 보이지만 위기 상황에서는 오히려 판단이 선명해진다.",
+  "독립심이 강하고 간섭을 싫어한다. 대신 자신이 고른 사람에게는 집요할 정도로 책임진다.",
+  "느긋하고 낙천적이다. 길을 잃어도 일단 식사할 곳부터 찾는다.",
+  "말수가 적고 관찰력이 좋다. 사람의 습관과 이동 경로를 유난히 잘 기억한다.",
+  "자존심과 경쟁심이 강하다. 특히 비행과 길찾기 승부에는 쉽게 물러서지 않는다."
+];
+
+const appearances=[
+  "청흑색 단발, 회색 눈, 끝이 은빛으로 바랜 날개깃. 손목에 오래된 항로끈을 감고 있다.",
+  "옅은 갈발, 금빛 눈, 햇빛 아래 푸른 광택이 도는 날개. 웃을 때 송곳니가 살짝 보인다.",
+  "백발에 짙은 남색 브릿지, 검은 눈. 체구는 날렵하고 꼬리깃이 유난히 길다.",
+  "짙은 적갈색 머리, 호박색 눈. 넓은 어깨와 단단한 하체, 날개 끝에 오래 비행한 흔적이 남아 있다.",
+  "은회색 곱슬머리, 청안. 작은 귀깃이 감정에 따라 움직이며 목에 황동 나침반을 걸고 있다.",
+  "검은 생머리, 녹회색 눈. 한쪽 날개에 오래된 구조 흉터가 있고 늘 장갑을 착용한다.",
+  "연한 금발, 갈안. 크고 둥근 눈과 부드러운 깃, 계절마다 다른 스카프를 맨다.",
+  "짧은 백금발, 적안. 다리 근육이 발달했으며 비행 대신 지상 이동용 부츠를 즐겨 신는다.",
+  "갈색 장발, 벽안. 날개 안쪽에 작은 별 모양 반점이 흩어져 있다.",
+  "먹색 머리, 황금색 눈. 깃털 가장자리가 검붉고 표정 변화가 적다."
+];
+
+const homePoints=[
+  "봄 수도 초익원의 오래된 종탑",
+  "청해진 외항의 작은 수상가옥",
+  "금림궁 서쪽 창고에 보관된 낡은 여행가방",
+  "온익성 지하 기관실의 따뜻한 배관 옆",
+  "어릴 때부터 함께 자란 형제",
+  "공동육아시설에서 자신을 키워 준 보육관",
+  "행렬이 출발할 때마다 마지막까지 손을 흔드는 연인",
+  "잃어버린 줄 알았던 어머니의 깃장식",
+  "이동 때마다 같은 자리에 있는 시장의 작은 국수집",
+  "아직 귀소점이라고 부르지 못한 어떤 사람",
+  "없음. 무엇을 떠올려도 귀로가 한 방향으로 기울지 않는다.",
+  "본인이 직접 수리한 소형 지상 운송차"
+];
+
+const lostStatuses=[
+  "없음 · 귀로 감각 정상",
+  "없음 · 장거리 이동 직후 일시적 혼선만 나타남",
+  "의심 · 특정 계절의 냄새를 구분하지 못하는 초기 징후",
+  "초기 · 익숙한 골목에서 방향을 잃은 기록이 있음",
+  "과거 병력 · 귀향청 치료기록 이후 현재 안정",
+  "비공식 관찰 대상 · 본인은 실향병 판정을 거부 중"
+];
+
+const remainStatuses=[
+  "아니오 · 국가 순환 행렬에 정기 참여",
+  "아니오 · 직무상 계절 이동 필수",
+  "예 · 자발적 잔류민. ‘이동하지 않을 권리’를 주장한다.",
+  "예 · 비행 부상 이후 계절 거점에 정착",
+  "조건부 · 겨울 순환만 거부하고 다른 계절에는 합류",
+  "미정 · 다음 계절을 앞두고 잔류 신청서를 보관 중"
+];
+
+const origins=[
+  "초익원 외곽 꽃안개 제3섬",
+  "청해진 동부 수로지구",
+  "금림궁 황금숲 북문 거점",
+  "온익성 남부 화산기슭 잔류촌",
+  "이동섬 하부 기관구역",
+  "북쪽 꽃안개 군도 잔류지",
+  "동쪽 푸른 해역의 작은 항구섬",
+  "서쪽 황금숲 장기 거점",
+  "순환 행렬 도중 태어나 출생지를 특정하기 어려움",
+  "귀향청 보호시설 출신"
+];
+
+const features=[
+  "계절이 바뀌기 하루 전이면 무의식적으로 짐을 싸기 시작한다.",
+  "타인의 귀소점을 묻는 일을 매우 사적인 질문으로 여긴다.",
+  "길 잃은 아이를 발견하면 원래 목적지를 미루고라도 보호소까지 데려간다.",
+  "귀소 각인을 믿지 않는다고 말하면서 관련 의식 기록은 몰래 모은다.",
+  "비행 전 반드시 주머니 속 작은 돌 세 개를 확인한다.",
+  "실향병 환자의 길찾기를 도우며 비공식 귀환 표식을 만들어 준다.",
+  "낯선 도시에서도 음식 냄새만으로 시장 중심부를 찾아낸다.",
+  "자신의 고향보다 특정 인물의 목소리에 귀로가 더 강하게 반응한다.",
+  "귀향청의 공식 항로보다 오래된 잔류민의 길을 더 신뢰한다.",
+  "매 계절 마지막 날에 이전 수도의 작은 물건 하나를 챙긴다."
+];
+
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const el=id=>document.getElementById(id);
+const faces=["⚀","⚁","⚂","⚃","⚄","⚅"];
+let lastSignature="";
+
+function generatePersona(){
+  let sp,name,home,signature;
+  do{
+    sp=pick(species);
+    name=pick(names);
+    home=pick(homePoints);
+    signature=name+sp.name+home;
+  }while(signature===lastSignature);
+  lastSignature=signature;
+
+  el("pName").textContent=name;
+  el("pSpecies").textContent=sp.name;
+  el("pPersonality").textContent=pick(personalities);
+  el("pAppearance").textContent=pick(appearances);
+  el("pRoute").textContent=sp.route;
+  el("pHomePoint").textContent=home;
+  el("pLost").textContent=pick(lostStatuses);
+  el("pRemain").textContent=pick(remainStatuses);
+  el("pOrigin").textContent=pick(origins);
+  el("pFeature").textContent=sp.trait+" "+pick(features);
+
+  const dice=el("diceBtn");
+  dice.textContent=pick(faces);
+  dice.animate(
+    [
+      {transform:"rotate(0deg) scale(1)"},
+      {transform:"rotate(180deg) scale(.83)"},
+      {transform:"rotate(390deg) scale(1)"}
+    ],
+    {duration:420,easing:"cubic-bezier(.2,.8,.2,1)"}
+  );
+}
+el("diceBtn").addEventListener("click",generatePersona);
+
+// 크레딧 모바일 터치 시 잠시 멈춤
+const creditRoll=document.querySelector(".credit-roll");
+const creditWindow=document.querySelector(".credits-window");
+creditWindow.addEventListener("touchstart",()=>creditRoll.style.animationPlayState="paused",{passive:true});
+creditWindow.addEventListener("touchend",()=>creditRoll.style.animationPlayState="running",{passive:true});
+</script>
+
+</body>
+</html>
