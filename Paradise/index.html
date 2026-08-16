@@ -1015,6 +1015,204 @@ a{color:inherit}
   }
 }
 
+
+/* ---------- Credits atmosphere ---------- */
+.credits-window{
+  isolation:isolate;
+}
+
+.credits-stars,
+.credits-birds{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  overflow:hidden;
+  pointer-events:none;
+}
+
+.credit-roll{
+  position:relative;
+  z-index:2;
+}
+
+.credit-star{
+  position:absolute;
+  width:2px;
+  height:2px;
+  border-radius:50%;
+  background:#fff;
+  opacity:.12;
+  box-shadow:
+    0 0 5px rgba(255,255,255,.95),
+    0 0 12px rgba(184,198,255,.65),
+    0 0 20px rgba(163,140,255,.28);
+  animation:creditStarTwinkle var(--starDur) ease-in-out infinite var(--starDelay);
+}
+
+.credit-star.big{
+  width:3px;
+  height:3px;
+}
+
+.credit-star.cross::before,
+.credit-star.cross::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  background:rgba(255,255,255,.72);
+  border-radius:999px;
+}
+.credit-star.cross::before{width:13px;height:1px}
+.credit-star.cross::after{width:1px;height:13px}
+
+@keyframes creditStarTwinkle{
+  0%,100%{
+    opacity:.05;
+    transform:scale(.55);
+  }
+  35%{
+    opacity:.5;
+  }
+  52%{
+    opacity:1;
+    transform:scale(1.55);
+  }
+  68%{
+    opacity:.34;
+  }
+}
+
+.bird-flock{
+  position:absolute;
+  left:-16%;
+  top:var(--birdTop);
+  width:130px;
+  height:50px;
+  opacity:0;
+  transform:translateX(0) scale(var(--birdScale));
+  animation:birdFlockFly var(--birdDur) linear infinite var(--birdDelay);
+  filter:drop-shadow(0 0 8px rgba(180,176,230,.08));
+}
+
+.bird-flock.reverse{
+  left:auto;
+  right:-16%;
+  transform:translateX(0) scaleX(-1) scale(var(--birdScale));
+  animation-name:birdFlockFlyReverse;
+}
+
+.bird{
+  position:absolute;
+  width:18px;
+  height:10px;
+  opacity:.42;
+  animation:birdWing 1.05s ease-in-out infinite alternate;
+}
+.bird::before,
+.bird::after{
+  content:"";
+  position:absolute;
+  top:4px;
+  width:10px;
+  height:5px;
+  border-top:1.5px solid rgba(226,228,246,.86);
+}
+.bird::before{
+  left:0;
+  border-radius:90% 20% 0 0;
+  transform:rotate(14deg);
+  transform-origin:right center;
+}
+.bird::after{
+  right:0;
+  border-radius:20% 90% 0 0;
+  transform:rotate(-14deg);
+  transform-origin:left center;
+}
+.bird:nth-child(2){left:27px;top:13px;transform:scale(.82);animation-delay:-.22s}
+.bird:nth-child(3){left:52px;top:1px;transform:scale(.64);animation-delay:-.47s}
+.bird:nth-child(4){left:77px;top:19px;transform:scale(.72);animation-delay:-.13s}
+.bird:nth-child(5){left:103px;top:7px;transform:scale(.5);animation-delay:-.63s}
+
+@keyframes birdWing{
+  from{margin-top:-1px;filter:brightness(.75)}
+  to{margin-top:2px;filter:brightness(1.2)}
+}
+
+@keyframes birdFlockFly{
+  0%{
+    opacity:0;
+    transform:translateX(0) translateY(7px) scale(var(--birdScale));
+  }
+  8%{opacity:.42}
+  45%{
+    opacity:.5;
+    transform:translateX(58vw) translateY(-13px) scale(var(--birdScale));
+  }
+  92%{opacity:.25}
+  100%{
+    opacity:0;
+    transform:translateX(125vw) translateY(5px) scale(var(--birdScale));
+  }
+}
+
+@keyframes birdFlockFlyReverse{
+  0%{
+    opacity:0;
+    transform:translateX(0) translateY(-4px) scaleX(-1) scale(var(--birdScale));
+  }
+  8%{opacity:.35}
+  48%{
+    opacity:.46;
+    transform:translateX(-58vw) translateY(15px) scaleX(-1) scale(var(--birdScale));
+  }
+  92%{opacity:.2}
+  100%{
+    opacity:0;
+    transform:translateX(-125vw) translateY(-8px) scaleX(-1) scale(var(--birdScale));
+  }
+}
+
+.credits-dust{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 28% 35%,rgba(166,146,255,.08),transparent 23%),
+    radial-gradient(circle at 74% 66%,rgba(111,190,221,.055),transparent 26%);
+  mix-blend-mode:screen;
+  animation:creditsDustDrift 12s ease-in-out infinite alternate;
+}
+
+@keyframes creditsDustDrift{
+  from{transform:translate3d(-1.5%,1%,0) scale(1)}
+  to{transform:translate3d(2%,-1.5%,0) scale(1.04)}
+}
+
+@media(max-width:680px){
+  .credit-star:nth-child(n+35){
+    display:none;
+  }
+  .bird-flock{
+    width:100px;
+    opacity:.8;
+  }
+  .bird:nth-child(5){
+    display:none;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .credits-stars,
+  .credits-birds,
+  .credits-dust{
+    display:none;
+  }
+}
+
 /* ---------- credits ---------- */
 .credits-window{
   height:620px;
@@ -1041,7 +1239,7 @@ a{color:inherit}
 .credit-roll{
   text-align:center;
   padding:650px 20px 280px;
-  animation:creditRoll 38s linear infinite;
+  animation:creditRoll 10s linear infinite;
 }
 .credits-window:hover .credit-roll{animation-play-state:paused}
 @keyframes creditRoll{
@@ -1836,6 +2034,19 @@ body.intro-open .lp-control{
       </div>
 
       <div class="credits-window">
+        <div class="credits-dust"></div>
+        <div class="credits-stars" id="creditsStars"></div>
+        <div class="credits-birds" aria-hidden="true">
+          <div class="bird-flock" style="--birdTop:18%;--birdDur:17s;--birdDelay:-2s;--birdScale:.95">
+            <i class="bird"></i><i class="bird"></i><i class="bird"></i><i class="bird"></i><i class="bird"></i>
+          </div>
+          <div class="bird-flock reverse" style="--birdTop:43%;--birdDur:21s;--birdDelay:-9s;--birdScale:.72">
+            <i class="bird"></i><i class="bird"></i><i class="bird"></i><i class="bird"></i><i class="bird"></i>
+          </div>
+          <div class="bird-flock" style="--birdTop:72%;--birdDur:24s;--birdDelay:-14s;--birdScale:.56">
+            <i class="bird"></i><i class="bird"></i><i class="bird"></i><i class="bird"></i><i class="bird"></i>
+          </div>
+        </div>
         <div class="credit-roll">
           <div class="credit-main">«순환천국»</div>
           <div class="credit-small">THE CYCLE OF RETURN</div>
@@ -2328,6 +2539,32 @@ async function copyPersonaResult(){
 }
 
 personaCopyBtn.addEventListener("click",copyPersonaResult);
+
+
+
+/* =========================
+   CREDITS · star field
+========================= */
+const creditsStars=document.getElementById("creditsStars");
+
+if(creditsStars){
+  const creditStarCount=window.innerWidth<700 ? 34 : 62;
+
+  for(let i=0;i<creditStarCount;i++){
+    const s=document.createElement("i");
+    s.className="credit-star";
+
+    if(Math.random()>.78) s.classList.add("cross");
+    if(Math.random()>.86) s.classList.add("big");
+
+    s.style.left=(4+Math.random()*92)+"%";
+    s.style.top=(3+Math.random()*94)+"%";
+    s.style.setProperty("--starDur",(2.2+Math.random()*4.6)+"s");
+    s.style.setProperty("--starDelay",(-Math.random()*6)+"s");
+
+    creditsStars.appendChild(s);
+  }
+}
 
 
 // 크레딧 모바일 터치 시 잠시 멈춤
