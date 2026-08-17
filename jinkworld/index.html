@@ -107,7 +107,7 @@ select optgroup{
       <p class="desc">남기고 싶은 말이 있다면 보내주세요. 작성 내용은 운영자의 Google Sheet에만 저장됩니다.</p>
     </div>
   </div>
-  <form id="guestbookForm" class="guestbook-form" autocomplete="off" method="POST" action="https://script.google.com/macros/s/AKfycbyXbWUPH271uJbP7VVvluDTyQqk17J_o4j5t1m1RcBuoYzP8RLfvnQ1xURSDzRpxB97_A/exec" target="guestbookSubmitFrame">
+  <form id="guestbookForm" class="guestbook-form" autocomplete="off" method="POST" action="https://script.google.com/macros/s/AKfycbwYbIvq1XsRhRHHFDMMnf9zIpgqT1core2m7RHcgZnN2n0LSFfJoTK3ryFNOBfO_pecig/exec" target="guestbookSubmitFrame">
     <div class="guestbook-field">
       <label for="guestName">이름</label>
       <input id="guestName" name="name" class="guestbook-name" type="text" value="익명" maxlength="30" aria-label="방명록 이름">
@@ -981,7 +981,7 @@ function loadSettings(){
   else negative.value=$('negativeBase').value
 }
 cards.addEventListener('click',e=>{const a=e.target.closest('[data-lock],[data-reroll],[data-toggle]');if(!a)return;if(a.dataset.lock)toggleLock(a.dataset.lock);if(a.dataset.toggle)toggleActive(a.dataset.toggle);if(a.dataset.reroll){rollSlot(a.dataset.reroll,true);render();addHistory()}});
-$('rollAll').onclick=()=>{rollAll(true);trackAnalytics('roll');refreshUsageCounterFrame(1200)};genre.onchange=()=>{loadCategories(false);populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();render();saveSettings()};category.onchange=()=>rollAll(false);
+$('rollAll').onclick=()=>{rollAll(true);trackAnalytics('roll')};genre.onchange=()=>{loadCategories(false);populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();render();saveSettings()};category.onchange=()=>rollAll(false);
 $('lockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=true);render()};$('unlockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=false);render()};$('enableAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.active[k]=true);render()};
 ['quality','style','customTags','randomCategory','avoidSame','smartConflict'].forEach(id=>{
   const el=$(id);
@@ -1026,7 +1026,7 @@ document.addEventListener('click',e=>{const l=e.target.closest('[data-load]');if
    GUESTBOOK · Google Apps Script
    네이티브 FORM POST 방식: CORS/fetch 응답 문제 없이 Apps Script로 전송
 ========================================================= */
-const GUESTBOOK_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyXbWUPH271uJbP7VVvluDTyQqk17J_o4j5t1m1RcBuoYzP8RLfvnQ1xURSDzRpxB97_A/exec';
+const GUESTBOOK_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwYbIvq1XsRhRHHFDMMnf9zIpgqT1core2m7RHcgZnN2n0LSFfJoTK3ryFNOBfO_pecig/exec';
 const GUESTBOOK_COOLDOWN_MS = 10000;
 let guestbookLastSubmit = 0;
 let guestbookSubmitting = false;
@@ -1109,6 +1109,7 @@ $('guestMessage').addEventListener('input',updateGuestCount);
 $('guestbookForm').addEventListener('submit',submitGuestbook);
 updateGuestCount();
 console.info('Guestbook/Analytics endpoint:',GUESTBOOK_WEB_APP_URL);
+console.info('[Asset Gacha v2] counter endpoint:',GUESTBOOK_WEB_APP_URL+'?kind=counter');
 
 createCards();
 populateScenePresetOptions(false);
@@ -1120,6 +1121,7 @@ updateScenePresetHint();
 updateSmartConflictHint();
 loadCategories(false);
 renderSaved();
-refreshUsageCounterFrame(0);
-document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')refreshUsageCounterFrame(0)});
+loadUsageCounts();
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')loadUsageCounts()});
+window.addEventListener('pageshow',()=>loadUsageCounts());
 </script></body></html>
