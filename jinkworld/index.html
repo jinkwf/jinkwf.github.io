@@ -1,1080 +1,656 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#16141d" />
-  <title>NovelAI Asset Prompt Generator</title>
-
-  <style>
-    :root {
-      --bg: #100f14;
-      --panel: #17151d;
-      --panel-2: #1e1b26;
-      --panel-3: #25212f;
-      --line: rgba(255,255,255,0.09);
-      --text: #f4f1f8;
-      --subtext: #aaa3b5;
-      --accent: #a68cff;
-      --accent-soft: rgba(166,140,255,0.14);
-      --pink: #ef9ccf;
-      --gold: #efc674;
-      --danger: #ff8d98;
-      --success: #9ed9b4;
-      --shadow: 0 20px 60px rgba(0,0,0,.34);
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background:
-        radial-gradient(circle at 10% 0%, rgba(166,140,255,.11), transparent 26%),
-        radial-gradient(circle at 100% 15%, rgba(239,156,207,.07), transparent 30%),
-        var(--bg);
-      color: var(--text);
-      font-family:
-        Pretendard,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        "Noto Sans KR",
-        Arial,
-        sans-serif;
-      line-height: 1.5;
-    }
-
-    button,
-    select,
-    textarea,
-    input {
-      font: inherit;
-    }
-
-    button {
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .page {
-      width: min(1180px, calc(100% - 28px));
-      margin: 0 auto;
-      padding: 38px 0 70px;
-    }
-
-    /* =====================================================
-       HEADER
-    ====================================================== */
-
-    .hero {
-      position: relative;
-      overflow: hidden;
-      border: 1px solid var(--line);
-      border-radius: 26px;
-      background:
-        linear-gradient(
-          135deg,
-          rgba(255,255,255,.045),
-          rgba(255,255,255,.018)
-        ),
-        var(--panel);
-      box-shadow: var(--shadow);
-      padding: 34px 34px 30px;
-      margin-bottom: 20px;
-    }
-
-    .hero::after {
-      content: "";
-      position: absolute;
-      width: 260px;
-      height: 260px;
-      border-radius: 50%;
-      right: -100px;
-      top: -120px;
-      background: rgba(166,140,255,.11);
-      filter: blur(10px);
-      pointer-events: none;
-    }
-
-    .eyebrow {
-      color: var(--accent);
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      margin-bottom: 9px;
-    }
-
-    .hero h1 {
-      margin: 0;
-      font-size: clamp(28px, 5vw, 44px);
-      line-height: 1.08;
-      letter-spacing: -.04em;
-    }
-
-    .hero p {
-      margin: 13px 0 0;
-      color: var(--subtext);
-      font-size: 15px;
-      max-width: 760px;
-    }
-
-    .hero-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 20px;
-    }
-
-    .mini-tag {
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      color: #ccc5d5;
-      border-radius: 999px;
-      padding: 7px 11px;
-      font-size: 12px;
-    }
-
-    /* =====================================================
-       BASE PANEL
-    ====================================================== */
-
-    .panel {
-      border: 1px solid var(--line);
-      background: rgba(23,21,29,.94);
-      border-radius: 22px;
-      box-shadow: 0 14px 40px rgba(0,0,0,.19);
-      padding: 22px;
-      margin-bottom: 18px;
-    }
-
-    .panel-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .panel-title {
-      margin: 0;
-      font-size: 17px;
-      font-weight: 800;
-      letter-spacing: -.02em;
-    }
-
-    .panel-desc {
-      margin: 4px 0 0;
-      color: var(--subtext);
-      font-size: 12px;
-    }
-
-    /* =====================================================
-       SELECT CONTROLS
-    ====================================================== */
-
-    .selectors {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .field label {
-      display: block;
-      margin-bottom: 7px;
-      color: #c9c2d0;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    select {
-      width: 100%;
-      min-height: 47px;
-      border-radius: 13px;
-      border: 1px solid var(--line);
-      background: var(--panel-2);
-      color: var(--text);
-      outline: none;
-      padding: 0 42px 0 14px;
-      transition: border-color .18s ease, background .18s ease;
-      cursor: pointer;
-    }
-
-    select:hover,
-    select:focus {
-      border-color: rgba(166,140,255,.45);
-      background: #211e29;
-    }
-
-    /* =====================================================
-       OPTIONAL SETTINGS
-    ====================================================== */
-
-    .option-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-    }
-
-    .option {
-      border: 1px solid var(--line);
-      border-radius: 13px;
-      overflow: hidden;
-      background: var(--panel-2);
-    }
-
-    .option label {
-      display: block;
-      color: var(--subtext);
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: .05em;
-      padding: 10px 12px 0;
-      text-transform: uppercase;
-    }
-
-    .option select {
-      border: 0;
-      background: transparent;
-      padding-left: 12px;
-      border-radius: 0;
-      min-height: 40px;
-      color: #e8e2ef;
-      font-size: 13px;
-    }
-
-    /* =====================================================
-       MAIN ROLL
-    ====================================================== */
-
-    .roll-wrap {
-      margin-bottom: 18px;
-    }
-
-    .roll-btn {
-      position: relative;
-      width: 100%;
-      min-height: 66px;
-      border: 0;
-      border-radius: 18px;
-      color: white;
-      font-size: 18px;
-      font-weight: 900;
-      letter-spacing: -.01em;
-      cursor: pointer;
-      overflow: hidden;
-      background:
-        linear-gradient(135deg, #7864d6, #a274dc 48%, #d37eb7);
-      box-shadow:
-        0 14px 30px rgba(130,97,213,.28),
-        inset 0 1px rgba(255,255,255,.2);
-      transition: transform .15s ease, filter .15s ease;
-    }
-
-    .roll-btn:hover {
-      filter: brightness(1.08);
-      transform: translateY(-1px);
-    }
-
-    .roll-btn:active {
-      transform: translateY(1px) scale(.997);
-    }
-
-    .roll-btn.rolling {
-      animation: rollPulse .26s ease;
-    }
-
-    @keyframes rollPulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(.985); }
-      100% { transform: scale(1); }
-    }
-
-    .roll-sub {
-      display: block;
-      font-size: 11px;
-      margin-top: 2px;
-      font-weight: 500;
-      opacity: .78;
-    }
-
-    /* =====================================================
-       RESULT CARDS
-    ====================================================== */
-
-    .result-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 13px;
-    }
-
-    .result-card {
-      position: relative;
-      border: 1px solid var(--line);
-      background:
-        linear-gradient(
-          145deg,
-          rgba(255,255,255,.025),
-          rgba(255,255,255,.008)
-        ),
-        var(--panel-2);
-      border-radius: 18px;
-      padding: 17px;
-      min-height: 178px;
-      transition:
-        border-color .2s ease,
-        transform .2s ease,
-        background .2s ease;
-    }
-
-    .result-card.locked {
-      border-color: rgba(239,198,116,.5);
-      background:
-        linear-gradient(
-          145deg,
-          rgba(239,198,116,.08),
-          rgba(255,255,255,.01)
-        ),
-        var(--panel-2);
-    }
-
-    .result-card.flash {
-      animation: cardFlash .25s ease;
-    }
-
-    @keyframes cardFlash {
-      from {
-        opacity: .45;
-        transform: translateY(4px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .card-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-
-    .card-label {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      font-weight: 800;
-      color: #ddd5e7;
-      font-size: 13px;
-    }
-
-    .card-actions {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .icon-btn {
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.04);
-      color: #ddd5e6;
-      width: 36px;
-      height: 36px;
-      padding: 0;
-      border-radius: 10px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: background .15s ease, border-color .15s ease;
-      font-size: 16px;
-    }
-
-    .icon-btn:hover {
-      background: rgba(255,255,255,.08);
-    }
-
-    .icon-btn.lock-active {
-      border-color: rgba(239,198,116,.46);
-      background: rgba(239,198,116,.13);
-    }
-
-    .ko-value {
-      font-size: 16px;
-      line-height: 1.55;
-      font-weight: 760;
-      color: #f5f1fa;
-      word-break: keep-all;
-      min-height: 49px;
-    }
-
-    .en-value {
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px solid var(--line);
-      color: var(--subtext);
-      font-size: 11px;
-      line-height: 1.5;
-      word-break: break-word;
-    }
-
-    .locked-notice {
-      display: none;
-      margin-top: 10px;
-      color: var(--gold);
-      font-size: 10px;
-      font-weight: 700;
-    }
-
-    .result-card.locked .locked-notice {
-      display: block;
-    }
-
-    /* =====================================================
-       PROMPT OUTPUT
-    ====================================================== */
-
-    .prompt-box {
-      position: relative;
-    }
-
-    .prompt-output {
-      width: 100%;
-      min-height: 190px;
-      resize: vertical;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      outline: none;
-      background: #0e0d12;
-      color: #e9e3f0;
-      padding: 17px;
-      font-family:
-        "SFMono-Regular",
-        Consolas,
-        "Liberation Mono",
-        monospace;
-      font-size: 12px;
-      line-height: 1.75;
-    }
-
-    .prompt-output:focus {
-      border-color: rgba(166,140,255,.42);
-    }
-
-    .prompt-tools {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 9px;
-      margin-top: 12px;
-    }
-
-    .tool-btn {
-      flex: 1;
-      min-width: 150px;
-      min-height: 44px;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      color: var(--text);
-      background: var(--panel-3);
-      cursor: pointer;
-      font-size: 12px;
-      font-weight: 800;
-      transition: transform .15s ease, background .15s ease;
-    }
-
-    .tool-btn:hover {
-      background: #2d2838;
-      transform: translateY(-1px);
-    }
-
-    .tool-btn.primary {
-      border: 0;
-      background: linear-gradient(135deg, #7b67d9, #a274dc);
-    }
-
-    .status {
-      min-height: 20px;
-      margin-top: 10px;
-      color: var(--success);
-      font-size: 11px;
-      opacity: 0;
-      transform: translateY(3px);
-      transition: .2s ease;
-    }
-
-    .status.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* =====================================================
-       KOREAN SUMMARY
-    ====================================================== */
-
-    .summary-box {
-      background: #121017;
-      border: 1px dashed rgba(255,255,255,.12);
-      border-radius: 15px;
-      padding: 16px;
-      color: #ccc4d3;
-      font-size: 12px;
-      line-height: 1.7;
-      white-space: pre-wrap;
-    }
-
-    /* =====================================================
-       FOOTER
-    ====================================================== */
-
-    .footer {
-      padding: 20px 4px 0;
-      color: #706a78;
-      font-size: 10px;
-      text-align: center;
-    }
-
-    /* =====================================================
-       MOBILE
-    ====================================================== */
-
-    @media (max-width: 800px) {
-      .page {
-        width: min(100% - 18px, 1180px);
-        padding-top: 16px;
-      }
-
-      .hero {
-        padding: 25px 20px;
-        border-radius: 20px;
-      }
-
-      .hero h1 {
-        font-size: 30px;
-      }
-
-      .panel {
-        border-radius: 18px;
-        padding: 15px;
-      }
-
-      .selectors,
-      .result-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .option-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .result-card {
-        min-height: 0;
-      }
-    }
-
-    @media (max-width: 450px) {
-      .option-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .roll-btn {
-        min-height: 62px;
-      }
-
-      .ko-value {
-        font-size: 15px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#100f15">
+<title>NovelAI Asset Gacha</title>
+
+<style>
+:root{
+  --bg:#0d0c11;
+  --panel:#17151d;
+  --panel2:#1e1b26;
+  --panel3:#25212f;
+  --border:rgba(255,255,255,.09);
+  --text:#f7f3fa;
+  --sub:#aaa3b5;
+  --accent:#a88cff;
+  --accent2:#e49fc8;
+  --gold:#efc879;
+  --green:#a6e1b9;
+  --shadow:0 20px 60px rgba(0,0,0,.35);
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 10% 0%,rgba(168,140,255,.12),transparent 28%),
+    radial-gradient(circle at 100% 10%,rgba(228,159,200,.08),transparent 28%),
+    var(--bg);
+  color:var(--text);
+  font-family:
+    Pretendard,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Noto Sans KR",
+    Arial,
+    sans-serif;
+}
+
+button,select,input,textarea{
+  font:inherit;
+}
+
+button{
+  -webkit-tap-highlight-color:transparent;
+}
+
+.page{
+  width:min(1180px,calc(100% - 28px));
+  margin:auto;
+  padding:32px 0 70px;
+}
+
+.hero{
+  position:relative;
+  overflow:hidden;
+  padding:32px;
+  border:1px solid var(--border);
+  border-radius:26px;
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.045),rgba(255,255,255,.015)),
+    var(--panel);
+  box-shadow:var(--shadow);
+  margin-bottom:18px;
+}
+
+.hero:after{
+  content:"";
+  position:absolute;
+  right:-80px;
+  top:-110px;
+  width:280px;
+  height:280px;
+  background:rgba(168,140,255,.12);
+  border-radius:50%;
+  filter:blur(12px);
+  pointer-events:none;
+}
+
+.eyebrow{
+  color:var(--accent);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.18em;
+  margin-bottom:8px;
+}
+
+.hero h1{
+  margin:0;
+  font-size:clamp(28px,5vw,42px);
+  line-height:1.1;
+  letter-spacing:-.045em;
+}
+
+.hero p{
+  max-width:800px;
+  margin:13px 0 0;
+  color:var(--sub);
+  font-size:14px;
+  line-height:1.7;
+}
+
+.hero-chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:19px;
+}
+
+.chip{
+  padding:7px 10px;
+  border:1px solid var(--border);
+  border-radius:999px;
+  background:rgba(255,255,255,.03);
+  color:#cfc8d6;
+  font-size:11px;
+}
+
+.panel{
+  padding:21px;
+  margin-bottom:17px;
+  border:1px solid var(--border);
+  border-radius:21px;
+  background:rgba(23,21,29,.96);
+  box-shadow:0 12px 35px rgba(0,0,0,.18);
+}
+
+.panel-title{
+  margin:0 0 4px;
+  font-size:16px;
+}
+
+.panel-desc{
+  margin:0 0 15px;
+  color:var(--sub);
+  font-size:11px;
+}
+
+.select-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:11px;
+}
+
+.field label{
+  display:block;
+  margin-bottom:6px;
+  color:#c9c2d0;
+  font-size:11px;
+  font-weight:800;
+}
+
+select,
+.base-input{
+  width:100%;
+  min-height:46px;
+  padding:0 13px;
+  color:var(--text);
+  background:var(--panel2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  outline:0;
+}
+
+select:focus,
+.base-input:focus{
+  border-color:rgba(168,140,255,.5);
+}
+
+.options{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:9px;
+}
+
+.small-option{
+  padding:9px;
+  background:var(--panel2);
+  border:1px solid var(--border);
+  border-radius:12px;
+}
+
+.small-option label{
+  display:block;
+  color:var(--sub);
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.08em;
+  margin:0 3px 5px;
+}
+
+.small-option select{
+  min-height:36px;
+  padding:0 6px;
+  border:0;
+  background:transparent;
+  font-size:12px;
+}
+
+.base-wrap{
+  margin-top:10px;
+}
+
+.base-wrap label{
+  display:block;
+  margin-bottom:6px;
+  color:var(--sub);
+  font-size:10px;
+}
+
+.base-input{
+  padding:0 12px;
+  font-size:12px;
+}
+
+.roll-btn{
+  position:relative;
+  width:100%;
+  min-height:68px;
+  margin-bottom:17px;
+  border:0;
+  border-radius:18px;
+  color:white;
+  cursor:pointer;
+  background:linear-gradient(
+    135deg,
+    #7660d4,
+    #9a70dd 48%,
+    #cf7daf
+  );
+  box-shadow:
+    0 14px 32px rgba(125,96,216,.27),
+    inset 0 1px rgba(255,255,255,.2);
+  font-size:18px;
+  font-weight:900;
+  transition:.15s ease;
+}
+
+.roll-btn:hover{
+  filter:brightness(1.07);
+  transform:translateY(-1px);
+}
+
+.roll-btn:active{
+  transform:scale(.99);
+}
+
+.roll-sub{
+  display:block;
+  margin-top:3px;
+  font-size:10px;
+  font-weight:500;
+  opacity:.77;
+}
+
+.result-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+
+.result-card{
+  position:relative;
+  min-height:174px;
+  padding:16px;
+  overflow:hidden;
+  border:1px solid var(--border);
+  border-radius:17px;
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.025),rgba(255,255,255,.006)),
+    var(--panel2);
+  transition:.2s ease;
+}
+
+.result-card.locked{
+  border-color:rgba(239,200,121,.52);
+  background:
+    linear-gradient(145deg,rgba(239,200,121,.075),rgba(255,255,255,.005)),
+    var(--panel2);
+}
+
+.result-card.changed{
+  animation:cardChange .22s ease;
+}
+
+@keyframes cardChange{
+  0%{opacity:.4;transform:translateY(4px)}
+  100%{opacity:1;transform:none}
+}
+
+.card-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:13px;
+}
+
+.card-title{
+  font-size:12px;
+  font-weight:900;
+  color:#ded7e7;
+}
+
+.card-buttons{
+  display:flex;
+  gap:6px;
+}
+
+.icon-btn{
+  width:35px;
+  height:35px;
+  padding:0;
+  border:1px solid var(--border);
+  border-radius:10px;
+  color:#ded7e7;
+  background:rgba(255,255,255,.04);
+  cursor:pointer;
+  transition:.15s;
+}
+
+.icon-btn:hover{
+  background:rgba(255,255,255,.09);
+}
+
+.icon-btn.active{
+  color:var(--gold);
+  border-color:rgba(239,200,121,.45);
+  background:rgba(239,200,121,.12);
+}
+
+.ko{
+  min-height:50px;
+  color:#f5f1f8;
+  font-size:15px;
+  font-weight:750;
+  line-height:1.55;
+  word-break:keep-all;
+}
+
+.en{
+  margin-top:11px;
+  padding-top:10px;
+  border-top:1px solid var(--border);
+  color:var(--sub);
+  font-family:Consolas,monospace;
+  font-size:10px;
+  line-height:1.55;
+  word-break:break-word;
+}
+
+.lock-note{
+  display:none;
+  margin-top:8px;
+  color:var(--gold);
+  font-size:9px;
+  font-weight:800;
+}
+
+.locked .lock-note{
+  display:block;
+}
+
+.prompt{
+  width:100%;
+  min-height:210px;
+  resize:vertical;
+  padding:16px;
+  border:1px solid var(--border);
+  border-radius:15px;
+  outline:0;
+  color:#e9e3ee;
+  background:#0d0c11;
+  font-family:Consolas,monospace;
+  font-size:12px;
+  line-height:1.7;
+}
+
+.toolbar{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:8px;
+  margin-top:10px;
+}
+
+.tool-btn{
+  min-height:43px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  color:var(--text);
+  background:var(--panel3);
+  cursor:pointer;
+  font-size:11px;
+  font-weight:850;
+}
+
+.tool-btn:hover{
+  filter:brightness(1.12);
+}
+
+.tool-btn.primary{
+  border:0;
+  background:linear-gradient(135deg,#7864d7,#a373de);
+}
+
+.summary{
+  padding:15px;
+  border:1px dashed rgba(255,255,255,.13);
+  border-radius:14px;
+  background:#111016;
+  color:#cbc4d1;
+  white-space:pre-wrap;
+  font-size:11px;
+  line-height:1.75;
+}
+
+.pool-stats{
+  margin-top:12px;
+  color:#827b8c;
+  font-size:9px;
+  line-height:1.6;
+}
+
+.status{
+  min-height:18px;
+  margin-top:9px;
+  color:var(--green);
+  font-size:10px;
+  opacity:0;
+  transition:.2s;
+}
+
+.status.show{
+  opacity:1;
+}
+
+footer{
+  padding-top:10px;
+  text-align:center;
+  color:#655f6d;
+  font-size:9px;
+}
+
+@media(max-width:780px){
+  .page{
+    width:calc(100% - 18px);
+    padding-top:14px;
+  }
+
+  .hero{
+    padding:24px 19px;
+    border-radius:20px;
+  }
+
+  .panel{
+    padding:15px;
+    border-radius:17px;
+  }
+
+  .select-grid,
+  .result-grid{
+    grid-template-columns:1fr;
+  }
+
+  .options{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .toolbar{
+    grid-template-columns:1fr;
+  }
+
+  .result-card{
+    min-height:0;
+  }
+}
+
+@media(max-width:460px){
+  .options{
+    grid-template-columns:1fr;
+  }
+}
+</style>
 </head>
 
 <body>
 
 <div class="page">
 
-  <!-- ===================================================
-       HEADER
-  ==================================================== -->
-  <section class="hero">
-    <div class="eyebrow">NovelAI Asset Generator</div>
+<section class="hero">
+  <div class="eyebrow">NOVELAI ASSET GACHA</div>
+  <h1>🎲 랜덤 에셋 생성기</h1>
+  <p>
+    배경 · 의상 · 표정 · 행동 · 시간/날씨 · 구도 · 조명을
+    랜덤으로 조합합니다.
+    마음에 드는 결과는 🔒 잠그고 나머지만 계속 재추첨할 수 있습니다.
+  </p>
 
-    <h1>🎲 랜덤 에셋 프롬프트 생성기</h1>
-
-    <p>
-      장르와 상황을 선택하고 랜덤을 돌려
-      배경 · 의상 · 표정 · 행동 조합을 생성하세요.
-      마음에 드는 항목은 잠그면 다음 랜덤에서도 유지됩니다.
-    </p>
-
-    <div class="hero-tags">
-      <span class="mini-tag">🔒 개별 잠금</span>
-      <span class="mini-tag">↻ 개별 재추첨</span>
-      <span class="mini-tag">📋 NovelAI 태그 복사</span>
-      <span class="mini-tag">📱 모바일 대응</span>
-    </div>
-  </section>
+  <div class="hero-chips">
+    <span class="chip">🏙️ 배경</span>
+    <span class="chip">👔 의상</span>
+    <span class="chip">🙂 표정</span>
+    <span class="chip">🎬 행동</span>
+    <span class="chip">🌦️ 시간·날씨</span>
+    <span class="chip">📷 구도</span>
+    <span class="chip">💡 조명</span>
+  </div>
+</section>
 
 
-  <!-- ===================================================
-       CATEGORY
-  ==================================================== -->
-  <section class="panel">
+<section class="panel">
+  <h2 class="panel-title">01 · 카테고리</h2>
+  <p class="panel-desc">
+    세부 카테고리에서 「장르 전체 랜덤」을 선택하면 해당 장르의 모든 장소가 섞입니다.
+  </p>
 
-    <div class="panel-head">
-      <div>
-        <h2 class="panel-title">01. 카테고리 선택</h2>
-        <p class="panel-desc">
-          장르별로 자연스러운 배경 · 의상 · 행동 풀이 적용됩니다.
-        </p>
-      </div>
-    </div>
+  <div class="select-grid">
 
-    <div class="selectors">
-
-      <div class="field">
-        <label>장르</label>
-
-        <select id="genreSelect">
-          <option value="modern">현대물</option>
-          <option value="fantasy">판타지물</option>
-          <option value="guideverse">가이드버스</option>
-          <option value="period">시대물</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label>세부 카테고리</label>
-        <select id="categorySelect"></select>
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- ===================================================
-       ADDITIONAL OPTIONS
-  ==================================================== -->
-  <section class="panel">
-
-    <div class="panel-head">
-      <div>
-        <h2 class="panel-title">02. 추가 설정</h2>
-        <p class="panel-desc">
-          선택하지 않아도 사용할 수 있습니다.
-        </p>
-      </div>
+    <div class="field">
+      <label>장르</label>
+      <select id="genre">
+        <option value="modern">현대물</option>
+        <option value="fantasy">판타지물</option>
+        <option value="guideverse">가이드버스</option>
+        <option value="period">시대물</option>
+      </select>
     </div>
 
-    <div class="option-grid">
-
-      <div class="option">
-        <label>Gender</label>
-
-        <select id="genderOption">
-          <option value="">랜덤 / 미지정</option>
-          <option value="1boy">남성 · 1boy</option>
-          <option value="1girl">여성 · 1girl</option>
-        </select>
-      </div>
-
-
-      <div class="option">
-        <label>Composition</label>
-
-        <select id="compositionOption">
-          <option value="">미지정</option>
-          <option value="upper body">상반신</option>
-          <option value="cowboy shot">허벅지 위</option>
-          <option value="full body">전신</option>
-          <option value="portrait">인물 중심</option>
-          <option value="close-up">클로즈업</option>
-        </select>
-      </div>
-
-
-      <div class="option">
-        <label>View</label>
-
-        <select id="viewOption">
-          <option value="">미지정</option>
-          <option value="looking at viewer">정면 응시</option>
-          <option value="looking away">시선 회피</option>
-          <option value="from below">로우 앵글</option>
-          <option value="from above">하이 앵글</option>
-          <option value="side view">측면</option>
-          <option value="from behind">뒷모습</option>
-        </select>
-      </div>
-
-
-      <div class="option">
-        <label>Quality</label>
-
-        <select id="qualityOption">
-          <option value="masterpiece, best quality, amazing quality, very aesthetic, highly detailed">
-            기본 고품질
-          </option>
-
-          <option value="">
-            품질 태그 없음
-          </option>
-        </select>
-      </div>
-
+    <div class="field">
+      <label>세부 카테고리</label>
+      <select id="category"></select>
     </div>
-  </section>
+
+  </div>
+</section>
 
 
-  <!-- ===================================================
-       ROLL BUTTON
-  ==================================================== -->
+<section class="panel">
+  <h2 class="panel-title">02 · 기본 옵션</h2>
+  <p class="panel-desc">
+    아래 옵션은 랜덤 슬롯과 별개로 NovelAI 프롬프트 앞부분에 추가됩니다.
+  </p>
 
-  <div class="roll-wrap">
-    <button class="roll-btn" id="rollBtn">
-      🎲 랜덤 돌리기
-      <span class="roll-sub">
-        🔒 잠금된 항목은 유지됩니다
-      </span>
+  <div class="options">
+
+    <div class="small-option">
+      <label>CHARACTER</label>
+      <select id="gender">
+        <option value="">미지정</option>
+        <option value="1boy">1boy · 남성</option>
+        <option value="1girl">1girl · 여성</option>
+      </select>
+    </div>
+
+    <div class="small-option">
+      <label>QUALITY</label>
+      <select id="quality">
+        <option value="masterpiece, best quality, amazing quality, very aesthetic, highly detailed">
+          기본 고품질
+        </option>
+        <option value="masterpiece, best quality, highly detailed, cinematic composition">
+          시네마틱
+        </option>
+        <option value="">
+          사용 안 함
+        </option>
+      </select>
+    </div>
+
+    <div class="small-option">
+      <label>STYLE</label>
+      <select id="style">
+        <option value="">미지정</option>
+        <option value="anime style">Anime</option>
+        <option value="illustration">Illustration</option>
+        <option value="semi-realistic">Semi-realistic</option>
+      </select>
+    </div>
+
+  </div>
+
+  <div class="base-wrap">
+    <label>추가로 항상 넣을 태그가 있다면 입력</label>
+    <input
+      id="customTags"
+      class="base-input"
+      type="text"
+      placeholder="예: black hair, blue eyes, handsome male"
+    >
+  </div>
+</section>
+
+
+<button class="roll-btn" id="rollAll">
+  🎲 주사위 돌리기
+  <span class="roll-sub">
+    잠금된 항목은 그대로 유지하고 나머지만 변경합니다
+  </span>
+</button>
+
+
+<section class="panel">
+  <h2 class="panel-title">03 · 랜덤 결과</h2>
+  <p class="panel-desc">
+    ↻ 해당 항목만 재추첨 · 🔒 결과 고정
+  </p>
+
+  <div class="result-grid" id="cards"></div>
+
+  <div class="pool-stats" id="poolStats"></div>
+</section>
+
+
+<section class="panel">
+  <h2 class="panel-title">04 · NovelAI 태그</h2>
+  <p class="panel-desc">
+    아래 내용은 직접 수정한 뒤 복사해도 됩니다.
+  </p>
+
+  <textarea class="prompt" id="prompt"></textarea>
+
+  <div class="toolbar">
+    <button class="tool-btn primary" id="copyPrompt">
+      📋 NovelAI 태그 복사
+    </button>
+
+    <button class="tool-btn" id="copyKo">
+      🇰🇷 한글 결과 복사
+    </button>
+
+    <button class="tool-btn" id="unlockAll">
+      🔓 전체 잠금 해제
     </button>
   </div>
 
+  <div class="status" id="status"></div>
+</section>
 
-  <!-- ===================================================
-       RESULT
-  ==================================================== -->
 
-  <section class="panel">
+<section class="panel">
+  <h2 class="panel-title">현재 조합</h2>
+  <div class="summary" id="summary"></div>
+</section>
 
-    <div class="panel-head">
-      <div>
-        <h2 class="panel-title">03. 랜덤 결과</h2>
 
-        <p class="panel-desc">
-          🔒 잠금 · ↻ 개별 재추첨 가능
-        </p>
-      </div>
-    </div>
-
-
-    <div class="result-grid">
-
-
-      <!-- BACKGROUND -->
-
-      <article class="result-card" id="card-background">
-
-        <div class="card-top">
-
-          <div class="card-label">
-            🏙️ 배경
-          </div>
-
-          <div class="card-actions">
-
-            <button
-              class="icon-btn"
-              data-reroll="background"
-              title="배경만 다시 뽑기"
-            >
-              ↻
-            </button>
-
-            <button
-              class="icon-btn"
-              data-lock="background"
-              title="배경 잠금"
-            >
-              🔓
-            </button>
-
-          </div>
-
-        </div>
-
-        <div
-          class="ko-value"
-          id="ko-background"
-        >
-          -
-        </div>
-
-        <div
-          class="en-value"
-          id="en-background"
-        >
-          -
-        </div>
-
-        <div class="locked-notice">
-          🔒 이 항목은 고정되어 있습니다.
-        </div>
-
-      </article>
-
-
-
-      <!-- OUTFIT -->
-
-      <article class="result-card" id="card-outfit">
-
-        <div class="card-top">
-
-          <div class="card-label">
-            👔 의상
-          </div>
-
-          <div class="card-actions">
-
-            <button
-              class="icon-btn"
-              data-reroll="outfit"
-              title="의상만 다시 뽑기"
-            >
-              ↻
-            </button>
-
-            <button
-              class="icon-btn"
-              data-lock="outfit"
-              title="의상 잠금"
-            >
-              🔓
-            </button>
-
-          </div>
-
-        </div>
-
-        <div
-          class="ko-value"
-          id="ko-outfit"
-        >
-          -
-        </div>
-
-        <div
-          class="en-value"
-          id="en-outfit"
-        >
-          -
-        </div>
-
-        <div class="locked-notice">
-          🔒 이 항목은 고정되어 있습니다.
-        </div>
-
-      </article>
-
-
-
-      <!-- EXPRESSION -->
-
-      <article class="result-card" id="card-expression">
-
-        <div class="card-top">
-
-          <div class="card-label">
-            🙂 표정
-          </div>
-
-          <div class="card-actions">
-
-            <button
-              class="icon-btn"
-              data-reroll="expression"
-              title="표정만 다시 뽑기"
-            >
-              ↻
-            </button>
-
-            <button
-              class="icon-btn"
-              data-lock="expression"
-              title="표정 잠금"
-            >
-              🔓
-            </button>
-
-          </div>
-
-        </div>
-
-        <div
-          class="ko-value"
-          id="ko-expression"
-        >
-          -
-        </div>
-
-        <div
-          class="en-value"
-          id="en-expression"
-        >
-          -
-        </div>
-
-        <div class="locked-notice">
-          🔒 이 항목은 고정되어 있습니다.
-        </div>
-
-      </article>
-
-
-
-      <!-- ACTION -->
-
-      <article class="result-card" id="card-action">
-
-        <div class="card-top">
-
-          <div class="card-label">
-            🎬 행동
-          </div>
-
-          <div class="card-actions">
-
-            <button
-              class="icon-btn"
-              data-reroll="action"
-              title="행동만 다시 뽑기"
-            >
-              ↻
-            </button>
-
-            <button
-              class="icon-btn"
-              data-lock="action"
-              title="행동 잠금"
-            >
-              🔓
-            </button>
-
-          </div>
-
-        </div>
-
-        <div
-          class="ko-value"
-          id="ko-action"
-        >
-          -
-        </div>
-
-        <div
-          class="en-value"
-          id="en-action"
-        >
-          -
-        </div>
-
-        <div class="locked-notice">
-          🔒 이 항목은 고정되어 있습니다.
-        </div>
-
-      </article>
-
-    </div>
-  </section>
-
-
-  <!-- ===================================================
-       NOVELAI OUTPUT
-  ==================================================== -->
-
-  <section class="panel">
-
-    <div class="panel-head">
-      <div>
-        <h2 class="panel-title">04. NovelAI Prompt</h2>
-
-        <p class="panel-desc">
-          생성된 네 항목이 자동으로 영문 태그화됩니다.
-        </p>
-      </div>
-    </div>
-
-
-    <div class="prompt-box">
-
-      <textarea
-        class="prompt-output"
-        id="promptOutput"
-        spellcheck="false"
-      ></textarea>
-
-
-      <div class="prompt-tools">
-
-        <button
-          class="tool-btn primary"
-          id="copyPromptBtn"
-        >
-          📋 NovelAI 태그 복사
-        </button>
-
-        <button
-          class="tool-btn"
-          id="copyKoreanBtn"
-        >
-          🇰🇷 한글 결과 복사
-        </button>
-
-        <button
-          class="tool-btn"
-          id="unlockAllBtn"
-        >
-          🔓 전체 잠금 해제
-        </button>
-
-      </div>
-
-      <div
-        class="status"
-        id="status"
-      ></div>
-
-    </div>
-  </section>
-
-
-
-  <!-- ===================================================
-       KOREAN SUMMARY
-  ==================================================== -->
-
-  <section class="panel">
-
-    <div class="panel-head">
-      <div>
-        <h2 class="panel-title">한글 조합</h2>
-
-        <p class="panel-desc">
-          현재 결과를 한눈에 확인할 수 있습니다.
-        </p>
-      </div>
-    </div>
-
-    <div
-      class="summary-box"
-      id="koreanSummary"
-    >
-      랜덤 돌리기를 눌러주세요.
-    </div>
-
-  </section>
-
-
-  <div class="footer">
-    NovelAI Asset Prompt Generator · Local HTML
-  </div>
+<footer>
+  NovelAI Asset Gacha · HTML Local Tool
+</footer>
 
 </div>
 
@@ -1082,1021 +658,3729 @@
 <script>
 
 /* =========================================================
-   DATA
+   유틸
+========================================================= */
+
+const E = (ko,en) => ({ko,en});
+
+const rand = arr =>
+  arr[Math.floor(Math.random()*arr.length)];
+
+function uniqueEntries(arr){
+  const map = new Map();
+
+  arr.forEach(item=>{
+    if(item && item.en){
+      map.set(item.en,item);
+    }
+  });
+
+  return [...map.values()];
+}
+
+
+/* =========================================================
+   모든 장르 공용
+   표정 / 시간날씨 / 구도 / 조명
+========================================================= */
+
+const COMMON = {
+
+
+expression:[
+
+E("편안한 무표정",
+  "neutral expression"),
+
+E("차갑고 무심한 표정",
+  "cold expression, indifferent gaze"),
+
+E("조용하고 차분한 표정",
+  "calm expression"),
+
+E("은은하게 미소 짓는 표정",
+  "subtle smile"),
+
+E("부드럽게 웃는 표정",
+  "gentle smile"),
+
+E("밝고 환하게 웃는 표정",
+  "bright smile"),
+
+E("장난스럽게 웃는 표정",
+  "playful smile"),
+
+E("능글맞은 미소",
+  "smug smile"),
+
+E("자신감 있는 미소",
+  "confident smile"),
+
+E("오만하게 웃는 표정",
+  "arrogant smile"),
+
+E("입꼬리만 살짝 올린 표정",
+  "faint smile"),
+
+E("눈을 가늘게 뜨고 웃는 표정",
+  "narrowed eyes, subtle smile"),
+
+E("피곤해 보이는 표정",
+  "tired expression"),
+
+E("졸린 듯 눈이 반쯤 감긴 표정",
+  "sleepy expression, half-lidded eyes"),
+
+E("나른하고 느긋한 표정",
+  "relaxed expression, half-lidded eyes"),
+
+E("조금 짜증 난 표정",
+  "slightly annoyed expression"),
+
+E("노골적으로 짜증 난 표정",
+  "annoyed expression, furrowed brows"),
+
+E("화가 난 표정",
+  "angry expression"),
+
+E("분노를 억누르는 표정",
+  "restrained anger, tense expression"),
+
+E("당황한 표정",
+  "flustered expression"),
+
+E("깜짝 놀란 표정",
+  "surprised expression, widened eyes"),
+
+E("살짝 놀란 표정",
+  "slightly surprised expression"),
+
+E("어리둥절한 표정",
+  "confused expression"),
+
+E("곤란해하는 표정",
+  "awkward expression"),
+
+E("난감하게 웃는 표정",
+  "awkward smile"),
+
+E("의심스러운 눈빛",
+  "suspicious gaze"),
+
+E("경계하는 눈빛",
+  "guarded expression, alert gaze"),
+
+E("날카롭게 노려보는 표정",
+  "sharp glare"),
+
+E("불만스러운 표정",
+  "displeased expression"),
+
+E("입술을 삐죽 내민 표정",
+  "pouting"),
+
+E("수줍게 웃는 표정",
+  "shy smile"),
+
+E("시선을 피하며 수줍어하는 표정",
+  "shy expression, looking away"),
+
+E("조금 부끄러워하는 표정",
+  "embarrassed expression"),
+
+E("기대에 찬 표정",
+  "expectant expression"),
+
+E("흥미롭다는 듯 바라보는 표정",
+  "interested gaze"),
+
+E("호기심 어린 표정",
+  "curious expression"),
+
+E("집중한 표정",
+  "focused expression"),
+
+E("진지하게 몰입한 표정",
+  "serious focused expression"),
+
+E("멍하니 넋을 놓은 표정",
+  "blank expression"),
+
+E("생각에 깊이 잠긴 표정",
+  "pensive expression"),
+
+E("무언가 떠올리는 듯한 표정",
+  "thoughtful expression"),
+
+E("걱정스러운 표정",
+  "worried expression"),
+
+E("불안한 표정",
+  "anxious expression"),
+
+E("초조해 보이는 표정",
+  "nervous expression"),
+
+E("긴장해서 굳은 표정",
+  "tense expression"),
+
+E("안도하며 웃는 표정",
+  "relieved smile"),
+
+E("슬픈 표정",
+  "sad expression"),
+
+E("울음을 참는 표정",
+  "holding back tears"),
+
+E("눈가에 눈물이 맺힌 표정",
+  "teary eyes"),
+
+E("울고 있는 표정",
+  "crying"),
+
+E("쓸쓸하게 웃는 표정",
+  "melancholic smile"),
+
+E("체념한 표정",
+  "resigned expression"),
+
+E("결심을 굳힌 표정",
+  "determined expression"),
+
+E("단호한 표정",
+  "resolute expression"),
+
+E("전투적으로 날 선 표정",
+  "fierce expression"),
+
+E("고통을 참는 표정",
+  "pained expression"),
+
+E("이를 악물고 버티는 표정",
+  "gritted teeth, strained expression"),
+
+E("숨이 찬 듯 지친 표정",
+  "exhausted expression"),
+
+E("의미심장하게 웃는 표정",
+  "mysterious smile"),
+
+E("서늘하게 웃는 표정",
+  "cold smile"),
+
+E("비웃는 표정",
+  "smirk"),
+
+E("상대를 내려다보는 오만한 표정",
+  "condescending gaze"),
+
+E("눈을 감고 편안해하는 표정",
+  "eyes closed, relaxed expression"),
+
+E("눈을 감고 집중하는 표정",
+  "eyes closed, focused expression"),
+
+E("살짝 미간을 찌푸린 표정",
+  "slightly furrowed brows"),
+
+E("무표정한 채 눈썹만 살짝 찌푸린 표정",
+  "expressionless, slightly furrowed brows"),
+
+E("입술을 살짝 깨문 표정",
+  "biting lower lip, tense expression"),
+
+E("한쪽 눈썹을 올린 표정",
+  "raised eyebrow"),
+
+E("놀리듯 한쪽 입꼬리를 올린 표정",
+  "teasing smirk"),
+
+E("말없이 상대를 빤히 보는 표정",
+  "intense gaze"),
+
+E("부드럽지만 어딘가 지친 눈빛",
+  "soft tired gaze"),
+
+E("눈웃음을 짓는 표정",
+  "smiling eyes"),
+
+E("억지로 웃는 표정",
+  "forced smile")
+
+],
+
+
+weather:[
+
+E("맑은 아침",
+  "clear morning, soft morning light"),
+
+E("햇살이 강한 늦은 아침",
+  "bright late morning, strong sunlight"),
+
+E("맑은 한낮",
+  "clear daytime"),
+
+E("따뜻한 오후",
+  "warm afternoon"),
+
+E("늦은 오후",
+  "late afternoon"),
+
+E("황금빛 노을이 지는 시간",
+  "golden hour, sunset"),
+
+E("붉은 석양",
+  "dramatic sunset"),
+
+E("해가 막 진 직후",
+  "blue hour"),
+
+E("평범한 저녁",
+  "evening"),
+
+E("깊은 밤",
+  "late night"),
+
+E("자정 무렵",
+  "midnight"),
+
+E("새벽",
+  "dawn"),
+
+E("해 뜨기 직전의 새벽",
+  "pre-dawn"),
+
+E("구름 한 점 없는 맑은 날",
+  "clear sky"),
+
+E("구름이 많은 날",
+  "cloudy sky"),
+
+E("흐린 낮",
+  "overcast daytime"),
+
+E("비가 오기 직전의 흐린 날",
+  "stormy overcast sky"),
+
+E("잔잔하게 비가 내리는 날",
+  "light rain"),
+
+E("빗줄기가 굵은 날",
+  "heavy rain"),
+
+E("폭우가 쏟아지는 밤",
+  "heavy rain at night"),
+
+E("비가 막 그친 뒤",
+  "after rain, wet ground"),
+
+E("소나기가 내리는 오후",
+  "afternoon shower"),
+
+E("첫눈이 내리는 날",
+  "first snow"),
+
+E("눈이 조용히 내리는 날",
+  "gentle snowfall"),
+
+E("폭설이 내리는 날",
+  "heavy snowfall"),
+
+E("눈이 쌓인 맑은 겨울날",
+  "snow-covered winter day"),
+
+E("안개 낀 아침",
+  "foggy morning"),
+
+E("짙은 안개가 낀 밤",
+  "foggy night"),
+
+E("바람이 강하게 부는 날",
+  "windy weather"),
+
+E("꽃잎이 날리는 봄날",
+  "spring day, petals in the air"),
+
+E("더운 여름날",
+  "hot summer day"),
+
+E("선선한 가을 오후",
+  "cool autumn afternoon"),
+
+E("낙엽이 흩날리는 가을",
+  "falling autumn leaves"),
+
+E("차가운 겨울밤",
+  "cold winter night"),
+
+E("보름달이 뜬 밤",
+  "full moon night"),
+
+E("별이 가득한 밤",
+  "starry night")
+
+],
+
+
+composition:[
+
+E("상반신 정면 구도",
+  "upper body, front view"),
+
+E("상반신 3/4 구도",
+  "upper body, three-quarter view"),
+
+E("허리 위까지 보이는 구도",
+  "waist up"),
+
+E("허벅지 위까지 보이는 구도",
+  "cowboy shot"),
+
+E("전신 구도",
+  "full body"),
+
+E("얼굴 중심 클로즈업",
+  "face close-up"),
+
+E("가슴 위 클로즈업",
+  "bust shot"),
+
+E("측면 구도",
+  "side view"),
+
+E("비스듬한 측면 구도",
+  "three-quarter profile"),
+
+E("뒷모습 중심",
+  "from behind"),
+
+E("뒤돌아보는 구도",
+  "from behind, looking back"),
+
+E("아래에서 올려다보는 구도",
+  "from below, low angle"),
+
+E("살짝 아래에서 올려다보는 구도",
+  "slightly from below"),
+
+E("위에서 내려다보는 구도",
+  "from above, high angle"),
+
+E("살짝 위에서 내려다보는 구도",
+  "slightly from above"),
+
+E("눈높이 구도",
+  "eye-level shot"),
+
+E("가까운 POV 구도",
+  "POV, close distance"),
+
+E("멀리서 바라보는 구도",
+  "wide shot"),
+
+E("배경이 넓게 보이는 전신 구도",
+  "full body, wide composition"),
+
+E("인물 중심 세로 구도",
+  "portrait composition"),
+
+E("대각선으로 기울어진 역동적 구도",
+  "dynamic angle"),
+
+E("어깨 너머로 바라보는 구도",
+  "over-the-shoulder shot"),
+
+E("앉아 있는 인물을 눈높이에서 보는 구도",
+  "seated, eye-level view"),
+
+E("앉아 있는 인물을 위에서 보는 구도",
+  "seated, from above"),
+
+E("바닥 가까이에서 올려다보는 구도",
+  "extreme low angle"),
+
+E("손과 얼굴이 함께 강조되는 구도",
+  "upper body, hands visible"),
+
+E("전신과 주변 환경을 균형 있게 담은 구도",
+  "full body, environmental composition"),
+
+E("얼굴을 화면 중앙에 둔 대칭 구도",
+  "centered composition, symmetrical"),
+
+E("화면 한쪽에 인물을 배치한 구도",
+  "off-center composition"),
+
+E("걷는 모습을 옆에서 포착한 구도",
+  "side view, walking")
+
+],
+
+
+lighting:[
+
+E("부드러운 자연광",
+  "soft natural lighting"),
+
+E("창문으로 들어오는 햇빛",
+  "sunlight through window"),
+
+E("따뜻한 실내 조명",
+  "warm indoor lighting"),
+
+E("차가운 백색 조명",
+  "cool white lighting"),
+
+E("형광등 조명",
+  "fluorescent lighting"),
+
+E("노란 전구 조명",
+  "warm tungsten lighting"),
+
+E("해질녘 역광",
+  "sunset backlighting"),
+
+E("강한 역광",
+  "dramatic backlighting"),
+
+E("부드러운 역광",
+  "soft backlighting"),
+
+E("측면에서 들어오는 빛",
+  "side lighting"),
+
+E("얼굴 절반에 그림자가 지는 조명",
+  "dramatic side lighting, half-shadowed face"),
+
+E("낮은 키의 어두운 조명",
+  "low-key lighting"),
+
+E("밝고 깨끗한 하이키 조명",
+  "high-key lighting"),
+
+E("네온사인이 얼굴에 비치는 조명",
+  "neon lighting on face"),
+
+E("푸른 네온 조명",
+  "blue neon lighting"),
+
+E("붉은 네온 조명",
+  "red neon lighting"),
+
+E("분홍빛 네온 조명",
+  "pink neon lighting"),
+
+E("도시 야경이 반사되는 조명",
+  "city light reflections"),
+
+E("모니터 불빛만 비치는 조명",
+  "computer screen glow"),
+
+E("휴대폰 화면 불빛",
+  "smartphone screen glow"),
+
+E("가로등 아래의 조명",
+  "streetlamp lighting"),
+
+E("촛불만 켜진 조명",
+  "candlelight"),
+
+E("벽난로 불빛",
+  "fireplace lighting"),
+
+E("달빛",
+  "moonlight"),
+
+E("푸른 달빛",
+  "blue moonlight"),
+
+E("별빛과 달빛",
+  "starlight, moonlight"),
+
+E("마법 빛이 얼굴에 반사되는 조명",
+  "magical glow illuminating face"),
+
+E("강렬한 전투 조명",
+  "dramatic battle lighting"),
+
+E("빛나는 스테인드글라스 조명",
+  "colored stained-glass light"),
+
+E("희미한 병원 조명",
+  "dim hospital lighting"),
+
+E("비 오는 날의 흐린 자연광",
+  "soft overcast lighting"),
+
+E("금빛 햇살",
+  "golden sunlight"),
+
+E("안개 사이로 퍼지는 빛",
+  "volumetric light through fog"),
+
+E("천장에서 내려오는 스포트라이트",
+  "overhead spotlight"),
+
+E("실루엣이 강조되는 역광",
+  "silhouette backlighting")
+
+]
+
+};
+
+
+/* =========================================================
+   현대물 공용
+========================================================= */
+
+const MODERN_COMMON = {
+
+background:[
+
+E("도심 고층 건물 사이",
+  "modern downtown, high-rise buildings"),
+
+E("조용한 주택가",
+  "quiet residential neighborhood"),
+
+E("빌딩 로비",
+  "modern building lobby"),
+
+E("긴 실내 복도",
+  "modern hallway"),
+
+E("계단참",
+  "stairwell"),
+
+E("옥상",
+  "urban rooftop"),
+
+E("지하주차장",
+  "underground parking garage"),
+
+E("건물 출입구 앞",
+  "building entrance"),
+
+E("유리창이 큰 현대식 실내",
+  "modern interior, floor-to-ceiling windows"),
+
+E("도심 야경이 내려다보이는 공간",
+  "city night view, high-rise interior"),
+
+E("비상계단",
+  "emergency stairwell"),
+
+E("자동판매기가 놓인 휴게 공간",
+  "vending machine area"),
+
+E("유리문이 있는 현대식 복도",
+  "modern corridor, glass doors"),
+
+E("조용한 대기 공간",
+  "modern waiting area"),
+
+E("건물 뒤편 골목",
+  "back alley behind building")
+
+],
+
+outfit:[
+
+E("흰 셔츠와 검은 슬랙스",
+  "white dress shirt, black slacks"),
+
+E("검은 셔츠와 슬랙스",
+  "black dress shirt, slacks"),
+
+E("소매를 걷은 흰 셔츠",
+  "white dress shirt, rolled-up sleeves"),
+
+E("소매를 걷은 검은 셔츠",
+  "black dress shirt, rolled-up sleeves"),
+
+E("셔츠와 느슨한 넥타이",
+  "dress shirt, loosened necktie"),
+
+E("셔츠와 단정한 넥타이",
+  "dress shirt, necktie"),
+
+E("셔츠와 조끼",
+  "dress shirt, waistcoat"),
+
+E("쓰리피스 정장",
+  "three-piece suit"),
+
+E("검은 정장",
+  "black business suit"),
+
+E("네이비 정장",
+  "navy business suit"),
+
+E("더블 브레스티드 정장",
+  "double-breasted suit"),
+
+E("검은 터틀넥과 슬랙스",
+  "black turtleneck, slacks"),
+
+E("니트와 슬랙스",
+  "knit sweater, slacks"),
+
+E("오버핏 니트",
+  "oversized knit sweater"),
+
+E("가디건과 셔츠",
+  "cardigan, dress shirt"),
+
+E("가디건과 티셔츠",
+  "cardigan, t-shirt"),
+
+E("후드티와 청바지",
+  "hoodie, jeans"),
+
+E("후드집업과 티셔츠",
+  "zip-up hoodie, t-shirt"),
+
+E("맨투맨과 면바지",
+  "sweatshirt, casual pants"),
+
+E("오버핏 티셔츠",
+  "oversized t-shirt"),
+
+E("검은 티셔츠와 청바지",
+  "black t-shirt, jeans"),
+
+E("흰 티셔츠와 청바지",
+  "white t-shirt, jeans"),
+
+E("가죽 재킷",
+  "leather jacket"),
+
+E("라이더 재킷",
+  "biker jacket"),
+
+E("야구점퍼",
+  "varsity jacket"),
+
+E("트렌치코트",
+  "trench coat"),
+
+E("검은 롱코트",
+  "black long coat"),
+
+E("캐멀색 롱코트",
+  "camel long coat"),
+
+E("패딩 재킷",
+  "puffer jacket"),
+
+E("데님 재킷",
+  "denim jacket"),
+
+E("후드가 달린 코트",
+  "hooded coat"),
+
+E("트레이닝복",
+  "tracksuit"),
+
+E("운동용 반팔과 조거팬츠",
+  "athletic t-shirt, jogger pants"),
+
+E("편안한 홈웨어",
+  "loungewear"),
+
+E("파자마",
+  "pajamas"),
+
+E("실크 파자마",
+  "silk pajamas"),
+
+E("목욕가운",
+  "bathrobe"),
+
+E("얇은 니트와 롱스커트",
+  "light knit sweater, long skirt"),
+
+E("블라우스와 슬랙스",
+  "blouse, slacks"),
+
+E("단정한 원피스",
+  "simple elegant dress"),
+
+E("니트 원피스",
+  "knit dress"),
+
+E("블라우스와 롱스커트",
+  "blouse, long skirt")
+
+],
+
+action:[
+
+E("주머니에 한 손을 넣고 서 있다",
+  "standing with one hand in pocket"),
+
+E("양손을 주머니에 넣고 서 있다",
+  "standing with both hands in pockets"),
+
+E("팔짱을 끼고 있다",
+  "crossed arms"),
+
+E("벽에 등을 기대고 있다",
+  "leaning against wall"),
+
+E("한쪽 어깨를 벽에 기대고 있다",
+  "leaning one shoulder against wall"),
+
+E("창문에 기대 서 있다",
+  "leaning against window"),
+
+E("난간에 기대 서 있다",
+  "leaning against railing"),
+
+E("책상에 기대 서 있다",
+  "leaning against desk"),
+
+E("의자에 편하게 기대 앉아 있다",
+  "leaning back in chair"),
+
+E("다리를 꼬고 앉아 있다",
+  "sitting with legs crossed"),
+
+E("턱을 괴고 있다",
+  "resting chin on hand"),
+
+E("손가락으로 관자놀이를 누르고 있다",
+  "pressing fingers to temple"),
+
+E("머리를 뒤로 넘기고 있다",
+  "brushing hair back"),
+
+E("앞머리를 정리하고 있다",
+  "adjusting bangs"),
+
+E("안경을 고쳐 쓰고 있다",
+  "adjusting glasses"),
+
+E("넥타이를 느슨하게 풀고 있다",
+  "loosening necktie"),
+
+E("셔츠 소매를 걷고 있다",
+  "rolling up sleeves"),
+
+E("재킷 단추를 풀고 있다",
+  "unbuttoning jacket"),
+
+E("재킷을 어깨에 걸치고 있다",
+  "jacket over shoulder"),
+
+E("휴대폰을 확인하고 있다",
+  "checking smartphone"),
+
+E("휴대폰으로 통화하고 있다",
+  "talking on smartphone"),
+
+E("메시지를 입력하고 있다",
+  "typing on smartphone"),
+
+E("이어폰을 끼고 있다",
+  "wearing earphones"),
+
+E("이어폰 한쪽을 빼고 있다",
+  "removing one earbud"),
+
+E("커피잔을 들고 있다",
+  "holding coffee cup"),
+
+E("테이크아웃 컵을 들고 있다",
+  "holding takeaway coffee cup"),
+
+E("물을 마시고 있다",
+  "drinking water"),
+
+E("책을 읽고 있다",
+  "reading book"),
+
+E("서류를 읽고 있다",
+  "reading documents"),
+
+E("노트북을 사용하고 있다",
+  "using laptop"),
+
+E("태블릿을 확인하고 있다",
+  "checking tablet"),
+
+E("펜을 돌리고 있다",
+  "twirling pen"),
+
+E("메모를 적고 있다",
+  "writing notes"),
+
+E("창밖을 바라보고 있다",
+  "looking out window"),
+
+E("뒤를 돌아보고 있다",
+  "looking back"),
+
+E("고개를 살짝 기울이고 있다",
+  "tilting head"),
+
+E("고개를 숙인 채 서 있다",
+  "standing with head lowered"),
+
+E("천천히 걸어오고 있다",
+  "walking toward viewer"),
+
+E("등을 보인 채 걸어가고 있다",
+  "walking away"),
+
+E("문손잡이를 잡고 있다",
+  "holding door handle"),
+
+E("문을 열고 들어오고 있다",
+  "opening door"),
+
+E("가방 끈을 한 손으로 잡고 있다",
+  "holding bag strap"),
+
+E("손목시계를 확인하고 있다",
+  "checking wristwatch"),
+
+E("기지개를 켜고 있다",
+  "stretching"),
+
+E("하품을 하고 있다",
+  "yawning"),
+
+E("눈을 비비고 있다",
+  "rubbing eyes"),
+
+E("두 손으로 얼굴을 잠시 가리고 있다",
+  "covering face with both hands"),
+
+E("한 손으로 목 뒤를 만지고 있다",
+  "touching back of neck"),
+
+E("손을 내밀고 있다",
+  "reaching out hand"),
+
+E("가볍게 손을 흔들고 있다",
+  "waving"),
+
+E("바닥에 쪼그려 앉아 있다",
+  "crouching"),
+
+E("계단을 올라가고 있다",
+  "walking up stairs"),
+
+E("우산을 들고 있다",
+  "holding umbrella"),
+
+E("젖은 머리를 털고 있다",
+  "shaking water from wet hair")
+
+]
+
+};
+
+
+/* =========================================================
+   판타지 공용
+========================================================= */
+
+const FANTASY_COMMON = {
+
+background:[
+
+E("중세풍 성 내부 복도",
+  "medieval castle corridor"),
+
+E("고대 석조 회랑",
+  "ancient stone corridor"),
+
+E("왕국의 수도 광장",
+  "fantasy capital city square"),
+
+E("중세 시장 거리",
+  "medieval fantasy market"),
+
+E("성벽 위",
+  "castle battlements"),
+
+E("높은 탑 꼭대기",
+  "high fantasy tower rooftop"),
+
+E("고대 유적",
+  "ancient fantasy ruins"),
+
+E("마력이 흐르는 숲",
+  "enchanted forest"),
+
+E("달빛이 비치는 숲",
+  "moonlit fantasy forest"),
+
+E("산맥이 보이는 초원",
+  "fantasy grassland, distant mountains"),
+
+E("석조 다리",
+  "ancient stone bridge"),
+
+E("중세풍 마을",
+  "medieval fantasy village"),
+
+E("성문 앞",
+  "castle gate"),
+
+E("화려한 왕궁 내부",
+  "ornate royal palace interior"),
+
+E("거대한 연회장",
+  "grand fantasy banquet hall")
+
+],
+
+outfit:[
+
+E("긴 검은 망토",
+  "long black cloak"),
+
+E("자수가 들어간 긴 망토",
+  "embroidered long cloak"),
+
+E("중세풍 셔츠와 가죽 벨트",
+  "medieval shirt, leather belt"),
+
+E("가죽 장갑과 부츠",
+  "leather gloves, boots"),
+
+E("고급 귀족 예복",
+  "luxurious noble attire"),
+
+E("검은 귀족복",
+  "black noble attire"),
+
+E("흰색과 금색의 귀족복",
+  "white and gold noble attire"),
+
+E("가벼운 가죽 갑옷",
+  "light leather armor"),
+
+E("전투용 경갑",
+  "light battle armor"),
+
+E("은빛 판금 갑옷",
+  "silver plate armor"),
+
+E("검은 판금 갑옷",
+  "black plate armor"),
+
+E("긴 로브",
+  "long fantasy robe"),
+
+E("후드가 달린 로브",
+  "hooded fantasy robe"),
+
+E("화려한 왕실 제복",
+  "ornate royal uniform"),
+
+E("금실 자수 예복",
+  "gold embroidered ceremonial robe"),
+
+E("용병용 가죽 장비",
+  "mercenary leather gear"),
+
+E("여행용 망토와 부츠",
+  "traveler cloak, boots"),
+
+E("모험가 복장",
+  "fantasy adventurer outfit"),
+
+E("검집과 벨트 장비",
+  "sword belt, scabbard"),
+
+E("마법 보석 장식",
+  "magical gemstone accessories")
+
+],
+
+action:[
+
+E("검 손잡이에 손을 얹고 있다",
+  "hand resting on sword hilt"),
+
+E("검을 뽑아 들고 있다",
+  "drawing sword"),
+
+E("검을 어깨에 걸치고 있다",
+  "resting sword on shoulder"),
+
+E("검을 바닥에 짚고 서 있다",
+  "standing with sword tip on ground"),
+
+E("한쪽 무릎을 꿇고 있다",
+  "kneeling on one knee"),
+
+E("망토를 휘날리며 걷고 있다",
+  "walking with cape flowing"),
+
+E("두 손을 뒤로 모으고 서 있다",
+  "standing with hands behind back"),
+
+E("높은 곳에서 아래를 내려다보고 있다",
+  "looking down from high place"),
+
+E("부채를 펼쳐 들고 있다",
+  "holding open folding fan"),
+
+E("와인잔을 들고 있다",
+  "holding wine glass"),
+
+E("두루마리를 펼쳐 보고 있다",
+  "reading scroll"),
+
+E("고대 지도를 보고 있다",
+  "looking at ancient map"),
+
+E("마법서를 읽고 있다",
+  "reading spellbook"),
+
+E("손끝에 마력을 모으고 있다",
+  "gathering magic at fingertips"),
+
+E("손바닥 위에 빛을 만들어내고 있다",
+  "glowing magic in palm"),
+
+E("공중에 마법진을 펼치고 있다",
+  "casting floating magic circle"),
+
+E("지팡이를 들고 있다",
+  "holding magic staff"),
+
+E("촛불을 켜고 있다",
+  "lighting candle"),
+
+E("기도하듯 두 손을 모으고 있다",
+  "hands clasped in prayer"),
+
+E("성물이나 펜던트를 쥐고 있다",
+  "holding sacred pendant"),
+
+E("말에서 내리고 있다",
+  "dismounting horse"),
+
+E("벽에 기대 쉬고 있다",
+  "leaning against stone wall"),
+
+E("난간에 기대 아래를 보고 있다",
+  "leaning on balcony railing"),
+
+E("왕좌에 앉아 있다",
+  "sitting on throne"),
+
+E("의자 팔걸이에 턱을 괴고 있다",
+  "resting chin on hand while seated"),
+
+E("장갑을 벗고 있다",
+  "removing gloves"),
+
+E("후드를 벗고 있다",
+  "pulling down hood"),
+
+E("바닥의 흔적을 살펴보고 있다",
+  "examining tracks on ground"),
+
+E("전방을 경계하고 있다",
+  "watching surroundings"),
+
+E("전투 자세를 취하고 있다",
+  "combat stance")
+
+]
+
+};
+
+
+/* =========================================================
+   가이드버스 공용
+========================================================= */
+
+const GUIDE_COMMON = {
+
+background:[
+
+E("현대식 에스퍼 센터 복도",
+  "modern esper center hallway"),
+
+E("센터 로비",
+  "esper center lobby"),
+
+E("통제구역 앞",
+  "restricted facility area"),
+
+E("지하 센터 시설",
+  "underground esper facility"),
+
+E("작전 대기실",
+  "operations waiting room"),
+
+E("능력자 전용 병동",
+  "specialized esper hospital ward"),
+
+E("보안문이 이어진 복도",
+  "secure facility corridor"),
+
+E("모니터가 가득한 통제실",
+  "operations control room, multiple monitors"),
+
+E("의료 장비가 놓인 실내",
+  "medical facility, equipment"),
+
+E("파손된 센터 내부",
+  "damaged esper center interior")
+
+],
+
+outfit:[
+
+E("센터 지급 검은 제복",
+  "black center uniform"),
+
+E("센터 지급 흰 셔츠와 슬랙스",
+  "center uniform, white shirt, slacks"),
+
+E("검은 전술복",
+  "black tactical uniform"),
+
+E("방탄조끼를 착용한 전술복",
+  "tactical uniform, bulletproof vest"),
+
+E("긴 전술 코트",
+  "long tactical coat"),
+
+E("작전용 장갑과 전투화",
+  "tactical gloves, combat boots"),
+
+E("연구원 가운",
+  "researcher lab coat"),
+
+E("의료진 가운",
+  "medical coat"),
+
+E("환자복",
+  "hospital gown"),
+
+E("흐트러진 작전복",
+  "disheveled tactical uniform"),
+
+E("찢어진 전투복",
+  "torn combat uniform"),
+
+E("피와 먼지가 묻은 전투복",
+  "dirty bloodstained combat uniform"),
+
+E("센터 정장",
+  "formal center business suit"),
+
+E("검은 셔츠와 센터 ID카드",
+  "black dress shirt, center ID card"),
+
+E("후드집업과 센터 출입카드",
+  "hoodie, center ID card")
+
+],
+
+action:[
+
+E("무전기를 들고 있다",
+  "holding radio"),
+
+E("무전기로 보고하고 있다",
+  "speaking into radio"),
+
+E("태블릿으로 수치를 확인하고 있다",
+  "checking readings on tablet"),
+
+E("모니터를 주시하고 있다",
+  "watching monitor"),
+
+E("검사 결과지를 읽고 있다",
+  "reading test results"),
+
+E("손목의 센서 장치를 확인하고 있다",
+  "checking wrist sensor"),
+
+E("벽에 기대 숨을 고르고 있다",
+  "leaning against wall, catching breath"),
+
+E("무릎에 팔꿈치를 얹고 숨을 고르고 있다",
+  "sitting, elbows on knees, catching breath"),
+
+E("상대의 손목을 잡고 있다",
+  "holding another person's wrist"),
+
+E("상대의 손을 붙잡고 있다",
+  "holding another person's hand"),
+
+E("상대를 보호하듯 앞을 막고 있다",
+  "standing protectively in front"),
+
+E("무기를 들어 전방을 겨누고 있다",
+  "aiming weapon forward"),
+
+E("능력을 사용하기 위해 손을 뻗고 있다",
+  "reaching hand forward, using supernatural power"),
+
+E("손 주변에 능력 에너지가 모이고 있다",
+  "supernatural energy gathering around hand"),
+
+E("바닥에 한쪽 무릎을 꿇고 있다",
+  "kneeling on one knee"),
+
+E("부상당한 팔을 붙잡고 있다",
+  "holding injured arm"),
+
+E("옆구리를 누르며 버티고 있다",
+  "holding injured side"),
+
+E("머리를 감싸 쥐고 있다",
+  "clutching head"),
+
+E("벽에 손을 짚고 서 있다",
+  "bracing against wall"),
+
+E("침대 가장자리에 앉아 있다",
+  "sitting on edge of bed"),
+
+E("병실 창밖을 바라보고 있다",
+  "looking out hospital window"),
+
+E("센터 복도를 빠르게 걷고 있다",
+  "walking quickly through facility hallway"),
+
+E("문 앞에서 잠시 멈춰 서 있다",
+  "stopping in front of door"),
+
+E("장갑을 끼고 있다",
+  "putting on tactical gloves"),
+
+E("보호장비를 점검하고 있다",
+  "checking tactical equipment"),
+
+E("동료를 부축하고 있다",
+  "supporting injured teammate"),
+
+E("잔해 사이를 살펴보고 있다",
+  "searching through debris"),
+
+E("주변을 경계하며 천천히 이동하고 있다",
+  "moving cautiously, watching surroundings"),
+
+E("게이트를 응시하고 있다",
+  "staring at dimensional gate"),
+
+E("호흡을 일정하게 가다듬고 있다",
+  "steadying breathing")
+
+]
+
+};
+
+
+/* =========================================================
+   시대물 공용
+========================================================= */
+
+const PERIOD_COMMON = {
+
+action:[
+
+E("소매를 가지런히 모으고 있다",
+  "hands gathered inside long sleeves"),
+
+E("두 손을 앞으로 가지런히 모으고 있다",
+  "hands folded neatly in front"),
+
+E("부채를 펼쳐 들고 있다",
+  "holding open folding fan"),
+
+E("부채를 접은 채 손에 들고 있다",
+  "holding closed folding fan"),
+
+E("차를 마시고 있다",
+  "drinking tea"),
+
+E("찻잔을 손에 들고 있다",
+  "holding teacup"),
+
+E("서책을 읽고 있다",
+  "reading old book"),
+
+E("붓으로 글을 쓰고 있다",
+  "writing with calligraphy brush"),
+
+E("창밖을 바라보고 있다",
+  "looking out traditional window"),
+
+E("정자 난간에 기대 있다",
+  "leaning against pavilion railing"),
+
+E("뒤를 돌아보고 있다",
+  "looking back"),
+
+E("천천히 걸어오고 있다",
+  "walking toward viewer"),
+
+E("고개를 살짝 숙여 인사하고 있다",
+  "slightly bowing"),
+
+E("검집에 손을 얹고 있다",
+  "hand resting on sword sheath"),
+
+E("검을 뽑고 있다",
+  "drawing sword"),
+
+E("한쪽 무릎을 꿇고 있다",
+  "kneeling on one knee"),
+
+E("계단 위에 서 있다",
+  "standing on stone steps"),
+
+E("마루에 앉아 있다",
+  "sitting on wooden veranda"),
+
+E("말고삐를 잡고 있다",
+  "holding horse reins"),
+
+E("등불을 들고 있다",
+  "holding lantern")
+
+]
+
+};
+
+
+/* =========================================================
+   카테고리 데이터
 ========================================================= */
 
 const DB = {
 
 
-/* =========================================================
-   현대물
-========================================================= */
-
-modern: {
-
-  label: "현대물",
-
-  categories: {
-
-
-    cafe: {
-
-      label: "☕ 카페",
-
-      background: [
-        ["햇살이 들어오는 조용한 카페 창가", "cozy cafe, window seat, sunlight, warm interior"],
-        ["늦은 밤 조명이 은은한 카페", "cafe at night, warm ambient lighting, cozy interior"],
-        ["도심의 세련된 대형 카페", "modern city cafe, stylish interior, large windows"],
-        ["비 오는 날 창밖이 보이는 카페", "cafe, rainy day, rain outside window, cozy atmosphere"],
-        ["작은 골목의 빈티지 카페", "small vintage cafe, alleyway cafe, retro interior"],
-        ["야외 테라스가 있는 카페", "cafe terrace, outdoor seating, city street"],
-        ["아침 햇살이 비치는 브런치 카페", "brunch cafe, morning sunlight, bright interior"],
-        ["한적한 북카페", "book cafe, bookshelves, quiet atmosphere"]
-      ],
-
-      outfit: [
-        ["오버핏 니트와 슬랙스", "oversized knit sweater, slacks"],
-        ["셔츠와 검은 바지", "dress shirt, black pants"],
-        ["후드집업과 청바지", "zip-up hoodie, jeans"],
-        ["얇은 가디건과 티셔츠", "cardigan, t-shirt"],
-        ["깔끔한 니트와 롱스커트", "knit sweater, long skirt"],
-        ["트렌치코트와 캐주얼룩", "trench coat, casual clothes"],
-        ["검은 터틀넥", "black turtleneck"],
-        ["편안한 맨투맨", "sweatshirt, casual outfit"]
-      ],
-
-      expression: [
-        ["잔잔하게 미소 짓는 표정", "gentle smile"],
-        ["조금 졸린 듯한 표정", "sleepy expression, half-lidded eyes"],
-        ["창밖을 보며 생각에 잠긴 표정", "pensive expression"],
-        ["장난스럽게 웃는 표정", "playful smile"],
-        ["무심한 표정", "neutral expression"],
-        ["부드럽고 편안한 표정", "relaxed expression, soft smile"],
-        ["조금 당황한 표정", "slightly surprised expression"],
-        ["은근히 기분 좋아 보이는 표정", "subtle happy expression"]
-      ],
-
-      action: [
-        ["커피잔을 두 손으로 감싸고 있다", "holding coffee cup with both hands"],
-        ["빨대로 음료를 마시고 있다", "drinking through straw"],
-        ["창밖을 바라보고 있다", "looking out the window"],
-        ["테이블 위 휴대폰을 확인하고 있다", "checking smartphone on table"],
-        ["머그컵을 입가에 가져가고 있다", "raising mug to lips"],
-        ["노트북으로 작업하고 있다", "using laptop"],
-        ["책을 펼쳐 읽고 있다", "reading an open book"],
-        ["턱을 괴고 상대를 바라보고 있다", "resting chin on hand"]
-      ]
-
-    },
-
-
-    restaurant: {
-
-      label: "🍽️ 음식점",
-
-      background: [
-        ["고급 레스토랑의 창가 테이블", "fine dining restaurant, window table, elegant interior"],
-        ["활기찬 패밀리 레스토랑", "busy family restaurant, warm interior"],
-        ["어두운 조명의 이탈리안 레스토랑", "Italian restaurant, dim lighting, romantic interior"],
-        ["심야의 조용한 식당", "quiet restaurant late at night"],
-        ["오픈 키친이 보이는 음식점", "restaurant with open kitchen"],
-        ["작은 동네 식당", "small neighborhood restaurant"],
-        ["호텔 레스토랑", "luxury hotel restaurant"],
-        ["루프탑 레스토랑", "rooftop restaurant, city skyline"]
-      ],
-
-      outfit: [
-        ["단정한 셔츠", "neat dress shirt"],
-        ["셔츠와 조끼", "dress shirt, vest"],
-        ["검은 니트", "black knit sweater"],
-        ["캐주얼 재킷", "casual jacket"],
-        ["깔끔한 원피스", "elegant dress"],
-        ["블라우스와 슬랙스", "blouse, slacks"]
-      ],
-
-      expression: [
-        ["메뉴를 고민하는 표정", "thinking expression"],
-        ["음식을 보고 만족스럽게 웃는 표정", "satisfied smile"],
-        ["상대를 바라보며 부드럽게 웃는 표정", "gentle smile"],
-        ["조금 난감한 표정", "awkward expression"],
-        ["무표정", "neutral expression"],
-        ["즐겁게 웃는 표정", "happy smile"]
-      ],
-
-      action: [
-        ["메뉴판을 펼쳐 보고 있다", "looking at menu"],
-        ["포크를 든 채 상대를 바라본다", "holding fork, looking at viewer"],
-        ["와인잔을 들고 있다", "holding wine glass"],
-        ["테이블 위 음식을 내려다본다", "looking down at food"],
-        ["냅킨을 정리하고 있다", "adjusting napkin"],
-        ["한 손으로 턱을 괴고 있다", "resting chin on hand"]
-      ]
-
-    },
-
-
-    street: {
-
-      label: "🌃 길거리",
-
-      background: [
-        ["네온사인이 빛나는 번화가", "busy downtown street, neon signs, night"],
-        ["비 내리는 밤거리", "rainy city street at night, wet pavement"],
-        ["한적한 주택가 골목", "quiet residential alley"],
-        ["노을이 지는 도심 거리", "city street, sunset"],
-        ["새벽의 텅 빈 거리", "empty city street, dawn"],
-        ["상점이 늘어선 쇼핑 거리", "shopping street, storefronts"],
-        ["가로등이 켜진 골목", "alleyway, street lamps, night"],
-        ["횡단보도 앞", "crosswalk, urban street"]
-      ],
-
-      outfit: [
-        ["검은 롱코트", "black long coat"],
-        ["후드티와 청바지", "hoodie, jeans"],
-        ["가죽 재킷", "leather jacket"],
-        ["트렌치코트", "trench coat"],
-        ["캐주얼 셔츠", "casual shirt"],
-        ["패딩 재킷", "puffer jacket"],
-        ["오버핏 재킷", "oversized jacket"]
-      ],
-
-      expression: [
-        ["무심하게 앞을 보는 표정", "indifferent expression"],
-        ["조금 지친 표정", "tired expression"],
-        ["뒤를 돌아보며 놀란 표정", "slightly surprised expression"],
-        ["서늘한 표정", "cold expression"],
-        ["밝게 웃는 표정", "bright smile"],
-        ["생각에 잠긴 표정", "pensive expression"]
-      ],
-
-      action: [
-        ["주머니에 손을 넣고 걷고 있다", "walking, hands in pockets"],
-        ["우산을 쓰고 서 있다", "holding umbrella"],
-        ["신호를 기다리고 있다", "waiting at crosswalk"],
-        ["휴대폰을 확인하며 걷고 있다", "walking while checking smartphone"],
-        ["뒤를 돌아보고 있다", "looking back"],
-        ["가로등 아래 서 있다", "standing under street light"]
-      ]
-
-    },
-
-
-    school: {
-
-      label: "🏫 학교",
-
-      background: [
-        ["햇빛이 들어오는 교실", "classroom, sunlight through windows"],
-        ["방과 후 텅 빈 교실", "empty classroom after school"],
-        ["학교 복도", "school hallway"],
-        ["옥상", "school rooftop"],
-        ["체육관", "school gymnasium"],
-        ["급식실", "school cafeteria"],
-        ["도서관", "school library"],
-        ["계단참", "school stairwell"]
-      ],
-
-      outfit: [
-        ["단정한 교복", "school uniform"],
-        ["셔츠와 넥타이 교복", "school uniform, shirt, necktie"],
-        ["가디건을 걸친 교복", "school uniform, cardigan"],
-        ["체육복", "school gym uniform"],
-        ["셔츠 소매를 걷은 교복", "school uniform, rolled-up sleeves"]
-      ],
-
-      expression: [
-        ["장난스러운 미소", "playful smile"],
-        ["무심한 표정", "neutral expression"],
-        ["졸린 표정", "sleepy expression"],
-        ["조금 짜증 난 표정", "annoyed expression"],
-        ["밝게 웃는 표정", "bright smile"],
-        ["수줍게 시선을 피하는 표정", "shy expression, looking away"]
-      ],
-
-      action: [
-        ["책상에 엎드려 있다", "resting head on desk"],
-        ["창가에 기대 서 있다", "leaning against window"],
-        ["교과서를 펼쳐 보고 있다", "reading textbook"],
-        ["가방을 한쪽 어깨에 걸치고 있다", "school bag over one shoulder"],
-        ["책상 위에 앉아 있다", "sitting on desk"],
-        ["복도를 걸어가고 있다", "walking through hallway"]
-      ]
-
-    },
-
-
-    campus: {
-
-      label: "🎓 캠퍼스",
-
-      background: [
-        ["대학교 본관 앞", "university campus, main building"],
-        ["잔디 광장", "university lawn"],
-        ["캠퍼스 벤치", "campus bench"],
-        ["대학교 도서관", "university library"],
-        ["강의실", "university lecture hall"],
-        ["학생회관", "university student center"],
-        ["벚꽃이 핀 캠퍼스", "university campus, cherry blossoms"],
-        ["가을 은행나무길", "university campus, autumn ginkgo trees"]
-      ],
-
-      outfit: [
-        ["후드티와 청바지", "hoodie, jeans"],
-        ["셔츠와 가디건", "shirt, cardigan"],
-        ["니트와 면바지", "knit sweater, casual pants"],
-        ["야구점퍼", "varsity jacket"],
-        ["캐주얼 재킷", "casual jacket"]
-      ],
-
-      expression: [
-        ["편안한 미소", "relaxed smile"],
-        ["조금 피곤한 표정", "slightly tired expression"],
-        ["장난스럽게 웃는 표정", "playful smile"],
-        ["집중한 표정", "focused expression"],
-        ["무심한 표정", "neutral expression"]
-      ],
-
-      action: [
-        ["책을 품에 안고 걷는다", "walking while holding books"],
-        ["벤치에 앉아 있다", "sitting on bench"],
-        ["휴대폰을 확인하고 있다", "checking smartphone"],
-        ["이어폰을 꽂고 걷는다", "walking with earphones"],
-        ["커피를 들고 캠퍼스를 걷는다", "walking while holding coffee"]
-      ]
-
-    },
-
-
-    office: {
-
-      label: "🏢 회사 / 오피스",
-
-      background: [
-        ["야경이 보이는 고층 오피스", "high-rise office, city night view, floor-to-ceiling windows"],
-        ["깔끔한 현대식 사무실", "modern office interior"],
-        ["퇴근 후 사람이 없는 사무실", "empty office after work, night"],
-        ["회의실", "corporate meeting room"],
-        ["임원실", "executive office"],
-        ["회사 탕비실", "office pantry"],
-        ["회사 옥상", "office rooftop"],
-        ["복사기와 서류가 놓인 사무 공간", "office workspace, printer, documents"]
-      ],
-
-      outfit: [
-        ["흰 셔츠와 검은 슬랙스", "white dress shirt, black slacks"],
-        ["정장과 넥타이", "business suit, necktie"],
-        ["소매를 걷은 셔츠", "dress shirt, rolled-up sleeves"],
-        ["셔츠와 조끼", "dress shirt, waistcoat"],
-        ["블라우스와 슬랙스", "blouse, slacks"],
-        ["재킷을 벗은 정장 차림", "business attire, jacket removed"],
-        ["검은 터틀넥과 슬랙스", "black turtleneck, slacks"]
-      ],
-
-      expression: [
-        ["지친 듯 눈을 가늘게 뜬 표정", "tired expression, half-lidded eyes"],
-        ["무표정하고 차가운 시선", "expressionless, cold gaze"],
-        ["업무에 집중한 표정", "focused expression"],
-        ["조금 짜증 섞인 표정", "slightly annoyed expression"],
-        ["여유로운 미소", "calm confident smile"],
-        ["당황한 표정", "slightly surprised expression"]
-      ],
-
-      action: [
-        ["서류를 넘기고 있다", "flipping through documents"],
-        ["넥타이를 느슨하게 풀고 있다", "loosening necktie"],
-        ["책상에 기대 서 있다", "leaning against desk"],
-        ["노트북 화면을 보고 있다", "looking at laptop screen"],
-        ["커피를 들고 창밖을 보고 있다", "holding coffee, looking out window"],
-        ["의자에 기대 앉아 있다", "leaning back in office chair"],
-        ["휴대폰으로 통화 중이다", "talking on smartphone"]
-      ]
-
-    },
-
-
-    restroom: {
-
-      label: "🚻 화장실",
-
-      background: [
-        ["대리석 세면대가 있는 고급 화장실", "luxury restroom, marble sink, large mirror"],
-        ["회사 화장실", "modern office restroom"],
-        ["호텔 화장실", "luxury hotel restroom"],
-        ["학교 화장실 세면대 앞", "school restroom, sink area"],
-        ["공공 화장실 거울 앞", "public restroom, mirror"]
-      ],
-
-      outfit: [
-        ["셔츠와 슬랙스", "dress shirt, slacks"],
-        ["정장 차림", "business suit"],
-        ["셔츠 소매를 걷은 모습", "dress shirt, rolled-up sleeves"],
-        ["캐주얼 티셔츠와 바지", "t-shirt, casual pants"]
-      ],
-
-      expression: [
-        ["거울을 보며 무표정", "neutral expression"],
-        ["조금 지친 표정", "tired expression"],
-        ["머리를 정리하며 집중한 표정", "focused expression"],
-        ["인상을 찌푸린 표정", "frowning"]
-      ],
-
-      action: [
-        ["세면대에 두 손을 짚고 있다", "hands on sink counter"],
-        ["거울을 바라보고 있다", "looking into mirror"],
-        ["물을 틀어 손을 씻고 있다", "washing hands"],
-        ["젖은 손으로 머리를 넘기고 있다", "brushing hair back with wet hand"]
-      ]
-
-    },
-
-
-    shower: {
-
-      label: "🚿 샤워실",
-
-      background: [
-        ["김이 서린 현대식 샤워실", "modern shower room, steam, wet tiles"],
-        ["호텔 욕실 샤워부스", "luxury hotel shower, glass shower booth"],
-        ["체육관 공동 샤워실", "gym shower room"],
-        ["어두운 조명의 욕실", "bathroom, dim lighting, shower steam"]
-      ],
-
-      outfit: [
-        ["목욕가운", "bathrobe"],
-        ["허리에 두른 목욕 타월", "bath towel around waist"],
-        ["젖은 흰 셔츠", "wet white shirt"],
-        ["편안한 홈웨어", "casual loungewear"]
-      ],
-
-      expression: [
-        ["조금 나른한 표정", "relaxed expression, half-lidded eyes"],
-        ["머리를 말리며 무심한 표정", "neutral expression"],
-        ["놀라 뒤를 돌아본 표정", "slightly surprised expression"],
-        ["눈을 감고 편안해하는 표정", "eyes closed, relaxed expression"]
-      ],
-
-      action: [
-        ["수건으로 젖은 머리를 닦고 있다", "drying wet hair with towel"],
-        ["샤워기 아래 서 있다", "standing under shower"],
-        ["젖은 머리를 뒤로 넘기고 있다", "brushing wet hair back"],
-        ["욕실 거울의 김을 손으로 닦고 있다", "wiping steam from bathroom mirror"]
-      ]
-
-    },
-
-
-    hotel: {
-
-      label: "🏨 호텔",
-
-      background: [
-        ["고급 호텔 객실", "luxury hotel room"],
-        ["야경이 보이는 호텔 창가", "hotel room, city night view"],
-        ["호텔 복도", "luxury hotel hallway"],
-        ["호텔 로비", "luxury hotel lobby"],
-        ["호텔 스위트룸", "hotel suite"]
-      ],
-
-      outfit: [
-        ["검은 셔츠", "black dress shirt"],
-        ["정장", "business suit"],
-        ["목욕가운", "bathrobe"],
-        ["니트와 슬랙스", "knit sweater, slacks"],
-        ["캐주얼 셔츠", "casual dress shirt"]
-      ],
-
-      expression: [
-        ["여유로운 미소", "relaxed smile"],
-        ["무심한 표정", "neutral expression"],
-        ["피곤한 표정", "tired expression"],
-        ["조용히 상대를 바라보는 표정", "soft gaze"]
-      ],
-
-      action: [
-        ["창가에 서서 야경을 보고 있다", "standing by window, looking at city lights"],
-        ["침대 가장자리에 앉아 있다", "sitting on edge of bed"],
-        ["재킷을 벗고 있다", "taking off jacket"],
-        ["호텔 키카드를 손에 들고 있다", "holding hotel key card"]
-      ]
-
-    },
-
-
-    hospital: {
-
-      label: "🏥 병원",
-
-      background: [
-        ["하얀 병실", "hospital room"],
-        ["대학병원 복도", "hospital corridor"],
-        ["응급실", "emergency room"],
-        ["대기실", "hospital waiting room"],
-        ["검사실", "medical examination room"]
-      ],
-
-      outfit: [
-        ["환자복", "hospital gown"],
-        ["의사 가운", "white doctor's coat"],
-        ["간호사 유니폼", "nurse uniform"],
-        ["일상복 위에 병원 팔찌", "casual clothes, hospital wristband"]
-      ],
-
-      expression: [
-        ["지쳐 보이는 표정", "exhausted expression"],
-        ["걱정스러운 표정", "worried expression"],
-        ["차분한 표정", "calm expression"],
-        ["안도한 미소", "relieved smile"]
-      ],
-
-      action: [
-        ["병원 침대에 앉아 있다", "sitting on hospital bed"],
-        ["의무기록을 보고 있다", "reading medical chart"],
-        ["창밖을 바라보고 있다", "looking out hospital window"],
-        ["복도를 천천히 걷고 있다", "walking through hospital corridor"]
-      ]
-
-    }
-
-  }
+/* ================= 현대물 ================= */
+
+modern:{
+label:"현대물",
+common:MODERN_COMMON,
+
+categories:{
+
+
+cafe:{
+label:"☕ 카페",
+background:[
+E("햇살이 드는 조용한 카페 창가",
+  "cozy cafe, window seat"),
+E("늦은 밤의 조용한 카페",
+  "quiet cafe at night"),
+E("대형 통창이 있는 도심 카페",
+  "modern city cafe, floor-to-ceiling windows"),
+E("골목 안 작은 빈티지 카페",
+  "small vintage cafe in alley"),
+E("책장이 가득한 북카페",
+  "book cafe, bookshelves"),
+E("야외 테라스 카페",
+  "outdoor cafe terrace"),
+E("루프탑 카페",
+  "rooftop cafe"),
+E("바다가 보이는 카페",
+  "seaside cafe, ocean view"),
+E("브런치 카페",
+  "brunch cafe"),
+E("텅 빈 카페 마감 시간",
+  "empty cafe after closing")
+],
+outfit:[
+E("바리스타 앞치마와 셔츠",
+  "barista apron, dress shirt"),
+E("캐주얼 니트와 슬랙스",
+  "casual knit sweater, slacks"),
+E("가디건과 데님",
+  "cardigan, jeans"),
+E("오버핏 후드집업",
+  "oversized zip-up hoodie")
+],
+action:[
+E("머그컵을 두 손으로 감싸고 있다",
+  "holding mug with both hands"),
+E("빨대로 음료를 마시고 있다",
+  "drinking through straw"),
+E("메뉴판을 보고 있다",
+  "looking at cafe menu"),
+E("테이블 위 디저트를 내려다보고 있다",
+  "looking down at dessert"),
+E("커피를 내리고 있다",
+  "making coffee"),
+E("창가 자리에 앉아 밖을 보고 있다",
+  "sitting by window, looking outside")
+]
+},
+
+
+restaurant:{
+label:"🍽️ 음식점",
+background:[
+E("고급 레스토랑 창가 테이블",
+  "fine dining restaurant, window table"),
+E("이탈리안 레스토랑",
+  "Italian restaurant"),
+E("작은 동네 식당",
+  "small neighborhood restaurant"),
+E("오픈키친 레스토랑",
+  "restaurant with open kitchen"),
+E("호텔 레스토랑",
+  "luxury hotel restaurant"),
+E("루프탑 레스토랑",
+  "rooftop restaurant"),
+E("심야의 조용한 음식점",
+  "quiet late-night restaurant"),
+E("프라이빗 다이닝룸",
+  "private dining room")
+],
+outfit:[
+E("단정한 셔츠와 슬랙스",
+  "neat dress shirt, slacks"),
+E("검은 셔츠",
+  "black dress shirt"),
+E("고급 정장",
+  "formal business suit"),
+E("깔끔한 원피스",
+  "elegant dress")
+],
+action:[
+E("메뉴판을 펼쳐 보고 있다",
+  "looking at restaurant menu"),
+E("포크를 손에 들고 있다",
+  "holding fork"),
+E("와인잔을 가볍게 들고 있다",
+  "holding wine glass"),
+E("음식을 내려다보고 있다",
+  "looking down at food"),
+E("냅킨을 정리하고 있다",
+  "adjusting napkin"),
+E("맞은편 자리를 바라보고 있다",
+  "looking across the table")
+]
+},
+
+
+bar:{
+label:"🍸 바 / 술집",
+background:[
+E("어두운 조명의 호텔 바",
+  "luxury hotel bar"),
+E("도심의 칵테일 바",
+  "modern cocktail bar"),
+E("빈티지 위스키 바",
+  "vintage whiskey bar"),
+E("루프탑 바",
+  "rooftop bar, city skyline"),
+E("재즈 바",
+  "jazz bar interior"),
+E("사람이 적은 심야 바",
+  "quiet late-night bar"),
+E("네온사인이 비치는 펍",
+  "pub interior, neon signs")
+],
+outfit:[
+E("검은 셔츠와 검은 슬랙스",
+  "black dress shirt, black slacks"),
+E("셔츠와 조끼",
+  "dress shirt, waistcoat"),
+E("정장 재킷",
+  "suit jacket"),
+E("검은 원피스",
+  "black dress")
+],
+action:[
+E("바 카운터에 팔꿈치를 올리고 있다",
+  "leaning on bar counter"),
+E("잔을 손끝으로 돌리고 있다",
+  "swirling glass"),
+E("칵테일잔을 들고 있다",
+  "holding cocktail glass"),
+E("바텐더를 바라보고 있다",
+  "looking toward bartender"),
+E("바 스툴에 앉아 있다",
+  "sitting on bar stool")
+]
+},
+
+
+convenience:{
+label:"🏪 편의점",
+background:[
+E("심야의 편의점 내부",
+  "convenience store interior at night"),
+E("편의점 계산대 앞",
+  "convenience store checkout counter"),
+E("편의점 음료 냉장고 앞",
+  "convenience store drink refrigerators"),
+E("편의점 야외 테이블",
+  "convenience store outdoor table"),
+E("비 오는 날 편의점 입구",
+  "convenience store entrance, rain"),
+E("새벽의 텅 빈 편의점",
+  "empty convenience store at dawn")
+],
+outfit:[
+E("편의점 조끼 유니폼",
+  "convenience store vest uniform"),
+E("후드티와 청바지",
+  "hoodie, jeans"),
+E("편안한 트레이닝복",
+  "casual tracksuit"),
+E("얇은 패딩",
+  "light puffer jacket")
+],
+action:[
+E("음료 냉장고 문을 열고 있다",
+  "opening drink refrigerator"),
+E("삼각김밥을 손에 들고 있다",
+  "holding convenience store food"),
+E("계산대에 기대 서 있다",
+  "leaning against checkout counter"),
+E("컵라면을 들고 있다",
+  "holding instant noodle cup"),
+E("비닐봉투를 한 손에 들고 있다",
+  "holding shopping bag")
+]
+},
+
+
+street:{
+label:"🌃 길거리 / 골목",
+background:[
+E("네온사인이 빛나는 번화가",
+  "downtown street, neon signs"),
+E("비 내리는 밤거리",
+  "rainy city street at night"),
+E("조용한 주택가 골목",
+  "quiet residential alley"),
+E("가로등이 켜진 골목",
+  "alleyway, street lamps"),
+E("노을이 지는 도심 거리",
+  "city street at sunset"),
+E("새벽의 텅 빈 거리",
+  "empty city street at dawn"),
+E("횡단보도 앞",
+  "urban crosswalk"),
+E("상점 간판이 늘어선 거리",
+  "shopping street, storefront signs"),
+E("좁은 뒷골목",
+  "narrow back alley"),
+E("육교 위",
+  "pedestrian overpass")
+],
+outfit:[],
+action:[
+E("신호를 기다리고 있다",
+  "waiting at crosswalk"),
+E("가로등 아래 서 있다",
+  "standing under streetlamp"),
+E("휴대폰을 보며 걷고 있다",
+  "walking while checking smartphone"),
+E("우산을 접고 있다",
+  "closing umbrella"),
+E("뒤를 돌아보며 걸음을 멈춘다",
+  "stopping and looking back")
+]
+},
+
+
+school:{
+label:"🏫 학교",
+background:[
+E("햇빛이 들어오는 교실",
+  "classroom, sunlight"),
+E("방과 후 텅 빈 교실",
+  "empty classroom after school"),
+E("학교 복도",
+  "school hallway"),
+E("학교 옥상",
+  "school rooftop"),
+E("학교 도서실",
+  "school library"),
+E("체육관",
+  "school gymnasium"),
+E("미술실",
+  "school art classroom"),
+E("음악실",
+  "school music room"),
+E("급식실",
+  "school cafeteria"),
+E("학교 계단참",
+  "school stairwell")
+],
+outfit:[
+E("단정한 교복",
+  "neat school uniform"),
+E("교복 셔츠와 넥타이",
+  "school uniform, shirt, necktie"),
+E("교복 위 가디건",
+  "school uniform, cardigan"),
+E("체육복",
+  "school gym uniform")
+],
+action:[
+E("책상에 엎드려 있다",
+  "resting head on desk"),
+E("교과서를 읽고 있다",
+  "reading textbook"),
+E("교실 창가에 기대 있다",
+  "leaning against classroom window"),
+E("가방을 어깨에 걸치고 있다",
+  "school bag over shoulder"),
+E("칠판 앞에 서 있다",
+  "standing in front of blackboard"),
+E("책상 위에 걸터앉아 있다",
+  "sitting on desk")
+]
+},
+
+
+campus:{
+label:"🎓 대학교 / 캠퍼스",
+background:[
+E("대학교 본관 앞",
+  "university main building"),
+E("캠퍼스 잔디광장",
+  "university lawn"),
+E("캠퍼스 벤치",
+  "campus bench"),
+E("대학교 강의실",
+  "university lecture hall"),
+E("대학교 도서관",
+  "university library"),
+E("학생회관",
+  "university student center"),
+E("벚꽃이 핀 캠퍼스",
+  "university campus, cherry blossoms"),
+E("은행나무가 늘어선 캠퍼스 길",
+  "university campus, ginkgo trees"),
+E("대학교 옥상",
+  "university building rooftop")
+],
+outfit:[
+E("대학생 캐주얼룩",
+  "casual college outfit"),
+E("야구점퍼와 후드티",
+  "varsity jacket, hoodie"),
+E("가디건과 셔츠",
+  "cardigan, shirt"),
+E("니트와 면바지",
+  "knit sweater, casual pants")
+],
+action:[
+E("책을 품에 안고 걷고 있다",
+  "walking while holding books"),
+E("벤치에 앉아 있다",
+  "sitting on campus bench"),
+E("커피를 들고 걷고 있다",
+  "walking with coffee"),
+E("이어폰을 꽂고 걷고 있다",
+  "walking with earphones"),
+E("강의실 문을 열고 있다",
+  "opening lecture hall door")
+]
+},
+
+
+library:{
+label:"📚 도서관",
+background:[
+E("높은 책장이 늘어선 도서관",
+  "library, tall bookshelves"),
+E("조용한 열람실",
+  "quiet library reading room"),
+E("대학교 도서관 창가",
+  "university library, window seat"),
+E("오래된 작은 도서관",
+  "old small library"),
+E("심야까지 불이 켜진 도서관",
+  "library late at night"),
+E("서가 사이 좁은 통로",
+  "library aisle between bookshelves")
+],
+outfit:[],
+action:[
+E("서가에서 책을 꺼내고 있다",
+  "taking book from shelf"),
+E("책을 품에 안고 있다",
+  "holding books to chest"),
+E("책장을 넘기고 있다",
+  "turning book pages"),
+E("열람실 책상에 앉아 있다",
+  "sitting at library desk"),
+E("높은 서가를 올려다보고 있다",
+  "looking up at tall bookshelf")
+]
+},
+
+
+office:{
+label:"🏢 회사 / 오피스",
+background:[
+E("야경이 보이는 고층 오피스",
+  "high-rise office, city night view"),
+E("현대식 오픈 오피스",
+  "modern open-plan office"),
+E("퇴근 후 텅 빈 사무실",
+  "empty office after work"),
+E("임원실",
+  "executive office"),
+E("회사 탕비실",
+  "office pantry"),
+E("회사 옥상",
+  "office rooftop"),
+E("개인 사무실",
+  "private office"),
+E("서류가 가득한 업무 공간",
+  "office workspace, documents"),
+E("유리벽이 있는 오피스",
+  "modern office, glass walls"),
+E("야근 중인 사무실",
+  "office during overtime at night")
+],
+outfit:[
+E("흰 셔츠와 검은 넥타이",
+  "white dress shirt, black necktie"),
+E("재킷을 벗은 정장 차림",
+  "business attire, jacket removed"),
+E("사원증을 목에 건 셔츠 차림",
+  "dress shirt, employee ID card"),
+E("검은 셔츠와 사원증",
+  "black dress shirt, employee ID card")
+],
+action:[
+E("업무 서류를 넘기고 있다",
+  "flipping through office documents"),
+E("회사 노트북을 보고 있다",
+  "looking at work laptop"),
+E("복사기 앞에 서 있다",
+  "standing by office printer"),
+E("사원증을 손에 들고 있다",
+  "holding employee ID card"),
+E("창밖 야경을 내려다보고 있다",
+  "looking down at city night view")
+]
+},
+
+
+meeting:{
+label:"📊 회의실",
+background:[
+E("유리벽으로 된 회의실",
+  "glass-walled meeting room"),
+E("긴 테이블이 있는 회의실",
+  "corporate conference room"),
+E("프레젠테이션 화면이 켜진 회의실",
+  "conference room, presentation screen"),
+E("임원 회의실",
+  "executive boardroom"),
+E("회의가 끝난 뒤 빈 회의실",
+  "empty conference room after meeting")
+],
+outfit:[
+E("완벽하게 갖춰 입은 정장",
+  "formal business suit"),
+E("셔츠와 조끼, 넥타이",
+  "dress shirt, waistcoat, necktie"),
+E("블라우스와 재킷",
+  "blouse, business jacket")
+],
+action:[
+E("화이트보드 앞에서 설명하고 있다",
+  "presenting in front of whiteboard"),
+E("서류를 테이블 위에 내려놓고 있다",
+  "placing documents on table"),
+E("프레젠테이션 화면을 가리키고 있다",
+  "pointing at presentation screen"),
+E("의자에 앉아 펜을 들고 있다",
+  "sitting in meeting chair, holding pen")
+]
+},
+
+
+elevator:{
+label:"🛗 엘리베이터",
+background:[
+E("현대식 빌딩 엘리베이터 내부",
+  "modern elevator interior"),
+E("호텔 엘리베이터",
+  "luxury hotel elevator"),
+E("유리 엘리베이터",
+  "glass elevator"),
+E("회사 엘리베이터 앞",
+  "office elevator lobby"),
+E("심야의 텅 빈 엘리베이터",
+  "empty elevator late at night")
+],
+outfit:[],
+action:[
+E("엘리베이터 벽에 기대 있다",
+  "leaning against elevator wall"),
+E("층수 버튼을 누르고 있다",
+  "pressing elevator button"),
+E("문이 열리는 쪽을 바라보고 있다",
+  "looking toward elevator doors"),
+E("휴대폰을 내려다보고 있다",
+  "looking down at smartphone"),
+E("손목시계를 확인하고 있다",
+  "checking wristwatch")
+]
+},
+
+
+restroom:{
+label:"🚻 화장실",
+background:[
+E("대리석 세면대가 있는 화장실",
+  "luxury restroom, marble sink"),
+E("회사 화장실",
+  "office restroom"),
+E("호텔 화장실",
+  "luxury hotel restroom"),
+E("넓은 거울이 있는 세면 공간",
+  "restroom, large mirror"),
+E("조용한 공공 화장실",
+  "modern public restroom")
+],
+outfit:[],
+action:[
+E("세면대에 두 손을 짚고 있다",
+  "hands resting on sink counter"),
+E("거울 속 자신을 바라보고 있다",
+  "looking into mirror"),
+E("손을 씻고 있다",
+  "washing hands"),
+E("물에 젖은 손으로 머리를 넘기고 있다",
+  "brushing hair back with wet hand"),
+E("거울 앞에서 넥타이를 고쳐 매고 있다",
+  "adjusting necktie in mirror")
+]
+},
+
+
+shower:{
+label:"🚿 샤워실 / 욕실",
+background:[
+E("김이 서린 현대식 욕실",
+  "modern bathroom, steam"),
+E("호텔 유리 샤워부스",
+  "luxury hotel shower booth"),
+E("체육관 샤워실",
+  "gym shower room"),
+E("넓은 욕조가 있는 욕실",
+  "modern bathroom, large bathtub"),
+E("대리석으로 된 고급 욕실",
+  "luxury marble bathroom"),
+E("거울에 김이 서린 욕실",
+  "steamy bathroom mirror")
+],
+outfit:[
+E("목욕가운",
+  "bathrobe"),
+E("허리에 두른 목욕 타월",
+  "bath towel around waist"),
+E("젖은 흰 셔츠",
+  "wet white dress shirt"),
+E("편안한 홈웨어",
+  "comfortable loungewear")
+],
+action:[
+E("수건으로 젖은 머리를 닦고 있다",
+  "drying wet hair with towel"),
+E("젖은 머리를 뒤로 넘기고 있다",
+  "brushing wet hair back"),
+E("거울의 김을 손으로 닦고 있다",
+  "wiping steam from mirror"),
+E("샤워기 아래 서 있다",
+  "standing under shower"),
+E("목욕가운 끈을 정리하고 있다",
+  "adjusting bathrobe belt")
+]
+},
+
+
+bedroom:{
+label:"🛏️ 침실",
+background:[
+E("깔끔한 현대식 침실",
+  "modern bedroom"),
+E("햇살이 들어오는 침실",
+  "bedroom, morning sunlight"),
+E("불을 거의 끈 밤의 침실",
+  "dim bedroom at night"),
+E("호텔처럼 정돈된 침실",
+  "luxurious tidy bedroom"),
+E("생활감 있는 작은 침실",
+  "cozy lived-in bedroom"),
+E("창문 너머 야경이 보이는 침실",
+  "bedroom, city night view")
+],
+outfit:[
+E("파자마",
+  "pajamas"),
+E("실크 파자마",
+  "silk pajamas"),
+E("오버핏 티셔츠와 홈웨어 바지",
+  "oversized t-shirt, lounge pants"),
+E("목욕가운",
+  "bathrobe")
+],
+action:[
+E("침대 가장자리에 앉아 있다",
+  "sitting on edge of bed"),
+E("침대에 기대 책을 읽고 있다",
+  "reading book in bed"),
+E("베개에 기대 앉아 있다",
+  "sitting against pillows"),
+E("막 잠에서 깨어 머리를 만지고 있다",
+  "just woke up, touching hair"),
+E("침대 옆 협탁의 휴대폰을 확인하고 있다",
+  "checking smartphone on bedside table")
+]
+},
+
+
+livingroom:{
+label:"🛋️ 거실",
+background:[
+E("넓은 현대식 거실",
+  "modern living room"),
+E("소파와 큰 창문이 있는 거실",
+  "living room, sofa, large windows"),
+E("TV 불빛만 켜진 거실",
+  "living room at night, television glow"),
+E("생활감 있는 작은 거실",
+  "cozy small living room"),
+E("고급 펜트하우스 거실",
+  "luxury penthouse living room"),
+E("벽난로가 있는 거실",
+  "living room with fireplace")
+],
+outfit:[],
+action:[
+E("소파에 편하게 기대 앉아 있다",
+  "relaxing on sofa"),
+E("리모컨을 손에 들고 있다",
+  "holding remote control"),
+E("소파 팔걸이에 머리를 기대고 있다",
+  "resting head on sofa armrest"),
+E("바닥에 앉아 소파에 기대 있다",
+  "sitting on floor, leaning against sofa"),
+E("TV를 바라보고 있다",
+  "watching television")
+]
+},
+
+
+kitchen:{
+label:"🍳 주방",
+background:[
+E("현대식 아일랜드 주방",
+  "modern kitchen, island counter"),
+E("작은 원룸 주방",
+  "small apartment kitchen"),
+E("고급 펜트하우스 주방",
+  "luxury penthouse kitchen"),
+E("아침 햇살이 드는 주방",
+  "kitchen, morning sunlight"),
+E("늦은 밤 불이 켜진 주방",
+  "kitchen late at night")
+],
+outfit:[
+E("앞치마와 셔츠",
+  "apron, dress shirt"),
+E("앞치마와 티셔츠",
+  "apron, t-shirt"),
+E("편안한 홈웨어",
+  "loungewear")
+],
+action:[
+E("요리를 하고 있다",
+  "cooking"),
+E("도마 위 재료를 썰고 있다",
+  "chopping ingredients"),
+E("냉장고 문을 열고 있다",
+  "opening refrigerator"),
+E("물을 끓이고 있다",
+  "boiling water"),
+E("머그컵에 음료를 따르고 있다",
+  "pouring drink into mug")
+]
+},
+
+
+hotel:{
+label:"🏨 호텔",
+background:[
+E("고급 호텔 객실",
+  "luxury hotel room"),
+E("야경이 보이는 호텔 창가",
+  "hotel room, city night view"),
+E("호텔 스위트룸",
+  "luxury hotel suite"),
+E("호텔 복도",
+  "hotel corridor"),
+E("호텔 로비",
+  "luxury hotel lobby"),
+E("호텔 라운지",
+  "luxury hotel lounge"),
+E("호텔 발코니",
+  "hotel balcony")
+],
+outfit:[
+E("호텔 직원 유니폼",
+  "hotel staff uniform"),
+E("검은 셔츠와 슬랙스",
+  "black dress shirt, slacks"),
+E("고급 정장",
+  "luxury business suit"),
+E("목욕가운",
+  "bathrobe")
+],
+action:[
+E("객실 키카드를 손에 들고 있다",
+  "holding hotel key card"),
+E("호텔 창가에서 야경을 보고 있다",
+  "standing by hotel window"),
+E("여행 가방 손잡이를 잡고 있다",
+  "holding suitcase handle"),
+E("호텔 소파에 앉아 있다",
+  "sitting on hotel sofa"),
+E("재킷을 벗어 의자에 걸고 있다",
+  "placing jacket on chair")
+]
+},
+
+
+hospital:{
+label:"🏥 병원",
+background:[
+E("하얀 병실",
+  "hospital room"),
+E("대학병원 복도",
+  "hospital corridor"),
+E("응급실",
+  "emergency room"),
+E("병원 대기실",
+  "hospital waiting room"),
+E("검사실",
+  "medical examination room"),
+E("간호사 스테이션 앞",
+  "hospital nurse station"),
+E("병원 옥상",
+  "hospital rooftop")
+],
+outfit:[
+E("환자복",
+  "hospital gown"),
+E("의사 가운",
+  "white doctor's coat"),
+E("수술복",
+  "medical scrubs"),
+E("병원 방문객용 일상복",
+  "casual clothes, hospital wristband")
+],
+action:[
+E("병원 침대에 앉아 있다",
+  "sitting on hospital bed"),
+E("의무기록을 읽고 있다",
+  "reading medical chart"),
+E("청진기를 손에 들고 있다",
+  "holding stethoscope"),
+E("병실 창밖을 바라보고 있다",
+  "looking out hospital window"),
+E("링거대를 잡고 걷고 있다",
+  "walking with IV pole")
+]
+},
+
+
+subway:{
+label:"🚇 지하철 / 역",
+background:[
+E("사람이 적은 지하철 내부",
+  "subway interior"),
+E("퇴근 시간 지하철",
+  "busy subway interior"),
+E("지하철 플랫폼",
+  "subway platform"),
+E("막차 시간의 텅 빈 플랫폼",
+  "empty subway platform late at night"),
+E("지하철역 계단",
+  "subway station stairs"),
+E("스크린도어 앞",
+  "subway platform screen doors")
+],
+outfit:[],
+action:[
+E("지하철 손잡이를 잡고 있다",
+  "holding subway strap"),
+E("플랫폼에서 열차를 기다리고 있다",
+  "waiting for train"),
+E("창문에 머리를 기대고 있다",
+  "resting head against subway window"),
+E("휴대폰을 보며 좌석에 앉아 있다",
+  "sitting, checking smartphone"),
+E("이어폰을 끼고 서 있다",
+  "standing with earphones")
+]
+},
+
+
+car:{
+label:"🚗 자동차 / 택시",
+background:[
+E("고급 세단 운전석",
+  "luxury sedan interior, driver's seat"),
+E("자동차 조수석",
+  "car interior, passenger seat"),
+E("밤의 자동차 뒷좌석",
+  "car back seat at night"),
+E("비 오는 날 차 안",
+  "car interior, rainy window"),
+E("주차된 차 안",
+  "parked car interior"),
+E("도심을 달리는 택시",
+  "taxi interior, city at night")
+],
+outfit:[],
+action:[
+E("운전대를 한 손으로 잡고 있다",
+  "one hand on steering wheel"),
+E("차창 밖을 바라보고 있다",
+  "looking out car window"),
+E("안전벨트를 매고 있다",
+  "fastening seat belt"),
+E("차 키를 손에 들고 있다",
+  "holding car keys"),
+E("운전석에 기대 잠시 눈을 감고 있다",
+  "leaning back in driver's seat, eyes closed")
+]
+},
+
+
+park:{
+label:"🌳 공원",
+background:[
+E("도심 공원 산책로",
+  "city park walking path"),
+E("호수가 있는 공원",
+  "park with lake"),
+E("벚꽃이 핀 공원",
+  "park, cherry blossoms"),
+E("낙엽이 쌓인 가을 공원",
+  "autumn park, fallen leaves"),
+E("가로등이 켜진 밤의 공원",
+  "park at night, street lamps"),
+E("공원 벤치",
+  "park bench"),
+E("분수대 앞",
+  "park fountain")
+],
+outfit:[],
+action:[
+E("벤치에 앉아 있다",
+  "sitting on park bench"),
+E("산책로를 걷고 있다",
+  "walking along park path"),
+E("벤치 등받이에 팔을 올리고 있다",
+  "arm resting on bench back"),
+E("나무 아래 서 있다",
+  "standing under tree"),
+E("낙엽을 발끝으로 건드리고 있다",
+  "nudging fallen leaves with foot")
+]
+},
+
+
+beach:{
+label:"🌊 바닷가",
+background:[
+E("맑은 낮의 해변",
+  "sunny beach"),
+E("노을이 지는 해변",
+  "beach at sunset"),
+E("사람 없는 겨울 바닷가",
+  "empty winter beach"),
+E("밤의 해변",
+  "beach at night"),
+E("바닷가 방파제",
+  "seaside breakwater"),
+E("바다가 보이는 산책로",
+  "seaside promenade")
+],
+outfit:[
+E("얇은 셔츠와 면바지",
+  "light shirt, casual pants"),
+E("여름 반팔 셔츠",
+  "summer short-sleeve shirt"),
+E("바람막이 재킷",
+  "windbreaker jacket"),
+E("겨울 코트와 목도리",
+  "winter coat, scarf")
+],
+action:[
+E("파도 가까이에 서 있다",
+  "standing near waves"),
+E("신발을 손에 들고 걷고 있다",
+  "walking while holding shoes"),
+E("방파제 난간에 기대 있다",
+  "leaning on breakwater railing"),
+E("바다를 바라보고 있다",
+  "looking at ocean"),
+E("바람에 날리는 머리를 잡고 있다",
+  "holding hair against wind")
+]
+},
+
+
+gym:{
+label:"🏋️ 헬스장 / 체육관",
+background:[
+E("현대식 헬스장",
+  "modern gym"),
+E("거울이 큰 웨이트존",
+  "gym weight area, large mirrors"),
+E("런닝머신이 늘어선 공간",
+  "gym treadmill area"),
+E("복싱 체육관",
+  "boxing gym"),
+E("학교 체육관",
+  "indoor gymnasium"),
+E("운동 후 한적해진 헬스장",
+  "quiet gym after workout")
+],
+outfit:[
+E("민소매 운동복과 조거팬츠",
+  "sleeveless athletic shirt, joggers"),
+E("반팔 운동복과 반바지",
+  "athletic t-shirt, shorts"),
+E("트레이닝복",
+  "tracksuit"),
+E("후드집업과 운동복",
+  "zip-up hoodie, sportswear")
+],
+action:[
+E("목에 수건을 걸고 있다",
+  "towel around neck"),
+E("물병을 들고 있다",
+  "holding water bottle"),
+E("운동 장갑을 벗고 있다",
+  "removing workout gloves"),
+E("벤치에 앉아 숨을 고르고 있다",
+  "sitting on gym bench, catching breath"),
+E("거울 앞에서 머리를 정리하고 있다",
+  "adjusting hair in gym mirror")
+]
+}
+
+}
 
 },
 
 
+/* ================= 판타지 ================= */
 
-/* =========================================================
-   판타지
-========================================================= */
+fantasy:{
+label:"판타지물",
+common:FANTASY_COMMON,
 
-fantasy: {
-
-  label: "판타지물",
-
-  categories: {
+categories:{
 
 
-    mage: {
-
-      label: "🔮 마법사",
-
-      background: [
-        ["고서와 촛불이 가득한 마탑 서고", "mage tower library, old books, candles"],
-        ["푸른 마법진이 빛나는 실험실", "magic laboratory, glowing magic circle"],
-        ["별빛이 쏟아지는 마탑 꼭대기", "mage tower rooftop, starry sky"],
-        ["수정 구슬이 가득한 마법 연구실", "magic research room, crystal balls"],
-        ["고대 유적 내부", "ancient magical ruins"],
-        ["마력이 떠다니는 숲", "enchanted forest, floating magical particles"]
-      ],
-
-      outfit: [
-        ["긴 마법사 로브", "long wizard robe"],
-        ["금색 자수가 들어간 마도복", "embroidered mage robe, gold trim"],
-        ["후드가 달린 검은 로브", "black hooded mage robe"],
-        ["가벼운 전투형 마법복", "combat mage outfit"],
-        ["마법 보석이 달린 망토", "mage cape, magical gemstone"]
-      ],
-
-      expression: [
-        ["의미심장한 미소", "mysterious smile"],
-        ["마법에 집중한 표정", "focused expression"],
-        ["여유롭고 자신감 있는 미소", "confident smile"],
-        ["냉담한 표정", "cold expression"],
-        ["놀란 표정", "surprised expression"]
-      ],
-
-      action: [
-        ["손끝에 마력을 모으고 있다", "gathering magic at fingertips"],
-        ["마법서를 펼쳐 읽고 있다", "reading spellbook"],
-        ["마법진을 펼치고 있다", "casting glowing magic circle"],
-        ["지팡이를 들어 주문을 외우고 있다", "holding magic staff, casting spell"],
-        ["공중에 떠 있는 룬 문자를 바라보고 있다", "looking at floating magic runes"]
-      ]
-
-    },
-
-
-    knight: {
-
-      label: "⚔️ 기사",
-
-      background: [
-        ["성벽 위", "castle battlements"],
-        ["왕궁 훈련장", "royal training ground"],
-        ["전쟁터 직전의 초원", "battlefield, open field"],
-        ["중세 성 내부", "medieval castle interior"],
-        ["비 내리는 성문 앞", "castle gate, rain"],
-        ["왕좌가 보이는 대전", "royal throne hall"]
-      ],
-
-      outfit: [
-        ["은빛 갑옷과 망토", "silver armor, cape"],
-        ["검은 판금 갑옷", "black plate armor"],
-        ["제복형 기사복", "formal knight uniform"],
-        ["가벼운 경갑", "light armor"],
-        ["갑옷 위 붉은 망토", "armor, red cape"]
-      ],
-
-      expression: [
-        ["단호하고 엄숙한 표정", "solemn expression"],
-        ["경계하는 날카로운 눈빛", "alert sharp gaze"],
-        ["부드럽게 미소 짓는 표정", "restrained gentle smile"],
-        ["화난 표정", "angry expression"],
-        ["피곤하지만 흔들림 없는 표정", "tired but determined expression"]
-      ],
-
-      action: [
-        ["검 손잡이에 손을 얹고 있다", "hand resting on sword hilt"],
-        ["한쪽 무릎을 꿇고 있다", "kneeling on one knee"],
-        ["검을 뽑아 들고 있다", "drawing sword"],
-        ["망토를 휘날리며 걷고 있다", "walking with cape flowing"],
-        ["검을 어깨에 걸치고 있다", "resting sword on shoulder"]
-      ]
-
-    },
+mage:{
+label:"🔮 마법사",
+background:[
+E("고서가 가득한 마탑 서고",
+  "mage tower library"),
+E("마법 실험실",
+  "magic laboratory"),
+E("별이 보이는 마탑 꼭대기",
+  "mage tower rooftop, starry sky"),
+E("마법진이 그려진 연구실",
+  "magic research room, magic circle"),
+E("수정구가 놓인 마법사 방",
+  "wizard chamber, crystal ball"),
+E("금지된 마법서고",
+  "forbidden magic archive")
+],
+outfit:[
+E("금실 자수 마법사 로브",
+  "embroidered wizard robe, gold trim"),
+E("검은 후드 마법사 로브",
+  "black hooded wizard robe"),
+E("푸른색 마도복",
+  "blue mage robe"),
+E("전투형 마도복",
+  "combat mage outfit")
+],
+action:[
+E("마법서를 펼쳐 읽고 있다",
+  "reading spellbook"),
+E("손끝에 작은 불꽃을 만들고 있다",
+  "small magical flame at fingertips"),
+E("공중에 룬 문자를 띄우고 있다",
+  "floating magical runes"),
+E("수정구를 들여다보고 있다",
+  "looking into crystal ball"),
+E("지팡이를 바닥에 짚고 있다",
+  "staff resting on ground")
+]
+},
 
 
-    priest: {
-
-      label: "⛪ 성직자",
-
-      background: [
-        ["빛이 들어오는 대성당", "grand cathedral, stained glass, sunlight"],
-        ["성당 제단 앞", "cathedral altar"],
-        ["촛불이 가득한 기도실", "chapel, candles"],
-        ["성당 회랑", "monastery cloister"],
-        ["고해성사실 앞", "confessional area, cathedral"]
-      ],
-
-      outfit: [
-        ["흰색과 금색의 성직자 예복", "white and gold priest robes"],
-        ["검은 성직복", "black clerical robes"],
-        ["긴 성직자 망토", "long clerical cloak"],
-        ["화려한 대주교 예복", "ornate high priest vestments"]
-      ],
-
-      expression: [
-        ["온화하고 자애로운 미소", "benevolent gentle smile"],
-        ["차분하고 무표정한 표정", "calm neutral expression"],
-        ["기도에 집중한 표정", "solemn prayerful expression"],
-        ["서늘한 미소", "cold subtle smile"],
-        ["걱정스러운 표정", "concerned expression"]
-      ],
-
-      action: [
-        ["기도하듯 두 손을 모으고 있다", "hands clasped in prayer"],
-        ["성서를 펼쳐 읽고 있다", "reading holy book"],
-        ["십자가 펜던트를 쥐고 있다", "holding cross pendant"],
-        ["제단 앞에 서 있다", "standing before altar"],
-        ["촛불을 켜고 있다", "lighting candle"]
-      ]
-
-    },
-
-
-    dragon: {
-
-      label: "🐉 드래곤",
-
-      background: [
-        ["황금과 보석이 쌓인 용의 둥지", "dragon lair, treasure, gold, gemstones"],
-        ["불타는 산 정상", "volcanic mountain peak, flames"],
-        ["거대한 고대 동굴", "massive ancient cave"],
-        ["구름 위의 절벽", "cliff above clouds"],
-        ["무너진 왕국의 폐허", "ruined ancient kingdom"]
-      ],
-
-      outfit: [
-        ["검은 로브와 용 비늘 장식", "black robe, dragon scale ornaments"],
-        ["고급 귀족복", "luxurious noble attire"],
-        ["가죽 갑옷", "leather armor"],
-        ["금 장식이 들어간 긴 코트", "long coat, gold decorations"]
-      ],
-
-      expression: [
-        ["오만하게 내려다보는 표정", "arrogant expression"],
-        ["흥미롭다는 듯 웃는 표정", "amused smile"],
-        ["무표정", "expressionless"],
-        ["날카롭게 경계하는 표정", "watchful sharp gaze"],
-        ["느긋한 미소", "lazy confident smile"]
-      ],
-
-      action: [
-        ["보물더미 위에 앉아 있다", "sitting on treasure pile"],
-        ["팔짱을 끼고 내려다본다", "crossed arms, looking down"],
-        ["손끝에 불꽃을 피우고 있다", "flame at fingertips"],
-        ["등 뒤로 용의 날개를 펼친다", "spreading dragon wings"],
-        ["절벽 가장자리에 서 있다", "standing at cliff edge"]
-      ]
-
-    },
+knight:{
+label:"⚔️ 기사",
+background:[
+E("왕궁 기사단 훈련장",
+  "royal knight training ground"),
+E("성벽 위 경비초소",
+  "castle wall guard post"),
+E("왕궁 대전 앞",
+  "outside royal throne hall"),
+E("비 내리는 성문",
+  "castle gate in rain"),
+E("전쟁 직전의 야영지",
+  "military camp before battle"),
+E("갑옷과 무기가 놓인 무기고",
+  "medieval armory")
+],
+outfit:[
+E("은빛 갑옷과 붉은 망토",
+  "silver armor, red cape"),
+E("검은 갑옷",
+  "black armor"),
+E("기사단 제복",
+  "knight order uniform"),
+E("가벼운 경갑과 망토",
+  "light armor, cape")
+],
+action:[
+E("검을 세워 두 손으로 잡고 있다",
+  "holding sword vertically with both hands"),
+E("갑옷 장갑을 조이고 있다",
+  "tightening armored gloves"),
+E("검집에서 검을 반쯤 뽑고 있다",
+  "partially drawing sword"),
+E("투구를 옆구리에 끼고 있다",
+  "holding helmet under arm"),
+E("망토를 뒤로 넘기고 있다",
+  "sweeping cape back")
+]
+},
 
 
-    royal: {
+priest:{
+label:"⛪ 성직자",
+background:[
+E("스테인드글라스가 빛나는 대성당",
+  "grand cathedral, stained glass"),
+E("성당 제단 앞",
+  "cathedral altar"),
+E("촛불이 가득한 기도실",
+  "chapel filled with candles"),
+E("수도원 회랑",
+  "monastery cloister"),
+E("고해성사실 근처",
+  "cathedral confessional area"),
+E("성수대 앞",
+  "holy water basin, cathedral")
+],
+outfit:[
+E("흰색과 금색의 성직자 예복",
+  "white and gold priest vestments"),
+E("검은 성직자복",
+  "black clerical robes"),
+E("긴 성직자 망토",
+  "long clerical cloak"),
+E("대주교 예복",
+  "ornate high priest vestments")
+],
+action:[
+E("성서를 펼쳐 읽고 있다",
+  "reading holy book"),
+E("십자가를 손에 쥐고 있다",
+  "holding cross"),
+E("제단 앞에서 기도하고 있다",
+  "praying before altar"),
+E("성수를 손끝에 묻히고 있다",
+  "touching holy water"),
+E("촛불에 불을 붙이고 있다",
+  "lighting cathedral candle")
+]
+},
 
-      label: "👑 왕족 / 귀족",
 
-      background: [
-        ["화려한 왕좌의 방", "royal throne room"],
-        ["왕궁 연회장", "royal ballroom"],
-        ["왕궁 정원", "palace garden"],
-        ["귀족 저택 응접실", "noble mansion drawing room"],
-        ["왕궁 발코니", "palace balcony"]
-      ],
+royal:{
+label:"👑 왕족",
+background:[
+E("황금빛 왕좌의 방",
+  "ornate golden throne room"),
+E("왕궁 발코니",
+  "royal palace balcony"),
+E("왕실 연회장",
+  "royal ballroom"),
+E("왕궁 개인 집무실",
+  "royal private office"),
+E("왕실 침전",
+  "royal chamber"),
+E("궁정 정원",
+  "royal palace garden")
+],
+outfit:[
+E("금장식 왕실 제복",
+  "royal uniform, gold trim"),
+E("왕관과 화려한 예복",
+  "crown, ornate royal attire"),
+E("흰색 왕실 제복과 망토",
+  "white royal uniform, cape"),
+E("검은 왕실 예복",
+  "black royal ceremonial attire")
+],
+action:[
+E("왕좌에 기대 앉아 있다",
+  "leaning back on throne"),
+E("왕관을 한 손에 들고 있다",
+  "holding crown in one hand"),
+E("발코니 아래를 내려다보고 있다",
+  "looking down from palace balcony"),
+E("왕실 문서를 읽고 있다",
+  "reading royal documents"),
+E("장갑을 벗어 테이블에 두고 있다",
+  "removing gloves")
+]
+},
 
-      outfit: [
-        ["금장식 왕실 제복", "royal uniform, gold trim"],
-        ["화려한 귀족 예복", "ornate noble attire"],
-        ["긴 왕실 망토", "royal cape"],
-        ["보석 장식 드레스", "ornate royal dress, gemstones"]
-      ],
 
-      expression: [
-        ["오만한 미소", "arrogant smile"],
-        ["차분한 미소", "calm smile"],
-        ["냉담한 표정", "cold expression"],
-        ["상대를 흥미롭게 보는 표정", "amused gaze"]
-      ],
+noble:{
+label:"🎩 귀족",
+background:[
+E("귀족 저택 응접실",
+  "noble mansion drawing room"),
+E("화려한 사교계 연회장",
+  "aristocratic ballroom"),
+E("귀족 저택 정원",
+  "noble estate garden"),
+E("벽난로가 있는 서재",
+  "noble library, fireplace"),
+E("대리석 계단이 있는 저택",
+  "mansion, marble staircase")
+],
+outfit:[
+E("화려한 귀족 정장",
+  "ornate noble suit"),
+E("레이스 장식 귀족복",
+  "lace-trimmed noble attire"),
+E("벨벳 코트와 금장식",
+  "velvet coat, gold ornaments"),
+E("우아한 귀족 드레스",
+  "elegant noble dress")
+],
+action:[
+E("장갑 낀 손으로 지팡이를 잡고 있다",
+  "holding walking cane with gloved hand"),
+E("찻잔을 들고 있다",
+  "holding teacup"),
+E("벽난로 앞에 서 있다",
+  "standing before fireplace"),
+E("계단 난간에 손을 얹고 있다",
+  "hand resting on staircase railing"),
+E("편지를 읽고 있다",
+  "reading letter")
+]
+},
 
-      action: [
-        ["왕좌에 앉아 있다", "sitting on throne"],
-        ["와인잔을 들고 있다", "holding wine glass"],
-        ["발코니 난간에 기대 있다", "leaning against balcony railing"],
-        ["장갑을 벗고 있다", "removing gloves"]
-      ]
 
-    }
+mercenary:{
+label:"🗡️ 용병",
+background:[
+E("용병 길드",
+  "mercenary guild"),
+E("허름한 여관",
+  "rustic fantasy inn"),
+E("야전 캠프",
+  "mercenary camp"),
+E("국경의 작은 마을",
+  "frontier village"),
+E("황폐한 전장",
+  "desolate battlefield"),
+E("숲속 야영지",
+  "forest campsite")
+],
+outfit:[
+E("낡은 가죽 갑옷",
+  "worn leather armor"),
+E("어두운 용병복",
+  "dark mercenary outfit"),
+E("여러 무기를 찬 전투복",
+  "combat gear, multiple weapons"),
+E("낡은 망토와 가죽 장비",
+  "worn cloak, leather gear")
+],
+action:[
+E("검을 숫돌에 갈고 있다",
+  "sharpening sword"),
+E("동전 주머니를 손에 들고 있다",
+  "holding coin pouch"),
+E("의자에 거꾸로 기대 앉아 있다",
+  "sitting backward on chair"),
+E("무기를 점검하고 있다",
+  "checking weapons"),
+E("야영지 불가에 앉아 있다",
+  "sitting by campfire")
+]
+},
 
-  }
+
+adventurer:{
+label:"🧭 모험가",
+background:[
+E("모험가 길드 게시판 앞",
+  "adventurer guild quest board"),
+E("던전 입구",
+  "dungeon entrance"),
+E("숲길",
+  "fantasy forest path"),
+E("산맥의 좁은 길",
+  "mountain trail"),
+E("낯선 마을의 광장",
+  "fantasy village square"),
+E("야영지",
+  "adventurer campsite")
+],
+outfit:[
+E("여행용 망토와 가방",
+  "traveler cloak, backpack"),
+E("가벼운 가죽 장비",
+  "light leather adventurer gear"),
+E("모험가용 부츠와 벨트",
+  "adventurer boots, utility belt"),
+E("후드 망토",
+  "hooded travel cloak")
+],
+action:[
+E("지도 위에 손가락을 올리고 있다",
+  "pointing at map"),
+E("배낭 끈을 조이고 있다",
+  "adjusting backpack strap"),
+E("퀘스트 게시판을 보고 있다",
+  "looking at quest board"),
+E("나침반을 확인하고 있다",
+  "checking compass"),
+E("횃불을 들고 있다",
+  "holding torch")
+]
+},
+
+
+dragon:{
+label:"🐉 드래곤 / 용인",
+background:[
+E("황금과 보물이 쌓인 용의 둥지",
+  "dragon lair, treasure pile"),
+E("화산 정상",
+  "volcanic mountain summit"),
+E("거대한 동굴",
+  "massive dragon cave"),
+E("구름 위 절벽",
+  "cliff above clouds"),
+E("무너진 고대 왕국",
+  "ruined ancient kingdom"),
+E("거대한 고대 신전",
+  "ancient dragon temple")
+],
+outfit:[
+E("용 비늘 장식 검은 로브",
+  "black robe, dragon scale ornaments"),
+E("금장식 귀족복",
+  "gold-trimmed noble attire"),
+E("검은 장갑과 긴 코트",
+  "black gloves, long coat"),
+E("갑옷 일부에 용 비늘이 장식된 전투복",
+  "armor with dragon scale decorations")
+],
+action:[
+E("보물더미 위에 앉아 있다",
+  "sitting on treasure pile"),
+E("손끝에 불꽃을 피우고 있다",
+  "flame at fingertips"),
+E("등 뒤로 날개를 펼치고 있다",
+  "spreading dragon wings"),
+E("절벽 가장자리에 서 있다",
+  "standing at cliff edge"),
+E("금화를 손가락 사이에서 굴리고 있다",
+  "rolling gold coin between fingers")
+]
+},
+
+
+elf:{
+label:"🌿 엘프",
+background:[
+E("빛나는 고대 숲",
+  "glowing ancient forest"),
+E("거대한 나무 위 마을",
+  "elven tree village"),
+E("숲속 호수",
+  "enchanted forest lake"),
+E("꽃이 가득한 엘프 정원",
+  "elven garden"),
+E("숲속 신전",
+  "elven forest temple")
+],
+outfit:[
+E("초록빛 엘프 예복",
+  "green elven robes"),
+E("가죽 궁수복",
+  "elven archer outfit"),
+E("흰색과 금색의 엘프 의상",
+  "white and gold elven attire"),
+E("나뭇잎 장식 망토",
+  "leaf-decorated cloak")
+],
+action:[
+E("활시위를 당기고 있다",
+  "drawing bow"),
+E("나뭇잎을 손바닥에 올려두고 있다",
+  "holding leaf in palm"),
+E("나무에 손을 대고 있다",
+  "touching ancient tree"),
+E("호숫가에 앉아 있다",
+  "sitting beside forest lake"),
+E("숲 너머를 경계하고 있다",
+  "watching forest")
+]
+},
+
+
+demon:{
+label:"😈 마족",
+background:[
+E("검붉은 마계 성채",
+  "dark demon fortress"),
+E("붉은 달 아래의 황무지",
+  "wasteland under red moon"),
+E("검은 왕좌의 방",
+  "dark throne room"),
+E("불길이 솟는 마계 도시",
+  "demonic city, flames"),
+E("마계의 고대 신전",
+  "ancient demonic temple")
+],
+outfit:[
+E("검은 마족 귀족복",
+  "black demonic noble attire"),
+E("붉은 안감의 검은 망토",
+  "black cape, red lining"),
+E("금속 장식 검은 전투복",
+  "black combat outfit, metal ornaments"),
+E("검붉은 왕실 예복",
+  "dark red royal attire")
+],
+action:[
+E("검은 불꽃을 손에 띄우고 있다",
+  "black flame in hand"),
+E("왕좌 팔걸이에 턱을 괴고 있다",
+  "resting chin on hand on throne"),
+E("손가락을 튕기고 있다",
+  "snapping fingers"),
+E("긴 망토를 끌며 걸어오고 있다",
+  "walking with long cape trailing"),
+E("아래를 내려다보며 팔짱을 끼고 있다",
+  "crossed arms, looking down")
+]
+},
+
+
+academy:{
+label:"🏰 마법학교",
+background:[
+E("마법학교 대강당",
+  "magic academy grand hall"),
+E("마법학교 교실",
+  "magic academy classroom"),
+E("움직이는 계단",
+  "magical moving staircase"),
+E("마법학교 도서관",
+  "magic academy library"),
+E("마법학교 기숙사",
+  "magic academy dormitory"),
+E("마법 실습장",
+  "magic academy training ground")
+],
+outfit:[
+E("마법학교 교복과 망토",
+  "magic academy uniform, cloak"),
+E("셔츠와 넥타이형 마법학교 교복",
+  "magic school uniform, shirt, tie"),
+E("후드가 달린 학생 로브",
+  "student hooded robe"),
+E("실습용 마도복",
+  "student practice mage outfit")
+],
+action:[
+E("교과서 위에 마법진을 띄우고 있다",
+  "casting magic circle over textbook"),
+E("마법 지팡이를 들고 있다",
+  "holding magic wand"),
+E("기숙사 복도를 걷고 있다",
+  "walking through academy dorm hallway"),
+E("공중에 떠 있는 책을 바라보고 있다",
+  "looking at floating book"),
+E("책상에 엎드려 있다",
+  "resting head on classroom desk")
+]
+},
+
+
+tower:{
+label:"🗼 마탑",
+background:[
+E("나선계단이 있는 마탑 내부",
+  "mage tower interior, spiral staircase"),
+E("마탑 연구실",
+  "mage tower laboratory"),
+E("마탑 도서관",
+  "mage tower library"),
+E("마탑 전망대",
+  "mage tower observatory"),
+E("마탑 꼭대기 발코니",
+  "mage tower balcony"),
+E("마력핵이 있는 중앙실",
+  "mage tower core chamber")
+],
+outfit:[
+E("고위 마법사 로브",
+  "high mage robe"),
+E("연구용 마도복",
+  "mage research attire"),
+E("검은 로브와 은장식",
+  "black robe, silver ornaments"),
+E("긴 흰색 마법사 코트",
+  "long white mage coat")
+],
+action:[
+E("마력핵을 살펴보고 있다",
+  "examining magical core"),
+E("공중에 떠 있는 책 사이를 걷고 있다",
+  "walking among floating books"),
+E("망원경을 들여다보고 있다",
+  "looking through telescope"),
+E("마법식을 기록하고 있다",
+  "writing magical formula"),
+E("창밖의 도시를 내려다보고 있다",
+  "looking down at city from tower")
+]
+},
+
+
+dungeon:{
+label:"🕳️ 던전",
+background:[
+E("푸른 수정이 빛나는 던전",
+  "dungeon, glowing blue crystals"),
+E("고대 석조 던전",
+  "ancient stone dungeon"),
+E("지하 동굴형 던전",
+  "underground cave dungeon"),
+E("버려진 신전형 던전",
+  "abandoned temple dungeon"),
+E("핏빛 안개가 낀 던전",
+  "dungeon, crimson mist"),
+E("보스룸 앞 거대한 문",
+  "massive dungeon boss door")
+],
+outfit:[],
+action:[
+E("횃불을 들고 앞을 살피고 있다",
+  "holding torch, watching ahead"),
+E("벽의 문양을 손으로 만지고 있다",
+  "touching rune on wall"),
+E("무기를 든 채 조심스럽게 걷고 있다",
+  "walking cautiously with weapon"),
+E("바닥의 함정을 살펴보고 있다",
+  "examining floor trap"),
+E("거대한 문 앞에 서 있다",
+  "standing before massive door")
+]
+},
+
+
+tavern:{
+label:"🍺 여관 / 선술집",
+background:[
+E("사람들로 붐비는 중세 선술집",
+  "busy medieval tavern"),
+E("벽난로가 있는 여관",
+  "fantasy inn, fireplace"),
+E("한적한 시골 여관",
+  "quiet countryside inn"),
+E("모험가 길드와 연결된 술집",
+  "adventurer guild tavern"),
+E("심야의 빈 선술집",
+  "empty tavern late at night")
+],
+outfit:[],
+action:[
+E("나무잔을 들고 있다",
+  "holding wooden mug"),
+E("테이블에 동전을 올려놓고 있다",
+  "placing coins on table"),
+E("벽난로 앞 의자에 앉아 있다",
+  "sitting by fireplace"),
+E("여관 주인에게 말을 걸고 있다",
+  "talking to innkeeper"),
+E("테이블 위 지도를 펼치고 있다",
+  "spreading map on table")
+]
+},
+
+
+battlefield:{
+label:"🔥 전쟁터",
+background:[
+E("불타는 전장",
+  "burning battlefield"),
+E("비가 내리는 황폐한 전장",
+  "battlefield in rain"),
+E("전쟁이 끝난 직후의 평원",
+  "battlefield aftermath"),
+E("무너진 성벽 앞",
+  "destroyed castle wall"),
+E("깃발이 휘날리는 군 진영",
+  "military camp, flags")
+],
+outfit:[
+E("흙과 먼지가 묻은 갑옷",
+  "dirty battle-worn armor"),
+E("피가 묻은 기사 갑옷",
+  "bloodstained knight armor"),
+E("찢어진 망토와 경갑",
+  "torn cape, light armor")
+],
+action:[
+E("검을 바닥에 짚고 숨을 고르고 있다",
+  "leaning on sword, catching breath"),
+E("전장을 내려다보고 있다",
+  "looking over battlefield"),
+E("부상당한 팔을 붙잡고 있다",
+  "holding injured arm"),
+E("동료를 부축하고 있다",
+  "supporting injured ally"),
+E("검을 들어 다시 자세를 잡고 있다",
+  "raising sword into combat stance")
+]
+}
+
+}
 
 },
 
 
+/* ================= 가이드버스 ================= */
 
-/* =========================================================
-   GUIDEVERSE
-========================================================= */
+guideverse:{
+label:"가이드버스",
+common:GUIDE_COMMON,
 
-guideverse: {
-
-  label: "가이드버스",
-
-  categories: {
+categories:{
 
 
-    gate: {
-
-      label: "🌀 게이트 앞",
-
-      background: [
-        ["붕괴된 도심 속 거대한 게이트", "giant dimensional gate, ruined city"],
-        ["게이트 진입 통제선 앞", "gate entrance, barricades, emergency zone"],
-        ["사이렌이 울리는 출동 현장", "emergency gate scene, sirens"],
-        ["폭우가 쏟아지는 게이트 앞", "dimensional gate, heavy rain"],
-        ["군 병력이 통제 중인 게이트 현장", "gate site, military barricades"]
-      ],
-
-      outfit: [
-        ["센터 지급 전술복", "tactical uniform"],
-        ["검은 작전복", "black tactical outfit"],
-        ["방탄 조끼와 전투복", "combat uniform, tactical vest"],
-        ["긴 검은 전투 코트", "black tactical long coat"]
-      ],
-
-      expression: [
-        ["긴장한 표정", "tense expression"],
-        ["상황을 분석하는 차분한 눈빛", "calm assessing gaze"],
-        ["날 선 경계심", "alert guarded expression"],
-        ["냉정한 무표정", "cold expressionless face"],
-        ["이를 악문 표정", "gritted teeth"]
-      ],
-
-      action: [
-        ["게이트를 향해 자세를 낮춘다", "combat stance, facing gate"],
-        ["무전기를 들고 명령을 듣는다", "holding radio, listening to orders"],
-        ["앞을 막아서듯 서 있다", "standing protectively in front"],
-        ["무기를 꺼내 들고 있다", "holding weapon"],
-        ["게이트 내부를 응시하고 있다", "staring into dimensional gate"]
-      ]
-
-    },
+center:{
+label:"🏢 센터",
+background:[
+E("에스퍼 관리 센터 로비",
+  "esper management center lobby"),
+E("센터 상담실",
+  "esper center consultation room"),
+E("센터 직원 사무실",
+  "esper center office"),
+E("출입통제 게이트",
+  "secure center entrance"),
+E("센터 휴게실",
+  "esper center lounge"),
+E("센터 지하 복도",
+  "underground center corridor")
+],
+outfit:[],
+action:[
+E("센터 출입카드를 태그하고 있다",
+  "scanning center ID card"),
+E("상담 기록을 확인하고 있다",
+  "checking consultation record"),
+E("로비 의자에 앉아 기다리고 있다",
+  "sitting in lobby, waiting"),
+E("안내 데스크 앞에 서 있다",
+  "standing at reception desk")
+]
+},
 
 
-    dungeon: {
-
-      label: "🕳️ 던전",
-
-      background: [
-        ["푸른 결정이 빛나는 던전", "dungeon, glowing blue crystals"],
-        ["무너진 지하 유적", "collapsed underground ruins"],
-        ["어두운 동굴형 던전", "dark cavern dungeon"],
-        ["핏빛 안개가 낀 던전", "dungeon, crimson mist"],
-        ["고대 신전 형태의 던전", "ancient temple dungeon"]
-      ],
-
-      outfit: [
-        ["전투복", "combat uniform"],
-        ["센터 작전복", "tactical center uniform"],
-        ["가죽 장갑과 방탄조끼", "tactical vest, leather gloves"],
-        ["헤진 작전복", "damaged tactical uniform"]
-      ],
-
-      expression: [
-        ["경계하는 표정", "alert expression"],
-        ["전투에 집중한 표정", "focused combat expression"],
-        ["통증을 참는 표정", "pained expression"],
-        ["냉정한 표정", "cold expression"],
-        ["뒤를 돌아보며 놀란 표정", "surprised expression, looking back"]
-      ],
-
-      action: [
-        ["벽에 등을 붙이고 주변을 살핀다", "back against wall, checking surroundings"],
-        ["몬스터를 향해 능력을 사용한다", "using supernatural power"],
-        ["무기를 들어 전투 자세를 취한다", "combat stance, holding weapon"],
-        ["부상당한 팔을 붙잡고 있다", "holding injured arm"],
-        ["동료를 보호하듯 앞에 선다", "standing protectively in front"]
-      ]
-
-    },
-
-
-    monster: {
-
-      label: "👹 몬스터 전투",
-
-      background: [
-        ["거대한 몬스터가 나타난 폐허", "ruined city, giant monster"],
-        ["불타는 건물 사이", "burning urban ruins"],
-        ["파괴된 고속도로", "destroyed highway"],
-        ["던전 보스룸", "dungeon boss chamber"]
-      ],
-
-      outfit: [
-        ["피가 묻은 전투복", "bloodstained combat uniform"],
-        ["찢어진 작전복", "torn tactical uniform"],
-        ["방탄조끼와 검은 전투복", "black combat uniform, tactical vest"]
-      ],
-
-      expression: [
-        ["분노한 표정", "angry expression"],
-        ["전투에 몰입한 표정", "intense focused expression"],
-        ["냉혹한 표정", "ruthless expression"],
-        ["숨을 몰아쉬는 지친 표정", "exhausted expression"]
-      ],
-
-      action: [
-        ["몬스터를 향해 돌진한다", "charging toward monster"],
-        ["손에서 능력을 방출한다", "releasing supernatural energy from hand"],
-        ["잔해 사이에서 몸을 일으킨다", "getting up among debris"],
-        ["전투 자세를 취한다", "combat stance"]
-      ]
-
-    },
+test:{
+label:"📈 검사실 / 등급심사",
+background:[
+E("능력 측정실",
+  "supernatural ability testing room"),
+E("등급 심사실",
+  "esper ranking examination room"),
+E("생체 수치 검사실",
+  "biometric testing room"),
+E("투명 격벽이 있는 실험실",
+  "testing laboratory, glass barrier"),
+E("측정 장비가 둘러싼 검사 공간",
+  "ability testing chamber, sensors")
+],
+outfit:[
+E("검사용 센터복",
+  "center testing uniform"),
+E("검사복",
+  "medical examination clothing"),
+E("센터 제복",
+  "center uniform")
+],
+action:[
+E("손을 측정 장치 위에 올리고 있다",
+  "hand on testing device"),
+E("센서가 부착된 손목을 바라보고 있다",
+  "looking at wrist sensors"),
+E("능력을 약하게 방출하고 있다",
+  "releasing controlled supernatural energy"),
+E("검사관의 지시를 듣고 있다",
+  "listening to examiner"),
+E("검사 결과 모니터를 보고 있다",
+  "looking at test result monitor")
+]
+},
 
 
-    guiding: {
-
-      label: "💠 가이딩",
-
-      background: [
-        ["희미한 조명의 가이딩룸", "guiding room, dim lighting"],
-        ["센터 안정화실", "stabilization room, medical equipment"],
-        ["응급 가이딩실", "emergency guiding room"],
-        ["소파가 놓인 개인 가이딩룸", "private guiding room, sofa"],
-        ["폭주 직후의 격리실", "isolation room after berserk episode"]
-      ],
-
-      outfit: [
-        ["센터 제복 셔츠", "center uniform shirt"],
-        ["환자복", "hospital gown"],
-        ["흐트러진 작전복", "disheveled tactical uniform"],
-        ["셔츠와 슬랙스", "dress shirt, slacks"]
-      ],
-
-      expression: [
-        ["지친 듯 위태로운 표정", "exhausted vulnerable expression"],
-        ["안정을 되찾아가는 표정", "gradually relaxing expression"],
-        ["고통을 참는 표정", "pained expression"],
-        ["상대를 조용히 바라보는 표정", "soft intense gaze"],
-        ["눈을 감고 호흡을 가다듬는 표정", "eyes closed, calming down"]
-      ],
-
-      action: [
-        ["벽에 기대 호흡을 고른다", "leaning against wall, catching breath"],
-        ["상대의 손목을 붙잡고 있다", "holding another person's wrist"],
-        ["침대 가장자리에 앉아 있다", "sitting on edge of bed"],
-        ["상대의 손을 붙잡고 있다", "holding another person's hand"],
-        ["고개를 숙인 채 숨을 고른다", "head lowered, catching breath"]
-      ]
-
-    },
-
-
-    center: {
-
-      label: "🏢 센터",
-
-      background: [
-        ["에스퍼 관리 센터 로비", "esper management center lobby"],
-        ["능력 측정실", "ability testing room"],
-        ["센터 복도", "modern facility hallway"],
-        ["통제실", "operations control room"],
-        ["센터 상담실", "consultation room"]
-      ],
-
-      outfit: [
-        ["센터 제복", "center uniform"],
-        ["정장", "business suit"],
-        ["연구원 가운", "researcher lab coat"],
-        ["캐주얼 셔츠", "casual dress shirt"]
-      ],
-
-      expression: [
-        ["업무적인 표정", "professional expression"],
-        ["무심한 표정", "neutral expression"],
-        ["걱정스러운 표정", "concerned expression"],
-        ["차분한 미소", "calm smile"]
-      ],
-
-      action: [
-        ["태블릿을 확인하고 있다", "checking tablet"],
-        ["검사 결과지를 보고 있다", "reading test results"],
-        ["복도를 걸어가고 있다", "walking through hallway"],
-        ["모니터를 바라보고 있다", "looking at monitor"]
-      ]
-
-    },
+guiding:{
+label:"💠 가이딩룸",
+background:[
+E("희미한 조명의 개인 가이딩룸",
+  "private guiding room, dim lighting"),
+E("센터 안정화실",
+  "center stabilization room"),
+E("소파가 놓인 가이딩룸",
+  "guiding room, sofa"),
+E("의료 장비가 있는 가이딩실",
+  "guiding room, medical equipment"),
+E("응급 가이딩실",
+  "emergency guiding room"),
+E("조용한 관찰실",
+  "quiet observation room")
+],
+outfit:[
+E("센터 제복 셔츠",
+  "center uniform shirt"),
+E("환자복",
+  "hospital gown"),
+E("흐트러진 작전복",
+  "disheveled tactical uniform"),
+E("검은 셔츠와 센터 ID카드",
+  "black shirt, center ID card")
+],
+action:[
+E("상대의 손목을 잡고 있다",
+  "holding another person's wrist"),
+E("상대의 손을 두 손으로 감싸고 있다",
+  "holding another person's hand with both hands"),
+E("침대 가장자리에 앉아 숨을 고르고 있다",
+  "sitting on edge of bed, catching breath"),
+E("벽에 기대 눈을 감고 있다",
+  "leaning against wall, eyes closed"),
+E("손끝을 상대에게 뻗고 있다",
+  "reaching fingertips toward another person")
+]
+},
 
 
-    berserk: {
+gate:{
+label:"🌀 게이트 앞",
+background:[
+E("붕괴된 도심의 거대한 게이트 앞",
+  "giant dimensional gate, ruined city"),
+E("게이트 진입 통제선",
+  "dimensional gate entrance, barricades"),
+E("게이트 주변 군 통제구역",
+  "gate site, military perimeter"),
+E("사이렌이 울리는 게이트 현장",
+  "emergency gate site, sirens"),
+E("고층 빌딩 사이에 열린 게이트",
+  "dimensional gate between high-rise buildings"),
+E("밤의 게이트 출동 현장",
+  "gate response site at night")
+],
+outfit:[
+E("완전 무장 전술복",
+  "fully equipped tactical uniform"),
+E("센터 특수작전복",
+  "special operations uniform"),
+E("검은 전투 코트",
+  "black combat long coat")
+],
+action:[
+E("게이트를 정면으로 응시하고 있다",
+  "staring directly at dimensional gate"),
+E("무전기를 귀에 대고 있다",
+  "holding radio to ear"),
+E("통제선 앞에서 대기하고 있다",
+  "waiting behind barricade"),
+E("동료 앞을 막아서고 있다",
+  "standing protectively in front"),
+E("무기를 꺼내 들고 있다",
+  "drawing weapon")
+]
+},
 
-      label: "⚠️ 폭주",
 
-      background: [
-        ["파괴된 가이딩룸", "destroyed guiding room"],
-        ["경보등이 깜빡이는 격리실", "isolation room, warning lights"],
-        ["능력 폭주로 갈라진 바닥", "cracked floor, supernatural energy"],
-        ["무너진 센터 복도", "destroyed facility hallway"]
-      ],
+dungeon:{
+label:"🕳️ 게이트 내부 / 던전",
+background:[
+E("푸른 결정이 빛나는 던전",
+  "dungeon, glowing blue crystals"),
+E("무너진 지하 유적",
+  "collapsed underground ruins"),
+E("어두운 동굴형 게이트",
+  "dark cave dungeon"),
+E("고대 신전형 던전",
+  "ancient temple dungeon"),
+E("검은 안개가 낀 던전",
+  "dungeon, dark mist"),
+E("미지의 식물이 자라는 게이트 내부",
+  "dungeon, strange glowing plants")
+],
+outfit:[
+E("먼지가 묻은 전술복",
+  "dusty tactical uniform"),
+E("찢어진 전투복",
+  "damaged combat uniform"),
+E("센터 작전복과 장비 벨트",
+  "center tactical uniform, utility belt")
+],
+action:[
+E("벽에 등을 붙이고 주변을 살핀다",
+  "back against wall, watching surroundings"),
+E("바닥의 흔적을 조사하고 있다",
+  "examining tracks"),
+E("능력을 사용할 준비를 하고 있다",
+  "preparing supernatural ability"),
+E("전방을 향해 손을 뻗고 있다",
+  "reaching hand toward front"),
+E("동료에게 손짓으로 정지를 알리고 있다",
+  "signaling teammate to stop")
+]
+},
 
-      outfit: [
-        ["찢어진 작전복", "torn tactical uniform"],
-        ["구겨진 센터 제복", "disheveled center uniform"],
-        ["환자복", "hospital gown"]
-      ],
 
-      expression: [
-        ["고통에 찡그린 표정", "pained expression"],
-        ["눈빛이 흔들리는 표정", "unstable gaze"],
-        ["분노를 억누르는 표정", "restrained anger"],
-        ["이를 악문 표정", "gritted teeth"]
-      ],
+monster:{
+label:"👹 몬스터 전투",
+background:[
+E("거대한 몬스터가 나타난 도심 폐허",
+  "ruined city, giant monster"),
+E("몬스터에게 파괴된 고속도로",
+  "destroyed highway, monster attack"),
+E("보스 몬스터가 있는 던전",
+  "dungeon boss chamber, giant monster"),
+E("불타는 건물 사이",
+  "burning city ruins"),
+E("몬스터 잔해가 널린 전장",
+  "battlefield, monster remains")
+],
+outfit:[
+E("피와 먼지가 묻은 전투복",
+  "bloodstained dusty combat uniform"),
+E("파손된 방탄조끼와 전술복",
+  "damaged tactical vest, combat uniform"),
+E("찢어진 검은 작전복",
+  "torn black tactical uniform")
+],
+action:[
+E("몬스터를 향해 돌진하고 있다",
+  "charging toward monster"),
+E("손에서 능력을 방출하고 있다",
+  "releasing supernatural energy from hand"),
+E("공격을 막기 위해 팔을 들어 올리고 있다",
+  "raising arm to block attack"),
+E("잔해 사이에서 몸을 일으키고 있다",
+  "getting up among debris"),
+E("몬스터를 향해 무기를 겨누고 있다",
+  "aiming weapon at monster")
+]
+},
 
-      action: [
-        ["벽에 손을 짚고 버티고 있다", "bracing against wall"],
-        ["머리를 감싸 쥐고 있다", "clutching head"],
-        ["통제되지 않는 능력이 주변에 퍼지고 있다", "uncontrolled supernatural energy surrounding body"],
-        ["무릎을 꿇고 숨을 몰아쉬고 있다", "kneeling, breathing heavily"]
-      ]
 
-    }
+rescue:{
+label:"🚑 구조 현장",
+background:[
+E("붕괴된 건물 구조 현장",
+  "collapsed building rescue site"),
+E("게이트 재난 대피소",
+  "gate disaster evacuation shelter"),
+E("구급차가 늘어선 현장",
+  "emergency scene, ambulances"),
+E("잔해가 가득한 거리",
+  "street covered in debris"),
+E("임시 의료 천막",
+  "temporary medical tent")
+],
+outfit:[
+E("구조용 전술복",
+  "rescue tactical uniform"),
+E("센터 조끼와 장갑",
+  "center rescue vest, gloves"),
+E("먼지가 가득 묻은 작전복",
+  "dust-covered tactical uniform")
+],
+action:[
+E("부상자를 부축하고 있다",
+  "supporting injured person"),
+E("잔해를 들어 올리고 있다",
+  "lifting debris"),
+E("주변 생존자를 찾고 있다",
+  "searching for survivors"),
+E("구조대에게 방향을 가리키고 있다",
+  "pointing direction to rescue team"),
+E("무전기로 지원을 요청하고 있다",
+  "requesting backup by radio")
+]
+},
 
-  }
+
+berserk:{
+label:"⚠️ 폭주",
+background:[
+E("파괴된 격리실",
+  "destroyed isolation room"),
+E("경보등이 깜빡이는 통제실",
+  "containment room, flashing warning lights"),
+E("능력 폭주로 갈라진 바닥",
+  "cracked floor, uncontrolled supernatural energy"),
+E("무너진 센터 복도",
+  "destroyed center corridor"),
+E("능력 에너지로 벽이 부서진 방",
+  "room damaged by supernatural energy")
+],
+outfit:[
+E("찢어진 센터 제복",
+  "torn center uniform"),
+E("구겨진 환자복",
+  "disheveled hospital gown"),
+E("파손된 작전복",
+  "damaged tactical uniform")
+],
+action:[
+E("벽에 한 손을 짚고 버티고 있다",
+  "bracing one hand against wall"),
+E("양손으로 머리를 감싸 쥐고 있다",
+  "clutching head with both hands"),
+E("주변으로 능력 에너지가 폭발적으로 퍼지고 있다",
+  "uncontrolled supernatural energy erupting around body"),
+E("무릎을 꿇고 숨을 몰아쉬고 있다",
+  "kneeling, breathing heavily"),
+E("이를 악물고 능력을 억누르고 있다",
+  "gritting teeth, suppressing supernatural power")
+]
+},
+
+
+afterberserk:{
+label:"🩹 폭주 직후",
+background:[
+E("파손된 가이딩룸",
+  "damaged guiding room"),
+E("폭주 직후의 격리실",
+  "isolation room after berserk episode"),
+E("응급 치료실",
+  "emergency treatment room"),
+E("센터 병실",
+  "center hospital room"),
+E("잔해가 정리 중인 센터 복도",
+  "damaged facility hallway after incident")
+],
+outfit:[
+E("찢어진 작전복 위에 담요를 두르고 있다",
+  "damaged tactical uniform, blanket"),
+E("환자복과 붕대",
+  "hospital gown, bandages"),
+E("구겨진 센터 제복",
+  "disheveled center uniform")
+],
+action:[
+E("벽에 기대 앉아 있다",
+  "sitting against wall"),
+E("손에 묻은 피를 내려다보고 있다",
+  "looking down at blood on hand"),
+E("담요를 어깨에 두르고 있다",
+  "blanket around shoulders"),
+E("고개를 숙이고 숨을 고르고 있다",
+  "head lowered, catching breath"),
+E("손목의 붕대를 만지고 있다",
+  "touching wrist bandage")
+]
+},
+
+
+hospital:{
+label:"🏥 능력자 병동",
+background:[
+E("에스퍼 전용 병실",
+  "esper hospital room"),
+E("센터 의료동 복도",
+  "center medical wing corridor"),
+E("중환자 관찰실",
+  "intensive observation room"),
+E("의료 장비가 가득한 안정화 병실",
+  "stabilization hospital room"),
+E("회복실",
+  "recovery room")
+],
+outfit:[
+E("에스퍼 전용 환자복",
+  "esper hospital gown"),
+E("병원복 위에 센터 외투",
+  "hospital clothes, center jacket"),
+E("의료진 가운",
+  "medical coat")
+],
+action:[
+E("침대 헤드에 기대 앉아 있다",
+  "sitting against hospital bed headboard"),
+E("손목에 연결된 센서를 확인하고 있다",
+  "checking wrist monitor"),
+E("약을 손에 들고 있다",
+  "holding medicine"),
+E("링거가 연결된 손을 내려다보고 있다",
+  "looking down at IV hand"),
+E("병실 문 쪽을 바라보고 있다",
+  "looking toward hospital room door")
+]
+},
+
+
+operations:{
+label:"🖥️ 작전실",
+background:[
+E("대형 스크린이 있는 작전통제실",
+  "operations control room, large screens"),
+E("게이트 지도가 표시된 상황실",
+  "situation room, gate map display"),
+E("센터 브리핑룸",
+  "center briefing room"),
+E("작전 회의실",
+  "operations meeting room"),
+E("실시간 전투 영상이 송출되는 통제실",
+  "control room, live battle feeds")
+],
+outfit:[
+E("센터 지휘관 제복",
+  "center commander uniform"),
+E("검은 셔츠와 전술 조끼",
+  "black shirt, tactical vest"),
+E("센터 정장과 사원증",
+  "center business suit, ID card")
+],
+action:[
+E("대형 화면을 가리키고 있다",
+  "pointing at large display"),
+E("작전 지도를 확인하고 있다",
+  "checking operation map"),
+E("헤드셋을 착용하고 지시를 내리고 있다",
+  "wearing headset, giving orders"),
+E("테이블 위 자료를 검토하고 있다",
+  "reviewing documents on table"),
+E("모니터 여러 대를 동시에 확인하고 있다",
+  "watching multiple monitors")
+]
+},
+
+
+fieldguiding:{
+label:"🫱 현장 가이딩",
+background:[
+E("전투 직후의 무너진 건물 내부",
+  "ruined building after battle"),
+E("게이트 앞 응급 대기구역",
+  "gate emergency staging area"),
+E("던전 내부 임시 안전구역",
+  "temporary safe zone inside dungeon"),
+E("구조 현장 구급차 옆",
+  "beside ambulance at rescue site"),
+E("비 내리는 게이트 통제구역",
+  "gate perimeter in rain")
+],
+outfit:[
+E("먼지 묻은 전술복",
+  "dusty tactical uniform"),
+E("피가 묻은 센터 작전복",
+  "bloodstained center tactical uniform"),
+E("전투 장갑을 벗은 작전복",
+  "tactical uniform, gloves removed")
+],
+action:[
+E("상대의 손목을 강하게 붙잡고 있다",
+  "firmly holding another person's wrist"),
+E("상대의 어깨를 지지하고 있다",
+  "supporting another person's shoulder"),
+E("이마를 짚으며 상태를 확인하고 있다",
+  "checking condition with hand on forehead"),
+E("상대 앞에 한쪽 무릎을 꿇고 있다",
+  "kneeling in front of another person"),
+E("상대를 부축한 채 이동하고 있다",
+  "walking while supporting another person")
+]
+}
+
+}
 
 },
 
 
+/* ================= 시대물 ================= */
 
-/* =========================================================
-   시대물
-========================================================= */
+period:{
+label:"시대물",
+common:{
+  background:[],
+  outfit:[],
+  action:PERIOD_COMMON.action
+},
 
-period: {
-
-  label: "시대물",
-
-  categories: {
-
-
-    korea: {
-
-      label: "🇰🇷 한국 · 한복",
-
-      background: [
-        ["햇빛이 드는 한옥 마루", "traditional Korean hanok, wooden floor, sunlight"],
-        ["고요한 궁궐 정원", "Joseon palace garden"],
-        ["조선시대 시장", "traditional Korean market, Joseon era"],
-        ["연못이 보이는 정자", "traditional Korean pavilion, pond"],
-        ["궁궐 회랑", "Joseon palace corridor"],
-        ["달빛 아래 한옥 마당", "hanok courtyard, moonlight"]
-      ],
-
-      outfit: [
-        ["단정한 한복", "traditional Korean hanbok"],
-        ["화려한 궁중 한복", "royal Korean hanbok"],
-        ["선비의 도포", "Joseon scholar robe, dopo"],
-        ["무관의 관복", "Joseon military official uniform"],
-        ["곤룡포", "Joseon king royal robe, gonryongpo"],
-        ["수수한 저고리와 치마", "jeogori, chima"]
-      ],
-
-      expression: [
-        ["단아하고 차분한 표정", "elegant calm expression"],
-        ["온화한 미소", "gentle smile"],
-        ["서늘한 무표정", "cold neutral expression"],
-        ["조금 놀란 표정", "slightly surprised expression"],
-        ["수줍은 미소", "shy smile"]
-      ],
-
-      action: [
-        ["한 손에 부채를 들고 있다", "holding traditional folding fan"],
-        ["소매를 가지런히 모으고 있다", "hands hidden inside long sleeves"],
-        ["뒤를 돌아보고 있다", "looking back"],
-        ["마루에 앉아 차를 마시고 있다", "sitting on wooden floor, drinking tea"],
-        ["궁궐 회랑을 걷고 있다", "walking through palace corridor"]
-      ]
-
-    },
+categories:{
 
 
-    japan: {
-
-      label: "🇯🇵 일본 · 전통의상",
-
-      background: [
-        ["등불이 켜진 전통 거리", "traditional Japanese street, lanterns"],
-        ["고즈넉한 신사", "Shinto shrine"],
-        ["료칸 복도", "traditional ryokan hallway"],
-        ["벚꽃이 핀 정원", "Japanese garden, cherry blossoms"],
-        ["에도 시대 거리", "Edo period street"],
-        ["다다미방", "traditional tatami room"]
-      ],
-
-      outfit: [
-        ["단정한 기모노", "traditional kimono"],
-        ["가벼운 유카타", "yukata"],
-        ["하카마", "hakama"],
-        ["사무라이 복장", "samurai clothing"],
-        ["신관 의상", "Shinto priest robes"]
-      ],
-
-      expression: [
-        ["잔잔하게 웃는 표정", "soft smile"],
-        ["무심한 시선", "indifferent gaze"],
-        ["수줍은 미소", "shy smile"],
-        ["엄숙한 표정", "solemn expression"],
-        ["날카로운 눈빛", "sharp gaze"]
-      ],
-
-      action: [
-        ["소매 끝을 살짝 쥐고 있다", "holding kimono sleeve"],
-        ["돌계단 위에 서 있다", "standing on stone steps"],
-        ["고개를 살짝 숙여 인사한다", "slightly bowing"],
-        ["검집에 손을 올리고 있다", "hand resting on sword sheath"],
-        ["툇마루에 앉아 있다", "sitting on engawa"]
-      ]
-
-    },
+korea_palace:{
+label:"🇰🇷 조선 · 궁궐",
+background:[
+E("조선 궁궐 대전",
+  "Joseon royal throne hall"),
+E("궁궐 회랑",
+  "Joseon palace corridor"),
+E("궁궐 후원",
+  "Joseon palace garden"),
+E("연못이 있는 궁궐 정자",
+  "Joseon palace pavilion, pond"),
+E("달빛이 비치는 궁궐 마당",
+  "Joseon palace courtyard, moonlight"),
+E("왕의 편전",
+  "Joseon king's private hall")
+],
+outfit:[
+E("곤룡포",
+  "Joseon king royal robe, gonryongpo"),
+E("왕세자 예복",
+  "Joseon crown prince robes"),
+E("화려한 궁중 한복",
+  "royal Korean hanbok"),
+E("왕비의 궁중 예복",
+  "Joseon royal queen ceremonial hanbok")
+],
+action:[]
+},
 
 
-    china: {
+korea_scholar:{
+label:"🇰🇷 조선 · 선비",
+background:[
+E("한옥 사랑채",
+  "Joseon hanok scholar room"),
+E("서책이 쌓인 서재",
+  "Joseon study, books"),
+E("대나무가 보이는 정자",
+  "Korean pavilion, bamboo"),
+E("산속 서원",
+  "Joseon seowon academy"),
+E("한옥 마루",
+  "traditional Korean wooden veranda")
+],
+outfit:[
+E("선비의 흰 도포",
+  "Joseon scholar white dopo"),
+E("검은 갓과 도포",
+  "Joseon scholar robe, black gat"),
+E("푸른 도포",
+  "blue Joseon scholar robe"),
+E("유생복",
+  "Joseon Confucian student attire")
+],
+action:[]
+},
 
-      label: "🇨🇳 중국 · 전통의상",
 
-      background: [
-        ["붉은 기둥이 이어진 궁전 회랑", "ancient Chinese palace corridor, red pillars"],
-        ["안개 낀 대나무숲", "misty bamboo forest"],
-        ["사람이 붐비는 객잔", "traditional Chinese inn"],
-        ["황궁 정원", "ancient Chinese imperial garden"],
-        ["높은 누각", "traditional Chinese pavilion"],
-        ["등불이 켜진 야시장", "ancient Chinese night market, lanterns"]
-      ],
+korea_warrior:{
+label:"🇰🇷 조선 · 무관 / 포졸",
+background:[
+E("궁궐 훈련장",
+  "Joseon palace military training ground"),
+E("성문 앞",
+  "Joseon city gate"),
+E("관아 마당",
+  "Joseon government office courtyard"),
+E("야간 순찰 중인 거리",
+  "Joseon street at night"),
+E("무기고",
+  "Joseon armory")
+],
+outfit:[
+E("조선 무관의 관복",
+  "Joseon military official uniform"),
+E("갑옷을 갖춰 입은 조선 무사",
+  "Joseon warrior armor"),
+E("포졸복",
+  "Joseon constable uniform"),
+E("검은 전립과 군복",
+  "Joseon military uniform, jeollip hat")
+],
+action:[]
+},
 
-      outfit: [
-        ["우아한 한푸", "elegant hanfu"],
-        ["검은 무협복", "black wuxia outfit"],
-        ["황궁식 예복", "imperial ceremonial robe"],
-        ["도사복", "Taoist robes"],
-        ["무관복", "ancient Chinese military official attire"]
-      ],
 
-      expression: [
-        ["서늘한 미소", "cool smile"],
-        ["날카로운 눈빛", "sharp gaze"],
-        ["고요한 무표정", "calm expressionless face"],
-        ["여유로운 미소", "relaxed smile"],
-        ["살짝 경계하는 표정", "guarded expression"]
-      ],
+korea_market:{
+label:"🇰🇷 조선 · 장터 / 민가",
+background:[
+E("조선시대 장터",
+  "Joseon traditional market"),
+E("초가집이 늘어선 마을",
+  "Joseon village, thatched houses"),
+E("주막",
+  "Joseon tavern, jumak"),
+E("강가 나루터",
+  "Joseon riverside ferry"),
+E("등불이 켜진 시장 골목",
+  "Joseon market alley, lanterns")
+],
+outfit:[
+E("수수한 평민 한복",
+  "simple commoner hanbok"),
+E("상인의 한복",
+  "Joseon merchant clothing"),
+E("주막 일꾼의 한복",
+  "simple Joseon tavern worker hanbok"),
+E("고운 저고리와 치마",
+  "traditional jeogori and chima")
+],
+action:[]
+},
 
-      action: [
-        ["소매를 흩날리며 걸어온다", "walking with flowing sleeves"],
-        ["검집 위에 손을 올리고 있다", "hand resting on sword sheath"],
-        ["난간에 기대 아래를 내려다본다", "leaning against railing, looking down"],
-        ["차를 마시고 있다", "drinking tea"],
-        ["부채를 펼쳐 들고 있다", "holding open folding fan"]
-      ]
 
-    }
+japan_shrine:{
+label:"🇯🇵 일본 · 신사",
+background:[
+E("고즈넉한 신사 경내",
+  "traditional Shinto shrine grounds"),
+E("붉은 도리이가 이어진 길",
+  "path of red torii gates"),
+E("신사 돌계단",
+  "Shinto shrine stone steps"),
+E("등불이 켜진 신사",
+  "Shinto shrine, lanterns"),
+E("벚꽃이 핀 신사 정원",
+  "Shinto shrine, cherry blossoms")
+],
+outfit:[
+E("신관 의상",
+  "Shinto priest robes"),
+E("무녀복",
+  "miko outfit"),
+E("단정한 기모노",
+  "formal kimono"),
+E("흰색 하오리와 하카마",
+  "white haori, hakama")
+],
+action:[]
+},
 
-  }
+
+japan_samurai:{
+label:"🇯🇵 일본 · 사무라이",
+background:[
+E("에도 시대 성 앞",
+  "Edo period castle"),
+E("무사 저택",
+  "samurai residence"),
+E("대나무숲",
+  "Japanese bamboo forest"),
+E("비 내리는 에도 거리",
+  "Edo street in rain"),
+E("검술 도장",
+  "traditional Japanese dojo")
+],
+outfit:[
+E("사무라이 갑주",
+  "samurai armor"),
+E("검은 하카마와 하오리",
+  "black hakama, haori"),
+E("여행 중인 무사의 옷",
+  "wandering samurai attire"),
+E("문양이 들어간 기모노와 검",
+  "patterned kimono, katana")
+],
+action:[]
+},
+
+
+japan_ryokan:{
+label:"🇯🇵 일본 · 료칸 / 거리",
+background:[
+E("다다미가 깔린 료칸 방",
+  "traditional ryokan tatami room"),
+E("료칸 복도",
+  "traditional ryokan hallway"),
+E("온천 마을 거리",
+  "traditional Japanese hot spring town"),
+E("등불이 켜진 전통 거리",
+  "traditional Japanese street, lanterns"),
+E("툇마루가 있는 일본식 정원",
+  "Japanese garden, engawa")
+],
+outfit:[
+E("유카타",
+  "yukata"),
+E("단정한 기모노",
+  "traditional kimono"),
+E("하오리와 기모노",
+  "haori, kimono"),
+E("하카마",
+  "hakama")
+],
+action:[]
+},
+
+
+china_palace:{
+label:"🇨🇳 중국 · 황궁",
+background:[
+E("붉은 기둥이 늘어선 황궁 회랑",
+  "ancient Chinese palace corridor, red pillars"),
+E("황제의 대전",
+  "ancient Chinese imperial throne hall"),
+E("황궁 정원",
+  "ancient Chinese imperial garden"),
+E("연못과 정자가 있는 후원",
+  "Chinese imperial garden, pavilion, pond"),
+E("궁궐 높은 누각",
+  "ancient Chinese palace pavilion")
+],
+outfit:[
+E("황제의 용포",
+  "ancient Chinese emperor dragon robe"),
+E("화려한 황궁 예복",
+  "ornate Chinese imperial ceremonial robe"),
+E("왕족 한푸",
+  "royal hanfu"),
+E("고위 관리 예복",
+  "ancient Chinese high official robes")
+],
+action:[]
+},
+
+
+china_wuxia:{
+label:"🇨🇳 중국 · 무협",
+background:[
+E("안개 낀 대나무숲",
+  "misty bamboo forest"),
+E("산 위 무림 문파",
+  "wuxia sect on mountain"),
+E("절벽 위 정자",
+  "Chinese pavilion on cliff"),
+E("강호의 돌다리",
+  "ancient Chinese stone bridge"),
+E("달빛 아래 대나무숲",
+  "bamboo forest under moonlight")
+],
+outfit:[
+E("검은 무협복",
+  "black wuxia outfit"),
+E("흰색 무협 장포",
+  "white wuxia robe"),
+E("붉은 무협복",
+  "red wuxia outfit"),
+E("검을 찬 유랑객 차림",
+  "wandering swordsman attire")
+],
+action:[]
+},
+
+
+china_taoist:{
+label:"🇨🇳 중국 · 도사",
+background:[
+E("산속 도관",
+  "ancient Taoist temple"),
+E("부적이 가득한 방",
+  "Taoist chamber, talismans"),
+E("산 정상 제단",
+  "mountaintop Taoist altar"),
+E("안개 낀 산길",
+  "misty mountain path"),
+E("고대 신전 내부",
+  "ancient Chinese temple interior")
+],
+outfit:[
+E("흰색 도사복",
+  "white Taoist robes"),
+E("검은색과 흰색이 섞인 도사복",
+  "black and white Taoist robes"),
+E("푸른 도포형 도사복",
+  "blue Taoist robe"),
+E("부적과 장식이 달린 도사복",
+  "Taoist robes, talismans")
+],
+action:[
+E("부적을 손가락 사이에 들고 있다",
+  "holding talisman between fingers"),
+E("목검을 들고 있다",
+  "holding wooden ritual sword"),
+E("부적을 공중에 띄우고 있다",
+  "floating magical talismans"),
+E("두 손으로 수인을 맺고 있다",
+  "forming Taoist hand seal")
+]
+},
+
+
+china_inn:{
+label:"🇨🇳 중국 · 객잔 / 시장",
+background:[
+E("사람들로 붐비는 객잔",
+  "busy ancient Chinese inn"),
+E("등불이 켜진 야시장",
+  "ancient Chinese night market, lanterns"),
+E("객잔 2층 난간",
+  "ancient Chinese inn balcony"),
+E("전통 시장 거리",
+  "ancient Chinese market street"),
+E("비 내리는 객잔 앞",
+  "ancient Chinese inn in rain")
+],
+outfit:[
+E("평범한 한푸",
+  "simple hanfu"),
+E("상인의 고급 한푸",
+  "merchant hanfu"),
+E("여행객의 장포",
+  "ancient Chinese traveler robe"),
+E("검을 찬 무협객의 옷",
+  "wuxia traveler outfit, sword")
+],
+action:[]
+}
+
+}
 
 }
 
@@ -2104,379 +4388,608 @@ period: {
 
 
 /* =========================================================
-   STATE
+   슬롯 정의
 ========================================================= */
+
+const SLOTS = {
+
+background:{
+title:"🏙️ 배경"
+},
+
+outfit:{
+title:"👔 의상"
+},
+
+expression:{
+title:"🙂 표정"
+},
+
+action:{
+title:"🎬 행동"
+},
+
+weather:{
+title:"🌦️ 시간 · 날씨"
+},
+
+composition:{
+title:"📷 구도"
+},
+
+lighting:{
+title:"💡 조명"
+}
+
+};
+
 
 const state = {
 
-  selected: {
-    background: null,
-    outfit: null,
-    expression: null,
-    action: null
-  },
+selected:{
+background:null,
+outfit:null,
+expression:null,
+action:null,
+weather:null,
+composition:null,
+lighting:null
+},
 
-  locked: {
-    background: false,
-    outfit: false,
-    expression: false,
-    action: false
-  }
+locked:{
+background:false,
+outfit:false,
+expression:false,
+action:false,
+weather:false,
+composition:false,
+lighting:false
+}
 
 };
 
 
 /* =========================================================
-   ELEMENTS
+   DOM
 ========================================================= */
 
-const genreSelect =
-  document.getElementById("genreSelect");
+const genreEl =
+document.getElementById("genre");
 
-const categorySelect =
-  document.getElementById("categorySelect");
+const categoryEl =
+document.getElementById("category");
 
-const rollBtn =
-  document.getElementById("rollBtn");
+const cardsEl =
+document.getElementById("cards");
 
-const promptOutput =
-  document.getElementById("promptOutput");
+const promptEl =
+document.getElementById("prompt");
 
-const koreanSummary =
-  document.getElementById("koreanSummary");
+const summaryEl =
+document.getElementById("summary");
 
 const statusEl =
-  document.getElementById("status");
+document.getElementById("status");
+
+const statsEl =
+document.getElementById("poolStats");
 
 
 /* =========================================================
-   HELPERS
+   카드 생성
 ========================================================= */
 
-function randomItem(array) {
-  return array[
-    Math.floor(
-      Math.random() * array.length
-    )
-  ];
-}
+function createCards(){
 
+cardsEl.innerHTML="";
 
-function activePool() {
+Object.entries(SLOTS).forEach(([type,slot])=>{
 
-  const genre =
-    genreSelect.value;
+const article =
+document.createElement("article");
 
-  const category =
-    categorySelect.value;
+article.className =
+"result-card";
 
-  return DB[genre].categories[category];
+article.id =
+`card-${type}`;
 
-}
+article.innerHTML=`
 
+<div class="card-head">
 
-function formatEntry(entry) {
+  <div class="card-title">
+    ${slot.title}
+  </div>
 
-  return {
-    ko: entry[0],
-    en: entry[1]
-  };
+  <div class="card-buttons">
 
-}
+    <button
+      class="icon-btn"
+      data-reroll="${type}"
+      title="이 항목만 다시 뽑기"
+    >
+      ↻
+    </button>
 
+    <button
+      class="icon-btn"
+      data-lock="${type}"
+      title="잠금"
+    >
+      🔓
+    </button>
 
-function animateCard(type) {
+  </div>
 
-  const card =
-    document.getElementById(
-      `card-${type}`
-    );
+</div>
 
-  card.classList.remove("flash");
+<div
+  class="ko"
+  id="ko-${type}"
+>
+  -
+</div>
 
-  void card.offsetWidth;
+<div
+  class="en"
+  id="en-${type}"
+>
+  -
+</div>
 
-  card.classList.add("flash");
+<div class="lock-note">
+  🔒 이 결과는 고정되어 있습니다.
+</div>
 
-}
+`;
 
+cardsEl.appendChild(article);
 
-/* =========================================================
-   CATEGORY LOAD
-========================================================= */
-
-function loadCategories() {
-
-  const genre =
-    genreSelect.value;
-
-  const categories =
-    DB[genre].categories;
-
-  categorySelect.innerHTML = "";
-
-  Object.entries(categories)
-    .forEach(([key, item]) => {
-
-      const option =
-        document.createElement("option");
-
-      option.value = key;
-      option.textContent = item.label;
-
-      categorySelect.appendChild(option);
-
-    });
-
-  resetSelections();
-
-  rollAll();
+});
 
 }
 
 
 /* =========================================================
-   RESET
+   카테고리 불러오기
 ========================================================= */
 
-function resetSelections() {
+function loadCategories(){
 
-  state.selected = {
-    background: null,
-    outfit: null,
-    expression: null,
-    action: null
-  };
+const genre =
+genreEl.value;
+
+const categories =
+DB[genre].categories;
+
+categoryEl.innerHTML="";
+
+const all =
+document.createElement("option");
+
+all.value="__all";
+all.textContent="🎲 장르 전체 랜덤";
+
+categoryEl.appendChild(all);
+
+Object.entries(categories)
+.forEach(([key,item])=>{
+
+const opt =
+document.createElement("option");
+
+opt.value=key;
+opt.textContent=item.label;
+
+categoryEl.appendChild(opt);
+
+});
+
+rollAll();
 
 }
 
 
 /* =========================================================
-   ROLL
+   풀 생성
 ========================================================= */
 
-function rollType(type, force = false) {
+function categorySpecificPool(type){
 
-  const pool =
-    activePool();
+const genre =
+genreEl.value;
 
-  if (
-    state.locked[type] &&
-    !force
-  ) {
-    return;
-  }
+const category =
+categoryEl.value;
 
-  state.selected[type] =
-    formatEntry(
-      randomItem(
-        pool[type]
-      )
-    );
+const data =
+DB[genre];
 
-  animateCard(type);
+let pool=[];
+
+
+/* 모든 장르 공용 */
+
+if(
+type==="expression"
+){
+pool.push(
+...COMMON.expression
+);
+}
+
+if(
+type==="weather"
+){
+pool.push(
+...COMMON.weather
+);
+}
+
+if(
+type==="composition"
+){
+pool.push(
+...COMMON.composition
+);
+}
+
+if(
+type==="lighting"
+){
+pool.push(
+...COMMON.lighting
+);
+}
+
+
+/* 장르 공용 */
+
+if(
+data.common &&
+data.common[type]
+){
+pool.push(
+...data.common[type]
+);
+}
+
+
+/* 카테고리 전체 랜덤 */
+
+if(
+category==="__all"
+){
+
+Object.values(
+data.categories
+).forEach(cat=>{
+
+if(
+cat[type]
+){
+pool.push(
+...cat[type]
+);
+}
+
+});
 
 }
 
 
-function rollAll() {
+/* 특정 카테고리 */
 
-  rollBtn.classList.remove("rolling");
+else{
 
-  void rollBtn.offsetWidth;
+const cat =
+data.categories[category];
 
-  rollBtn.classList.add("rolling");
+if(
+cat &&
+cat[type]
+){
+pool.push(
+...cat[type]
+);
+}
 
-  rollType("background");
-  rollType("outfit");
-  rollType("expression");
-  rollType("action");
+}
 
-  render();
+return uniqueEntries(pool);
 
 }
 
 
 /* =========================================================
-   LOCK
+   중복 최소화
 ========================================================= */
 
-function toggleLock(type) {
+function randomDifferent(pool,current){
 
-  state.locked[type] =
-    !state.locked[type];
+if(!pool.length){
+return null;
+}
 
-  updateLockUI(type);
+if(
+pool.length===1
+){
+return pool[0];
+}
+
+let next =
+rand(pool);
+
+let loop=0;
+
+while(
+current &&
+next.en===current.en &&
+loop<15
+){
+
+next =
+rand(pool);
+
+loop++;
 
 }
 
-
-function updateLockUI(type) {
-
-  const card =
-    document.getElementById(
-      `card-${type}`
-    );
-
-  const button =
-    document.querySelector(
-      `[data-lock="${type}"]`
-    );
-
-  if (
-    state.locked[type]
-  ) {
-
-    card.classList.add("locked");
-
-    button.classList.add(
-      "lock-active"
-    );
-
-    button.textContent = "🔒";
-
-    button.title =
-      "잠금 해제";
-
-  }
-
-  else {
-
-    card.classList.remove("locked");
-
-    button.classList.remove(
-      "lock-active"
-    );
-
-    button.textContent = "🔓";
-
-    button.title =
-      "잠금";
-
-  }
+return next;
 
 }
 
 
 /* =========================================================
-   RENDER
+   슬롯 추첨
 ========================================================= */
 
-function render() {
+function rollSlot(type,force=false){
 
-  [
-    "background",
-    "outfit",
-    "expression",
-    "action"
-  ].forEach(type => {
+if(
+state.locked[type] &&
+!force
+){
+return;
+}
 
-    const current =
-      state.selected[type];
+const pool =
+categorySpecificPool(type);
 
-    if (!current) return;
+state.selected[type] =
+randomDifferent(
+pool,
+state.selected[type]
+);
 
-    document.getElementById(
-      `ko-${type}`
-    ).textContent =
-      current.ko;
-
-    document.getElementById(
-      `en-${type}`
-    ).textContent =
-      current.en;
-
-  });
-
-  buildPrompt();
-
-  buildKoreanSummary();
+animateCard(type);
 
 }
 
 
 /* =========================================================
-   NOVELAI PROMPT
+   전체 추첨
 ========================================================= */
 
-function buildPrompt() {
+function rollAll(){
 
-  const parts = [];
+Object.keys(SLOTS)
+.forEach(type=>{
+rollSlot(type);
+});
 
-  const quality =
-    document.getElementById(
-      "qualityOption"
-    ).value;
-
-  const gender =
-    document.getElementById(
-      "genderOption"
-    ).value;
-
-  const composition =
-    document.getElementById(
-      "compositionOption"
-    ).value;
-
-  const view =
-    document.getElementById(
-      "viewOption"
-    ).value;
-
-
-  if (quality) {
-    parts.push(quality);
-  }
-
-  if (gender) {
-    parts.push(gender);
-  }
-
-  if (composition) {
-    parts.push(composition);
-  }
-
-  if (view) {
-    parts.push(view);
-  }
-
-
-  [
-    "background",
-    "outfit",
-    "expression",
-    "action"
-  ].forEach(type => {
-
-    if (
-      state.selected[type]
-    ) {
-
-      parts.push(
-        state.selected[type].en
-      );
-
-    }
-
-  });
-
-
-  promptOutput.value =
-    parts.join(", ");
+render();
 
 }
 
 
 /* =========================================================
-   KOREAN SUMMARY
+   카드 애니메이션
 ========================================================= */
 
-function buildKoreanSummary() {
+function animateCard(type){
 
-  const s =
-    state.selected;
+const card =
+document.getElementById(
+`card-${type}`
+);
 
-  koreanSummary.textContent =
+if(!card)return;
+
+card.classList.remove(
+"changed"
+);
+
+void card.offsetWidth;
+
+card.classList.add(
+"changed"
+);
+
+}
+
+
+/* =========================================================
+   잠금
+========================================================= */
+
+function toggleLock(type){
+
+state.locked[type] =
+!state.locked[type];
+
+renderLock(type);
+
+}
+
+
+function renderLock(type){
+
+const card =
+document.getElementById(
+`card-${type}`
+);
+
+const btn =
+document.querySelector(
+`[data-lock="${type}"]`
+);
+
+if(
+state.locked[type]
+){
+
+card.classList.add(
+"locked"
+);
+
+btn.classList.add(
+"active"
+);
+
+btn.textContent="🔒";
+btn.title="잠금 해제";
+
+}else{
+
+card.classList.remove(
+"locked"
+);
+
+btn.classList.remove(
+"active"
+);
+
+btn.textContent="🔓";
+btn.title="잠금";
+
+}
+
+}
+
+
+/* =========================================================
+   화면 출력
+========================================================= */
+
+function render(){
+
+Object.keys(SLOTS)
+.forEach(type=>{
+
+const selected =
+state.selected[type];
+
+document.getElementById(
+`ko-${type}`
+).textContent =
+selected?.ko || "-";
+
+document.getElementById(
+`en-${type}`
+).textContent =
+selected?.en || "-";
+
+});
+
+buildPrompt();
+buildSummary();
+buildStats();
+
+}
+
+
+/* =========================================================
+   NovelAI Prompt
+========================================================= */
+
+function buildPrompt(){
+
+const pieces=[];
+
+const quality =
+document.getElementById(
+"quality"
+).value.trim();
+
+const gender =
+document.getElementById(
+"gender"
+).value.trim();
+
+const style =
+document.getElementById(
+"style"
+).value.trim();
+
+const custom =
+document.getElementById(
+"customTags"
+).value.trim();
+
+
+if(quality){
+pieces.push(quality);
+}
+
+if(gender){
+pieces.push(gender);
+}
+
+if(style){
+pieces.push(style);
+}
+
+if(custom){
+pieces.push(custom);
+}
+
+
+/*
+NovelAI에서 보통
+캐릭터 → 구도 → 배경 → 날씨 → 조명 → 의상 → 표정 → 행동
+순서가 관리하기 편해서 이 순서로 정렬
+*/
+
+[
+"composition",
+"background",
+"weather",
+"lighting",
+"outfit",
+"expression",
+"action"
+]
+.forEach(type=>{
+
+const v =
+state.selected[type];
+
+if(v){
+pieces.push(v.en);
+}
+
+});
+
+
+promptEl.value =
+pieces.join(", ");
+
+}
+
+
+/* =========================================================
+   한국어 조합
+========================================================= */
+
+function buildSummary(){
+
+const s =
+state.selected;
+
+summaryEl.textContent =
+
 `🏙️ 배경
 ${s.background?.ko || "-"}
 
@@ -2487,258 +5000,289 @@ ${s.outfit?.ko || "-"}
 ${s.expression?.ko || "-"}
 
 🎬 행동
-${s.action?.ko || "-"}`;
+${s.action?.ko || "-"}
+
+🌦️ 시간 · 날씨
+${s.weather?.ko || "-"}
+
+📷 구도
+${s.composition?.ko || "-"}
+
+💡 조명
+${s.lighting?.ko || "-"}`;
 
 }
 
 
 /* =========================================================
-   COPY
+   현재 사용 가능 풀 개수
 ========================================================= */
 
-async function copyText(text, message) {
+function buildStats(){
 
-  try {
+const counts =
+Object.keys(SLOTS)
+.map(type=>{
 
-    await navigator.clipboard.writeText(
-      text
-    );
+const pool =
+categorySpecificPool(type);
 
-  }
+return `${SLOTS[type].title} ${pool.length}`;
 
-  catch {
+});
 
-    const temp =
-      document.createElement(
-        "textarea"
-      );
-
-    temp.value = text;
-
-    document.body.appendChild(
-      temp
-    );
-
-    temp.select();
-
-    document.execCommand(
-      "copy"
-    );
-
-    temp.remove();
-
-  }
-
-  showStatus(message);
-
-}
-
-
-function showStatus(message) {
-
-  statusEl.textContent =
-    message;
-
-  statusEl.classList.add(
-    "show"
-  );
-
-  clearTimeout(
-    window.statusTimer
-  );
-
-  window.statusTimer =
-    setTimeout(() => {
-
-      statusEl.classList.remove(
-        "show"
-      );
-
-    }, 1800);
+statsEl.textContent =
+"현재 랜덤 풀 · " +
+counts.join(" / ");
 
 }
 
 
 /* =========================================================
-   EVENTS
+   클립보드
 ========================================================= */
 
-rollBtn.addEventListener(
-  "click",
-  rollAll
+async function copyText(text,message){
+
+try{
+
+await navigator.clipboard.writeText(
+text
 );
 
+}catch(e){
 
-genreSelect.addEventListener(
-  "change",
-  loadCategories
+const ta =
+document.createElement(
+"textarea"
 );
 
+ta.value=text;
 
-categorySelect.addEventListener(
-  "change",
-  () => {
-
-    resetSelections();
-
-    rollAll();
-
-  }
+document.body.appendChild(
+ta
 );
 
+ta.select();
 
-/* 잠금 버튼 */
+document.execCommand(
+"copy"
+);
+
+ta.remove();
+
+}
+
+showStatus(message);
+
+}
+
+
+function showStatus(msg){
+
+statusEl.textContent=msg;
+
+statusEl.classList.add(
+"show"
+);
+
+clearTimeout(
+window.__statusTimer
+);
+
+window.__statusTimer =
+setTimeout(()=>{
+
+statusEl.classList.remove(
+"show"
+);
+
+},1800);
+
+}
+
+
+/* =========================================================
+   이벤트
+========================================================= */
 
 document
-  .querySelectorAll(
-    "[data-lock]"
-  )
-  .forEach(button => {
-
-    button.addEventListener(
-      "click",
-      () => {
-
-        toggleLock(
-          button.dataset.lock
-        );
-
-      }
-    );
-
-  });
+.getElementById(
+"rollAll"
+)
+.addEventListener(
+"click",
+rollAll
+);
 
 
-/* 개별 재추첨 */
-
-document
-  .querySelectorAll(
-    "[data-reroll]"
-  )
-  .forEach(button => {
-
-    button.addEventListener(
-      "click",
-      () => {
-
-        const type =
-          button.dataset.reroll;
-
-        /*
-         개별 재추첨은
-         잠금 여부와 관계없이
-         사용자가 직접 요청한 것이므로
-         강제로 재추첨한다.
-        */
-
-        rollType(
-          type,
-          true
-        );
-
-        render();
-
-      }
-    );
-
-  });
+genreEl
+.addEventListener(
+"change",
+loadCategories
+);
 
 
-/* 추가 옵션 */
+categoryEl
+.addEventListener(
+"change",
+()=>{
 
-[
-  "genderOption",
-  "compositionOption",
-  "viewOption",
-  "qualityOption"
-]
-.forEach(id => {
+/*
+카테고리를 변경해도
+잠근 결과는 그대로 남긴다.
 
-  document
-    .getElementById(id)
-    .addEventListener(
-      "change",
-      buildPrompt
-    );
+예:
+의상 잠금 →
+회사에서 카페로 변경 →
+의상은 유지하고 나머지만 카페용으로 변경
+*/
+
+rollAll();
 
 });
 
 
-/* Prompt Copy */
+cardsEl
+.addEventListener(
+"click",
+e=>{
+
+const lock =
+e.target.closest(
+"[data-lock]"
+);
+
+const reroll =
+e.target.closest(
+"[data-reroll]"
+);
+
+
+if(lock){
+
+toggleLock(
+lock.dataset.lock
+);
+
+return;
+
+}
+
+
+if(reroll){
+
+const type =
+reroll.dataset.reroll;
+
+/*
+개별 ↻ 버튼은
+사용자가 직접 강제로 교체하는 버튼이므로
+잠금 중이어도 해당 결과만 다시 뽑는다.
+*/
+
+rollSlot(
+type,
+true
+);
+
+render();
+
+}
+
+});
+
+
+[
+"gender",
+"quality",
+"style",
+"customTags"
+]
+.forEach(id=>{
 
 document
-  .getElementById(
-    "copyPromptBtn"
-  )
-  .addEventListener(
-    "click",
-    () => {
-
-      copyText(
-        promptOutput.value,
-        "✅ NovelAI 태그가 복사되었습니다."
-      );
-
-    }
-  );
-
-
-/* Korean Copy */
+.getElementById(id)
+.addEventListener(
+"input",
+buildPrompt
+);
 
 document
-  .getElementById(
-    "copyKoreanBtn"
-  )
-  .addEventListener(
-    "click",
-    () => {
+.getElementById(id)
+.addEventListener(
+"change",
+buildPrompt
+);
 
-      copyText(
-        koreanSummary.textContent,
-        "✅ 한글 결과가 복사되었습니다."
-      );
+});
 
-    }
-  );
-
-
-/* Unlock All */
 
 document
-  .getElementById(
-    "unlockAllBtn"
-  )
-  .addEventListener(
-    "click",
-    () => {
+.getElementById(
+"copyPrompt"
+)
+.addEventListener(
+"click",
+()=>{
 
-      Object.keys(
-        state.locked
-      )
-      .forEach(type => {
+copyText(
+promptEl.value,
+"✅ NovelAI 태그를 복사했습니다."
+);
 
-        state.locked[type] =
-          false;
+});
 
-        updateLockUI(type);
 
-      });
+document
+.getElementById(
+"copyKo"
+)
+.addEventListener(
+"click",
+()=>{
 
-      showStatus(
-        "🔓 모든 잠금이 해제되었습니다."
-      );
+copyText(
+summaryEl.textContent,
+"✅ 한글 조합을 복사했습니다."
+);
 
-    }
-  );
+});
+
+
+document
+.getElementById(
+"unlockAll"
+)
+.addEventListener(
+"click",
+()=>{
+
+Object.keys(
+state.locked
+)
+.forEach(type=>{
+
+state.locked[type]=false;
+
+renderLock(type);
+
+});
+
+showStatus(
+"🔓 모든 잠금을 해제했습니다."
+);
+
+});
 
 
 /* =========================================================
-   INITIALIZE
+   시작
 ========================================================= */
 
+createCards();
 loadCategories();
 
 </script>
-
 </body>
 </html>
