@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#0e0c12">
 <title>NovelAI Asset Gacha Complete</title>
 <style>
-:root{--bg:#0e0c12;--panel:#17141d;--panel2:#201c28;--panel3:#292333;--line:rgba(255,255,255,.09);--text:#f7f3fa;--sub:#aaa3b4;--accent:#a68cff;--pink:#e694c4;--gold:#f0c978;--green:#9fdfb6;--red:#ff9aa5;--shadow:0 20px 60px rgba(0,0,0,.35)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 8% 0,rgba(166,140,255,.13),transparent 27%),radial-gradient(circle at 100% 15%,rgba(230,148,196,.08),transparent 27%),var(--bg);color:var(--text);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif}button,select,input,textarea{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}.page{width:min(1220px,calc(100% - 28px));margin:auto;padding:28px 0 70px}.hero,.panel{border:1px solid var(--line);background:rgba(23,20,29,.96);box-shadow:var(--shadow)}.hero{position:relative;overflow:hidden;border-radius:26px;padding:31px;margin-bottom:17px}.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-100px;top:-135px;background:rgba(166,140,255,.12);filter:blur(12px);pointer-events:none}.eyebrow{font-size:10px;font-weight:900;letter-spacing:.2em;color:var(--accent);margin-bottom:8px}.hero h1{font-size:clamp(28px,5vw,43px);letter-spacing:-.045em;line-height:1.08;margin:0}.hero p{max-width:860px;color:var(--sub);font-size:13px;line-height:1.7;margin:12px 0 0}.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px}.chip{font-size:10px;padding:7px 10px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.03);color:#d2cbd8}.panel{border-radius:20px;padding:20px;margin-bottom:16px}.head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:14px}.title{margin:0;font-size:15px}.desc{color:var(--sub);font-size:10px;line-height:1.5;margin:4px 0 0}.select-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field label,.tiny-label{display:block;font-size:9px;font-weight:850;color:#bbb4c4;margin:0 0 6px 2px;letter-spacing:.05em}select,input[type=text],textarea{width:100%;outline:none;color:var(--text);background:var(--panel2);border:1px solid var(--line);border-radius:12px}select,input[type=text]{height:45px;padding:0 12px}select:focus,input:focus,textarea:focus{border-color:rgba(166,140,255,.5)}.options{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.opt{padding:9px;border:1px solid var(--line);border-radius:12px;background:var(--panel2)}.opt label{display:block;color:var(--sub);font-size:8px;font-weight:900;letter-spacing:.08em;margin:0 4px 4px}.opt select{border:0;background:transparent;height:35px;padding:0 5px;font-size:11px}.check-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:10px}.check{display:flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--panel2);border-radius:10px;padding:8px 10px;color:#cfc8d6;font-size:10px}.check input{accent-color:var(--accent)}.custom-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}.roll{width:100%;min-height:67px;border:0;border-radius:18px;background:linear-gradient(135deg,#745fd4,#9d70dd 48%,#cf7eaf);color:white;font-size:18px;font-weight:900;box-shadow:0 14px 30px rgba(126,95,215,.28),inset 0 1px rgba(255,255,255,.2);margin-bottom:16px;transition:.15s}.roll:hover{filter:brightness(1.08);transform:translateY(-1px)}.roll:active{transform:scale(.99)}.roll span{display:block;font-size:9px;font-weight:500;opacity:.75;margin-top:3px}.mini-tools{display:flex;gap:7px;flex-wrap:wrap}.small-btn{border:1px solid var(--line);border-radius:10px;background:var(--panel3);color:#e8e2ec;min-height:36px;padding:0 12px;font-size:9px;font-weight:800}.small-btn:hover{filter:brightness(1.13)}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.card{border:1px solid var(--line);background:linear-gradient(145deg,rgba(255,255,255,.024),rgba(255,255,255,.005)),var(--panel2);border-radius:16px;padding:14px;min-height:166px;transition:.18s}.card.locked{border-color:rgba(240,201,120,.5);background:linear-gradient(145deg,rgba(240,201,120,.07),rgba(255,255,255,.005)),var(--panel2)}.card.off{opacity:.43}.card.flash{animation:flash .2s ease}@keyframes flash{from{opacity:.35;transform:translateY(3px)}to{opacity:1;transform:none}}.card-top{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:11px}.card-title{font-size:11px;font-weight:900;color:#ded7e5}.card-actions{display:flex;gap:5px}.icon{width:31px;height:31px;border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.04);color:#e0d9e7;padding:0;font-size:13px}.icon.active{border-color:rgba(240,201,120,.45);background:rgba(240,201,120,.12);color:var(--gold)}.ko{font-size:14px;font-weight:760;line-height:1.5;min-height:44px;word-break:keep-all}.en{font-family:Consolas,monospace;color:var(--sub);font-size:9px;line-height:1.5;border-top:1px solid var(--line);padding-top:9px;margin-top:9px;word-break:break-word}.lock-note{display:none;color:var(--gold);font-size:8px;margin-top:7px}.locked .lock-note{display:block}.prompt{min-height:180px;padding:14px;background:#0d0b10;font-family:Consolas,monospace;font-size:11px;line-height:1.65;resize:vertical}.negative{min-height:110px}.toolbar{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;margin-top:9px}.tool{min-height:41px;border:1px solid var(--line);border-radius:11px;background:var(--panel3);color:var(--text);font-size:10px;font-weight:850}.tool.primary{border:0;background:linear-gradient(135deg,#7864d8,#a370dc)}.summary{padding:14px;border:1px dashed rgba(255,255,255,.13);border-radius:13px;background:#111016;color:#ccc5d1;font-size:10px;line-height:1.7;white-space:pre-wrap}.stats{color:#80798a;font-size:8px;line-height:1.6;margin-top:10px}.status{height:17px;margin-top:7px;color:var(--green);font-size:9px;opacity:0}.status.show{opacity:1}.saved-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.list{display:flex;flex-direction:column;gap:7px;max-height:330px;overflow:auto}.list-item{border:1px solid var(--line);background:var(--panel2);border-radius:11px;padding:10px}.list-title{font-size:9px;font-weight:850;color:#ddd6e5;margin-bottom:4px}.list-text{font-size:8px;color:var(--sub);line-height:1.45;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.list-tools{display:flex;gap:5px;margin-top:7px}.list-tools button{border:1px solid var(--line);background:var(--panel3);color:#ddd6e5;border-radius:7px;font-size:8px;padding:5px 8px}.empty{color:#777180;font-size:9px;padding:8px 0}
+:root{--bg:#0e0c12;--panel:#17141d;--panel2:#201c28;--panel3:#292333;--line:rgba(255,255,255,.09);--text:#f7f3fa;--sub:#aaa3b4;--accent:#a68cff;--pink:#e694c4;--gold:#f0c978;--green:#9fdfb6;--red:#ff9aa5;--shadow:0 20px 60px rgba(0,0,0,.35)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 8% 0,rgba(166,140,255,.13),transparent 27%),radial-gradient(circle at 100% 15%,rgba(230,148,196,.08),transparent 27%),var(--bg);color:var(--text);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif}button,select,input,textarea{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}.page{width:min(1220px,calc(100% - 28px));margin:auto;padding:28px 0 70px}.hero,.panel{border:1px solid var(--line);background:rgba(23,20,29,.96);box-shadow:var(--shadow)}.hero{position:relative;overflow:hidden;border-radius:26px;padding:31px;margin-bottom:17px}.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-100px;top:-135px;background:rgba(166,140,255,.12);filter:blur(12px);pointer-events:none}.eyebrow{font-size:10px;font-weight:900;letter-spacing:.2em;color:var(--accent);margin-bottom:8px}.hero h1{font-size:clamp(28px,5vw,43px);letter-spacing:-.045em;line-height:1.08;margin:0}.hero p{max-width:860px;color:var(--sub);font-size:13px;line-height:1.7;margin:12px 0 0}.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px}.chip{font-size:10px;padding:7px 10px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.03);color:#d2cbd8}.panel{border-radius:20px;padding:20px;margin-bottom:16px}.head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:14px}.title{margin:0;font-size:15px}.desc{color:var(--sub);font-size:10px;line-height:1.5;margin:4px 0 0}.select-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field label,.tiny-label{display:block;font-size:9px;font-weight:850;color:#bbb4c4;margin:0 0 6px 2px;letter-spacing:.05em}select,input[type=text],textarea{width:100%;outline:none;color:var(--text);background:var(--panel2);border:1px solid var(--line);border-radius:12px}select,input[type=text]{height:45px;padding:0 12px}select:focus,input:focus,textarea:focus{border-color:rgba(166,140,255,.5)}select option{background:#fff!important;color:#111!important}select option:checked{background:#2d73d5!important;color:#fff!important}.options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.opt{min-width:0;padding:10px 11px;border:1px solid var(--line);border-radius:13px;background:var(--panel2)}.opt label{display:block;color:var(--sub);font-size:8px;font-weight:900;letter-spacing:.08em;margin:0 4px 6px}.opt select{display:block;width:100%;border:1px solid rgba(255,255,255,.06);background:#17131d;height:38px;padding:0 30px 0 9px;font-size:11px;color:var(--text);border-radius:9px}.opt select:focus{border-color:rgba(166,140,255,.45)}.check-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:10px}.check{display:flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--panel2);border-radius:10px;padding:8px 10px;color:#cfc8d6;font-size:10px}.check input{accent-color:var(--accent)}.custom-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;align-items:start}.custom-grid>div{min-width:0}.roll{width:100%;min-height:67px;border:0;border-radius:18px;background:linear-gradient(135deg,#745fd4,#9d70dd 48%,#cf7eaf);color:white;font-size:18px;font-weight:900;box-shadow:0 14px 30px rgba(126,95,215,.28),inset 0 1px rgba(255,255,255,.2);margin-bottom:16px;transition:.15s}.roll:hover{filter:brightness(1.08);transform:translateY(-1px)}.roll:active{transform:scale(.99)}.roll span{display:block;font-size:9px;font-weight:500;opacity:.75;margin-top:3px}.mini-tools{display:flex;gap:7px;flex-wrap:wrap}.small-btn{border:1px solid var(--line);border-radius:10px;background:var(--panel3);color:#e8e2ec;min-height:36px;padding:0 12px;font-size:9px;font-weight:800}.small-btn:hover{filter:brightness(1.13)}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.card{border:1px solid var(--line);background:linear-gradient(145deg,rgba(255,255,255,.024),rgba(255,255,255,.005)),var(--panel2);border-radius:16px;padding:14px;min-height:166px;transition:.18s}.card.locked{border-color:rgba(240,201,120,.5);background:linear-gradient(145deg,rgba(240,201,120,.07),rgba(255,255,255,.005)),var(--panel2)}.card.off{opacity:.43}.card.flash{animation:flash .2s ease}@keyframes flash{from{opacity:.35;transform:translateY(3px)}to{opacity:1;transform:none}}.card-top{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:11px}.card-title{font-size:11px;font-weight:900;color:#ded7e5}.card-actions{display:flex;gap:5px}.icon{width:31px;height:31px;border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.04);color:#e0d9e7;padding:0;font-size:13px}.icon.active{border-color:rgba(240,201,120,.45);background:rgba(240,201,120,.12);color:var(--gold)}.ko{font-size:14px;font-weight:760;line-height:1.5;min-height:44px;word-break:keep-all}.en{font-family:Consolas,monospace;color:var(--sub);font-size:9px;line-height:1.5;border-top:1px solid var(--line);padding-top:9px;margin-top:9px;word-break:break-word}.lock-note{display:none;color:var(--gold);font-size:8px;margin-top:7px}.locked .lock-note{display:block}.prompt{min-height:180px;padding:14px;background:#0d0b10;font-family:Consolas,monospace;font-size:11px;line-height:1.65;resize:vertical}.negative{min-height:110px}.toolbar{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;margin-top:9px}.tool{min-height:41px;border:1px solid var(--line);border-radius:11px;background:var(--panel3);color:var(--text);font-size:10px;font-weight:850}.tool.primary{border:0;background:linear-gradient(135deg,#7864d8,#a370dc)}.summary{padding:14px;border:1px dashed rgba(255,255,255,.13);border-radius:13px;background:#111016;color:#ccc5d1;font-size:10px;line-height:1.7;white-space:pre-wrap}.stats{color:#80798a;font-size:8px;line-height:1.6;margin-top:10px}.status{height:17px;margin-top:7px;color:var(--green);font-size:9px;opacity:0}.status.show{opacity:1}.saved-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.list{display:flex;flex-direction:column;gap:7px;max-height:330px;overflow:auto}.list-item{border:1px solid var(--line);background:var(--panel2);border-radius:11px;padding:10px}.list-title{font-size:9px;font-weight:850;color:#ddd6e5;margin-bottom:4px}.list-text{font-size:8px;color:var(--sub);line-height:1.45;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.list-tools{display:flex;gap:5px;margin-top:7px}.list-tools button{border:1px solid var(--line);background:var(--panel3);color:#ddd6e5;border-radius:7px;font-size:8px;padding:5px 8px}.empty{color:#777180;font-size:9px;padding:8px 0}
 .usage-counter{position:absolute;z-index:3;top:24px;right:25px;display:flex;align-items:center;gap:0;border:1px solid rgba(255,255,255,.11);border-radius:15px;background:rgba(13,11,16,.66);box-shadow:0 10px 30px rgba(0,0,0,.24);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);overflow:hidden}
 .usage-item{min-width:86px;padding:10px 13px;text-align:center}
 .usage-item+.usage-item{border-left:1px solid rgba(255,255,255,.09)}
@@ -54,18 +54,19 @@ footer{text-align:center;color:#5f5967;font-size:9px;padding:14px 0;line-height:
       <p class="desc">남기고 싶은 말이 있다면 보내주세요. 작성 내용은 운영자의 Google Sheet에만 저장됩니다.</p>
     </div>
   </div>
-  <form id="guestbookForm" class="guestbook-form" autocomplete="off">
+  <form id="guestbookForm" class="guestbook-form" autocomplete="off" method="POST" action="https://script.google.com/macros/s/AKfycbzbIhvwguOBbLoPCYyh1JmNe7L6L99gaf6J25e-OzxRV6TpfCIRKC1OFVI9fUsBjzME8Q/exec" target="guestbookSubmitFrame">
     <div class="guestbook-field">
       <label for="guestName">이름</label>
-      <input id="guestName" class="guestbook-name" type="text" value="익명" maxlength="30" aria-label="방명록 이름">
+      <input id="guestName" name="name" class="guestbook-name" type="text" value="익명" maxlength="30" aria-label="방명록 이름">
     </div>
     <div class="guestbook-field">
       <label for="guestMessage">내용</label>
-      <textarea id="guestMessage" class="guestbook-message" maxlength="500" placeholder="내용을 입력해주세요." aria-label="방명록 내용" required></textarea>
+      <textarea id="guestMessage" name="message" class="guestbook-message" maxlength="500" placeholder="내용을 입력해주세요." aria-label="방명록 내용" required></textarea>
     </div>
     <button id="guestSubmit" class="guestbook-send" type="submit">발송</button>
-    <input id="guestWebsite" class="guestbook-hp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <input id="guestWebsite" name="website" class="guestbook-hp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
   </form>
+  <iframe name="guestbookSubmitFrame" id="guestbookSubmitFrame" title="방명록 전송" style="display:none;width:0;height:0;border:0"></iframe>
   <div class="guestbook-meta">
     <span>개인정보·연락처 등 민감한 정보는 입력하지 않는 것을 권장합니다.</span>
     <span id="guestCount" class="guestbook-count">0 / 500</span>
@@ -272,78 +273,81 @@ document.addEventListener('click',e=>{const l=e.target.closest('[data-load]');if
 
 /* =========================================================
    GUESTBOOK · Google Apps Script
-   배포 후 받은 /exec URL을 아래 문자열에 붙여넣으세요.
+   네이티브 FORM POST 방식: CORS/fetch 응답 문제 없이 Apps Script로 전송
 ========================================================= */
 const GUESTBOOK_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzbIhvwguOBbLoPCYyh1JmNe7L6L99gaf6J25e-OzxRV6TpfCIRKC1OFVI9fUsBjzME8Q/exec';
 const GUESTBOOK_COOLDOWN_MS = 10000;
 let guestbookLastSubmit = 0;
+let guestbookSubmitting = false;
 
-function guestbookReady(){
-  return /^https:\/\/script\.google\.com\/macros\/s\/.+\/exec(?:\?.*)?$/.test(GUESTBOOK_WEB_APP_URL);
-}
 function showGuestStatus(message,isError=false){
   const el=$('guestStatus');
   el.textContent=message;
   el.classList.toggle('error',!!isError);
   el.classList.add('show');
   clearTimeout(window.__guestStatusTimer);
-  window.__guestStatusTimer=setTimeout(()=>el.classList.remove('show'),3500);
+  window.__guestStatusTimer=setTimeout(()=>el.classList.remove('show'),4200);
 }
+
 function updateGuestCount(){
   $('guestCount').textContent=`${$('guestMessage').value.length} / 500`;
 }
-async function submitGuestbook(event){
+
+function finishGuestbookSubmit(){
+  if(!guestbookSubmitting) return;
+  guestbookSubmitting=false;
+  guestbookLastSubmit=Date.now();
+  $('guestMessage').value='';
+  updateGuestCount();
+  $('guestSubmit').disabled=false;
+  $('guestSubmit').textContent='발송';
+  showGuestStatus('💌 발송 요청을 완료했습니다. Google Sheet에서 확인해주세요.');
+}
+
+function submitGuestbook(event){
   event.preventDefault();
+  const form=$('guestbookForm');
   const button=$('guestSubmit');
   const honeypot=$('guestWebsite').value.trim();
-  if(honeypot){return;}
+  if(honeypot) return;
 
   const name=($('guestName').value.trim()||'익명').slice(0,30);
   const message=$('guestMessage').value.trim();
-  if(!message){showGuestStatus('내용을 입력해주세요.',true);$('guestMessage').focus();return;}
-  if(!guestbookReady()){
-    showGuestStatus('Apps Script 웹 앱 URL이 아직 연결되지 않았습니다.',true);
+
+  if(!message){
+    showGuestStatus('내용을 입력해주세요.',true);
+    $('guestMessage').focus();
     return;
   }
+
   const now=Date.now();
   if(now-guestbookLastSubmit<GUESTBOOK_COOLDOWN_MS){
     showGuestStatus('잠시 후 다시 발송해주세요.',true);
     return;
   }
 
+  $('guestName').value=name;
+  form.action=GUESTBOOK_WEB_APP_URL;
+  form.method='POST';
+  form.target='guestbookSubmitFrame';
+
   button.disabled=true;
   button.textContent='발송 중…';
-  showGuestStatus('방명록을 보내는 중입니다.');
+  guestbookSubmitting=true;
+  showGuestStatus('방명록을 전송하고 있습니다.');
 
-  try{
-    const body=new URLSearchParams({
-      name,
-      message,
-      page:location.href,
-      website:honeypot
-    });
-    await fetch(GUESTBOOK_WEB_APP_URL,{
-      method:'POST',
-      mode:'no-cors',
-      headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},
-      body
-    });
-    guestbookLastSubmit=Date.now();
-    $('guestMessage').value='';
-    updateGuestCount();
-    showGuestStatus('💌 발송했습니다. 방명록에 남겨주셔서 감사합니다!');
-  }catch(err){
-    console.warn('Guestbook submit failed:',err);
-    showGuestStatus('발송에 실패했습니다. 잠시 후 다시 시도해주세요.',true);
-  }finally{
-    button.disabled=false;
-    button.textContent='발송';
-  }
+  // submit 이벤트를 다시 발생시키지 않고 실제 HTML form POST 수행
+  HTMLFormElement.prototype.submit.call(form);
+
+  // Apps Script 응답은 cross-origin iframe이라 내용을 읽지 않는다.
+  // 전송 요청 완료 후 UI만 복구한다.
+  setTimeout(finishGuestbookSubmit,1200);
 }
+
 $('guestMessage').addEventListener('input',updateGuestCount);
 $('guestbookForm').addEventListener('submit',submitGuestbook);
 updateGuestCount();
-console.info('Guestbook endpoint:', GUESTBOOK_WEB_APP_URL);
+console.info('Guestbook endpoint:',GUESTBOOK_WEB_APP_URL);
 
 createCards();loadSettings();loadCategories(false);renderSaved();loadUsageCounts();
 </script></body></html>
