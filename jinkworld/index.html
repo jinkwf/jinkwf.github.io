@@ -65,7 +65,7 @@ select optgroup{
 </style>
 </head>
 <body><div class="page">
-<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note">🎲 main roll count</div><div class="eyebrow">NOVELAI ASSET GACHA · COMPLETE</div><h1>🎲 에셋 랜덤 프롬프트 생성기</h1><p>장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며 최근 기록과 즐겨찾기는 브라우저에 저장됩니다.</p><div class="chips"><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span></div></section>
+<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note">🎲 Google Sheet synced</div><div class="eyebrow">NOVELAI ASSET GACHA · COMPLETE</div><h1>🎲 에셋 랜덤 프롬프트 생성기</h1><p>장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며 최근 기록과 즐겨찾기는 브라우저에 저장됩니다.</p><div class="chips"><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span></div></section>
 <section class="panel"><div class="head"><div><h2 class="title">01 · 장르와 카테고리</h2><p class="desc">「장르 전체 랜덤」은 선택한 장르의 모든 카테고리 전용 풀을 합쳐서 사용합니다.</p></div></div><div class="select-grid"><div class="field"><label>장르</label><select id="genre"><option value="modern">현대물</option><option value="fantasy">판타지물</option><option value="guideverse">가이드버스</option><option value="period">시대물</option></select></div><div class="field"><label>세부 카테고리</label><select id="category"></select></div></div><div class="check-row"><label class="check"><input type="checkbox" id="randomCategory"> 주사위를 돌릴 때마다 세부 카테고리도 랜덤</label><label class="check"><input type="checkbox" id="avoidSame" checked> 직전 결과와 같은 태그 최대한 피하기</label></div></section>
 <section class="panel"><div class="head"><div><h2 class="title">02 · 기본 태그</h2><p class="desc">1인·2인·3인을 선택할 수 있습니다. 2인/3인 선택 시 구도·자세·시선·행동 풀이 인원수에 맞게 자동 전환됩니다. POV MODE를 켜면 현재 인원수에 맞는 1인칭 시점 풀이 적용되고, POV 강도(약하게/강하게)와 POV 타입(자동/대화형/손잡기/키스 직전)을 세부 설정할 수 있습니다. 고정 외형 태그는 ‘항상 추가할 태그’에 넣어두면 유지됩니다.</p></div></div><div class="options"><div class="opt"><label>CHARACTER</label><select id="gender">
 <option value="">미지정 · 기본 1인</option>
@@ -458,16 +458,34 @@ const state={selected:{},locked:{},active:{}};
 Object.keys(SLOTS).forEach(k=>{state.selected[k]=null;state.locked[k]=false;state.active[k]=true});
 const $=id=>document.getElementById(id);const genre=$('genre'),category=$('category'),cards=$('cards'),prompt=$('prompt'),summary=$('summary'),stats=$('stats'),status=$('status'),negative=$('negative');
 const LS={fav:'nai_asset_favorites_v3',hist:'nai_asset_history_v3',neg:'nai_asset_negative_v3',settings:'nai_asset_settings_v3'};
-/* Public aggregate usage counter: only the main dice button increments these counters. */
-const COUNT_API='https://countapi.mileshilliard.com/api/v1';
-const COUNT_KEY_BASE='jinkwf_novelai_asset_gacha_complete_roll_v1';
-function koreaDateKey(){const p=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());const v=Object.fromEntries(p.map(x=>[x.type,x.value]));return `${v.year}${v.month}${v.day}`}
-function counterKeyToday(){return `${COUNT_KEY_BASE}_day_${koreaDateKey()}`}
-function formatCounter(v){const n=Number(v);if(!Number.isFinite(n))return '00';return n<100?String(n).padStart(2,'0'):n.toLocaleString('en-US')}
-function setCounterUI(today,total,stateName=''){const box=$('usageCounter');$('todayCount').textContent=formatCounter(today);$('totalCount').textContent=formatCounter(total);box.classList.remove('loading','error');if(stateName)box.classList.add(stateName)}
-async function countFetch(mode,key){const r=await fetch(`${COUNT_API}/${mode}/${encodeURIComponent(key)}`,{cache:'no-store'});if(r.status===404&&mode==='get')return 0;if(!r.ok)throw new Error(`counter ${r.status}`);const d=await r.json();return Number(d.value)||0}
-async function loadUsageCounts(){try{const [today,total]=await Promise.all([countFetch('get',counterKeyToday()),countFetch('get',`${COUNT_KEY_BASE}_total`)]);setCounterUI(today,total)}catch(e){console.warn('Usage counter unavailable:',e);const box=$('usageCounter');box.classList.remove('loading');box.classList.add('error');$('todayCount').textContent='--';$('totalCount').textContent='--'}}
-async function trackMainRoll(){try{const [today,total]=await Promise.all([countFetch('hit',counterKeyToday()),countFetch('hit',`${COUNT_KEY_BASE}_total`)]);setCounterUI(today,total)}catch(e){console.warn('Usage increment failed:',e);loadUsageCounts()}}
+/* Public aggregate usage counter
+   TODAY / TOTAL도 Google Apps Script + 사용통계 Sheet를 단일 소스로 사용합니다.
+*/
+function formatCounter(v){
+  const n=Number(v);
+  if(!Number.isFinite(n)) return '00';
+  return n<100?String(n).padStart(2,'0'):n.toLocaleString('en-US');
+}
+function setCounterUI(today,total,stateName=''){
+  const box=$('usageCounter');
+  $('todayCount').textContent=formatCounter(today);
+  $('totalCount').textContent=formatCounter(total);
+  box.classList.remove('loading','error');
+  if(stateName) box.classList.add(stateName);
+}
+function markCounterLoading(){
+  const box=$('usageCounter');
+  box.classList.remove('error');
+  box.classList.add('loading');
+}
+function loadUsageCounts(){
+  markCounterLoading();
+  requestGoogleCounter();
+}
+function trackMainRoll(){
+  // 카운트 증가 자체는 trackAnalytics('roll')이 담당합니다.
+  // 별도의 외부 CountAPI는 더 이상 사용하지 않습니다.
+}
 
 function safeJSON(key,def){try{return JSON.parse(localStorage.getItem(key))??def}catch{return def}}
 
@@ -502,28 +520,80 @@ function analyticsPovType(){
   if(!isPovMode()) return '';
   return {auto:'자동',talk:'대화형',hand:'손잡기',prekiss:'키스 직전'}[povType()]||povType();
 }
+const ANALYTICS_CALLBACK='__assetGachaAnalyticsAck';
+const COUNTER_CALLBACK='__assetGachaCounterAck';
+let analyticsRequestSeq=0;
+
+function appendJsonpScript(params,onError){
+  const script=document.createElement('script');
+  script.async=true;
+  script.referrerPolicy='no-referrer';
+  script.dataset.analyticsBeacon='1';
+  script.src=GUESTBOOK_WEB_APP_URL+'?'+params.toString();
+  script.onload=()=>{setTimeout(()=>script.remove(),0)};
+  script.onerror=()=>{
+    try{script.remove()}catch(_){}
+    if(typeof onError==='function') onError();
+  };
+  document.head.appendChild(script);
+  return true;
+}
+
+window[ANALYTICS_CALLBACK]=function(data){
+  if(!data||data.ok!==true){
+    console.warn('[Asset Gacha Analytics] server rejected event:',data);
+    return;
+  }
+  if(data.event==='roll' && Number.isFinite(Number(data.today)) && Number.isFinite(Number(data.total))){
+    setCounterUI(Number(data.today),Number(data.total));
+  }
+};
+
+window[COUNTER_CALLBACK]=function(data){
+  if(data&&data.ok===true){
+    setCounterUI(Number(data.today)||0,Number(data.total)||0);
+  }else{
+    console.warn('[Asset Gacha Counter] invalid response:',data);
+    const box=$('usageCounter');
+    box.classList.remove('loading');
+    box.classList.add('error');
+  }
+};
+
+function requestGoogleCounter(){
+  try{
+    if(!GUESTBOOK_WEB_APP_URL) return false;
+    const params=new URLSearchParams({
+      kind:'counter',
+      callback:COUNTER_CALLBACK,
+      _ : String(Date.now())
+    });
+    return appendJsonpScript(params,()=>{
+      const box=$('usageCounter');
+      box.classList.remove('loading');
+      box.classList.add('error');
+      $('todayCount').textContent='--';
+      $('totalCount').textContent='--';
+    });
+  }catch(err){
+    console.warn('[Asset Gacha Counter] request failed:',err);
+    return false;
+  }
+}
+
 function postAnalyticsBeacon(payload){
   try{
     if(!GUESTBOOK_WEB_APP_URL) return false;
-
     const params=new URLSearchParams();
     Object.entries(payload).forEach(([key,value])=>params.set(key,String(value??'')));
+    params.set('callback',ANALYTICS_CALLBACK);
+    params.set('requestId',String(++analyticsRequestSeq));
     params.set('_',String(Date.now()));
-
-    const img=document.createElement('img');
-    img.alt='';
-    img.width=1;
-    img.height=1;
-    img.style.cssText='position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;left:-9999px;';
-    const cleanup=()=>{try{img.remove()}catch(_){}};
-    img.onload=cleanup;
-    img.onerror=cleanup;
-    document.body.appendChild(img);
-    img.src=GUESTBOOK_WEB_APP_URL+'?'+params.toString();
-
-    return true;
+    return appendJsonpScript(params,()=>{
+      console.warn('[Asset Gacha Analytics] JSONP request failed');
+    });
   }catch(err){
-    console.warn('Analytics GET beacon failed:',err);
+    console.warn('[Asset Gacha Analytics] request failed:',err);
     return false;
   }
 }
@@ -547,11 +617,11 @@ function trackAnalytics(eventName){
 
 function analyticsDebugTest(){
   const ok=trackAnalytics('roll');
-  console.log('[Asset Gacha Analytics] GET beacon submitted:',ok,'endpoint:',GUESTBOOK_WEB_APP_URL);
+  console.log('[Asset Gacha Analytics] JSONP submitted:',ok,'endpoint:',GUESTBOOK_WEB_APP_URL);
   return ok;
 }
 if(new URLSearchParams(location.search).get('analytics-debug')==='1'){
-  console.info('[Asset Gacha Analytics] debug mode. Run analyticsDebugTest() in console to send one test roll.');
+  console.info('[Asset Gacha Analytics] debug mode. Run analyticsDebugTest() in console.');
 }
 
 function createCards(){cards.innerHTML='';Object.entries(SLOTS).forEach(([k,t])=>{const el=document.createElement('article');el.className='card';el.id='card-'+k;el.innerHTML=`<div class="card-top"><div class="card-title">${t}</div><div class="card-actions"><button class="icon" data-toggle="${k}" title="프롬프트 사용/제외">◉</button><button class="icon" data-reroll="${k}" title="이 항목만 재추첨">↻</button><button class="icon" data-lock="${k}" title="잠금">🔓</button></div></div><div class="ko" id="ko-${k}">-</div><div class="en" id="en-${k}">-</div><div class="lock-note">🔒 이 결과는 고정되어 있습니다.</div>`;cards.appendChild(el)})}
@@ -653,7 +723,7 @@ function loadSettings(){
   if(n){$('negativeBase').value=n;negative.value=n}else negative.value=$('negativeBase').value
 }
 cards.addEventListener('click',e=>{const a=e.target.closest('[data-lock],[data-reroll],[data-toggle]');if(!a)return;if(a.dataset.lock)toggleLock(a.dataset.lock);if(a.dataset.toggle)toggleActive(a.dataset.toggle);if(a.dataset.reroll){rollSlot(a.dataset.reroll,true);render();addHistory()}});
-$('rollAll').onclick=()=>{rollAll(true);trackMainRoll();trackAnalytics('roll')};genre.onchange=()=>loadCategories(false);category.onchange=()=>rollAll(false);
+$('rollAll').onclick=()=>{rollAll(true);trackAnalytics('roll')};genre.onchange=()=>loadCategories(false);category.onchange=()=>rollAll(false);
 $('lockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=true);render()};$('unlockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=false);render()};$('enableAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.active[k]=true);render()};
 ['quality','style','customTags','randomCategory','avoidSame'].forEach(id=>{
   const el=$(id);
