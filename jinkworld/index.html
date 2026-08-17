@@ -99,7 +99,7 @@ select optgroup{
       <p class="desc">남기고 싶은 말이 있다면 보내주세요. 작성 내용은 운영자의 Google Sheet에만 저장됩니다.</p>
     </div>
   </div>
-  <form id="guestbookForm" class="guestbook-form" autocomplete="off" method="POST" action="https://script.google.com/macros/s/AKfycbzbIhvwguOBbLoPCYyh1JmNe7L6L99gaf6J25e-OzxRV6TpfCIRKC1OFVI9fUsBjzME8Q/exec" target="guestbookSubmitFrame">
+  <form id="guestbookForm" class="guestbook-form" autocomplete="off" method="POST" action="https://script.google.com/macros/s/AKfycbyXbWUPH271uJbP7VVvluDTyQqk17J_o4j5t1m1RcBuoYzP8RLfvnQ1xURSDzRpxB97_A/exec" target="guestbookSubmitFrame">
     <div class="guestbook-field">
       <label for="guestName">이름</label>
       <input id="guestName" name="name" class="guestbook-name" type="text" value="익명" maxlength="30" aria-label="방명록 이름">
@@ -692,7 +692,7 @@ document.addEventListener('click',e=>{const l=e.target.closest('[data-load]');if
    GUESTBOOK · Google Apps Script
    네이티브 FORM POST 방식: CORS/fetch 응답 문제 없이 Apps Script로 전송
 ========================================================= */
-const GUESTBOOK_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzbIhvwguOBbLoPCYyh1JmNe7L6L99gaf6J25e-OzxRV6TpfCIRKC1OFVI9fUsBjzME8Q/exec';
+const GUESTBOOK_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyXbWUPH271uJbP7VVvluDTyQqk17J_o4j5t1m1RcBuoYzP8RLfvnQ1xURSDzRpxB97_A/exec';
 const GUESTBOOK_COOLDOWN_MS = 10000;
 let guestbookLastSubmit = 0;
 let guestbookSubmitting = false;
