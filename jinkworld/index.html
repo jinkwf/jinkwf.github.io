@@ -16,6 +16,24 @@
 .usage-counter.error .usage-value{color:#aaa3b4}
 .usage-note{position:absolute;z-index:3;top:76px;right:27px;color:#716a79;font-size:7px;letter-spacing:.02em}
 footer{text-align:center;color:#5f5967;font-size:8px;padding:10px 0}@media(max-width:900px){.cards{grid-template-columns:repeat(2,1fr)}}@media(max-width:720px){.page{width:calc(100% - 18px);padding-top:13px}.hero{padding:82px 18px 23px;border-radius:20px}.usage-counter{top:17px;right:17px}.usage-item{min-width:74px;padding:8px 10px}.usage-value{font-size:14px}.usage-note{top:61px;right:18px}.panel{padding:14px;border-radius:17px}.select-grid,.custom-grid,.saved-grid{grid-template-columns:1fr}.options{grid-template-columns:1fr 1fr}.toolbar{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.card{min-height:0}}@media(max-width:450px){.options{grid-template-columns:1fr}}
+
+/* Guestbook */
+.guestbook-panel{position:relative;overflow:hidden}
+.guestbook-panel:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;right:-90px;bottom:-110px;background:rgba(166,140,255,.06);pointer-events:none}
+.guestbook-form{position:relative;z-index:1;display:grid;grid-template-columns:180px 1fr auto;gap:9px;align-items:end}
+.guestbook-field label{display:block;font-size:9px;font-weight:850;color:#bbb4c4;margin:0 0 6px 2px;letter-spacing:.05em}
+.guestbook-name{height:45px!important}
+.guestbook-message{min-height:92px!important;height:92px;resize:vertical;padding:12px!important;line-height:1.55;font-size:11px}
+.guestbook-send{height:45px;min-width:92px;border:0;border-radius:12px;color:#fff;background:linear-gradient(135deg,#7864d8,#a370dc);font-size:10px;font-weight:900;box-shadow:0 8px 18px rgba(120,100,216,.18)}
+.guestbook-send:disabled{cursor:not-allowed;opacity:.5;filter:grayscale(.25)}
+.guestbook-meta{position:relative;z-index:1;display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:8px;color:#7e7787;font-size:8px;line-height:1.5}
+.guestbook-count{font-variant-numeric:tabular-nums;white-space:nowrap}
+.guestbook-status{position:relative;z-index:1;min-height:17px;margin-top:7px;color:var(--green);font-size:9px;opacity:0;transition:.2s}
+.guestbook-status.show{opacity:1}
+.guestbook-status.error{color:var(--red)}
+.guestbook-hp{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important}
+@media(max-width:720px){.guestbook-form{grid-template-columns:1fr}.guestbook-message{height:110px}.guestbook-send{width:100%;height:44px}.guestbook-meta{align-items:flex-start}}
+
 </style>
 </head>
 <body><div class="page">
@@ -28,6 +46,33 @@ footer{text-align:center;color:#5f5967;font-size:8px;padding:10px 0}@media(max-w
 <section class="panel"><div class="head"><div><h2 class="title">05 · Negative Prompt</h2><p class="desc">기본값을 원하는 태그로 바꿔두면 브라우저가 기억합니다.</p></div></div><textarea id="negative" class="prompt negative"></textarea><div class="toolbar"><button class="tool primary" id="copyNegative">📋 Negative 태그 복사</button><button class="tool" id="resetNegative">↺ 기본값 복구</button><button class="tool" id="saveNegative">💾 네거티브 저장</button></div></section>
 <section class="panel"><div class="head"><div><h2 class="title">현재 한글 조합</h2></div></div><div id="summary" class="summary"></div></section>
 <section class="panel"><div class="head"><div><h2 class="title">저장된 조합</h2><p class="desc">즐겨찾기와 최근 10회 결과는 이 브라우저의 localStorage에 저장됩니다.</p></div></div><div class="saved-grid"><div><div class="tiny-label">⭐ 즐겨찾기</div><div id="favorites" class="list"></div></div><div><div class="tiny-label">🕘 최근 기록</div><div id="history" class="list"></div></div></div></section>
+
+<section class="panel guestbook-panel" id="guestbookSection">
+  <div class="head">
+    <div>
+      <h2 class="title">💌 방명록</h2>
+      <p class="desc">남기고 싶은 말이 있다면 보내주세요. 작성 내용은 운영자의 Google Sheet에만 저장됩니다.</p>
+    </div>
+  </div>
+  <form id="guestbookForm" class="guestbook-form" autocomplete="off">
+    <div class="guestbook-field">
+      <label for="guestName">이름</label>
+      <input id="guestName" class="guestbook-name" type="text" value="익명" maxlength="30" aria-label="방명록 이름">
+    </div>
+    <div class="guestbook-field">
+      <label for="guestMessage">내용</label>
+      <textarea id="guestMessage" class="guestbook-message" maxlength="500" placeholder="내용을 입력해주세요." aria-label="방명록 내용" required></textarea>
+    </div>
+    <button id="guestSubmit" class="guestbook-send" type="submit">발송</button>
+    <input id="guestWebsite" class="guestbook-hp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+  </form>
+  <div class="guestbook-meta">
+    <span>개인정보·연락처 등 민감한 정보는 입력하지 않는 것을 권장합니다.</span>
+    <span id="guestCount" class="guestbook-count">0 / 500</span>
+  </div>
+  <div id="guestStatus" class="guestbook-status" role="status" aria-live="polite"></div>
+</section>
+
 <footer>NovelAI Asset Gacha Complete · Single HTML · LocalStorage</footer>
 </div>
 <script>
@@ -224,5 +269,80 @@ $('lockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=true);re
 $('copyPrompt').onclick=()=>copyText(prompt.value,'✅ NovelAI 태그를 복사했습니다.');$('copyKo').onclick=()=>copyText(summary.textContent,'✅ 한글 조합을 복사했습니다.');$('saveFavorite').onclick=addFavorite;
 $('copyNegative').onclick=()=>copyText(negative.value,'✅ Negative 태그를 복사했습니다.');$('saveNegative').onclick=()=>{localStorage.setItem(LS.neg,negative.value);$('negativeBase').value=negative.value;show('💾 Negative Prompt를 저장했습니다.')};$('resetNegative').onclick=()=>{const d='lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, jpeg artifacts, signature, watermark, username, blurry';negative.value=d;$('negativeBase').value=d;localStorage.removeItem(LS.neg)};$('negativeBase').addEventListener('input',()=>negative.value=$('negativeBase').value);
 document.addEventListener('click',e=>{const l=e.target.closest('[data-load]');if(l){const [t,i]=l.dataset.load.split(':');const a=safeJSON(t==='f'?LS.fav:LS.hist,[]);if(a[+i])loadSnap(a[+i])}const d=e.target.closest('[data-del]');if(d)deleteFav(+d.dataset.del)});
+
+/* =========================================================
+   GUESTBOOK · Google Apps Script
+   배포 후 받은 /exec URL을 아래 문자열에 붙여넣으세요.
+========================================================= */
+const GUESTBOOK_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw1hPEBQCBccKMX1rsiacG9qKlOIMuMCy6hmyLetpOtr0fwvzmToJEQ8X2hJiZV8ybwLw/exec';
+const GUESTBOOK_COOLDOWN_MS = 10000;
+let guestbookLastSubmit = 0;
+
+function guestbookReady(){
+  return /^https:\/\/script\.google\.com\/macros\/s\/.+\/exec(?:\?.*)?$/.test(GUESTBOOK_WEB_APP_URL);
+}
+function showGuestStatus(message,isError=false){
+  const el=$('guestStatus');
+  el.textContent=message;
+  el.classList.toggle('error',!!isError);
+  el.classList.add('show');
+  clearTimeout(window.__guestStatusTimer);
+  window.__guestStatusTimer=setTimeout(()=>el.classList.remove('show'),3500);
+}
+function updateGuestCount(){
+  $('guestCount').textContent=`${$('guestMessage').value.length} / 500`;
+}
+async function submitGuestbook(event){
+  event.preventDefault();
+  const button=$('guestSubmit');
+  const honeypot=$('guestWebsite').value.trim();
+  if(honeypot){return;}
+
+  const name=($('guestName').value.trim()||'익명').slice(0,30);
+  const message=$('guestMessage').value.trim();
+  if(!message){showGuestStatus('내용을 입력해주세요.',true);$('guestMessage').focus();return;}
+  if(!guestbookReady()){
+    showGuestStatus('Apps Script 웹 앱 URL이 아직 연결되지 않았습니다.',true);
+    return;
+  }
+  const now=Date.now();
+  if(now-guestbookLastSubmit<GUESTBOOK_COOLDOWN_MS){
+    showGuestStatus('잠시 후 다시 발송해주세요.',true);
+    return;
+  }
+
+  button.disabled=true;
+  button.textContent='발송 중…';
+  showGuestStatus('방명록을 보내는 중입니다.');
+
+  try{
+    const body=new URLSearchParams({
+      name,
+      message,
+      page:location.href,
+      website:honeypot
+    });
+    await fetch(GUESTBOOK_WEB_APP_URL,{
+      method:'POST',
+      mode:'no-cors',
+      headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},
+      body
+    });
+    guestbookLastSubmit=Date.now();
+    $('guestMessage').value='';
+    updateGuestCount();
+    showGuestStatus('💌 방명록을 보냈습니다. 감사합니다!');
+  }catch(err){
+    console.warn('Guestbook submit failed:',err);
+    showGuestStatus('발송에 실패했습니다. 잠시 후 다시 시도해주세요.',true);
+  }finally{
+    button.disabled=false;
+    button.textContent='발송';
+  }
+}
+$('guestMessage').addEventListener('input',updateGuestCount);
+$('guestbookForm').addEventListener('submit',submitGuestbook);
+updateGuestCount();
+
 createCards();loadSettings();loadCategories(false);renderSaved();loadUsageCounts();
 </script></body></html>
