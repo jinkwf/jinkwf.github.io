@@ -497,12 +497,31 @@ function markCounterLoading(){
   const box=$('usageCounter');box.classList.remove('error');box.classList.add('loading');
   const note=$('usageNote');if(note){note.textContent='🎲 통계 연결 중…';note.classList.remove('ok','error')}
 }
+function requestCounterFrame(){
+  try{
+    const frame=$('counterBridge');
+    if(!frame||!GUESTBOOK_WEB_APP_URL) return false;
+    const params=new URLSearchParams({kind:'counterframe',token:COUNTER_BRIDGE_TOKEN,_:String(Date.now())});
+    frame.src=GUESTBOOK_WEB_APP_URL+'?'+params.toString();
+    return true;
+  }catch(err){
+    console.warn('[Asset Gacha Counter] frame request failed:',err);
+    return false;
+  }
+}
+window.addEventListener('message',event=>{
+  const data=event&&event.data;
+  if(!data||data.type!==COUNTER_BRIDGE_TYPE||data.token!==COUNTER_BRIDGE_TOKEN||data.ok!==true) return;
+  setCounterUI(Number(data.today)||0,Number(data.total)||0);
+});
 function loadUsageCounts(){
   counterResolvedAt=0;
   markCounterLoading();
-  requestGoogleCounter(0);
-  setTimeout(()=>{if(!counterResolvedAt)requestGoogleCounter(1)},1100);
-  setTimeout(()=>{if(!counterResolvedAt)setCounterError()},4200);
+  requestCounterFrame();
+  setTimeout(()=>{if(!counterResolvedAt)requestGoogleCounter(0)},850);
+  setTimeout(()=>{if(!counterResolvedAt)requestCounterFrame()},1800);
+  setTimeout(()=>{if(!counterResolvedAt)requestGoogleCounter(1)},2700);
+  setTimeout(()=>{if(!counterResolvedAt)setCounterError()},5200);
 }
 function trackMainRoll(){
   // 카운트 증가 자체는 trackAnalytics('roll')이 담당합니다.
@@ -640,7 +659,7 @@ function trackAnalytics(eventName){
     page:location.href
   };
   const sent=postAnalyticsBeacon(payload);
-  if(eventName==='roll') setTimeout(()=>requestGoogleCounter(0),900);
+  if(eventName==='roll'){setTimeout(()=>requestCounterFrame(),650);setTimeout(()=>{if(!counterResolvedAt)requestGoogleCounter(0)},1200);}
   return sent;
 }
 
@@ -1110,6 +1129,7 @@ $('guestbookForm').addEventListener('submit',submitGuestbook);
 updateGuestCount();
 console.info('Guestbook/Analytics endpoint:',GUESTBOOK_WEB_APP_URL);
 console.info('[Asset Gacha v2] counter endpoint:',GUESTBOOK_WEB_APP_URL+'?kind=counter');
+console.info('[Asset Gacha v2] counter transport: hidden iframe postMessage + JSONP fallback');
 
 createCards();
 populateScenePresetOptions(false);
@@ -1124,4 +1144,5 @@ renderSaved();
 loadUsageCounts();
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')loadUsageCounts()});
 window.addEventListener('pageshow',()=>loadUsageCounts());
-</script></body></html>
+</script><iframe id="counterBridge" title="counter bridge" aria-hidden="true" tabindex="-1" style="position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;border:0;pointer-events:none;visibility:hidden"></iframe>
+</body></html>
