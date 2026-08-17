@@ -119,7 +119,7 @@ select optgroup{
   <div id="guestStatus" class="guestbook-status" role="status" aria-live="polite"></div>
 </section>
 
-<footer><div>문의사항 X : <a href="https://x.com/Jin_k__wf" target="_blank" rel="noopener noreferrer">@Jin_k__wf</a></div><div>NovelAI Asset Gacha Complete · Single HTML · LocalStorage</div></footer>
+<footer><div>문의사항 X : <a href="https://x.com/Jin_k__wf" target="_blank" rel="noopener noreferrer">@Jin_k__wf</a></div><div>NovelAI Asset Gacha Complete · Single HTML · LocalStorage</div><div style="margin-top:5px"><button type="button" id="analyticsPing" style="border:0;background:transparent;color:#6f6978;font-size:8px;cursor:pointer">통계 연결 테스트</button></div></footer>
 </div>
 <script>
 const E=(ko,en)=>({ko,en});
@@ -502,40 +502,28 @@ function analyticsPovType(){
   if(!isPovMode()) return '';
   return {auto:'자동',talk:'대화형',hand:'손잡기',prekiss:'키스 직전'}[povType()]||povType();
 }
-function ensureAnalyticsSink(){
-  let iframe=document.getElementById('assetGachaAnalyticsSink');
-  if(!iframe){
-    iframe=document.createElement('iframe');
-    iframe.id='assetGachaAnalyticsSink';
-    iframe.name=ANALYTICS_FRAME_NAME;
-    iframe.style.display='none';
-    iframe.setAttribute('aria-hidden','true');
-    document.body.appendChild(iframe);
-  }
-  return iframe;
-}
-function postAnalyticsForm(payload){
+function postAnalyticsBeacon(payload){
   try{
     if(!GUESTBOOK_WEB_APP_URL) return false;
-    ensureAnalyticsSink();
-    const form=document.createElement('form');
-    form.method='POST';
-    form.action=GUESTBOOK_WEB_APP_URL;
-    form.target=ANALYTICS_FRAME_NAME;
-    form.style.display='none';
-    Object.entries(payload).forEach(([key,value])=>{
-      const input=document.createElement('input');
-      input.type='hidden';
-      input.name=key;
-      input.value=String(value??'');
-      form.appendChild(input);
-    });
-    document.body.appendChild(form);
-    form.submit();
-    window.setTimeout(()=>form.remove(),1500);
+
+    const params=new URLSearchParams();
+    Object.entries(payload).forEach(([key,value])=>params.set(key,String(value??'')));
+    params.set('_',String(Date.now()));
+
+    const img=document.createElement('img');
+    img.alt='';
+    img.width=1;
+    img.height=1;
+    img.style.cssText='position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;left:-9999px;';
+    const cleanup=()=>{try{img.remove()}catch(_){}};
+    img.onload=cleanup;
+    img.onerror=cleanup;
+    document.body.appendChild(img);
+    img.src=GUESTBOOK_WEB_APP_URL+'?'+params.toString();
+
     return true;
   }catch(err){
-    console.warn('Analytics form submit failed:',err);
+    console.warn('Analytics GET beacon failed:',err);
     return false;
   }
 }
@@ -552,15 +540,14 @@ function trackAnalytics(eventName){
     pov:isPovMode()?'1':'0',
     povStrength:analyticsPovStrength(),
     povType:analyticsPovType(),
-    page:location.href,
-    ts:String(Date.now())
+    page:location.href
   };
-  return postAnalyticsForm(payload);
+  return postAnalyticsBeacon(payload);
 }
 
 function analyticsDebugTest(){
   const ok=trackAnalytics('roll');
-  console.log('[Asset Gacha Analytics] test submitted:',ok,'endpoint:',GUESTBOOK_WEB_APP_URL);
+  console.log('[Asset Gacha Analytics] GET beacon submitted:',ok,'endpoint:',GUESTBOOK_WEB_APP_URL);
   return ok;
 }
 if(new URLSearchParams(location.search).get('analytics-debug')==='1'){
@@ -773,6 +760,15 @@ function submitGuestbook(event){
   // Apps Script 응답은 cross-origin iframe이라 내용을 읽지 않는다.
   // 전송 요청 완료 후 UI만 복구한다.
   setTimeout(finishGuestbookSubmit,1200);
+}
+
+
+const analyticsPingBtn=$('analyticsPing');
+if(analyticsPingBtn){
+  analyticsPingBtn.addEventListener('click',()=>{
+    const ok=trackAnalytics('roll');
+    show(ok?'📊 통계 테스트 요청을 보냈습니다. 사용통계 탭을 확인해주세요.':'⚠️ 통계 전송 함수를 실행하지 못했습니다.');
+  });
 }
 
 $('guestMessage').addEventListener('input',updateGuestCount);
