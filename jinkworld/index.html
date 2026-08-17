@@ -274,7 +274,7 @@ document.addEventListener('click',e=>{const l=e.target.closest('[data-load]');if
    GUESTBOOK · Google Apps Script
    배포 후 받은 /exec URL을 아래 문자열에 붙여넣으세요.
 ========================================================= */
-const GUESTBOOK_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw1hPEBQCBccKMX1rsiacG9qKlOIMuMCy6hmyLetpOtr0fwvzmToJEQ8X2hJiZV8ybwLw/exec';
+const GUESTBOOK_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbylk381iuxKX49ipefgxCype5vSHTZIX1fk-ZqdYe68p1XqPmoPji0L18vyKzlwYxCpyw/exec';
 const GUESTBOOK_COOLDOWN_MS = 10000;
 let guestbookLastSubmit = 0;
 
@@ -331,7 +331,7 @@ async function submitGuestbook(event){
     guestbookLastSubmit=Date.now();
     $('guestMessage').value='';
     updateGuestCount();
-    showGuestStatus('💌 방명록을 보냈습니다. 감사합니다!');
+    showGuestStatus('💌 발송했습니다. 방명록에 남겨주셔서 감사합니다!');
   }catch(err){
     console.warn('Guestbook submit failed:',err);
     showGuestStatus('발송에 실패했습니다. 잠시 후 다시 시도해주세요.',true);
@@ -343,6 +343,7 @@ async function submitGuestbook(event){
 $('guestMessage').addEventListener('input',updateGuestCount);
 $('guestbookForm').addEventListener('submit',submitGuestbook);
 updateGuestCount();
+console.info('Guestbook endpoint:', GUESTBOOK_WEB_APP_URL);
 
 createCards();loadSettings();loadCategories(false);renderSaved();loadUsageCounts();
 </script></body></html>
