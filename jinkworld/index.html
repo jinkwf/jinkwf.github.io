@@ -476,7 +476,9 @@ function safeJSON(key,def){try{return JSON.parse(localStorage.getItem(key))??def
    실제 프롬프트/즐겨찾기 내용은 전송하지 않습니다.
    익명 브라우저 ID + 사용 이벤트/선택 상태만 기록합니다.
 ========================================================= */
-const ANALYTICS_CLIENT_KEY='nai_asset_analytics_client_v1';
+const ANALYTICS_CLIENT_KEY='nai_asset_analytics_client_v2';
+const ANALYTICS_FRAME_NAME='assetGachaAnalyticsSink';
+
 function analyticsClientId(){
   let id=localStorage.getItem(ANALYTICS_CLIENT_KEY);
   if(!id){
@@ -500,33 +502,71 @@ function analyticsPovType(){
   if(!isPovMode()) return '';
   return {auto:'자동',talk:'대화형',hand:'손잡기',prekiss:'키스 직전'}[povType()]||povType();
 }
-function trackAnalytics(eventName){
-  try{
-    const endpoint=(typeof GUESTBOOK_WEB_APP_URL!=='undefined'&&GUESTBOOK_WEB_APP_URL)?GUESTBOOK_WEB_APP_URL:'';
-    if(!endpoint) return;
-    const body=new URLSearchParams({
-      kind:'analytics',
-      event:String(eventName||''),
-      clientId:analyticsClientId(),
-      genre:genre.value||'',
-      genreLabel:analyticsGenreLabel(),
-      category:category.value||'',
-      categoryLabel:analyticsCategoryLabel(),
-      people:String(characterCount()),
-      pov:isPovMode()?'1':'0',
-      povStrength:analyticsPovStrength(),
-      povType:analyticsPovType(),
-      page:location.href
-    });
-    fetch(endpoint,{
-      method:'POST',
-      mode:'no-cors',
-      headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},
-      body:body.toString(),
-      keepalive:true
-    }).catch(()=>{});
-  }catch(e){console.warn('Analytics send failed:',e)}
+function ensureAnalyticsSink(){
+  let iframe=document.getElementById('assetGachaAnalyticsSink');
+  if(!iframe){
+    iframe=document.createElement('iframe');
+    iframe.id='assetGachaAnalyticsSink';
+    iframe.name=ANALYTICS_FRAME_NAME;
+    iframe.style.display='none';
+    iframe.setAttribute('aria-hidden','true');
+    document.body.appendChild(iframe);
+  }
+  return iframe;
 }
+function postAnalyticsForm(payload){
+  try{
+    if(!GUESTBOOK_WEB_APP_URL) return false;
+    ensureAnalyticsSink();
+    const form=document.createElement('form');
+    form.method='POST';
+    form.action=GUESTBOOK_WEB_APP_URL;
+    form.target=ANALYTICS_FRAME_NAME;
+    form.style.display='none';
+    Object.entries(payload).forEach(([key,value])=>{
+      const input=document.createElement('input');
+      input.type='hidden';
+      input.name=key;
+      input.value=String(value??'');
+      form.appendChild(input);
+    });
+    document.body.appendChild(form);
+    form.submit();
+    window.setTimeout(()=>form.remove(),1500);
+    return true;
+  }catch(err){
+    console.warn('Analytics form submit failed:',err);
+    return false;
+  }
+}
+function trackAnalytics(eventName){
+  const payload={
+    kind:'analytics',
+    event:String(eventName||''),
+    clientId:analyticsClientId(),
+    genre:genre.value||'',
+    genreLabel:analyticsGenreLabel(),
+    category:category.value||'',
+    categoryLabel:analyticsCategoryLabel(),
+    people:String(characterCount()),
+    pov:isPovMode()?'1':'0',
+    povStrength:analyticsPovStrength(),
+    povType:analyticsPovType(),
+    page:location.href,
+    ts:String(Date.now())
+  };
+  return postAnalyticsForm(payload);
+}
+
+function analyticsDebugTest(){
+  const ok=trackAnalytics('roll');
+  console.log('[Asset Gacha Analytics] test submitted:',ok,'endpoint:',GUESTBOOK_WEB_APP_URL);
+  return ok;
+}
+if(new URLSearchParams(location.search).get('analytics-debug')==='1'){
+  console.info('[Asset Gacha Analytics] debug mode. Run analyticsDebugTest() in console to send one test roll.');
+}
+
 function createCards(){cards.innerHTML='';Object.entries(SLOTS).forEach(([k,t])=>{const el=document.createElement('article');el.className='card';el.id='card-'+k;el.innerHTML=`<div class="card-top"><div class="card-title">${t}</div><div class="card-actions"><button class="icon" data-toggle="${k}" title="프롬프트 사용/제외">◉</button><button class="icon" data-reroll="${k}" title="이 항목만 재추첨">↻</button><button class="icon" data-lock="${k}" title="잠금">🔓</button></div></div><div class="ko" id="ko-${k}">-</div><div class="en" id="en-${k}">-</div><div class="lock-note">🔒 이 결과는 고정되어 있습니다.</div>`;cards.appendChild(el)})}
 function loadCategories(keep=false){const old=category.value;category.innerHTML='<option value="__all">🎲 장르 전체 랜덤</option>';Object.entries(DB[genre.value].categories).forEach(([k,v])=>{const o=document.createElement('option');o.value=k;o.textContent=v.label;category.appendChild(o)});if(keep&&[...category.options].some(o=>o.value===old))category.value=old;rollAll(false)}
 function specific(type){const g=DB[genre.value],c=category.value;if(c==='__all'){let out=[];Object.values(g.categories).forEach(x=>out.push(...(x[type]||[])));return out}return g.categories[c]?.[type]||[]}
