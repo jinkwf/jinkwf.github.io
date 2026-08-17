@@ -56,12 +56,18 @@ select optgroup{
 #povModeHint{margin-top:7px;color:var(--sub);font-size:10px;line-height:1.45}
 #povModeHint.on{color:#ffd6a3}
 
+
+/* ===== POV ADVANCED ===== */
+#povStrength:disabled,#povType:disabled{opacity:.5;cursor:not-allowed}
+#povModeHint{margin-top:7px;color:var(--sub);font-size:10px;line-height:1.45}
+#povModeHint.on{color:#ffd6a3}
+
 </style>
 </head>
 <body><div class="page">
 <section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note">🎲 main roll count</div><div class="eyebrow">NOVELAI ASSET GACHA · COMPLETE</div><h1>🎲 에셋 랜덤 프롬프트 생성기</h1><p>장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며 최근 기록과 즐겨찾기는 브라우저에 저장됩니다.</p><div class="chips"><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span></div></section>
 <section class="panel"><div class="head"><div><h2 class="title">01 · 장르와 카테고리</h2><p class="desc">「장르 전체 랜덤」은 선택한 장르의 모든 카테고리 전용 풀을 합쳐서 사용합니다.</p></div></div><div class="select-grid"><div class="field"><label>장르</label><select id="genre"><option value="modern">현대물</option><option value="fantasy">판타지물</option><option value="guideverse">가이드버스</option><option value="period">시대물</option></select></div><div class="field"><label>세부 카테고리</label><select id="category"></select></div></div><div class="check-row"><label class="check"><input type="checkbox" id="randomCategory"> 주사위를 돌릴 때마다 세부 카테고리도 랜덤</label><label class="check"><input type="checkbox" id="avoidSame" checked> 직전 결과와 같은 태그 최대한 피하기</label></div></section>
-<section class="panel"><div class="head"><div><h2 class="title">02 · 기본 태그</h2><p class="desc">1인·2인·3인을 선택할 수 있습니다. 2인/3인 선택 시 구도·자세·시선·행동 풀이 인원수에 맞게 자동 전환됩니다. POV MODE를 켜면 현재 인원수에 맞는 1인칭 시점 구도·시선·행동 풀이 추가됩니다. 고정 외형 태그는 ‘항상 추가할 태그’에 넣어두면 유지됩니다.</p></div></div><div class="options"><div class="opt"><label>CHARACTER</label><select id="gender">
+<section class="panel"><div class="head"><div><h2 class="title">02 · 기본 태그</h2><p class="desc">1인·2인·3인을 선택할 수 있습니다. 2인/3인 선택 시 구도·자세·시선·행동 풀이 인원수에 맞게 자동 전환됩니다. POV MODE를 켜면 현재 인원수에 맞는 1인칭 시점 풀이 적용되고, POV 강도(약하게/강하게)와 POV 타입(자동/대화형/손잡기/키스 직전)을 세부 설정할 수 있습니다. 고정 외형 태그는 ‘항상 추가할 태그’에 넣어두면 유지됩니다.</p></div></div><div class="options"><div class="opt"><label>CHARACTER</label><select id="gender">
 <option value="">미지정 · 기본 1인</option>
 <optgroup label="1인">
   <option value="1boy">1boy · 남성 1인</option>
@@ -78,7 +84,7 @@ select optgroup{
   <option value="2boys, 1girl">2boys + 1girl · 혼성 3인</option>
   <option value="1boy, 2girls">1boy + 2girls · 혼성 3인</option>
 </optgroup>
-</select><div class="character-mode-hint" id="characterModeHint">👤 1인 모드 · 기존 랜덤 풀</div></div><div class="opt"><label>QUALITY</label><select id="quality"><option value="masterpiece, best quality, amazing quality, very aesthetic, highly detailed">기본 고품질</option><option value="masterpiece, best quality, highly detailed, cinematic composition">시네마틱</option><option value="">사용 안 함</option></select></div><div class="opt"><label>STYLE</label><select id="style"><option value="">미지정</option><option value="anime style">Anime</option><option value="illustration">Illustration</option><option value="semi-realistic">Semi-realistic</option></select></div><div class="opt"><label>POV MODE</label><select id="povMode"><option value="off">사용 안 함</option><option value="on">사용 · 현재 인원수 연동</option></select><div class="character-mode-hint" id="povModeHint">📷 일반 시점 모드</div></div></div><div class="custom-grid"><div><label class="tiny-label">항상 추가할 태그</label><input id="customTags" type="text" placeholder="예: black hair, blue eyes, handsome male"></div><div><label class="tiny-label">기본 네거티브 태그</label><input id="negativeBase" type="text" value="lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, jpeg artifacts, signature, watermark, username, blurry"></div></div></section>
+</select><div class="character-mode-hint" id="characterModeHint">👤 1인 모드 · 기존 랜덤 풀</div></div><div class="opt"><label>QUALITY</label><select id="quality"><option value="masterpiece, best quality, amazing quality, very aesthetic, highly detailed">기본 고품질</option><option value="masterpiece, best quality, highly detailed, cinematic composition">시네마틱</option><option value="">사용 안 함</option></select></div><div class="opt"><label>STYLE</label><select id="style"><option value="">미지정</option><option value="anime style">Anime</option><option value="illustration">Illustration</option><option value="semi-realistic">Semi-realistic</option></select></div><div class="opt"><label>POV MODE</label><select id="povMode"><option value="off">사용 안 함</option><option value="on">사용 · 현재 인원수 연동</option></select></div><div class="opt"><label>POV 강도</label><select id="povStrength"><option value="subtle">약하게</option><option value="strong">강하게</option></select></div><div class="opt"><label>POV 타입</label><select id="povType"><option value="auto">자동</option><option value="talk">대화형 POV</option><option value="hand">손잡기 POV</option><option value="prekiss">키스 직전 POV</option></select><div class="character-mode-hint" id="povModeHint">📷 일반 시점 모드</div></div></div><div class="custom-grid"><div><label class="tiny-label">항상 추가할 태그</label><input id="customTags" type="text" placeholder="예: black hair, blue eyes, handsome male"></div><div><label class="tiny-label">기본 네거티브 태그</label><input id="negativeBase" type="text" value="lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, jpeg artifacts, signature, watermark, username, blurry"></div></div></section>
 <button class="roll" id="rollAll">🎲 주사위 돌리기<span>잠금된 슬롯은 유지 · 꺼진 슬롯은 프롬프트에서 제외</span></button>
 <section class="panel"><div class="head"><div><h2 class="title">03 · 랜덤 슬롯</h2><p class="desc">↻ 재추첨 · 🔓/🔒 잠금 · ◉/○ 사용 여부</p></div><div class="mini-tools"><button class="small-btn" id="lockAll">🔒 전체 잠금</button><button class="small-btn" id="unlockAll">🔓 전체 해제</button><button class="small-btn" id="enableAll">◉ 전체 사용</button></div></div><div id="cards" class="cards"></div><div id="stats" class="stats"></div></section>
 <section class="panel"><div class="head"><div><h2 class="title">04 · NovelAI Prompt</h2><p class="desc">생성된 영어 태그는 직접 수정할 수 있습니다.</p></div></div><textarea id="prompt" class="prompt"></textarea><div class="toolbar"><button class="tool primary" id="copyPrompt">📋 NovelAI 태그 복사</button><button class="tool" id="saveFavorite">⭐ 현재 조합 저장</button><button class="tool" id="copyKo">🇰🇷 한글 결과 복사</button></div><div class="status" id="status"></div></section>
@@ -199,55 +205,125 @@ function fitCompositionToPeople(pool,type){
 
 
 
+
 const POV_PERSON={
   1:{
     composition:P(`1인칭 POV 클로즈업|POV, first-person perspective, close distance;1인칭 상반신 구도|POV, upper body shot;1인칭 허리 위 구도|POV, waist up;1인칭 손이 일부 보이는 POV|POV, hands visible;1인칭 소파/책상 건너편 구도|POV, from across a table;1인칭 바로 앞에 선 인물 구도|POV, person standing close to viewer;1인칭 올려다보는 구도|POV, looking up at subject;1인칭 내려다보는 구도|POV, looking down at subject;1인칭 침대가/의자 앞 구도|POV, seated in front of subject;1인칭 어두운 공간 근접 구도|POV, close framing`),
+    background:P(`카페 테이블 맞은편|cafe table across from viewer;창가 좌석 맞은편|window seat across from viewer;책상 맞은편 실내|desk across from viewer;소파 앞 낮은 테이블|sofa and low table, viewer-facing;엘리베이터 안 근거리|elevator interior, close distance;차량 조수석 시점|car interior, passenger-view;침대 가장자리 맞은편|bedside, viewer-facing;좁은 복도에서 가까이 선 장면|narrow hallway, close distance;바 카운터 맞은편|bar counter across from viewer;밤의 옥상 난간 앞|rooftop at night, close distance`),
     pose:P(`바로 앞에 서 있음|standing directly in front of viewer;테이블 맞은편에 앉아 있음|sitting across from viewer;소파나 의자에 기대 앉아 있음|sitting back in chair in front of viewer;몸을 숙여 가까이 다가와 있음|leaning closer toward viewer;한 손을 내밀 수 있는 거리에서 서 있음|standing within arm's reach;옆에 앉아 몸을 돌려 바라보는 자세|sitting beside viewer, turned toward viewer;문가나 벽에 기대 서서 바라보는 자세|leaning against wall, facing viewer;침대 가장자리에 앉아 있는 자세|sitting on edge of bed facing viewer`),
     gaze:P(`정면으로 시선을 맞춤|looking directly at viewer;살짝 내려다보며 바라봄|looking down at viewer;올려다보는 시선|looking up at viewer;곁눈질로 바라봄|side glance at viewer;시선을 마주한 채 미소 짓는 눈빛|eye contact with viewer, smiling eyes;무심히 내려다보는 시선|indifferent gaze at viewer;의미심장하게 바라봄|meaningful gaze at viewer;날카롭게 응시함|intense gaze at viewer;수줍게 시선을 맞추었다 피함|shy eye contact, looking away`),
-    action:P(`손을 내밀고 있다|reaching hand toward viewer;얼굴 가까이 손을 올리고 있다|hand near viewer's face;무언가를 건네고 있다|offering something to viewer;테이블 너머로 몸을 기울이고 있다|leaning toward viewer across table;손목이나 손을 잡으려 하고 있다|about to hold viewer's hand;벽이나 의자에 기대며 바라보고 있다|leaning while looking at viewer;무언가를 보여주고 있다|showing something to viewer;고개를 숙여 가까이 들여다보고 있다|leaning in to look closely at viewer`),
+    action:P(`손을 내밀고 있다|reaching hand toward viewer;얼굴 가까이 손을 올리고 있다|hand near viewer's face;무언가를 건네고 있다|offering something to viewer;테이블 너머로 몸을 기울이고 있다|leaning toward viewer across table;손목이나 손을 잡으려 하고 있다|about to hold viewer's hand;벽이나 의자에 기대며 바라보고 있다|leaning while looking at viewer;무언가를 보여주고 있다|showing something to viewer;고개를 숙여 가까이 들여다보고 있다|leaning in to look closely at viewer;입을 열어 말을 건네고 있다|speaking directly to viewer;가볍게 손짓하며 부르고 있다|beckoning viewer with hand`),
     prop:P(`화면 가까이에 내민 손|outstretched hand in foreground;탁자 위에 놓인 컵이나 서류|cup or documents on table in foreground;카메라 가까이에 놓인 꽃다발이나 선물|gift or flowers in foreground;무릎 위나 손에 올려진 소품|object held toward viewer`)
   },
   2:{
     composition:P(`2인 POV 투샷|POV, two-shot, two people facing viewer;2인 POV 상반신 구도|POV, two people, upper body;2인 POV 테이블 건너편 구도|POV, two people across a table;2인 POV 소파 맞은편 구도|POV, two people seated in front of viewer;2인 POV 와이드 구도|POV, two people both visible;2인 POV 한 명은 가까이 한 명은 뒤에 있는 구도|POV, two people, one closer to viewer, one behind`),
+    background:P(`카페 부스석 맞은편|cafe booth across from viewer;소파 라운지 맞은편|lounge sofa across from viewer;회의실 테이블 건너편|meeting room table across from viewer;차량 앞좌석/뒷좌석 구도|car interior with two people visible;실내 바 테이블 맞은편|bar table across from viewer;창가 벤치 맞은편|window bench across from viewer;옥상 난간 앞 2인 장면|rooftop with two people facing viewer;학교 복도 창가 맞은편|school hallway window area, two people facing viewer`),
     pose:P(`두 사람이 나란히 서서 바라봄|two people standing side by side facing viewer;두 사람이 나란히 앉아 있음|two people sitting side by side facing viewer;한 명은 서 있고 한 명은 앉아 있음|one standing one sitting facing viewer;한 명은 가까이 몸을 기울이고 한 명은 뒤에 서 있음|one leaning closer while the other stands behind;테이블 건너편에 나란히 앉아 있음|two people sitting across the table`),
     gaze:P(`두 사람 모두 정면을 바라봄|both looking directly at viewer;한 명은 정면 한 명은 다른 한 명을 봄|one looking at viewer, one looking at the other;두 사람이 번갈아 시선을 보내는 느낌|alternating gaze toward viewer;한 명은 아래로 시선을 떨어뜨리고 한 명은 정면을 봄|one looking down, one looking at viewer;두 사람 모두 의미심장하게 바라봄|both giving meaningful gaze to viewer`),
-    action:P(`한 명이 무언가를 내밀고 다른 한 명이 지켜봄|one offering something to viewer while the other watches;두 사람이 같은 화면이나 서류를 보여줌|two people showing the same document or screen to viewer;한 명이 손을 내밀고 한 명은 옆에서 기대 서 있음|one reaching toward viewer, one leaning nearby;두 사람이 함께 몸을 조금 기울여 가까이 옴|both leaning slightly toward viewer;두 사람이 동시에 말을 거는 듯한 장면|two people appearing to speak to viewer`),
+    action:P(`한 명이 무언가를 내밀고 다른 한 명이 지켜봄|one offering something to viewer while the other watches;두 사람이 같은 화면이나 서류를 보여줌|two people showing the same document or screen to viewer;한 명이 손을 내밀고 한 명은 옆에서 기대 서 있음|one reaching toward viewer, one leaning nearby;두 사람이 함께 몸을 조금 기울여 가까이 옴|both leaning slightly toward viewer;두 사람이 동시에 말을 거는 듯한 장면|two people appearing to speak to viewer;한 명이 웃으며 말을 건네고 다른 한 명이 관찰함|one talking while the other watches viewer`),
     prop:P(`테이블 위 두 개의 컵이나 소품|two cups or items on table in foreground;둘이 보여주는 서류나 휴대폰|document or phone shown toward viewer;전경에 놓인 꽃다발이나 선물 상자|flowers or gift box in foreground`)
   },
   3:{
     composition:P(`3인 POV 그룹샷|POV, group shot, three people facing viewer;3인 POV 상반신 그룹샷|POV, three people, upper body;3인 POV 중앙 1명 양옆 2명 구도|POV, one in center and two on sides;3인 POV 테이블을 둘러싼 구도|POV, three people around a table;3인 POV 한 명은 가까이 두 명은 뒤에 있는 구도|POV, one close to viewer, two behind`),
+    background:P(`회의 테이블 맞은편 3인 장면|meeting table with three people facing viewer;소파 라운지 3인 장면|lounge with three people facing viewer;캠퍼스 벤치 앞 3인 장면|campus bench scene, three people facing viewer;카페 테이블 맞은편 3인 장면|cafe table with three people facing viewer;복도/로비 앞 3인 장면|lobby or hallway with three people facing viewer`),
     pose:P(`세 사람이 함께 서서 바라봄|three people standing facing viewer;중앙 1명과 양옆 2명이 배치된 자세|one in center, two on sides facing viewer;한 명은 앉고 두 명은 서 있음|one sitting, two standing facing viewer;세 사람이 테이블 맞은편에 함께 있음|three people across table from viewer;중앙 인물이 반걸음 앞에 있고 양옆이 뒤에 있음|center person slightly forward, two behind`),
     gaze:P(`세 사람 모두 정면을 바라봄|all three looking at viewer;중앙 인물만 정면, 양옆은 중앙이나 viewer를 번갈아 봄|center looking at viewer, sides alternating gaze;두 명은 한 명을 보고 한 명은 정면을 봄|two looking at one another, one looking at viewer;세 사람이 모두 다른 방식으로 시선을 줌|three varied gazes toward viewer`),
-    action:P(`한 명이 무언가를 내밀고 두 명이 지켜봄|one offering something while the others watch;세 사람이 같은 자료나 화면을 보여줌|three people showing the same document or screen to viewer;중앙 인물이 몸을 기울이고 양옆 둘이 함께 서 있음|center person leaning toward viewer, two standing nearby;세 사람이 함께 이야기를 건네는 장면|three people appearing to address viewer`),
+    action:P(`한 명이 무언가를 내밀고 두 명이 지켜봄|one offering something while the others watch;세 사람이 같은 자료나 화면을 보여줌|three people showing the same document or screen to viewer;중앙 인물이 몸을 기울이고 양옆 둘이 함께 서 있음|center person leaning toward viewer, two standing nearby;세 사람이 함께 이야기를 건네는 장면|three people appearing to address viewer;중앙 인물이 말하고 양옆이 반응하는 장면|center person speaking while others react`),
     prop:P(`테이블 위 여러 개의 컵이나 문서|multiple cups or documents on table foreground;세 사람이 보여주는 화면이나 지도|screen or map shown toward viewer;전경에 놓인 선물이나 작은 소품들|gifts or small props in foreground`)
   }
 };
-function isPovMode(){return ($('povMode')?.value||'off')==='on'}
-function updatePovModeHint(){
-  const el=$('povModeHint');
-  if(!el) return;
-  if(isPovMode()){
-    const n=characterCount();
-    el.textContent=`📷 POV 모드 ON · ${n}인용 1인칭 시점 풀 적용`;
-    el.classList.add('on');
-  }else{
-    el.textContent='📷 일반 시점 모드';
-    el.classList.remove('on');
+const POV_TYPE_PRESETS={
+  auto:{},
+  talk:{
+    composition:P(`대화형 POV 정면 구도|POV, conversational framing;테이블 맞은편 대화 구도|POV, talking across a table;의자를 사이에 둔 대화 구도|POV, seated conversation framing`),
+    background:P(`카페 대화 자리|cafe conversation setting;사무실 책상 맞은편|office desk conversation setting;창가 좌석 대화 장면|window-side conversation setting`),
+    gaze:P(`말을 건네듯 부드럽게 바라봄|gentle gaze while speaking to viewer;질문을 던지듯 바라봄|inquiring gaze at viewer;설명하듯 시선을 맞춤|explaining while maintaining eye contact`),
+    action:P(`입을 열어 말을 건넴|speaking to viewer;서류나 휴대폰을 보여주며 설명함|explaining while showing document or phone;손짓하며 대화를 이어감|gesturing while talking to viewer`),
+    prop:P(`메뉴판이나 서류를 보여줌|menu or document shown to viewer;테이블 위 컵과 필기구|cups and stationery on table foreground`)
+  },
+  hand:{
+    composition:P(`손잡기 직전 POV|POV, hand-holding scene;손이 전경에 크게 잡히는 POV|POV, hand-focused framing;가까운 거리 손 중심 구도|POV, close interaction framing`),
+    background:P(`산책길 나란히 걷는 장면|walking path, hand-holding mood;교실 책상 사이 손닿는 거리|classroom desk distance, hand-holding mood;벤치나 소파 옆자리|bench or sofa side-by-side scene`),
+    pose:P(`옆자리에서 손을 내밀 수 있는 거리|close side-by-side distance;정면에서 손을 건네는 자세|offering hand toward viewer;한 걸음 가까이 다가온 자세|one step closer to viewer`),
+    gaze:P(`손을 건네며 바라봄|looking at viewer while offering hand;조심스럽게 시선을 맞춤|careful eye contact;기대하는 눈빛|expectant gaze at viewer`),
+    action:P(`손을 내밀고 잡아주길 기다림|offering hand to viewer;손끝이 스칠 듯 가까이 다가옴|fingertips almost touching viewer;손을 살짝 끌어당기려 함|gently trying to pull viewer by hand`),
+    prop:P(`전경에 크게 들어온 손|hand in the foreground;손목에 닿는 액세서리|bracelet or watch near hand foreground`)
+  },
+  prekiss:{
+    composition:P(`키스 직전 초근접 POV|POV, near-kiss close-up;얼굴이 매우 가까운 POV|POV, face very close to viewer;숨결이 닿을 듯한 거리의 POV|POV, intimate close distance`),
+    background:P(`은은한 조명의 소파 앞|soft-lit sofa area;창가 밤조명 앞 근거리|night window light, close distance;침대 가장자리나 벽 앞 근거리|bedside or wall-side intimate distance`),
+    pose:P(`얼굴을 가까이 들이민 자세|leaning face very close to viewer;턱을 살짝 숙여 다가온 자세|leaning in with lowered chin;한 손으로 벽이나 소파를 짚고 가까이 온 자세|leaning in close with hand braced nearby`),
+    gaze:P(`입술로 시선이 잠시 떨어졌다가 다시 눈을 맞춤|eyes briefly lowering to lips then back to viewer;짙게 시선을 고정함|intense close eye contact;숨을 고르며 바라봄|breath-catching gaze at viewer`),
+    action:P(`얼굴을 아주 가까이 가져옴|bringing face very close to viewer;입술이 닿기 직전 멈춰 섬|stopping just before a kiss;손을 뻗어 턱이나 볼 가까이에 둠|hand near viewer's cheek or chin`),
+    prop:P(`전경 가까운 손끝과 얼굴 윤곽|hand and face close to foreground;조명에 반짝이는 액세서리 클로즈업|glinting accessory in close foreground`)
   }
+};
+const POV_STRENGTH_PRESETS={
+  subtle:{
+    composition:P(`은근한 POV 중거리 구도|subtle POV, mid distance;자연스러운 POV 상반신 구도|subtle POV, natural upper body framing`),
+    background:P(`조금 여유 있는 거리의 실내 장면|comfortable interior distance;일상적인 대화 거리 장면|casual conversational distance`),
+    action:P(`가볍게 말을 건네는 동작|casual speaking gesture;무언가를 보여주며 반응을 기다림|showing something and waiting for response`)
+  },
+  strong:{
+    composition:P(`몰입감 강한 POV 초근접 구도|immersive POV, extreme close distance;viewer 중심의 강한 POV 구도|viewer-centered, immersive framing;카메라 가까이 압박감 있게 들어오는 구도|intense close-up toward viewer`),
+    background:P(`인물과 배경 거리가 좁은 근거리 장면|tight close-distance scene;시선과 행동이 viewer 중심인 장면|viewer-centered intimate scene`),
+    gaze:P(`강한 시선 고정|locked intense eye contact;viewer를 압도하는 시선|commanding gaze at viewer`),
+    action:P(`화면 가까이 성큼 다가옴|stepping very close to viewer;손이 화면 가까이 크게 들어옴|hand coming close into foreground;viewer 공간 안으로 깊게 기울어 들어옴|leaning deeply into viewer space`),
+    prop:P(`전경을 강하게 점유하는 손이나 소품|foreground-dominant hand or prop`)
+  }
+};
+function isPovMode(){return ($('povMode')?.value||'off')==='on'}
+function povStrength(){return $('povStrength')?.value||'subtle'}
+function povType(){return $('povType')?.value||'auto'}
+function povPromptTags(){
+  if(!isPovMode()) return [];
+  const tags=['POV','first-person perspective'];
+  if(povStrength()==='strong') tags.push('immersive POV','viewer-centered composition','close interaction');
+  else tags.push('subtle POV','viewer perspective');
+  if(povType()==='talk') tags.push('conversational POV');
+  else if(povType()==='hand') tags.push('hand-holding POV','outstretched hand');
+  else if(povType()==='prekiss') tags.push('near-kiss POV','intimate distance');
+  return tags;
+}
+function updatePovModeHint(){
+  const hint=$('povModeHint'), strengthEl=$('povStrength'), typeEl=$('povType');
+  if(!hint) return;
+  const on=isPovMode();
+  if(strengthEl) strengthEl.disabled=!on;
+  if(typeEl) typeEl.disabled=!on;
+  if(!on){
+    hint.textContent='📷 일반 시점 모드';
+    hint.classList.remove('on');
+    return;
+  }
+  const typeLabel={auto:'자동',talk:'대화형',hand:'손잡기',prekiss:'키스 직전'}[povType()]||'자동';
+  const strengthLabel=povStrength()==='strong'?'강하게':'약하게';
+  hint.textContent=`📷 POV ON · ${characterCount()}인 · ${typeLabel} · ${strengthLabel}`;
+  hint.classList.add('on');
 }
 function povPool(type){
   if(!isPovMode()) return [];
   const n=characterCount();
-  return POV_PERSON[n]?.[type]||[];
+  let out=[];
+  if(POV_PERSON[n]?.[type]) out.push(...POV_PERSON[n][type]);
+  if(POV_TYPE_PRESETS[povType()]?.[type]) out.push(...POV_TYPE_PRESETS[povType()][type]);
+  if(POV_STRENGTH_PRESETS[povStrength()]?.[type]) out.push(...POV_STRENGTH_PRESETS[povStrength()][type]);
+  return out;
 }
 function fitCompositionToPov(pool,type){
   if(!isPovMode()) return pool;
   if(type==='composition'){
     const banned=['from behind','back-to-back','side view, walking','extreme low angle'];
-    return pool.filter(x=>!banned.some(k=>String(x.en||'').includes(k)));
+    pool=pool.filter(x=>!banned.some(k=>String(x.en||'').includes(k)));
   }
   if(type==='gaze'){
-    return pool.filter(x=>!String(x.en||'').includes('looking away from viewer'));
+    pool=pool.filter(x=>!String(x.en||'').includes('looking away from viewer'));
+  }
+  if(povType()==='hand' && type==='action'){
+    pool=pool.filter(x=>/hand|손/.test(String(x.en||'')+String(x.ko||'')) || /offer|touch|hold/.test(String(x.en||'')));
+  }
+  if(povType()==='prekiss' && (type==='composition'||type==='action'||type==='gaze')){
+    pool=pool.filter(x=>!/walking together|group shot, wide/.test(String(x.en||'')));
   }
   return pool;
 }
@@ -439,18 +515,23 @@ function toggleActive(k){state.active[k]=!state.active[k];renderCardState(k);bui
 function renderCardState(k){const c=$('card-'+k),lb=document.querySelector(`[data-lock="${k}"]`),tb=document.querySelector(`[data-toggle="${k}"]`);c.classList.toggle('locked',state.locked[k]);c.classList.toggle('off',!state.active[k]);lb.classList.toggle('active',state.locked[k]);lb.textContent=state.locked[k]?'🔒':'🔓';tb.textContent=state.active[k]?'◉':'○';tb.classList.toggle('active',state.active[k])}
 function render(){Object.keys(SLOTS).forEach(k=>{const v=state.selected[k];$('ko-'+k).textContent=v?.ko||'-';$('en-'+k).textContent=v?.en||'(태그 없음)';renderCardState(k)});buildPrompt();buildSummary();buildStats()}
 function cleanPieces(a){const seen=new Set();return a.map(x=>x?.trim()).filter(Boolean).filter(x=>{const key=x.toLowerCase();if(seen.has(key))return false;seen.add(key);return true})}
-function buildPrompt(){let a=[$('quality').value,$('gender').value,$('style').value,isPovMode()?'POV, first-person perspective':'',$('customTags').value];['composition','background','season','weather','lighting','mood','outfit','pose','gaze','expression','action','prop'].forEach(k=>{if(state.active[k]&&state.selected[k]?.en)a.push(state.selected[k].en)});prompt.value=cleanPieces(a).join(', ')}
-function buildSummary(){const head=`CHARACTER
-${$('gender').selectedOptions[0]?.textContent||'미지정'}
-
-POV MODE
-${isPovMode()?'사용':'사용 안 함'}`;summary.textContent=head+'
-
-'+Object.entries(SLOTS).map(([k,t])=>`${state.active[k]?'●':'○'} ${t}
-${state.selected[k]?.ko||'-'}${state.locked[k]?'  🔒':''}`).join('
-
-')}
-function buildStats(){const count=Object.keys(SLOTS).map(k=>`${SLOTS[k]} ${uniqueCount(k)}`).join(' / ');const n=characterCount();stats.textContent=`현재 사용 가능한 고유 랜덤 풀 · ${count} · 카테고리 ${Object.keys(DB[genre.value].categories).length}종 · ${n}인 모드 · ${isPovMode()?'POV ON':'POV OFF'}`} ${uniqueCount(k)}`).join(' / ');const n=characterCount();stats.textContent=`현재 사용 가능한 고유 랜덤 풀 · ${count} · 카테고리 ${Object.keys(DB[genre.value].categories).length}종 · ${n}인 모드`}
+function buildPrompt(){
+  let a=[$('quality').value,$('gender').value,$('style').value,...povPromptTags(),$('customTags').value];
+  ['composition','background','season','weather','lighting','mood','outfit','pose','gaze','expression','action','prop'].forEach(k=>{if(state.active[k]&&state.selected[k]?.en)a.push(state.selected[k].en)});
+  prompt.value=cleanPieces(a).join(', ')
+}
+function buildSummary(){
+  const typeLabelMap={auto:'자동',talk:'대화형',hand:'손잡기',prekiss:'키스 직전'};
+  const povLine=isPovMode()?`사용 · ${povStrength()==='strong'?'강하게':'약하게'} · ${typeLabelMap[povType()]||'자동'}`:'사용 안 함';
+  const head=['CHARACTER',$('gender').selectedOptions[0]?.textContent||'미지정','','POV MODE',povLine].join('\n');
+  summary.textContent=head+'\n\n'+Object.entries(SLOTS).map(([k,t])=>`${state.active[k]?'●':'○'} ${t}\n${state.selected[k]?.ko||'-'}${state.locked[k]?'  🔒':''}`).join('\n\n')
+}
+function buildStats(){
+  const count=Object.keys(SLOTS).map(k=>`${SLOTS[k]} ${uniqueCount(k)}`).join(' / ');
+  const n=characterCount();
+  const povInfo=isPovMode()?`POV ${povStrength()==='strong'?'STRONG':'SUBTLE'} / ${povType().toUpperCase()}`:'POV OFF';
+  stats.textContent=`현재 사용 가능한 고유 랜덤 풀 · ${count} · 카테고리 ${Object.keys(DB[genre.value].categories).length}종 · ${n}인 모드 · ${povInfo}`
+}
 async function copyText(text,msg){try{await navigator.clipboard.writeText(text)}catch{const t=document.createElement('textarea');t.value=text;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove()}show(msg)}
 function show(msg){status.textContent=msg;status.classList.add('show');clearTimeout(window.__st);window.__st=setTimeout(()=>status.classList.remove('show'),1700)}
 function snap(){return{time:Date.now(),genre:genre.value,category:category.value,selected:JSON.parse(JSON.stringify(state.selected)),active:{...state.active},prompt:prompt.value,summary:summary.textContent}}
@@ -460,41 +541,65 @@ function loadSnap(s){genre.value=s.genre;loadCategories(true);if([...category.op
 function deleteFav(id){let a=safeJSON(LS.fav,[]).filter(x=>x.id!==id);localStorage.setItem(LS.fav,JSON.stringify(a));renderSaved()}
 function itemHTML(s,i,isFav){const g=DB[s.genre]?.label||s.genre;const c=DB[s.genre]?.categories?.[s.category]?.label||(s.category==='__all'?'장르 전체 랜덤':s.category);return `<div class="list-item"><div class="list-title">${g} · ${c}</div><div class="list-text">${(s.prompt||'').replace(/</g,'&lt;')}</div><div class="list-tools"><button data-load="${isFav?'f':'h'}:${i}">불러오기</button>${isFav?`<button data-del="${s.id}">삭제</button>`:''}</div></div>`}
 function renderSaved(){const f=safeJSON(LS.fav,[]),h=safeJSON(LS.hist,[]);$('favorites').innerHTML=f.length?f.map((x,i)=>itemHTML(x,i,true)).join(''):'<div class="empty">저장된 조합이 없습니다.</div>';$('history').innerHTML=h.length?h.map((x,i)=>itemHTML(x,i,false)).join(''):'<div class="empty">최근 기록이 없습니다.</div>'}
-function saveSettings(){localStorage.setItem(LS.settings,JSON.stringify({gender:$('gender').value,povMode:$('povMode').value,quality:$('quality').value,style:$('style').value,custom:$('customTags').value,randomCategory:$('randomCategory').checked,avoidSame:$('avoidSame').checked}))}
-function loadSettings(){const s=safeJSON(LS.settings,{});if(s.gender!==undefined)$('gender').value=s.gender;if(s.povMode!==undefined)$('povMode').value=s.povMode;if(s.quality!==undefined)$('quality').value=s.quality;if(s.style!==undefined)$('style').value=s.style;if(s.custom!==undefined)$('customTags').value=s.custom;if(s.randomCategory!==undefined)$('randomCategory').checked=s.randomCategory;if(s.avoidSame!==undefined)$('avoidSame').checked=s.avoidSame;const n=localStorage.getItem(LS.neg);if(n){$('negativeBase').value=n;negative.value=n}else negative.value=$('negativeBase').value}
+function saveSettings(){
+  localStorage.setItem(LS.settings,JSON.stringify({
+    gender:$('gender').value,
+    povMode:$('povMode').value,
+    povStrength:$('povStrength').value,
+    povType:$('povType').value,
+    quality:$('quality').value,
+    style:$('style').value,
+    custom:$('customTags').value,
+    randomCategory:$('randomCategory').checked,
+    avoidSame:$('avoidSame').checked
+  }))
+}
+function loadSettings(){
+  const s=safeJSON(LS.settings,{});
+  if(s.gender!==undefined)$('gender').value=s.gender;
+  if(s.povMode!==undefined)$('povMode').value=s.povMode;
+  if(s.povStrength!==undefined)$('povStrength').value=s.povStrength;
+  if(s.povType!==undefined)$('povType').value=s.povType;
+  if(s.quality!==undefined)$('quality').value=s.quality;
+  if(s.style!==undefined)$('style').value=s.style;
+  if(s.custom!==undefined)$('customTags').value=s.custom;
+  if(s.randomCategory!==undefined)$('randomCategory').checked=s.randomCategory;
+  if(s.avoidSame!==undefined)$('avoidSame').checked=s.avoidSame;
+  const n=localStorage.getItem(LS.neg);
+  if(n){$('negativeBase').value=n;negative.value=n}else negative.value=$('negativeBase').value
+}
 cards.addEventListener('click',e=>{const a=e.target.closest('[data-lock],[data-reroll],[data-toggle]');if(!a)return;if(a.dataset.lock)toggleLock(a.dataset.lock);if(a.dataset.toggle)toggleActive(a.dataset.toggle);if(a.dataset.reroll){rollSlot(a.dataset.reroll,true);render();addHistory()}});
 $('rollAll').onclick=()=>{rollAll(true);trackMainRoll()};genre.onchange=()=>loadCategories(false);category.onchange=()=>rollAll(false);
 $('lockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=true);render()};$('unlockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=false);render()};$('enableAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.active[k]=true);render()};
-['quality','style','customTags','randomCategory','avoidSame','povMode'].forEach(id=>{
+['quality','style','customTags','randomCategory','avoidSame'].forEach(id=>{
   const el=$(id);
   el.addEventListener('change',()=>{buildPrompt();saveSettings()});
   el.addEventListener('input',()=>{buildPrompt();saveSettings()});
 });
 
+function rerollPovRelated(message){
+  updatePovModeHint();
+  ['composition','background','pose','gaze','action','prop','mood'].forEach(k=>{
+    state.selected[k]=choose(k);
+    flash(k);
+  });
+  render();
+  saveSettings();
+  if(message) show(message);
+}
+
 $('gender').addEventListener('change',()=>{
   updateCharacterModeHint();
+  const slots=isPovMode()?['composition','background','pose','gaze','action','prop']:['composition','pose','gaze','action'];
   updatePovModeHint();
-
-  // 인원수가 바뀌면 기존 1인/다인 구도가 남지 않도록 핵심 슬롯을 즉시 동기화.
-  ['composition','pose','gaze','action','prop'].forEach(k=>{
-    state.selected[k]=choose(k);
-    flash(k);
-  });
-
+  slots.forEach(k=>{state.selected[k]=choose(k);flash(k)});
   render();
   saveSettings();
-  show(`👥 ${characterCount()}인 모드${isPovMode()?' + POV':''}에 맞춰 구도·자세·시선·행동${isPovMode()?'·소품':''}을 다시 뽑았습니다.`);
+  show(`👥 ${characterCount()}인 모드${isPovMode()?' + POV':''}에 맞춰 관련 슬롯을 다시 뽑았습니다.`);
 });
-$('povMode').addEventListener('change',()=>{
-  updatePovModeHint();
-  ['composition','pose','gaze','action','prop'].forEach(k=>{
-    state.selected[k]=choose(k);
-    flash(k);
-  });
-  render();
-  saveSettings();
-  show(`📷 POV 모드 ${isPovMode()?'ON':'OFF'} · 관련 슬롯을 다시 뽑았습니다.`);
-});
+$('povMode').addEventListener('change',()=>rerollPovRelated(`📷 POV 모드 ${isPovMode()?'ON':'OFF'} · 관련 슬롯을 다시 뽑았습니다.`));
+$('povStrength').addEventListener('change',()=>rerollPovRelated(`🎛️ POV 강도를 ${povStrength()==='strong'?'강하게':'약하게'}로 적용했습니다.`));
+$('povType').addEventListener('change',()=>{const label={auto:'자동',talk:'대화형',hand:'손잡기',prekiss:'키스 직전'}[povType()]||'자동';rerollPovRelated(`🎬 POV 타입을 ${label}으로 적용했습니다.`)});
 $('copyPrompt').onclick=()=>copyText(prompt.value,'✅ NovelAI 태그를 복사했습니다.');$('copyKo').onclick=()=>copyText(summary.textContent,'✅ 한글 조합을 복사했습니다.');$('saveFavorite').onclick=addFavorite;
 $('copyNegative').onclick=()=>copyText(negative.value,'✅ Negative 태그를 복사했습니다.');$('saveNegative').onclick=()=>{localStorage.setItem(LS.neg,negative.value);$('negativeBase').value=negative.value;show('💾 Negative Prompt를 저장했습니다.')};$('resetNegative').onclick=()=>{const d='lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, jpeg artifacts, signature, watermark, username, blurry';negative.value=d;$('negativeBase').value=d;localStorage.removeItem(LS.neg)};$('negativeBase').addEventListener('input',()=>negative.value=$('negativeBase').value);
 document.addEventListener('click',e=>{const l=e.target.closest('[data-load]');if(l){const [t,i]=l.dataset.load.split(':');const a=safeJSON(t==='f'?LS.fav:LS.hist,[]);if(a[+i])loadSnap(a[+i])}const d=e.target.closest('[data-del]');if(d)deleteFav(+d.dataset.del)});
@@ -579,5 +684,8 @@ console.info('Guestbook endpoint:',GUESTBOOK_WEB_APP_URL);
 
 createCards();loadSettings();
 updateCharacterModeHint();
-updatePovModeHint();loadCategories(false);renderSaved();loadUsageCounts();
+updatePovModeHint();
+loadCategories(false);
+renderSaved();
+loadUsageCounts();
 </script></body></html>
