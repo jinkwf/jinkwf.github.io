@@ -2087,11 +2087,11 @@ function loadPopularRecommendations(){
   const qs=new URLSearchParams({kind:'recommendations',callback:POPULAR_CALLBACK,genre:genre.value||'',people:String(characterCount()),category:category.value||'',povType:isPovMode()?analyticsPovType():'',_:String(Date.now())});
   s.src=GUESTBOOK_WEB_APP_URL+'?'+qs.toString();
   s.onload=()=>setTimeout(()=>s.remove(),0);
-  s.onerror=()=>{s.remove();if(seq===popularRequestSeq){$('popularStatus').textContent='JSONP 연결 실패 · iframe 방식으로 다시 연결 중…';requestPopularFrame(seq);}};
+  s.onerror=()=>{s.remove();if(seq===popularRequestSeq){$('popularStatus').textContent='1차 연결 실패 · 백업 연결로 다시 시도 중…';requestPopularFrame(seq);}};
   document.head.appendChild(s);
   $('popularStatus').textContent='Google Sheet 통계 분석 중…';
-  setTimeout(()=>{if(seq===popularRequestSeq && $('popularStatus').textContent==='Google Sheet 통계 분석 중…'){ $('popularStatus').textContent='JSONP 응답 지연 · iframe 방식으로 다시 연결 중…';requestPopularFrame(seq);}},1200);
-  setTimeout(()=>{if(seq===popularRequestSeq && /연결 중|분석 중|응답 지연/.test($('popularStatus').textContent))$('popularStatus').textContent='통계 추천 응답 없음 · Apps Script V6 배포 또는 웹 앱 액세스 권한을 확인해주세요.';},7000);
+  setTimeout(()=>{if(seq===popularRequestSeq && $('popularStatus').textContent==='Google Sheet 통계 분석 중…'){ $('popularStatus').textContent='통계 계산 중… · 응답이 늦어 백업 연결도 시도합니다.';requestPopularFrame(seq);}},4000);
+  setTimeout(()=>{if(seq===popularRequestSeq && /연결 중|분석 중|응답|계산 중/.test($('popularStatus').textContent))$('popularStatus').textContent='통계 추천 응답이 너무 늦습니다 · Apps Script V7 FAST 배포 여부를 확인해주세요.';},20000);
 }
 function applyPopularRecommendation(){
   const d=popularRecommendationState;if(!d?.ok){show('📊 먼저 통계를 불러와주세요.');return;}
