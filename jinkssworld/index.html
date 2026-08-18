@@ -213,7 +213,7 @@ body.has-nsfw-banner{padding-top:58px}
 <option value="vulgar">천박한 · Vulgar</option>
 <option value="extreme">하늘나라 · Extreme</option>
 </select><div class="character-mode-hint" id="intensityHint">🔥 수위에 따라 행동·의상·표정 풀이 달라집니다</div></div>
-<div class="opt"><label>QUALITY</label><select id="quality"><option value="masterpiece, best quality, amazing quality, very aesthetic, highly detailed">기본 고품질</option><option value="masterpiece, best quality, highly detailed, cinematic composition">시네마틱</option><option value="">사용 안 함</option></select></div><div class="opt"><label>STYLE</label><select id="style"><option value="">미지정</option><option value="anime style">Anime</option><option value="illustration">Illustration</option><option value="semi-realistic">Semi-realistic</option></select></div><div class="opt"><label>POV MODE</label><select id="povMode"><option value="off">사용 안 함</option><option value="on">사용 · 현재 인원수 연동</option></select></div><div class="opt"><label>POV 강도</label><select id="povStrength"><option value="subtle">약하게</option><option value="strong">강하게</option></select></div><div class="opt"><label>POV 타입</label><select id="povType"><option value="auto">자동</option><option value="talk">대화형 POV</option><option value="hand">손잡기 POV</option><option value="prekiss">키스 직전 POV</option></select><div class="character-mode-hint" id="povModeHint">📷 일반 시점 모드</div></div><div class="opt"><label>관계 / 상호작용</label><select id="relationPreset"><option value="none">미사용</option><option value="friend">친구 / 절친</option><option value="coworker">동료 / 같은 편</option><option value="rival">라이벌</option><option value="lover">연인 / 썸</option><option value="obsession">집착 / 소유욕</option><option value="hatebond">혐관 / 앙숙</option><option value="salvation">구원 서사</option><option value="unrequited">짝사랑</option><option value="contract">계약 / 정략</option><option value="mentor">멘토 / 사제</option><option value="childhood">소꿉친구</option><option value="exlovers">전 연인 / 미련</option><option value="firstmeet">첫 만남</option><option value="reunion">재회</option><option value="guardian">보호 / 호위</option><option value="masterservant">주종 / 상하관계</option><option value="enemy">적대 / 대치</option><option value="teammate">전우 / 파티원</option></select><div class="character-mode-hint" id="relationHint">🤝 2인/3인에서 상호작용 가중치 적용</div></div><div class="opt"><label>장면 프리셋</label><select id="scenePreset"></select><div class="character-mode-hint" id="scenePresetHint">🎬 장르에 맞는 상황 프리셋을 적용합니다.</div></div><div class="opt"><label>충돌 방지</label><label class="check inline-check"><input type="checkbox" id="smartConflict" checked> 배경·의상·행동 충돌 자동 방지</label><div class="character-mode-hint" id="smartConflictHint">🧩 말이 안 되는 조합은 최대한 다시 뽑습니다.</div></div></div><div class="custom-grid"><div><label class="tiny-label">항상 추가할 태그</label><input id="customTags" type="text" placeholder="예: black hair, blue eyes, handsome male"></div><div><label class="tiny-label">기본 네거티브 태그</label><input id="negativeBase" type="text" value="lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, jpeg artifacts, signature, watermark, username, blurry"></div></div><div style="margin-top:12px"><label class="tiny-label">{{user}} 캐릭터 태그</label><div class="user-tag-tools"><input id="userCharacterTags" type="text" placeholder="버튼을 누르면 {{user}} 캐릭터 태그가 자동 생성됩니다." readonly><button type="button" class="tool" id="generateUserCharacter">🙈 {{user}}캐릭터 임의생성</button></div><div class="user-tag-preview empty" id="userCharacterHint">앞머리가 눈을 완전히 가리는 설정은 고정 · 나머지 색상/디테일은 랜덤 생성</div></div></section>
+<div class="opt"><label>QUALITY</label><select id="quality"><option value="masterpiece, best quality, amazing quality, very aesthetic, highly detailed">기본 고품질</option><option value="masterpiece, best quality, highly detailed, cinematic composition">시네마틱</option><option value="">사용 안 함</option></select></div><div class="opt"><label>STYLE</label><select id="style"><option value="">미지정</option><option value="anime style">Anime</option><option value="illustration">Illustration</option><option value="semi-realistic">Semi-realistic</option></select></div><div class="opt"><label>POV MODE</label><select id="povMode"><option value="off">사용 안 함</option><option value="on">사용 · 현재 인원수 연동</option></select></div><div class="opt"><label>POV 강도</label><select id="povStrength"><option value="subtle">약하게</option><option value="strong">강하게</option></select></div><div class="opt"><label>POV 타입</label><select id="povType"><option value="auto">자동</option><option value="talk">대화형 POV</option><option value="hand">손잡기 POV</option><option value="prekiss">키스 직전 POV</option></select><div class="character-mode-hint" id="povModeHint">📷 일반 시점 모드</div></div><div class="opt"><label>관계 / 상호작용</label><select id="relationPreset"><option value="none">미사용</option><option value="friend">친구 / 절친</option><option value="coworker">동료 / 같은 편</option><option value="rival">라이벌</option><option value="lover">연인 / 썸</option><option value="obsession">집착 / 소유욕</option><option value="hatebond">혐관 / 앙숙</option><option value="salvation">구원 서사</option><option value="unrequited">짝사랑</option><option value="contract">계약 / 정략</option><option value="mentor">멘토 / 사제</option><option value="childhood">소꿉친구</option><option value="exlovers">전 연인 / 미련</option><option value="firstmeet">첫 만남</option><option value="reunion">재회</option><option value="guardian">보호 / 호위</option><option value="masterservant">주종 / 상하관계</option><option value="enemy">적대 / 대치</option><option value="teammate">전우 / 파티원</option></select><div class="character-mode-hint" id="relationHint">🤝 2인/3인에서 상호작용 가중치 적용</div></div><div class="opt"><label>장면 프리셋</label><select id="scenePreset"></select><div class="character-mode-hint" id="scenePresetHint">🎬 장르에 맞는 상황 프리셋을 적용합니다.</div></div><div class="opt"><label>충돌 방지</label><label class="check inline-check"><input type="checkbox" id="smartConflict" checked> 배경·의상·행동 충돌 자동 방지</label><div class="character-mode-hint" id="smartConflictHint">🧩 말이 안 되는 조합은 최대한 다시 뽑습니다.</div></div></div><div class="custom-grid"><div><label class="tiny-label">항상 추가할 태그</label><input id="customTags" type="text" placeholder="예: black hair, blue eyes, handsome male"></div><div><label class="tiny-label">기본 네거티브 태그</label><input id="negativeBase" type="text" value="lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, jpeg artifacts, signature, watermark, username, blurry"></div></div><div style="margin-top:12px"><label class="tiny-label">{{user}} 캐릭터 태그</label><div class="custom-grid" style="margin-top:8px"><div><label class="tiny-label">{{user}} 성별 타입</label><select id="userGenderMode"><option value="random" selected>랜덤</option><option value="male">남성형</option><option value="female">여성형</option><option value="androgynous">중성형</option></select></div><div><label class="tiny-label">{{user}} 체형 타입</label><select id="userBodyMode"><option value="random" selected>랜덤</option><option value="slim">슬림</option><option value="average">보통</option><option value="curvy">굴곡짐</option><option value="athletic">탄탄함</option><option value="lean_muscular">잔근육</option><option value="soft">말랑함</option></select></div></div><div class="user-tag-tools"><input id="userCharacterTags" type="text" placeholder="버튼을 누르면 {{user}} 캐릭터 태그가 자동 생성됩니다." readonly><button type="button" class="tool" id="generateUserCharacter">🙈 {{user}}캐릭터 임의생성</button></div><div class="user-tag-preview empty" id="userCharacterHint">앞머리가 눈을 완전히 가리는 설정은 고정 · 성별/체형/색상은 선택값 또는 랜덤으로 생성</div></div></section>
 <button class="roll" id="rollAll">🎲 주사위 돌리기<span>잠금된 슬롯은 유지 · 꺼진 슬롯은 프롬프트에서 제외</span></button>
 <section class="panel"><div class="head"><div><h2 class="title">03 · 랜덤 슬롯</h2><p class="desc">↻ 재추첨 · 🔓/🔒 잠금 · ◉/○ 사용 여부</p></div><div class="mini-tools"><button class="small-btn" id="lockAll">🔒 전체 잠금</button><button class="small-btn" id="unlockAll">🔓 전체 해제</button><button class="small-btn" id="enableAll">◉ 전체 사용</button></div></div><div id="cards" class="cards"></div><div id="stats" class="stats"></div></section>
 <section class="panel"><div class="head"><div><h2 class="title">04 · NovelAI Prompt</h2><p class="desc">생성된 영어 태그는 직접 수정할 수 있습니다.</p></div></div><textarea id="prompt" class="prompt"></textarea><div class="toolbar"><button class="tool primary" id="copyPrompt">📋 NovelAI 태그 복사</button><button class="tool" id="saveFavorite">⭐ 현재 조합 저장</button><button class="tool" id="copyKo">🇰🇷 한글 결과 복사</button></div><div class="status" id="status"></div></section>
@@ -1043,6 +1043,46 @@ function updateScenePresetHint(){
 function updateRelationHint(){const el=$('relationHint'),select=$('relationPreset');if(!el||!select)return;if(characterCount()===1){select.disabled=true;select.value='none';el.textContent='🤝 1인 모드에서는 관계 프리셋이 비활성화됩니다.';el.classList.remove('multi')}else{select.disabled=false;const label=RELATION_PRESETS[relationPresetValue()]?.label||'미사용';el.textContent=relationPresetValue()==='none'?'🤝 2인/3인에서 상호작용 가중치 적용':`🤝 현재 관계 프리셋 · ${label}`;el.classList.add('multi')}}
 function updateSmartConflictHint(){const el=$('smartConflictHint');if(!el)return;if(conflictPreventionOn()){el.textContent='🧩 말이 안 되는 조합은 최대한 다시 뽑습니다.';el.classList.add('on')}else{el.textContent='🧩 완전 랜덤 · 충돌 방지를 적용하지 않습니다.';el.classList.remove('on')}}
 function contextText(){return [genre.value,category.value,DB[genre.value]?.categories?.[category.value]?.label||'',state.selected.background?.ko||'',state.selected.background?.en||'',scenePresetConfig()?.label||''].join(' ').toLowerCase()}
+function currentNsfwContext(){return `${genre.value}::${category.value}`}
+function conflictsWithNsfwGenre(type,item){
+  if(!isNsfwGenre()||!item) return false;
+  const t=`${item.ko||''} ${item.en||''}`.toLowerCase();
+  const ctx=currentNsfwContext();
+  const has=(re)=>re.test(t);
+  if(ctx.startsWith('nsfw_office::')){
+    if(type==='outfit'&&has(/armor|robe|hospital gown|bikini|swimsuit|cleric|ritual|pajama|bathrobe/)) return true;
+    if(type==='prop'&&has(/sword|bow|staff|torch|iv stand|shopping cart|sacred pendant/)) return true;
+    if(type==='action'&&has(/battle|casting|praying|shopping|riding|dismounting|tending wounds|searching through debris/)) return true;
+    if(type==='mood'&&has(/festival|memorial|battlefield|solemn mourning/)) return true;
+  }
+  if(ctx.startsWith('nsfw_dungeon::')){
+    if(type==='outfit'&&has(/business suit|school|lab coat|barista|hoodie|jeans|swimsuit/)) return true;
+    if(type==='prop'&&has(/smartphone|laptop|tablet|coffee cup|takeaway coffee|shopping cart|umbrella/)) return true;
+    if(type==='action'&&has(/checking smartphone|using laptop|making coffee|studying|serving customers|walking up stairs/)) return true;
+    if(type==='mood'&&has(/cheerful|festival|small late-night comfort|bright/)) return true;
+    if(type==='lighting'&&has(/daylight cafe|dashboard glow|neon city/)) return true;
+  }
+  if(ctx.startsWith('nsfw_guide::')){
+    if(type==='outfit'&&has(/plate armor|noble attire|bikini|festival attire|school uniform/)) return true;
+    if(type==='prop'&&has(/wine glass|shopping cart|sword|bow|spellbook|folding fan/)) return true;
+    if(type==='action'&&has(/shopping|battle stance|dancing|making pact with demon|riding|market/)) return true;
+    if(type==='mood'&&has(/festival|medieval|royal|party/)) return true;
+  }
+  if(ctx.startsWith('nsfw_dark::')){
+    if(type==='outfit'&&has(/business suit|lab coat|hospital gown|hoodie|varsity|tracksuit/)) return true;
+    if(type==='prop'&&has(/smartphone|tablet|laptop|coffee cup|takeaway coffee|wristwatch|shopping cart/)) return true;
+    if(type==='action'&&has(/checking smartphone|typing on smartphone|using laptop|making coffee|guestbook|shopping/)) return true;
+    if(type==='lighting'&&has(/fluorescent|dashboard glow|office lighting/)) return true;
+    if(type==='mood'&&has(/small late-night comfort|casual|cheerful/)) return true;
+  }
+  if(ctx.startsWith('nsfw_outdoor::')){
+    if(type==='outfit'&&has(/hospital gown|business suit|lab coat|ritual robe|plate armor|bathrobe/)) return true;
+    if(type==='prop'&&has(/iv stand|desk lamp|office files|laptop|tablet|monitor|shopping cart/)) return true;
+    if(type==='action'&&has(/using laptop|checking tablet|reading documents|lecturing|briefing|making coffee/)) return true;
+    if(type==='mood'&&has(/clinical|ward|hospital/)) return true;
+  }
+  return false;
+}
 function currentContextFlags(){
   const t=contextText();
   return {
@@ -1065,6 +1105,7 @@ function currentContextFlags(){
 function conflictsWithContext(type,item){
   if(!conflictPreventionOn()||!item)return false;
   const t=`${item.ko||''} ${item.en||''}`.toLowerCase();
+  if(conflictsWithNsfwGenre(type,item)) return true;
   const c=currentContextFlags();
   if(c.shower){
     if(type==='outfit'&&/(suit|slacks|dress shirt|formal|armor|uniform|hanbok|kimono|school|coat|jacket)/.test(t))return true;
@@ -1208,8 +1249,12 @@ function renderCardState(k){const c=$('card-'+k),lb=document.querySelector(`[dat
 function render(){Object.keys(SLOTS).forEach(k=>{const v=state.selected[k];$('ko-'+k).textContent=v?.ko||'-';$('en-'+k).textContent=v?.en||'(태그 없음)';renderCardState(k)});buildPrompt();buildSummary();buildStats()}
 function cleanPieces(a){const seen=new Set();return a.map(x=>x?.trim()).filter(Boolean).filter(x=>{const key=x.toLowerCase();if(seen.has(key))return false;seen.add(key);return true})}
 function userCharacterPromptTags(){const v=$('userCharacterTags')?.value?.trim();return v?[v]:[]}
-function updateUserCharacterHint(){const el=$('userCharacterHint');const v=$('userCharacterTags')?.value?.trim();if(!el)return;if(!v){el.textContent='앞머리가 눈을 완전히 가리는 설정은 고정 · 나머지 색상/디테일은 랜덤 생성';el.classList.add('empty');return;}el.textContent=`현재 {{user}} 태그 · ${v}`;el.classList.remove('empty')}
+function selectedUserGenderMode(){return $('userGenderMode')?.value||'random'}
+function selectedUserBodyMode(){return $('userBodyMode')?.value||'random'}
+function updateUserCharacterHint(){const el=$('userCharacterHint');const v=$('userCharacterTags')?.value?.trim();if(!el)return;const genderLabel={random:'랜덤',male:'남성형',female:'여성형',androgynous:'중성형'}[selectedUserGenderMode()]||'랜덤';const bodyLabel={random:'랜덤',slim:'슬림',average:'보통',curvy:'굴곡짐',athletic:'탄탄함',lean_muscular:'잔근육',soft:'말랑함'}[selectedUserBodyMode()]||'랜덤';if(!v){el.textContent=`앞머리가 눈을 완전히 가리는 설정은 고정 · 성별 ${genderLabel} / 체형 ${bodyLabel} / 색상은 랜덤 생성`;el.classList.add('empty');return;}el.textContent=`현재 {{user}} 태그 · 성별 ${genderLabel} / 체형 ${bodyLabel} · ${v}`;el.classList.remove('empty')}
 function randomFrom(arr,exclude=null){const pool=exclude?arr.filter(x=>x!==exclude):arr;return rand(pool.length?pool:arr)}
+function resolveUserGenderTags(){const mode=selectedUserGenderMode();if(mode==='male')return ['male focus','flat chest'];if(mode==='female')return ['female focus'];if(mode==='androgynous')return ['androgynous appearance'];return rand([['male focus','flat chest'],['female focus'],['androgynous appearance']])}
+function resolveUserBodyTags(){const mode=selectedUserBodyMode();const table={slim:['slim body'],average:['average build'],curvy:['curvy body'],athletic:['athletic build'],lean_muscular:['lean muscular build'],soft:['soft body']};if(mode!=='random'&&table[mode])return table[mode];return rand(Object.values(table))}
 function generateUserCharacterTags(){
   const hairColors=['black','dark brown','ash brown','silver','platinum blonde','honey blonde','rose pink','dusty pink','lavender','mint','teal','navy blue','wine red','cherry red','white'];
   const highlightColors=['white','silver','pale pink','lavender','ice blue','teal','gold','crimson','emerald'];
@@ -1217,13 +1262,17 @@ function generateUserCharacterTags(){
   const hairLengths=['short hair','bob cut','medium hair','long hair','very long hair'];
   const textures=['straight hair','slightly wavy hair','soft wavy hair'];
   const skinTones=['fair skin','light skin','pale skin','warm beige skin'];
+  const chestForFemale=['small breasts','medium breasts'];
   const hair=randomFrom(hairColors);
   const highlight=randomFrom(highlightColors,hair);
   const accent=randomFrom(accentColors);
   const length=randomFrom(hairLengths);
   const texture=randomFrom(textures);
   const skin=randomFrom(skinTones);
-  const tags=['androgynous appearance',length,texture,`${hair} hair`,`${highlight} inner color`,`long bangs covering eyes`,`hair over eyes`,`eyes hidden by bangs`,`obscured eyes`,skin,`${accent} accent color`];
+  const genderTags=resolveUserGenderTags();
+  const bodyTags=resolveUserBodyTags();
+  const tags=[...genderTags,...bodyTags,length,texture,`${hair} hair`,`${highlight} inner color`,`long bangs covering eyes`,`hair over eyes`,`eyes hidden by bangs`,`obscured eyes`,skin,`${accent} accent color`];
+  if(genderTags.includes('female focus')) tags.push(randomFrom(chestForFemale));
   $('userCharacterTags').value=cleanPieces(tags).join(', ');
   updateUserCharacterHint();
   buildPrompt();
@@ -1243,8 +1292,9 @@ function buildSummary(){
   const sceneLine=sceneDisplayLabel();
   const conflictLine=conflictPreventionOn()?'사용':'사용 안 함';
   const nsfwLine=isNsfwGenre()?'nsfw, explicit, uncensored':'자동 추가 없음';
+  const userModeLine=`${$('userGenderMode')?.selectedOptions?.[0]?.textContent||'랜덤'} / ${$('userBodyMode')?.selectedOptions?.[0]?.textContent||'랜덤'}`;
   const userLine=$('userCharacterTags')?.value?.trim()||'미사용';
-  const head=['CHARACTER',$('gender').selectedOptions[0]?.textContent||'미지정','','POV MODE',povLine,'','RELATION',relationLine,'','SCENE PRESET',sceneLine,'','SMART CONFLICT',conflictLine,'','NSFW BASE',nsfwLine,'','{{user}} TAGS',userLine].join('\n');
+  const head=['CHARACTER',$('gender').selectedOptions[0]?.textContent||'미지정','','POV MODE',povLine,'','RELATION',relationLine,'','SCENE PRESET',sceneLine,'','SMART CONFLICT',conflictLine,'','NSFW BASE',nsfwLine,'','{{user}} MODE',userModeLine,'','{{user}} TAGS',userLine].join('\n');
   summary.textContent=head+'\n\n'+Object.entries(SLOTS).map(([k,t])=>`${state.active[k]?'●':'○'} ${t}\n${state.selected[k]?.ko||'-'}${state.locked[k]?'  🔒':''}`).join('\n\n')
 }
 function buildStats(){
@@ -1276,6 +1326,8 @@ function saveSettings(){
     quality:$('quality').value,
     style:$('style').value,
     intensity:$('intensity')?.value||'dense',
+    userGenderMode:$('userGenderMode')?.value||'random',
+    userBodyMode:$('userBodyMode')?.value||'random',
     userCharacter:$('userCharacterTags')?.value||'',
     custom:$('customTags').value,
     randomCategory:$('randomCategory').checked,
@@ -1295,6 +1347,8 @@ function loadSettings(){
   if(s.quality!==undefined)$('quality').value=s.quality;
   if(s.style!==undefined)$('style').value=s.style;
   if(s.intensity!==undefined&&$('intensity'))$('intensity').value=s.intensity;
+  if(s.userGenderMode!==undefined&&$('userGenderMode'))$('userGenderMode').value=s.userGenderMode;
+  if(s.userBodyMode!==undefined&&$('userBodyMode'))$('userBodyMode').value=s.userBodyMode;
   if(s.userCharacter!==undefined&&$('userCharacterTags'))$('userCharacterTags').value=s.userCharacter;
   if(s.custom!==undefined)$('customTags').value=s.custom;
   updateUserCharacterHint();
@@ -1307,7 +1361,7 @@ function loadSettings(){
 cards.addEventListener('click',e=>{const a=e.target.closest('[data-lock],[data-reroll],[data-toggle]');if(!a)return;if(a.dataset.lock)toggleLock(a.dataset.lock);if(a.dataset.toggle)toggleActive(a.dataset.toggle);if(a.dataset.reroll){rollSlot(a.dataset.reroll,true);render();addHistory()}});
 $('rollAll').onclick=()=>{rollAll(true);trackAnalytics('roll')};genre.onchange=()=>{loadCategories(false);populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();render();saveSettings()};category.onchange=()=>rollAll(false);
 $('lockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=true);render()};$('unlockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=false);render()};$('enableAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.active[k]=true);render()};
-['quality','style','customTags','randomCategory','avoidSame','smartConflict','intensity'].forEach(id=>{
+['quality','style','customTags','randomCategory','avoidSame','smartConflict','intensity','userGenderMode','userBodyMode'].forEach(id=>{
   const el=$(id);
   if(!el) return;
   el.addEventListener('change',()=>{
@@ -1320,10 +1374,11 @@ $('lockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=true);re
       render();
       show('🔥 수위가 변경되어 관련 슬롯을 다시 뽑았습니다.');
     }
+    if(id==='userGenderMode'||id==='userBodyMode') updateUserCharacterHint();
     buildPrompt();
     saveSettings();
   });
-  el.addEventListener('input',()=>{buildPrompt();saveSettings()});
+  el.addEventListener('input',()=>{if(id==='userGenderMode'||id==='userBodyMode') updateUserCharacterHint();buildPrompt();saveSettings()});
 });
 
 function rerollPovRelated(message){
