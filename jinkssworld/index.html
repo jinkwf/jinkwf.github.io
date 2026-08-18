@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#0e0c12">
-<title>NSFW 에셋 랜덤 프롬프트 생성기.v1</title>
+<title>NSFW 에셋 랜덤 프롬프트 생성기.v2</title>
 <style>
 :root{--bg:#0e0c12;--panel:#17141d;--panel2:#201c28;--panel3:#292333;--line:rgba(255,255,255,.09);--text:#f7f3fa;--sub:#aaa3b4;--accent:#a68cff;--pink:#e694c4;--gold:#f0c978;--green:#9fdfb6;--red:#ff9aa5;--shadow:0 20px 60px rgba(0,0,0,.35)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 8% 0,rgba(166,140,255,.13),transparent 27%),radial-gradient(circle at 100% 15%,rgba(230,148,196,.08),transparent 27%),var(--bg);color:var(--text);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif}button,select,input,textarea{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}.page{width:min(1220px,calc(100% - 28px));margin:auto;padding:28px 0 70px}.hero,.panel{border:1px solid var(--line);background:rgba(23,20,29,.96);box-shadow:var(--shadow)}.hero{position:relative;overflow:hidden;border-radius:26px;padding:31px;margin-bottom:17px}.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-100px;top:-135px;background:rgba(166,140,255,.12);filter:blur(12px);pointer-events:none}.eyebrow{font-size:11px;font-weight:900;letter-spacing:.2em;color:var(--accent)}
 .eyebrow-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
@@ -321,7 +321,8 @@ const APP_VERSION='2.0-SMART-DIRECTOR';
 const E=(ko,en)=>({ko,en});
 /* ===== INTENSITY (수위) ===== */
 function intensityValue(){const el=$('intensity');return el?el.value:'dense'}
-function specialPromptTags(){return [...document.querySelectorAll('[data-special-tag]:checked')].map(el=>el.getAttribute('data-special-tag')).filter(Boolean)}
+function quickEffectsEnabled(){return $('quickEffectsDetails')?.open===true}
+function specialPromptTags(){if(!quickEffectsEnabled())return[];return [...document.querySelectorAll('[data-special-tag]:checked')].map(el=>el.getAttribute('data-special-tag')).filter(Boolean)}
 function partialExposureTags(){return ['unbuttoned shirt','open shirt','shirt lift','slipped strap','cleavage','bra visible','underwear visible','panties visible','skirt lift','pants pulled down','loosened clothes']}
 function exposureSpecialTags(){return ['naked','nude','fully nude','shirtless','topless','bottomless']}
 function maleAnatomyTags(){return ['penis visible','erect penis','big penis','big dick']}
@@ -412,7 +413,7 @@ function updateSpecialTagAvailability(){
     if(!allowed)el.checked=false;
   });
 }
-function updateQuickEffectCount(){const el=$('quickEffectCount');if(el)el.textContent=String(specialPromptTags().length)}
+function updateQuickEffectCount(){const el=$('quickEffectCount');if(el)el.textContent=String(quickEffectsEnabled()?[...document.querySelectorAll('[data-special-tag]:checked')].length:0)}
 function resetQuickEffects(){const checked=[...document.querySelectorAll('[data-special-tag]:checked')];checked.forEach(el=>{el.checked=false});updateSpecialTagAvailability();updateQuickEffectCount();buildPrompt();buildSummary();updateNegativePrompt();saveSettings();updateQuickRecommendations();updateExposureStageHint();show(checked.length?`🧹 빠른 효과 / 흔적 태그 ${checked.length}개를 초기화했습니다.`:'🧹 초기화할 빠른 효과 / 흔적 태그가 없습니다.');}
 function multiDistinctPromptTags(){
   const n=characterCount();
@@ -2808,7 +2809,7 @@ function buildSummary(){
   const intensityLine=isNsfwGenre()?($('intensity')?.selectedOptions?.[0]?.textContent||'미지정'):'SFW 잠금';
   const userModeLine=`${$('userGenderMode')?.selectedOptions?.[0]?.textContent||'랜덤'} / ${$('userBodyMode')?.selectedOptions?.[0]?.textContent||'랜덤'}`;
   const userLine=userCharacterEnabled()?($('userCharacterTags')?.value?.trim()||'ON · 아직 생성 안 됨'):'OFF · 프롬프트 미사용';
-  const specialLine=specialPromptTags().length?specialPromptTags().join(', '):'미사용';
+  const specialLine=quickEffectsEnabled()?(specialPromptTags().length?specialPromptTags().join(', '):'미사용'):'OFF · 폴더 닫힘';
   const outfitLine=outfitStatusLabel();
   const directorLine=directorActive()?`노출: ${axisSelectedText('axisExposure')} / 밀착: ${axisSelectedText('axisContact')} / 몸의 흔적: ${axisSelectedText('axisMarks')} / 움직임: ${axisSelectedText('axisMotion')} / 표정: ${axisSelectedText('axisExpression')} / 의상: ${axisSelectedText('axisWardrobe')}`:isNsfwGenre()?'OFF':'SFW 잠금';
   const roleLine=characterCount()>=2?roleLayoutValue():'1인 미사용';
@@ -2954,6 +2955,7 @@ $('recommendNatural')?.addEventListener('click',e=>{e.preventDefault();e.stopPro
 $('recommendStronger')?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();applyQuickRecommendationMode('strong')});
 $('recommendCinematic')?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();applyQuickRecommendationMode('cinematic')});
 $('resetQuickEffects')?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();resetQuickEffects();});
+$('quickEffectsDetails')?.addEventListener('toggle',()=>{updateQuickEffectCount();buildPrompt();buildSummary();if(typeof updatePromptDiagnostics==='function')updatePromptDiagnostics();if(typeof saveSettings==='function')saveSettings();show($('quickEffectsDetails').open?'⚡ 빠른효과 / 흔적태그 ON · 프롬프트 반영':'⚡ 빠른효과 / 흔적태그 OFF · 프롬프트에서 제외');});
 $('optimizePrompt')?.addEventListener('click',optimizeCurrentPrompt);
 ['axisExposure','axisContact','axisMarks','axisMotion','axisExpression','axisWardrobe'].forEach(id=>$(id)?.addEventListener('change',()=>{updateDirectorState();['outfit','action','pose','expression','mood'].forEach(k=>{if(!state.locked[k])state.selected[k]=choose(k)});enforceSmartConflicts();render();saveSettings();updateQuickRecommendations()}));
 $('roleLayout')?.addEventListener('change',()=>{updateCharacterSpecificUI();buildPrompt();buildSummary();saveSettings()});
