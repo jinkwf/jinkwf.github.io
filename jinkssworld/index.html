@@ -68,7 +68,7 @@ select optgroup{
 .inline-check{display:flex;align-items:center;gap:8px;min-height:44px;padding-top:8px;font-size:13px;color:var(--txt)}
 .inline-check input{accent-color:var(--accent)}
 #relationHint.multi,#smartConflictHint.on,#scenePresetHint.on{color:#ffd6a3}
-.user-tag-tools{display:flex;gap:8px;align-items:stretch;margin-top:10px;flex-wrap:wrap}.user-tag-tools input{flex:1 1 320px}.user-tag-tools button{min-width:180px}.user-tag-preview{margin-top:7px;color:#cdbfff;font-size:10px;line-height:1.45}.user-tag-preview.empty{color:var(--sub)}.prompt-quickbox{margin:0 0 11px;padding:10px 11px;border:1px solid var(--line);border-radius:13px;background:rgba(255,255,255,.018)}.prompt-quicktitle{font-size:9px;font-weight:900;color:#aaa3b4;letter-spacing:.05em;margin-bottom:8px}.prompt-quicktags{display:flex;flex-wrap:wrap;gap:7px}.mini-prompt-check{display:inline-flex;align-items:center;gap:5px;padding:6px 9px;border:1px solid var(--line);border-radius:999px;background:var(--panel2);color:#d6d0de;font-size:9px;line-height:1;cursor:pointer;user-select:none}.mini-prompt-check:hover{filter:brightness(1.12)}.mini-prompt-check:has(input:checked){border-color:rgba(166,140,255,.52);background:rgba(166,140,255,.12);color:#ece6ff}.mini-prompt-check input{width:13px;height:13px;margin:0;accent-color:var(--accent)}.mini-prompt-check.nsfw-only:has(input:disabled){opacity:.38;cursor:not-allowed}.opt select:disabled{opacity:.48;cursor:not-allowed}.usage-counter{cursor:pointer}.usage-counter:hover{border-color:rgba(166,140,255,.35)}
+.user-tag-tools{display:flex;gap:8px;align-items:stretch;margin-top:10px;flex-wrap:wrap}.user-tag-tools input{flex:1 1 320px}.user-tag-tools button{min-width:180px}.user-tag-preview{margin-top:7px;color:#cdbfff;font-size:10px;line-height:1.45}.user-tag-preview.empty{color:var(--sub)}.prompt-quickbox{margin:0 0 11px;padding:10px 11px;border:1px solid var(--line);border-radius:13px;background:rgba(255,255,255,.018)}.prompt-quicktitle{font-size:9px;font-weight:900;color:#aaa3b4;letter-spacing:.05em;margin-bottom:8px}.prompt-quicktags{display:flex;flex-wrap:wrap;gap:7px}.mini-prompt-check{display:inline-flex;align-items:center;gap:5px;padding:6px 9px;border:1px solid var(--line);border-radius:999px;background:var(--panel2);color:#d6d0de;font-size:9px;line-height:1;cursor:pointer;user-select:none}.mini-prompt-check:hover{filter:brightness(1.12)}.mini-prompt-check:has(input:checked){border-color:rgba(166,140,255,.52);background:rgba(166,140,255,.12);color:#ece6ff}.mini-prompt-check input{width:13px;height:13px;margin:0;accent-color:var(--accent)}.mini-prompt-check.nsfw-only:has(input:disabled){opacity:.38;cursor:not-allowed}.mini-prompt-check:has(input:disabled){opacity:.38;cursor:not-allowed}.opt select:disabled{opacity:.48;cursor:not-allowed}.usage-counter{cursor:pointer}.usage-counter:hover{border-color:rgba(166,140,255,.35)}
 
 /* v2 · 서버 렌더링 TODAY/TOTAL 카운터 */
 
@@ -179,17 +179,12 @@ body.has-nsfw-banner{padding-top:58px}
 
 <div class="page">
 <section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v1.1 · NSFW</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 수위(가벼운~하늘나라)를 선택할 수 있으며, 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능합니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
-<section class="panel"><div class="head"><div><h2 class="title">01 · 장르와 카테고리</h2><p class="desc">「장르 전체 랜덤」은 선택한 장르의 모든 카테고리 전용 풀을 합쳐서 사용합니다.</p></div></div><div class="select-grid"><div class="field"><label>장르</label><select id="genre">
+<section class="panel"><div class="head"><div><h2 class="title">01 · 장르와 카테고리</h2><p class="desc">장르는 현대물 / 판타지 / 가이드버스 / 시대물 중에서 고르고, NSFW 버튼으로 SFW/NSFW 모드를 전환합니다. NSFW를 켜면 세부 카테고리도 성인용 전용 목록으로 바뀝니다.</p></div></div><div class="select-grid"><div class="field"><label>장르</label><select id="genre">
 <option value="modern">현대물</option>
 <option value="fantasy">판타지물</option>
 <option value="guideverse">가이드버스</option>
 <option value="period">시대물</option>
-<option value="nsfw_office">NSFW · 오피스/직장</option>
-<option value="nsfw_dungeon">NSFW · 던전/구속</option>
-<option value="nsfw_guide">NSFW · 가이드버스 하드</option>
-<option value="nsfw_dark">NSFW · 암흑판타지</option>
-<option value="nsfw_outdoor">NSFW · 야외/노출</option>
-</select></div><div class="field"><label>세부 카테고리</label><select id="category"></select></div></div><div class="check-row"><label class="check"><input type="checkbox" id="randomCategory"> 주사위를 돌릴 때마다 세부 카테고리도 랜덤</label><label class="check"><input type="checkbox" id="avoidSame" checked> 직전 결과와 같은 태그 최대한 피하기</label></div></section>
+</select></div><div class="field"><label>세부 카테고리</label><select id="category"></select></div></div><div class="check-row"><label class="check"><input type="checkbox" id="nsfwMode"> NSFW 모드 적용</label><label class="check"><input type="checkbox" id="randomCategory"> 주사위를 돌릴 때마다 세부 카테고리도 랜덤</label><label class="check"><input type="checkbox" id="avoidSame" checked> 직전 결과와 같은 태그 최대한 피하기</label></div></section>
 <section class="panel"><div class="head"><div><h2 class="title">02 · 기본 태그</h2><p class="desc">1인·2인·3인을 선택할 수 있습니다. 2인/3인 선택 시 구도·자세·시선·행동 풀이 인원수에 맞게 자동 전환됩니다. POV MODE를 켜면 현재 인원수에 맞는 1인칭 시점 풀이 적용되고, POV 강도(약하게/강하게)와 POV 타입(자동/대화형/손잡기/키스 직전)을 세부 설정할 수 있습니다. 여기에 관계/상호작용 프리셋, 장면 프리셋, 충돌 방지 기능까지 더해 더 자연스러운 조합을 자동으로 만듭니다. 고정 외형 태그는 ‘항상 추가할 태그’에 넣어두면 유지됩니다.</p></div></div><div class="options"><div class="opt"><label>CHARACTER</label><select id="gender">
 <option value="">미지정 · 기본 1인</option>
 <optgroup label="1인">
@@ -216,7 +211,7 @@ body.has-nsfw-banner{padding-top:58px}
 <div class="opt"><label>QUALITY</label><select id="quality"><option value="masterpiece, best quality, amazing quality, very aesthetic, highly detailed">기본 고품질</option><option value="masterpiece, best quality, highly detailed, cinematic composition">시네마틱</option><option value="">사용 안 함</option></select></div><div class="opt"><label>STYLE</label><select id="style"><option value="">미지정</option><option value="anime style">Anime</option><option value="illustration">Illustration</option><option value="semi-realistic">Semi-realistic</option></select></div><div class="opt"><label>POV MODE</label><select id="povMode"><option value="off">사용 안 함</option><option value="on">사용 · 현재 인원수 연동</option></select></div><div class="opt"><label>POV 강도</label><select id="povStrength"><option value="subtle">약하게</option><option value="strong">강하게</option></select></div><div class="opt"><label>POV 타입</label><select id="povType"><option value="auto">자동</option><option value="talk">대화형 POV</option><option value="hand">손잡기 POV</option><option value="prekiss">키스 직전 POV</option></select><div class="character-mode-hint" id="povModeHint">📷 일반 시점 모드</div></div><div class="opt"><label>관계 / 상호작용</label><select id="relationPreset"><option value="none">미사용</option><option value="friend">친구 / 절친</option><option value="coworker">동료 / 같은 편</option><option value="rival">라이벌</option><option value="lover">연인 / 썸</option><option value="obsession">집착 / 소유욕</option><option value="hatebond">혐관 / 앙숙</option><option value="salvation">구원 서사</option><option value="unrequited">짝사랑</option><option value="contract">계약 / 정략</option><option value="mentor">멘토 / 사제</option><option value="childhood">소꿉친구</option><option value="exlovers">전 연인 / 미련</option><option value="firstmeet">첫 만남</option><option value="reunion">재회</option><option value="guardian">보호 / 호위</option><option value="masterservant">주종 / 상하관계</option><option value="enemy">적대 / 대치</option><option value="teammate">전우 / 파티원</option></select><div class="character-mode-hint" id="relationHint">🤝 2인/3인에서 상호작용 가중치 적용</div></div><div class="opt"><label>장면 프리셋</label><select id="scenePreset"></select><div class="character-mode-hint" id="scenePresetHint">🎬 장르에 맞는 상황 프리셋을 적용합니다.</div></div><div class="opt"><label>충돌 방지</label><label class="check inline-check"><input type="checkbox" id="smartConflict" checked> 배경·의상·행동 충돌 자동 방지</label><div class="character-mode-hint" id="smartConflictHint">🧩 말이 안 되는 조합은 최대한 다시 뽑습니다.</div></div></div><div class="custom-grid"><div><label class="tiny-label">항상 추가할 태그</label><input id="customTags" type="text" placeholder="예: black hair, blue eyes, handsome male"></div><div><label class="tiny-label">기본 네거티브 태그</label><input id="negativeBase" type="text" value="lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, jpeg artifacts, signature, watermark, username, blurry"></div></div><div style="margin-top:12px"><label class="tiny-label">{{user}} 캐릭터 태그</label><div class="custom-grid" style="margin-top:8px"><div><label class="tiny-label">{{user}} 성별 타입</label><select id="userGenderMode"><option value="random" selected>랜덤</option><option value="male">남성형</option><option value="female">여성형</option><option value="androgynous">중성형</option></select></div><div><label class="tiny-label">{{user}} 체형 타입</label><select id="userBodyMode"><option value="random" selected>랜덤</option><option value="slim">슬림</option><option value="average">보통</option><option value="curvy">굴곡짐</option><option value="athletic">탄탄함</option><option value="lean_muscular">잔근육</option><option value="soft">말랑함</option></select></div></div><div class="user-tag-tools"><input id="userCharacterTags" type="text" placeholder="버튼을 누르면 {{user}} 캐릭터 태그가 자동 생성됩니다." readonly><button type="button" class="tool" id="generateUserCharacter">🙈 {{user}}캐릭터 임의생성</button><button type="button" class="tool" id="copyUserCharacter">📋 {{user}}태그 복사</button></div><div class="user-tag-preview empty" id="userCharacterHint">앞머리가 눈을 완전히 가리는 설정은 고정 · 성별/체형/색상은 선택값 또는 랜덤으로 생성</div></div></section>
 <button class="roll" id="rollAll">🎲 주사위 돌리기<span>잠금된 슬롯은 유지 · 꺼진 슬롯은 프롬프트에서 제외</span></button>
 <section class="panel"><div class="head"><div><h2 class="title">03 · 랜덤 슬롯</h2><p class="desc">↻ 재추첨 · 🔓/🔒 잠금 · ◉/○ 사용 여부</p></div><div class="mini-tools"><button class="small-btn" id="lockAll">🔒 전체 잠금</button><button class="small-btn" id="unlockAll">🔓 전체 해제</button><button class="small-btn" id="enableAll">◉ 전체 사용</button></div></div><div id="cards" class="cards"></div><div id="stats" class="stats"></div></section>
-<section class="panel"><div class="head"><div><h2 class="title">04 · NovelAI Prompt</h2><p class="desc">생성된 영어 태그는 직접 수정할 수 있습니다. 아래 효과 버튼을 눌러 즉시 추가할 수 있으며, {{user}} 캐릭터 태그는 프롬프트 맨 아래에 한 문단 띄워 별도로 배치됩니다.</p></div></div><div class="prompt-quickbox"><div class="prompt-quicktitle">⚡ 빠른 효과 / 흔적 태그</div><div class="prompt-quicktags" id="promptQuickTags"><label class="mini-prompt-check"><input type="checkbox" data-special-tag="speed lines">움직임</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="shaky lines">떨림</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="dashed lines">파선</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="motion blur">잔상</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="action lines">액션선</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="impact lines">충격선</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="focus lines">집중선</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="dynamic angle">역동구도</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="hickey">키스마크</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="bite mark">이빨자국</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="scratch marks">긁힌자국</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="lipstick mark">립스틱자국</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="sweat">땀</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="saliva">침</label><label class="mini-prompt-check nsfw-only"><input type="checkbox" data-special-tag="open mouth, concentrated white turbidity in mouth, blush" data-nsfw-only="1">입안백탁</label></div></div><textarea id="prompt" class="prompt"></textarea><div class="toolbar"><button class="tool primary" id="copyPrompt">📋 NovelAI 태그 복사</button><button class="tool" id="saveFavorite">⭐ 현재 조합 저장</button><button class="tool" id="copyKo">🇰🇷 한글 결과 복사</button></div><div class="status" id="status"></div></section>
+<section class="panel"><div class="head"><div><h2 class="title">04 · NovelAI Prompt</h2><p class="desc">생성된 영어 태그는 직접 수정할 수 있습니다. 아래 효과 버튼을 눌러 즉시 추가할 수 있으며, {{user}} 캐릭터 태그는 프롬프트 맨 아래에 한 문단 띄워 별도로 배치됩니다.</p></div></div><div class="prompt-quickbox"><div class="prompt-quicktitle">⚡ 빠른 효과 / 흔적 태그 · NSFW 모드에서 사용 가능</div><div class="prompt-quicktags" id="promptQuickTags"><label class="mini-prompt-check"><input type="checkbox" data-special-tag="speed lines">움직임</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="shaky lines">떨림</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="dashed lines">파선</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="motion blur">잔상</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="action lines">액션선</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="impact lines">충격선</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="focus lines">집중선</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="dynamic angle">역동구도</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="hickey">키스마크</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="bite mark">이빨자국</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="scratch marks">긁힌자국</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="lipstick mark">립스틱자국</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="sweat">땀</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="saliva">침</label><label class="mini-prompt-check nsfw-only"><input type="checkbox" data-special-tag="open mouth, concentrated white turbidity in mouth, blush" data-nsfw-only="1">입안백탁</label></div></div><textarea id="prompt" class="prompt"></textarea><div class="toolbar"><button class="tool primary" id="copyPrompt">📋 NovelAI 태그 복사</button><button class="tool" id="saveFavorite">⭐ 현재 조합 저장</button><button class="tool" id="copyKo">🇰🇷 한글 결과 복사</button></div><div class="status" id="status"></div></section>
 <section class="panel"><div class="head"><div><h2 class="title">05 · Negative Prompt</h2><p class="desc">기본값을 원하는 태그로 바꿔두면 브라우저가 기억합니다.</p></div></div><textarea id="negative" class="prompt negative"></textarea><div class="toolbar"><button class="tool primary" id="copyNegative">📋 Negative 태그 복사</button><button class="tool" id="resetNegative">↺ 기본값 복구</button><button class="tool" id="saveNegative">💾 네거티브 저장</button></div></section>
 <section class="panel"><div class="head"><div><h2 class="title">현재 한글 조합</h2></div></div><div id="summary" class="summary"></div></section>
 <section class="panel"><div class="head"><div><h2 class="title">저장된 조합</h2><p class="desc">즐겨찾기와 최근 10회 결과는 이 브라우저의 localStorage에 저장됩니다.</p></div></div><div class="saved-grid"><div><div class="tiny-label">⭐ 즐겨찾기</div><div id="favorites" class="list"></div></div><div><div class="tiny-label">🕘 최근 기록</div><div id="history" class="list"></div></div></div></section>
@@ -258,12 +253,13 @@ const E=(ko,en)=>({ko,en});
 function intensityValue(){const el=$('intensity');return el?el.value:'dense'}
 function specialPromptTags(){return [...document.querySelectorAll('[data-special-tag]:checked')].map(el=>el.getAttribute('data-special-tag')).filter(Boolean)}
 function multiDistinctPromptTags(){return characterCount()>=3?['each person fully distinct, separate silhouettes, clear limb ownership, no merged bodies, no overlapping faces']:[]}
-function updateIntensityMode(){const sel=$('intensity');const hint=$('intensityHint');if(!sel||!hint)return;const nsfw=isNsfwGenre();sel.disabled=!nsfw;hint.textContent=nsfw?'🔥 NSFW 장르 · 수위 설정 사용 가능':'🔒 SFW 장르 · 수위 설정 잠금';document.querySelectorAll('[data-nsfw-only="1"]').forEach(el=>{el.disabled=!nsfw;if(!nsfw)el.checked=false});}
+function nsfwModeOn(){return $('nsfwMode')?.checked===true}
+function isNsfwGenre(){return nsfwModeOn()}
+function updateIntensityMode(){const sel=$('intensity');const hint=$('intensityHint');const nsfw=isNsfwGenre();if(sel)sel.disabled=!nsfw;if(hint)hint.textContent=nsfw?'🔥 NSFW 모드 · 수위 설정 사용 가능':'🔒 SFW 모드 · 수위 설정 잠금';document.querySelectorAll('[data-special-tag]').forEach(el=>{el.disabled=!nsfw;if(!nsfw)el.checked=false});const quickbox=$('promptQuickTags');if(quickbox)quickbox.style.opacity=nsfw?'1':'.58';}
 function intensityWeight(){
   const v=intensityValue();
   return v==='light'?1:v==='dense'?2:v==='vulgar'?3:4; // extreme=4
 }
-function isNsfwGenre(){return String(genre?.value||'').startsWith('nsfw_')}
 
 const P=s=>s.trim()?s.split(';').map(v=>{const i=v.indexOf('|');return E(v.slice(0,i),v.slice(i+1))}):[];
 const uniq=a=>[...new Map(a.filter(Boolean).map(x=>[x.en,x])).values()];
@@ -637,6 +633,51 @@ const NSFW_GENRE_STUB = {
     }
   }
 };
+
+const NSFW_CATEGORY_BY_GENRE = {
+  modern: {
+    office_afterhours: {...NSFW_GENRE_STUB.nsfw_office.categories.afterhours, label:'야근 / 잔업'},
+    office_elevator: {...NSFW_GENRE_STUB.nsfw_office.categories.elevator, label:'엘리베이터'},
+    office_storage: {...NSFW_GENRE_STUB.nsfw_office.categories.storage, label:'자료실 / 창고'},
+    office_meeting: {...NSFW_GENRE_STUB.nsfw_office.categories.meeting, label:'회의실'},
+    office_executive: {...NSFW_GENRE_STUB.nsfw_office.categories.executive, label:'대표실 / 임원실'},
+    outdoor_park: {...NSFW_GENRE_STUB.nsfw_outdoor.categories.park, label:'야외 / 공원 · 숲'},
+    outdoor_rooftop: {...NSFW_GENRE_STUB.nsfw_outdoor.categories.rooftop, label:'옥상 / 고층'},
+    outdoor_alley: {...NSFW_GENRE_STUB.nsfw_outdoor.categories.alley, label:'골목 / 뒷골목'},
+    outdoor_balcony: {...NSFW_GENRE_STUB.nsfw_outdoor.categories.balcony, label:'발코니 / 테라스'}
+  },
+  fantasy: {
+    dark_ritual: {...NSFW_GENRE_STUB.nsfw_dark.categories.ritual, label:'의식 / 제물'},
+    dark_demon: {...NSFW_GENRE_STUB.nsfw_dark.categories.demon, label:'악마 / 계약'},
+    dark_cathedral: {...NSFW_GENRE_STUB.nsfw_dark.categories.cathedral, label:'타락한 성당'},
+    dark_throne: {...NSFW_GENRE_STUB.nsfw_dark.categories.throne, label:'마왕성 / 왕좌'},
+    dungeon_restraint: {...NSFW_GENRE_STUB.nsfw_dungeon.categories.restraint, label:'구속 / 속박'},
+    dungeon_training: {...NSFW_GENRE_STUB.nsfw_dungeon.categories.training, label:'조교 / 훈련'},
+    dungeon_cell: {...NSFW_GENRE_STUB.nsfw_dungeon.categories.cell, label:'독방 / 감금실'},
+    dungeon_throne: {...NSFW_GENRE_STUB.nsfw_dungeon.categories.throne, label:'지하 왕좌실'}
+  },
+  guideverse: {
+    guide_guiding: {...NSFW_GENRE_STUB.nsfw_guide.categories.guiding, label:'가이딩 중'},
+    guide_aftermath: {...NSFW_GENRE_STUB.nsfw_guide.categories.aftermath, label:'가이드 직후'},
+    guide_emergency: {...NSFW_GENRE_STUB.nsfw_guide.categories.emergency, label:'응급 가이딩'},
+    guide_isolation: {...NSFW_GENRE_STUB.nsfw_guide.categories.isolation, label:'격리실'},
+    dungeon_restraint: {...NSFW_GENRE_STUB.nsfw_dungeon.categories.restraint, label:'구속 / 속박'},
+    dungeon_training: {...NSFW_GENRE_STUB.nsfw_dungeon.categories.training, label:'조교 / 훈련'}
+  },
+  period: {
+    period_restraint: {...NSFW_GENRE_STUB.nsfw_dungeon.categories.restraint, label:'속박 / 밀실'},
+    period_training: {...NSFW_GENRE_STUB.nsfw_dungeon.categories.training, label:'조교 / 복종'},
+    period_cell: {...NSFW_GENRE_STUB.nsfw_dungeon.categories.cell, label:'감금 / 별채'},
+    period_ritual: {...NSFW_GENRE_STUB.nsfw_dark.categories.ritual, label:'금단 의식'},
+    period_cathedral: {...NSFW_GENRE_STUB.nsfw_dark.categories.cathedral, label:'금단 예배당'},
+    period_throne: {...NSFW_GENRE_STUB.nsfw_dark.categories.throne, label:'궁중 / 왕좌'}
+  }
+};
+
+function activeCategoryLibrary(){
+  if(isNsfwGenre()) return NSFW_CATEGORY_BY_GENRE[genre.value]||{};
+  return DB[genre.value]?.categories||{};
+}
 
 /* =========================================================
    2인 / 3인 전용 랜덤 풀
@@ -1182,12 +1223,7 @@ function createCards(){cards.innerHTML='';Object.entries(SLOTS).forEach(([k,t])=
 function loadCategories(keep=false){
   const old=category.value;
   category.innerHTML='<option value="__all">🎲 장르 전체 랜덤</option>';
-  let cats = {};
-  if(DB[genre.value]?.categories){
-    cats = DB[genre.value].categories;
-  } else if(NSFW_GENRE_STUB[genre.value]?.categories){
-    cats = NSFW_GENRE_STUB[genre.value].categories;
-  }
+  const cats = activeCategoryLibrary();
   Object.entries(cats).forEach(([k,v])=>{
     const o=document.createElement('option');
     o.value=k;
@@ -1329,85 +1365,38 @@ function updateScenePresetHint(){
 }
 function updateRelationHint(){const el=$('relationHint'),select=$('relationPreset');if(!el||!select)return;if(characterCount()===1){select.disabled=true;select.value='none';el.textContent='🤝 1인 모드에서는 관계 프리셋이 비활성화됩니다.';el.classList.remove('multi')}else{select.disabled=false;const label=RELATION_PRESETS[relationPresetValue()]?.label||'미사용';el.textContent=relationPresetValue()==='none'?'🤝 2인/3인에서 상호작용 가중치 적용':`🤝 현재 관계 프리셋 · ${label}`;el.classList.add('multi')}}
 function updateSmartConflictHint(){const el=$('smartConflictHint');if(!el)return;if(conflictPreventionOn()){el.textContent='🧩 말이 안 되는 조합은 최대한 다시 뽑습니다.';el.classList.add('on')}else{el.textContent='🧩 완전 랜덤 · 충돌 방지를 적용하지 않습니다.';el.classList.remove('on')}}
-function contextText(){return [genre.value,category.value,DB[genre.value]?.categories?.[category.value]?.label||'',state.selected.background?.ko||'',state.selected.background?.en||'',scenePresetConfig()?.label||''].join(' ').toLowerCase()}
+function contextText(){return [genre.value,category.value,activeCategoryLibrary()?.[category.value]?.label||'',state.selected.background?.ko||'',state.selected.background?.en||'',scenePresetConfig()?.label||''].join(' ').toLowerCase()}
 function currentNsfwContext(){return `${genre.value}::${category.value}`}
 function conflictsWithNsfwGenre(type,item){
   if(!isNsfwGenre()||!item) return false;
   const t=`${item.ko||''} ${item.en||''}`.toLowerCase();
   const ctx=currentNsfwContext();
   const has=(re)=>re.test(t);
-  if(ctx.startsWith('nsfw_office::')){
-    if(type==='outfit'&&has(/armor|robe|hospital gown|bikini|swimsuit|cleric|ritual|pajama|bathrobe/)) return true;
-    if(type==='prop'&&has(/sword|bow|staff|torch|iv stand|shopping cart|sacred pendant/)) return true;
-    if(type==='action'&&has(/battle|casting|praying|shopping|riding|dismounting|tending wounds|searching through debris/)) return true;
-    if(type==='mood'&&has(/festival|memorial|battlefield|solemn mourning/)) return true;
+  if(ctx.startsWith('modern::office_')){
+    if(type==='outfit'&&has(/armor|robe|ritual|cleric|hospital gown|swimsuit|bikini/)) return true;
+    if(type==='prop'&&has(/sword|bow|staff|torch|chalice|rosary|shopping cart|iv stand/)) return true;
+    if(type==='action'&&has(/battle|casting|praying|market|riding|tending wounds|using supernatural power/)) return true;
   }
-  if(ctx.startsWith('nsfw_dungeon::')){
-    if(type==='outfit'&&has(/business suit|school|lab coat|barista|hoodie|jeans|swimsuit/)) return true;
-    if(type==='prop'&&has(/smartphone|laptop|tablet|coffee cup|takeaway coffee|shopping cart|umbrella/)) return true;
-    if(type==='action'&&has(/checking smartphone|using laptop|making coffee|studying|serving customers|walking up stairs/)) return true;
-    if(type==='mood'&&has(/cheerful|festival|small late-night comfort|bright/)) return true;
-    if(type==='lighting'&&has(/daylight cafe|dashboard glow|neon city/)) return true;
+  if(ctx.startsWith('modern::outdoor_')){
+    if(type==='outfit'&&has(/lab coat|hospital gown|full armor|cleric|ritual robe/)) return true;
+    if(type==='prop'&&has(/laptop|tablet|office files|monitor|iv stand|scepter/)) return true;
+    if(type==='action'&&has(/checking results|using laptop|giving instructions|praying|studying spell/)) return true;
   }
-  if(ctx.startsWith('nsfw_guide::')){
-    if(type==='outfit'&&has(/plate armor|noble attire|bikini|festival attire|school uniform/)) return true;
-    if(type==='prop'&&has(/wine glass|shopping cart|sword|bow|spellbook|folding fan/)) return true;
-    if(type==='action'&&has(/shopping|battle stance|dancing|making pact with demon|riding|market/)) return true;
-    if(type==='mood'&&has(/festival|medieval|royal|party/)) return true;
+  if(ctx.startsWith('fantasy::dark_')||ctx.startsWith('period::period_ritual')||ctx.startsWith('period::period_cathedral')||ctx.startsWith('period::period_throne')){
+    if(type==='outfit'&&has(/business suit|hoodie|jeans|lab coat|employee id|tracksuit/)) return true;
+    if(type==='prop'&&has(/smartphone|laptop|tablet|coffee cup|employee id card|office documents/)) return true;
+    if(type==='action'&&has(/checking smartphone|using laptop|making coffee|briefing|serving customers/)) return true;
   }
-  if(ctx.startsWith('nsfw_dark::')){
-    if(type==='outfit'&&has(/business suit|lab coat|hospital gown|hoodie|varsity|tracksuit/)) return true;
-    if(type==='prop'&&has(/smartphone|tablet|laptop|coffee cup|takeaway coffee|wristwatch|shopping cart/)) return true;
-    if(type==='action'&&has(/checking smartphone|typing on smartphone|using laptop|making coffee|guestbook|shopping/)) return true;
-    if(type==='lighting'&&has(/fluorescent|dashboard glow|office lighting/)) return true;
-    if(type==='mood'&&has(/small late-night comfort|casual|cheerful/)) return true;
+  if(ctx.startsWith('fantasy::dungeon_')||ctx.startsWith('guideverse::dungeon_')||ctx.startsWith('period::period_restraint')||ctx.startsWith('period::period_training')||ctx.startsWith('period::period_cell')){
+    if(type==='outfit'&&has(/business suit|school|lab coat|varsity|swimsuit/)) return true;
+    if(type==='prop'&&has(/smartphone|laptop|tablet|shopping cart|umbrella|cocktail glass/)) return true;
+    if(type==='action'&&has(/checking smartphone|using laptop|studying|making coffee|market shopping/)) return true;
+    if(type==='mood'&&has(/cheerful|festival|casual everyday mood/)) return true;
   }
-  if(ctx.startsWith('nsfw_outdoor::')){
-    if(type==='outfit'&&has(/hospital gown|business suit|lab coat|ritual robe|plate armor|bathrobe/)) return true;
-    if(type==='prop'&&has(/iv stand|desk lamp|office files|laptop|tablet|monitor|shopping cart/)) return true;
-    if(type==='action'&&has(/using laptop|checking tablet|reading documents|lecturing|briefing|making coffee/)) return true;
-    if(type==='mood'&&has(/clinical|ward|hospital/)) return true;
-  }
-  if(ctx==='nsfw_office::elevator'){
-    if(type==='pose'&&has(/lying|bed|kneeling at altar|all fours/)) return true;
-    if(type==='prop'&&has(/rope|chains|whip|paddle|ritual dagger/)) return true;
-  }
-  if(ctx==='nsfw_office::meeting'){
-    if(type==='prop'&&has(/handcuffs|rope|chains|collar|leash|vibrator|dildo/)) return true;
-    if(type==='pose'&&has(/lying on stomach|all fours|legs over shoulders/)) return true;
-  }
-  if(ctx==='nsfw_office::executive'){
-    if(type==='prop'&&has(/shopping cart|iv stand|torch|sword|bow/)) return true;
-  }
-  if(ctx==='nsfw_dungeon::training'){
-    if(type==='prop'&&has(/smartphone|laptop|tablet|office documents|wine glass/)) return true;
-  }
-  if(ctx==='nsfw_dungeon::cell'){
-    if(type==='lighting'&&has(/neon|office|fluorescent|monitor glow/)) return true;
-    if(type==='outfit'&&has(/formal business|center uniform|school uniform|swimsuit/)) return true;
-  }
-  if(ctx==='nsfw_guide::emergency'){
-    if(type==='expression'&&has(/bright smile|playful smile|smug smile/)) return true;
-    if(type==='mood'&&has(/sweet intimate night|party|festival|depraved/)) return true;
-    if(type==='prop'&&has(/wine glass|candle|whip|dildo|vibrator/)) return true;
-  }
-  if(ctx==='nsfw_guide::aftermath'){
-    if(type==='action'&&has(/combat stance|charging|running|battle|aiming weapon/)) return true;
-  }
-  if(ctx==='nsfw_dark::cathedral'){
-    if(type==='prop'&&has(/smartphone|laptop|tablet|employee id|coffee cup/)) return true;
-    if(type==='lighting'&&has(/fluorescent|office light|dashboard glow/)) return true;
-  }
-  if(ctx==='nsfw_dark::ritual'||ctx==='nsfw_dark::demon'||ctx==='nsfw_dark::throne'){
-    if(type==='outfit'&&has(/hoodie|jeans|business suit|hospital gown|school uniform/)) return true;
-  }
-  if(ctx==='nsfw_outdoor::rooftop'){
-    if(type==='pose'&&has(/lying on bed|kneeling at altar|fully bound|legs forced open/)) return true;
-    if(type==='prop'&&has(/rope|chains|iv stand|pillow|blanket/)) return true;
-  }
-  if(ctx==='nsfw_outdoor::park'||ctx==='nsfw_outdoor::alley'){
-    if(type==='prop'&&has(/large sex toy|full bondage gear|iv stand|office files/)) return true;
-    if(type==='outfit'&&has(/three-piece suit|plate armor|hospital gown/)) return true;
+  if(ctx.startsWith('guideverse::guide_')){
+    if(type==='outfit'&&has(/full armor|ritual robe|festival attire|three-piece suit/)) return true;
+    if(type==='prop'&&has(/whiskey glass|cocktail glass|crown|scepter|shopping cart/)) return true;
+    if(type==='action'&&has(/making pact with demon|market|drinking in tavern|festival/)) return true;
   }
   return false;
 }
@@ -1497,7 +1486,7 @@ function conflictsWithContext(type,item){
 }
 function applyConflictFilter(pool,type){if(!conflictPreventionOn())return pool;const filtered=pool.filter(x=>!conflictsWithContext(type,x));return filtered.length?filtered:pool}
 function enforceSmartConflicts(){if(!conflictPreventionOn())return;const order=['background','outfit','weather','lighting','prop','pose','composition','gaze','action','expression','mood'];for(let pass=0;pass<5;pass++){order.forEach(type=>{const cur=state.selected[type];if(cur&&conflictsWithContext(type,cur)&&!state.locked[type])state.selected[type]=choose(type)})}}
-function specific(type){const g=DB[genre.value],c=category.value;if(c==='__all'){let out=[];Object.values(g.categories).forEach(x=>out.push(...(x[type]||[])));return out}return g.categories[c]?.[type]||[]}
+function specific(type){const cats=activeCategoryLibrary(),c=category.value;if(c==='__all'){let out=[];Object.values(cats).forEach(x=>out.push(...(x[type]||[])));return out}return cats[c]?.[type]||[]}
 function poolFor(type){
   let base=[];
   if(COMMON[type])base.push(...COMMON[type]);
@@ -1519,9 +1508,9 @@ function poolFor(type){
   const g = DB[genre.value];
   if(g && g.common?.[type]) base.push(...g.common[type]);
 
-  // NSFW 장르 stub 지원
-  if(isNsfwGenre() && NSFW_GENRE_STUB[genre.value]){
-    const cat = NSFW_GENRE_STUB[genre.value].categories?.[category.value];
+  // NSFW 모드 전용 카테고리 가중치 지원
+  if(isNsfwGenre()){
+    const cat = activeCategoryLibrary()?.[category.value];
     if(cat && cat[type]) {
       const nsfwWeights={background:18,action:18,outfit:14,pose:12,gaze:10,expression:10,prop:12,mood:14,lighting:12,composition:10,weather:10};
       const w=nsfwWeights[type]||7;
@@ -1622,7 +1611,7 @@ function buildSummary(){
   const relationLine=characterCount()===1?'1인 모드 · 미사용':(RELATION_PRESETS[relationPresetValue()]?.label||'미사용');
   const sceneLine=sceneDisplayLabel();
   const conflictLine=conflictPreventionOn()?'사용':'사용 안 함';
-  const nsfwLine=isNsfwGenre()?'nsfw, explicit, uncensored':'자동 추가 없음';
+  const nsfwLine=isNsfwGenre()?'ON · nsfw, explicit, uncensored':'OFF · SFW 잠금';
   const intensityLine=isNsfwGenre()?($('intensity')?.selectedOptions?.[0]?.textContent||'미지정'):'SFW 잠금';
   const userModeLine=`${$('userGenderMode')?.selectedOptions?.[0]?.textContent||'랜덤'} / ${$('userBodyMode')?.selectedOptions?.[0]?.textContent||'랜덤'}`;
   const userLine=$('userCharacterTags')?.value?.trim()||'미사용';
@@ -1656,6 +1645,7 @@ function saveSettings(){
     relationPreset:$('relationPreset').value,
     scenePreset:$('scenePreset').value,
     smartConflict:$('smartConflict').checked,
+    nsfwMode:$('nsfwMode')?.checked===true,
     quality:$('quality').value,
     style:$('style').value,
     intensity:$('intensity')?.value||'dense',
@@ -1678,6 +1668,7 @@ function loadSettings(){
   if(s.relationPreset!==undefined)$('relationPreset').value=s.relationPreset;
   if(s.scenePreset!==undefined&&[...$('scenePreset').options].some(o=>o.value===s.scenePreset))$('scenePreset').value=s.scenePreset;resolveScenePreset(true);
   if(s.smartConflict!==undefined)$('smartConflict').checked=s.smartConflict;
+  if(s.nsfwMode!==undefined&&$('nsfwMode'))$('nsfwMode').checked=s.nsfwMode;
   if(s.quality!==undefined)$('quality').value=s.quality;
   if(s.style!==undefined)$('style').value=s.style;
   if(s.intensity!==undefined&&$('intensity'))$('intensity').value=s.intensity;
@@ -1695,7 +1686,7 @@ function loadSettings(){
   else negative.value=$('negativeBase').value
 }
 cards.addEventListener('click',e=>{const a=e.target.closest('[data-lock],[data-reroll],[data-toggle]');if(!a)return;if(a.dataset.lock)toggleLock(a.dataset.lock);if(a.dataset.toggle)toggleActive(a.dataset.toggle);if(a.dataset.reroll){rollSlot(a.dataset.reroll,true);render();addHistory()}});
-$('rollAll').onclick=()=>{rollAll(true);trackAnalytics('roll')};genre.onchange=()=>{loadCategories(false);populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();updateIntensityMode();render();buildPrompt();buildSummary();saveSettings()};category.onchange=()=>{updateIntensityMode();rollAll(false);buildPrompt();buildSummary();saveSettings()};
+$('rollAll').onclick=()=>{rollAll(true);trackAnalytics('roll')};genre.onchange=()=>{loadCategories(false);populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();updateIntensityMode();render();buildPrompt();buildSummary();saveSettings()};category.onchange=()=>{updateIntensityMode();rollAll(false);buildPrompt();buildSummary();saveSettings()};$('nsfwMode').addEventListener('change',()=>{updateIntensityMode();loadCategories(false);render();buildPrompt();buildSummary();saveSettings();show(`🔞 NSFW 모드 ${isNsfwGenre()?'ON':'OFF'}`);});
 $('lockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=true);render()};$('unlockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=false);render()};$('enableAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.active[k]=true);render()};
 ['quality','style','customTags','randomCategory','avoidSame','smartConflict','intensity','userGenderMode','userBodyMode'].forEach(id=>{
   const el=$(id);
