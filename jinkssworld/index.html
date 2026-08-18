@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#0e0c12">
-<title>NSFW 에셋 랜덤 프롬프트 생성기.v1</title>
+<title>NSFW 에셋 랜덤 프롬프트 생성기.v2</title>
 <style>
 :root{--bg:#0e0c12;--panel:#17141d;--panel2:#201c28;--panel3:#292333;--line:rgba(255,255,255,.09);--text:#f7f3fa;--sub:#aaa3b4;--accent:#a68cff;--pink:#e694c4;--gold:#f0c978;--green:#9fdfb6;--red:#ff9aa5;--shadow:0 20px 60px rgba(0,0,0,.35)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 8% 0,rgba(166,140,255,.13),transparent 27%),radial-gradient(circle at 100% 15%,rgba(230,148,196,.08),transparent 27%),var(--bg);color:var(--text);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif}button,select,input,textarea{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}.page{width:min(1220px,calc(100% - 28px));margin:auto;padding:28px 0 70px}.hero,.panel{border:1px solid var(--line);background:rgba(23,20,29,.96);box-shadow:var(--shadow)}.hero{position:relative;overflow:hidden;border-radius:26px;padding:31px;margin-bottom:17px}.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-100px;top:-135px;background:rgba(166,140,255,.12);filter:blur(12px);pointer-events:none}.eyebrow{font-size:10px;font-weight:900;letter-spacing:.2em;color:var(--accent)}
 .eyebrow-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
@@ -244,7 +244,7 @@ body.has-nsfw-banner{padding-top:58px}
 <option value="period">시대물</option>
 </select></div><div class="field"><label>세부 카테고리</label><select id="category"></select></div></div><div class="check-row"><label class="check"><input type="checkbox" id="nsfwMode"> NSFW 모드 적용</label><label class="check"><input type="checkbox" id="randomCategory"> 주사위를 돌릴 때마다 세부 카테고리도 랜덤</label><label class="check"><input type="checkbox" id="avoidSame" checked> 직전 결과와 같은 태그 최대한 피하기</label></div></section>
 <section class="panel"><div class="head"><div><h2 class="title">02 · 기본 태그</h2><p class="desc">1인·2인·3인을 선택할 수 있습니다. 2인/3인 선택 시 구도·자세·시선·행동 풀이 인원수에 맞게 자동 전환됩니다. POV MODE를 켜면 현재 인원수에 맞는 1인칭 시점 풀이 적용되고, POV 강도(약하게/강하게)를 조절할 수 있고, NSFW OFF에서는 일반 POV, NSFW ON에서는 키스·밀착·벽·침대·무릎·구강 근접 등 성인용 POV 타입까지 확장됩니다. 여기에 관계/상호작용 프리셋, 장면 프리셋, 충돌 방지 기능까지 더해 더 자연스러운 조합을 자동으로 만듭니다. 고정 외형 태그는 ‘항상 추가할 태그’에 넣어두면 유지됩니다.</p></div></div><div class="options"><div class="opt"><label>CHARACTER</label><select id="gender">
-<option value="">미지정 · 기본 1인</option>
+<option value="">캐릭터 미지정</option>
 <optgroup label="1인">
   <option value="1boy">1boy · 남성 1인</option>
   <option value="1girl">1girl · 여성 1인</option>
@@ -1506,7 +1506,10 @@ function updateCharacterModeHint(){
   const n=characterCount();
   const el=$('characterModeHint');
   if(!el) return;
-  if(n===1){
+  if(!$('gender')?.value){
+    el.textContent='👤 캐릭터 미지정 · 외형 프롬프트 자동 미포함';
+    el.classList.remove('multi');
+  }else if(n===1){
     el.textContent='👤 1인 모드 · 기존 랜덤 풀';
     el.classList.remove('multi');
   }else if(n===2){
@@ -1919,9 +1922,10 @@ function characterSpecificParagraphs(){
   ['A','B','C'].forEach((letter,i)=>{
     if(i>=n)return;
     const manual=$(`char${letter}Tags`)?.value?.trim()||'';
+    if(!manual)return;
     const role=rolePositionForCharacter(i);
     const pieces=[`character ${letter}`,genders[i],role,manual].filter(Boolean);
-    if(n>=2||manual)out.push(pieces.join(', '));
+    if(pieces.length)out.push(pieces.join(', '));
   });
   return out;
 }
@@ -2793,7 +2797,7 @@ function buildSummary(){
   const outfitLine=outfitStatusLabel();
   const directorLine=directorActive()?`노출 ${axisValue('axisExposure')} / 밀착 ${axisValue('axisContact')} / 흔적 ${axisValue('axisMarks')} / 역동 ${axisValue('axisMotion')} / 표정 ${axisValue('axisExpression')} / 의상 ${axisValue('axisWardrobe')}`:isNsfwGenre()?'OFF':'SFW 잠금';
   const roleLine=characterCount()>=2?roleLayoutValue():'1인 미사용';
-  const head=['CHARACTER',$('gender').selectedOptions[0]?.textContent||'미지정','','INTENSITY',intensityLine,'','NSFW DIRECTOR',directorLine,'','POV MODE',isPovMode()?`사용 · ${povStrength()==='strong'?'강하게':'약하게'} · ${povDirectorLabel()}`:'사용 안 함','','RELATION',relationLine,'','ROLE LAYOUT',roleLine,'','SCENE PRESET',sceneLine,'','SMART CONFLICT',conflictLine,'','NSFW BASE',nsfwLine,'','SPECIAL TAGS',specialLine,'','OUTFIT STATUS',outfitLine,'','{{user}} MODE',userModeLine,'','{{user}} TAGS',userLine].join('\n');
+  const head=['CHARACTER',$('gender').value?($('gender').selectedOptions[0]?.textContent||'미지정'):'캐릭터 미지정','','INTENSITY',intensityLine,'','NSFW DIRECTOR',directorLine,'','POV MODE',isPovMode()?`사용 · ${povStrength()==='strong'?'강하게':'약하게'} · ${povDirectorLabel()}`:'사용 안 함','','RELATION',relationLine,'','ROLE LAYOUT',roleLine,'','SCENE PRESET',sceneLine,'','SMART CONFLICT',conflictLine,'','NSFW BASE',nsfwLine,'','SPECIAL TAGS',specialLine,'','OUTFIT STATUS',outfitLine,'','{{user}} MODE',userModeLine,'','{{user}} TAGS',userLine].join('\n');
   summary.textContent=head+'\n\n'+Object.entries(SLOTS).map(([k,t])=>`${state.active[k]?'●':'○'} ${t}\n${state.selected[k]?.ko||'-'}${state.locked[k]?'  🔒':''}`).join('\n\n')
 }
 function buildStats(){
