@@ -68,7 +68,7 @@ select optgroup{
 .inline-check{display:flex;align-items:center;gap:8px;min-height:44px;padding-top:8px;font-size:13px;color:var(--txt)}
 .inline-check input{accent-color:var(--accent)}
 #relationHint.multi,#smartConflictHint.on,#scenePresetHint.on{color:#ffd6a3}
-.user-tag-tools{display:flex;gap:8px;align-items:stretch;margin-top:10px;flex-wrap:wrap}.user-tag-tools input{flex:1 1 320px}.user-tag-tools button{min-width:180px}.user-tag-preview{margin-top:7px;color:#cdbfff;font-size:10px;line-height:1.45}.user-tag-preview.empty{color:var(--sub)}.prompt-quickbox{margin:0 0 11px;padding:10px 11px;border:1px solid var(--line);border-radius:13px;background:rgba(255,255,255,.018)}.prompt-quicktitle{font-size:9px;font-weight:900;color:#aaa3b4;letter-spacing:.05em;margin-bottom:8px}.prompt-quicktags{display:flex;flex-wrap:wrap;gap:7px}.mini-prompt-check{display:inline-flex;align-items:center;gap:5px;padding:6px 9px;border:1px solid var(--line);border-radius:999px;background:var(--panel2);color:#d6d0de;font-size:9px;line-height:1;cursor:pointer;user-select:none}.mini-prompt-check:hover{filter:brightness(1.12)}.mini-prompt-check:has(input:checked){border-color:rgba(166,140,255,.52);background:rgba(166,140,255,.12);color:#ece6ff}.mini-prompt-check input{width:13px;height:13px;margin:0;accent-color:var(--accent)}.mini-prompt-check.nsfw-only:has(input:disabled){opacity:.38;cursor:not-allowed}.mini-prompt-check:has(input:disabled){opacity:.38;cursor:not-allowed}.opt select:disabled{opacity:.48;cursor:not-allowed}.usage-counter{cursor:pointer}.usage-counter:hover{border-color:rgba(166,140,255,.35)}
+.user-tag-tools{display:flex;gap:8px;align-items:stretch;margin-top:10px;flex-wrap:wrap}.user-tag-tools input{flex:1 1 320px}.user-tag-tools button{min-width:180px}.user-tag-preview{margin-top:7px;color:#cdbfff;font-size:10px;line-height:1.45}.user-tag-preview.empty{color:var(--sub)}.prompt-quickbox{margin:0 0 11px;padding:10px 11px;border:1px solid var(--line);border-radius:13px;background:rgba(255,255,255,.018)}.prompt-quicktitle{font-size:9px;font-weight:900;color:#aaa3b4;letter-spacing:.05em;margin-bottom:8px}.prompt-quicktags{display:flex;flex-wrap:wrap;gap:7px}.mini-prompt-check{display:inline-flex;align-items:center;gap:5px;padding:6px 9px;border:1px solid var(--line);border-radius:999px;background:var(--panel2);color:#d6d0de;font-size:9px;line-height:1;cursor:pointer;user-select:none}.mini-prompt-check:hover{filter:brightness(1.12)}.mini-prompt-check:has(input:checked){border-color:rgba(166,140,255,.52);background:rgba(166,140,255,.12);color:#ece6ff}.mini-prompt-check input{width:13px;height:13px;margin:0;accent-color:var(--accent)}.mini-prompt-check.nsfw-only:has(input:disabled){opacity:.38;cursor:not-allowed}.mini-prompt-check:has(input:disabled){opacity:.38;cursor:not-allowed}.mini-prompt-check.recommended{border-color:rgba(240,201,120,.72);background:rgba(240,201,120,.11);color:#ffe5a8;box-shadow:0 0 0 1px rgba(240,201,120,.08) inset}.mini-prompt-check.recommended:after{content:"추천";font-size:7px;font-weight:900;color:#f0c978;margin-left:2px}.quick-recommend-hint{margin-top:8px;color:#9f98a8;font-size:8px;line-height:1.55}.quick-recommend-hint.on{color:#d9c78b}.opt select:disabled{opacity:.48;cursor:not-allowed}.usage-counter{cursor:pointer}.usage-counter:hover{border-color:rgba(166,140,255,.35)}
 
 /* v2 · 서버 렌더링 TODAY/TOTAL 카운터 */
 
@@ -211,7 +211,7 @@ body.has-nsfw-banner{padding-top:58px}
 <div class="opt"><label>QUALITY</label><select id="quality"><option value="masterpiece, best quality, amazing quality, very aesthetic, highly detailed">기본 고품질</option><option value="masterpiece, best quality, highly detailed, cinematic composition">시네마틱</option><option value="">사용 안 함</option></select></div><div class="opt"><label>STYLE</label><select id="style"><option value="">미지정</option><option value="anime style">Anime</option><option value="illustration">Illustration</option><option value="semi-realistic">Semi-realistic</option></select></div><div class="opt"><label>POV MODE</label><select id="povMode"><option value="off">사용 안 함</option><option value="on">사용 · 현재 인원수 연동</option></select></div><div class="opt"><label>POV 강도</label><select id="povStrength"><option value="subtle">약하게</option><option value="strong">강하게</option></select></div><div class="opt"><label>POV 타입</label><select id="povType"><option value="auto">자동</option><option value="talk">대화형 POV</option><option value="hand">손잡기 POV</option><option value="prekiss">키스 직전 POV</option></select><div class="character-mode-hint" id="povModeHint">📷 일반 시점 모드</div></div><div class="opt"><label>관계 / 상호작용</label><select id="relationPreset"><option value="none">미사용</option><option value="friend">친구 / 절친</option><option value="coworker">동료 / 같은 편</option><option value="rival">라이벌</option><option value="lover">연인 / 썸</option><option value="obsession">집착 / 소유욕</option><option value="hatebond">혐관 / 앙숙</option><option value="salvation">구원 서사</option><option value="unrequited">짝사랑</option><option value="contract">계약 / 정략</option><option value="mentor">멘토 / 사제</option><option value="childhood">소꿉친구</option><option value="exlovers">전 연인 / 미련</option><option value="firstmeet">첫 만남</option><option value="reunion">재회</option><option value="guardian">보호 / 호위</option><option value="masterservant">주종 / 상하관계</option><option value="enemy">적대 / 대치</option><option value="teammate">전우 / 파티원</option></select><div class="character-mode-hint" id="relationHint">🤝 2인/3인에서 상호작용 가중치 적용</div></div><div class="opt"><label>장면 프리셋</label><select id="scenePreset"></select><div class="character-mode-hint" id="scenePresetHint">🎬 장르에 맞는 상황 프리셋을 적용합니다.</div></div><div class="opt"><label>충돌 방지</label><label class="check inline-check"><input type="checkbox" id="smartConflict" checked> 배경·의상·행동 충돌 자동 방지</label><div class="character-mode-hint" id="smartConflictHint">🧩 말이 안 되는 조합은 최대한 다시 뽑습니다.</div></div></div><div class="custom-grid"><div><label class="tiny-label">항상 추가할 태그</label><input id="customTags" type="text" placeholder="예: black hair, blue eyes, handsome male"></div><div><label class="tiny-label">기본 네거티브 태그</label><input id="negativeBase" type="text" value="lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, jpeg artifacts, signature, watermark, username, blurry"></div></div><div style="margin-top:12px"><label class="tiny-label">{{user}} 캐릭터 태그</label><div class="custom-grid" style="margin-top:8px"><div><label class="tiny-label">{{user}} 성별 타입</label><select id="userGenderMode"><option value="random" selected>랜덤</option><option value="male">남성형</option><option value="female">여성형</option><option value="androgynous">중성형</option></select></div><div><label class="tiny-label">{{user}} 체형 타입</label><select id="userBodyMode"><option value="random" selected>랜덤</option><option value="slim">슬림</option><option value="average">보통</option><option value="curvy">굴곡짐</option><option value="athletic">탄탄함</option><option value="lean_muscular">잔근육</option><option value="soft">말랑함</option></select></div></div><div class="user-tag-tools"><input id="userCharacterTags" type="text" placeholder="버튼을 누르면 {{user}} 캐릭터 태그가 자동 생성됩니다." readonly><button type="button" class="tool" id="generateUserCharacter">🙈 {{user}}캐릭터 임의생성</button><button type="button" class="tool" id="copyUserCharacter">📋 {{user}}태그 복사</button></div><div class="user-tag-preview empty" id="userCharacterHint">앞머리가 눈을 완전히 가리는 설정은 고정 · 성별/체형/색상은 선택값 또는 랜덤으로 생성</div></div></section>
 <button class="roll" id="rollAll">🎲 주사위 돌리기<span>잠금된 슬롯은 유지 · 꺼진 슬롯은 프롬프트에서 제외</span></button>
 <section class="panel"><div class="head"><div><h2 class="title">03 · 랜덤 슬롯</h2><p class="desc">↻ 재추첨 · 🔓/🔒 잠금 · ◉/○ 사용 여부</p></div><div class="mini-tools"><button class="small-btn" id="lockAll">🔒 전체 잠금</button><button class="small-btn" id="unlockAll">🔓 전체 해제</button><button class="small-btn" id="enableAll">◉ 전체 사용</button></div></div><div id="cards" class="cards"></div><div id="stats" class="stats"></div></section>
-<section class="panel"><div class="head"><div><h2 class="title">04 · NovelAI Prompt</h2><p class="desc">생성된 영어 태그는 직접 수정할 수 있습니다. 아래 효과 버튼을 눌러 즉시 추가할 수 있으며, {{user}} 캐릭터 태그는 프롬프트 맨 아래에 한 문단 띄워 별도로 배치됩니다.</p></div></div><div class="prompt-quickbox"><div class="prompt-quicktitle">⚡ 빠른 효과 / 흔적 태그 · NSFW 모드에서 사용 가능</div><div class="prompt-quicktags" id="promptQuickTags"><label class="mini-prompt-check"><input type="checkbox" data-special-tag="speed lines">움직임</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="shaky lines">떨림</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="dashed lines">파선</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="motion blur">잔상</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="action lines">액션선</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="impact lines">충격선</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="focus lines">집중선</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="dynamic angle">역동구도</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="hickey">키스마크</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="bite mark">이빨자국</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="scratch marks">긁힌자국</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="lipstick mark">립스틱자국</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="sweat">땀</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="saliva">침</label><label class="mini-prompt-check nsfw-only"><input type="checkbox" data-special-tag="open mouth, concentrated white turbidity in mouth, blush" data-nsfw-only="1">입안백탁</label></div></div><textarea id="prompt" class="prompt"></textarea><div class="toolbar"><button class="tool primary" id="copyPrompt">📋 NovelAI 태그 복사</button><button class="tool" id="saveFavorite">⭐ 현재 조합 저장</button><button class="tool" id="copyKo">🇰🇷 한글 결과 복사</button></div><div class="status" id="status"></div></section>
+<section class="panel"><div class="head"><div><h2 class="title">04 · NovelAI Prompt</h2><p class="desc">생성된 영어 태그는 직접 수정할 수 있습니다. 아래 효과 버튼을 눌러 즉시 추가할 수 있으며, {{user}} 캐릭터 태그는 프롬프트 맨 아래에 한 문단 띄워 별도로 배치됩니다.</p></div></div><div class="prompt-quickbox"><div class="prompt-quicktitle">⚡ 빠른 효과 / 흔적 태그 · NSFW 모드에서 사용 가능</div><div class="prompt-quicktags" id="promptQuickTags"><label class="mini-prompt-check"><input type="checkbox" data-special-tag="speed lines">움직임</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="shaky lines">떨림</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="dashed lines">파선</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="motion blur">잔상</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="action lines">액션선</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="impact lines">충격선</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="focus lines">집중선</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="dynamic angle">역동구도</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="hickey">키스마크</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="bite mark">이빨자국</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="scratch marks">긁힌자국</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="lipstick mark">립스틱자국</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="sweat">땀</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="saliva">침</label><label class="mini-prompt-check nsfw-only"><input type="checkbox" data-special-tag="open mouth, concentrated white turbidity in mouth, blush" data-nsfw-only="1">입안백탁</label></div><div id="quickRecommendHint" class="quick-recommend-hint">NSFW 모드를 켜면 현재 장르/카테고리에 어울리는 효과를 추천 표시합니다.</div></div><textarea id="prompt" class="prompt"></textarea><div class="toolbar"><button class="tool primary" id="copyPrompt">📋 NovelAI 태그 복사</button><button class="tool" id="saveFavorite">⭐ 현재 조합 저장</button><button class="tool" id="copyKo">🇰🇷 한글 결과 복사</button></div><div class="status" id="status"></div></section>
 <section class="panel"><div class="head"><div><h2 class="title">05 · Negative Prompt</h2><p class="desc">기본값을 원하는 태그로 바꿔두면 브라우저가 기억합니다.</p></div></div><textarea id="negative" class="prompt negative"></textarea><div class="toolbar"><button class="tool primary" id="copyNegative">📋 Negative 태그 복사</button><button class="tool" id="resetNegative">↺ 기본값 복구</button><button class="tool" id="saveNegative">💾 네거티브 저장</button></div></section>
 <section class="panel"><div class="head"><div><h2 class="title">현재 한글 조합</h2></div></div><div id="summary" class="summary"></div></section>
 <section class="panel"><div class="head"><div><h2 class="title">저장된 조합</h2><p class="desc">즐겨찾기와 최근 10회 결과는 이 브라우저의 localStorage에 저장됩니다.</p></div></div><div class="saved-grid"><div><div class="tiny-label">⭐ 즐겨찾기</div><div id="favorites" class="list"></div></div><div><div class="tiny-label">🕘 최근 기록</div><div id="history" class="list"></div></div></div></section>
@@ -255,7 +255,7 @@ function specialPromptTags(){return [...document.querySelectorAll('[data-special
 function multiDistinctPromptTags(){return characterCount()>=3?['each person fully distinct, separate silhouettes, clear limb ownership, no merged bodies, no overlapping faces']:[]}
 function nsfwModeOn(){return $('nsfwMode')?.checked===true}
 function isNsfwGenre(){return nsfwModeOn()}
-function updateIntensityMode(){const sel=$('intensity');const hint=$('intensityHint');const nsfw=isNsfwGenre();if(sel)sel.disabled=!nsfw;if(hint)hint.textContent=nsfw?'🔥 NSFW 모드 · 수위 설정 사용 가능':'🔒 SFW 모드 · 수위 설정 잠금';document.querySelectorAll('[data-special-tag]').forEach(el=>{el.disabled=!nsfw;if(!nsfw)el.checked=false});const quickbox=$('promptQuickTags');if(quickbox)quickbox.style.opacity=nsfw?'1':'.58';}
+function updateIntensityMode(){const sel=$('intensity');const hint=$('intensityHint');const nsfw=isNsfwGenre();if(sel)sel.disabled=!nsfw;if(hint)hint.textContent=nsfw?'🔥 NSFW 모드 · 수위 설정 사용 가능':'🔒 SFW 모드 · 수위 설정 잠금';document.querySelectorAll('[data-special-tag]').forEach(el=>{el.disabled=!nsfw;if(!nsfw)el.checked=false});const quickbox=$('promptQuickTags');if(quickbox)quickbox.style.opacity=nsfw?'1':'.58';if(typeof updateQuickRecommendations==='function')updateQuickRecommendations();}
 function intensityWeight(){
   const v=intensityValue();
   return v==='light'?1:v==='dense'?2:v==='vulgar'?3:4; // extreme=4
@@ -882,9 +882,221 @@ const NSFW_CATEGORY_BY_GENRE = {
   }
 };
 
+const NSFW_CATEGORY_FAMILY_MAP = {
+  modern:{office_afterhours:'office',office_elevator:'office',office_storage:'office',office_meeting:'office',office_executive:'office',office_copyroom:'office',office_breakroom:'office',outdoor_park:'outdoor',outdoor_rooftop:'outdoor',outdoor_alley:'outdoor',outdoor_balcony:'outdoor',outdoor_car:'outdoor',outdoor_stairwell:'outdoor'},
+  fantasy:{dark_ritual:'dark',dark_demon:'dark',dark_cathedral:'dark',dark_throne:'dark',dark_library:'dark',dark_garden:'dark',dungeon_restraint:'dungeon',dungeon_training:'dungeon',dungeon_cell:'dungeon',dungeon_throne:'dungeon',dungeon_cage:'dungeon',dungeon_interrogation:'dungeon'},
+  guideverse:{guide_guiding:'guide',guide_aftermath:'guide',guide_emergency:'guide',guide_isolation:'guide',guide_observation:'guide',guide_recovery:'guide',guide_nightshift:'guide',guide_dorm:'guide',dungeon_restraint:'dungeon',dungeon_training:'dungeon'},
+  period:{period_restraint:'period',period_training:'period',period_cell:'period',period_ritual:'period',period_cathedral:'period',period_throne:'period',period_cell_bedchamber:'period',period_training_pavilion:'period',period_ritual_shrine:'period',period_throne_banquet:'period'}
+};
+
+const NSFW_PROFILE_SUPPLEMENTS = {
+  office:{
+    outfit:P(`살짝 흐트러진 셔츠 차림|slightly disheveled dress shirt;재킷을 벗어 둔 포멀웨어|formal wear with jacket removed;풀어진 넥타이와 셔츠|loosened tie and dress shirt;구김이 간 오피스룩|rumpled office attire;소매를 걷은 단정한 셔츠|rolled-up neat dress shirt`),
+    gaze:P(`업무적인 표정 아래 숨긴 뜨거운 시선|heated gaze beneath professional composure;문 쪽을 확인한 뒤 상대에게 고정되는 시선|gaze checking the door then fixing on partner;가까운 거리에서 상대 입술을 좇는 시선|gaze tracking partner's lips at close range;긴 하루 끝에 풀어진 시선|unguarded gaze after a long day`),
+    expression:P(`야근에 지쳤지만 열이 오른 얼굴|tired but flushed face;긴장을 숨기려는 얕은 미소|small smile hiding tension;입술을 살짝 깨문 상기된 표정|flushed expression, biting lower lip;숨을 고르며 풀어진 표정|breathless softened expression`),
+    prop:P(`느슨해진 넥타이|loosened necktie;사원증 목걸이|employee badge lanyard;구겨진 서류|creased office documents;손목시계|wristwatch;책상 위 펜|pen on desk`),
+    lighting:P(`야간 사무실의 차가운 조명|cool after-hours office lighting;모니터 잔광|monitor afterglow;블라인드 사이 도시 불빛|city lights through blinds;복도에서 새어 드는 빛|hallway light spilling in`),
+    mood:P(`업무적인 거리감이 무너지는 긴장|professional distance breaking down;조용한 건물 안의 은밀한 열기|secretive heat in a quiet building;발각될 수 있다는 얕은 긴박감|subtle risk of being discovered;긴 하루 뒤 억눌림이 풀리는 분위기|restrained desire loosening after a long day`),
+    composition:P(`손과 옷깃을 강조한 상반신 근접 구도|close upper-body framing emphasizing hands and collar;문과 가구를 프레임으로 활용한 투샷|two-shot framed by office furniture and doorway;사무실 조명을 배경에 둔 근거리 구도|close composition with office lights behind`)
+  },
+  outdoor:{
+    gaze:P(`주변을 경계하다 상대에게 돌아오는 시선|watchful gaze returning to partner;열린 공간에서 더 예민해진 시선|heightened gaze in an exposed setting;어둠 속에서 가까운 상대만 좇는 시선|gaze tracking only the nearby partner in darkness`),
+    expression:P(`밤공기에 달아오른 얼굴|flushed face in night air;긴장감에 숨이 얕아진 표정|shallow-breath tense expression;들킬 듯한 상황을 즐기는 미소|thrilled smile at the risk of discovery`),
+    prop:P(`난간|railing;젖은 포장도로|wet pavement;가로등|streetlamp;금속 문손잡이|metal door handle;외투|outer coat`),
+    lighting:P(`가로등과 도시 반사광|streetlights and city reflections;달빛과 어두운 그림자|moonlight and deep shadows;멀리서 번지는 네온빛|distant neon glow;젖은 바닥의 반사광|reflections on wet ground`),
+    mood:P(`열린 공간의 노출감이 만드는 긴장|tension from an exposed open setting;바람과 소음 사이의 은밀한 친밀감|secretive intimacy amid wind and distant noise;주변을 의식할수록 커지는 밀도|intensity heightened by awareness of surroundings`),
+    composition:P(`주변 환경과 인물을 함께 담은 와이드 투샷|wide two-shot including surrounding environment;난간이나 벽을 이용한 대각선 구도|diagonal composition using railing or wall;야간 조명을 배경으로 한 근접 인물 구도|close figure framing against night lights`),
+    weather:P(`선선한 밤공기|cool night air;약한 바람|light breeze;습한 여름밤|humid summer night;비가 갠 직후|just after rain`)
+  },
+  dark:{
+    outfit:P(`검은 레이스와 가죽 장식|black lace and leather accents;붉은 안감의 어두운 예복|dark attire with red lining;금속 장식이 달린 검은 로브|black robe with metal ornaments;실크와 하네스가 섞인 의식복|ritual silk mixed with harness details`),
+    gaze:P(`금기를 즐기듯 서늘한 시선|cold gaze savoring taboo;마력에 젖은 몽롱한 시선|arcane dazed gaze;상대만 집요하게 좇는 어두운 시선|dark fixated gaze;촛불 너머로 낮게 깔린 눈빛|low gaze through candlelight`),
+    expression:P(`위험한 여유가 묻은 미소|dangerously relaxed smile;금단의 열기에 상기된 얼굴|flushed face under forbidden heat;감각에 취한 나른한 표정|languid sensation-drunk expression;경건함과 욕망이 섞인 표정|expression mixing reverence and desire`),
+    prop:P(`검은 촛불|black candle;붉은 리본|red ribbon;흑요석 장신구|obsidian ornament;금속 사슬 장식|decorative metal chain;검은 성배|black chalice`),
+    lighting:P(`붉은 역광과 깊은 그림자|red backlight and deep shadow;촛불이 흔들리는 저조도|flickering low candlelight;마법진의 발광|glowing magic circle;스테인드글라스 색광|colored stained-glass light`),
+    mood:P(`신성함과 타락이 겹친 퇴폐미|decadent overlap of sacred and corrupted;금기를 공유하는 공모감|conspiratorial intimacy in shared taboo;마력과 욕망이 동시에 고조되는 분위기|arcane energy and desire rising together`),
+    composition:P(`촛불을 전경에 둔 근접 투샷|close two-shot with candles in foreground;마법진이나 문양을 프레임으로 활용한 구도|composition framed by sigils or magic circle;강한 역광의 실루엣 구도|silhouette composition with strong backlight`)
+  },
+  dungeon:{
+    outfit:P(`가죽 스트랩과 벨트 장식|leather straps and belt details;어두운 얇은 셔츠와 하네스|thin dark shirt and harness;구속 장식이 더해진 전투 후 차림|post-battle attire with restraint details;검은 장갑과 가죽 장비|black gloves and leather gear`),
+    pose:P(`벽이나 기둥에 가까이 선 자세|standing close to wall or pillar;좁은 공간에서 몸을 낮춘 자세|lowered posture in confined space;한쪽 무릎을 꿇은 긴장된 자세|tense one-knee kneeling pose;사슬 길이 안에서 몸을 기울인 자세|leaning within chain range`),
+    gaze:P(`경계와 욕망이 뒤섞인 날카로운 시선|sharp gaze mixed with vigilance and desire;상대의 반응을 시험하는 시선|testing gaze watching partner's reaction;좁은 거리에서 숨기지 않는 강한 시선|unhidden intense gaze at close distance`),
+    expression:P(`압박감에 상기된 얼굴|flushed face under pressure;참아내듯 이를 악문 표정|strained expression with gritted teeth;숨을 길게 내쉬며 풀어지는 표정|expression loosening on a long exhale;도발적인 반쪽 미소|provocative half-smile`),
+    prop:P(`가죽 벨트|leather belt;금속 고리|metal ring;사슬|chain;자물쇠와 열쇠|padlock and key;어두운 천 조각|dark cloth strip`),
+    lighting:P(`횃불의 흔들리는 빛|flickering torchlight;쇠창살 그림자|iron-bar shadows;붉은 비상등 같은 저조도|dim red warning-like light;돌벽에 번지는 낮은 빛|low light spreading across stone walls`),
+    mood:P(`좁은 공간의 압박감과 열기|pressure and heat in a confined space;힘의 균형을 의식하는 팽팽한 긴장|tense awareness of power balance;차갑고 거친 배경과 대비되는 체온감|body warmth contrasting with cold rough surroundings`),
+    composition:P(`사슬이나 창살을 전경으로 둔 투샷|two-shot with chains or bars in foreground;낮은 천장과 벽을 이용한 압박 구도|compressed composition using low ceiling and walls;손목과 손동작을 강조한 근접 구도|close framing emphasizing wrists and hand movement`)
+  },
+  guide:{
+    outfit:P(`센터 제복이 살짝 흐트러진 상태|slightly disheveled center uniform;얇은 회복복과 센터 하의|light recovery top and center-issued pants;편한 실내복과 손목 센서|comfortable indoor wear with wrist sensor;환자복 위 가벼운 가디건|patient gown with light cardigan`),
+    gaze:P(`생체 반응을 확인하듯 집중한 시선|focused gaze checking biometric response;상대의 호흡을 세는 듯한 시선|gaze tracking partner's breathing;불안정한 상태를 놓치지 않으려는 눈빛|attentive gaze refusing to lose track of instability;안정 후 풀어진 부드러운 시선|soft gaze after stabilization`),
+    expression:P(`집중 때문에 미간이 살짝 찌푸려진 얼굴|slightly furrowed focused face;안도와 열이 함께 남은 상기된 표정|flushed expression mixing relief and heat;숨이 찬 채 침착하려는 얼굴|breathless face trying to remain calm;긴장이 풀려 나른해진 표정|languid expression after tension releases`),
+    prop:P(`손목 센서|wrist sensor;생체 모니터|biometric monitor;억제기|suppression device;센터 담요|center blanket;기록 태블릿|medical record tablet`),
+    lighting:P(`모니터 블루라이트|blue monitor light;센터 야간 간접등|soft night lighting in center;붉은 비상등과 흰 의료등|red emergency light with white medical light;관찰창 너머 복도빛|hallway light through observation glass`),
+    mood:P(`안정화와 친밀감의 경계가 흐려지는 순간|boundary between stabilization and intimacy blurring;위기 뒤 찾아온 의존적인 평온|dependent calm after crisis;차가운 시설 안에서 유독 가까운 체온감|warm closeness inside a clinical facility`),
+    composition:P(`손과 센서를 함께 담은 근접 구도|close framing of hands and sensor;모니터 빛을 받은 얼굴 중심 투샷|face-focused two-shot lit by monitors;침상이나 관찰창을 배경에 둔 상반신 구도|upper-body composition with bed or observation window behind`)
+  },
+  period:{
+    outfit:P(`비단 겉옷이 살짝 흐트러진 차림|slightly loosened silk outer robe;흰 속적삼과 전통 띠|white traditional underlayer with sash;검은 도포와 붉은 장식|dark robe with red ornament;자수 저고리와 느슨한 고름|embroidered jeogori with loosened ribbon`),
+    gaze:P(`예법 아래 감춘 뜨거운 시선|heated gaze hidden beneath formal propriety;등잔불 아래 낮게 이어지는 눈빛|low sustained gaze under lamplight;말보다 오래 머무는 조용한 시선|quiet gaze lingering longer than words;금기를 의식하면서도 피하지 않는 눈빛|unflinching gaze aware of taboo`),
+    expression:P(`수줍음과 열이 동시에 오른 얼굴|face flushed with both shyness and heat;예의를 지키려다 무너지는 작은 미소|small smile breaking through propriety;숨을 삼킨 채 눈을 내리깐 표정|lowered gaze while holding breath;밤이 깊어지며 느슨해진 표정|softened expression as night deepens`),
+    prop:P(`비단 띠|silk sash;등잔|oil lamp;노리개|norigae ornament;부채|folding fan;붉은 매듭 장식|red knot ornament`),
+    lighting:P(`등잔불과 달빛|oil-lamp light and moonlight;창호지 너머 부드러운 빛|soft light through paper windows;촛불이 흔들리는 실내|flickering candlelit room;붉은 등불|red lantern light`),
+    mood:P(`예법과 금기의 경계가 흐려지는 긴장|tension where propriety and taboo blur;닫힌 공간 안의 절제된 열기|restrained heat in a closed chamber;고요한 밤에 더 크게 느껴지는 친밀감|intimacy amplified by a quiet night`),
+    composition:P(`병풍이나 문살을 프레임으로 활용한 구도|composition framed by folding screen or lattice;등잔불을 전경에 둔 상반신 투샷|upper-body two-shot with lamp in foreground;전통 실내의 수평선을 살린 안정적 구도|balanced composition using traditional interior lines`)
+  }
+};
+
+const NSFW_CATEGORY_MICRO_SUPPLEMENTS = {
+  modern:{
+    office_afterhours:{action:P(`업무 메신저를 끄고 상대에게 몸을 돌린다|turning away from work messenger toward partner;책상 서랍을 닫고 가까이 끌어당긴다|closing desk drawer and pulling partner close`)},
+    office_elevator:{action:P(`층수 숫자가 바뀔 때마다 더 가까워진다|moving closer as floor numbers change;도착음이 들리기 직전 숨을 멈춘다|holding breath just before elevator chime`)},
+    office_storage:{action:P(`서류 박스 사이 좁은 틈으로 상대를 이끈다|guiding partner into narrow gap between archive boxes;문고리를 잠근 뒤 선반에 손을 짚는다|locking the door and bracing a hand on shelf`)},
+    office_meeting:{action:P(`회의록을 덮고 테이블 끝에서 시선을 맞춘다|closing meeting minutes and locking eyes across table;화이트보드 마커를 내려놓고 상대에게 다가간다|setting down marker and moving closer`)},
+    office_executive:{action:P(`블라인드를 완전히 내리고 책상 앞에 선다|fully lowering blinds and standing before executive desk;고급 의자에서 일어나 상대의 허리 가까이 손을 둔다|rising from executive chair and moving a hand near partner's waist`)},
+    office_copyroom:{action:P(`복사 완료음이 울려도 서로 떨어지지 않는다|remaining close even as copier finishes;출력물을 집으려 숙인 순간 거리가 좁아진다|distance closing while reaching for printouts`)},
+    office_breakroom:{action:P(`커피를 식탁에 내려놓고 소파 쪽으로 이끈다|setting coffee down and guiding partner toward sofa;냉장고 불빛 앞에서 잠깐 멈춰 마주 본다|pausing face to face in refrigerator light`)},
+    outdoor_park:{action:P(`나무 그늘 깊은 곳으로 천천히 이동한다|moving slowly deeper beneath tree shadows;벤치 등받이에 손을 얹고 가까이 몸을 기울인다|leaning close with hand on bench back`)},
+    outdoor_rooftop:{action:P(`옥상 문이 닫히는 소리를 듣고 난간 쪽으로 이동한다|moving toward railing after rooftop door shuts;강한 바람 속에서 외투 자락을 잡아준다|holding partner's coat edge in strong wind`)},
+    outdoor_alley:{action:P(`골목 모퉁이를 확인한 뒤 벽 가까이 선다|checking alley corner then standing close to wall;간판 불빛 아래 상대를 가까이 당긴다|pulling partner closer under sign light`)},
+    outdoor_balcony:{action:P(`유리문을 닫고 테라스 난간에 나란히 선다|closing glass door and standing together at terrace rail;실내 파티 소리를 등지고 서로에게 집중한다|focusing on each other with party noise behind`)},
+    outdoor_car:{action:P(`안전벨트를 풀고 몸을 옆으로 돌린다|unfastening seatbelt and turning sideways;김이 서린 창문을 등지고 상대 쪽으로 몸을 기울인다|leaning toward partner with fogged window behind`)},
+    outdoor_stairwell:{action:P(`위층 문이 닫히는 소리를 기다렸다가 가까이 선다|waiting for upper door to close before moving close;난간 사이로 손을 뻗어 상대를 끌어당긴다|reaching across rail to pull partner closer`)}
+  },
+  fantasy:{
+    dark_ritual:{action:P(`마법진 가장자리를 따라 손끝으로 문양을 그린다|tracing sigils along magic-circle edge;의식의 마지막 촛불을 함께 끈다|extinguishing the final ritual candle together`)},
+    dark_demon:{action:P(`계약 문양이 빛나는 손목을 서로 맞댄다|pressing glowing pact-marked wrists together;악마 문양이 사라질 때까지 손을 놓지 않는다|keeping hands joined until demonic sigil fades`)},
+    dark_cathedral:{action:P(`긴 의자 사이에서 검은 묵주를 함께 쥔다|holding black rosary together between pews;제단 촛불을 가리듯 서로 가까이 선다|standing close enough to block altar candlelight`)},
+    dark_throne:{action:P(`왕관을 벗어 왕좌 팔걸이에 내려놓는다|removing crown and setting it on throne armrest;붉은 카펫 끝에서 상대를 왕좌 곁으로 부른다|beckoning partner from red carpet to throne`)},
+    dark_library:{action:P(`금서의 봉인을 함께 풀며 손끝이 겹친다|fingertips overlapping while breaking grimoire seal;서가 사다리 아래에서 서로를 올려다본다|looking up at each other beneath library ladder`)},
+    dark_garden:{action:P(`장미 가시에 걸린 옷자락을 서로 풀어준다|freeing clothing caught on rose thorns;온실 유리창의 물방울을 손끝으로 쓸어내린다|tracing condensation on greenhouse glass`)},
+    dungeon_restraint:{action:P(`구속구 버클을 하나씩 확인하며 거리를 좁힌다|checking restraint buckles one by one while closing distance;묶인 손목을 받쳐 들고 상태를 확인한다|supporting bound wrists and checking comfort`)},
+    dungeon_training:{action:P(`정해 둔 신호를 확인한 뒤 자세를 바로잡는다|checking agreed signal before correcting posture;손 위치를 천천히 바꿔가며 반응을 살핀다|slowly changing hand position while watching response`)},
+    dungeon_cell:{action:P(`감옥문 작은 창으로 서로의 얼굴을 확인한다|checking each other's faces through cell-door window;열쇠를 돌린 뒤에도 한동안 문 앞에 서 있다|remaining at cell door after turning key`)},
+    dungeon_throne:{action:P(`지하 왕좌 계단 아래에서 고개를 들어 상대를 본다|looking up from steps below underground throne;왕좌 팔걸이에 손을 짚고 가까이 몸을 기울인다|leaning closer with hand on throne armrest`)},
+    dungeon_cage:{action:P(`창살 사이로 손가락을 얽는다|intertwining fingers through bars;자물쇠를 열고도 바로 철장 밖으로 나오지 않는다|remaining inside cage even after lock opens`)},
+    dungeon_interrogation:{action:P(`질문 사이 긴 침묵에 서로의 숨소리만 남는다|only breathing remaining in silence between questions;돌 테이블 위 문서를 밀어내고 상대에게 시선을 고정한다|pushing documents aside and fixing gaze on partner`)}
+  },
+  guideverse:{
+    guide_guiding:{action:P(`가이딩 수치가 안정될 때까지 손바닥을 맞댄다|keeping palms together until guiding readings stabilize;호흡을 세며 접촉 강도를 천천히 조절한다|slowly adjusting contact while counting breaths`)},
+    guide_aftermath:{action:P(`안정화가 끝난 뒤에도 손을 놓지 못한다|unable to let go even after stabilization ends;침상에 기대 서로의 호흡이 가라앉는 걸 기다린다|waiting together for breathing to settle by bedside`)},
+    guide_emergency:{action:P(`경보음 속에서도 상대의 이름을 부르며 집중시킨다|calling partner's name through alarms to keep focus;응급 억제기를 옆에 두고 직접 접촉을 유지한다|maintaining direct contact with emergency suppressor nearby`)},
+    guide_isolation:{action:P(`격리문이 열리자마자 서로의 손목 상태를 확인한다|checking each other's wrists as isolation door opens;관찰창 블라인드를 내리고 침상 가까이 앉는다|lowering observation blind and sitting near bed`)},
+    guide_observation:{action:P(`그래프 변화를 확인하며 손 위치를 바꾼다|adjusting hand placement while watching graph changes;기록 태블릿을 내려놓고 상대의 얼굴만 본다|setting record tablet aside to watch partner's face`)},
+    guide_recovery:{action:P(`심박이 떨어지는 걸 확인하고 담요를 끌어올린다|pulling blanket higher after heart rate settles;침상 옆 조명을 낮추고 가까이 앉는다|dimming bedside light and sitting close`)},
+    guide_nightshift:{action:P(`당직 호출이 없는 틈에 소파로 자리를 옮긴다|moving to sofa during a quiet on-call interval;기록지를 접어두고 짧게 서로에게 기대 쉰다|folding shift notes away and leaning together to rest`)},
+    guide_dorm:{action:P(`숙소 문 잠금 표시를 확인하고 침대 가장자리에 앉는다|checking locked dorm door and sitting on bed edge;억제기를 충전기에 두고 편하게 기대 앉는다|placing suppressor on charger and relaxing together`)},
+    dungeon_restraint:{action:P(`센터용 안전 구속구의 잠금 강도를 확인한다|checking tension of center-issued safety restraints;해제 장치를 손 닿는 곳에 둔 채 자세를 맞춘다|keeping release control within reach while adjusting posture`)},
+    dungeon_training:{action:P(`가이딩 반응 수치를 보며 훈련 단계를 조절한다|adjusting training stage according to guiding response;사전 합의한 중단 신호를 다시 확인한다|reconfirming agreed stop signal before continuing`)}
+  },
+  period:{
+    period_restraint:{action:P(`비단 띠의 매듭을 천천히 확인한다|slowly checking knots of silk sash;손목 아래에 천을 덧대어 편하게 고정한다|padding beneath wrists before securing silk ties`)},
+    period_training:{action:P(`정해 둔 예법 신호를 확인한 뒤 자세를 가르친다|checking agreed etiquette signal before guiding posture;낮은 목소리로 하나씩 지시하며 반응을 살핀다|giving quiet step-by-step directions while watching response`)},
+    period_cell:{action:P(`별채 문빗장을 걸고 등잔을 가까이 가져온다|bolting annex door and bringing lamp closer;창호지 밖 인기척을 확인한 뒤 다시 마주 앉는다|checking sounds beyond paper door then sitting face to face`)},
+    period_ritual:{action:P(`제의 문양 위에 붉은 실을 함께 놓는다|placing red thread together over ritual sigil;향 연기가 잦아들 때까지 손끝을 맞댄다|keeping fingertips together until incense thins`)},
+    period_cathedral:{action:P(`검은 묵주를 천천히 손바닥 사이에 놓는다|placing black rosary slowly between palms;촛불 하나를 남기고 나머지를 함께 끈다|extinguishing all but one candle together`)},
+    period_throne:{action:P(`왕좌 곁 낮은 자리에 상대를 앉힌다|seating partner on low place beside throne;옥잔을 내려놓고 휘장 안쪽으로 이끈다|setting jade cup down and guiding behind drapery`)},
+    period_cell_bedchamber:{action:P(`병풍을 조금 옮겨 침방 안쪽을 가린다|moving folding screen to hide inner bedchamber;비단 이불 끝을 정리하며 가까이 앉는다|smoothing silk bedding and sitting closer`)},
+    period_training_pavilion:{action:P(`붓을 벼루 위에 내려놓고 손 모양을 직접 바로잡는다|setting brush on inkstone and correcting hand shape;서책을 덮은 뒤 예절 자세를 다시 확인한다|closing book and rechecking formal posture`)},
+    period_ritual_shrine:{action:P(`향로 뚜껑을 닫고 붉은 띠를 함께 묶는다|closing incense burner and tying red sash together;제단 등불 아래 서로의 손등에 문양을 그린다|drawing ritual marks on each other's hands under lanterns`)},
+    period_throne_banquet:{action:P(`연회 음악이 멀어지는 동안 휘장 안쪽에 머문다|remaining behind drapery as banquet music fades;옥잔을 서로 바꿔 들고 짧게 눈을 맞춘다|exchanging jade cups and holding brief eye contact`)}
+  }
+};
+
+const NSFW_CATEGORY_PROFILE_MAP = {
+  modern:{office_afterhours:'office_desk',office_elevator:'confined_vertical',office_storage:'confined_shelves',office_meeting:'office_table',office_executive:'office_luxury',office_copyroom:'office_machine',office_breakroom:'lounge',outdoor_park:'outdoor_nature',outdoor_rooftop:'outdoor_height',outdoor_alley:'outdoor_urban',outdoor_balcony:'outdoor_height',outdoor_car:'vehicle',outdoor_stairwell:'stairwell'},
+  fantasy:{dark_ritual:'ritual',dark_demon:'demonic',dark_cathedral:'sacred_dark',dark_throne:'throne_dark',dark_library:'library_dark',dark_garden:'garden_dark',dungeon_restraint:'restraint',dungeon_training:'training',dungeon_cell:'cell',dungeon_throne:'throne_dungeon',dungeon_cage:'cage',dungeon_interrogation:'interrogation'},
+  guideverse:{guide_guiding:'medical_guiding',guide_aftermath:'recovery',guide_emergency:'emergency',guide_isolation:'isolation',guide_observation:'observation',guide_recovery:'recovery',guide_nightshift:'nightshift',guide_dorm:'dorm',dungeon_restraint:'restraint',dungeon_training:'training'},
+  period:{period_restraint:'period_restraint',period_training:'period_training',period_cell:'period_cell',period_ritual:'period_ritual',period_cathedral:'period_shrine',period_throne:'period_court',period_cell_bedchamber:'period_bed',period_training_pavilion:'period_study',period_ritual_shrine:'period_shrine',period_throne_banquet:'period_court'}
+};
+
+const QUICK_TAG_LABELS = {
+  'speed lines':'움직임','shaky lines':'떨림','dashed lines':'파선','motion blur':'잔상','action lines':'액션선','impact lines':'충격선','focus lines':'집중선','dynamic angle':'역동구도','hickey':'키스마크','bite mark':'이빨자국','scratch marks':'긁힌자국','lipstick mark':'립스틱자국','sweat':'땀','saliva':'침','open mouth, concentrated white turbidity in mouth, blush':'입안백탁'
+};
+
+const NSFW_QUICK_RECOMMENDATIONS = {
+  office_desk:['hickey','lipstick mark','sweat'],confined_vertical:['shaky lines','speed lines','hickey','sweat'],confined_shelves:['shaky lines','hickey','scratch marks'],office_table:['focus lines','hickey','lipstick mark'],office_luxury:['dynamic angle','hickey','lipstick mark','sweat'],office_machine:['shaky lines','hickey','sweat'],lounge:['hickey','lipstick mark','sweat'],outdoor_nature:['speed lines','shaky lines','sweat','hickey'],outdoor_height:['dynamic angle','speed lines','hickey','sweat'],outdoor_urban:['shaky lines','speed lines','hickey','scratch marks'],vehicle:['shaky lines','motion blur','hickey','sweat'],stairwell:['shaky lines','speed lines','hickey','sweat'],
+  ritual:['focus lines','dashed lines','hickey','saliva'],demonic:['impact lines','shaky lines','bite mark','scratch marks'],sacred_dark:['focus lines','hickey','lipstick mark','saliva'],throne_dark:['dynamic angle','hickey','bite mark','sweat'],library_dark:['focus lines','hickey','lipstick mark'],garden_dark:['hickey','lipstick mark','sweat'],restraint:['shaky lines','impact lines','bite mark','scratch marks'],training:['speed lines','shaky lines','impact lines','sweat'],cell:['shaky lines','hickey','scratch marks','saliva'],throne_dungeon:['dynamic angle','impact lines','bite mark','sweat'],cage:['shaky lines','dashed lines','scratch marks','sweat'],interrogation:['focus lines','impact lines','hickey','sweat'],
+  medical_guiding:['shaky lines','focus lines','sweat','saliva'],recovery:['hickey','sweat','saliva'],emergency:['speed lines','shaky lines','motion blur','sweat'],isolation:['hickey','focus lines','sweat'],observation:['focus lines','shaky lines','sweat'],nightshift:['hickey','sweat','lipstick mark'],dorm:['hickey','lipstick mark','sweat','saliva'],
+  period_restraint:['shaky lines','bite mark','scratch marks','sweat'],period_training:['shaky lines','hickey','sweat'],period_cell:['dashed lines','shaky lines','hickey'],period_ritual:['focus lines','dashed lines','hickey'],period_shrine:['focus lines','hickey','lipstick mark'],period_court:['dynamic angle','hickey','lipstick mark','sweat'],period_bed:['hickey','lipstick mark','sweat','saliva'],period_study:['focus lines','hickey','sweat']
+};
+
+const NSFW_CONFLICT_PROFILES = {
+  confined_vertical:{pose:[/lying|all fours|spread legs on bed|bed edge/],prop:[/large table|altar|throne|iv stand|shopping cart|large sword/],background:[/forest|garden|ward|bedroom/]},
+  confined_shelves:{pose:[/lying on bed|all fours|throne/],prop:[/iv stand|sword|staff|shopping cart|steering wheel/],action:[/driving|riding|battle stance|casting magic/]},
+  office_table:{pose:[/lying on stomach|all fours|kneeling at altar/],prop:[/chains|whip|sword|staff|iv stand|bed pillow/],mood:[/battlefield|ritual|festival/]},
+  office_luxury:{prop:[/iron bars|torch|iv stand|shopping cart|ritual dagger/],outfit:[/hospital gown|full armor|ritual robe/],action:[/casting|praying|battle stance/]},
+  office_machine:{prop:[/sword|staff|iv stand|chains|steering wheel/],action:[/battle|praying|riding|medical/],pose:[/lying on bed|throne/]},
+  lounge:{prop:[/sword|staff|chains|iv stand|ritual dagger/],outfit:[/full armor|ritual robe|hospital gown/],mood:[/battlefield|solemn ritual/]},
+  vehicle:{pose:[/standing full body|kneeling at altar|lying on bed|all fours/],prop:[/large sword|staff|iv stand|office copier|throne/],action:[/walking together|running|battle stance|praying|serving customers/]},
+  stairwell:{pose:[/lying on bed|sitting on throne|all fours/],prop:[/iv stand|large sword|office copier|bed pillow/],action:[/driving|riding|casting ritual/]},
+  outdoor_nature:{prop:[/iv stand|office copier|monitor|conference documents|throne/],outfit:[/hospital gown|business suit, loosened tie|full plate armor/],lighting:[/fluorescent office|hospital lighting/]},
+  outdoor_height:{prop:[/bed pillow|iv stand|shopping cart|office copier/],pose:[/lying on bed|all fours/],weather:[/indoor|hospital/]},
+  outdoor_urban:{prop:[/iv stand|throne|altar|large staff/],outfit:[/ritual robe|hospital gown|full plate armor/],action:[/praying at altar|tending wounds|reading spellbook/]},
+  ritual:{prop:[/smartphone|laptop|coffee cup|employee id|steering wheel/],outfit:[/business suit|hoodie|lab coat|tracksuit/],lighting:[/office fluorescent|dashboard glow/]},
+  demonic:{prop:[/smartphone|laptop|office documents|iv stand|shopping cart/],outfit:[/business suit|hospital gown|school uniform/],mood:[/casual everyday|cheerful festival/]},
+  sacred_dark:{prop:[/smartphone|laptop|office copier|iv stand|steering wheel/],outfit:[/hoodie|tracksuit|business suit/],lighting:[/fluorescent office|dashboard/]},
+  throne_dark:{pose:[/office chair|car seat|hospital bed/],prop:[/office copier|laptop|iv stand|shopping cart/],outfit:[/lab coat|hospital gown|business suit/]},
+  library_dark:{action:[/driving|running|battle stance|serving customers/],prop:[/steering wheel|iv stand|office copier|shopping cart/],lighting:[/bright hospital|fluorescent office/]},
+  garden_dark:{prop:[/office documents|iv stand|laptop|shopping cart/],outfit:[/business suit|lab coat|hospital gown/],action:[/briefing|checking monitor|driving/]},
+  restraint:{prop:[/smartphone|laptop|coffee cup|shopping cart|umbrella/],outfit:[/business suit|school uniform|lab coat|swimsuit/],mood:[/cheerful festival|casual everyday/]},
+  training:{prop:[/smartphone|laptop|shopping cart|cocktail glass/],outfit:[/business suit|school uniform|swimsuit/],mood:[/festival|casual everyday/]},
+  cell:{prop:[/smartphone|laptop|office documents|coffee machine|steering wheel/],outfit:[/business suit|lab coat|swimsuit/],lighting:[/bright office|daylight cafe/]},
+  throne_dungeon:{prop:[/smartphone|laptop|iv stand|office copier/],outfit:[/business suit|lab coat|hospital gown/],action:[/driving|serving customers|briefing/]},
+  cage:{prop:[/smartphone|laptop|coffee cup|steering wheel|office copier/],pose:[/office chair|car seat/],lighting:[/bright office|hospital white light/]},
+  interrogation:{prop:[/shopping cart|coffee machine|iv stand|smartphone/],outfit:[/school uniform|swimsuit|lab coat/],mood:[/cheerful|festival/]},
+  medical_guiding:{prop:[/sword|staff|chalice|throne|shopping cart/],outfit:[/full armor|ritual robe|festival attire/],action:[/battle stance|praying|riding horse/]},
+  recovery:{prop:[/sword|staff|throne|shopping cart|office copier/],outfit:[/full armor|ritual robe|business suit/],action:[/battle stance|running|market shopping/]},
+  emergency:{prop:[/wine glass|throne|ritual dagger|shopping cart/],outfit:[/party dress|ritual robe|business suit/],mood:[/cheerful|festival|romantic date/]},
+  isolation:{prop:[/sword|staff|cocktail glass|shopping cart/],outfit:[/full armor|festival attire/],action:[/battle stance|dancing|shopping/]},
+  observation:{prop:[/sword|staff|throne|shopping cart|cocktail glass/],outfit:[/full armor|ritual robe/],action:[/riding|battle stance|festival/]},
+  nightshift:{prop:[/sword|staff|throne|ritual dagger/],outfit:[/full armor|ritual robe|party dress/],mood:[/festival|battlefield/]},
+  dorm:{prop:[/sword|staff|iv stand|office copier|throne/],outfit:[/full armor|ritual robe|formal suit/],action:[/battle stance|briefing|riding/]},
+  period_restraint:{prop:[/smartphone|laptop|iv stand|coffee machine|steering wheel/],outfit:[/business suit|lab coat|tracksuit/],lighting:[/fluorescent office|dashboard glow/]},
+  period_training:{prop:[/smartphone|laptop|iv stand|office copier/],outfit:[/business suit|hoodie|lab coat/],action:[/checking smartphone|using laptop|driving/]},
+  period_cell:{prop:[/smartphone|laptop|iv stand|office documents/],outfit:[/business suit|hospital gown|hoodie/],lighting:[/fluorescent office|monitor glow/]},
+  period_ritual:{prop:[/smartphone|laptop|office copier|steering wheel/],outfit:[/business suit|tracksuit|lab coat/],action:[/checking phone|driving|briefing/]},
+  period_shrine:{prop:[/smartphone|laptop|coffee machine|iv stand/],outfit:[/business suit|hoodie|lab coat/],lighting:[/fluorescent office|dashboard/]},
+  period_court:{prop:[/smartphone|laptop|iv stand|office copier/],outfit:[/business suit|tracksuit|lab coat/],action:[/checking tablet|driving|office briefing/]},
+  period_bed:{prop:[/smartphone|laptop|iv stand|office copier/],outfit:[/business suit|lab coat|full armor/],action:[/battle stance|driving|briefing/]},
+  period_study:{prop:[/smartphone|laptop|iv stand|steering wheel/],outfit:[/business suit|lab coat|tracksuit/],action:[/driving|checking tablet|serving customers/]}
+};
+
 function activeCategoryLibrary(){
   if(isNsfwGenre()) return NSFW_CATEGORY_BY_GENRE[genre.value]||{};
   return DB[genre.value]?.categories||{};
+}
+function currentCategoryFamily(){return NSFW_CATEGORY_FAMILY_MAP[genre.value]?.[category.value]||''}
+function currentCategoryProfile(){return NSFW_CATEGORY_PROFILE_MAP[genre.value]?.[category.value]||''}
+function categorySupplementPool(catKey,type){
+  if(!isNsfwGenre()) return [];
+  const family=NSFW_CATEGORY_FAMILY_MAP[genre.value]?.[catKey]||'';
+  const familyPool=NSFW_PROFILE_SUPPLEMENTS[family]?.[type]||[];
+  const microPool=NSFW_CATEGORY_MICRO_SUPPLEMENTS[genre.value]?.[catKey]?.[type]||[];
+  return [...familyPool,...microPool];
+}
+function updateQuickRecommendations(){
+  const hint=$('quickRecommendHint');
+  const labels=[...document.querySelectorAll('#promptQuickTags .mini-prompt-check')];
+  labels.forEach(l=>l.classList.remove('recommended'));
+  if(!isNsfwGenre()){
+    if(hint){hint.textContent='NSFW 모드를 켜면 현재 장르/카테고리에 어울리는 효과를 추천 표시합니다.';hint.classList.remove('on')}
+    return;
+  }
+  const profile=currentCategoryProfile();
+  let rec=[...(NSFW_QUICK_RECOMMENDATIONS[profile]||[])];
+  if(intensityWeight()>=3 && ['medical_guiding','recovery','dorm','restraint','training','period_bed'].includes(profile)) rec.push('open mouth, concentrated white turbidity in mouth, blush');
+  rec=[...new Set(rec)];
+  labels.forEach(l=>{const input=l.querySelector('[data-special-tag]');if(input&&rec.includes(input.getAttribute('data-special-tag')))l.classList.add('recommended')});
+  if(hint){hint.textContent=rec.length?`✨ 현재 카테고리 추천 · ${rec.map(x=>QUICK_TAG_LABELS[x]||x).join(' · ')}`:'현재 카테고리에는 별도 추천 효과가 없습니다.';hint.classList.toggle('on',rec.length>0)}
+}
+function conflictsWithCategoryProfile(type,textValue){
+  if(!isNsfwGenre()) return false;
+  const profile=currentCategoryProfile();
+  const rules=NSFW_CONFLICT_PROFILES[profile];
+  if(!rules) return false;
+  const list=rules[type]||[];
+  return list.some(re=>re.test(textValue));
 }
 
 /* =========================================================
@@ -1580,6 +1792,7 @@ function conflictsWithNsfwGenre(type,item){
   const t=`${item.ko||''} ${item.en||''}`.toLowerCase();
   const ctx=currentNsfwContext();
   const has=(re)=>re.test(t);
+  if(conflictsWithCategoryProfile(type,t)) return true;
   if(ctx.startsWith('modern::office_')){
     if(type==='outfit'&&has(/armor|robe|ritual|cleric|hospital gown|swimsuit|bikini/)) return true;
     if(type==='prop'&&has(/sword|bow|staff|torch|chalice|rosary|shopping cart|iv stand/)) return true;
@@ -1694,7 +1907,7 @@ function conflictsWithContext(type,item){
 }
 function applyConflictFilter(pool,type){if(!conflictPreventionOn())return pool;const filtered=pool.filter(x=>!conflictsWithContext(type,x));return filtered.length?filtered:pool}
 function enforceSmartConflicts(){if(!conflictPreventionOn())return;const order=['background','outfit','weather','lighting','prop','pose','composition','gaze','action','expression','mood'];for(let pass=0;pass<5;pass++){order.forEach(type=>{const cur=state.selected[type];if(cur&&conflictsWithContext(type,cur)&&!state.locked[type])state.selected[type]=choose(type)})}}
-function specific(type){const cats=activeCategoryLibrary(),c=category.value;if(c==='__all'){let out=[];Object.values(cats).forEach(x=>out.push(...(x[type]||[])));return out}return cats[c]?.[type]||[]}
+function specific(type){const cats=activeCategoryLibrary(),c=category.value;if(c==='__all'){let out=[];Object.entries(cats).forEach(([key,x])=>{out.push(...(x[type]||[]),...categorySupplementPool(key,type))});return out}return [...(cats[c]?.[type]||[]),...categorySupplementPool(c,type)]}
 function poolFor(type){
   let base=[];
   if(COMMON[type])base.push(...COMMON[type]);
@@ -1894,7 +2107,7 @@ function loadSettings(){
   else negative.value=$('negativeBase').value
 }
 cards.addEventListener('click',e=>{const a=e.target.closest('[data-lock],[data-reroll],[data-toggle]');if(!a)return;if(a.dataset.lock)toggleLock(a.dataset.lock);if(a.dataset.toggle)toggleActive(a.dataset.toggle);if(a.dataset.reroll){rollSlot(a.dataset.reroll,true);render();addHistory()}});
-$('rollAll').onclick=()=>{rollAll(true);trackAnalytics('roll')};genre.onchange=()=>{loadCategories(false);populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();updateIntensityMode();render();buildPrompt();buildSummary();saveSettings()};category.onchange=()=>{updateIntensityMode();rollAll(false);buildPrompt();buildSummary();saveSettings()};$('nsfwMode').addEventListener('change',()=>{updateIntensityMode();loadCategories(false);render();buildPrompt();buildSummary();saveSettings();show(`🔞 NSFW 모드 ${isNsfwGenre()?'ON':'OFF'}`);});
+$('rollAll').onclick=()=>{rollAll(true);trackAnalytics('roll')};genre.onchange=()=>{loadCategories(false);populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();updateIntensityMode();updateQuickRecommendations();render();buildPrompt();buildSummary();saveSettings()};category.onchange=()=>{updateIntensityMode();updateQuickRecommendations();rollAll(false);buildPrompt();buildSummary();saveSettings()};$('nsfwMode').addEventListener('change',()=>{updateIntensityMode();loadCategories(false);updateQuickRecommendations();render();buildPrompt();buildSummary();saveSettings();show(`🔞 NSFW 모드 ${isNsfwGenre()?'ON':'OFF'}`);});
 $('lockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=true);render()};$('unlockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=false);render()};$('enableAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.active[k]=true);render()};
 ['quality','style','customTags','randomCategory','avoidSame','smartConflict','intensity','userGenderMode','userBodyMode'].forEach(id=>{
   const el=$(id);
@@ -1907,6 +2120,7 @@ $('lockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=true);re
       });
       enforceSmartConflicts();
       render();
+      updateQuickRecommendations();
       show('🔥 수위가 변경되어 관련 슬롯을 다시 뽑았습니다.');
     }
     if(id==='userGenderMode'||id==='userBodyMode') updateUserCharacterHint();
