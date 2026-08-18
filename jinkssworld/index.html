@@ -247,7 +247,7 @@ body.has-nsfw-banner{padding-top:58px}
 <footer><div>문의사항 X : <a href="https://x.com/Jin_k__wf" target="_blank" rel="noopener noreferrer">@Jin_k__wf</a></div><div>NSFW Asset Gacha v1.1 · GitHub Pages Ready · LocalStorage · 18+</div><div style="margin-top:5px"><button type="button" id="analyticsPing" style="border:0;background:transparent;color:#6f6978;font-size:8px;cursor:pointer">통계 연결 테스트 · v1 NSFW</button></div></footer>
 </div>
 <script>
-const APP_VERSION='1.1-NSFW';
+const APP_VERSION='1.2-NSFW-SHEET-WRITE';
 const E=(ko,en)=>({ko,en});
 /* ===== INTENSITY (수위) ===== */
 function intensityValue(){const el=$('intensity');return el?el.value:'dense'}
@@ -1589,26 +1589,75 @@ function requestGoogleCounter(attempt=0){
   }
 }
 
+function analyticsRequestId(eventName){
+  return [analyticsClientId().slice(0,18),String(eventName||'evt'),Date.now().toString(36),Math.random().toString(36).slice(2,8)].join('-');
+}
+function postAnalyticsFormFallback(params){
+  try{
+    let frame=document.getElementById('analyticsSubmitFrame');
+    if(!frame){
+      frame=document.createElement('iframe');
+      frame.id='analyticsSubmitFrame';
+      frame.name='analyticsSubmitFrame';
+      frame.title='analytics submit frame';
+      frame.setAttribute('aria-hidden','true');
+      frame.tabIndex=-1;
+      frame.style.cssText='position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;border:0;pointer-events:none;visibility:hidden';
+      document.body.appendChild(frame);
+    }
+    const form=document.createElement('form');
+    form.method='POST';
+    form.action=GUESTBOOK_WEB_APP_URL;
+    form.target='analyticsSubmitFrame';
+    form.style.display='none';
+    params.forEach((value,key)=>{
+      const input=document.createElement('input');
+      input.type='hidden'; input.name=key; input.value=value;
+      form.appendChild(input);
+    });
+    document.body.appendChild(form);
+    HTMLFormElement.prototype.submit.call(form);
+    setTimeout(()=>form.remove(),1800);
+    return true;
+  }catch(err){
+    console.warn('[Asset Gacha Usage] form fallback failed:',err);
+    return false;
+  }
+}
 function postAnalyticsBeacon(payload){
   try{
     if(!GUESTBOOK_WEB_APP_URL) return false;
     const params=new URLSearchParams();
     Object.entries(payload).forEach(([key,value])=>params.set(key,String(value??'')));
-    params.set('callback',ANALYTICS_CALLBACK);
-    params.set('requestId',String(++analyticsRequestSeq));
+    if(!params.get('requestId')) params.set('requestId',analyticsRequestId(payload.event));
     params.set('_',String(Date.now()));
-    return appendJsonpScript(params,()=>{
-      console.warn('[Asset Gacha Analytics] JSONP request failed');
-    });
+
+    // 쓰기 전송은 cross-origin 응답을 읽을 필요가 없으므로 POST + no-cors가 가장 안정적입니다.
+    if(typeof fetch==='function'){
+      fetch(GUESTBOOK_WEB_APP_URL,{
+        method:'POST',
+        mode:'no-cors',
+        cache:'no-store',
+        keepalive:true,
+        headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},
+        body:params.toString()
+      }).catch(err=>{
+        console.warn('[Asset Gacha Usage] POST fetch failed; using form fallback:',err);
+        postAnalyticsFormFallback(params);
+      });
+      return true;
+    }
+    return postAnalyticsFormFallback(params);
   }catch(err){
-    console.warn('[Asset Gacha Analytics] request failed:',err);
+    console.warn('[Asset Gacha Usage] request failed:',err);
     return false;
   }
 }
 function trackAnalytics(eventName){
   const payload={
-    kind:'analytics',
+    kind:'usage',
     event:String(eventName||''),
+    requestId:analyticsRequestId(eventName),
     clientId:analyticsClientId(),
     genre:genre.value||'',
     genreLabel:analyticsGenreLabel(),
@@ -1626,13 +1675,13 @@ function trackAnalytics(eventName){
     page:location.href
   };
   const sent=postAnalyticsBeacon(payload);
-  if(eventName==='roll'){setTimeout(()=>requestCounterFrame(),650);setTimeout(()=>{if(!counterResolvedAt)requestGoogleCounter(0)},1200);}
+  if(eventName==='roll'){setTimeout(()=>requestCounterFrame(),950);setTimeout(()=>requestGoogleCounter(0),1800);}
   return sent;
 }
 
 function analyticsDebugTest(){
-  const ok=trackAnalytics('roll');
-  console.log('[Asset Gacha Analytics] JSONP submitted:',ok,'endpoint:',GUESTBOOK_WEB_APP_URL);
+  const ok=trackAnalytics('analytics_test');
+  console.log('[Asset Gacha Usage] POST submitted:',ok,'endpoint:',GUESTBOOK_WEB_APP_URL);
   return ok;
 }
 if(new URLSearchParams(location.search).get('analytics-debug')==='1'){
@@ -2250,8 +2299,8 @@ function submitGuestbook(event){
 const analyticsPingBtn=$('analyticsPing');
 if(analyticsPingBtn){
   analyticsPingBtn.addEventListener('click',()=>{
-    const ok=trackAnalytics('roll');
-    show(ok?'📊 통계 테스트 요청을 보냈습니다. 사용통계 탭을 확인해주세요.':'⚠️ 통계 전송 함수를 실행하지 못했습니다.');
+    const ok=trackAnalytics('analytics_test');
+    show(ok?'📊 연동 테스트를 전송했습니다. 구글 시트 사용통계 탭에서 analytics_test 행을 확인해주세요.':'⚠️ 통계 전송 함수를 실행하지 못했습니다.');
   });
 }
 
