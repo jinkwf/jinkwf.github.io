@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#0e0c12">
+<title>NSFW 에셋 랜덤 프롬프트 생성기.v1</title>
+<style>
+:root{--bg:#0e0c12;--panel:#17141d;--panel2:#201c28;--panel3:#292333;--line:rgba(255,255,255,.09);--text:#f7f3fa;--sub:#aaa3b4;--accent:#a68cff;--pink:#e694c4;--gold:#f0c978;--green:#9fdfb6;--red:#ff9aa5;--shadow:0 20px 60px rgba(0,0,0,.35)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 8% 0,rgba(166,140,255,.13),transparent 27%),radial-gradient(circle at 100% 15%,rgba(230,148,196,.08),transparent 27%),var(--bg);color:var(--text);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif}button,select,input,textarea{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}.page{width:min(1220px,calc(100% - 28px));margin:auto;padding:28px 0 70px}.hero,.panel{border:1px solid var(--line);background:rgba(23,20,29,.96);box-shadow:var(--shadow)}.hero{position:relative;overflow:hidden;border-radius:26px;padding:31px;margin-bottom:17px}.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-100px;top:-135px;background:rgba(166,140,255,.12);filter:blur(12px);pointer-events:none}.eyebrow{font-size:10px;font-weight:900;letter-spacing:.2em;color:var(--accent)}
+.eyebrow-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.version-badge{display:inline-flex;align-items:center;justify-content:center;padding:3px 7px;border-radius:999px;border:1px solid rgba(166,140,255,.3);background:rgba(166,140,255,.1);color:#d7ccff;font-size:8px;font-weight:900;letter-spacing:.08em}.hero h1{font-size:clamp(28px,5vw,43px);letter-spacing:-.045em;line-height:1.08;margin:0}.hero p{max-width:860px;color:var(--sub);font-size:13px;line-height:1.7;margin:12px 0 0}.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px}.chip{font-size:10px;padding:7px 10px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.03);color:#d2cbd8}.panel{border-radius:20px;padding:20px;margin-bottom:16px}.head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:14px}.title{margin:0;font-size:15px}.desc{color:var(--sub);font-size:10px;line-height:1.5;margin:4px 0 0}.select-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field label,.tiny-label{display:block;font-size:9px;font-weight:850;color:#bbb4c4;margin:0 0 6px 2px;letter-spacing:.05em}select,input[type=text],textarea{width:100%;outline:none;color:var(--text);background:var(--panel2);border:1px solid var(--line);border-radius:12px}select,input[type=text]{height:45px;padding:0 12px}select:focus,input:focus,textarea:focus{border-color:rgba(166,140,255,.5)}select option{background:#fff!important;color:#111!important}select option:checked{background:#2d73d5!important;color:#fff!important}.options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.opt{min-width:0;padding:10px 11px;border:1px solid var(--line);border-radius:13px;background:var(--panel2)}.opt label{display:block;color:var(--sub);font-size:8px;font-weight:900;letter-spacing:.08em;margin:0 4px 6px}.opt select{display:block;width:100%;border:1px solid rgba(255,255,255,.06);background:#17131d;height:38px;padding:0 30px 0 9px;font-size:11px;color:var(--text);border-radius:9px}.opt select:focus{border-color:rgba(166,140,255,.45)}.check-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:10px}.check{display:flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--panel2);border-radius:10px;padding:8px 10px;color:#cfc8d6;font-size:10px}.check input{accent-color:var(--accent)}.custom-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;align-items:start}.custom-grid>div{min-width:0}.roll{width:100%;min-height:67px;border:0;border-radius:18px;background:linear-gradient(135deg,#745fd4,#9d70dd 48%,#cf7eaf);color:white;font-size:18px;font-weight:900;box-shadow:0 14px 30px rgba(126,95,215,.28),inset 0 1px rgba(255,255,255,.2);margin-bottom:16px;transition:.15s}.roll:hover{filter:brightness(1.08);transform:translateY(-1px)}.roll:active{transform:scale(.99)}.roll span{display:block;font-size:9px;font-weight:500;opacity:.75;margin-top:3px}.mini-tools{display:flex;gap:7px;flex-wrap:wrap}.small-btn{border:1px solid var(--line);border-radius:10px;background:var(--panel3);color:#e8e2ec;min-height:36px;padding:0 12px;font-size:9px;font-weight:800}.small-btn:hover{filter:brightness(1.13)}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.card{border:1px solid var(--line);background:linear-gradient(145deg,rgba(255,255,255,.024),rgba(255,255,255,.005)),var(--panel2);border-radius:16px;padding:14px;min-height:166px;transition:.18s}.card.locked{border-color:rgba(240,201,120,.5);background:linear-gradient(145deg,rgba(240,201,120,.07),rgba(255,255,255,.005)),var(--panel2)}.card.off{opacity:.43}.card.flash{animation:flash .2s ease}@keyframes flash{from{opacity:.35;transform:translateY(3px)}to{opacity:1;transform:none}}.card-top{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:11px}.card-title{font-size:11px;font-weight:900;color:#ded7e5}.card-actions{display:flex;gap:5px}.icon{width:31px;height:31px;border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.04);color:#e0d9e7;padding:0;font-size:13px}.icon.active{border-color:rgba(240,201,120,.45);background:rgba(240,201,120,.12);color:var(--gold)}.ko{font-size:14px;font-weight:760;line-height:1.5;min-height:44px;word-break:keep-all}.en{font-family:Consolas,monospace;color:var(--sub);font-size:9px;line-height:1.5;border-top:1px solid var(--line);padding-top:9px;margin-top:9px;word-break:break-word}.lock-note{display:none;color:var(--gold);font-size:8px;margin-top:7px}.locked .lock-note{display:block}.prompt{min-height:180px;padding:14px;background:#0d0b10;font-family:Consolas,monospace;font-size:11px;line-height:1.65;resize:vertical}.negative{min-height:110px}.toolbar{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;margin-top:9px}.tool{min-height:41px;border:1px solid var(--line);border-radius:11px;background:var(--panel3);color:var(--text);font-size:10px;font-weight:850}.tool.primary{border:0;background:linear-gradient(135deg,#7864d8,#a370dc)}.summary{padding:14px;border:1px dashed rgba(255,255,255,.13);border-radius:13px;background:#111016;color:#ccc5d1;font-size:10px;line-height:1.7;white-space:pre-wrap}.stats{color:#80798a;font-size:8px;line-height:1.6;margin-top:10px}.status{height:17px;margin-top:7px;color:var(--green);font-size:9px;opacity:0}.status.show{opacity:1}.saved-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.list{display:flex;flex-direction:column;gap:7px;max-height:330px;overflow:auto}.list-item{border:1px solid var(--line);background:var(--panel2);border-radius:11px;padding:10px}.list-title{font-size:9px;font-weight:850;color:#ddd6e5;margin-bottom:4px}.list-text{font-size:8px;color:var(--sub);line-height:1.45;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.list-tools{display:flex;gap:5px;margin-top:7px}.list-tools button{border:1px solid var(--line);background:var(--panel3);color:#ddd6e5;border-radius:7px;font-size:8px;padding:5px 8px}.empty{color:#777180;font-size:9px;padding:8px 0}
+.usage-counter{position:absolute;z-index:3;top:24px;right:25px;display:flex;align-items:center;gap:0;border:1px solid rgba(255,255,255,.11);border-radius:15px;background:rgba(13,11,16,.66);box-shadow:0 10px 30px rgba(0,0,0,.24);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);overflow:hidden}
+.usage-item{min-width:86px;padding:10px 13px;text-align:center}
+.usage-item+.usage-item{border-left:1px solid rgba(255,255,255,.09)}
+.usage-label{display:block;margin-bottom:2px;color:#898191;font-size:7px;font-weight:900;letter-spacing:.15em}
+.usage-value{display:block;color:#f8f4fb;font-size:16px;font-weight:900;line-height:1.15;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.usage-counter.loading .usage-value{color:#817a89}
+.usage-counter.error .usage-value{color:#aaa3b4}
+.usage-note{position:absolute;z-index:3;top:76px;right:27px;color:#716a79;font-size:7px;letter-spacing:.02em}.usage-note.ok{color:#86c99d}.usage-note.error{color:#d99a9f}
+footer{text-align:center;color:#5f5967;font-size:9px;padding:14px 0;line-height:1.8}footer a{color:#a88cff;text-decoration:none;font-weight:800}footer a:hover{text-decoration:underline}@media(max-width:900px){.cards{grid-template-columns:repeat(2,1fr)}}@media(max-width:720px){.page{width:calc(100% - 18px);padding-top:13px}.hero{padding:82px 18px 23px;border-radius:20px}.usage-counter{top:17px;right:17px}.usage-item{min-width:74px;padding:8px 10px}.usage-value{font-size:14px}.usage-note{top:61px;right:18px}.panel{padding:14px;border-radius:17px}.select-grid,.custom-grid,.saved-grid{grid-template-columns:1fr}.options{grid-template-columns:1fr 1fr}.toolbar{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.card{min-height:0}}@media(max-width:450px){.options{grid-template-columns:1fr}}
+
+/* Guestbook */
+.guestbook-panel{position:relative;overflow:hidden}
+.guestbook-panel:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;right:-90px;bottom:-110px;background:rgba(166,140,255,.06);pointer-events:none}
+.guestbook-form{position:relative;z-index:1;display:grid;grid-template-columns:180px 1fr auto;gap:9px;align-items:end}
+.guestbook-field label{display:block;font-size:9px;font-weight:850;color:#bbb4c4;margin:0 0 6px 2px;letter-spacing:.05em}
+.guestbook-name{height:45px!important}
+.guestbook-message{min-height:92px!important;height:92px;resize:vertical;padding:12px!important;line-height:1.55;font-size:11px}
+.guestbook-send{height:45px;min-width:92px;border:0;border-radius:12px;color:#fff;background:linear-gradient(135deg,#7864d8,#a370dc);font-size:10px;font-weight:900;box-shadow:0 8px 18px rgba(120,100,216,.18)}
+.guestbook-send:disabled{cursor:not-allowed;opacity:.5;filter:grayscale(.25)}
+.guestbook-meta{position:relative;z-index:1;display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:8px;color:#7e7787;font-size:8px;line-height:1.5}
+.guestbook-count{font-variant-numeric:tabular-nums;white-space:nowrap}
+.guestbook-status{position:relative;z-index:1;min-height:17px;margin-top:7px;color:var(--green);font-size:9px;opacity:0;transition:.2s}
+.guestbook-status.show{opacity:1}
+.guestbook-status.error{color:var(--red)}
+.guestbook-hp{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important}
+@media(max-width:720px){.guestbook-form{grid-template-columns:1fr}.guestbook-message{height:110px}.guestbook-send{width:100%;height:44px}.guestbook-meta{align-items:flex-start}}
+
+
+/* ===== 1·2·3인 CHARACTER 모드 ===== */
+select optgroup{
+  background:#fff !important;
+  color:#111 !important;
+  font-weight:800;
+}
+.character-mode-hint{
+  margin-top:7px;
+  color:var(--sub);
+  font-size:10px;
+  line-height:1.45;
+}
+.character-mode-hint.multi{
+  color:#cdbfff;
+}
+
+
+/* ===== POV MODE ===== */
+#povModeHint{margin-top:7px;color:var(--sub);font-size:10px;line-height:1.45}
+#povModeHint.on{color:#ffd6a3}
+
+
+/* ===== POV ADVANCED ===== */
+#povStrength:disabled,#povType:disabled{opacity:.5;cursor:not-allowed}
+#povModeHint{margin-top:7px;color:var(--sub);font-size:10px;line-height:1.45}
+#povModeHint.on{color:#ffd6a3}
+
+
+.inline-check{display:flex;align-items:center;gap:8px;min-height:44px;padding-top:8px;font-size:13px;color:var(--txt)}
+.inline-check input{accent-color:var(--accent)}
+#relationHint.multi,#smartConflictHint.on,#scenePresetHint.on{color:#ffd6a3}
+
+/* v2 · 서버 렌더링 TODAY/TOTAL 카운터 */
+
+/* ===== NSFW Age Gate & Warning Banner ===== */
+.nsfw-banner{
+  position:fixed;top:0;left:0;right:0;z-index:9998;
+  background:linear-gradient(90deg,#3a1520,#4a1a2a 40%,#3a1520);
+  border-bottom:1px solid rgba(255,120,140,.35);
+  color:#ffc8d0;font-size:11px;line-height:1.45;
+  padding:9px 16px;text-align:center;
+  box-shadow:0 4px 20px rgba(0,0,0,.4);
+}
+.nsfw-banner strong{color:#ff9aa5;font-weight:900}
+.nsfw-banner .banner-sub{display:block;margin-top:3px;font-size:10px;color:#d9a0a8;opacity:.95}
+body.has-nsfw-banner{padding-top:58px}
+@media(max-width:720px){
+  .nsfw-banner{font-size:10px;padding:8px 12px}
+  .nsfw-banner .banner-sub{font-size:9px}
+  body.has-nsfw-banner{padding-top:68px}
+}
+
+.age-gate{
+  position:fixed;inset:0;z-index:10000;
+  background:rgba(8,6,12,.92);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+}
+.age-gate.hidden{display:none}
+.age-box{
+  width:min(440px,100%);
+  background:linear-gradient(160deg,#1c1724,#14101a);
+  border:1px solid rgba(255,120,140,.35);
+  border-radius:22px;
+  padding:32px 28px 28px;
+  box-shadow:0 30px 80px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.04);
+  text-align:center;
+}
+.age-box .age-icon{font-size:42px;margin-bottom:12px}
+.age-box h2{margin:0 0 10px;font-size:22px;letter-spacing:-.03em;color:#fff}
+.age-box p{margin:0 0 18px;font-size:13px;line-height:1.65;color:#c8bfcf}
+.age-box .age-warn{
+  background:rgba(255,100,120,.1);
+  border:1px solid rgba(255,120,140,.25);
+  border-radius:12px;
+  padding:12px 14px;
+  margin-bottom:20px;
+  font-size:12px;line-height:1.55;color:#ffb0ba;
+}
+.age-check{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  margin-bottom:18px;font-size:14px;color:#e8e0ef;cursor:pointer;
+}
+.age-check input{width:18px;height:18px;accent-color:#e07090}
+.age-btns{display:flex;flex-direction:column;gap:10px}
+.age-btn{
+  height:48px;border:0;border-radius:14px;font-size:15px;font-weight:800;
+  cursor:pointer;transition:.15s;
+}
+.age-btn.enter{
+  background:linear-gradient(135deg,#c45a7a,#e07090);
+  color:#fff;box-shadow:0 10px 28px rgba(200,80,120,.35);
+}
+.age-btn.enter:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(.3)}
+.age-btn.enter:not(:disabled):hover{filter:brightness(1.08);transform:translateY(-1px)}
+.age-btn.exit{
+  background:transparent;border:1px solid rgba(255,255,255,.15);color:#aaa3b4;
+}
+.age-btn.exit:hover{background:rgba(255,255,255,.05)}
+.age-denied{
+  display:none;margin-top:16px;padding:14px;border-radius:12px;
+  background:rgba(180,40,60,.15);border:1px solid rgba(255,100,120,.3);
+  color:#ff9aa5;font-size:13px;line-height:1.5;
+}
+.age-denied.show{display:block}
+</style>
+</head>
+<body>
+<!-- NSFW 상단 고정 경고 배너 -->
+<div class="nsfw-banner" id="nsfwBanner">
+  <strong>⚠️ 18금 · NSFW 전용 사이트</strong>
+  <span class="banner-sub">무단 배포 및 미성년자 사용이 발각될 경우 해당 사이트는 중단됩니다. 부디 제가 서버를 열어 기록을 털지 않도록 양해 부탁드립니다.</span>
+</div>
+
+<!-- 연령 확인 모달 -->
+<div class="age-gate" id="ageGate">
+  <div class="age-box">
+    <div class="age-icon">🔞</div>
+    <h2>연령 확인</h2>
+    <p>이 사이트는 <strong style="color:#ff9aa5">성인 전용(18세 이상)</strong> 콘텐츠를 포함합니다.<br>미성년자의 이용은 엄격히 금지됩니다.</p>
+    <div class="age-warn">
+      무단 배포 및 미성년자 사용이 발각될 경우 해당 사이트는 중단됩니다.<br>
+      부디 제가 서버를 열어 기록을 털지 않도록 양해 부탁드립니다.
+    </div>
+    <label class="age-check">
+      <input type="checkbox" id="ageCheck">
+      <span>나는 18세 이상이며, 성인 콘텐츠 이용에 동의합니다.</span>
+    </label>
+    <div class="age-btns">
+      <button class="age-btn enter" id="ageEnter" disabled>입장하기</button>
+      <button class="age-btn exit" id="ageExit">18세 미만입니다 · 나가기</button>
+    </div>
+    <div class="age-denied" id="ageDenied">
+      미성년자는 이 사이트를 이용할 수 없습니다.<br>브라우저를 닫아 주세요.
+    </div>
+  </div>
+</div>
+
+<div class="page">
+<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v1 · NSFW</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 수위(가벼운~하늘나라)를 선택할 수 있으며, 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능합니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
+<section class="panel"><div class="head"><div><h2 class="title">01 · 장르와 카테고리</h2><p class="desc">「장르 전체 랜덤」은 선택한 장르의 모든 카테고리 전용 풀을 합쳐서 사용합니다.</p></div></div><div class="select-grid"><div class="field"><label>장르</label><select id="genre">
+<option value="modern">현대물</option>
+<option value="fantasy">판타지물</option>
+<option value="guideverse">가이드버스</option>
+<option value="period">시대물</option>
+<option value="nsfw_office">NSFW · 오피스/직장</option>
+<option value="nsfw_dungeon">NSFW · 던전/구속</option>
+<option value="nsfw_guide">NSFW · 가이드버스 하드</option>
+<option value="nsfw_dark">NSFW · 암흑판타지</option>
+<option value="nsfw_outdoor">NSFW · 야외/노출</option>
+</select></div><div class="field"><label>세부 카테고리</label><select id="category"></select></div></div><div class="check-row"><label class="check"><input type="checkbox" id="randomCategory"> 주사위를 돌릴 때마다 세부 카테고리도 랜덤</label><label class="check"><input type="checkbox" id="avoidSame" checked> 직전 결과와 같은 태그 최대한 피하기</label></div></section>
+<section class="panel"><div class="head"><div><h2 class="title">02 · 기본 태그</h2><p class="desc">1인·2인·3인을 선택할 수 있습니다. 2인/3인 선택 시 구도·자세·시선·행동 풀이 인원수에 맞게 자동 전환됩니다. POV MODE를 켜면 현재 인원수에 맞는 1인칭 시점 풀이 적용되고, POV 강도(약하게/강하게)와 POV 타입(자동/대화형/손잡기/키스 직전)을 세부 설정할 수 있습니다. 여기에 관계/상호작용 프리셋, 장면 프리셋, 충돌 방지 기능까지 더해 더 자연스러운 조합을 자동으로 만듭니다. 고정 외형 태그는 ‘항상 추가할 태그’에 넣어두면 유지됩니다.</p></div></div><div class="options"><div class="opt"><label>CHARACTER</label><select id="gender">
+<option value="">미지정 · 기본 1인</option>
+<optgroup label="1인">
+  <option value="1boy">1boy · 남성 1인</option>
+  <option value="1girl">1girl · 여성 1인</option>
+</optgroup>
+<optgroup label="2인">
+  <option value="2boys">2boys · 남성 2인</option>
+  <option value="2girls">2girls · 여성 2인</option>
+  <option value="1boy, 1girl">1boy + 1girl · 혼성 2인</option>
+</optgroup>
+<optgroup label="3인">
+  <option value="3boys">3boys · 남성 3인</option>
+  <option value="3girls">3girls · 여성 3인</option>
+  <option value="2boys, 1girl">2boys + 1girl · 혼성 3인</option>
+  <option value="1boy, 2girls">1boy + 2girls · 혼성 3인</option>
+</optgroup>
+</select><div class="character-mode-hint" id="characterModeHint">👤 1인 모드 · 기존 랜덤 풀</div></div><div class="opt"><label>수위 (INTENSITY)</label><select id="intensity">
+<option value="light">가벼운 · Soft</option>
+<option value="dense" selected>농밀한 · Dense</option>
+<option value="vulgar">천박한 · Vulgar</option>
+<option value="extreme">하늘나라 · Extreme</option>
+</select><div class="character-mode-hint" id="intensityHint">🔥 수위에 따라 행동·의상·표정 풀이 달라집니다</div></div>
+<div class="opt"><label>QUALITY</label><select id="quality"><option value="masterpiece, best quality, amazing quality, very aesthetic, highly detailed">기본 고품질</option><option value="masterpiece, best quality, highly detailed, cinematic composition">시네마틱</option><option value="">사용 안 함</option></select></div><div class="opt"><label>STYLE</label><select id="style"><option value="">미지정</option><option value="anime style">Anime</option><option value="illustration">Illustration</option><option value="semi-realistic">Semi-realistic</option></select></div><div class="opt"><label>POV MODE</label><select id="povMode"><option value="off">사용 안 함</option><option value="on">사용 · 현재 인원수 연동</option></select></div><div class="opt"><label>POV 강도</label><select id="povStrength"><option value="subtle">약하게</option><option value="strong">강하게</option></select></div><div class="opt"><label>POV 타입</label><select id="povType"><option value="auto">자동</option><option value="talk">대화형 POV</option><option value="hand">손잡기 POV</option><option value="prekiss">키스 직전 POV</option></select><div class="character-mode-hint" id="povModeHint">📷 일반 시점 모드</div></div><div class="opt"><label>관계 / 상호작용</label><select id="relationPreset"><option value="none">미사용</option><option value="friend">친구 / 절친</option><option value="coworker">동료 / 같은 편</option><option value="rival">라이벌</option><option value="lover">연인 / 썸</option><option value="obsession">집착 / 소유욕</option><option value="hatebond">혐관 / 앙숙</option><option value="salvation">구원 서사</option><option value="unrequited">짝사랑</option><option value="contract">계약 / 정략</option><option value="mentor">멘토 / 사제</option><option value="childhood">소꿉친구</option><option value="exlovers">전 연인 / 미련</option><option value="firstmeet">첫 만남</option><option value="reunion">재회</option><option value="guardian">보호 / 호위</option><option value="masterservant">주종 / 상하관계</option><option value="enemy">적대 / 대치</option><option value="teammate">전우 / 파티원</option></select><div class="character-mode-hint" id="relationHint">🤝 2인/3인에서 상호작용 가중치 적용</div></div><div class="opt"><label>장면 프리셋</label><select id="scenePreset"></select><div class="character-mode-hint" id="scenePresetHint">🎬 장르에 맞는 상황 프리셋을 적용합니다.</div></div><div class="opt"><label>충돌 방지</label><label class="check inline-check"><input type="checkbox" id="smartConflict" checked> 배경·의상·행동 충돌 자동 방지</label><div class="character-mode-hint" id="smartConflictHint">🧩 말이 안 되는 조합은 최대한 다시 뽑습니다.</div></div></div><div class="custom-grid"><div><label class="tiny-label">항상 추가할 태그</label><input id="customTags" type="text" placeholder="예: black hair, blue eyes, handsome male"></div><div><label class="tiny-label">기본 네거티브 태그</label><input id="negativeBase" type="text" value="lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, jpeg artifacts, signature, watermark, username, blurry"></div></div></section>
+<button class="roll" id="rollAll">🎲 주사위 돌리기<span>잠금된 슬롯은 유지 · 꺼진 슬롯은 프롬프트에서 제외</span></button>
+<section class="panel"><div class="head"><div><h2 class="title">03 · 랜덤 슬롯</h2><p class="desc">↻ 재추첨 · 🔓/🔒 잠금 · ◉/○ 사용 여부</p></div><div class="mini-tools"><button class="small-btn" id="lockAll">🔒 전체 잠금</button><button class="small-btn" id="unlockAll">🔓 전체 해제</button><button class="small-btn" id="enableAll">◉ 전체 사용</button></div></div><div id="cards" class="cards"></div><div id="stats" class="stats"></div></section>
+<section class="panel"><div class="head"><div><h2 class="title">04 · NovelAI Prompt</h2><p class="desc">생성된 영어 태그는 직접 수정할 수 있습니다.</p></div></div><textarea id="prompt" class="prompt"></textarea><div class="toolbar"><button class="tool primary" id="copyPrompt">📋 NovelAI 태그 복사</button><button class="tool" id="saveFavorite">⭐ 현재 조합 저장</button><button class="tool" id="copyKo">🇰🇷 한글 결과 복사</button></div><div class="status" id="status"></div></section>
+<section class="panel"><div class="head"><div><h2 class="title">05 · Negative Prompt</h2><p class="desc">기본값을 원하는 태그로 바꿔두면 브라우저가 기억합니다.</p></div></div><textarea id="negative" class="prompt negative"></textarea><div class="toolbar"><button class="tool primary" id="copyNegative">📋 Negative 태그 복사</button><button class="tool" id="resetNegative">↺ 기본값 복구</button><button class="tool" id="saveNegative">💾 네거티브 저장</button></div></section>
+<section class="panel"><div class="head"><div><h2 class="title">현재 한글 조합</h2></div></div><div id="summary" class="summary"></div></section>
+<section class="panel"><div class="head"><div><h2 class="title">저장된 조합</h2><p class="desc">즐겨찾기와 최근 10회 결과는 이 브라우저의 localStorage에 저장됩니다.</p></div></div><div class="saved-grid"><div><div class="tiny-label">⭐ 즐겨찾기</div><div id="favorites" class="list"></div></div><div><div class="tiny-label">🕘 최근 기록</div><div id="history" class="list"></div></div></div></section>
+
+<section class="panel guestbook-panel" id="guestbookSection">
+  <div class="head">
+    <div>
+      <h2 class="title">💌 방명록</h2>
+      <p class="desc">남기고 싶은 말이 있다면 보내주세요. 작성 내용은 운영자의 Google Sheet에만 저장됩니다.</p>
+    </div>
+  </div>
+  <form id="guestbookForm" class="guestbook-form" autocomplete="off" method="POST" action="" target="guestbookSubmitFrame">
+    <div class="guestbook-field">
+      <label for="guestName">이름</label>
+      <input id="guestName" name="name" class="guestbook-name" type="text" value="익명" maxlength="30" aria-label="방명록 이름">
+    </div>
+    <div class="guestbook-field">
+      <label for="guestMessage">내용</label>
+      <textarea id="guestMessage" name="message" class="guestbook-message" maxlength="500" placeholder="내용을 입력해주세요." aria-label="방명록 내용" required></textarea>
+    </div>
+    <button id="guestSubmit" class="guestbook-send" type="submit">발송</button>
+    <input id="guestWebsite" name="website" class="guestbook-hp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <input id="guestPage" name="page" type="hidden" value="">
+  </form>
+  <iframe name="guestbookSubmitFrame" id="guestbookSubmitFrame" title="방명록 전송" style="display:none;width:0;height:0;border:0"></iframe>
+  <div class="guestbook-meta">
+    <span>개인정보·연락처 등 민감한 정보는 입력하지 않는 것을 권장합니다.</span>
+    <span id="guestCount" class="guestbook-count">0 / 500</span>
+  </div>
+  <div id="guestStatus" class="guestbook-status" role="status" aria-live="polite"></div>
+</section>
+
+<footer><div>문의사항 X : <a href="https://x.com/Jin_k__wf" target="_blank" rel="noopener noreferrer">@Jin_k__wf</a></div><div>NSFW Asset Gacha v1 · GitHub Pages Ready · LocalStorage · 18+</div><div style="margin-top:5px"><button type="button" id="analyticsPing" style="border:0;background:transparent;color:#6f6978;font-size:8px;cursor:pointer">통계 연결 테스트 · v1 NSFW</button></div></footer>
+</div>
+<script>
+const APP_VERSION='1.0-NSFW';
+const E=(ko,en)=>({ko,en});
+/* ===== INTENSITY (수위) ===== */
+function intensityValue(){const el=$('intensity');return el?el.value:'dense'}
+function intensityWeight(){
+  const v=intensityValue();
+  return v==='light'?1:v==='dense'?2:v==='vulgar'?3:4; // extreme=4
+}
+function isNsfwGenre(){return String(genre?.value||'').startsWith('nsfw_')}
+
+const P=s=>s.trim()?s.split(';').map(v=>{const i=v.indexOf('|');return E(v.slice(0,i),v.slice(i+1))}):[];
+const uniq=a=>[...new Map(a.filter(Boolean).map(x=>[x.en,x])).values()];
+const rand=a=>a[Math.floor(Math.random()*a.length)];
+const COMMON={
+expression:P(`편안한 무표정|neutral expression;차갑고 무심한 표정|cold expression, indifferent gaze;조용하고 차분한 표정|calm expression;은은한 미소|subtle smile;부드러운 미소|gentle smile;밝게 웃는 표정|bright smile;장난스러운 미소|playful smile;능글맞은 미소|smug smile;자신감 있는 미소|confident smile;오만한 미소|arrogant smile;입꼬리만 살짝 올린 표정|faint smile;눈을 가늘게 뜨고 웃는 표정|narrowed eyes, subtle smile;피곤한 표정|tired expression;졸린 표정|sleepy expression, half-lidded eyes;나른한 표정|relaxed expression, half-lidded eyes;살짝 짜증 난 표정|slightly annoyed expression;짜증이 난 표정|annoyed expression, furrowed brows;화난 표정|angry expression;분노를 억누르는 표정|restrained anger, tense expression;당황한 표정|flustered expression;깜짝 놀란 표정|surprised expression, widened eyes;살짝 놀란 표정|slightly surprised expression;어리둥절한 표정|confused expression;난감한 표정|awkward expression;난감하게 웃는 표정|awkward smile;의심하는 표정|suspicious expression;경계하는 표정|guarded expression, alert gaze;날카롭게 노려보는 표정|sharp glare;불만스러운 표정|displeased expression;삐친 표정|pouting;수줍은 미소|shy smile;시선을 피하며 수줍어하는 표정|shy expression, looking away;부끄러워하는 표정|embarrassed expression;기대에 찬 표정|expectant expression;흥미롭다는 표정|interested expression;호기심 어린 표정|curious expression;집중한 표정|focused expression;진지하게 몰입한 표정|serious focused expression;멍한 표정|blank expression;생각에 잠긴 표정|pensive expression;무언가 떠올리는 표정|thoughtful expression;걱정스러운 표정|worried expression;불안한 표정|anxious expression;초조한 표정|nervous expression;긴장한 표정|tense expression;안도하는 미소|relieved smile;슬픈 표정|sad expression;울음을 참는 표정|holding back tears;눈물이 맺힌 표정|teary eyes;울고 있는 표정|crying;쓸쓸한 미소|melancholic smile;체념한 표정|resigned expression;결심한 표정|determined expression;단호한 표정|resolute expression;전투적으로 날 선 표정|fierce expression;고통을 참는 표정|pained expression;이를 악물고 버티는 표정|gritted teeth, strained expression;숨이 찬 듯 지친 표정|exhausted expression;의미심장한 미소|mysterious smile;서늘한 미소|cold smile;비웃는 표정|smirk;상대를 내려다보는 오만한 표정|condescending expression;눈을 감고 편안해하는 표정|eyes closed, relaxed expression;눈을 감고 집중하는 표정|eyes closed, focused expression;미간을 살짝 찌푸린 표정|slightly furrowed brows;무표정한 채 눈썹만 찌푸린 표정|expressionless, slightly furrowed brows;입술을 살짝 깨문 표정|biting lower lip, tense expression;한쪽 눈썹을 올린 표정|raised eyebrow;놀리듯 한쪽 입꼬리를 올린 표정|teasing smirk;상대를 빤히 보는 표정|intense gaze;부드럽지만 지친 눈빛|soft tired gaze;눈웃음을 짓는 표정|smiling eyes;억지로 웃는 표정|forced smile;고개를 갸웃하는 의아한 표정|puzzled expression;승부욕이 오른 표정|competitive expression;만족스러운 표정|satisfied expression;심드렁한 표정|bored expression;냉소적인 표정|cynical expression;진심으로 기쁜 표정|genuinely happy expression`),
+season:P(`봄|spring;초여름|early summer;한여름|mid-summer;늦여름|late summer;초가을|early autumn;가을|autumn;늦가을|late autumn;초겨울|early winter;한겨울|mid-winter;계절감 없음|season-neutral`),
+weather:P(`맑은 아침|clear morning;화창한 낮|sunny daytime;따뜻한 오후|warm afternoon;늦은 오후|late afternoon;황금빛 노을|golden hour, sunset;붉은 석양|dramatic sunset;해가 막 진 직후|blue hour;저녁|evening;깊은 밤|late night;자정|midnight;새벽|dawn;해 뜨기 직전|pre-dawn;구름 많은 날|cloudy sky;흐린 낮|overcast daytime;비 오기 직전|stormy overcast sky;가벼운 비|light rain;굵은 비|heavy rain;폭우가 쏟아지는 밤|heavy rain at night;비가 막 그친 뒤|after rain, wet ground;소나기|afternoon shower;첫눈|first snow;조용한 눈|gentle snowfall;폭설|heavy snowfall;눈이 쌓인 맑은 날|snow-covered clear day;안개 낀 아침|foggy morning;짙은 안개가 낀 밤|foggy night;바람이 강한 날|windy weather;꽃잎이 날리는 날|petals in the air;더운 여름날|hot summer day;선선한 가을 오후|cool autumn afternoon;낙엽이 흩날리는 날|falling autumn leaves;차가운 겨울밤|cold winter night;보름달이 뜬 밤|full moon night;별이 가득한 밤|starry night`),
+composition:P(`상반신 정면|upper body, front view;상반신 3/4 구도|upper body, three-quarter view;허리 위|waist up;허벅지 위|cowboy shot;전신|full body;얼굴 클로즈업|face close-up;가슴 위 클로즈업|bust shot;측면|side view;비스듬한 측면|three-quarter profile;뒷모습|from behind;뒤돌아보는 구도|from behind, looking back;로우 앵글|from below, low angle;살짝 아래에서|slightly from below;하이 앵글|from above, high angle;살짝 위에서|slightly from above;눈높이|eye-level shot;가까운 POV|POV, close distance;멀리서 바라보는 와이드 샷|wide shot;배경이 넓게 보이는 전신|full body, wide composition;인물 중심 세로 구도|portrait composition;대각선 역동 구도|dynamic angle;어깨 너머 구도|over-the-shoulder shot;앉은 인물을 눈높이에서|seated, eye-level view;앉은 인물을 위에서|seated, from above;바닥 가까이 로우앵글|extreme low angle;손과 얼굴 강조|upper body, hands visible;환경을 크게 담은 구도|environmental composition;대칭 중앙 구도|centered composition, symmetrical;오프센터 구도|off-center composition;걷는 모습을 옆에서|side view, walking;등 뒤에서 따라가는 구도|rear tracking shot;문틈 너머 구도|framed through doorway;창문 너머 구도|framed through window`),
+lighting:P(`부드러운 자연광|soft natural lighting;창문 햇빛|sunlight through window;따뜻한 실내 조명|warm indoor lighting;차가운 백색 조명|cool white lighting;형광등 조명|fluorescent lighting;노란 전구 조명|warm tungsten lighting;해질녘 역광|sunset backlighting;강한 역광|dramatic backlighting;부드러운 역광|soft backlighting;측면광|side lighting;얼굴 절반 그림자|dramatic side lighting, half-shadowed face;로우키 조명|low-key lighting;하이키 조명|high-key lighting;네온사인 반사광|neon lighting on face;푸른 네온|blue neon lighting;붉은 네온|red neon lighting;분홍 네온|pink neon lighting;도시 야경 반사광|city light reflections;모니터 불빛|computer screen glow;휴대폰 화면 불빛|smartphone screen glow;가로등|streetlamp lighting;촛불|candlelight;벽난로 불빛|fireplace lighting;달빛|moonlight;푸른 달빛|blue moonlight;별빛과 달빛|starlight, moonlight;마법 빛|magical glow illuminating face;전투 조명|dramatic battle lighting;스테인드글라스 빛|colored stained-glass light;희미한 병원 조명|dim hospital lighting;흐린 날 자연광|soft overcast lighting;금빛 햇살|golden sunlight;안개 사이 볼류메트릭 라이트|volumetric light through fog;천장 스포트라이트|overhead spotlight;실루엣 역광|silhouette backlighting;창살 그림자 조명|window-blind shadows;수면 반사광|water reflections on face`),
+gaze:P(`정면 응시|looking at viewer;시선을 옆으로|looking to the side;시선을 아래로|looking down;시선을 위로|looking up;멀리 바라보기|looking into distance;뒤돌아보며 응시|looking back at viewer;눈을 감고 있음|eyes closed;손끝을 바라봄|looking at own hand;바닥을 바라봄|looking at floor;창밖을 바라봄|looking out window;상대 너머를 바라봄|looking past viewer;고개만 돌려 바라봄|side glance;눈길만 올려다봄|upturned gaze;아래로 내려다봄|looking down at viewer;시선을 회피함|avoiding eye contact`),
+pose:P(`편하게 서 있음|standing;양발을 벌려 서 있음|standing with feet apart;한쪽 다리에 체중을 싣고 서 있음|contrapposto;벽에 기대 서 있음|leaning against wall;난간에 기대 서 있음|leaning against railing;책상에 기대 서 있음|leaning against desk;의자에 앉아 있음|sitting on chair;의자에 깊숙이 기대앉음|leaning back in chair;소파에 앉아 있음|sitting on sofa;침대 가장자리에 앉아 있음|sitting on edge of bed;바닥에 앉아 있음|sitting on floor;다리를 꼬고 앉아 있음|sitting with legs crossed;한쪽 무릎을 꿇음|kneeling on one knee;양 무릎을 꿇음|kneeling;쪼그려 앉음|crouching;천천히 걷는 중|walking;빠르게 걷는 중|walking quickly;달리는 중|running;계단을 오르는 중|walking up stairs;계단을 내려가는 중|walking down stairs;뒤돌아선 자세|standing with back turned;어깨를 살짝 숙인 자세|slouched posture;허리를 곧게 편 자세|upright posture;몸을 앞으로 숙인 자세|leaning forward;팔짱을 낀 자세|crossed arms;한 손을 주머니에 넣은 자세|one hand in pocket;양손을 주머니에 넣은 자세|both hands in pockets`),
+prop:P(`소품 없음|;스마트폰|smartphone;머그컵|mug;테이크아웃 커피|takeaway coffee cup;책|book;노트북|laptop;태블릿|tablet;서류 파일|documents;펜|pen;우산|umbrella;안경|glasses;이어폰|earphones;헤드폰|headphones;가방|bag;백팩|backpack;손목시계|wristwatch;꽃다발|bouquet;편지|letter;열쇠|keys;촛불|candle;검|sword;단검|dagger;지팡이|magic staff;마법서|spellbook;두루마리|scroll;부채|folding fan;찻잔|teacup;와인잔|wine glass;무전기|radio;의료 차트|medical chart`),
+mood:P(`담백한 일상 분위기|casual everyday atmosphere;조용하고 차분한 분위기|quiet calm atmosphere;포근한 분위기|cozy atmosphere;청량한 분위기|fresh airy atmosphere;따뜻한 분위기|warm atmosphere;쓸쓸한 분위기|melancholic atmosphere;긴장감 있는 분위기|tense atmosphere;서늘하고 거리감 있는 분위기|cold distant atmosphere;몽환적인 분위기|dreamlike atmosphere;신비로운 분위기|mysterious atmosphere;웅장한 분위기|grand atmosphere;화려하고 고급스러운 분위기|luxurious atmosphere;어두운 분위기|dark atmosphere;위기감 있는 분위기|urgent atmosphere;전투 직전 분위기|pre-battle tension;전투 직후 정적|post-battle stillness;활기찬 분위기|lively atmosphere;비밀스러운 분위기|secretive atmosphere;로맨틱한 분위기|romantic atmosphere;드라마틱한 분위기|dramatic atmosphere`)
+};
+
+/* =========================================================
+   NSFW 전용 풀 (수위별 가중치 적용)
+   light < dense < vulgar < extreme
+========================================================= */
+const NSFW_COMMON = {
+  expression: {
+    light: P(`상기된 표정|flushed expression;살짝 열린 입|slightly open mouth;숨을 고르는 표정|breathing heavily;수줍은 상기된 표정|shy flushed expression;초조하게 입술을 깨무는 표정|biting lip nervously`),
+    dense: P(`황홀한 표정|ecstatic expression;눈을 반쯤 감은 표정|half-lidded eyes, pleasure;신음하는 표정|moaning expression;아득한 표정|dazed expression of pleasure;땀에 젖은 얼굴|sweaty face, pleasure`),
+    vulgar: P(`아헤가오|ahegao, tongue out;침을 흘리는 표정|drooling, pleasure;눈이 풀린 표정|rolled eyes, ahegao;미친 듯이 쾌락에 빠진 표정|mind-broken pleasure expression;혀를 내민 채 헐떡임|panting with tongue out`),
+    extreme: P(`완전 아헤가오|full ahegao, crossed eyes, tongue out;실성 직전의 표정|broken mind expression;침과 눈물이 범벅인 얼굴|face covered in drool and tears;극한의 쾌락으로 일그러진 표정|extreme pleasure, face contorted`)
+  },
+  outfit: {
+    light: P(`살짝 흐트러진 옷차림|slightly disheveled clothes;단추 하나 푼 셔츠|shirt with one button undone;어깨가 드러난 옷|off-shoulder clothing;허벅지가 보이는 짧은 치마|short skirt, thigh focus`),
+    dense: P(`속이 비치는 란제리|see-through lingerie;가슴골이 깊게 파인 옷|deep cleavage;브래지어가 비치는 셔츠|bra visible through shirt;슬립만 입은 상태|wearing only slip;찢어진 스타킹|torn stockings`),
+    vulgar: P(`거의 벗은 상태|nearly nude;가슴이 거의 드러난 옷|barely covered breasts;가터벨트와 란제리|garter belt and lingerie;젖은 티셔츠|wet t-shirt, see-through;밑이 없는 치마|skirt with no underwear`),
+    extreme: P(`완전 누드|completely nude;정액에 더럽혀진 몸|body covered in cum;속옷만 걸친 상태|wearing only underwear;밧줄에 묶인 채 벗은 몸|bound and nude;정액이 묻은 란제리|cum-stained lingerie`)
+  },
+  action: {
+    light: P(`상대의 손을 잡고 있다|holding hands intimately;귓가에 속삭인다|whispering into ear;어깨에 기댄다|leaning on shoulder;살짝 키스한다|light kiss;볼을 쓰다듬는다|caressing cheek`),
+    dense: P(`깊게 키스하고 있다|deep kissing;옷을 벗기고 있다|undressing someone;가슴을 만지고 있다|groping breasts;허벅지를 쓰다듬는다|caressing thigh;상대를 벽에 밀어붙인다|pinning against wall`),
+    vulgar: P(`섹스 중이다|having sex;삽입 중이다|penetration;오럴 섹스 중이다|oral sex;뒤에서 삽입 중이다|doggy style;상대의 머리를 잡고 있다|holding head during oral`),
+    extreme: P(`격렬한 섹스 중이다|intense sex, pounding;여러 체위로 하고 있다|multiple sex positions;정액을 잔뜩 받고 있다|covered in cum;강제적으로 당하고 있다|forced sex;완전히 지배당하고 있다|completely dominated`)
+  },
+  pose: {
+    light: P(`상대에게 기대어 있다|leaning into someone;손을 맞잡고 있다|holding hands;가까이 서 있다|standing close;살짝 몸을 숙인다|slightly bent over`),
+    dense: P(`다리를 벌리고 앉아 있다|sitting with legs spread;상대 위에 앉아 있다|sitting on someone;무릎을 꿇고 있다|kneeling in front of someone;엎드려 있다|lying on stomach, arched back`),
+    vulgar: P(`개가 된 자세|all fours, doggy position;다리를 어깨에 올리고 있다|legs over shoulders;M자 자세|M-legs spread;상대에게 앉아 삽입 중이다|cowgirl position`),
+    extreme: P(`완전히 구속된 자세|fully bound pose;다리가 벌어져 고정된 자세|legs forced open;공중으로 들어올려진 자세|lifted and penetrated;여러 명에게 둘러싸인 자세|surrounded, gangbang pose`)
+  },
+  gaze: {
+    light: P(`상대를 유혹하듯 바라봄|seductive gaze;초조한 눈빛|nervous aroused gaze;상기된 눈으로 바라봄|flushed eyes looking at partner`),
+    dense: P(`욕망에 찬 눈빛|lustful gaze;상대를 갈구하는 눈빛|needy gaze;쾌락에 젖은 눈|eyes filled with pleasure`),
+    vulgar: P(`완전히 풀린 눈|glazed over eyes of pleasure;상대를 올려다보는 복종적인 눈|submissive upward gaze;아헤가오 눈|ahegao eyes`),
+    extreme: P(`실성한 눈|broken empty eyes of pleasure;극한의 쾌락으로 초점이 나간 눈|unfocused eyes from extreme pleasure`)
+  },
+  prop: {
+    light: P(`와인잔|wine glass;촛불|candle;실크 스카프|silk scarf`),
+    dense: P(`수갑|handcuffs;안대|blindfold;로프|rope;바이브레이터|vibrator`),
+    vulgar: P(`딜도|dildo;채찍|whip;재갈|gag;목줄|collar and leash`),
+    extreme: P(`여러 개의 장난감|multiple sex toys;정액이 묻은 수건|cum-stained towel;구속 기구|full bondage gear`)
+  },
+  mood: {
+    light: P(`은밀하고 설레는 분위기|secretive romantic tension;달콤한 밤 분위기|sweet intimate night atmosphere`),
+    dense: P(`욕망이 가득한 분위기|lust-filled atmosphere;숨이 가쁜 긴장감|breathless sexual tension`),
+    vulgar: P(`노골적인 성욕의 분위기|explicit sexual atmosphere;타락한 분위기|depraved atmosphere`),
+    extreme: P(`극한의 쾌락과 타락|extreme pleasure and corruption;완전한 지배와 복종|total domination and submission atmosphere`)
+  }
+};
+
+const NSFW_GENRE_STUB = {
+  nsfw_office: {
+    label: 'NSFW · 오피스/직장',
+    categories: {
+      afterhours: {label: '야근 / 잔업', background: P(`야근 중인 사무실|office at night;회의실 테이블 위|on conference table`), outfit: P(`흐트러진 정장|disheveled business attire`), action: P(`책상 위에서 하고 있다|sex on desk`)},
+      elevator: {label: '엘리베이터', background: P(`닫힌 엘리베이터 안|inside closed elevator`), action: P(`엘리베이터에서 급하게 한다|quickie in elevator`)},
+      storage: {label: '창고 / 자료실', background: P(`어두운 자료실|dark storage room`), action: P(`선반에 기대어 한다|sex against shelves`)}
+    }
+  },
+  nsfw_dungeon: {
+    label: 'NSFW · 던전/구속',
+    categories: {
+      restraint: {label: '구속 / 속박', background: P(`지하 감금실|underground dungeon cell`), outfit: P(`가죽 구속구|leather restraints`), action: P(`벽에 묶여 있다|bound to wall`)},
+      training: {label: '조교', background: P(`조교실|training room`), action: P(`조교를 받고 있다|being trained`)}
+    }
+  },
+  nsfw_guide: {
+    label: 'NSFW · 가이드버스 하드',
+    categories: {
+      guiding: {label: '가이드 중', background: P(`격리된 가이드실|isolated guiding room`), action: P(`가이드로 안정화 중이다|guiding while intimate`)},
+      aftermath: {label: '가이드 직후', background: P(`가이드 후 병상|bed after guiding`), action: P(`가이드 여운이 남은 상태|after intense guiding`)}
+    }
+  },
+  nsfw_dark: {
+    label: 'NSFW · 암흑판타지',
+    categories: {
+      ritual: {label: '의식 / 제물', background: P(`어두운 제단|dark ritual altar`), action: P(`제물로 바쳐지고 있다|offered as sacrifice`)},
+      demon: {label: '악마 / 계약', background: P(`악마의 소환진|demonic summoning circle`), action: P(`악마와 계약하고 있다|making pact with demon`)}
+    }
+  },
+  nsfw_outdoor: {
+    label: 'NSFW · 야외/노출',
+    categories: {
+      park: {label: '공원 / 숲', background: P(`밤의 공원|park at night;숲속 공터|forest clearing`), action: P(`야외에서 하고 있다|outdoor sex`)},
+      rooftop: {label: '옥상 / 고층', background: P(`도시 야경이 보이는 옥상|rooftop with city view`), action: P(`옥상에서 하고 있다|sex on rooftop`)}
+    }
+  }
+};
+
+/* =========================================================
+   2인 / 3인 전용 랜덤 풀
+   CHARACTER 선택에 따라 구도·자세·시선·행동이 자동 보강됩니다.
+========================================================= */
+const MULTI_PERSON={
+  2:{
+    composition:P(`2인 투샷|two-shot, two people, both visible;2인 상반신 투샷|two-shot, upper body, both visible;2인 허리 위 구도|two-shot, waist up, both visible;2인 전신 구도|two-shot, full body, both visible;나란히 선 2인 대칭 구도|two people side by side, symmetrical composition;한 명은 앞 한 명은 뒤인 깊이감 있는 구도|two people, one in foreground, one in background;서로 마주 보는 측면 투샷|two-shot, facing each other, side view;등을 맞댄 2인 구도|two-shot, back-to-back;테이블을 사이에 둔 2인 구도|two people across a table;한 화면 양쪽에 배치된 2인 구도|two people on opposite sides of frame;함께 걷는 2인 와이드샷|two people walking together, wide shot;앉아 있는 2인 구도|two people sitting together;어깨 너머로 상대까지 보이는 2인 구도|over-the-shoulder two-shot;한 명이 중앙에 가까운 비대칭 투샷|asymmetrical two-shot;배경까지 넓게 담은 2인 전신|two people, full body, environmental composition`),
+    pose:P(`나란히 서 있음|two people standing side by side;서로 마주 보고 서 있음|two people standing face to face;등을 맞대고 서 있음|standing back-to-back;한 명은 서 있고 한 명은 앉아 있음|one standing, one sitting;둘 다 의자에 나란히 앉아 있음|two people sitting side by side;소파에 함께 앉아 있음|two people sitting together on sofa;테이블 양쪽에 마주 앉아 있음|two people sitting across a table;둘이 같은 방향으로 걷는 중|two people walking together;한 명이 반걸음 앞에 서 있음|two people standing, one slightly ahead;서로 다른 방향을 바라보며 서 있음|two people standing, facing different directions;난간에 나란히 기대 있음|two people leaning against railing;벽을 사이에 두고 가까이 서 있음|two people standing close together;둘 다 편하게 서 있음|two people standing casually;한 명은 팔짱을 끼고 다른 한 명은 주머니에 손을 넣음|two people, one with crossed arms, one with hand in pocket`),
+    gaze:P(`서로 바라보고 있음|looking at each other;둘 다 정면을 바라봄|both looking at viewer;한 명은 상대를 보고 한 명은 정면을 봄|one looking at the other, one looking at viewer;둘 다 같은 곳을 바라봄|both looking in the same direction;서로 시선을 피함|avoiding each other's gaze;한 명이 다른 한 명을 곁눈질함|one giving the other a side glance;한 명은 아래를 보고 한 명은 상대를 봄|one looking down, one looking at the other;둘 다 멀리 바라봄|both looking into distance;서로 다른 방향을 바라봄|looking in different directions;한 명은 뒤돌아보고 다른 한 명은 정면을 봄|one looking back, one facing viewer`),
+    action:P(`나란히 걸어가고 있다|two people walking side by side;서로 대화하고 있다|two people talking to each other;한 명이 다른 한 명에게 무언가 보여주고 있다|one showing something to the other;같은 화면이나 서류를 함께 보고 있다|two people looking at the same screen or document;서로 마주 보며 잠시 멈춰 서 있다|two people stopped, facing each other;둘이 함께 창밖을 바라보고 있다|two people looking out the window together;테이블에 마주 앉아 대화하고 있다|two people talking across a table;한 명이 앞서 걷고 다른 한 명이 따라가고 있다|one walking ahead, the other following;서로 등을 맞대고 주변을 경계하고 있다|standing back-to-back, watching surroundings;한 명이 다른 한 명의 어깨에 손을 올리고 있다|one resting a hand on the other's shoulder;한 명이 손짓하고 다른 한 명이 바라보고 있다|one gesturing, the other watching;둘이 같은 방향을 가리키거나 바라보고 있다|two people looking toward the same direction;한 명이 다른 한 명에게 물건을 건네고 있다|one handing an object to the other;둘이 함께 휴대폰 화면을 보고 있다|two people looking at a smartphone together;둘이 함께 앉아 쉬고 있다|two people sitting and resting together`)
+  },
+  3:{
+    composition:P(`3인 그룹샷|group shot, three people, all visible;3인 상반신 그룹샷|three people, upper body, all visible;3인 전신 그룹샷|three people, full body, all visible;중앙 1명과 양옆 2명 구도|three people, one in center, two on sides;삼각형 배치 구도|three people, triangular composition;3명이 나란히 선 구도|three people standing in a row;앞 1명 뒤 2명의 깊이감 있는 구도|three people, one in foreground, two in background;앞 2명 뒤 1명 구도|three people, two in foreground, one in background;테이블을 둘러싼 3인 구도|three people around a table;함께 걷는 3인 와이드샷|three people walking together, wide shot;3인 대칭 구도|three people, symmetrical group composition;중앙 인물을 강조한 3인 구도|three people, center-focused group composition;세 사람 모두 배경까지 보이는 환경 구도|three people, full body, environmental composition;각기 다른 높이로 배치된 3인 구도|three people at varied heights, dynamic group composition;반원 형태로 모인 3인 구도|three people arranged in a loose semicircle`),
+    pose:P(`3명이 나란히 서 있음|three people standing side by side;중앙 1명과 양옆 2명이 서 있음|three people standing, one in center and two on sides;세 명이 서로 마주 보며 서 있음|three people facing one another;한 명은 앉고 두 명은 서 있음|three people, one sitting and two standing;두 명은 앉고 한 명은 서 있음|three people, two sitting and one standing;세 명 모두 소파나 벤치에 앉아 있음|three people sitting together;세 명이 테이블을 둘러앉아 있음|three people sitting around a table;세 명이 같은 방향으로 걷는 중|three people walking together;중앙 인물이 반걸음 앞에 서 있음|three people standing, center person slightly ahead;세 명이 서로 다른 방향을 경계하고 있음|three people standing, watching different directions;한 명을 중심으로 두 명이 양옆에 가까이 서 있음|three people standing close, one centered;세 명이 편하게 모여 서 있음|three people standing casually together;한 명은 팔짱 두 명은 편한 자세로 서 있음|three people, one with crossed arms, two standing casually`),
+    gaze:P(`세 명 모두 정면을 바라봄|all three looking at viewer;세 명이 서로 바라봄|three people looking at one another;세 명 모두 같은 곳을 바라봄|all three looking in the same direction;중앙 인물만 정면을 보고 양옆은 중앙을 봄|center person looking at viewer, side characters looking at center;중앙 인물이 한쪽 사람을 보고 다른 한 명은 정면을 봄|center character looking to one side, another looking at viewer;세 명이 서로 다른 방향을 바라봄|three people looking in different directions;두 명이 한 명을 바라봄|two people looking at one person;한 명이 두 사람을 바라봄|one person looking at the other two;세 명 모두 멀리 바라봄|all three looking into distance;한 명만 뒤돌아보고 두 명은 정면을 봄|one looking back, two facing viewer`),
+    action:P(`세 명이 함께 걸어가고 있다|three people walking together;세 명이 대화하고 있다|three people talking together;한 명이 말하고 두 명이 듣고 있다|one speaking, two listening;두 명이 한 명에게 무언가 설명하고 있다|two explaining something to one person;세 명이 같은 화면이나 지도를 보고 있다|three people looking at the same screen or map;테이블을 둘러싸고 회의하거나 대화하고 있다|three people talking around a table;세 명이 함께 창밖을 바라보고 있다|three people looking out the window together;한 명이 앞서고 두 명이 뒤따라 걷고 있다|one walking ahead, two following;세 명이 서로 다른 방향을 경계하고 있다|three people watching different directions;중앙 인물이 손짓하고 양옆 두 명이 바라보고 있다|center person gesturing, two others watching;세 명이 함께 휴대폰이나 태블릿 화면을 보고 있다|three people looking at the same device;한 명이 물건을 들고 두 명이 그것을 바라보고 있다|one holding an object, two looking at it;세 명이 나란히 앉아 쉬고 있다|three people sitting and resting together;세 명이 한곳을 향해 동시에 움직이고 있다|three people moving toward the same direction;한 명을 중심으로 두 명이 양옆에서 호응하고 있다|three people interacting, one centered`)
+  }
+};
+
+function characterCount(){
+  const v=$('gender')?.value||'';
+  if(v==='3boys'||v==='3girls'||v==='2boys, 1girl'||v==='1boy, 2girls') return 3;
+  if(v==='2boys'||v==='2girls'||v==='1boy, 1girl') return 2;
+  return 1;
+}
+
+function updateCharacterModeHint(){
+  const n=characterCount();
+  const el=$('characterModeHint');
+  if(!el) return;
+  if(n===1){
+    el.textContent='👤 1인 모드 · 기존 랜덤 풀';
+    el.classList.remove('multi');
+  }else if(n===2){
+    el.textContent='👥 2인 모드 · 투샷/상호작용 구도 자동 적용';
+    el.classList.add('multi');
+  }else{
+    el.textContent='👥 3인 모드 · 그룹샷/3인 배치 구도 자동 적용';
+    el.classList.add('multi');
+  }
+}
+
+function multiPersonPool(type){
+  const n=characterCount();
+  return MULTI_PERSON[n]?.[type]||[];
+}
+
+function fitCompositionToPeople(pool,type){
+  const n=characterCount();
+  if(n===1) return pool;
+
+  // 다인 구도에서 특히 충돌하기 쉬운 1인 전용 구도는 제거.
+  if(type==='composition'){
+    const banned=[
+      'face close-up',
+      'bust shot',
+      'POV, close distance',
+      'hands visible',
+      'portrait composition'
+    ];
+    return pool.filter(x=>!banned.some(k=>String(x.en||'').includes(k)));
+  }
+  return pool;
+}
+
+
+
+
+const POV_PERSON={
+  1:{
+    composition:P(`1인칭 POV 클로즈업|POV, first-person perspective, close distance;1인칭 상반신 구도|POV, upper body shot;1인칭 허리 위 구도|POV, waist up;1인칭 손이 일부 보이는 POV|POV, hands visible;1인칭 소파/책상 건너편 구도|POV, from across a table;1인칭 바로 앞에 선 인물 구도|POV, person standing close to viewer;1인칭 올려다보는 구도|POV, looking up at subject;1인칭 내려다보는 구도|POV, looking down at subject;1인칭 침대가/의자 앞 구도|POV, seated in front of subject;1인칭 어두운 공간 근접 구도|POV, close framing`),
+    background:P(`카페 테이블 맞은편|cafe table across from viewer;창가 좌석 맞은편|window seat across from viewer;책상 맞은편 실내|desk across from viewer;소파 앞 낮은 테이블|sofa and low table, viewer-facing;엘리베이터 안 근거리|elevator interior, close distance;차량 조수석 시점|car interior, passenger-view;침대 가장자리 맞은편|bedside, viewer-facing;좁은 복도에서 가까이 선 장면|narrow hallway, close distance;바 카운터 맞은편|bar counter across from viewer;밤의 옥상 난간 앞|rooftop at night, close distance`),
+    pose:P(`바로 앞에 서 있음|standing directly in front of viewer;테이블 맞은편에 앉아 있음|sitting across from viewer;소파나 의자에 기대 앉아 있음|sitting back in chair in front of viewer;몸을 숙여 가까이 다가와 있음|leaning closer toward viewer;한 손을 내밀 수 있는 거리에서 서 있음|standing within arm's reach;옆에 앉아 몸을 돌려 바라보는 자세|sitting beside viewer, turned toward viewer;문가나 벽에 기대 서서 바라보는 자세|leaning against wall, facing viewer;침대 가장자리에 앉아 있는 자세|sitting on edge of bed facing viewer`),
+    gaze:P(`정면으로 시선을 맞춤|looking directly at viewer;살짝 내려다보며 바라봄|looking down at viewer;올려다보는 시선|looking up at viewer;곁눈질로 바라봄|side glance at viewer;시선을 마주한 채 미소 짓는 눈빛|eye contact with viewer, smiling eyes;무심히 내려다보는 시선|indifferent gaze at viewer;의미심장하게 바라봄|meaningful gaze at viewer;날카롭게 응시함|intense gaze at viewer;수줍게 시선을 맞추었다 피함|shy eye contact, looking away`),
+    action:P(`손을 내밀고 있다|reaching hand toward viewer;얼굴 가까이 손을 올리고 있다|hand near viewer's face;무언가를 건네고 있다|offering something to viewer;테이블 너머로 몸을 기울이고 있다|leaning toward viewer across table;손목이나 손을 잡으려 하고 있다|about to hold viewer's hand;벽이나 의자에 기대며 바라보고 있다|leaning while looking at viewer;무언가를 보여주고 있다|showing something to viewer;고개를 숙여 가까이 들여다보고 있다|leaning in to look closely at viewer;입을 열어 말을 건네고 있다|speaking directly to viewer;가볍게 손짓하며 부르고 있다|beckoning viewer with hand`),
+    prop:P(`화면 가까이에 내민 손|outstretched hand in foreground;탁자 위에 놓인 컵이나 서류|cup or documents on table in foreground;카메라 가까이에 놓인 꽃다발이나 선물|gift or flowers in foreground;무릎 위나 손에 올려진 소품|object held toward viewer`)
+  },
+  2:{
+    composition:P(`2인 POV 투샷|POV, two-shot, two people facing viewer;2인 POV 상반신 구도|POV, two people, upper body;2인 POV 테이블 건너편 구도|POV, two people across a table;2인 POV 소파 맞은편 구도|POV, two people seated in front of viewer;2인 POV 와이드 구도|POV, two people both visible;2인 POV 한 명은 가까이 한 명은 뒤에 있는 구도|POV, two people, one closer to viewer, one behind`),
+    background:P(`카페 부스석 맞은편|cafe booth across from viewer;소파 라운지 맞은편|lounge sofa across from viewer;회의실 테이블 건너편|meeting room table across from viewer;차량 앞좌석/뒷좌석 구도|car interior with two people visible;실내 바 테이블 맞은편|bar table across from viewer;창가 벤치 맞은편|window bench across from viewer;옥상 난간 앞 2인 장면|rooftop with two people facing viewer;학교 복도 창가 맞은편|school hallway window area, two people facing viewer`),
+    pose:P(`두 사람이 나란히 서서 바라봄|two people standing side by side facing viewer;두 사람이 나란히 앉아 있음|two people sitting side by side facing viewer;한 명은 서 있고 한 명은 앉아 있음|one standing one sitting facing viewer;한 명은 가까이 몸을 기울이고 한 명은 뒤에 서 있음|one leaning closer while the other stands behind;테이블 건너편에 나란히 앉아 있음|two people sitting across the table`),
+    gaze:P(`두 사람 모두 정면을 바라봄|both looking directly at viewer;한 명은 정면 한 명은 다른 한 명을 봄|one looking at viewer, one looking at the other;두 사람이 번갈아 시선을 보내는 느낌|alternating gaze toward viewer;한 명은 아래로 시선을 떨어뜨리고 한 명은 정면을 봄|one looking down, one looking at viewer;두 사람 모두 의미심장하게 바라봄|both giving meaningful gaze to viewer`),
+    action:P(`한 명이 무언가를 내밀고 다른 한 명이 지켜봄|one offering something to viewer while the other watches;두 사람이 같은 화면이나 서류를 보여줌|two people showing the same document or screen to viewer;한 명이 손을 내밀고 한 명은 옆에서 기대 서 있음|one reaching toward viewer, one leaning nearby;두 사람이 함께 몸을 조금 기울여 가까이 옴|both leaning slightly toward viewer;두 사람이 동시에 말을 거는 듯한 장면|two people appearing to speak to viewer;한 명이 웃으며 말을 건네고 다른 한 명이 관찰함|one talking while the other watches viewer`),
+    prop:P(`테이블 위 두 개의 컵이나 소품|two cups or items on table in foreground;둘이 보여주는 서류나 휴대폰|document or phone shown toward viewer;전경에 놓인 꽃다발이나 선물 상자|flowers or gift box in foreground`)
+  },
+  3:{
+    composition:P(`3인 POV 그룹샷|POV, group shot, three people facing viewer;3인 POV 상반신 그룹샷|POV, three people, upper body;3인 POV 중앙 1명 양옆 2명 구도|POV, one in center and two on sides;3인 POV 테이블을 둘러싼 구도|POV, three people around a table;3인 POV 한 명은 가까이 두 명은 뒤에 있는 구도|POV, one close to viewer, two behind`),
+    background:P(`회의 테이블 맞은편 3인 장면|meeting table with three people facing viewer;소파 라운지 3인 장면|lounge with three people facing viewer;캠퍼스 벤치 앞 3인 장면|campus bench scene, three people facing viewer;카페 테이블 맞은편 3인 장면|cafe table with three people facing viewer;복도/로비 앞 3인 장면|lobby or hallway with three people facing viewer`),
+    pose:P(`세 사람이 함께 서서 바라봄|three people standing facing viewer;중앙 1명과 양옆 2명이 배치된 자세|one in center, two on sides facing viewer;한 명은 앉고 두 명은 서 있음|one sitting, two standing facing viewer;세 사람이 테이블 맞은편에 함께 있음|three people across table from viewer;중앙 인물이 반걸음 앞에 있고 양옆이 뒤에 있음|center person slightly forward, two behind`),
+    gaze:P(`세 사람 모두 정면을 바라봄|all three looking at viewer;중앙 인물만 정면, 양옆은 중앙이나 viewer를 번갈아 봄|center looking at viewer, sides alternating gaze;두 명은 한 명을 보고 한 명은 정면을 봄|two looking at one another, one looking at viewer;세 사람이 모두 다른 방식으로 시선을 줌|three varied gazes toward viewer`),
+    action:P(`한 명이 무언가를 내밀고 두 명이 지켜봄|one offering something while the others watch;세 사람이 같은 자료나 화면을 보여줌|three people showing the same document or screen to viewer;중앙 인물이 몸을 기울이고 양옆 둘이 함께 서 있음|center person leaning toward viewer, two standing nearby;세 사람이 함께 이야기를 건네는 장면|three people appearing to address viewer;중앙 인물이 말하고 양옆이 반응하는 장면|center person speaking while others react`),
+    prop:P(`테이블 위 여러 개의 컵이나 문서|multiple cups or documents on table foreground;세 사람이 보여주는 화면이나 지도|screen or map shown toward viewer;전경에 놓인 선물이나 작은 소품들|gifts or small props in foreground`)
+  }
+};
+const POV_TYPE_PRESETS={
+  auto:{},
+  talk:{
+    composition:P(`대화형 POV 정면 구도|POV, conversational framing;테이블 맞은편 대화 구도|POV, talking across a table;의자를 사이에 둔 대화 구도|POV, seated conversation framing`),
+    background:P(`카페 대화 자리|cafe conversation setting;사무실 책상 맞은편|office desk conversation setting;창가 좌석 대화 장면|window-side conversation setting`),
+    gaze:P(`말을 건네듯 부드럽게 바라봄|gentle gaze while speaking to viewer;질문을 던지듯 바라봄|inquiring gaze at viewer;설명하듯 시선을 맞춤|explaining while maintaining eye contact`),
+    action:P(`입을 열어 말을 건넴|speaking to viewer;서류나 휴대폰을 보여주며 설명함|explaining while showing document or phone;손짓하며 대화를 이어감|gesturing while talking to viewer`),
+    prop:P(`메뉴판이나 서류를 보여줌|menu or document shown to viewer;테이블 위 컵과 필기구|cups and stationery on table foreground`)
+  },
+  hand:{
+    composition:P(`손잡기 직전 POV|POV, hand-holding scene;손이 전경에 크게 잡히는 POV|POV, hand-focused framing;가까운 거리 손 중심 구도|POV, close interaction framing`),
+    background:P(`산책길 나란히 걷는 장면|walking path, hand-holding mood;교실 책상 사이 손닿는 거리|classroom desk distance, hand-holding mood;벤치나 소파 옆자리|bench or sofa side-by-side scene`),
+    pose:P(`옆자리에서 손을 내밀 수 있는 거리|close side-by-side distance;정면에서 손을 건네는 자세|offering hand toward viewer;한 걸음 가까이 다가온 자세|one step closer to viewer`),
+    gaze:P(`손을 건네며 바라봄|looking at viewer while offering hand;조심스럽게 시선을 맞춤|careful eye contact;기대하는 눈빛|expectant gaze at viewer`),
+    action:P(`손을 내밀고 잡아주길 기다림|offering hand to viewer;손끝이 스칠 듯 가까이 다가옴|fingertips almost touching viewer;손을 살짝 끌어당기려 함|gently trying to pull viewer by hand`),
+    prop:P(`전경에 크게 들어온 손|hand in the foreground;손목에 닿는 액세서리|bracelet or watch near hand foreground`)
+  },
+  prekiss:{
+    composition:P(`키스 직전 초근접 POV|POV, near-kiss close-up;얼굴이 매우 가까운 POV|POV, face very close to viewer;숨결이 닿을 듯한 거리의 POV|POV, intimate close distance`),
+    background:P(`은은한 조명의 소파 앞|soft-lit sofa area;창가 밤조명 앞 근거리|night window light, close distance;침대 가장자리나 벽 앞 근거리|bedside or wall-side intimate distance`),
+    pose:P(`얼굴을 가까이 들이민 자세|leaning face very close to viewer;턱을 살짝 숙여 다가온 자세|leaning in with lowered chin;한 손으로 벽이나 소파를 짚고 가까이 온 자세|leaning in close with hand braced nearby`),
+    gaze:P(`입술로 시선이 잠시 떨어졌다가 다시 눈을 맞춤|eyes briefly lowering to lips then back to viewer;짙게 시선을 고정함|intense close eye contact;숨을 고르며 바라봄|breath-catching gaze at viewer`),
+    action:P(`얼굴을 아주 가까이 가져옴|bringing face very close to viewer;입술이 닿기 직전 멈춰 섬|stopping just before a kiss;손을 뻗어 턱이나 볼 가까이에 둠|hand near viewer's cheek or chin`),
+    prop:P(`전경 가까운 손끝과 얼굴 윤곽|hand and face close to foreground;조명에 반짝이는 액세서리 클로즈업|glinting accessory in close foreground`)
+  }
+};
+const POV_STRENGTH_PRESETS={
+  subtle:{
+    composition:P(`은근한 POV 중거리 구도|subtle POV, mid distance;자연스러운 POV 상반신 구도|subtle POV, natural upper body framing`),
+    background:P(`조금 여유 있는 거리의 실내 장면|comfortable interior distance;일상적인 대화 거리 장면|casual conversational distance`),
+    action:P(`가볍게 말을 건네는 동작|casual speaking gesture;무언가를 보여주며 반응을 기다림|showing something and waiting for response`)
+  },
+  strong:{
+    composition:P(`몰입감 강한 POV 초근접 구도|immersive POV, extreme close distance;viewer 중심의 강한 POV 구도|viewer-centered, immersive framing;카메라 가까이 압박감 있게 들어오는 구도|intense close-up toward viewer`),
+    background:P(`인물과 배경 거리가 좁은 근거리 장면|tight close-distance scene;시선과 행동이 viewer 중심인 장면|viewer-centered intimate scene`),
+    gaze:P(`강한 시선 고정|locked intense eye contact;viewer를 압도하는 시선|commanding gaze at viewer`),
+    action:P(`화면 가까이 성큼 다가옴|stepping very close to viewer;손이 화면 가까이 크게 들어옴|hand coming close into foreground;viewer 공간 안으로 깊게 기울어 들어옴|leaning deeply into viewer space`),
+    prop:P(`전경을 강하게 점유하는 손이나 소품|foreground-dominant hand or prop`)
+  }
+};
+function isPovMode(){return ($('povMode')?.value||'off')==='on'}
+function povStrength(){return $('povStrength')?.value||'subtle'}
+function povType(){return $('povType')?.value||'auto'}
+function povPromptTags(){
+  if(!isPovMode()) return [];
+  const tags=['POV','first-person perspective'];
+  if(povStrength()==='strong') tags.push('immersive POV','viewer-centered composition','close interaction');
+  else tags.push('subtle POV','viewer perspective');
+  if(povType()==='talk') tags.push('conversational POV');
+  else if(povType()==='hand') tags.push('hand-holding POV','outstretched hand');
+  else if(povType()==='prekiss') tags.push('near-kiss POV','intimate distance');
+  return tags;
+}
+function updatePovModeHint(){
+  const hint=$('povModeHint'), strengthEl=$('povStrength'), typeEl=$('povType');
+  if(!hint) return;
+  const on=isPovMode();
+  if(strengthEl) strengthEl.disabled=!on;
+  if(typeEl) typeEl.disabled=!on;
+  if(!on){
+    hint.textContent='📷 일반 시점 모드';
+    hint.classList.remove('on');
+    return;
+  }
+  const typeLabel={auto:'자동',talk:'대화형',hand:'손잡기',prekiss:'키스 직전'}[povType()]||'자동';
+  const strengthLabel=povStrength()==='strong'?'강하게':'약하게';
+  hint.textContent=`📷 POV ON · ${characterCount()}인 · ${typeLabel} · ${strengthLabel}`;
+  hint.classList.add('on');
+}
+function povPool(type){
+  if(!isPovMode()) return [];
+  const n=characterCount();
+  let out=[];
+  if(POV_PERSON[n]?.[type]) out.push(...POV_PERSON[n][type]);
+  if(POV_TYPE_PRESETS[povType()]?.[type]) out.push(...POV_TYPE_PRESETS[povType()][type]);
+  if(POV_STRENGTH_PRESETS[povStrength()]?.[type]) out.push(...POV_STRENGTH_PRESETS[povStrength()][type]);
+  return out;
+}
+function fitCompositionToPov(pool,type){
+  if(!isPovMode()) return pool;
+  if(type==='composition'){
+    const banned=['from behind','back-to-back','side view, walking','extreme low angle'];
+    pool=pool.filter(x=>!banned.some(k=>String(x.en||'').includes(k)));
+  }
+  if(type==='gaze'){
+    pool=pool.filter(x=>!String(x.en||'').includes('looking away from viewer'));
+  }
+  if(povType()==='hand' && type==='action'){
+    pool=pool.filter(x=>/hand|손/.test(String(x.en||'')+String(x.ko||'')) || /offer|touch|hold/.test(String(x.en||'')));
+  }
+  if(povType()==='prekiss' && (type==='composition'||type==='action'||type==='gaze')){
+    pool=pool.filter(x=>!/walking together|group shot, wide/.test(String(x.en||'')));
+  }
+  return pool;
+}
+
+const MODERN={
+background:P(`도심 고층 건물 사이|modern downtown, high-rise buildings;조용한 주택가|quiet residential neighborhood;빌딩 로비|modern building lobby;긴 실내 복도|modern hallway;계단참|stairwell;옥상|urban rooftop;지하주차장|underground parking garage;건물 출입구 앞|building entrance;유리창이 큰 현대식 실내|modern interior, floor-to-ceiling windows;도심 야경이 내려다보이는 공간|city night view, high-rise interior;비상계단|emergency stairwell;자동판매기 옆 휴게 공간|vending machine area;유리문이 있는 현대식 복도|modern corridor, glass doors;조용한 대기 공간|modern waiting area;건물 뒤편 골목|back alley behind building;현대식 라운지|modern lounge;창가 벤치|window-side bench`),
+outfit:P(`흰 셔츠와 검은 슬랙스|white dress shirt, black slacks;검은 셔츠와 슬랙스|black dress shirt, slacks;소매를 걷은 흰 셔츠|white dress shirt, rolled-up sleeves;소매를 걷은 검은 셔츠|black dress shirt, rolled-up sleeves;셔츠와 느슨한 넥타이|dress shirt, loosened necktie;셔츠와 단정한 넥타이|dress shirt, necktie;셔츠와 조끼|dress shirt, waistcoat;쓰리피스 정장|three-piece suit;검은 정장|black business suit;네이비 정장|navy business suit;더블 브레스티드 정장|double-breasted suit;검은 터틀넥과 슬랙스|black turtleneck, slacks;니트와 슬랙스|knit sweater, slacks;오버핏 니트|oversized knit sweater;가디건과 셔츠|cardigan, dress shirt;가디건과 티셔츠|cardigan, t-shirt;후드티와 청바지|hoodie, jeans;후드집업과 티셔츠|zip-up hoodie, t-shirt;맨투맨과 면바지|sweatshirt, casual pants;오버핏 티셔츠|oversized t-shirt;검은 티셔츠와 청바지|black t-shirt, jeans;흰 티셔츠와 청바지|white t-shirt, jeans;가죽 재킷|leather jacket;라이더 재킷|biker jacket;야구점퍼|varsity jacket;트렌치코트|trench coat;검은 롱코트|black long coat;캐멀색 롱코트|camel long coat;패딩 재킷|puffer jacket;데님 재킷|denim jacket;후드가 달린 코트|hooded coat;트레이닝복|tracksuit;운동용 반팔과 조거팬츠|athletic t-shirt, jogger pants;편안한 홈웨어|loungewear;파자마|pajamas;실크 파자마|silk pajamas;목욕가운|bathrobe;얇은 니트와 롱스커트|light knit sweater, long skirt;블라우스와 슬랙스|blouse, slacks;단정한 원피스|simple elegant dress;니트 원피스|knit dress;블라우스와 롱스커트|blouse, long skirt;민소매 니트와 슬랙스|sleeveless knit top, slacks;셔츠 원피스|shirt dress;오버핏 셔츠와 반바지|oversized shirt, shorts`),
+action:P(`주머니에 한 손을 넣고 서 있다|standing with one hand in pocket;양손을 주머니에 넣고 서 있다|standing with both hands in pockets;팔짱을 끼고 있다|crossed arms;벽에 등을 기대고 있다|leaning against wall;한쪽 어깨를 벽에 기대고 있다|leaning one shoulder against wall;창문에 기대 서 있다|leaning against window;난간에 기대 서 있다|leaning against railing;책상에 기대 서 있다|leaning against desk;의자에 편하게 기대앉아 있다|leaning back in chair;다리를 꼬고 앉아 있다|sitting with legs crossed;턱을 괴고 있다|resting chin on hand;관자놀이를 누르고 있다|pressing fingers to temple;머리를 뒤로 넘기고 있다|brushing hair back;앞머리를 정리하고 있다|adjusting bangs;안경을 고쳐 쓰고 있다|adjusting glasses;넥타이를 느슨하게 풀고 있다|loosening necktie;셔츠 소매를 걷고 있다|rolling up sleeves;재킷 단추를 풀고 있다|unbuttoning jacket;재킷을 어깨에 걸치고 있다|jacket over shoulder;휴대폰을 확인하고 있다|checking smartphone;휴대폰으로 통화하고 있다|talking on smartphone;메시지를 입력하고 있다|typing on smartphone;이어폰을 끼고 있다|wearing earphones;이어폰 한쪽을 빼고 있다|removing one earbud;커피잔을 들고 있다|holding coffee cup;테이크아웃 컵을 들고 있다|holding takeaway coffee cup;물을 마시고 있다|drinking water;책을 읽고 있다|reading book;서류를 읽고 있다|reading documents;노트북을 사용하고 있다|using laptop;태블릿을 확인하고 있다|checking tablet;펜을 돌리고 있다|twirling pen;메모를 적고 있다|writing notes;창밖을 바라보고 있다|looking out window;뒤를 돌아보고 있다|looking back;고개를 살짝 기울이고 있다|tilting head;고개를 숙인 채 서 있다|standing with head lowered;천천히 걸어오고 있다|walking toward viewer;등을 보인 채 걸어가고 있다|walking away;문손잡이를 잡고 있다|holding door handle;문을 열고 들어오고 있다|opening door;가방 끈을 한 손으로 잡고 있다|holding bag strap;손목시계를 확인하고 있다|checking wristwatch;기지개를 켜고 있다|stretching;하품을 하고 있다|yawning;눈을 비비고 있다|rubbing eyes;두 손으로 얼굴을 잠시 가리고 있다|covering face with both hands;한 손으로 목 뒤를 만지고 있다|touching back of neck;손을 내밀고 있다|reaching out hand;가볍게 손을 흔들고 있다|waving;바닥에 쪼그려 앉아 있다|crouching;계단을 올라가고 있다|walking up stairs;우산을 들고 있다|holding umbrella;젖은 머리를 털고 있다|shaking water from wet hair;문틀에 기대 서 있다|leaning in doorway;소파 팔걸이에 팔을 올리고 있다|arm resting on sofa arm;한 손으로 얼굴을 받치고 있다|resting cheek on one hand;목깃을 정리하고 있다|adjusting collar;신발끈을 묶고 있다|tying shoelaces;가방을 내려놓고 있다|putting down bag`)
+};
+const FANTASY={
+background:P(`중세풍 성 내부 복도|medieval castle corridor;고대 석조 회랑|ancient stone corridor;왕국 수도 광장|fantasy capital city square;중세 시장 거리|medieval fantasy market;성벽 위|castle battlements;높은 탑 꼭대기|high fantasy tower rooftop;고대 유적|ancient fantasy ruins;마력이 흐르는 숲|enchanted forest;달빛이 비치는 숲|moonlit fantasy forest;산맥이 보이는 초원|fantasy grassland, distant mountains;석조 다리|ancient stone bridge;중세풍 마을|medieval fantasy village;성문 앞|castle gate;화려한 왕궁 내부|ornate royal palace interior;거대한 연회장|grand fantasy banquet hall;왕궁 지하 회랑|royal underground passage;절벽 위 성채|clifftop fortress`),
+outfit:P(`긴 검은 망토|long black cloak;자수가 들어간 긴 망토|embroidered long cloak;중세풍 셔츠와 가죽 벨트|medieval shirt, leather belt;가죽 장갑과 부츠|leather gloves, boots;고급 귀족 예복|luxurious noble attire;검은 귀족복|black noble attire;흰색과 금색 귀족복|white and gold noble attire;가벼운 가죽 갑옷|light leather armor;전투용 경갑|light battle armor;은빛 판금 갑옷|silver plate armor;검은 판금 갑옷|black plate armor;긴 로브|long fantasy robe;후드가 달린 로브|hooded fantasy robe;화려한 왕실 제복|ornate royal uniform;금실 자수 예복|gold embroidered ceremonial robe;용병용 가죽 장비|mercenary leather gear;여행용 망토와 부츠|traveler cloak, boots;모험가 복장|fantasy adventurer outfit;검집과 벨트 장비|sword belt, scabbard;마법 보석 장식|magical gemstone accessories;어두운 가죽 코트|dark leather coat;실크 안감 귀족 망토|silk-lined noble cloak;전투 흔적 갑옷|battle-worn armor`),
+action:P(`검 손잡이에 손을 얹고 있다|hand resting on sword hilt;검을 뽑아 들고 있다|drawing sword;검을 어깨에 걸치고 있다|resting sword on shoulder;검을 바닥에 짚고 서 있다|standing with sword tip on ground;한쪽 무릎을 꿇고 있다|kneeling on one knee;망토를 휘날리며 걷고 있다|walking with cape flowing;두 손을 뒤로 모으고 서 있다|standing with hands behind back;높은 곳에서 아래를 내려다보고 있다|looking down from high place;부채를 펼쳐 들고 있다|holding open folding fan;와인잔을 들고 있다|holding wine glass;두루마리를 펼쳐 보고 있다|reading scroll;고대 지도를 보고 있다|looking at ancient map;마법서를 읽고 있다|reading spellbook;손끝에 마력을 모으고 있다|gathering magic at fingertips;손바닥 위에 빛을 만들어내고 있다|glowing magic in palm;공중에 마법진을 펼치고 있다|casting floating magic circle;지팡이를 들고 있다|holding magic staff;촛불을 켜고 있다|lighting candle;기도하듯 두 손을 모으고 있다|hands clasped in prayer;성물이나 펜던트를 쥐고 있다|holding sacred pendant;말에서 내리고 있다|dismounting horse;벽에 기대 쉬고 있다|leaning against stone wall;난간에 기대 아래를 보고 있다|leaning on balcony railing;왕좌에 앉아 있다|sitting on throne;의자 팔걸이에 턱을 괴고 있다|resting chin on hand while seated;장갑을 벗고 있다|removing gloves;후드를 벗고 있다|pulling down hood;바닥의 흔적을 살펴보고 있다|examining tracks on ground;전방을 경계하고 있다|watching surroundings;전투 자세를 취하고 있다|combat stance;망토의 후드를 깊게 눌러쓰고 있다|pulling hood low;보석을 손끝에서 굴리고 있다|rolling gemstone between fingers;횃불을 들고 있다|holding torch;성벽을 따라 걷고 있다|walking along battlements`)
+};
+const GUIDE={
+background:P(`현대식 에스퍼 센터 복도|modern esper center hallway;센터 로비|esper center lobby;통제구역 앞|restricted facility area;지하 센터 시설|underground esper facility;작전 대기실|operations waiting room;능력자 전용 병동|specialized esper hospital ward;보안문이 이어진 복도|secure facility corridor;모니터가 가득한 통제실|operations control room, multiple monitors;의료 장비가 놓인 실내|medical facility, equipment;파손된 센터 내부|damaged esper center interior;센터 지하주차장|esper center underground parking;게이트 대응 물자창고|gate response equipment storage`),
+outfit:P(`센터 지급 검은 제복|black center uniform;센터 지급 흰 셔츠와 슬랙스|center uniform, white shirt, slacks;검은 전술복|black tactical uniform;방탄조끼 전술복|tactical uniform, bulletproof vest;긴 전술 코트|long tactical coat;작전용 장갑과 전투화|tactical gloves, combat boots;연구원 가운|researcher lab coat;의료진 가운|medical coat;환자복|hospital gown;흐트러진 작전복|disheveled tactical uniform;찢어진 전투복|torn combat uniform;피와 먼지가 묻은 전투복|dirty bloodstained combat uniform;센터 정장|formal center business suit;검은 셔츠와 센터 ID카드|black dress shirt, center ID card;후드집업과 센터 출입카드|hoodie, center ID card;경량 방어복|light protective tactical suit;현장 구조 조끼|rescue vest`),
+action:P(`무전기를 들고 있다|holding radio;무전기로 보고하고 있다|speaking into radio;태블릿으로 수치를 확인하고 있다|checking readings on tablet;모니터를 주시하고 있다|watching monitor;검사 결과지를 읽고 있다|reading test results;손목의 센서 장치를 확인하고 있다|checking wrist sensor;벽에 기대 숨을 고르고 있다|leaning against wall, catching breath;무릎에 팔꿈치를 얹고 숨을 고르고 있다|sitting, elbows on knees, catching breath;상대의 손목을 잡고 있다|holding another person's wrist;상대의 손을 붙잡고 있다|holding another person's hand;상대를 보호하듯 앞을 막고 있다|standing protectively in front;무기를 들어 전방을 겨누고 있다|aiming weapon forward;능력을 사용하기 위해 손을 뻗고 있다|reaching hand forward, using supernatural power;손 주변에 능력 에너지가 모이고 있다|supernatural energy gathering around hand;바닥에 한쪽 무릎을 꿇고 있다|kneeling on one knee;부상당한 팔을 붙잡고 있다|holding injured arm;옆구리를 누르며 버티고 있다|holding injured side;머리를 감싸 쥐고 있다|clutching head;벽에 손을 짚고 서 있다|bracing against wall;침대 가장자리에 앉아 있다|sitting on edge of bed;병실 창밖을 바라보고 있다|looking out hospital window;센터 복도를 빠르게 걷고 있다|walking quickly through facility hallway;문 앞에서 잠시 멈춰 서 있다|stopping in front of door;장갑을 끼고 있다|putting on tactical gloves;보호장비를 점검하고 있다|checking tactical equipment;동료를 부축하고 있다|supporting injured teammate;잔해 사이를 살펴보고 있다|searching through debris;주변을 경계하며 천천히 이동하고 있다|moving cautiously, watching surroundings;게이트를 응시하고 있다|staring at dimensional gate;호흡을 일정하게 가다듬고 있다|steadying breathing;능력 억제 장치를 확인하고 있다|checking suppression device;응급 키트를 열고 있다|opening emergency kit;바닥의 마력 반응을 확인하고 있다|checking energy traces on ground`)
+};
+const PERIOD={action:P(`소매를 가지런히 모으고 있다|hands gathered inside long sleeves;두 손을 앞으로 가지런히 모으고 있다|hands folded neatly in front;부채를 펼쳐 들고 있다|holding open folding fan;부채를 접은 채 손에 들고 있다|holding closed folding fan;차를 마시고 있다|drinking tea;찻잔을 손에 들고 있다|holding teacup;서책을 읽고 있다|reading old book;붓으로 글을 쓰고 있다|writing with calligraphy brush;창밖을 바라보고 있다|looking out traditional window;정자 난간에 기대 있다|leaning against pavilion railing;뒤를 돌아보고 있다|looking back;천천히 걸어오고 있다|walking toward viewer;고개를 살짝 숙여 인사하고 있다|slightly bowing;검집에 손을 얹고 있다|hand resting on sword sheath;검을 뽑고 있다|drawing sword;한쪽 무릎을 꿇고 있다|kneeling on one knee;계단 위에 서 있다|standing on stone steps;마루에 앉아 있다|sitting on wooden veranda;말고삐를 잡고 있다|holding horse reins;등불을 들고 있다|holding lantern;비녀나 관모를 정리하고 있다|adjusting traditional headwear;마당을 천천히 걷고 있다|walking across courtyard;문살문을 열고 있다|opening traditional wooden door;찻주전자를 기울이고 있다|pouring tea`)};
+const C=(label,b='',o='',a='')=>({label,background:P(b),outfit:P(o),action:P(a)});
+const DB={
+modern:{label:'현대물',common:MODERN,categories:{
+cafe:C('☕ 카페',`햇살이 드는 카페 창가|cozy cafe, window seat;늦은 밤 조용한 카페|quiet cafe at night;대형 통창 도심 카페|modern city cafe, floor-to-ceiling windows;골목 빈티지 카페|small vintage cafe in alley;북카페|book cafe, bookshelves;야외 테라스 카페|outdoor cafe terrace;루프탑 카페|rooftop cafe;바다가 보이는 카페|seaside cafe, ocean view`,`바리스타 앞치마와 셔츠|barista apron, dress shirt;캐주얼 니트와 슬랙스|casual knit sweater, slacks`,`머그컵을 두 손으로 감싸고 있다|holding mug with both hands;빨대로 음료를 마시고 있다|drinking through straw;메뉴판을 보고 있다|looking at cafe menu;커피를 내리고 있다|making coffee`),
+restaurant:C('🍽️ 음식점',`고급 레스토랑 창가 테이블|fine dining restaurant, window table;이탈리안 레스토랑|Italian restaurant;작은 동네 식당|small neighborhood restaurant;오픈키친 레스토랑|restaurant with open kitchen;호텔 레스토랑|luxury hotel restaurant;루프탑 레스토랑|rooftop restaurant;프라이빗 다이닝룸|private dining room`,`단정한 셔츠와 슬랙스|neat dress shirt, slacks;고급 정장|formal business suit;깔끔한 원피스|elegant dress`,`메뉴판을 펼쳐 보고 있다|looking at restaurant menu;포크를 손에 들고 있다|holding fork;와인잔을 들고 있다|holding wine glass`),
+bar:C('🍸 바 / 술집',`호텔 바|luxury hotel bar;도심 칵테일 바|modern cocktail bar;빈티지 위스키 바|vintage whiskey bar;루프탑 바|rooftop bar, city skyline;재즈 바|jazz bar interior;심야 바|quiet late-night bar;네온 펍|pub interior, neon signs`,`검은 셔츠와 검은 슬랙스|black dress shirt, black slacks;셔츠와 조끼|dress shirt, waistcoat`,`바 카운터에 기대 있다|leaning on bar counter;잔을 손끝으로 돌리고 있다|swirling glass;바 스툴에 앉아 있다|sitting on bar stool`),
+club:C('🎧 클럽',`네온 나이트클럽|nightclub, neon lights;댄스 플로어|crowded dance floor;클럽 VIP룸|nightclub VIP room;DJ 부스|DJ booth;클럽 바 카운터|nightclub bar counter`,`가죽 재킷과 검은 티셔츠|leather jacket, black t-shirt;화려한 파티 드레스|party dress;슬림핏 셔츠|slim-fit dress shirt`,`한 손으로 잔을 들고 있다|holding drink in one hand;벽에 기대 사람들을 보고 있다|leaning against wall, watching crowd`),
+convenience:C('🏪 편의점',`심야 편의점|convenience store interior at night;계산대 앞|convenience store checkout counter;음료 냉장고 앞|convenience store drink refrigerators;야외 테이블|convenience store outdoor table;비 오는 편의점 입구|convenience store entrance, rain`,`편의점 조끼 유니폼|convenience store vest uniform`,`음료 냉장고 문을 열고 있다|opening drink refrigerator;컵라면을 들고 있다|holding instant noodle cup;계산대에 기대 있다|leaning against checkout counter`),
+mart:C('🛒 마트 / 슈퍼',`대형마트 식품 코너|supermarket food aisle;냉동식품 코너|supermarket freezer aisle;동네 슈퍼|small neighborhood grocery store;마트 계산대|supermarket checkout;과일 코너|supermarket fruit section`,`마트 직원 조끼|supermarket employee vest`,`카트를 밀고 있다|pushing shopping cart;진열대 상품을 집고 있다|taking item from shelf;장바구니를 들고 있다|holding shopping basket`),
+street:C('🌃 길거리 / 번화가',`네온 번화가|downtown street, neon signs;비 내리는 밤거리|rainy city street at night;가로등 거리|city street, street lamps;노을 도심 거리|city street at sunset;새벽의 텅 빈 거리|empty city street at dawn;횡단보도 앞|urban crosswalk;쇼핑 거리|shopping street, storefront signs;육교 위|pedestrian overpass`, '', `신호를 기다리고 있다|waiting at crosswalk;휴대폰을 보며 걷고 있다|walking while checking smartphone;우산을 접고 있다|closing umbrella`),
+alley:C('🌙 골목 / 뒷골목',`좁은 주택가 골목|narrow residential alley;상가 뒷골목|commercial back alley;비 고인 어두운 골목|dark alley, puddles;벽화 골목|urban alley with murals;가로등 하나만 켜진 골목|dim alley, single streetlamp;벽돌 건물 골목|brick building alley`,'',`벽에 기대 서 있다|leaning against alley wall;골목 끝을 바라보고 있다|looking toward end of alley`),
+school:C('🏫 학교',`햇빛이 드는 교실|classroom, sunlight;방과 후 빈 교실|empty classroom after school;학교 복도|school hallway;학교 옥상|school rooftop;학교 도서실|school library;체육관|school gymnasium;미술실|school art classroom;음악실|school music room;급식실|school cafeteria;계단참|school stairwell`,`단정한 교복|neat school uniform;교복 셔츠와 넥타이|school uniform, shirt, necktie;교복 위 가디건|school uniform, cardigan;체육복|school gym uniform`,`책상에 엎드려 있다|resting head on desk;교과서를 읽고 있다|reading textbook;교실 창가에 기대 있다|leaning against classroom window`),
+campus:C('🎓 대학교 / 캠퍼스',`대학교 본관|university main building;캠퍼스 잔디광장|university lawn;캠퍼스 벤치|campus bench;대학교 강의실|university lecture hall;대학교 도서관|university library;학생회관|university student center;벚꽃 캠퍼스|university campus, cherry blossoms;은행나무길|university campus, ginkgo trees`,`대학생 캐주얼룩|casual college outfit;야구점퍼와 후드티|varsity jacket, hoodie`,`책을 품에 안고 걷고 있다|walking while holding books;벤치에 앉아 있다|sitting on campus bench;커피를 들고 걷고 있다|walking with coffee`),
+library:C('📚 도서관',`높은 책장의 도서관|library, tall bookshelves;조용한 열람실|quiet library reading room;도서관 창가|university library, window seat;오래된 작은 도서관|old small library;심야 도서관|library late at night;서가 사이 통로|library aisle between bookshelves`,'',`서가에서 책을 꺼내고 있다|taking book from shelf;책장을 넘기고 있다|turning book pages;열람실 책상에 앉아 있다|sitting at library desk`),
+office:C('🏢 회사 / 오피스',`야경이 보이는 고층 오피스|high-rise office, city night view;현대식 오픈 오피스|modern open-plan office;퇴근 후 빈 사무실|empty office after work;개인 사무실|private office;서류 가득 업무 공간|office workspace, documents;유리벽 오피스|modern office, glass walls;야근 사무실|office during overtime at night`,`흰 셔츠와 검은 넥타이|white dress shirt, black necktie;재킷을 벗은 정장|business attire, jacket removed;사원증을 건 셔츠|dress shirt, employee ID card`,`업무 서류를 넘기고 있다|flipping through office documents;회사 노트북을 보고 있다|looking at work laptop;창밖 야경을 내려다보고 있다|looking down at city night view`),
+meeting:C('📊 회의실',`유리벽 회의실|glass-walled meeting room;긴 테이블 회의실|corporate conference room;프레젠테이션 화면 회의실|conference room, presentation screen;임원 회의실|executive boardroom;회의 후 빈 회의실|empty conference room after meeting`,`완벽한 정장|formal business suit;셔츠와 조끼 넥타이|dress shirt, waistcoat, necktie`,`화이트보드 앞에서 설명한다|presenting in front of whiteboard;프레젠테이션 화면을 가리킨다|pointing at presentation screen`),
+executive:C('🪟 임원실 / 대표실',`도심 야경 대표실|executive office, city night view;대형 책상 임원실|executive office, large desk;가죽 소파 대표실|executive office, leather sofa;최상층 코너 오피스|top-floor corner office`,`고급 쓰리피스 수트|luxury three-piece suit;더블 브레스티드 정장|double-breasted suit`,`창문 앞에서 도시를 내려다본다|looking down at city from window;가죽 의자에 기대앉아 있다|leaning back in leather chair`),
+pantry:C('☕ 탕비실 / 휴게실',`회사 탕비실|office pantry;커피머신 휴게실|office break room, coffee machine;작은 냉장고 휴게 공간|break room, small refrigerator;야근 중 탕비실|office pantry at night`,'',`커피머신 앞에 서 있다|standing by coffee machine;종이컵에 커피를 따른다|pouring coffee into paper cup;냉장고 문을 연다|opening refrigerator`),
+elevator:C('🛗 엘리베이터',`현대식 빌딩 엘리베이터|modern elevator interior;호텔 엘리베이터|luxury hotel elevator;유리 엘리베이터|glass elevator;회사 엘리베이터 앞|office elevator lobby;심야 빈 엘리베이터|empty elevator late at night`,'',`엘리베이터 벽에 기대 있다|leaning against elevator wall;층수 버튼을 누른다|pressing elevator button;문 쪽을 바라본다|looking toward elevator doors`),
+restroom:C('🚻 화장실',`대리석 세면대 화장실|luxury restroom, marble sink;회사 화장실|office restroom;호텔 화장실|luxury hotel restroom;큰 거울 세면 공간|restroom, large mirror;공공 화장실|modern public restroom`,'',`세면대에 두 손을 짚는다|hands resting on sink counter;거울 속 자신을 바라본다|looking into mirror;손을 씻는다|washing hands;넥타이를 고쳐 맨다|adjusting necktie in mirror`),
+shower:C('🚿 샤워실 / 욕실',`김이 서린 현대식 욕실|modern bathroom, steam;호텔 유리 샤워부스|luxury hotel shower booth;체육관 샤워실|gym shower room;넓은 욕조 욕실|modern bathroom, large bathtub;대리석 고급 욕실|luxury marble bathroom`,`목욕가운|bathrobe;허리에 두른 목욕 타월|bath towel around waist;젖은 흰 셔츠|wet white dress shirt`,`수건으로 젖은 머리를 닦는다|drying wet hair with towel;젖은 머리를 뒤로 넘긴다|brushing wet hair back;거울의 김을 닦는다|wiping steam from mirror`),
+bedroom:C('🛏️ 침실',`현대식 침실|modern bedroom;햇살 침실|bedroom, morning sunlight;어두운 밤 침실|dim bedroom at night;호텔 같은 침실|luxurious tidy bedroom;생활감 있는 작은 침실|cozy lived-in bedroom;야경 침실|bedroom, city night view`,`파자마|pajamas;실크 파자마|silk pajamas;오버핏 티셔츠와 홈웨어 바지|oversized t-shirt, lounge pants`,`침대 가장자리에 앉아 있다|sitting on edge of bed;침대에 기대 책을 읽는다|reading book in bed;막 잠에서 깨어 머리를 만진다|just woke up, touching hair`),
+living:C('🛋️ 거실',`넓은 현대식 거실|modern living room;큰 창문 거실|living room, sofa, large windows;TV 불빛만 켜진 거실|living room at night, television glow;작은 거실|cozy small living room;펜트하우스 거실|luxury penthouse living room;벽난로 거실|living room with fireplace`,'',`소파에 편하게 기대앉아 있다|relaxing on sofa;리모컨을 들고 있다|holding remote control;바닥에 앉아 소파에 기대 있다|sitting on floor, leaning against sofa`),
+kitchen:C('🍳 주방',`아일랜드 주방|modern kitchen, island counter;원룸 주방|small apartment kitchen;펜트하우스 주방|luxury penthouse kitchen;아침 햇살 주방|kitchen, morning sunlight;늦은 밤 주방|kitchen late at night`,`앞치마와 셔츠|apron, dress shirt;앞치마와 티셔츠|apron, t-shirt`,`요리하고 있다|cooking;재료를 썰고 있다|chopping ingredients;냉장고 문을 연다|opening refrigerator`),
+hotel:C('🏨 호텔',`고급 호텔 객실|luxury hotel room;야경 호텔 창가|hotel room, city night view;호텔 스위트룸|luxury hotel suite;호텔 복도|hotel corridor;호텔 로비|luxury hotel lobby;호텔 라운지|luxury hotel lounge;호텔 발코니|hotel balcony`,`호텔 직원 유니폼|hotel staff uniform;고급 정장|luxury business suit;목욕가운|bathrobe`,`객실 키카드를 들고 있다|holding hotel key card;호텔 창가에서 야경을 본다|standing by hotel window;캐리어 손잡이를 잡는다|holding suitcase handle`),
+hospital:C('🏥 병원',`하얀 병실|hospital room;대학병원 복도|hospital corridor;응급실|emergency room;병원 대기실|hospital waiting room;검사실|medical examination room;간호사 스테이션|hospital nurse station;병원 옥상|hospital rooftop`,`환자복|hospital gown;의사 가운|white doctor's coat;수술복|medical scrubs`,`병원 침대에 앉아 있다|sitting on hospital bed;의무기록을 읽는다|reading medical chart;청진기를 들고 있다|holding stethoscope`),
+emergency:C('🚑 응급실 / 구조',`응급실 처치실|emergency treatment room;구급차 내부|ambulance interior;병원 응급실 입구|hospital emergency entrance;응급실 복도|emergency department hallway;구급차 주차 구역|ambulance bay`,`응급의료진 수술복|emergency medical scrubs;구급대원 유니폼|paramedic uniform`,`의료 장갑을 끼고 있다|putting on medical gloves;응급 차트를 확인한다|checking emergency chart;구급차 문을 연다|opening ambulance door`),
+subway:C('🚇 지하철 / 역',`지하철 내부|subway interior;퇴근 시간 지하철|busy subway interior;지하철 플랫폼|subway platform;막차 빈 플랫폼|empty subway platform late at night;지하철역 계단|subway station stairs;스크린도어 앞|subway platform screen doors`,'',`지하철 손잡이를 잡는다|holding subway strap;플랫폼에서 열차를 기다린다|waiting for train;창문에 머리를 기댄다|resting head against subway window`),
+bus:C('🚌 버스 / 정류장',`시내버스 내부|city bus interior;버스 정류장|bus stop;심야버스 내부|night bus interior;비 오는 정류장|bus stop in rain;고속버스 좌석|intercity bus interior`,'',`버스 손잡이를 잡는다|holding bus strap;정류장 벤치에 앉아 있다|sitting at bus stop;버스 창밖을 본다|looking out bus window`),
+car:C('🚗 자동차 / 택시',`고급 세단 운전석|luxury sedan interior, driver's seat;자동차 조수석|car interior, passenger seat;밤의 뒷좌석|car back seat at night;비 오는 차 안|car interior, rainy window;도심 택시|taxi interior, city at night`,'',`운전대를 한 손으로 잡는다|one hand on steering wheel;차창 밖을 본다|looking out car window;안전벨트를 맨다|fastening seat belt`),
+park:C('🌳 공원',`도심 공원 산책로|city park walking path;호수 공원|park with lake;벚꽃 공원|park, cherry blossoms;가을 공원|autumn park, fallen leaves;밤의 공원|park at night, street lamps;분수대 앞|park fountain`,'',`벤치에 앉아 있다|sitting on park bench;산책로를 걷는다|walking along park path;나무 아래 서 있다|standing under tree`),
+beach:C('🌊 바닷가',`맑은 해변|sunny beach;노을 해변|beach at sunset;겨울 바닷가|empty winter beach;밤의 해변|beach at night;방파제|seaside breakwater;해안 산책로|seaside promenade`,`얇은 셔츠와 면바지|light shirt, casual pants;여름 반팔 셔츠|summer short-sleeve shirt;바람막이 재킷|windbreaker jacket`,`파도 가까이에 서 있다|standing near waves;방파제 난간에 기대 있다|leaning on breakwater railing;바다를 바라본다|looking at ocean`),
+gym:C('🏋️ 헬스장 / 체육관',`현대식 헬스장|modern gym;웨이트존|gym weight area, large mirrors;런닝머신 구역|gym treadmill area;복싱 체육관|boxing gym;학교 체육관|indoor gymnasium`,`민소매 운동복과 조거팬츠|sleeveless athletic shirt, joggers;반팔 운동복과 반바지|athletic t-shirt, shorts;트레이닝복|tracksuit`,`목에 수건을 걸고 있다|towel around neck;물병을 들고 있다|holding water bottle;운동 장갑을 벗는다|removing workout gloves`),
+pool:C('🏊 수영장',`실내 수영장|indoor swimming pool;호텔 수영장|hotel pool;루프탑 수영장|rooftop swimming pool;수영장 탈의실 앞|pool changing area;야간 수영장|swimming pool at night`,`래시가드|rash guard;수영복 위 가운|swimsuit, robe;수영장용 캐주얼웨어|poolside casual wear`,`수건을 어깨에 걸친다|towel over shoulders;수영장 가장자리에 앉아 있다|sitting at pool edge;젖은 머리를 턴다|shaking wet hair`),
+cinema:C('🎬 영화관',`어두운 영화관|dark movie theater;영화관 로비|cinema lobby;팝콘 매대|cinema concession stand;심야 상영관|movie theater after late-night screening;영화관 복도|cinema hallway`,'',`팝콘 통을 들고 있다|holding popcorn bucket;영화 티켓을 확인한다|checking movie ticket;좌석에 기대앉아 있다|leaning back in cinema seat`),
+mall:C('🛍️ 쇼핑몰 / 백화점',`쇼핑몰 아트리움|shopping mall atrium;백화점 명품관|department store luxury floor;에스컬레이터 앞|shopping mall escalator;의류 매장|fashion retail store;푸드코트|department store food court;옥상 정원|shopping mall rooftop garden`,'',`쇼핑백을 들고 있다|holding shopping bags;에스컬레이터에 서 있다|standing on escalator;진열된 옷을 본다|looking at displayed clothes`),
+airport:C('✈️ 공항',`국제공항 출국장|international airport departure hall;공항 탑승구|airport boarding gate;수하물 수취대|airport baggage claim;공항 라운지|airport lounge;활주로가 보이는 터미널|airport terminal, runway view;심야 공항|quiet airport late at night`,`여행용 캐주얼룩|travel casual outfit;롱코트와 캐리어|long coat, suitcase;후드티와 백팩|hoodie, backpack`,`캐리어 손잡이를 잡는다|holding suitcase handle;탑승권을 확인한다|checking boarding pass;비행기를 바라본다|looking at airplane through window`),
+station:C('🚆 기차역 / 기차',`기차역 플랫폼|train station platform;고속열차 내부|high-speed train interior;기차역 대합실|train station waiting hall;밤의 빈 플랫폼|empty train platform at night;창밖 풍경 기차 좌석|train interior, scenery through window`,'',`승차권을 확인한다|checking train ticket;플랫폼에서 열차를 기다린다|waiting for train;기차 창밖을 본다|looking out train window`),
+studio:C('📸 스튜디오 / 촬영장',`화이트 배경 스튜디오|photo studio, white backdrop;검은 배경 스튜디오|photo studio, black backdrop;조명 장비 촬영장|photo studio, lighting equipment;패션 화보 세트|fashion photoshoot set;영상 촬영 스튜디오|video production studio`,`촬영용 스타일링 의상|styled photoshoot outfit;심플한 검은 셔츠|simple black shirt;화이트 셔츠|white shirt`,`카메라를 향해 포즈를 취한다|posing for camera;조명 위치를 확인한다|checking studio light;촬영을 기다리고 있다|sitting and waiting for shoot`)
+}},
+fantasy:{label:'판타지물',common:FANTASY,categories:{
+mage:C('🔮 마법사',`고서가 가득한 마탑 서고|mage tower library;마법 실험실|magic laboratory;별이 보이는 마탑 꼭대기|mage tower rooftop, starry sky;마법진 연구실|magic research room, magic circle;수정구가 놓인 마법사 방|wizard chamber, crystal ball;금지된 마법서고|forbidden magic archive`,`금실 자수 마법사 로브|embroidered wizard robe, gold trim;검은 후드 마법사 로브|black hooded wizard robe;푸른 마도복|blue mage robe;전투형 마도복|combat mage outfit`,`마법서를 펼쳐 읽는다|reading spellbook;손끝에 작은 불꽃을 만든다|small magical flame at fingertips;공중에 룬 문자를 띄운다|floating magical runes;수정구를 들여다본다|looking into crystal ball`),
+knight:C('⚔️ 기사',`왕궁 기사단 훈련장|royal knight training ground;성벽 위 경비초소|castle wall guard post;왕궁 대전 앞|outside royal throne hall;비 내리는 성문|castle gate in rain;전쟁 직전 야영지|military camp before battle;무기고|medieval armory`,`은빛 갑옷과 붉은 망토|silver armor, red cape;검은 갑옷|black armor;기사단 제복|knight order uniform;가벼운 경갑과 망토|light armor, cape`,`검을 세워 두 손으로 잡는다|holding sword vertically with both hands;갑옷 장갑을 조인다|tightening armored gloves;검집에서 검을 반쯤 뽑는다|partially drawing sword;투구를 옆구리에 낀다|holding helmet under arm`),
+priest:C('⛪ 성직자',`스테인드글라스 대성당|grand cathedral, stained glass;성당 제단 앞|cathedral altar;촛불 가득 기도실|chapel filled with candles;수도원 회랑|monastery cloister;고해성사실 근처|cathedral confessional area;성수대 앞|holy water basin, cathedral`,`흰색과 금색 성직자 예복|white and gold priest vestments;검은 성직자복|black clerical robes;긴 성직자 망토|long clerical cloak;대주교 예복|ornate high priest vestments`,`성서를 펼쳐 읽는다|reading holy book;십자가를 쥔다|holding cross;제단 앞에서 기도한다|praying before altar;성수를 손끝에 묻힌다|touching holy water`),
+royal:C('👑 왕족',`황금빛 왕좌의 방|ornate golden throne room;왕궁 발코니|royal palace balcony;왕실 연회장|royal ballroom;왕궁 개인 집무실|royal private office;왕실 침전|royal chamber;궁정 정원|royal palace garden`,`금장식 왕실 제복|royal uniform, gold trim;왕관과 화려한 예복|crown, ornate royal attire;흰색 왕실 제복과 망토|white royal uniform, cape;검은 왕실 예복|black royal ceremonial attire`,`왕좌에 기대앉아 있다|leaning back on throne;왕관을 한 손에 든다|holding crown in one hand;발코니 아래를 내려다본다|looking down from palace balcony;왕실 문서를 읽는다|reading royal documents`),
+noble:C('🎩 귀족',`귀족 저택 응접실|noble mansion drawing room;사교계 연회장|aristocratic ballroom;귀족 저택 정원|noble estate garden;벽난로 서재|noble library, fireplace;대리석 계단 저택|mansion, marble staircase`,`화려한 귀족 정장|ornate noble suit;레이스 장식 귀족복|lace-trimmed noble attire;벨벳 코트와 금장식|velvet coat, gold ornaments;우아한 귀족 드레스|elegant noble dress`,`장갑 낀 손으로 지팡이를 잡는다|holding walking cane with gloved hand;찻잔을 든다|holding teacup;벽난로 앞에 선다|standing before fireplace;편지를 읽는다|reading letter`),
+mercenary:C('🗡️ 용병',`용병 길드|mercenary guild;허름한 여관|rustic fantasy inn;야전 캠프|mercenary camp;국경 작은 마을|frontier village;황폐한 전장|desolate battlefield;숲속 야영지|forest campsite`,`낡은 가죽 갑옷|worn leather armor;어두운 용병복|dark mercenary outfit;여러 무기를 찬 전투복|combat gear, multiple weapons;낡은 망토와 가죽 장비|worn cloak, leather gear`,`검을 숫돌에 간다|sharpening sword;동전 주머니를 든다|holding coin pouch;무기를 점검한다|checking weapons;야영지 불가에 앉아 있다|sitting by campfire`),
+adventurer:C('🧭 모험가',`모험가 길드 게시판|adventurer guild quest board;던전 입구|dungeon entrance;숲길|fantasy forest path;산맥 좁은 길|mountain trail;낯선 마을 광장|fantasy village square;야영지|adventurer campsite`,`여행용 망토와 가방|traveler cloak, backpack;가벼운 가죽 장비|light leather adventurer gear;모험가용 부츠와 벨트|adventurer boots, utility belt;후드 망토|hooded travel cloak`,`지도 위를 가리킨다|pointing at map;배낭 끈을 조인다|adjusting backpack strap;퀘스트 게시판을 본다|looking at quest board;나침반을 확인한다|checking compass`),
+dragon:C('🐉 드래곤 / 용인',`보물이 쌓인 용의 둥지|dragon lair, treasure pile;화산 정상|volcanic mountain summit;거대한 동굴|massive dragon cave;구름 위 절벽|cliff above clouds;무너진 고대 왕국|ruined ancient kingdom;고대 용 신전|ancient dragon temple`,`용 비늘 장식 검은 로브|black robe, dragon scale ornaments;금장식 귀족복|gold-trimmed noble attire;검은 장갑과 긴 코트|black gloves, long coat;용 비늘 장식 전투복|armor with dragon scale decorations`,`보물더미 위에 앉아 있다|sitting on treasure pile;손끝에 불꽃을 피운다|flame at fingertips;등 뒤로 날개를 펼친다|spreading dragon wings;금화를 손가락 사이에서 굴린다|rolling gold coin between fingers`),
+elf:C('🌿 엘프',`빛나는 고대 숲|glowing ancient forest;거대한 나무 위 마을|elven tree village;숲속 호수|enchanted forest lake;엘프 정원|elven garden;숲속 신전|elven forest temple`,`초록빛 엘프 예복|green elven robes;가죽 궁수복|elven archer outfit;흰색과 금색 엘프 의상|white and gold elven attire;나뭇잎 장식 망토|leaf-decorated cloak`,`활시위를 당긴다|drawing bow;나뭇잎을 손바닥에 올린다|holding leaf in palm;나무에 손을 댄다|touching ancient tree;숲 너머를 경계한다|watching forest`),
+demon:C('😈 마족',`검붉은 마계 성채|dark demon fortress;붉은 달 황무지|wasteland under red moon;검은 왕좌의 방|dark throne room;불길 마계 도시|demonic city, flames;마계 고대 신전|ancient demonic temple`,`검은 마족 귀족복|black demonic noble attire;붉은 안감 검은 망토|black cape, red lining;금속 장식 검은 전투복|black combat outfit, metal ornaments;검붉은 왕실 예복|dark red royal attire`,`검은 불꽃을 손에 띄운다|black flame in hand;왕좌 팔걸이에 턱을 괸다|resting chin on hand on throne;손가락을 튕긴다|snapping fingers;긴 망토를 끌며 걸어온다|walking with long cape trailing`),
+assassin:C('🖤 암살자',`왕궁 지붕 위|palace rooftop at night;달빛 골목|moonlit medieval alley;어두운 성 회랑|dark castle corridor;숲속 은신처|forest hideout;목표가 보이는 옥상|rooftop overlooking target`,`검은 후드 암살복|black hooded assassin outfit;가죽 경갑과 단검 벨트|light leather armor, dagger belt;검은 망토와 마스크|black cloak, mask`,`단검을 역수로 쥔다|holding dagger in reverse grip;후드를 깊게 눌러쓴다|pulling hood low;그림자에 몸을 숨긴다|hiding in shadow;지붕 가장자리에 웅크린다|crouching on rooftop edge`),
+alchemist:C('⚗️ 연금술사',`유리병 가득 연금술 연구실|alchemy laboratory, glass bottles;약초와 플라스크 작업실|alchemist workshop, herbs, flasks;연기 나는 가마솥 앞|alchemy cauldron, smoke;지하 실험실|underground alchemy lab;재료 창고|alchemy ingredient storage`,`가죽 앞치마와 셔츠|leather apron, shirt;연금술사 로브|alchemist robe;보호장갑과 작업복|protective gloves, work clothes`,`플라스크를 빛에 비춰본다|holding flask up to light;가마솥을 젓는다|stirring cauldron;재료를 저울에 올린다|weighing ingredients;연금술 공식을 적는다|writing alchemy formula`),
+academy:C('🏰 마법학교',`마법학교 대강당|magic academy grand hall;마법학교 교실|magic academy classroom;움직이는 계단|magical moving staircase;마법학교 도서관|magic academy library;기숙사|magic academy dormitory;마법 실습장|magic academy training ground`,`마법학교 교복과 망토|magic academy uniform, cloak;셔츠와 넥타이 교복|magic school uniform, shirt, tie;후드 학생 로브|student hooded robe;실습용 마도복|student practice mage outfit`,`교과서 위 마법진을 띄운다|casting magic circle over textbook;마법 지팡이를 든다|holding magic wand;공중에 뜬 책을 본다|looking at floating book;책상에 엎드려 있다|resting head on classroom desk`),
+tower:C('🗼 마탑',`나선계단 마탑|mage tower interior, spiral staircase;마탑 연구실|mage tower laboratory;마탑 도서관|mage tower library;마탑 전망대|mage tower observatory;마탑 발코니|mage tower balcony;마력핵 중앙실|mage tower core chamber`,`고위 마법사 로브|high mage robe;연구용 마도복|mage research attire;검은 로브와 은장식|black robe, silver ornaments;긴 흰 마법사 코트|long white mage coat`,`마력핵을 살펴본다|examining magical core;공중에 뜬 책 사이를 걷는다|walking among floating books;망원경을 본다|looking through telescope;마법식을 기록한다|writing magical formula`),
+palace:C('🏛️ 왕궁',`왕궁 대전|royal throne hall;왕궁 회랑|royal palace corridor;왕궁 정원|royal palace garden;왕궁 연회장|royal banquet hall;왕궁 발코니|royal palace balcony;왕궁 비밀 통로|royal secret passage`,'',`궁정 회랑을 걷는다|walking through palace corridor;난간에 손을 얹는다|hand resting on palace railing;왕실 초상화를 바라본다|looking at royal portrait`),
+cathedral:C('⛪ 대성당',`거대한 대성당 본당|grand cathedral nave;스테인드글라스 아래|beneath stained glass;대성당 회랑|cathedral cloister;종탑 계단|cathedral bell tower stairs;촛불 제단|candlelit cathedral altar`,'',`제단을 향해 걷는다|walking toward altar;성상 앞에 멈춘다|standing before sacred statue;촛불을 켠다|lighting candle`),
+temple:C('🕯️ 신전',`고대 신전 내부|ancient fantasy temple;거대한 석상 앞|ancient temple, giant statue;신전 지하 성소|underground sanctuary;신전 제단|temple altar;안개 낀 산 위 신전|mountaintop temple, mist`,'',`석상 앞에서 올려다본다|looking up at giant statue;제단에 손을 얹는다|hand on altar;고대 문양을 살펴본다|examining ancient symbols`),
+forest:C('🌲 마법숲',`빛나는 버섯 숲|enchanted forest, glowing mushrooms;푸른 안개 숲|enchanted forest, blue mist;요정 불빛 숲|forest with fairy lights;거대한 고목 아래|beneath ancient giant tree;마력 계곡|magical forest valley`,'',`빛나는 식물을 만진다|touching glowing plant;숲 안쪽을 경계한다|watching deep forest;나뭇가지 사이 빛을 올려다본다|looking up through branches`),
+dungeon:C('🕳️ 던전',`푸른 수정 던전|dungeon, glowing blue crystals;고대 석조 던전|ancient stone dungeon;지하 동굴형 던전|underground cave dungeon;버려진 신전 던전|abandoned temple dungeon;핏빛 안개 던전|dungeon, crimson mist;보스룸 앞 거대한 문|massive dungeon boss door`,'',`횃불을 들고 앞을 살핀다|holding torch, watching ahead;벽 문양을 만진다|touching rune on wall;함정을 살펴본다|examining floor trap;거대한 문 앞에 선다|standing before massive door`),
+tavern:C('🍺 여관 / 선술집',`붐비는 선술집|busy medieval tavern;벽난로 여관|fantasy inn, fireplace;시골 여관|quiet countryside inn;모험가 길드 술집|adventurer guild tavern;심야 빈 선술집|empty tavern late at night`,'',`나무잔을 든다|holding wooden mug;동전을 테이블에 올린다|placing coins on table;벽난로 앞에 앉아 있다|sitting by fireplace;지도를 펼친다|spreading map on table`),
+market:C('🧺 시장',`중세 시장 광장|medieval market square;향신료 가판대|fantasy spice stall;천막 장터|medieval market stalls;야간 등불 시장|fantasy night market, lanterns;항구 시장|fantasy harbor market`,'',`진열된 물건을 본다|looking at market goods;동전을 건넨다|handing over coins;시장 사람들 사이를 걷는다|walking through market crowd`),
+village:C('🏘️ 마을',`중세 시골 마을|medieval countryside village;강가 마을|fantasy riverside village;설산 아래 마을|village beneath snowy mountains;숲 가장자리 마을|forest-edge village;돌길 마을|stone-paved fantasy village`,'',`우물가에 선다|standing by village well;마을 길을 걷는다|walking through village street;입구 표지판을 본다|looking at village sign`),
+battlefield:C('🔥 전쟁터',`불타는 전장|burning battlefield;비 내리는 황폐한 전장|battlefield in rain;전쟁 직후 평원|battlefield aftermath;무너진 성벽 앞|destroyed castle wall;깃발 군 진영|military camp, flags`,`흙먼지 갑옷|dirty battle-worn armor;피 묻은 기사 갑옷|bloodstained knight armor;찢어진 망토와 경갑|torn cape, light armor`,`검을 바닥에 짚고 숨을 고른다|leaning on sword, catching breath;전장을 내려다본다|looking over battlefield;부상당한 팔을 잡는다|holding injured arm;검을 다시 들어 자세를 잡는다|raising sword into combat stance`),
+prison:C('⛓️ 감옥',`지하 석조 감옥|underground stone prison;철창 복도|prison corridor, iron bars;횃불 감옥|torchlit dungeon prison;어두운 감옥 회랑|dark prison corridor;성채 지하 독방|fortress solitary cell`,'',`철창을 손으로 잡는다|holding iron bars;벽에 기대앉아 있다|sitting against stone wall;손목 쇠사슬을 내려다본다|looking at wrist chains`),
+ballroom:C('💃 무도회장',`샹들리에 왕궁 무도회장|royal ballroom, chandelier;가면무도회|masquerade ballroom;대리석 연회장|marble ballroom;왕궁 연주회장|royal music hall;발코니 무도회장|ballroom with balcony`,`화려한 궁정 예복|ornate court attire;가면과 검은 정장|masquerade mask, formal black suit;화려한 볼가운|ornate ball gown`,`한 손을 내밀어 춤을 청한다|offering hand for dance;와인잔을 들고 벽에 기대 있다|holding wine glass, leaning against wall;가면을 손에 든다|holding masquerade mask`)
+}},
+guideverse:{label:'가이드버스',common:GUIDE,categories:{
+center:C('🏢 센터',`에스퍼 관리 센터 로비|esper management center lobby;센터 상담실|esper center consultation room;센터 직원 사무실|esper center office;출입통제 게이트|secure center entrance;센터 휴게실|esper center lounge;센터 지하 복도|underground center corridor`,'',`센터 출입카드를 태그한다|scanning center ID card;상담 기록을 확인한다|checking consultation record;로비에서 기다린다|sitting in lobby, waiting;안내 데스크 앞에 선다|standing at reception desk`),
+consultation:C('🗂️ 상담실 / 매칭',`센터 개인 상담실|private center consultation room;심리상담실|therapy room;매칭 상담실|guide matching consultation room;센터 면담실|center interview room`,`센터 제복|center uniform;셔츠와 사원증|dress shirt, center ID card;편안한 상담복|smart casual outfit`,`상담 기록지를 본다|reading consultation notes;소파에 앉아 맞은편을 본다|sitting on sofa, looking across;태블릿에 메모한다|taking notes on tablet`),
+test:C('📈 검사실 / 등급심사',`능력 측정실|supernatural ability testing room;등급 심사실|esper ranking examination room;생체 수치 검사실|biometric testing room;투명 격벽 실험실|testing laboratory, glass barrier;측정 장비 검사 공간|ability testing chamber, sensors`,`검사용 센터복|center testing uniform;검사복|medical examination clothing;센터 제복|center uniform`,`손을 측정 장치 위에 올린다|hand on testing device;손목 센서를 본다|looking at wrist sensors;능력을 약하게 방출한다|releasing controlled supernatural energy;검사 결과 모니터를 본다|looking at test result monitor`),
+guiding:C('💠 가이딩룸',`개인 가이딩룸|private guiding room, dim lighting;센터 안정화실|center stabilization room;소파 가이딩룸|guiding room, sofa;의료 장비 가이딩실|guiding room, medical equipment;응급 가이딩실|emergency guiding room;조용한 관찰실|quiet observation room`,`센터 제복 셔츠|center uniform shirt;환자복|hospital gown;흐트러진 작전복|disheveled tactical uniform;검은 셔츠와 센터 ID카드|black shirt, center ID card`,`상대 손목을 잡는다|holding another person's wrist;상대 손을 두 손으로 감싼다|holding another person's hand with both hands;침대 가장자리에 앉아 숨을 고른다|sitting on edge of bed, catching breath;벽에 기대 눈을 감는다|leaning against wall, eyes closed`),
+stabilization:C('🫧 안정화실',`부드러운 조명 안정화실|stabilization room, soft lighting;생체 모니터 안정화실|stabilization room, biometric monitors;1인 회복실|private recovery room;저자극 안정화실|low-stimulation stabilization room`,`센터 환자복|center hospital gown;편안한 센터복|comfortable center clothing`,`생체 모니터를 본다|looking at biometric monitor;침대 헤드에 기대 쉰다|resting against bed headboard;손목 센서를 만진다|touching wrist sensor`),
+isolation:C('🚪 격리실',`강화유리 격리실|reinforced glass isolation room;경보등 격리실|isolation room, warning lights;비어 있는 흰 격리실|empty white isolation room;파손 흔적 격리실|damaged isolation room`,`환자복|hospital gown;억제 장치 센터복|center clothing, suppression device`,`강화유리에 손을 댄다|hand on reinforced glass;방 한가운데 서 있다|standing in center of room;손목 억제 장치를 확인한다|checking wrist suppression device`),
+hospital:C('🏥 능력자 병동',`에스퍼 전용 병실|esper hospital room;센터 의료동 복도|center medical wing corridor;중환자 관찰실|intensive observation room;안정화 병실|stabilization hospital room;회복실|recovery room`,`에스퍼 전용 환자복|esper hospital gown;병원복 위 센터 외투|hospital clothes, center jacket;의료진 가운|medical coat`,`침대 헤드에 기대앉아 있다|sitting against hospital bed headboard;손목 모니터를 확인한다|checking wrist monitor;링거 손을 내려다본다|looking down at IV hand;병실 문 쪽을 본다|looking toward hospital room door`),
+operations:C('🖥️ 작전실',`대형 스크린 작전통제실|operations control room, large screens;게이트 지도 상황실|situation room, gate map display;센터 브리핑룸|center briefing room;작전 회의실|operations meeting room;실시간 전투 영상 통제실|control room, live battle feeds`,`센터 지휘관 제복|center commander uniform;검은 셔츠와 전술 조끼|black shirt, tactical vest;센터 정장과 사원증|center business suit, ID card`,`대형 화면을 가리킨다|pointing at large display;작전 지도를 확인한다|checking operation map;헤드셋으로 지시한다|wearing headset, giving orders;여러 모니터를 확인한다|watching multiple monitors`),
+gate:C('🌀 게이트 앞',`붕괴된 도심 게이트|giant dimensional gate, ruined city;게이트 진입 통제선|dimensional gate entrance, barricades;군 통제구역 게이트|gate site, military perimeter;사이렌 게이트 현장|emergency gate site, sirens;빌딩 사이 열린 게이트|dimensional gate between high-rise buildings;밤의 출동 현장|gate response site at night`,`완전 무장 전술복|fully equipped tactical uniform;센터 특수작전복|special operations uniform;검은 전투 코트|black combat long coat`,`게이트를 정면으로 응시한다|staring directly at dimensional gate;무전기를 귀에 댄다|holding radio to ear;통제선 앞에서 대기한다|waiting behind barricade;무기를 꺼내 든다|drawing weapon`),
+inside:C('🌌 게이트 내부',`붉은 하늘 이계|otherworldly gate interior, red sky;부유 암석 공간|gate interior, floating rocks;푸른 안개 이계|otherworldly gate interior, blue mist;폐허 도시형 게이트|ruined otherworldly city;이상한 식물 이계|otherworldly gate, alien plants`,'',`주변 환경을 스캔한다|scanning surroundings;공중 에너지 흐름을 본다|watching energy flow;전방으로 조심스럽게 이동한다|moving forward cautiously`),
+dungeon:C('🕳️ 던전',`푸른 결정 던전|dungeon, glowing blue crystals;무너진 지하 유적|collapsed underground ruins;어두운 동굴형 게이트|dark cave dungeon;고대 신전형 던전|ancient temple dungeon;검은 안개 던전|dungeon, dark mist;미지 식물 던전|dungeon, strange glowing plants`,`먼지가 묻은 전술복|dusty tactical uniform;찢어진 전투복|damaged combat uniform;센터 작전복과 장비 벨트|center tactical uniform, utility belt`,`벽에 등을 붙이고 주변을 살핀다|back against wall, watching surroundings;바닥 흔적을 조사한다|examining tracks;능력 사용을 준비한다|preparing supernatural ability;동료에게 정지 신호를 보낸다|signaling teammate to stop`),
+boss:C('👑 보스룸',`거대한 문 보스룸|dungeon boss chamber, massive door;붉은 결정 보스룸|boss chamber, red crystals;왕좌 구조물 보스룸|boss chamber, throne-like structure;거대 몬스터 그림자 공간|boss chamber, giant monster shadow`,'',`무기를 양손으로 고쳐 잡는다|adjusting grip on weapon;보스 몬스터를 노려본다|staring at boss monster;강한 능력 에너지를 끌어올린다|gathering intense supernatural energy`),
+monster:C('👹 몬스터 전투',`거대 몬스터 도심 폐허|ruined city, giant monster;파괴된 고속도로|destroyed highway, monster attack;보스 몬스터 던전|dungeon boss chamber, giant monster;불타는 건물 사이|burning city ruins;몬스터 잔해 전장|battlefield, monster remains`,`피와 먼지 전투복|bloodstained dusty combat uniform;파손 방탄조끼 전술복|damaged tactical vest, combat uniform;찢어진 검은 작전복|torn black tactical uniform`,`몬스터를 향해 돌진한다|charging toward monster;손에서 능력을 방출한다|releasing supernatural energy from hand;공격을 막기 위해 팔을 든다|raising arm to block attack;무기를 겨눈다|aiming weapon at monster`),
+rescue:C('🚑 구조 현장',`붕괴 건물 구조 현장|collapsed building rescue site;게이트 재난 대피소|gate disaster evacuation shelter;구급차 현장|emergency scene, ambulances;잔해 가득 거리|street covered in debris;임시 의료 천막|temporary medical tent`,`구조용 전술복|rescue tactical uniform;센터 조끼와 장갑|center rescue vest, gloves;먼지 묻은 작전복|dust-covered tactical uniform`,`부상자를 부축한다|supporting injured person;잔해를 들어 올린다|lifting debris;생존자를 찾는다|searching for survivors;무전기로 지원을 요청한다|requesting backup by radio`),
+berserk:C('⚠️ 폭주',`파괴된 격리실|destroyed isolation room;경보등 통제실|containment room, flashing warning lights;갈라진 바닥|cracked floor, uncontrolled supernatural energy;무너진 센터 복도|destroyed center corridor;능력으로 부서진 방|room damaged by supernatural energy`,`찢어진 센터 제복|torn center uniform;구겨진 환자복|disheveled hospital gown;파손된 작전복|damaged tactical uniform`,`벽에 한 손을 짚고 버틴다|bracing one hand against wall;양손으로 머리를 감싼다|clutching head with both hands;능력 에너지가 폭발한다|uncontrolled supernatural energy erupting around body;무릎을 꿇고 숨을 몰아쉰다|kneeling, breathing heavily`),
+after:C('🩹 폭주 직후',`파손된 가이딩룸|damaged guiding room;폭주 직후 격리실|isolation room after berserk episode;응급 치료실|emergency treatment room;센터 병실|center hospital room;잔해 정리 중 복도|damaged facility hallway after incident`,`찢어진 작전복 위 담요|damaged tactical uniform, blanket;환자복과 붕대|hospital gown, bandages;구겨진 센터 제복|disheveled center uniform`,`벽에 기대앉아 있다|sitting against wall;손에 묻은 피를 내려다본다|looking down at blood on hand;담요를 어깨에 두른다|blanket around shoulders;고개를 숙이고 숨을 고른다|head lowered, catching breath`),
+emergencyGuiding:C('🚨 응급 가이딩',`응급 가이딩실|emergency guiding room;구급차 응급 가이딩 구역|ambulance guiding area;게이트 앞 가이딩 텐트|temporary guiding tent near gate;응급의료실|emergency medical room`,`흐트러진 센터 제복|disheveled center uniform;피가 묻은 작전복|bloodstained tactical uniform;환자복|hospital gown`,`상대 손을 단단히 붙잡는다|firmly holding another person's hand;상대 어깨를 지지한다|supporting another person's shoulder;이마를 짚어 상태를 확인한다|checking condition with hand on forehead;호흡을 맞춘다|matching breathing rhythm`),
+fieldGuiding:C('🫱 현장 가이딩',`전투 직후 무너진 건물|ruined building after battle;게이트 앞 응급 대기구역|gate emergency staging area;던전 임시 안전구역|temporary safe zone inside dungeon;구조 현장 구급차 옆|beside ambulance at rescue site;비 내리는 게이트 통제구역|gate perimeter in rain`,`먼지 묻은 전술복|dusty tactical uniform;피 묻은 센터 작전복|bloodstained center tactical uniform;장갑을 벗은 작전복|tactical uniform, gloves removed`,`상대 손목을 강하게 잡는다|firmly holding another person's wrist;상대 어깨를 지지한다|supporting another person's shoulder;상대 앞에 한쪽 무릎을 꿇는다|kneeling in front of another person;상대를 부축해 이동한다|walking while supporting another person`),
+dorm:C('🏠 센터 숙소',`센터 기숙사 개인실|esper center dorm room;센터 공용 거실|esper center dorm lounge;기숙사 복도|dormitory hallway;센터 숙소 주방|dormitory kitchen;숙소 옥상|dormitory rooftop`,`편안한 홈웨어|comfortable loungewear;후드티와 조거팬츠|hoodie, jogger pants;센터 티셔츠|center-issued t-shirt`,`소파에 기대 쉰다|relaxing on sofa;냉장고 문을 연다|opening refrigerator;침대에 앉아 휴대폰을 본다|sitting on bed, checking smartphone`),
+transport:C('🚐 작전 차량',`센터 작전 밴 내부|tactical response van interior;장갑차 내부|armored vehicle interior;게이트 현장 이동 버스|gate response bus interior;야간 작전 차량 뒷좌석|tactical vehicle back seat at night`,`전술복과 방탄조끼|tactical uniform, bulletproof vest;센터 작전복|center operations uniform`,`무기를 무릎 위에 올려둔다|weapon resting across lap;무전 내용을 듣는다|listening to radio;창밖 현장을 본다|looking out vehicle window;장갑을 조인다|tightening gloves`)
+}},
+period:{label:'시대물',common:PERIOD,categories:{
+koreaPalace:C('🇰🇷 조선 · 궁궐',`조선 궁궐 대전|Joseon royal throne hall;궁궐 회랑|Joseon palace corridor;궁궐 후원|Joseon palace garden;연못 정자|Joseon palace pavilion, pond;달빛 궁궐 마당|Joseon palace courtyard, moonlight;왕의 편전|Joseon king's private hall`,`곤룡포|Joseon king royal robe, gonryongpo;왕세자 예복|Joseon crown prince robes;화려한 궁중 한복|royal Korean hanbok;왕비 궁중 예복|Joseon royal queen ceremonial hanbok`),
+koreaScholar:C('🇰🇷 조선 · 선비 / 유생',`한옥 사랑채|Joseon hanok scholar room;서책이 쌓인 서재|Joseon study, books;대나무 정자|Korean pavilion, bamboo;산속 서원|Joseon seowon academy;한옥 마루|traditional Korean wooden veranda`,`선비 흰 도포|Joseon scholar white dopo;검은 갓과 도포|Joseon scholar robe, black gat;푸른 도포|blue Joseon scholar robe;유생복|Joseon Confucian student attire`),
+koreaWarrior:C('🇰🇷 조선 · 무관 / 포졸',`궁궐 훈련장|Joseon palace military training ground;성문 앞|Joseon city gate;관아 마당|Joseon government office courtyard;야간 순찰 거리|Joseon street at night;무기고|Joseon armory`,`조선 무관 관복|Joseon military official uniform;조선 무사 갑옷|Joseon warrior armor;포졸복|Joseon constable uniform;검은 전립 군복|Joseon military uniform, jeollip hat`),
+koreaMarket:C('🇰🇷 조선 · 장터 / 민가',`조선 장터|Joseon traditional market;초가집 마을|Joseon village, thatched houses;주막|Joseon tavern, jumak;강가 나루터|Joseon riverside ferry;등불 시장 골목|Joseon market alley, lanterns`,`수수한 평민 한복|simple commoner hanbok;상인 한복|Joseon merchant clothing;주막 일꾼 한복|simple Joseon tavern worker hanbok;고운 저고리와 치마|traditional jeogori and chima`),
+koreaGisaeng:C('🇰🇷 조선 · 기방',`화려한 기방 내부|Joseon gisaeng house interior;등불 기방 마당|Joseon gisaeng house courtyard, lanterns;연회방|Joseon banquet room;비단 병풍 방|Joseon room, silk folding screen`,`화려한 기생 한복|ornate gisaeng hanbok;비녀 장식 한복|hanbok, ornate hairpins;화려한 저고리와 치마|colorful jeogori and chima`,`부채를 든다|holding folding fan;거문고 옆에 앉아 있다|sitting beside geomungo;거울 앞에서 비녀를 정리한다|adjusting hairpin in mirror`),
+koreaCourt:C('🇰🇷 조선 · 관아',`관아 대청|Joseon government office hall;관아 마당|Joseon government courtyard;문서가 쌓인 관청 방|Joseon government office, documents;옥사 앞|Joseon prison yard`,`문관 관복|Joseon civil official uniform;무관 관복|Joseon military official uniform;포졸복|Joseon constable uniform`,`문서를 펼쳐 읽는다|reading official document;붓으로 기록한다|writing official record;대청마루에 선다|standing in government hall`),
+japanShrine:C('🇯🇵 일본 · 신사',`고즈넉한 신사|traditional Shinto shrine grounds;붉은 도리이 길|path of red torii gates;신사 돌계단|Shinto shrine stone steps;등불 신사|Shinto shrine, lanterns;벚꽃 신사 정원|Shinto shrine, cherry blossoms`,`신관 의상|Shinto priest robes;무녀복|miko outfit;단정한 기모노|formal kimono;흰 하오리와 하카마|white haori, hakama`),
+japanSamurai:C('🇯🇵 일본 · 사무라이',`에도 시대 성 앞|Edo period castle;무사 저택|samurai residence;대나무숲|Japanese bamboo forest;비 내리는 에도 거리|Edo street in rain;검술 도장|traditional Japanese dojo`,`사무라이 갑주|samurai armor;검은 하카마와 하오리|black hakama, haori;여행 무사 옷|wandering samurai attire;문양 기모노와 검|patterned kimono, katana`),
+japanRyokan:C('🇯🇵 일본 · 료칸',`다다미 료칸 방|traditional ryokan tatami room;료칸 복도|traditional ryokan hallway;온천 마을 거리|traditional Japanese hot spring town;툇마루 정원|Japanese garden, engawa;노천온천 입구|traditional onsen entrance`,`유카타|yukata;단정한 기모노|traditional kimono;하오리와 기모노|haori, kimono;하카마|hakama`),
+japanEdo:C('🇯🇵 일본 · 에도 거리',`등불 에도 거리|Edo period street, lanterns;목조 상점 거리|Edo wooden shop street;강가 다리|Edo riverside bridge;비 내리는 전통 골목|Edo alley in rain;새벽 시장|Edo morning market`,`평민 기모노|simple Edo kimono;상인 기모노|merchant kimono;하오리와 하카마|haori, hakama`),
+japanGeisha:C('🇯🇵 일본 · 연회 / 유흥가',`화려한 다다미 연회방|ornate tatami banquet room;등불 전통 유흥 거리|traditional entertainment district, lanterns;비단 병풍 방|Japanese room, silk folding screen`,`화려한 기모노|ornate kimono;오비 장식 기모노|kimono, elaborate obi`,`부채를 펼쳐 든다|holding open fan;샤미센 옆에 앉아 있다|sitting beside shamisen;창호문 옆에 선다|standing beside shoji door`),
+chinaPalace:C('🇨🇳 중국 · 황궁',`붉은 기둥 황궁 회랑|ancient Chinese palace corridor, red pillars;황제 대전|ancient Chinese imperial throne hall;황궁 정원|ancient Chinese imperial garden;연못 정자 후원|Chinese imperial garden, pavilion, pond;궁궐 높은 누각|ancient Chinese palace pavilion`,`황제 용포|ancient Chinese emperor dragon robe;황궁 예복|ornate Chinese imperial ceremonial robe;왕족 한푸|royal hanfu;고위 관리 예복|ancient Chinese high official robes`),
+chinaWuxia:C('🇨🇳 중국 · 무협',`안개 대나무숲|misty bamboo forest;산 위 무림 문파|wuxia sect on mountain;절벽 정자|Chinese pavilion on cliff;강호 돌다리|ancient Chinese stone bridge;달빛 대나무숲|bamboo forest under moonlight`,`검은 무협복|black wuxia outfit;흰 무협 장포|white wuxia robe;붉은 무협복|red wuxia outfit;유랑객 차림|wandering swordsman attire`),
+chinaTaoist:C('🇨🇳 중국 · 도사',`산속 도관|ancient Taoist temple;부적 가득 방|Taoist chamber, talismans;산 정상 제단|mountaintop Taoist altar;안개 산길|misty mountain path;고대 신전|ancient Chinese temple interior`,`흰 도사복|white Taoist robes;검고 흰 도사복|black and white Taoist robes;푸른 도사복|blue Taoist robe;부적 장식 도사복|Taoist robes, talismans`,`부적을 손가락 사이에 든다|holding talisman between fingers;목검을 든다|holding wooden ritual sword;부적을 공중에 띄운다|floating magical talismans;수인을 맺는다|forming Taoist hand seal`),
+chinaInn:C('🇨🇳 중국 · 객잔 / 시장',`붐비는 객잔|busy ancient Chinese inn;등불 야시장|ancient Chinese night market, lanterns;객잔 2층 난간|ancient Chinese inn balcony;전통 시장 거리|ancient Chinese market street;비 내리는 객잔 앞|ancient Chinese inn in rain`,`평범한 한푸|simple hanfu;상인 고급 한푸|merchant hanfu;여행객 장포|ancient Chinese traveler robe;검을 찬 무협객 옷|wuxia traveler outfit, sword`),
+chinaScholar:C('🇨🇳 중국 · 문인 / 서원',`고대 서원|ancient Chinese academy;서책 서재|ancient Chinese study, books;연못 옆 정자|Chinese pavilion beside pond;대나무가 보이는 서재|study room, bamboo outside`,`문인 한푸|scholar hanfu;흰 장포|white scholar robe;푸른 한푸|blue scholar hanfu`,`서책을 읽는다|reading ancient book;붓으로 시를 쓴다|writing poetry with brush;대나무 밖을 본다|looking at bamboo outside`),
+chinaGeneral:C('🇨🇳 중국 · 장군 / 무관',`황궁 훈련장|ancient Chinese military training ground;성문 위|ancient Chinese city wall;군영|ancient Chinese military camp;전쟁 전 야영지|ancient Chinese war camp;무기고|ancient Chinese armory`,`장군 갑옷|ancient Chinese general armor;무관 예복|ancient Chinese military official robes;붉은 망토 갑옷|Chinese armor, red cape`,`검을 허리에 찬다|sword at waist;전장을 내려다본다|looking over battlefield;군 지도를 본다|looking at military map`)
+}}
+};
+const SLOTS={background:'🏙️ 배경',outfit:'👔 의상',expression:'🙂 표정',action:'🎬 행동',season:'🍃 계절',weather:'🌦️ 시간 · 날씨',composition:'📷 구도',lighting:'💡 조명',gaze:'👁️ 시선',pose:'🧍 자세',prop:'🧳 소품',mood:'🎞️ 분위기'};
+const state={selected:{},locked:{},active:{},sceneResolvedKey:''};
+Object.keys(SLOTS).forEach(k=>{state.selected[k]=null;state.locked[k]=false;state.active[k]=true});
+const $=id=>document.getElementById(id);const genre=$('genre'),category=$('category'),cards=$('cards'),prompt=$('prompt'),summary=$('summary'),stats=$('stats'),status=$('status'),negative=$('negative');
+const LS={fav:'nai_asset_favorites_v3',hist:'nai_asset_history_v3',neg:'nai_asset_negative_v3',settings:'nai_asset_settings_v3'};
+/* Public aggregate usage counter
+   TODAY / TOTAL도 Google Apps Script + 사용통계 Sheet를 단일 소스로 사용합니다.
+*/
+function formatCounter(v){
+  const n=Number(v);
+  if(!Number.isFinite(n)) return '00';
+  return n<100?String(n).padStart(2,'0'):n.toLocaleString('en-US');
+}
+let counterResolvedAt=0;
+const COUNTER_BRIDGE_TYPE='nsfw-asset-gacha-counter-v1';
+const COUNTER_BRIDGE_TOKEN='nsfw-asset-gacha-v1';
+function setCounterUI(today,total,stateName=''){
+  counterResolvedAt=Date.now();
+  const box=$('usageCounter');
+  $('todayCount').textContent=formatCounter(today);
+  $('totalCount').textContent=formatCounter(total);
+  box.classList.remove('loading','error');
+  if(stateName) box.classList.add(stateName);
+  const note=$('usageNote');
+  if(note){note.textContent='🎲 Google Sheet synced';note.classList.remove('error');note.classList.add('ok')}
+}
+function setCounterError(){
+  const box=$('usageCounter');box.classList.remove('loading');box.classList.add('error');
+  $('todayCount').textContent='--';$('totalCount').textContent='--';
+  const note=$('usageNote');if(note){note.textContent='⚠ 통계 연결 확인 필요';note.classList.remove('ok');note.classList.add('error')}
+}
+function markCounterLoading(){
+  const box=$('usageCounter');box.classList.remove('error');box.classList.add('loading');
+  const note=$('usageNote');if(note){note.textContent='🎲 통계 연결 중…';note.classList.remove('ok','error')}
+}
+function requestCounterFrame(){
+  try{
+    const frame=$('counterBridge');
+    if(!frame||!GUESTBOOK_WEB_APP_URL) return false;
+    const params=new URLSearchParams({kind:'counterframe',token:COUNTER_BRIDGE_TOKEN,_:String(Date.now())});
+    frame.src=GUESTBOOK_WEB_APP_URL+'?'+params.toString();
+    return true;
+  }catch(err){
+    console.warn('[Asset Gacha Counter] frame request failed:',err);
+    return false;
+  }
+}
+window.addEventListener('message',event=>{
+  const data=event&&event.data;
+  if(!data||data.type!==COUNTER_BRIDGE_TYPE||data.token!==COUNTER_BRIDGE_TOKEN||data.ok!==true) return;
+  setCounterUI(Number(data.today)||0,Number(data.total)||0);
+});
+function loadUsageCounts(){
+  counterResolvedAt=0;
+  markCounterLoading();
+  requestCounterFrame();
+  setTimeout(()=>{if(!counterResolvedAt)requestGoogleCounter(0)},850);
+  setTimeout(()=>{if(!counterResolvedAt)requestCounterFrame()},1800);
+  setTimeout(()=>{if(!counterResolvedAt)requestGoogleCounter(1)},2700);
+  setTimeout(()=>{if(!counterResolvedAt)setCounterError()},5200);
+}
+function trackMainRoll(){
+  // 카운트 증가 자체는 trackAnalytics('roll')이 담당합니다.
+  // 별도의 외부 CountAPI는 더 이상 사용하지 않습니다.
+}
+
+function safeJSON(key,def){try{return JSON.parse(localStorage.getItem(key))??def}catch{return def}}
+
+/* =========================================================
+   PRIVATE ANALYTICS · Google Apps Script
+   실제 프롬프트/즐겨찾기 내용은 전송하지 않습니다.
+   익명 브라우저 ID + 사용 이벤트/선택 상태만 기록합니다.
+========================================================= */
+const ANALYTICS_CLIENT_KEY='nai_asset_analytics_client_v2';
+const ANALYTICS_FRAME_NAME='assetGachaAnalyticsSink';
+
+function analyticsClientId(){
+  let id=localStorage.getItem(ANALYTICS_CLIENT_KEY);
+  if(!id){
+    try{id=crypto.randomUUID()}catch(_){id='anon-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,12)}
+    localStorage.setItem(ANALYTICS_CLIENT_KEY,id);
+  }
+  return id;
+}
+function analyticsGenreLabel(){
+  return DB[genre.value]?.label||genre.options[genre.selectedIndex]?.textContent||genre.value;
+}
+function analyticsCategoryLabel(){
+  if(category.value==='__all') return '장르 전체 랜덤';
+  return DB[genre.value]?.categories?.[category.value]?.label||category.options[category.selectedIndex]?.textContent||category.value;
+}
+function analyticsPovStrength(){
+  if(!isPovMode()) return '';
+  return povStrength()==='strong'?'강하게':'약하게';
+}
+function analyticsPovType(){
+  if(!isPovMode()) return '';
+  return {auto:'자동',talk:'대화형',hand:'손잡기',prekiss:'키스 직전'}[povType()]||povType();
+}
+const ANALYTICS_CALLBACK='__assetGachaAnalyticsAck';
+const COUNTER_CALLBACK='__assetGachaCounterAck';
+let analyticsRequestSeq=0;
+
+function appendJsonpScript(params,onError){
+  const script=document.createElement('script');
+  script.async=true;
+  script.referrerPolicy='no-referrer';
+  script.dataset.analyticsBeacon='1';
+  script.src=GUESTBOOK_WEB_APP_URL+'?'+params.toString();
+  script.onload=()=>{setTimeout(()=>script.remove(),0)};
+  script.onerror=()=>{
+    try{script.remove()}catch(_){}
+    if(typeof onError==='function') onError();
+  };
+  document.head.appendChild(script);
+  return true;
+}
+
+window[ANALYTICS_CALLBACK]=function(data){
+  if(!data||data.ok!==true){
+    console.warn('[Asset Gacha Analytics] server rejected event:',data);
+    return;
+  }
+  if(data.event==='roll'){
+    if(Number.isFinite(Number(data.today)) && Number.isFinite(Number(data.total))){
+      setCounterUI(Number(data.today),Number(data.total));
+    }else{
+      setTimeout(()=>requestGoogleCounter(0),180);
+    }
+  }
+};
+window[COUNTER_CALLBACK]=function(data){
+  if(data&&data.ok===true){
+    setCounterUI(Number(data.today)||0,Number(data.total)||0);
+  }else{
+    console.warn('[Asset Gacha Counter] invalid response:',data);
+    setCounterError();
+  }
+};
+function requestGoogleCounter(attempt=0){
+  try{
+    if(!GUESTBOOK_WEB_APP_URL){setCounterError();return false}
+    const params=new URLSearchParams({kind:'counter',callback:COUNTER_CALLBACK,version:'2',_:String(Date.now())});
+    return appendJsonpScript(params,()=>{
+      if(attempt<2){
+        setTimeout(()=>requestGoogleCounter(attempt+1),650*(attempt+1));
+      }else{
+        setCounterError();
+      }
+    });
+  }catch(err){
+    console.warn('[Asset Gacha Counter] request failed:',err);
+    if(attempt<2){
+      setTimeout(()=>requestGoogleCounter(attempt+1),650*(attempt+1));
+      return false;
+    }
+    setCounterError();
+    return false;
+  }
+}
+
+function postAnalyticsBeacon(payload){
+  try{
+    if(!GUESTBOOK_WEB_APP_URL) return false;
+    const params=new URLSearchParams();
+    Object.entries(payload).forEach(([key,value])=>params.set(key,String(value??'')));
+    params.set('callback',ANALYTICS_CALLBACK);
+    params.set('requestId',String(++analyticsRequestSeq));
+    params.set('_',String(Date.now()));
+    return appendJsonpScript(params,()=>{
+      console.warn('[Asset Gacha Analytics] JSONP request failed');
+    });
+  }catch(err){
+    console.warn('[Asset Gacha Analytics] request failed:',err);
+    return false;
+  }
+}
+function trackAnalytics(eventName){
+  const payload={
+    kind:'analytics',
+    event:String(eventName||''),
+    clientId:analyticsClientId(),
+    genre:genre.value||'',
+    genreLabel:analyticsGenreLabel(),
+    category:category.value||'',
+    categoryLabel:analyticsCategoryLabel(),
+    people:String(characterCount()),
+    pov:isPovMode()?'1':'0',
+    povStrength:analyticsPovStrength(),
+    povType:analyticsPovType(),
+    relation:characterCount()===1?'':(RELATION_PRESETS[relationPresetValue()]?.label||''),
+    scene:scenePresetValue()==='none'?'':sceneDisplayLabel(),
+    smartConflict:conflictPreventionOn()?'ON':'OFF',
+    intensity:intensityValue()||'dense',
+    version:APP_VERSION,
+    page:location.href
+  };
+  const sent=postAnalyticsBeacon(payload);
+  if(eventName==='roll'){setTimeout(()=>requestCounterFrame(),650);setTimeout(()=>{if(!counterResolvedAt)requestGoogleCounter(0)},1200);}
+  return sent;
+}
+
+function analyticsDebugTest(){
+  const ok=trackAnalytics('roll');
+  console.log('[Asset Gacha Analytics] JSONP submitted:',ok,'endpoint:',GUESTBOOK_WEB_APP_URL);
+  return ok;
+}
+if(new URLSearchParams(location.search).get('analytics-debug')==='1'){
+  console.info('[Asset Gacha Analytics] debug mode. Run analyticsDebugTest() in console.');
+}
+
+function createCards(){cards.innerHTML='';Object.entries(SLOTS).forEach(([k,t])=>{const el=document.createElement('article');el.className='card';el.id='card-'+k;el.innerHTML=`<div class="card-top"><div class="card-title">${t}</div><div class="card-actions"><button class="icon" data-toggle="${k}" title="프롬프트 사용/제외">◉</button><button class="icon" data-reroll="${k}" title="이 항목만 재추첨">↻</button><button class="icon" data-lock="${k}" title="잠금">🔓</button></div></div><div class="ko" id="ko-${k}">-</div><div class="en" id="en-${k}">-</div><div class="lock-note">🔒 이 결과는 고정되어 있습니다.</div>`;cards.appendChild(el)})}
+function loadCategories(keep=false){
+  const old=category.value;
+  category.innerHTML='<option value="__all">🎲 장르 전체 랜덤</option>';
+  let cats = {};
+  if(DB[genre.value]?.categories){
+    cats = DB[genre.value].categories;
+  } else if(NSFW_GENRE_STUB[genre.value]?.categories){
+    cats = NSFW_GENRE_STUB[genre.value].categories;
+  }
+  Object.entries(cats).forEach(([k,v])=>{
+    const o=document.createElement('option');
+    o.value=k;
+    o.textContent=v.label||k;
+    category.appendChild(o);
+  });
+  if(keep&&[...category.options].some(o=>o.value===old))category.value=old;
+  else if(category.options.length>1) category.selectedIndex=1;
+  rollAll(false);
+}
+
+const RELATION_PRESETS={
+  none:{label:'미사용',minPeople:1},
+  friend:{label:'친구 / 절친',minPeople:2,composition:P(`자연스러운 투샷|natural two-shot;함께 웃는 2인 구도|friendly two-shot;같은 화면을 공유하는 그룹샷|casual group composition`),pose:P(`어깨를 나란히 한 자세|standing shoulder to shoulder;편하게 가까이 선 자세|standing comfortably close;장난스럽게 기대는 자세|playfully leaning close;함께 앉아 쉬는 자세|sitting together casually`),gaze:P(`서로 편하게 바라봄|casual eye contact;같은 곳을 함께 바라봄|looking at same direction together;한 명이 웃으며 다른 한 명을 봄|one smiling at the other`),action:P(`함께 대화하며 웃고 있다|talking and smiling together;같은 화면이나 물건을 함께 보고 있다|looking at the same item together;장난스럽게 한 명이 다른 한 명을 건드린다|playfully nudging each other;나란히 걸어가고 있다|walking together casually`),expression:P(`편하게 웃는 표정|easy smile;장난기 어린 표정|playful expression;안심되는 표정|comfortable relaxed expression`),mood:P(`편안하고 친근한 분위기|friendly atmosphere;가벼운 일상 분위기|casual everyday mood`)},
+  coworker:{label:'동료 / 같은 편',minPeople:2,composition:P(`같은 임무를 수행하는 투샷|professional two-shot;회의/브리핑 구도|briefing composition;한 화면에서 역할이 분리된 그룹샷|teamwork group composition`),pose:P(`나란히 서서 상황을 보는 자세|standing side by side watching situation;한 명은 설명하고 한 명은 듣는 자세|one explaining, one listening;자료를 사이에 둔 자세|standing around shared materials`),gaze:P(`같은 목표를 바라봄|looking toward the same target;자료를 보다가 서로 마주봄|looking between materials and each other`),action:P(`같이 브리핑하고 있다|discussing a plan together;서류나 장비를 함께 확인한다|checking documents or equipment together;서로 상황을 공유한다|sharing information with each other`),expression:P(`집중한 표정|focused expression;진지한 표정|serious expression;침착한 표정|calm professional expression`),mood:P(`협업 분위기|collaborative mood;프로페셔널한 분위기|professional atmosphere`)},
+  rival:{label:'라이벌',minPeople:2,composition:P(`대치하는 투샷|confrontational two-shot;긴장감 있는 대칭 구도|tense symmetrical composition;한 발 물러서지 않는 구도|standoff composition`),pose:P(`서로 마주 선 자세|standing face to face;등을 맞대고 경계하는 자세|back-to-back with tension;팔짱을 끼고 대치하는 자세|crossed arms, confrontational stance`),gaze:P(`날카롭게 서로 노려봄|glaring at each other;시선을 피하지 않음|unflinching eye contact;한 명이 비웃듯 바라봄|smirking at the other`),action:P(`팽팽하게 대치하고 있다|standing in tense standoff;말싸움 직전처럼 대화한다|speaking with rivalry tension;한 명이 도발하듯 웃는다|one taunting the other`),expression:P(`승부욕이 오른 표정|competitive expression;비웃는 표정|taunting smirk;긴장한 표정|tense expression`),mood:P(`팽팽한 긴장감|rivalry tension;서늘한 분위기|cold confrontational atmosphere`)},
+  lover:{label:'연인 / 썸',minPeople:2,composition:P(`가까운 거리의 투샷|close intimate two-shot;서로에게 집중된 구도|intimate composition;감정선이 느껴지는 그룹샷|emotion-focused group composition`),pose:P(`서로 가까이 선 자세|standing close together;어깨를 기대는 자세|leaning on each other;손이 닿을 듯 가까운 자세|standing within touching distance;소파에 가까이 앉은 자세|sitting close together`),gaze:P(`서로를 다정하게 바라봄|looking at each other affectionately;부드럽게 시선을 맞춤|soft eye contact;한 명이 쑥스러워 시선을 피함|one shyly looking away`),action:P(`손을 맞잡고 있다|holding hands;가까이 대화하고 있다|speaking softly at close distance;한 명이 다른 한 명의 옷깃을 정리한다|fixing the other's collar;같이 걷는다|walking together closely`),expression:P(`수줍은 미소|shy smile;다정한 미소|affectionate smile;부끄러워하는 표정|embarrassed expression`),mood:P(`달달한 분위기|romantic atmosphere;은근한 설렘|subtle romantic tension`)},
+  firstmeet:{label:'첫 만남',minPeople:2,composition:P(`서로를 처음 보는 투샷|first-meeting two-shot;적당한 거리를 둔 구도|keeping some distance composition`),pose:P(`조심스럽게 마주 선 자세|carefully facing each other;약간 거리를 둔 자세|standing with polite distance`),gaze:P(`서로를 조심스럽게 살핌|carefully observing each other;호기심 어린 시선|curious gaze at the other`),action:P(`첫인사를 건네고 있다|exchanging first greetings;서로를 살피며 대화한다|talking while sizing each other up`),expression:P(`경계와 호기심이 섞인 표정|curious guarded expression;정중한 미소|polite smile`),mood:P(`어색하지만 흥미로운 분위기|awkward but interesting atmosphere`)},
+  reunion:{label:'재회',minPeople:2,composition:P(`오랜만에 만난 투샷|reunion two-shot;감정이 실린 재회 구도|emotional reunion composition`),pose:P(`한 걸음 가까이 다가선 자세|taking a step closer;잠시 멈춰 서서 바라보는 자세|stopping to look at each other`),gaze:P(`믿기지 않는 듯 바라봄|looking in disbelief;반가움이 스민 시선|warm surprised gaze`),action:P(`서로를 알아보고 멈춰 선다|recognizing each other and stopping;이름을 부르듯 입을 여는 장면|about to call the other by name`),expression:P(`놀라면서도 반가운 표정|surprised but happy expression;울컥한 표정|emotional expression`),mood:P(`그리움과 반가움|long-awaited reunion mood`)},
+  guardian:{label:'보호 / 호위',minPeople:2,composition:P(`보호 구도|protective composition;한 명이 앞에 선 구도|one standing slightly in front protectively`),pose:P(`한 명이 앞을 막아서는 자세|one standing protectively in front;한 명이 뒤/옆에서 보호받는 자세|one being shielded beside the other`),gaze:P(`한 명은 경계하고 한 명은 보호자를 봄|one alert, one looking at protector;주변을 살피는 시선|scanning surroundings`),action:P(`한 명이 다른 한 명을 감싼다|one shielding the other;위험을 막아선다|blocking danger;손을 잡아 이끈다|leading the other by the hand`),expression:P(`경계하는 표정|guarded expression;안도하는 표정|relieved expression;다정하지만 단호한 표정|gentle but resolute expression`),mood:P(`보호받는 긴장감|protective tension;신뢰감 있는 분위기|trusting atmosphere`)},
+  masterservant:{label:'주종 / 상하관계',minPeople:2,composition:P(`위계가 드러나는 구도|hierarchical composition;중심과 보좌가 구분되는 구도|master and attendant composition`),pose:P(`한 명은 중심에 서고 다른 한 명은 한 걸음 뒤|one centered, one half-step behind;공손히 옆에 선 자세|standing respectfully beside`),gaze:P(`한 명은 상대를 올려다봄|looking up respectfully;한 명은 내려다보는 시선|looking down with authority`),action:P(`지시를 내리고 있다|giving instructions;공손하게 무언가를 건네고 있다|offering something respectfully;곁을 지키고 있다|standing by in attendance`),expression:P(`공손한 표정|respectful expression;도도한 표정|composed authoritative expression;차분한 표정|calm formal expression`),mood:P(`격식 있는 분위기|formal hierarchical atmosphere;절제된 긴장감|restrained tension`)},
+  enemy:{label:'적대 / 대치',minPeople:2,composition:P(`적대적인 대치 구도|hostile standoff composition;전투 직전 같은 구도|pre-conflict composition`),pose:P(`언제든 움직일 듯한 자세|ready-to-move stance;서로 거리를 두고 대치하는 자세|standing apart in confrontation`),gaze:P(`적의를 품은 시선|hostile gaze;날카롭게 서로 감시함|watching each other sharply`),action:P(`서로 물러서지 않고 대치한다|staring each other down;한 명이 위협적으로 다가선다|one stepping forward threateningly`),expression:P(`날 선 표정|fierce expression;냉소적인 표정|cold cynical expression;분노를 누르는 표정|restrained anger`),mood:P(`험악한 분위기|hostile atmosphere;위험한 긴장감|dangerous tension`)},
+  teammate:{label:'전우 / 파티원',minPeople:2,composition:P(`같은 편 전투 구도|allied battle composition;함께 상황을 돌파하는 구도|team action composition`),pose:P(`같은 방향을 향한 자세|facing same direction;둘 이상이 호흡을 맞춘 자세|coordinated stance`),gaze:P(`같은 목표를 응시함|looking at same target;서로를 믿고 짧게 시선을 교환|brief trusting eye contact`),action:P(`함께 움직이며 대응하고 있다|moving together as a team;등을 맞대고 주변을 경계한다|watching surroundings back-to-back;합을 맞춰 전진한다|advancing together`),expression:P(`결의에 찬 표정|determined expression;전투적인 표정|battle-ready expression;서로를 믿는 표정|trusting expression`),mood:P(`동료애가 있는 긴장감|teamwork tension;합이 맞는 분위기|well-coordinated atmosphere`)}
+};
+const SCENE_LIBRARY={
+  modern:{none:{label:'미사용'},auto:{label:'장르 내 랜덤'},overtime:{label:'🖥️ 야근 / 사무실',background:P(`늦은 밤 사무실|office at night;잔업 중인 회의실|meeting room at night;컴퓨터 모니터 불빛이 많은 오피스|office with monitor glow`),outfit:P(`셔츠 소매를 걷은 차림|rolled-up sleeves;정돈된 오피스룩|neat office wear`),action:P(`서류를 확인하고 있다|reviewing documents;모니터를 보고 있다|looking at monitor;피곤한 채 대화한다|talking while tired`),expression:P(`피곤하지만 집중한 표정|tired but focused expression`),lighting:P(`차가운 실내 조명|cool office lighting;모니터 조명|monitor glow`),mood:P(`야근의 피로감|overtime mood;조용한 긴장감|quiet late-night tension`),prop:P(`노트북과 서류|laptop and paperwork`),weather:P(`늦은 밤|late night`),composition:P(`책상을 활용한 구도|desk-centered composition`)},date:{label:'💞 데이트',background:P(`감성 카페|stylish cafe;야경이 보이는 거리|city night street;작은 레스토랑|cozy restaurant`),outfit:P(`꾸민 캐주얼 룩|dressed-up casual outfit;가벼운 데이트룩|date outfit`),action:P(`함께 걸으며 대화한다|walking together on a date;메뉴를 함께 본다|looking at menu together;손이 닿을 듯 가까이 있다|standing close together`),expression:P(`설레는 표정|excited expression;수줍은 표정|shy expression`),lighting:P(`따뜻한 조명|warm lighting;야간 도시 조명|night city glow`),mood:P(`달달한 분위기|sweet romantic mood`),weather:P(`저녁 시간|evening`)},rainyhome:{label:'🌧️ 비 오는 귀갓길',background:P(`비 오는 골목길|rainy alley;우산 아래 거리|street under umbrella;버스정류장 근처|bus stop in the rain`),outfit:P(`비에 젖기 쉬운 외출복|casual outing clothes;가벼운 아우터|light outerwear`),action:P(`우산을 들고 함께 걷는다|walking with umbrella;비를 피해 서 있다|standing out of the rain;한 명이 우산을 기울여 준다|sharing umbrella`),expression:P(`조용한 표정|quiet expression;다정한 표정|gentle expression`),lighting:P(`흐린 날 조명|overcast light;젖은 노면 반사광|wet pavement reflections`),mood:P(`촉촉한 감성|moody rainy atmosphere`),prop:P(`우산|umbrella`),weather:P(`비 오는 날|rainy day`)},classbreak:{label:'📚 수업 사이 / 캠퍼스',background:P(`교실 창가|classroom window side;캠퍼스 벤치|campus bench;도서관 복도|library hallway`),outfit:P(`학생 느낌의 단정한 복장|student-like neat outfit;캐주얼 캠퍼스룩|campus casual look`),action:P(`교재를 보고 있다|looking at textbook;복도를 함께 걷는다|walking through campus;쉬는 시간에 대화한다|talking during break`),expression:P(`편안한 표정|relaxed expression;가벼운 미소|light smile`),mood:P(`청춘 일상 분위기|youthful everyday mood`),prop:P(`책과 노트|books and notes`),weather:P(`낮 시간|daytime`)},hospital:{label:'🏥 병문안 / 병실',background:P(`병실 내부|hospital room;복도 끝 의자|hospital corridor seating;창가 병상 옆|bedside by the window`),outfit:P(`차분한 외출복|modest clothing;정돈된 일상복|neat daily outfit`),action:P(`병상 옆을 지키고 있다|staying by the bedside;따뜻하게 말을 건넨다|speaking gently;꽃이나 음료를 건넨다|offering flowers or drink`),expression:P(`걱정스러운 표정|worried expression;안심시키는 미소|reassuring smile`),lighting:P(`밝은 실내광|soft hospital lighting`),mood:P(`조심스럽고 다정한 분위기|gentle concerned mood`),prop:P(`꽃다발|bouquet;음료수|drink`)},nightlife:{label:'🍸 술자리 / 심야',background:P(`칵테일 바|cocktail bar;루프탑 바|rooftop bar;심야 포장마차 느낌|late-night food stall atmosphere`),outfit:P(`어두운 톤 셔츠|dark-toned shirt;세련된 외출복|stylish night-out outfit`),action:P(`잔을 들고 대화한다|talking with drinks;바 카운터에 기대 있다|leaning on bar counter;창밖 야경을 본다|looking at city lights`),expression:P(`나른한 표정|relaxed late-night expression;의미심장한 미소|meaningful smile`),lighting:P(`네온 조명|neon lighting;어두운 무드 조명|dim mood lighting`),mood:P(`심야의 묘한 분위기|late-night atmosphere`),prop:P(`칵테일 잔|cocktail glass`)},wakeup:{label:'🛏️ 아침 침대 / 기상 직후',background:P(`침대 가장자리|bedside;햇살이 들어오는 침실|sunlit bedroom;정돈되지 않은 이불 위|rumpled bed scene`),outfit:P(`파자마|pajamas;얇은 홈웨어|light homewear`),action:P(`막 잠에서 깬 듯 앉아 있다|just woke up, sitting on bed;이불을 끌어안고 있다|hugging blanket;머리를 정리한다|fixing messy hair`),expression:P(`졸린 표정|sleepy expression;나른한 표정|relaxed waking expression`),lighting:P(`아침 햇살|morning sunlight`),mood:P(`느긋한 아침 분위기|lazy morning mood`),prop:P(`베개와 이불|pillow and blanket`),weather:P(`아침|morning`)},aftershower:{label:'🚿 샤워 직후',background:P(`샤워실 앞 세면대|bathroom sink area;욕실 거울 앞|bathroom mirror;젖은 타일 욕실|wet-tile bathroom`),outfit:P(`수건을 두른 차림|bath towel;샤워 가운|bathrobe`),action:P(`머리를 말리고 있다|drying hair;거울을 보고 있다|looking in mirror;수건으로 물기를 닦고 있다|wiping off water`),expression:P(`개운한 표정|refreshed expression;조용한 표정|quiet expression`),lighting:P(`밝은 욕실 조명|bright bathroom lighting`),mood:P(`사적인 일상 분위기|private daily mood`),prop:P(`수건|towel;헤어드라이어|hair dryer`)}}
+,
+  fantasy:{none:{label:'미사용'},auto:{label:'장르 내 랜덤'},tavern:{label:'🍺 여관 / 선술집 휴식',background:P(`판타지 여관 홀|fantasy tavern hall;모험가 테이블|adventurer's tavern table`),outfit:P(`여행용 망토|traveler cloak;가벼운 갑옷|light armor`),action:P(`휴식하며 대화한다|talking while resting;음료를 마신다|drinking in tavern`),mood:P(`모험 전 휴식|rest before adventure mood`),prop:P(`머그잔|tankard;여행 가방|travel bag`)},audience:{label:'🏰 왕궁 / 알현',background:P(`왕궁 홀|royal hall;대리석 복도|palace corridor`),outfit:P(`격식 있는 의복|formal fantasy attire;제복 느낌의 의상|formal uniform-like attire`),action:P(`정중히 대화한다|speaking formally;알현을 기다린다|waiting for audience`),expression:P(`차분하고 격식 있는 표정|formal calm expression`),mood:P(`엄숙한 분위기|solemn atmosphere`)},battleprep:{label:'⚔️ 전투 직전',background:P(`전장 직전 평원|field before battle;성문 앞|castle gate before battle;마법진 주변|near magic circle`),outfit:P(`전투 장비|battle gear;로브와 장비|robe and gear`),action:P(`무기를 점검한다|checking weapon;마법을 준비한다|preparing magic;동료와 계획을 나눈다|sharing battle plan`),expression:P(`결의에 찬 표정|determined expression`),mood:P(`전투 전 긴장감|pre-battle tension`),prop:P(`검이나 지팡이|sword or staff`)},aftermath:{label:'🩹 전투 후 휴식',background:P(`임시 야영지|temporary camp;성벽 아래 쉼터|rest area below wall`),outfit:P(`약간 흐트러진 전투복|slightly disheveled battle attire`),action:P(`상처를 돌본다|tending wounds;숨을 고르며 앉아 있다|sitting and catching breath`),expression:P(`지쳤지만 안도한 표정|tired but relieved expression`),mood:P(`전투 후의 안도감|post-battle relief`)},ritual:{label:'🕯️ 신전 / 기도',background:P(`신전 내부|temple interior;성스러운 제단 앞|in front of sacred altar`),outfit:P(`성직자풍 의복|cleric-like attire;의식용 로브|ritual robe`),action:P(`기도한다|praying;성물을 바라본다|looking at sacred object`),expression:P(`경건한 표정|reverent expression`),mood:P(`성스러운 분위기|sacred atmosphere`)},festival:{label:'🎉 축제 / 시장',background:P(`판타지 시장 거리|fantasy market street;축제 광장|festival square`),outfit:P(`화려한 축제 의상|festival attire;여행자 차림|traveler attire`),action:P(`시장 구경을 한다|looking around market;간식을 들고 있다|holding festival food`),expression:P(`들뜬 표정|excited expression`),mood:P(`활기찬 축제 분위기|lively festival atmosphere`),prop:P(`장식품이나 간식|ornament or snack`)},library:{label:'📜 마법 연구 / 서고',background:P(`높은 서가의 도서관|grand library shelves;비밀 연구실|secret study room`),outfit:P(`마법사 로브|mage robe;연구용 복장|research attire`),action:P(`책을 읽는다|reading book;주문을 연구한다|studying spell`),expression:P(`집중한 표정|focused expression`),mood:P(`조용한 연구 분위기|quiet research mood`),prop:P(`책과 두루마리|book and scroll`)}}
+,
+  guideverse:{none:{label:'미사용'},auto:{label:'장르 내 랜덤'},gatebrief:{label:'🚧 게이트 브리핑',background:P(`게이트 앞 통제선|in front of gate barricade;브리핑 룸|briefing room;출동 대기 구역|dispatch standby area`),outfit:P(`센터 제복|center uniform;전투복|operation uniform`),action:P(`브리핑을 듣는다|listening to briefing;장비를 점검한다|checking equipment`),expression:P(`긴장한 표정|tense expression;집중한 표정|focused expression`),mood:P(`출동 전 긴장감|pre-mission tension`),prop:P(`통신기와 태블릿|communicator and tablet`)},dungeonrun:{label:'🕳️ 던전 탐색',background:P(`던전 내부 통로|dungeon corridor;붕괴된 공간|ruined interior;게이트 내부 전장|inside gate battlefield`),outfit:P(`전술 장비|tactical gear;전투복|combat uniform`),action:P(`앞을 경계하며 이동한다|moving while staying alert;몬스터 흔적을 살핀다|checking for monster traces`),expression:P(`날 선 표정|battle-ready expression`),mood:P(`위험한 긴장감|dangerous tension`),lighting:P(`희미한 비상등|dim emergency light`)},guiding:{label:'💫 가이딩 / 안정화',background:P(`안정화실|stabilization room;센터 치료실|guide center treatment room;격리실 내부|containment room interior`),outfit:P(`편한 실내복|comfortable indoor outfit;센터 복장|center attire`),action:P(`손을 잡고 안정시킨다|stabilizing through hand contact;상태를 살핀다|checking condition;조용히 말을 건넨다|speaking gently for guidance`),expression:P(`걱정스러운 표정|concerned expression;집중한 표정|focused calming expression`),mood:P(`예민하고 조심스러운 분위기|delicate tense atmosphere`),prop:P(`모니터 장비|medical monitor`)},aftermath:{label:'🩹 전투 후 / 의무실',background:P(`의무실 침상|medical ward bed;센터 휴게실|center rest room`),outfit:P(`살짝 흐트러진 전투복|slightly disheveled uniform;편한 회복용 차림|recovery clothes`),action:P(`붕대를 감는다|wrapping bandage;잠시 쉬고 있다|taking a rest`),expression:P(`지친 표정|exhausted expression;안도한 표정|relieved expression`),mood:P(`임무 후 피로감|post-mission fatigue`)},lab:{label:'🧪 연구소 / 검사',background:P(`연구실 내부|laboratory interior;검사실|examination room`),outfit:P(`연구원 가운|research coat;센터 제복|center uniform`),action:P(`검사 결과를 확인한다|checking results;데이터를 살핀다|examining data`),expression:P(`분석적인 표정|analytical expression`),mood:P(`차가운 연구 분위기|clinical research atmosphere`),prop:P(`서류와 장비|documents and equipment`)},dorm:{label:'🛋️ 센터 휴게실 / 숙소',background:P(`센터 라운지|center lounge;숙소 소파|dorm sofa area`),outfit:P(`편한 홈웨어|comfortable loungewear;가벼운 캐주얼복|casual outfit`),action:P(`소파에 기대 쉬고 있다|resting on sofa;가볍게 대화한다|talking casually`),expression:P(`나른한 표정|relaxed expression`),mood:P(`잠깐의 휴식 분위기|brief rest mood`)}}
+,
+  period:{none:{label:'미사용'},auto:{label:'장르 내 랜덤'},teahouse:{label:'🍵 다실 / 찻자리',background:P(`고즈넉한 다실|quiet tea room;정원 옆 마루|wooden floor by garden`),outfit:P(`단정한 한복/전통의상|neat traditional attire`),action:P(`차를 따른다|pouring tea;다과를 건넨다|offering sweets`),expression:P(`정갈한 미소|polite gentle smile`),mood:P(`차분한 고전 분위기|calm period mood`),prop:P(`찻잔과 다과|teacup and sweets`)},courtyard:{label:'🌙 달밤 정원 / 회랑',background:P(`달빛이 드는 정원|moonlit courtyard;회랑 끝 기둥 옆|corridor pillar in moonlight`),outfit:P(`겹겹의 전통 의상|layered traditional clothing`),action:P(`달빛 아래 서 있다|standing under moonlight;조용히 대화한다|speaking quietly`),expression:P(`쓸쓸한 표정|melancholic expression;차분한 표정|calm expression`),mood:P(`은밀한 야간 분위기|quiet moonlit mood`)},banquet:{label:'🎎 연회 / 궁중',background:P(`연회장 내부|banquet hall;궁중 홀|court hall`),outfit:P(`화려한 전통 예복|formal traditional court attire`),action:P(`예를 갖춰 대화한다|speaking formally;연회를 지켜본다|watching the banquet`),expression:P(`격식 있는 표정|formal expression`),mood:P(`화려하고 긴장된 분위기|splendid but tense atmosphere`)},market:{label:'🏮 장터 / 번화가',background:P(`활기찬 장터|busy market street;등불 걸린 거리|lantern-lit street`),outfit:P(`가벼운 전통 외출복|light traditional outing clothes`),action:P(`장터를 둘러본다|looking around market;물건을 건넨다|handing over an item`),expression:P(`호기심 어린 표정|curious expression`),mood:P(`활기찬 생활감|lively period street mood`),prop:P(`포장된 물건|wrapped item`)},training:{label:'🏹 수련장 / 검술 훈련',background:P(`모래 깔린 수련장|training yard;대나무 숲 옆 빈터|open ground near bamboo grove`),outfit:P(`움직이기 쉬운 전통 복장|practical traditional training attire`),action:P(`자세를 가다듬는다|adjusting stance;활이나 검을 점검한다|checking bow or sword`),expression:P(`진지한 표정|serious expression;날 선 표정|focused fierce expression`),mood:P(`수련의 긴장감|training tension`),prop:P(`검이나 활|sword or bow`)},rainveranda:{label:'☔ 비 오는 처마 / 행각',background:P(`비 내리는 처마 밑|under eaves in the rain;젖은 마루|wet wooden veranda`),outfit:P(`비를 피한 전통 복장|traditional clothes avoiding rain`),action:P(`비를 바라본다|watching the rain;젖은 소매를 정리한다|adjusting wet sleeves`),expression:P(`생각에 잠긴 표정|pensive expression`),mood:P(`촉촉하고 고요한 분위기|quiet rainy mood`),weather:P(`비 오는 날|rainy day`)},inn:{label:'🛏️ 여관 / 객잔',background:P(`객잔 방 내부|inn room interior;객잔 테이블|inn table setting`),outfit:P(`여행 중 전통 복장|traveling traditional attire`),action:P(`잠시 쉬며 대화한다|resting and talking;짐을 정리한다|sorting luggage`),expression:P(`피곤하지만 편안한 표정|tired but comfortable expression`),mood:P(`여행 중 휴식 분위기|travel rest mood`),prop:P(`보따리|travel bundle`)}}
+};
+
+
+/* ===== v2.1 · EXTRA RELATION PRESETS ===== */
+Object.assign(RELATION_PRESETS,{
+  obsession:{label:'집착 / 소유욕',minPeople:2,composition:P(`한 사람에게 시선이 집중된 투샷|two-shot focused on one person;거리를 좁힌 긴장감 있는 구도|close-distance tense composition;한 명이 퇴로를 은근히 막는 구도|one subtly blocking the other's path`),pose:P(`한 명이 상대 쪽으로 가까이 선 자세|one standing very close to the other;상대의 움직임을 따라 몸을 돌린 자세|turning to follow the other's movement;한 명이 상대보다 반걸음 앞을 막아선 자세|one standing half a step in front of the other`),gaze:P(`상대에게서 시선을 떼지 않음|unbroken gaze at the other;상대만 집요하게 바라봄|intense focus on the other;한 명은 시선을 피하고 한 명은 끝까지 바라봄|one looking away, one maintaining intense eye contact`),action:P(`상대가 떠나려는 순간 손목 대신 소매를 붙잡는다|catching the other's sleeve as they turn away;상대의 동선을 따라 가까이 움직인다|moving closely with the other's path;말없이 상대 앞을 막아선다|silently stepping into the other's path`),expression:P(`집요하게 집중한 표정|intensely focused expression;감정을 억누른 표정|restrained emotion;서늘한 미소|cold subtle smile`),mood:P(`숨 막히는 집착의 긴장감|possessive tension;조용하지만 강한 압박감|quiet intense pressure`)},
+  hatebond:{label:'혐관 / 앙숙',minPeople:2,composition:P(`감정적으로 충돌하는 투샷|emotionally confrontational two-shot;가까운데도 냉랭한 구도|close but hostile composition;서로 물러서지 않는 비대칭 구도|asymmetrical standoff composition`),pose:P(`서로 얼굴을 가까이 한 채 대치|standing face to face at close distance;한 명은 팔짱을 끼고 다른 한 명은 비스듬히 선 자세|one with crossed arms, one standing at an angle;등을 돌렸다가 다시 바라보는 자세|turning back to look at each other`),gaze:P(`못마땅하게 서로를 노려봄|annoyed glare at each other;시선을 마주치자마자 신경전|immediate hostile eye contact;한 명이 비웃고 다른 한 명이 노려봄|one smirking, one glaring`),action:P(`말싸움을 하듯 대화한다|arguing face to face;서로의 말을 끊으며 신경전을 벌인다|talking over each other in tension;돌아가려다 다시 멈춰 선다|turning away then stopping again`),expression:P(`짜증과 미련이 섞인 표정|annoyed conflicted expression;비웃는 표정|taunting smirk;화가 났지만 흔들리는 표정|angry but conflicted expression`),mood:P(`혐관 특유의 날 선 긴장감|love-hate tension;서로에게 예민한 분위기|hostile chemistry`)},
+  salvation:{label:'구원 서사',minPeople:2,composition:P(`한 명이 다른 한 명을 지탱하는 구도|one supporting the other;보호와 의존이 드러나는 투샷|protective emotional two-shot;빛이 한쪽에서 들어오는 감정 중심 구도|emotion-focused composition with directional light`),pose:P(`한 명이 지친 상대를 받쳐주는 자세|supporting an exhausted person;한 명이 앉아 있고 다른 한 명이 곁을 지키는 자세|one sitting, one staying beside them;서로 가까이 기대어 선 자세|standing close for support`),gaze:P(`안심시키듯 바라봄|reassuring gaze;상대를 확인하듯 조심스럽게 바라봄|carefully checking on the other;신뢰를 담아 시선을 맞춤|trusting eye contact`),action:P(`다친 상대를 부축한다|helping an injured person stand;손을 내밀어 일으켜 준다|offering a hand to help them up;담요나 외투를 덮어준다|placing a coat or blanket over the other`),expression:P(`안도하는 표정|relieved expression;울컥한 표정|emotional expression;조심스럽게 웃는 표정|small reassuring smile`),mood:P(`구원과 안도의 분위기|rescue and relief mood;서로 의지하는 감정선|emotional support atmosphere`)},
+  unrequited:{label:'짝사랑',minPeople:2,composition:P(`한 명의 시선이 다른 한 명에게 머무는 구도|one-sided gaze composition;미묘한 거리감이 있는 투샷|two-shot with subtle distance`),pose:P(`한 명은 자연스럽고 다른 한 명은 조금 긴장한 자세|one relaxed, one slightly tense;나란히 있지만 약간의 간격이 있는 자세|standing side by side with small distance`),gaze:P(`한 명이 몰래 상대를 바라봄|one secretly looking at the other;눈이 마주치자 시선을 피함|looking away after eye contact;상대가 보지 않을 때 바라봄|watching when the other is not looking`),action:P(`말을 걸까 망설인다|hesitating to speak;작은 물건이나 음료를 건네려 한다|about to offer a small gift or drink;상대보다 반걸음 뒤에서 따라 걷는다|walking half a step behind the other`),expression:P(`수줍은 표정|shy expression;말하지 못한 감정을 숨기는 표정|restrained affectionate expression`),mood:P(`조용한 짝사랑의 설렘|quiet unrequited affection;말하지 못한 감정|unspoken feelings`)},
+  contract:{label:'계약 / 정략',minPeople:2,composition:P(`격식 있는 두 사람의 투샷|formal two-person composition;테이블을 사이에 둔 협상 구도|negotiation composition across a table;나란히 서 있지만 거리감 있는 구도|formal side-by-side composition with distance`),pose:P(`단정히 마주 앉은 자세|sitting formally across from each other;서류를 사이에 두고 선 자세|standing with documents between them;공식석상처럼 나란히 선 자세|standing side by side formally`),gaze:P(`상대를 평가하듯 바라봄|evaluating gaze;감정을 드러내지 않는 시선|controlled neutral gaze;서류와 상대를 번갈아 봄|looking between documents and the other`),action:P(`계약서를 확인한다|reviewing a contract;악수하려 손을 내민다|offering a handshake;조건을 설명하며 대화한다|discussing terms`),expression:P(`정중하지만 거리감 있는 표정|polite distant expression;침착한 표정|composed expression`),mood:P(`격식과 긴장감이 공존하는 분위기|formal restrained tension;계약 관계의 거리감|contractual distance`)},
+  mentor:{label:'멘토 / 사제',minPeople:2,composition:P(`가르치는 사람과 배우는 사람이 함께 보이는 구도|mentor and protege composition;한 명이 시범을 보이고 다른 한 명이 지켜보는 구도|demonstration and observation composition`),pose:P(`한 명은 설명하고 한 명은 집중해 듣는 자세|one explaining, one listening closely;나란히 서서 같은 대상을 보는 자세|standing together looking at the same subject`),gaze:P(`지도하듯 차분히 바라봄|calm guiding gaze;존중하며 바라봄|respectful attentive gaze`),action:P(`자세나 방법을 알려준다|demonstrating a technique;자료를 짚어 설명한다|pointing at material while explaining;상대의 동작을 교정해준다|correcting the other's form`),expression:P(`차분한 표정|calm expression;집중한 표정|focused attentive expression`),mood:P(`신뢰와 배움의 분위기|mentor-protege trust;차분한 지도 분위기|calm instructional atmosphere`)},
+  childhood:{label:'소꿉친구',minPeople:2,composition:P(`익숙하게 가까운 투샷|familiar close two-shot;오래된 친밀감이 느껴지는 구도|longtime familiarity composition`),pose:P(`거리낌 없이 나란히 선 자세|standing naturally close;한 명이 다른 한 명의 어깨에 가볍게 기대는 자세|casually leaning on the other's shoulder`),gaze:P(`익숙한 듯 편하게 바라봄|familiar relaxed gaze;장난스럽게 곁눈질함|playful side glance`),action:P(`자연스럽게 장난을 건다|teasing each other casually;오래된 습관처럼 나란히 걷는다|walking together with familiar ease;작은 물건을 아무렇지 않게 건넨다|casually handing over a small item`),expression:P(`편한 미소|comfortable smile;장난기 어린 표정|playful expression`),mood:P(`오래된 친밀감|longtime familiarity;편안한 관계의 분위기|comfortable close bond`)},
+  exlovers:{label:'전 연인 / 미련',minPeople:2,composition:P(`멀어졌다 다시 마주한 투샷|former lovers facing each other;가까우면서도 거리감 있는 구도|close yet distant composition`),pose:P(`서로 마주 서 있지만 손이 닿지 않는 거리|standing face to face just out of reach;한 명이 돌아서려 하고 다른 한 명이 멈춰 선 자세|one turning away, one remaining still`),gaze:P(`오래 바라보다 먼저 시선을 피함|long eye contact then looking away;미련이 남은 듯한 시선|lingering conflicted gaze`),action:P(`무슨 말을 할지 망설인다|hesitating before speaking;돌아가려다 다시 상대를 바라본다|turning back to look again;낡은 물건이나 사진을 건넨다|offering an old keepsake or photo`),expression:P(`씁쓸한 미소|bittersweet smile;감정을 숨기는 표정|restrained conflicted expression;쓸쓸한 표정|melancholic expression`),mood:P(`미련과 거리감|unresolved romantic tension;끝나지 않은 감정|lingering feelings`)}
+});
+
+const RELATION_PROMPT_TAGS={
+  friend:'close friends, friendly interaction',coworker:'coworkers, teamwork',rival:'rivals, competitive tension',lover:'romantic relationship, affectionate interaction',obsession:'possessive relationship, intense attention',hatebond:'love-hate relationship, hostile chemistry',salvation:'protective bond, emotional rescue',unrequited:'unrequited love, restrained affection',contract:'contract relationship, formal distance',mentor:'mentor and protege, guidance interaction',childhood:'childhood friends, familiar closeness',exlovers:'former lovers, unresolved romantic tension',firstmeet:'first meeting, cautious interaction',reunion:'reunion, emotional interaction',guardian:'protective relationship, protective interaction',masterservant:'hierarchical relationship, formal interaction',enemy:'hostile relationship, confrontation',teammate:'teammates, coordinated interaction'
+};
+
+/* ===== v2.1 · EXTRA SCENE PRESETS ===== */
+const SCENE_EXTRA={
+  modern:{
+    rooftop:{label:'🌃 옥상 / 야경',promptTag:'rooftop at night, city lights',background:P(`도심 빌딩 옥상|city building rooftop;난간 너머 야경이 보이는 옥상|rooftop overlooking city lights;학교나 회사 건물 옥상|building rooftop`),outfit:P(`바람에 흔들리는 가벼운 아우터|light outerwear in the wind;단정한 외출복|neat casual outfit`),action:P(`난간에 기대 야경을 본다|leaning on railing, looking at city lights;조용히 옆에 서서 대화한다|talking quietly side by side;바람을 맞으며 잠시 멈춰 있다|standing still in rooftop wind`),expression:P(`생각에 잠긴 표정|pensive expression;쓸쓸한 미소|melancholic smile`),lighting:P(`도시 야경의 역광|city night backlight;옥상 비상등과 야경|rooftop lights and city glow`),mood:P(`고요한 야간 감성|quiet rooftop night mood;말하지 못한 감정의 분위기|unspoken emotional atmosphere`),weather:P(`바람 부는 밤|windy night`)},
+    funeral:{label:'🕯️ 장례식 / 빈소',promptTag:'funeral hall, solemn atmosphere',background:P(`조용한 장례식장 빈소|quiet funeral hall;국화가 놓인 조문 공간|memorial room with chrysanthemums;장례식장 복도|funeral hall corridor`),outfit:P(`검은 정장과 흰 셔츠|black suit, white shirt;검은 단정한 의복|formal black clothing;검은 코트|black coat`),action:P(`영정 앞에 조용히 서 있다|standing quietly before memorial portrait;국화를 내려놓는다|placing a chrysanthemum;복도에서 말없이 마주친다|meeting silently in the corridor;조문객이 빠진 뒤 의자에 앉아 있다|sitting after visitors have left`),expression:P(`슬픔을 억누르는 표정|restrained grief;눈물이 맺힌 표정|teary eyes;멍하니 굳은 표정|blank stunned expression`),lighting:P(`차분한 실내 조명|soft subdued indoor lighting`),mood:P(`엄숙하고 무거운 분위기|solemn heavy atmosphere;조용한 상실감|quiet grief`),prop:P(`흰 국화|white chrysanthemum;검은 리본|black mourning ribbon`)},
+    sickroom:{label:'🏥 병실 / 입원',promptTag:'hospital room, bedside scene',background:P(`병원 개인 병실|private hospital room;창가 병상|hospital bed by window;밤의 조용한 병실|quiet hospital room at night`),outfit:P(`환자복|hospital gown;단정한 일상복|neat casual clothes`),action:P(`침대 가장자리에 앉아 있다|sitting on edge of hospital bed;병상 곁 의자에 앉아 있다|sitting beside hospital bed;물컵이나 약을 건넨다|offering water or medicine;잠든 사람을 조용히 지켜본다|quietly watching a sleeping person`),expression:P(`지친 표정|tired expression;걱정스러운 표정|worried expression;안심시키는 미소|reassuring smile`),lighting:P(`부드러운 병실 조명|soft hospital lighting;창문으로 들어오는 새벽빛|early dawn light through window`),mood:P(`조용하고 다정한 병실 분위기|quiet tender hospital mood`),prop:P(`수액대|IV stand;물컵|water cup;병원 담요|hospital blanket`)},
+    elevator:{label:'🛗 엘리베이터 / 밀폐 공간',promptTag:'elevator interior, close distance',background:P(`현대식 엘리베이터 내부|modern elevator interior;호텔 엘리베이터|hotel elevator;회사 엘리베이터|office elevator`),action:P(`닫히는 문을 바라본다|watching elevator doors close;층 버튼을 누른다|pressing elevator button;좁은 공간에서 조용히 서 있다|standing quietly in close space`),expression:P(`어색한 표정|awkward expression;무심한 표정|indifferent expression;긴장한 표정|tense expression`),lighting:P(`차가운 천장 조명|cool overhead lighting`),mood:P(`좁은 공간의 미묘한 긴장감|subtle tension in confined space`)},
+    carscene:{label:'🚗 차 안 / 귀가',promptTag:'car interior, nighttime drive',background:P(`밤의 자동차 내부|car interior at night;주차된 차 안|parked car interior;비 오는 차창이 보이는 차 안|car interior with rain on windows`),action:P(`조수석 쪽을 바라보며 대화한다|talking toward passenger seat;운전대를 잡은 채 잠시 멈춰 있다|pausing with hands on steering wheel;창밖을 바라본다|looking out car window`),expression:P(`피곤한 표정|tired expression;조용한 미소|quiet smile;생각에 잠긴 표정|pensive expression`),lighting:P(`계기판 불빛|dashboard glow;가로등이 스치는 조명|passing streetlight illumination`),mood:P(`늦은 귀갓길의 조용한 분위기|quiet late-night drive mood`)},
+    doorstep:{label:'🏠 집 앞 / 문 앞',promptTag:'outside apartment door, quiet evening',background:P(`아파트 현관문 앞|outside apartment door;주택 대문 앞|outside house entrance;조용한 복도 끝 현관|quiet hallway by front door`),action:P(`문 앞에서 돌아가지 못하고 서 있다|standing unable to leave the doorway;초인종을 누를까 망설인다|hesitating to ring the bell;문을 연 사람과 마주 선다|facing someone who opened the door`),expression:P(`망설이는 표정|hesitant expression;긴장한 표정|nervous expression;복잡한 표정|conflicted expression`),lighting:P(`현관등|porch light;복도 조명|hallway lighting`),mood:P(`늦은 밤의 조용한 긴장감|quiet late-night tension`)},
+    argument:{label:'💢 다툰 직후',promptTag:'after an argument, emotional tension',background:P(`조용해진 거실|quiet living room after argument;사람 없는 복도|empty hallway;밤의 골목|night alley`),action:P(`서로 다른 방향을 보고 서 있다|standing facing different directions;돌아가려다 멈춰 선다|turning away then stopping;말없이 떨어져 앉아 있다|sitting apart in silence`),expression:P(`화가 남은 표정|lingering anger;울음을 참는 표정|holding back tears;후회가 스친 표정|regretful expression`),mood:P(`다툼 뒤의 무거운 정적|heavy silence after an argument;감정이 남은 긴장감|lingering emotional tension`)},
+    convenienceNight:{label:'🏪 심야 편의점',promptTag:'convenience store at night',background:P(`심야 편의점 창가|convenience store window at night;편의점 야외 테이블|convenience store outdoor table at night;음료 냉장고 앞|drink refrigerator aisle`),action:P(`컵라면을 앞에 두고 앉아 있다|sitting with instant noodles;따뜻한 음료를 건넨다|offering a warm drink;유리창 밖을 바라본다|looking through convenience store window`),expression:P(`피곤한 미소|tired smile;편안한 표정|relaxed expression`),lighting:P(`밝은 형광등과 어두운 바깥|bright fluorescent light against dark night`),mood:P(`심야의 소소한 위로|small late-night comfort`),prop:P(`컵라면|instant noodle cup;캔커피|canned coffee`)},
+    lasttrain:{label:'🚉 막차 / 플랫폼',promptTag:'late-night train platform, last train',background:P(`늦은 밤 지하철 플랫폼|late-night subway platform;막차 직전 기차역|train station before last train;빈 승강장|empty station platform`),action:P(`전광판을 올려다본다|looking up at departure board;플랫폼 끝에서 기다린다|waiting at end of platform;도착한 열차를 바라본다|watching arriving train`),expression:P(`지친 표정|tired expression;아쉬운 표정|reluctant expression`),lighting:P(`차가운 역 조명|cool station lighting`),mood:P(`늦은 밤의 이별 같은 분위기|late-night farewell mood`) }
+  },
+  fantasy:{
+    rescue:{label:'🪽 구출 직후',promptTag:'fantasy rescue aftermath',background:P(`무너진 성채 안쪽|ruined fortress interior;전투가 끝난 숲길|forest path after battle;임시 야영지|temporary fantasy camp`),outfit:P(`흐트러진 전투복|disheveled battle attire;찢어진 망토와 장비|damaged cloak and gear`),action:P(`지친 상대를 부축한다|supporting an exhausted companion;상처를 확인한다|checking injuries;손을 내밀어 일으킨다|helping someone up`),expression:P(`안도한 표정|relieved expression;걱정스러운 표정|concerned expression`),mood:P(`구출 직후의 안도감|post-rescue relief`)},
+    memorial:{label:'🕯️ 추모 / 장례',promptTag:'fantasy memorial ceremony, solemn',background:P(`촛불이 켜진 추모당|candlelit memorial hall;무덤이 있는 언덕|graveyard hill;신전의 추모 제단|temple memorial altar`),outfit:P(`어두운 색의 예복|dark ceremonial attire;검은 망토|black cloak`),action:P(`무덤 앞에 꽃을 놓는다|placing flowers at a grave;촛불을 밝힌다|lighting a candle;고개를 숙여 묵념한다|bowing head in silence`),expression:P(`슬픈 표정|sad expression;절제된 슬픔|restrained grief`),mood:P(`엄숙한 추모 분위기|solemn memorial atmosphere`)},
+    tower:{label:'🌌 탑 / 성벽 야경',promptTag:'fantasy tower at night, moonlight',background:P(`높은 마법탑 발코니|high magic tower balcony;성벽 위 전망대|castle wall lookout;달빛 아래 첨탑|moonlit tower`),action:P(`난간 너머 왕국을 바라본다|looking over kingdom from railing;밤바람을 맞으며 대화한다|talking in the night wind`),lighting:P(`달빛과 별빛|moonlight and starlight`),mood:P(`고요하고 비밀스러운 분위기|quiet secretive night mood`)},
+    infirmary:{label:'🩹 치유실 / 병상',promptTag:'fantasy infirmary, healing room',background:P(`신전 치유실|temple infirmary;마법 치유 병상|magical healing bed;약초 냄새가 나는 치료실|herbal treatment room`),action:P(`붕대를 갈아준다|changing bandages;치유 마법을 준비한다|preparing healing magic;병상 곁을 지킨다|staying by bedside`),expression:P(`걱정스러운 표정|concerned expression;지친 표정|tired expression`),mood:P(`조용한 회복 분위기|quiet recovery atmosphere`)},
+    secretroom:{label:'🚪 금지된 방 / 비밀회동',promptTag:'secret chamber, forbidden room',background:P(`봉인된 비밀 서고|sealed secret archive;왕궁의 숨겨진 방|hidden palace chamber;마법진이 있는 금지된 방|forbidden chamber with magic circle`),action:P(`문을 잠그고 낮게 대화한다|locking the door and speaking quietly;비밀 문서를 펼쳐본다|opening secret documents`),expression:P(`경계하는 표정|guarded expression;진지한 표정|serious expression`),lighting:P(`희미한 촛불|dim candlelight`),mood:P(`비밀스럽고 위험한 분위기|secretive dangerous atmosphere`)}
+  },
+  guideverse:{
+    centerRooftop:{label:'🌃 센터 옥상',promptTag:'agency rooftop at night, city lights',background:P(`가이드 센터 옥상|guide center rooftop;센터 옥상 난간|agency rooftop railing`),outfit:P(`센터 제복 위 가벼운 아우터|light jacket over center uniform;편한 외출복|casual outerwear`),action:P(`난간에 기대 도시를 본다|leaning on railing, looking at city;임무가 끝난 뒤 조용히 대화한다|talking quietly after mission`),expression:P(`지친 표정|tired expression;복잡한 표정|conflicted expression`),mood:P(`임무 후의 고요한 긴장감|quiet post-mission tension`)},
+    funeral:{label:'🕯️ 에스퍼 추모식 / 장례',promptTag:'memorial service, solemn funeral hall',background:P(`센터 추모관|center memorial hall;국화가 놓인 장례식장|funeral hall with chrysanthemums;합동 추모식장|memorial service hall`),outfit:P(`검은 정장|black suit;검은 제복|black formal uniform`),action:P(`헌화한다|laying flowers;추모 사진 앞에 서 있다|standing before memorial photo;말없이 조문석에 앉아 있다|sitting silently in mourning area`),expression:P(`슬픔을 억누르는 표정|restrained grief;멍한 표정|blank expression`),mood:P(`엄숙한 추모 분위기|solemn memorial atmosphere`)},
+    ward:{label:'🏥 센터 병실 / 회복실',promptTag:'recovery ward, hospital room',background:P(`센터 전용 병실|agency medical ward;회복실 침상|recovery room bed;격리 병실|isolation hospital room`),outfit:P(`환자복|hospital gown;센터 복장|center attire`),action:P(`수액을 맞으며 누워 있다|resting with IV;병상 곁에서 상태를 살핀다|checking condition beside bed;물이나 약을 건넨다|offering water or medicine`),expression:P(`지친 표정|exhausted expression;걱정스러운 표정|worried expression`),mood:P(`임무 후 회복의 조용한 분위기|quiet recovery after mission`)},
+    rescue:{label:'🛡️ 구조 직후',promptTag:'rescue aftermath, emergency response',background:P(`게이트 외부 응급 구역|emergency zone outside gate;구조 차량 옆|beside rescue vehicle;붕괴 현장 밖 안전지대|safe zone outside collapsed site`),outfit:P(`먼지가 묻은 전투복|dusty combat uniform;응급 구조 장비|emergency gear`),action:P(`구조된 사람을 부축한다|supporting a rescued person;상태를 확인한다|checking condition;담요를 둘러준다|wrapping a blanket around someone`),expression:P(`안도한 표정|relieved expression;긴장이 풀리지 않은 표정|still-tense expression`),mood:P(`구조 직후의 혼란과 안도|chaotic relief after rescue`)},
+    unstable:{label:'⚠️ 폭주 직전 / 긴급 안정화',promptTag:'emergency stabilization, tense medical scene',background:P(`비상 안정화실|emergency stabilization room;강화 유리 격리실|reinforced glass containment room`),outfit:P(`센터 제복|center uniform;흐트러진 전투복|disheveled combat uniform`),action:P(`거리를 유지하며 상태를 확인한다|checking condition while keeping distance;진정시키려 조용히 말을 건넨다|speaking calmly to stabilize;비상 장비를 준비한다|preparing emergency equipment`),expression:P(`극도로 긴장한 표정|highly tense expression;집중한 표정|focused expression`),lighting:P(`붉은 비상등|red emergency lighting`),mood:P(`위태로운 긴급 상황|critical tense atmosphere`) }
+  },
+  period:{
+    funeral:{label:'🕯️ 상가 / 장례',promptTag:'traditional funeral, solemn mourning',background:P(`흰 천과 향이 놓인 상가|traditional mourning hall with incense;제사상이 놓인 빈소|traditional funeral room;비 내리는 장례 행렬 길|rainy funeral procession path`),outfit:P(`소복이나 상복|traditional mourning clothes;어두운 전통 예복|dark traditional formal wear`),action:P(`향을 올린다|offering incense;고개를 숙여 조문한다|bowing in mourning;빈소 한쪽에 조용히 앉아 있다|sitting quietly in mourning hall`),expression:P(`절제된 슬픔|restrained grief;눈물을 참는 표정|holding back tears`),mood:P(`엄숙한 장례 분위기|solemn traditional funeral atmosphere`)},
+    sickroom:{label:'🩹 병실 / 요양방',promptTag:'traditional sickroom, bedside',background:P(`온돌방 병상|traditional sickroom;약재가 놓인 요양방|recovery room with herbal medicine;창호문 옆 침상|bed by paper window`),outfit:P(`얇은 속적삼과 이불|light traditional sleepwear;단정한 전통 일상복|neat traditional clothing`),action:P(`약그릇을 건넨다|offering medicine bowl;이불을 정리해준다|adjusting blanket;곁에 앉아 상태를 살핀다|sitting beside and checking condition`),expression:P(`지친 표정|tired expression;걱정스러운 표정|concerned expression`),mood:P(`조용한 간병 분위기|quiet caregiving atmosphere`)},
+    pavilion:{label:'🌙 누각 / 지붕 위',promptTag:'traditional pavilion at night, moonlight',background:P(`달빛 아래 누각|moonlit pavilion;성벽 누대|traditional watchtower;기와지붕이 내려다보이는 높은 누각|high pavilion overlooking tiled roofs`),action:P(`난간에 기대 아래를 내려다본다|leaning on railing, looking down;밤바람 속에서 조용히 대화한다|talking quietly in night breeze`),lighting:P(`달빛|moonlight;등불빛|lantern light`),mood:P(`고요하고 은밀한 야간 분위기|quiet secretive night mood`)},
+    secretmeet:{label:'🤫 밀회 / 비밀회동',promptTag:'secret meeting, traditional setting',background:P(`사람 없는 별채|empty detached quarters;닫힌 회랑 끝|secluded corridor;등불 하나 켜진 방|room lit by a single lantern`),action:P(`주변을 살핀 뒤 낮게 대화한다|checking surroundings then speaking quietly;편지나 문서를 몰래 건넨다|secretly handing over a letter`),expression:P(`경계하는 표정|guarded expression;진지한 표정|serious expression`),mood:P(`들키면 안 되는 긴장감|secret meeting tension`)},
+    farewell:{label:'🌅 이별 / 배웅',promptTag:'farewell scene, traditional setting',background:P(`성문 밖 길|road outside city gate;나루터|traditional ferry dock;새벽의 대문 앞|front gate at dawn`),action:P(`떠나는 사람을 배웅한다|seeing someone off;말을 타기 전 마지막으로 돌아본다|looking back before departure;작은 보따리나 부적을 건넨다|offering a small bundle or charm`),expression:P(`아쉬운 표정|reluctant expression;억지로 웃는 표정|forced small smile`),mood:P(`잔잔한 이별의 분위기|quiet farewell mood`) }
+  }
+};
+Object.entries(SCENE_EXTRA).forEach(([g,items])=>{if(SCENE_LIBRARY[g])Object.assign(SCENE_LIBRARY[g],items)});
+
+function currentSceneLibrary(){return SCENE_LIBRARY[genre.value]||{none:{label:'미사용'}}}
+function scenePresetValue(){return $('scenePreset')?.value||'none'}
+function relationPresetValue(){return $('relationPreset')?.value||'none'}
+function conflictPreventionOn(){return $('smartConflict')?.checked!==false}
+function resolveScenePreset(force=false){
+  const lib=currentSceneLibrary();
+  const requested=scenePresetValue();
+  if(requested!=='auto'){
+    state.sceneResolvedKey=requested;
+    return requested;
+  }
+  const keys=Object.keys(lib).filter(k=>!['none','auto'].includes(k));
+  if(force || !state.sceneResolvedKey || !lib[state.sceneResolvedKey] || ['none','auto'].includes(state.sceneResolvedKey)){
+    state.sceneResolvedKey=keys.length?rand(keys):'none';
+  }
+  return state.sceneResolvedKey;
+}
+function sceneResolvedKey(){return resolveScenePreset(false)}
+function scenePresetConfig(){const lib=currentSceneLibrary();const key=sceneResolvedKey();return lib[key]||lib.none||null}
+function relationPresetConfig(){const key=relationPresetValue();const cfg=RELATION_PRESETS[key]||RELATION_PRESETS.none;if(characterCount() < (cfg.minPeople||1)) return RELATION_PRESETS.none;return cfg}
+function scenePool(type){const cfg=scenePresetConfig();return cfg?.[type]||[]}
+function relationPool(type){const cfg=relationPresetConfig();return cfg?.[type]||[]}
+function presetPromptTags(){
+  const out=[];
+  const relationKey=relationPresetValue();
+  const rel=relationPresetConfig();
+  const scn=scenePresetConfig();
+  if(rel && relationKey!=='none' && RELATION_PROMPT_TAGS[relationKey]) out.push(RELATION_PROMPT_TAGS[relationKey]);
+  if(scn?.promptTag) out.push(scn.promptTag);
+  return out.filter(Boolean);
+}
+function sceneDisplayLabel(){
+  const lib=currentSceneLibrary();
+  const requested=scenePresetValue();
+  if(requested==='none') return '미사용';
+  if(requested==='auto') return `장르 내 랜덤 → ${lib[sceneResolvedKey()]?.label||'미사용'}`;
+  return lib[requested]?.label||'미사용';
+}
+function populateScenePresetOptions(keep=false){
+  const select=$('scenePreset');if(!select)return;
+  const before=select.value;const lib=currentSceneLibrary();
+  select.innerHTML=Object.entries(lib).map(([k,v])=>`<option value="${k}">${v.label}</option>`).join('');
+  if(keep&&[...select.options].some(o=>o.value===before))select.value=before;else select.value='none';
+  resolveScenePreset(true);updateScenePresetHint();
+}
+function updateScenePresetHint(){
+  const el=$('scenePresetHint');if(!el)return;
+  const v=scenePresetValue();
+  el.textContent=v==='none'?'🎬 장르에 맞는 상황 프리셋을 적용합니다.':`🎬 현재 장면 프리셋 · ${sceneDisplayLabel()}`;
+  el.classList.toggle('on',v!=='none');
+}
+function updateRelationHint(){const el=$('relationHint'),select=$('relationPreset');if(!el||!select)return;if(characterCount()===1){select.disabled=true;select.value='none';el.textContent='🤝 1인 모드에서는 관계 프리셋이 비활성화됩니다.';el.classList.remove('multi')}else{select.disabled=false;const label=RELATION_PRESETS[relationPresetValue()]?.label||'미사용';el.textContent=relationPresetValue()==='none'?'🤝 2인/3인에서 상호작용 가중치 적용':`🤝 현재 관계 프리셋 · ${label}`;el.classList.add('multi')}}
+function updateSmartConflictHint(){const el=$('smartConflictHint');if(!el)return;if(conflictPreventionOn()){el.textContent='🧩 말이 안 되는 조합은 최대한 다시 뽑습니다.';el.classList.add('on')}else{el.textContent='🧩 완전 랜덤 · 충돌 방지를 적용하지 않습니다.';el.classList.remove('on')}}
+function contextText(){return [genre.value,category.value,DB[genre.value]?.categories?.[category.value]?.label||'',state.selected.background?.ko||'',state.selected.background?.en||'',scenePresetConfig()?.label||''].join(' ').toLowerCase()}
+function currentContextFlags(){
+  const t=contextText();
+  return {
+    shower:/샤워|욕실|bathroom|shower|bath/.test(t),
+    bedroom:/침실|침대|bedroom|bedside|bed/.test(t),
+    office:/사무실|오피스|회의실|office|meeting room|desk/.test(t),
+    school:/학교|교실|캠퍼스|도서관|school|classroom|campus|library/.test(t),
+    hospital:/병원|병실|의무실|회복실|치유실|hospital|ward|medical|infirmary|sickroom/.test(t),
+    battle:/전투|던전|게이트|battle|combat|dungeon|mission|gate/.test(t),
+    dining:/카페|레스토랑|바|술집|cafe|restaurant|bar|tavern/.test(t),
+    funeral:/장례|빈소|추모|상가|funeral|memorial|mourning|grave/.test(t),
+    rooftop:/옥상|누각|성벽 야경|tower at night|rooftop|pavilion at night/.test(t),
+    vehicle:/차 안|자동차|car interior|vehicle/.test(t),
+    formal:/알현|연회|궁중|audience|banquet|court hall/.test(t)
+  };
+}
+function conflictsWithContext(type,item){
+  if(!conflictPreventionOn()||!item)return false;
+  const t=`${item.ko||''} ${item.en||''}`.toLowerCase();
+  const c=currentContextFlags();
+  if(c.shower){
+    if(type==='outfit'&&/(suit|slacks|dress shirt|formal|armor|uniform|hanbok|kimono|school|coat|jacket)/.test(t))return true;
+    if(type==='action'&&/(shopping cart|driving|running|walking together|briefing|serving customers|studying|lecturing|market|battle|praying)/.test(t))return true;
+    if(type==='weather'&&/(snow|rainy|storm|blizzard)/.test(t))return true;
+    if(type==='prop'&&/(briefcase|shopping cart|laptop|wine glass|sword|bow|umbrella)/.test(t))return true;
+  }
+  if(c.bedroom){
+    if(type==='action'&&/(shopping cart|driving|making coffee|checking equipment|serving customers|fighting|battle|walking side by side|market|briefing)/.test(t))return true;
+    if(type==='outfit'&&/(armor|center uniform|store uniform|barista apron|business suit)/.test(t))return true;
+  }
+  if(c.office){
+    if(type==='outfit'&&/(bath towel|bathrobe|pajama|swimsuit|bikini)/.test(t))return true;
+    if(type==='action'&&/(drying hair|wiping off water|hugging blanket|just woke up|praying at altar)/.test(t))return true;
+  }
+  if(c.school){
+    if(type==='outfit'&&/(bath towel|bathrobe|armor|cleric|ritual robe)/.test(t))return true;
+  }
+  if(c.hospital){
+    if(type==='action'&&/(dancing|shopping cart|drinking in tavern|battle|making coffee|market shopping)/.test(t))return true;
+    if(type==='outfit'&&/(bikini|swimsuit|full armor|party dress)/.test(t))return true;
+    if(type==='prop'&&/(shopping cart|cocktail glass|sword|bow)/.test(t))return true;
+  }
+  if(c.battle){
+    if(type==='action'&&/(drinking through straw|holding wine glass|hugging blanket|drying hair|shopping cart|making coffee)/.test(t))return true;
+    if(type==='expression'&&/(sleepy expression|relaxed waking expression|bright smile)/.test(t))return true;
+  }
+  if(c.dining){
+    if(type==='action'&&/(wrapping bandage|checking weapon|preparing magic|tending wounds)/.test(t))return true;
+  }
+  if(c.funeral){
+    if(type==='outfit'&&/(pajama|bath towel|bathrobe|swimsuit|bikini|party dress|festival attire)/.test(t))return true;
+    if(type==='expression'&&/(bright smile|playful smile|smug smile|excited expression|playful expression)/.test(t))return true;
+    if(type==='action'&&/(dancing|making coffee|shopping cart|drinking through straw|playfully nudging)/.test(t))return true;
+    if(type==='mood'&&/(lively|party|cheerful|festival|romantic atmosphere)/.test(t))return true;
+    if(type==='lighting'&&/(neon|club|disco)/.test(t))return true;
+  }
+  if(c.rooftop){
+    if(type==='prop'&&/(pillow|blanket|shopping cart|IV stand)/.test(t))return true;
+    if(type==='outfit'&&/(bath towel|bathrobe)/.test(t))return true;
+  }
+  if(c.vehicle){
+    if(type==='pose'&&/(lying on bed|kneeling at altar)/.test(t))return true;
+    if(type==='prop'&&/(shopping cart|large sword|IV stand)/.test(t))return true;
+  }
+  if(c.formal){
+    if(type==='outfit'&&/(pajama|bath towel|bathrobe|swimsuit)/.test(t))return true;
+  }
+  return false;
+}
+function applyConflictFilter(pool,type){if(!conflictPreventionOn())return pool;const filtered=pool.filter(x=>!conflictsWithContext(type,x));return filtered.length?filtered:pool}
+function enforceSmartConflicts(){if(!conflictPreventionOn())return;const order=['outfit','action','weather','prop','pose','composition','expression','mood'];for(let pass=0;pass<3;pass++){order.forEach(type=>{const cur=state.selected[type];if(cur&&conflictsWithContext(type,cur)&&!state.locked[type])state.selected[type]=choose(type)})}}
+function specific(type){const g=DB[genre.value],c=category.value;if(c==='__all'){let out=[];Object.values(g.categories).forEach(x=>out.push(...(x[type]||[])));return out}return g.categories[c]?.[type]||[]}
+function poolFor(type){
+  let base=[];
+  if(COMMON[type])base.push(...COMMON[type]);
+
+  // NSFW intensity pools
+  const inten = intensityValue();
+  const nsfwLevels = ['light','dense','vulgar','extreme'];
+  const maxIdx = nsfwLevels.indexOf(inten);
+  if(NSFW_COMMON[type] && maxIdx >= 0){
+    // 선택한 수위까지 포함 (낮은 수위는 항상 포함, 높은 수위는 가중치)
+    for(let i=0; i<=maxIdx; i++){
+      const level = nsfwLevels[i];
+      const pool = NSFW_COMMON[type][level] || [];
+      const weight = (i === maxIdx) ? (3 + intensityWeight()) : 1;
+      for(let w=0; w<weight; w++) base.push(...pool);
+    }
+  }
+
+  const g = DB[genre.value];
+  if(g && g.common?.[type]) base.push(...g.common[type]);
+
+  // NSFW 장르 stub 지원
+  if(isNsfwGenre() && NSFW_GENRE_STUB[genre.value]){
+    const cat = NSFW_GENRE_STUB[genre.value].categories?.[category.value];
+    if(cat && cat[type]) {
+      const w = type==='outfit'||type==='action'||type==='background' ? 8 : 3;
+      for(let i=0;i<w;i++) base.push(...cat[type]);
+    }
+  }
+
+  const sp = specific(type);
+  if(category.value==='__all'){
+    base.push(...sp);
+  }else{
+    const w = type==='outfit'?7:type==='background'?5:type==='action'?5:2;
+    for(let i=0;i<w;i++) base.push(...sp);
+  }
+
+  const scene=scenePool(type);
+  if(scene.length){
+    const weight=(type==='background'||type==='outfit'||type==='action'||type==='mood'||type==='lighting')?12:6;
+    for(let i=0;i<weight;i++)base.push(...scene);
+  }
+
+  const relation=relationPool(type);
+  if(relation.length){
+    const weight=(type==='composition'||type==='pose'||type==='gaze'||type==='action'||type==='expression'||type==='mood')?12:5;
+    for(let i=0;i<weight;i++)base.push(...relation);
+  }
+
+  const multi=multiPersonPool(type);
+  if(multi.length){
+    const weight=(type==='composition'||type==='pose'||type==='gaze'||type==='action')?9:3;
+    for(let i=0;i<weight;i++)base.push(...multi);
+  }
+
+  const pov=povPool(type);
+  if(pov.length){
+    const weight=(type==='composition'||type==='pose'||type==='gaze'||type==='action'||type==='prop')?12:4;
+    for(let i=0;i<weight;i++)base.push(...pov);
+  }
+
+  base=fitCompositionToPeople(base.filter(Boolean),type);
+  base=fitCompositionToPov(base,type);
+  base=applyConflictFilter(base,type);
+  return base;
+}
+function uniqueCount(type){return uniq(poolFor(type)).length}
+function choose(type){const p=poolFor(type);if(!p.length)return null;let n=rand(p);if($('avoidSame').checked&&state.selected[type]&&p.length>1){for(let i=0;i<18&&n.en===state.selected[type].en;i++)n=rand(p)}return n}
+function flash(type){const c=$('card-'+type);c.classList.remove('flash');void c.offsetWidth;c.classList.add('flash')}
+function rollSlot(type,force=false){if(state.locked[type]&&!force)return;state.selected[type]=choose(type);flash(type)}
+function randomizeCategory(){const opts=[...category.options].filter(o=>o.value!=='__all');if(opts.length)category.value=rand(opts).value}
+function rollAll(record=true){if($('randomCategory').checked)randomizeCategory();if(scenePresetValue()==='auto')resolveScenePreset(true);Object.keys(SLOTS).forEach(k=>rollSlot(k));enforceSmartConflicts();render();if(record)addHistory()}
+function toggleLock(k){state.locked[k]=!state.locked[k];renderCardState(k)}
+function toggleActive(k){state.active[k]=!state.active[k];renderCardState(k);buildPrompt();buildSummary()}
+function renderCardState(k){const c=$('card-'+k),lb=document.querySelector(`[data-lock="${k}"]`),tb=document.querySelector(`[data-toggle="${k}"]`);c.classList.toggle('locked',state.locked[k]);c.classList.toggle('off',!state.active[k]);lb.classList.toggle('active',state.locked[k]);lb.textContent=state.locked[k]?'🔒':'🔓';tb.textContent=state.active[k]?'◉':'○';tb.classList.toggle('active',state.active[k])}
+function render(){Object.keys(SLOTS).forEach(k=>{const v=state.selected[k];$('ko-'+k).textContent=v?.ko||'-';$('en-'+k).textContent=v?.en||'(태그 없음)';renderCardState(k)});buildPrompt();buildSummary();buildStats()}
+function cleanPieces(a){const seen=new Set();return a.map(x=>x?.trim()).filter(Boolean).filter(x=>{const key=x.toLowerCase();if(seen.has(key))return false;seen.add(key);return true})}
+function buildPrompt(){
+  let a=[$('quality').value,$('gender').value,$('style').value,...povPromptTags(),...presetPromptTags(),$('customTags').value];
+  ['composition','background','season','weather','lighting','mood','outfit','pose','gaze','expression','action','prop'].forEach(k=>{if(state.active[k]&&state.selected[k]?.en)a.push(state.selected[k].en)});
+  prompt.value=cleanPieces(a).join(', ')
+}
+function buildSummary(){
+  const typeLabelMap={auto:'자동',talk:'대화형',hand:'손잡기',prekiss:'키스 직전'};
+  const povLine=isPovMode()?`사용 · ${povStrength()==='strong'?'강하게':'약하게'} · ${typeLabelMap[povType()]||'자동'}`:'사용 안 함';
+  const relationLine=characterCount()===1?'1인 모드 · 미사용':(RELATION_PRESETS[relationPresetValue()]?.label||'미사용');
+  const sceneLine=sceneDisplayLabel();
+  const conflictLine=conflictPreventionOn()?'사용':'사용 안 함';
+  const head=['CHARACTER',$('gender').selectedOptions[0]?.textContent||'미지정','','POV MODE',povLine,'','RELATION',relationLine,'','SCENE PRESET',sceneLine,'','SMART CONFLICT',conflictLine].join('\n');
+  summary.textContent=head+'\n\n'+Object.entries(SLOTS).map(([k,t])=>`${state.active[k]?'●':'○'} ${t}\n${state.selected[k]?.ko||'-'}${state.locked[k]?'  🔒':''}`).join('\n\n')
+}
+function buildStats(){
+  const count=Object.keys(SLOTS).map(k=>`${SLOTS[k]} ${uniqueCount(k)}`).join(' / ');
+  const n=characterCount();
+  const povInfo=isPovMode()?`POV ${povStrength()==='strong'?'STRONG':'SUBTLE'} / ${povType().toUpperCase()}`:'POV OFF';
+  const relInfo=characterCount()===1?'RELATION OFF':(relationPresetValue()==='none'?'RELATION NONE':`RELATION ${relationPresetValue().toUpperCase()}`);
+  const sceneInfo=scenePresetValue()==='none'?'SCENE NONE':`SCENE ${sceneResolvedKey().toUpperCase()}`;
+  stats.textContent=`현재 사용 가능한 고유 랜덤 풀 · ${count} · 카테고리 ${Object.keys(DB[genre.value].categories).length}종 · ${n}인 모드 · ${povInfo} · ${relInfo} · ${sceneInfo} · ${conflictPreventionOn()?'SMART-CONFLICT ON':'SMART-CONFLICT OFF'}`
+}
+async function copyText(text,msg){try{await navigator.clipboard.writeText(text)}catch{const t=document.createElement('textarea');t.value=text;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove()}show(msg)}
+function show(msg){status.textContent=msg;status.classList.add('show');clearTimeout(window.__st);window.__st=setTimeout(()=>status.classList.remove('show'),1700)}
+function snap(){return{time:Date.now(),genre:genre.value,category:category.value,relationPreset:relationPresetValue(),scenePreset:scenePresetValue(),sceneResolvedKey:state.sceneResolvedKey,smartConflict:conflictPreventionOn(),selected:JSON.parse(JSON.stringify(state.selected)),active:{...state.active},prompt:prompt.value,summary:summary.textContent}}
+function addHistory(){let a=safeJSON(LS.hist,[]);a.unshift(snap());a=a.slice(0,10);localStorage.setItem(LS.hist,JSON.stringify(a));renderSaved()}
+function addFavorite(){let a=safeJSON(LS.fav,[]);const s=snap();s.id=Date.now()+Math.random();a.unshift(s);a=a.slice(0,50);localStorage.setItem(LS.fav,JSON.stringify(a));renderSaved();show('⭐ 현재 조합을 저장했습니다.');trackAnalytics('favorite')}
+function loadSnap(s){genre.value=s.genre;loadCategories(true);populateScenePresetOptions(false);if([...category.options].some(o=>o.value===s.category))category.value=s.category;if(s.relationPreset&&[...$('relationPreset').options].some(o=>o.value===s.relationPreset))$('relationPreset').value=s.relationPreset;if(s.scenePreset&&[...$('scenePreset').options].some(o=>o.value===s.scenePreset))$('scenePreset').value=s.scenePreset;state.sceneResolvedKey=s.sceneResolvedKey||'';if(typeof s.smartConflict==='boolean')$('smartConflict').checked=s.smartConflict;Object.keys(SLOTS).forEach(k=>{state.selected[k]=s.selected?.[k]||null;state.active[k]=s.active?.[k]??true;state.locked[k]=false});updateRelationHint();updateScenePresetHint();updateSmartConflictHint();render();window.scrollTo({top:$('cards').getBoundingClientRect().top+scrollY-20,behavior:'smooth'})}
+function deleteFav(id){let a=safeJSON(LS.fav,[]).filter(x=>x.id!==id);localStorage.setItem(LS.fav,JSON.stringify(a));renderSaved()}
+function itemHTML(s,i,isFav){const g=DB[s.genre]?.label||s.genre;const c=DB[s.genre]?.categories?.[s.category]?.label||(s.category==='__all'?'장르 전체 랜덤':s.category);return `<div class="list-item"><div class="list-title">${g} · ${c}</div><div class="list-text">${(s.prompt||'').replace(/</g,'&lt;')}</div><div class="list-tools"><button data-load="${isFav?'f':'h'}:${i}">불러오기</button>${isFav?`<button data-del="${s.id}">삭제</button>`:''}</div></div>`}
+function renderSaved(){const f=safeJSON(LS.fav,[]),h=safeJSON(LS.hist,[]);$('favorites').innerHTML=f.length?f.map((x,i)=>itemHTML(x,i,true)).join(''):'<div class="empty">저장된 조합이 없습니다.</div>';$('history').innerHTML=h.length?h.map((x,i)=>itemHTML(x,i,false)).join(''):'<div class="empty">최근 기록이 없습니다.</div>'}
+function saveSettings(){
+  localStorage.setItem(LS.settings,JSON.stringify({
+    gender:$('gender').value,
+    povMode:$('povMode').value,
+    povStrength:$('povStrength').value,
+    povType:$('povType').value,
+    relationPreset:$('relationPreset').value,
+    scenePreset:$('scenePreset').value,
+    smartConflict:$('smartConflict').checked,
+    quality:$('quality').value,
+    style:$('style').value,
+    intensity:$('intensity')?.value||'dense',
+    custom:$('customTags').value,
+    randomCategory:$('randomCategory').checked,
+    avoidSame:$('avoidSame').checked
+  }))
+}
+function loadSettings(){
+  const s=safeJSON(LS.settings,{});
+  if(s.gender!==undefined)$('gender').value=s.gender;
+  if(s.povMode!==undefined)$('povMode').value=s.povMode;
+  if(s.povStrength!==undefined)$('povStrength').value=s.povStrength;
+  if(s.povType!==undefined)$('povType').value=s.povType;
+  populateScenePresetOptions(false);
+  if(s.relationPreset!==undefined)$('relationPreset').value=s.relationPreset;
+  if(s.scenePreset!==undefined&&[...$('scenePreset').options].some(o=>o.value===s.scenePreset))$('scenePreset').value=s.scenePreset;resolveScenePreset(true);
+  if(s.smartConflict!==undefined)$('smartConflict').checked=s.smartConflict;
+  if(s.quality!==undefined)$('quality').value=s.quality;
+  if(s.style!==undefined)$('style').value=s.style;
+  if(s.intensity!==undefined&&$('intensity'))$('intensity').value=s.intensity;
+  if(s.custom!==undefined)$('customTags').value=s.custom;
+  if(s.randomCategory!==undefined)$('randomCategory').checked=s.randomCategory;
+  if(s.avoidSame!==undefined)$('avoidSame').checked=s.avoidSame;
+  const n=localStorage.getItem(LS.neg);
+  if(n){$('negativeBase').value=n;negative.value=n}
+  else negative.value=$('negativeBase').value
+}
+cards.addEventListener('click',e=>{const a=e.target.closest('[data-lock],[data-reroll],[data-toggle]');if(!a)return;if(a.dataset.lock)toggleLock(a.dataset.lock);if(a.dataset.toggle)toggleActive(a.dataset.toggle);if(a.dataset.reroll){rollSlot(a.dataset.reroll,true);render();addHistory()}});
+$('rollAll').onclick=()=>{rollAll(true);trackAnalytics('roll')};genre.onchange=()=>{loadCategories(false);populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();render();saveSettings()};category.onchange=()=>rollAll(false);
+$('lockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=true);render()};$('unlockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=false);render()};$('enableAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.active[k]=true);render()};
+['quality','style','customTags','randomCategory','avoidSame','smartConflict','intensity'].forEach(id=>{
+  const el=$(id);
+  if(!el) return;
+  el.addEventListener('change',()=>{
+    if(id==='intensity'){
+      // 수위 변경 시 관련 슬롯 재추첨
+      ['outfit','action','expression','pose','gaze','prop','mood'].forEach(k=>{
+        if(!state.locked[k]) { state.selected[k]=choose(k); flash(k); }
+      });
+      enforceSmartConflicts();
+      render();
+      show('🔥 수위가 변경되어 관련 슬롯을 다시 뽑았습니다.');
+    }
+    buildPrompt();
+    saveSettings();
+  });
+  el.addEventListener('input',()=>{buildPrompt();saveSettings()});
+});
+
+function rerollPovRelated(message){
+  updatePovModeHint();
+  ['composition','background','pose','gaze','action','prop','mood'].forEach(k=>{
+    state.selected[k]=choose(k);
+    flash(k);
+  });
+  enforceSmartConflicts();
+  render();
+  saveSettings();
+  if(message) show(message);
+}
+
+$('gender').addEventListener('change',()=>{
+  updateCharacterModeHint();
+  updateRelationHint();
+  const slots=isPovMode()?['composition','background','pose','gaze','action','prop','mood','expression']:['composition','pose','gaze','action','mood','expression'];
+  updatePovModeHint();
+  slots.forEach(k=>{state.selected[k]=choose(k);flash(k)});
+  enforceSmartConflicts();
+  render();
+  saveSettings();
+  show(`👥 ${characterCount()}인 모드${isPovMode()?' + POV':''}에 맞춰 관련 슬롯을 다시 뽑았습니다.`);
+});
+$('povMode').addEventListener('change',()=>rerollPovRelated(`📷 POV 모드 ${isPovMode()?'ON':'OFF'} · 관련 슬롯을 다시 뽑았습니다.`));
+$('povStrength').addEventListener('change',()=>rerollPovRelated(`🎛️ POV 강도를 ${povStrength()==='strong'?'강하게':'약하게'}로 적용했습니다.`));
+$('povType').addEventListener('change',()=>{const label={auto:'자동',talk:'대화형',hand:'손잡기',prekiss:'키스 직전'}[povType()]||'자동';rerollPovRelated(`🎬 POV 타입을 ${label}으로 적용했습니다.`)});
+$('relationPreset').addEventListener('change',()=>{updateRelationHint();['composition','pose','gaze','action','expression','mood'].forEach(k=>{state.selected[k]=choose(k);flash(k)});enforceSmartConflicts();render();saveSettings();show('🤝 관계/상호작용 프리셋을 적용했습니다.');});
+$('scenePreset').addEventListener('change',()=>{resolveScenePreset(true);updateScenePresetHint();['background','outfit','action','expression','weather','lighting','mood','composition','prop'].forEach(k=>{state.selected[k]=choose(k);flash(k)});enforceSmartConflicts();render();saveSettings();show(`🎬 장면 프리셋을 적용했습니다. · ${sceneDisplayLabel()}`);});
+$('smartConflict').addEventListener('change',()=>{updateSmartConflictHint();enforceSmartConflicts();render();saveSettings();show(`🧩 충돌 방지 ${conflictPreventionOn()?'ON':'OFF'}`);});
+$('copyPrompt').onclick=()=>{copyText(prompt.value,'✅ NovelAI 태그를 복사했습니다.');trackAnalytics('copy_prompt')};$('copyKo').onclick=()=>copyText(summary.textContent,'✅ 한글 조합을 복사했습니다.');$('saveFavorite').onclick=addFavorite;
+$('copyNegative').onclick=()=>copyText(negative.value,'✅ Negative 태그를 복사했습니다.');$('saveNegative').onclick=()=>{localStorage.setItem(LS.neg,negative.value);$('negativeBase').value=negative.value;show('💾 Negative Prompt를 저장했습니다.')};$('resetNegative').onclick=()=>{const d='lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, jpeg artifacts, signature, watermark, username, blurry';negative.value=d;$('negativeBase').value=d;localStorage.removeItem(LS.neg)};$('negativeBase').addEventListener('input',()=>negative.value=$('negativeBase').value);
+document.addEventListener('click',e=>{const l=e.target.closest('[data-load]');if(l){const [t,i]=l.dataset.load.split(':');const a=safeJSON(t==='f'?LS.fav:LS.hist,[]);if(a[+i])loadSnap(a[+i])}const d=e.target.closest('[data-del]');if(d)deleteFav(+d.dataset.del)});
+
+/* =========================================================
+   GUESTBOOK · Google Apps Script
+   네이티브 FORM POST 방식: CORS/fetch 응답 문제 없이 Apps Script로 전송
+========================================================= */
+const GUESTBOOK_WEB_APP_URL = ''; // ★ Apps Script 배포 후 /exec 웹 앱 URL을 여기에 붙여넣으세요
+const GUESTBOOK_COOLDOWN_MS = 10000;
+let guestbookLastSubmit = 0;
+let guestbookSubmitting = false;
+
+function showGuestStatus(message,isError=false){
+  const el=$('guestStatus');
+  el.textContent=message;
+  el.classList.toggle('error',!!isError);
+  el.classList.add('show');
+  clearTimeout(window.__guestStatusTimer);
+  window.__guestStatusTimer=setTimeout(()=>el.classList.remove('show'),4200);
+}
+
+function updateGuestCount(){
+  $('guestCount').textContent=`${$('guestMessage').value.length} / 500`;
+}
+
+function finishGuestbookSubmit(){
+  if(!guestbookSubmitting) return;
+  guestbookSubmitting=false;
+  guestbookLastSubmit=Date.now();
+  $('guestMessage').value='';
+  updateGuestCount();
+  $('guestSubmit').disabled=false;
+  $('guestSubmit').textContent='발송';
+  showGuestStatus('💌 발송 요청을 완료했습니다. Google Sheet에서 확인해주세요.');
+}
+
+function submitGuestbook(event){
+  event.preventDefault();
+  const form=$('guestbookForm');
+  const button=$('guestSubmit');
+  const honeypot=$('guestWebsite').value.trim();
+  if(honeypot) return;
+  if(!GUESTBOOK_WEB_APP_URL){
+    showGuestStatus('Google Apps Script 웹 앱 URL이 아직 설정되지 않았습니다.',true);
+    return;
+  }
+  const guestPage=$('guestPage');
+  if(guestPage) guestPage.value=location.href;
+
+  const name=($('guestName').value.trim()||'익명').slice(0,30);
+  const message=$('guestMessage').value.trim();
+
+  if(!message){
+    showGuestStatus('내용을 입력해주세요.',true);
+    $('guestMessage').focus();
+    return;
+  }
+
+  const now=Date.now();
+  if(now-guestbookLastSubmit<GUESTBOOK_COOLDOWN_MS){
+    showGuestStatus('잠시 후 다시 발송해주세요.',true);
+    return;
+  }
+
+  $('guestName').value=name;
+  form.action=GUESTBOOK_WEB_APP_URL;
+  form.method='POST';
+  form.target='guestbookSubmitFrame';
+
+  button.disabled=true;
+  button.textContent='발송 중…';
+  guestbookSubmitting=true;
+  showGuestStatus('방명록을 전송하고 있습니다.');
+
+  // submit 이벤트를 다시 발생시키지 않고 실제 HTML form POST 수행
+  HTMLFormElement.prototype.submit.call(form);
+  trackAnalytics('guestbook_submit');
+
+  // Apps Script 응답은 cross-origin iframe이라 내용을 읽지 않는다.
+  // 전송 요청 완료 후 UI만 복구한다.
+  setTimeout(finishGuestbookSubmit,1200);
+}
+
+
+const analyticsPingBtn=$('analyticsPing');
+if(analyticsPingBtn){
+  analyticsPingBtn.addEventListener('click',()=>{
+    const ok=trackAnalytics('roll');
+    show(ok?'📊 통계 테스트 요청을 보냈습니다. 사용통계 탭을 확인해주세요.':'⚠️ 통계 전송 함수를 실행하지 못했습니다.');
+  });
+}
+
+$('guestMessage').addEventListener('input',updateGuestCount);
+$('guestbookForm').addEventListener('submit',submitGuestbook);
+updateGuestCount();
+console.info('Guestbook/Analytics endpoint:',GUESTBOOK_WEB_APP_URL);
+console.info('[Asset Gacha v2] counter endpoint:',GUESTBOOK_WEB_APP_URL+'?kind=counter');
+console.info('[Asset Gacha v2] counter transport: hidden iframe postMessage + JSONP fallback');
+
+/* =========================================================
+   NSFW Age Gate
+========================================================= */
+(function initAgeGate(){
+  const KEY='nsfw_asset_gacha_age_ok_v1';
+  const gate=$('ageGate');
+  const check=$('ageCheck');
+  const enter=$('ageEnter');
+  const exit=$('ageExit');
+  const denied=$('ageDenied');
+  document.body.classList.add('has-nsfw-banner');
+
+  if(localStorage.getItem(KEY)==='1'){
+    gate.classList.add('hidden');
+    return;
+  }
+
+  check.addEventListener('change',()=>{
+    enter.disabled=!check.checked;
+  });
+
+  enter.addEventListener('click',()=>{
+    if(!check.checked) return;
+    localStorage.setItem(KEY,'1');
+    gate.classList.add('hidden');
+  });
+
+  exit.addEventListener('click',()=>{
+    denied.classList.add('show');
+    enter.disabled=true;
+    check.disabled=true;
+    exit.disabled=true;
+  });
+})();
+
+createCards();
+populateScenePresetOptions(false);
+loadSettings();
+updateCharacterModeHint();
+updatePovModeHint();
+updateRelationHint();
+updateScenePresetHint();
+updateSmartConflictHint();
+loadCategories(false);
+renderSaved();
+loadUsageCounts();
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')loadUsageCounts()});
+window.addEventListener('pageshow',()=>loadUsageCounts());
+</script><iframe id="counterBridge" title="counter bridge" aria-hidden="true" tabindex="-1" style="position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;border:0;pointer-events:none;visibility:hidden"></iframe>
+</body></html>
