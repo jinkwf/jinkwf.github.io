@@ -298,7 +298,7 @@ const NSFW_COMMON = {
     light: P(`상대의 손을 잡고 있다|holding hands intimately;귓가에 속삭인다|whispering into ear;어깨에 기댄다|leaning on shoulder;살짝 키스한다|light kiss;볼을 쓰다듬는다|caressing cheek`),
     dense: P(`깊게 키스하고 있다|deep kissing;옷을 벗기고 있다|undressing someone;가슴을 만지고 있다|groping breasts;허벅지를 쓰다듬는다|caressing thigh;상대를 벽에 밀어붙인다|pinning against wall`),
     vulgar: P(`섹스 중이다|having sex;삽입 중이다|penetration;오럴 섹스 중이다|oral sex;뒤에서 삽입 중이다|doggy style;상대의 머리를 잡고 있다|holding head during oral`),
-    extreme: P(`격렬한 섹스 중이다|intense sex, pounding;여러 체위로 하고 있다|multiple sex positions;정액을 잔뜩 받고 있다|covered in cum;강제적으로 당하고 있다|forced sex;완전히 지배당하고 있다|completely dominated`)
+    extreme: P(`격렬한 섹스 중이다|intense sex, pounding;여러 체위로 하고 있다|multiple sex positions;정액을 잔뜩 받고 있다|covered in cum;격렬하게 서로를 밀어붙이고 있다|consensual rough sex;완전히 지배당하고 있다|completely dominated`)
   },
   pose: {
     light: P(`상대에게 기대어 있다|leaning into someone;손을 맞잡고 있다|holding hands;가까이 서 있다|standing close;살짝 몸을 숙인다|slightly bent over`),
@@ -330,37 +330,307 @@ const NSFW_GENRE_STUB = {
   nsfw_office: {
     label: 'NSFW · 오피스/직장',
     categories: {
-      afterhours: {label: '야근 / 잔업', background: P(`야근 중인 사무실|office at night;회의실 테이블 위|on conference table`), outfit: P(`흐트러진 정장|disheveled business attire`), action: P(`책상 위에서 하고 있다|sex on desk`)},
-      elevator: {label: '엘리베이터', background: P(`닫힌 엘리베이터 안|inside closed elevator`), action: P(`엘리베이터에서 급하게 한다|quickie in elevator`)},
-      storage: {label: '창고 / 자료실', background: P(`어두운 자료실|dark storage room`), action: P(`선반에 기대어 한다|sex against shelves`)}
+      afterhours: {
+        label: '야근 / 잔업',
+        background: P(`야근 중인 고층 사무실|high-rise office late at night;불 꺼진 오픈 오피스|dim empty open-plan office;개인 사무실 책상 주변|private office around executive desk;유리창 너머 야경 사무실|office with city lights through glass windows;서류가 남은 야근 자리|after-hours workstation with documents`),
+        outfit: P(`넥타이가 느슨해진 정장|business suit, loosened tie;셔츠 단추가 풀린 오피스룩|dress shirt partially unbuttoned;재킷을 벗은 셔츠와 슬랙스|dress shirt and slacks, jacket removed;흐트러진 블라우스와 스커트|disheveled blouse and skirt;사원증을 단 채 흐트러진 셔츠|disheveled office shirt, employee ID card`),
+        action: P(`책상 가장자리에서 서로 밀착해 있다|pressed close together at desk edge;책상 위 서류를 밀어내고 서로 끌어안는다|clearing papers from desk and embracing;넥타이를 잡아 가까이 끌어당긴다|pulling partner closer by necktie;야근 중 문을 잠그고 깊게 키스한다|locking office door and deep kissing;책상에 기대어 옷깃을 풀어준다|loosening partner's collar against desk`),
+        pose: P(`책상 가장자리에 걸터앉은 자세|sitting on edge of office desk;책상과 상대 사이에 가까이 선 자세|standing close between desk and partner;의자에 앉은 상대 위로 몸을 숙인 자세|leaning over seated partner;유리창 앞에서 서로 밀착한 자세|pressed together in front of office window`),
+        gaze: P(`야근의 피로와 욕망이 섞인 시선|tired lustful gaze;넥타이 너머 상대를 올려다보는 시선|looking up at partner past loosened tie;문이 잠겼는지 확인한 뒤 상대를 보는 시선|glancing at locked door then partner`),
+        expression: P(`긴장이 풀린 상기된 표정|flushed expression after tension;참았던 욕망이 드러난 표정|restrained desire breaking through;입술이 붉어진 나른한 표정|soft dazed expression, reddened lips`),
+        prop: P(`느슨해진 넥타이|loosened necktie;사원증|employee ID card;흩어진 업무 서류|scattered office documents;꺼진 노트북|closed work laptop;책상 위 안경|glasses on desk`),
+        lighting: P(`모니터 잔광과 야경 조명|monitor glow and city lights;천장 일부만 켜진 야근 조명|partial office lighting at night;유리창에 반사되는 도시 불빛|city lights reflected in glass`),
+        mood: P(`퇴근 후 남겨진 사람들만의 은밀한 긴장감|secretive after-hours tension;업무와 사적인 욕망이 뒤섞인 분위기|workplace restraint giving way to intimacy;조용한 사무실의 위험한 친밀감|risky intimacy in a silent office`),
+        composition: P(`책상과 두 사람을 함께 담은 근거리 투샷|close two-shot with office desk;유리창 야경을 뒤로 한 상반신 투샷|upper-body two-shot against city window;의자와 책상을 활용한 비대칭 구도|asymmetrical composition with office chair and desk`)
+      },
+      elevator: {
+        label: '엘리베이터',
+        background: P(`심야 회사 엘리베이터 내부|empty office elevator late at night;거울 벽 엘리베이터|mirror-walled elevator interior;고층 빌딩 전용 엘리베이터|private high-rise elevator;닫힌 엘리베이터 문 앞|inside elevator with closed doors`),
+        outfit: P(`단정했던 정장이 흐트러진 상태|formerly neat business attire now disheveled;셔츠와 느슨한 넥타이|dress shirt, loosened necktie;블라우스와 펜슬스커트|blouse and pencil skirt;검은 셔츠와 슬랙스|black dress shirt and slacks`),
+        action: P(`닫히는 문을 확인하며 서로 가까이 붙는다|moving close as elevator doors close;거울 벽에 기대 깊게 키스한다|deep kissing against mirrored wall;상대의 셔츠 깃을 잡아 끌어당긴다|pulling partner closer by shirt collar;층수 표시등을 올려다보다 다시 상대에게 시선을 돌린다|glancing at floor indicator then back to partner`),
+        pose: P(`엘리베이터 벽에 등을 댄 자세|back against elevator wall;거울 앞에서 서로 밀착한 자세|pressed together in front of elevator mirror;한 명이 벽을 짚고 상대에게 가까이 선 자세|one hand braced on wall, standing close`),
+        gaze: P(`거울 속 상대를 보는 시선|watching partner through mirror;문 쪽을 힐끗 확인하는 긴장된 시선|nervous glance toward doors;숨길 생각 없는 욕망의 시선|openly lustful gaze`),
+        expression: P(`긴장과 흥분이 섞인 표정|flushed nervous expression;짧은 시간을 의식하는 초조한 표정|impatient aroused expression;숨을 죽이며 웃는 표정|breathless restrained smile`),
+        prop: P(`층수 표시등|elevator floor indicator;사원증|employee ID card;손목시계|wristwatch;느슨해진 넥타이|loosened tie`),
+        lighting: P(`차가운 엘리베이터 천장등|cool elevator ceiling light;거울에 반사되는 백색 조명|white light reflected in elevator mirrors`),
+        mood: P(`언제 문이 열릴지 모르는 긴박한 친밀감|urgent intimacy before the doors open;좁은 공간의 밀도 높은 긴장감|compressed tension in a confined elevator`),
+        composition: P(`거울 반사를 포함한 투샷|two-shot with mirror reflection;좁은 엘리베이터의 근접 구도|tight close framing inside elevator;층수 표시등까지 보이는 상반신 구도|upper-body shot including floor indicator`)
+      },
+      storage: {
+        label: '창고 / 자료실',
+        background: P(`어두운 회사 자료실|dim corporate archive room;문서 박스가 쌓인 창고|storage room stacked with document boxes;좁은 서가 사이|narrow aisle between office shelves;비품실 안쪽|office supply room interior`),
+        outfit: P(`소매를 걷은 셔츠와 슬랙스|rolled-sleeve dress shirt and slacks;흐트러진 오피스룩|disheveled office attire;재킷을 벗어 둔 정장 차림|business attire with jacket removed`),
+        action: P(`선반 사이에서 서로를 끌어당긴다|pulling each other close between shelves;문을 닫고 선반에 기대 깊게 키스한다|closing door and deep kissing against shelves;서류 박스 옆 좁은 공간에서 밀착한다|pressed together beside archive boxes;상대의 셔츠 단추를 천천히 푼다|slowly unbuttoning partner's shirt`),
+        pose: P(`서가에 등을 기대 선 자세|back against archive shelves;좁은 통로에서 서로 몸이 닿은 자세|bodies touching in narrow aisle;한 명이 선반을 짚고 몸을 숙인 자세|one hand braced on shelf, leaning forward`),
+        gaze: P(`문 쪽을 신경 쓰면서 상대를 보는 시선|watchful gaze toward door then partner;낮게 깔린 욕망 어린 시선|low lustful gaze`),
+        expression: P(`숨을 참듯 긴장한 표정|tense breath-held expression;들키지 않으려 웃음을 참는 표정|restrained amused expression;열이 오른 얼굴|heated flushed face`),
+        prop: P(`문서 박스|archive boxes;파일철|file binders;회사 출입카드|office access card;선반 라벨|shelf labels`),
+        lighting: P(`희미한 창고등|dim storage-room light;문틈에서 들어오는 복도 불빛|hallway light through door gap`),
+        mood: P(`들키면 안 되는 은밀함|secretive hidden intimacy;좁고 조용한 공간의 압박감|close tense atmosphere in a quiet storage room`),
+        composition: P(`서가 사이를 활용한 프레임 인 프레임|framed between archive shelves;좁은 통로의 근접 투샷|close two-shot in narrow aisle`)
+      },
+      executive: {
+        label: '대표실 / 임원실',
+        background: P(`야경이 내려다보이는 대표실|executive office overlooking city at night;대형 책상과 가죽 소파가 있는 임원실|executive office with large desk and leather sofa;최상층 코너 오피스|top-floor corner office;블라인드가 내려간 개인 집무실|private office with blinds drawn`),
+        outfit: P(`고급 쓰리피스 수트|luxury three-piece suit;더블 브레스티드 수트|double-breasted suit;실크 블라우스와 정장 스커트|silk blouse and tailored skirt;셔츠와 조끼, 풀어진 넥타이|dress shirt, waistcoat, loosened tie`),
+        action: P(`대형 책상 앞에서 상대를 끌어당긴다|pulling partner close in front of executive desk;가죽 소파에 앉아 상대를 가까이 앉힌다|pulling partner close on leather sofa;블라인드를 내린 뒤 입을 맞춘다|lowering blinds before kissing;고급 넥타이를 풀어 상대 손에 쥐여준다|placing loosened silk tie into partner's hand`),
+        pose: P(`가죽 의자에 앉은 상대 앞에 선 자세|standing close before seated partner;대형 책상 가장자리에 걸터앉은 자세|perched on edge of executive desk;소파에 비스듬히 기대 서로 밀착한 자세|reclining close together on leather sofa`),
+        gaze: P(`권위적인 분위기 속 느긋한 욕망의 시선|calm possessive gaze;유리창 반사 속 상대를 보는 시선|watching partner in window reflection`),
+        expression: P(`여유로운 미소와 상기된 얼굴|confident smile, flushed face;통제력이 조금씩 무너지는 표정|controlled expression beginning to break`),
+        prop: P(`고급 만년필|luxury fountain pen;실크 넥타이|silk necktie;위스키 잔|whiskey glass;가죽 서류철|leather document folder`),
+        lighting: P(`도시 야경과 낮은 간접조명|city night lights and low ambient lighting;책상 스탠드의 따뜻한 빛|warm executive desk lamp`),
+        mood: P(`권력감과 사적인 욕망이 교차하는 분위기|private tension mixed with authority;고급스럽고 은밀한 밤 분위기|luxurious secretive night atmosphere`),
+        composition: P(`대형 책상을 전경에 둔 투샷|two-shot with executive desk in foreground;야경을 배경으로 한 세련된 상반신 구도|stylish upper-body composition against city lights`)
+      },
+      meeting: {
+        label: '회의실',
+        background: P(`회의가 끝난 유리벽 회의실|empty glass-walled conference room after meeting;긴 회의 테이블이 있는 임원 회의실|executive boardroom with long table;프로젝터가 꺼진 회의실|dark conference room after presentation`),
+        outfit: P(`회의용 정장|formal meeting suit;셔츠와 조끼|dress shirt and waistcoat;블라우스와 정장 팬츠|blouse and tailored pants`),
+        action: P(`회의 자료 위로 손을 뻗어 상대를 끌어당긴다|reaching across meeting papers to pull partner close;화이트보드 앞에서 가까이 마주 선다|standing close in front of whiteboard;긴 테이블 끝에서 서로에게 몸을 기울인다|leaning toward each other at end of conference table`),
+        pose: P(`회의 테이블에 기대 선 자세|leaning against conference table;의자 등받이를 잡고 상대와 가까이 선 자세|holding chair back while standing close;테이블 양쪽에서 몸을 숙여 가까워진 자세|leaning across table toward each other`),
+        gaze: P(`유리벽 밖을 확인하고 다시 상대를 보는 시선|checking glass wall then looking back at partner;회의 때와 다른 노골적인 시선|openly intimate gaze after formal meeting`),
+        expression: P(`업무적인 표정이 무너진 상기된 얼굴|professional expression giving way to flush;짧게 웃으며 숨을 고르는 표정|breathless small smile`),
+        prop: P(`회의 자료|meeting documents;레이저 포인터|presentation clicker;화이트보드 마커|whiteboard marker;회의실 리모컨|conference-room remote`),
+        lighting: P(`프로젝터 잔광|faint projector glow;유리벽에 비치는 야간 사무실 조명|office lights reflected in glass walls`),
+        mood: P(`회의 직후 풀린 긴장감|post-meeting tension turning intimate;정적인 회의실의 은밀함|secretive silence in an empty boardroom`),
+        composition: P(`긴 회의 테이블을 활용한 원근 구도|perspective composition along long conference table;유리벽 반사를 포함한 투샷|two-shot with glass-wall reflection`)
+      }
     }
   },
+
   nsfw_dungeon: {
     label: 'NSFW · 던전/구속',
     categories: {
-      restraint: {label: '구속 / 속박', background: P(`지하 감금실|underground dungeon cell`), outfit: P(`가죽 구속구|leather restraints`), action: P(`벽에 묶여 있다|bound to wall`)},
-      training: {label: '조교', background: P(`조교실|training room`), action: P(`조교를 받고 있다|being trained`)}
+      restraint: {
+        label: '구속 / 속박',
+        background: P(`지하 석조 감금실|underground stone dungeon cell;벽 고리가 있는 구속실|restraint chamber with wall rings;촛불만 켜진 돌방|stone chamber lit only by candles;쇠사슬이 걸린 지하실|underground chamber with hanging chains`),
+        outfit: P(`가죽 하네스와 구속구|leather harness and restraints;검은 가죽 스트랩 의상|black leather strap outfit;몸에 감긴 로프 구속|rope bondage around body;얇은 천과 가죽 벨트 조합|thin fabric with leather belts`),
+        action: P(`손목이 묶인 채 상대와 밀착한다|wrists bound while pressed close to partner;가죽 스트랩을 천천히 조절한다|slowly adjusting leather restraints;눈을 가린 채 상대의 손길을 기다린다|blindfolded, waiting for partner's touch;쇠사슬 길이 안에서 상대에게 가까이 다가간다|moving closer within chain length`),
+        pose: P(`양손이 위로 묶인 자세|wrists bound overhead;벽에 등을 댄 구속 자세|bound against stone wall;무릎을 꿇고 손목이 묶인 자세|kneeling with wrists bound;침상 가장자리에 앉은 채 손이 묶인 자세|sitting on bed edge with bound wrists`),
+        gaze: P(`안대 아래 얼굴을 상대 쪽으로 향한 시선 없는 자세|blindfolded face turned toward partner;긴장과 기대가 섞인 올려다보는 시선|expectant upward gaze;상대의 손을 따라가는 집중된 시선|focused gaze following partner's hand`),
+        expression: P(`긴장으로 입술을 깨문 표정|biting lip with anticipation;숨을 고르는 상기된 표정|flushed breathless expression;통제권을 맡긴 긴장된 표정|tense trusting expression`),
+        prop: P(`가죽 수갑|leather cuffs;검은 안대|black blindfold;부드러운 로프|soft bondage rope;목줄과 리드|collar and leash;쇠사슬|chains`),
+        lighting: P(`촛불과 횃불의 흔들리는 빛|flickering candle and torch light;차가운 지하실 조명|cold dungeon lighting`),
+        mood: P(`합의된 구속 플레이의 팽팽한 긴장감|consensual bondage tension;차갑고 폐쇄적인 공간의 밀도|dense intimacy in a cold enclosed chamber`),
+        composition: P(`쇠사슬을 전경에 둔 투샷|two-shot with chains in foreground;벽 고리와 구속 자세가 보이는 전신 구도|full-body composition showing restraints and wall rings`)
+      },
+      training: {
+        label: '조교 / 훈련',
+        background: P(`가죽 장비가 정리된 훈련실|training room with organized leather gear;거울 벽이 있는 프라이빗 플레이룸|private training room with mirror wall;매트와 벤치가 있는 조교실|training chamber with padded bench;잠금 가능한 개인 훈련실|private locked training room`),
+        outfit: P(`가죽 하네스|leather harness;몸에 맞는 검은 바디수트|tight black bodysuit;가터와 스트랩 의상|garter straps and harness;검은 셔츠와 가죽 장갑|black shirt and leather gloves`),
+        action: P(`자세를 손으로 교정해준다|guiding partner's posture with hands;가죽 장갑 낀 손으로 턱을 들어 올린다|lifting partner's chin with gloved hand;명령에 맞춰 천천히 자세를 바꾼다|slowly changing pose on command;스트랩을 점검하며 상대를 가까이 세운다|checking straps while positioning partner close`),
+        pose: P(`무릎을 꿇고 허리를 곧게 세운 자세|kneeling upright;벤치에 손을 짚고 몸을 숙인 자세|leaning forward with hands on padded bench;거울 앞에서 자세를 유지한 모습|holding posture in front of mirror;다리를 벌리고 앉아 지시를 기다리는 자세|sitting with legs apart, waiting for instruction`),
+        gaze: P(`지시를 기다리며 올려다보는 시선|looking up while awaiting instruction;거울 속 자신의 자세를 확인하는 시선|watching posture through mirror;상대의 손짓을 따라가는 집중된 시선|focused gaze following partner's gesture`),
+        expression: P(`집중하면서도 상기된 표정|focused flushed expression;긴장된 기대감|nervous anticipation;부끄러움과 흥분이 섞인 표정|embarrassed aroused expression`),
+        prop: P(`가죽 장갑|leather gloves;패들|paddle;안대|blindfold;로프|rope;가죽 스트랩|leather straps`),
+        lighting: P(`거울에 반사되는 낮은 조명|low light reflected in mirrors;따뜻한 간접등|warm indirect lighting`),
+        mood: P(`규칙과 역할이 분명한 긴장감|structured consensual training tension;차분하지만 노골적인 플레이룸 분위기|controlled explicit playroom atmosphere`),
+        composition: P(`거울 반사를 포함한 전신 구도|full-body shot with mirror reflection;훈련 도구를 배경에 둔 중거리 투샷|medium two-shot with training gear in background`)
+      },
+      cell: {
+        label: '감금실 / 독방',
+        background: P(`작은 지하 독방|small underground dungeon cell;철창문이 있는 돌방|stone cell with barred door;낡은 침상이 있는 감금실|cell with worn bed;횃불이 비치는 지하 감옥|torchlit underground prison`),
+        outfit: P(`헐거운 얇은 셔츠|loose thin shirt;찢어진 천 의상|torn fabric clothing;가죽 벨트가 더해진 얇은 의상|thin clothing with leather belt;간단한 구속용 의상|minimal restraint outfit`),
+        action: P(`철창 가까이에서 서로 손을 맞댄다|touching hands near iron bars;낡은 침상에서 상대와 가까이 앉는다|sitting close together on worn bed;벽에 기대어 상대를 끌어안는다|embracing against stone wall;문이 잠긴 것을 확인하고 조용히 키스한다|checking locked door then kissing quietly`),
+        pose: P(`낡은 침상에 나란히 앉은 자세|sitting side by side on worn bed;돌벽에 기대 서로 밀착한 자세|pressed together against stone wall;철창 앞에 가까이 선 자세|standing close near iron bars`),
+        gaze: P(`밖을 경계한 뒤 상대에게 돌아오는 시선|watchful gaze outside then back to partner;어두운 공간에서 서로만 바라보는 시선|eyes fixed only on each other in darkness`),
+        expression: P(`불안 속에서도 안도한 표정|relieved expression amid tension;조용히 열이 오른 표정|quiet flushed expression`),
+        prop: P(`철창|iron bars;낡은 담요|worn blanket;쇠사슬|chain;작은 촛불|small candle`),
+        lighting: P(`철창 사이로 들어오는 횃불빛|torchlight through bars;낮고 붉은 촛불빛|low reddish candlelight`),
+        mood: P(`폐쇄된 공간의 비밀스러운 친밀감|secret intimacy in confinement;외부와 단절된 조용한 긴장감|isolated quiet tension`),
+        composition: P(`철창을 전경에 둔 프레임 구도|framed through iron bars;좁은 독방의 밀착 투샷|tight two-shot in small cell`)
+      },
+      throne: {
+        label: '지하 왕좌 / 지배',
+        background: P(`검은 돌 왕좌가 있는 지하실|underground chamber with black stone throne;쇠사슬 장식의 지하 왕좌실|dungeon throne room with chains;붉은 촛불 왕좌실|throne chamber with red candles`),
+        outfit: P(`검은 가죽 코트와 하네스|black leather coat and harness;금속 장식 가죽 의상|leather outfit with metal accents;어두운 망토와 가죽 스트랩|dark cloak with leather straps`),
+        action: P(`왕좌에 앉아 상대의 턱을 들어 올린다|seated on throne, lifting partner's chin;상대를 왕좌 가까이 끌어당긴다|pulling partner close to throne;목줄을 손끝에 가볍게 쥔다|holding leash loosely in hand;상대에게 자리를 내주듯 왕좌 옆으로 끌어당긴다|drawing partner beside the throne`),
+        pose: P(`왕좌에 느긋하게 앉은 자세|relaxed seated pose on throne;왕좌 앞에 무릎을 꿇은 자세|kneeling before throne;왕좌 팔걸이에 기대 서로 가까운 자세|leaning close against throne armrest`),
+        gaze: P(`위에서 내려다보는 느긋한 시선|calm downward gaze;상대를 시험하듯 바라보는 시선|evaluating seductive gaze;기꺼이 따르는 듯 올려다보는 시선|willing upward gaze`),
+        expression: P(`여유로운 지배적 미소|calm dominant smile;긴장된 복종적 표정|nervous submissive expression;열이 오른 진지한 얼굴|flushed serious face`),
+        prop: P(`검은 왕좌|black stone throne;목줄|collar and leash;가죽 장갑|leather gloves;금속 장식 벨트|metal-accent belt`),
+        lighting: P(`붉은 촛불과 깊은 그림자|red candlelight and deep shadows;왕좌 뒤 역광|backlight behind throne`),
+        mood: P(`합의된 지배와 복종의 무게감|consensual dominance and submission atmosphere;어둡고 장엄한 플레이 분위기|dark ceremonial play atmosphere`),
+        composition: P(`왕좌를 중심으로 한 수직 구도|vertical composition centered on throne;위아래 시선 차이를 강조한 투샷|two-shot emphasizing height difference and gaze`)
+      }
     }
   },
+
   nsfw_guide: {
     label: 'NSFW · 가이드버스 하드',
     categories: {
-      guiding: {label: '가이드 중', background: P(`격리된 가이드실|isolated guiding room`), action: P(`가이드로 안정화 중이다|guiding while intimate`)},
-      aftermath: {label: '가이드 직후', background: P(`가이드 후 병상|bed after guiding`), action: P(`가이드 여운이 남은 상태|after intense guiding`)}
+      guiding: {
+        label: '가이드 중',
+        background: P(`격리된 개인 가이딩룸|isolated private guiding room;생체 모니터가 있는 안정화실|stabilization room with biometric monitors;조명이 낮은 가이드 전용실|dim private guiding suite;센터 의료형 가이딩룸|medical-style guiding room`),
+        outfit: P(`흐트러진 센터 제복 셔츠|disheveled center uniform shirt;환자복 위에 걸친 센터 재킷|hospital gown with center jacket;작전복 상의를 느슨하게 푼 상태|tactical uniform partially loosened;센터 ID카드가 남아 있는 셔츠|shirt with center ID card`),
+        action: P(`손목을 잡고 가이딩 반응을 확인한다|holding wrist while checking guiding response;서로 이마를 맞대고 호흡을 맞춘다|foreheads touching while matching breathing;상대의 목덜미에 손을 대고 안정화한다|hand on nape during stabilization;생체 수치가 내려가는 동안 깊게 끌어안는다|holding tightly as biometric readings settle;가이딩 반응에 맞춰 더 가까이 붙는다|moving closer in response to guiding feedback`),
+        pose: P(`병상 가장자리에 마주 앉은 자세|sitting face to face on edge of bed;한 명이 상대의 손목을 잡고 가까이 선 자세|standing close while holding partner's wrist;소파에 나란히 앉아 몸이 닿은 자세|sitting close on sofa with bodies touching;벽에 기대 상대를 끌어안은 자세|embracing against wall`),
+        gaze: P(`상대의 동공과 호흡을 확인하는 집중된 시선|focused gaze checking partner's pupils and breathing;가이딩 수치보다 상대를 더 오래 보는 시선|lingering gaze beyond the biometric monitor;긴장 속에서 상대에게 의지하는 시선|dependent gaze under stress`),
+        expression: P(`안정되며 풀리는 표정|expression relaxing during stabilization;과부하로 지친 상기된 얼굴|exhausted flushed face after overload;집중과 욕망이 섞인 표정|focused expression mixed with desire`),
+        prop: P(`손목 센서|wrist biometric sensor;센터 ID카드|center ID card;생체 모니터|biometric monitor;억제기|suppression device;의료용 패치|medical monitoring patch`),
+        lighting: P(`생체 모니터의 푸른 빛|blue biometric monitor glow;저자극 안정화 조명|low-stimulation stabilization lighting`),
+        mood: P(`응급성과 친밀감이 동시에 높은 분위기|urgent intimacy mixed with medical tension;가이딩 의존도가 높아지는 밀도|intense dependence during guiding`),
+        composition: P(`생체 모니터와 두 사람을 함께 담은 투샷|two-shot with biometric monitor;손목 접촉을 강조한 상반신 구도|upper-body composition emphasizing wrist contact`)
+      },
+      aftermath: {
+        label: '가이드 직후',
+        background: P(`가이딩 후 조용해진 병상|quiet bed after guiding;불이 낮아진 안정화실|dim stabilization room after treatment;담요가 흐트러진 회복실|recovery room with disheveled blanket;새벽 센터 개인실|private center room before dawn`),
+        outfit: P(`흐트러진 환자복|disheveled hospital gown;셔츠가 풀어진 센터 제복|center uniform shirt partly undone;담요를 어깨에 두른 상태|blanket draped over shoulders;작전복 위에 의료 패치를 붙인 상태|tactical uniform with medical patches`),
+        action: P(`가이딩이 끝난 뒤에도 손을 놓지 않는다|still holding hands after guiding;담요를 함께 덮고 나란히 앉아 있다|sitting together under one blanket;상대의 호흡이 안정됐는지 다시 확인한다|checking partner's breathing again;지친 상대의 머리를 쓰다듬는다|stroking exhausted partner's hair`),
+        pose: P(`병상 헤드에 함께 기대앉은 자세|sitting together against bed headboard;소파에 기대 서로 어깨가 닿은 자세|shoulders touching while resting on sofa;한 명이 다른 한 명의 무릎에 머리를 기대는 자세|resting head on partner's lap`),
+        gaze: P(`안도하면서도 쉽게 떨어지지 못하는 시선|relieved lingering gaze;잠든 상대의 얼굴을 보는 시선|watching sleeping partner;수치 확인 후 서로 마주보는 시선|meeting eyes after checking monitor`),
+        expression: P(`지쳐 풀어진 표정|exhausted relaxed expression;안도한 미소|relieved smile;열이 가라앉지 않은 나른한 얼굴|lingering flushed dazed face`),
+        prop: P(`흐트러진 담요|rumpled blanket;물컵|water cup;손목 센서|wrist sensor;가이드 기록 태블릿|guiding log tablet`),
+        lighting: P(`새벽빛과 낮은 의료 조명|pre-dawn light with dim medical lighting;침대 옆 스탠드 조명|bedside lamp`),
+        mood: P(`격렬한 가이딩 뒤의 조용한 여운|quiet afterglow after intense guiding;안도와 의존이 남은 분위기|lingering relief and dependence`),
+        composition: P(`병상과 두 사람을 넓게 담은 안정된 투샷|calm two-shot including bed;손을 놓지 않은 모습을 강조한 근접 구도|close framing emphasizing joined hands`)
+      },
+      emergency: {
+        label: '응급 가이딩',
+        background: P(`비상등이 켜진 응급 가이딩실|emergency guiding room with warning lights;게이트 현장 임시 가이딩 텐트|temporary guiding tent near gate;구급차 내부 가이딩 구역|guiding area inside ambulance;붕괴 현장 옆 센터 응급실|center emergency station near disaster site`),
+        outfit: P(`피와 먼지가 묻은 작전복|bloodstained dusty tactical uniform;찢어진 센터 제복|torn center uniform;응급 담요를 두른 전투복|combat uniform under emergency blanket;의료 패치가 붙은 환자복|hospital clothing with medical patches`),
+        action: P(`상대 손을 단단히 잡고 호흡을 맞춘다|firmly holding partner's hand and matching breathing;폭주 직전 상대를 품에 끌어안아 안정화한다|pulling partner close to stabilize overload;이마를 맞대고 이름을 반복해 부르며 집중시킨다|forehead touching while grounding partner;생체 수치를 확인하며 접촉을 유지한다|maintaining contact while checking biometric readings`),
+        pose: P(`바닥에 앉아 상대를 품에 지지한 자세|sitting on floor supporting partner in arms;한쪽 무릎을 꿇고 상대의 양손을 잡은 자세|kneeling while holding both hands;벽에 기대 함께 주저앉은 자세|sitting together against wall`),
+        gaze: P(`의식을 확인하려 상대의 눈을 놓치지 않는 시선|unbroken gaze checking consciousness;불안 속에서도 상대에게 집중한 시선|focused gaze despite emergency`),
+        expression: P(`극도로 긴장했지만 상대를 놓치지 않는 표정|tense determined expression;폭주가 가라앉으며 눈에 힘이 풀리는 표정|expression softening as overload subsides;숨이 찬 상기된 얼굴|breathless flushed face`),
+        prop: P(`비상 생체 모니터|emergency biometric monitor;응급 억제기|emergency suppression device;구급 담요|emergency blanket;무전기|radio`),
+        lighting: P(`붉은 비상등과 푸른 의료 모니터|red emergency lights and blue medical monitor;현장 조명과 경광등|field lamps and emergency lights`),
+        mood: P(`위기 속 절박한 친밀감|desperate intimacy during crisis;폭주를 붙잡는 긴박한 가이딩 분위기|high-stakes emergency guiding tension`),
+        composition: P(`응급 조명 아래 밀착한 투샷|close two-shot under emergency lighting;손과 얼굴 접촉을 강조한 근접 구도|close composition emphasizing hands and faces`)
+      },
+      isolation: {
+        label: '격리실',
+        background: P(`강화유리 개인 격리실|private reinforced-glass isolation room;경보등이 꺼진 격리실|quiet isolation room after alarm;흰 벽과 감시창이 있는 방|white isolation room with observation window;억제 장치가 놓인 개인실|private room with suppression equipment`),
+        outfit: P(`얇은 센터 환자복|light center hospital gown;억제기 착용 센터복|center clothing with suppression device;흐트러진 흰 셔츠|disheveled white shirt`),
+        action: P(`강화유리 문이 열린 뒤 상대를 바로 끌어안는다|embracing partner as reinforced door opens;오랜 격리 후 손끝부터 조심스럽게 접촉한다|carefully touching fingertips after isolation;손목 억제기를 풀며 상대의 반응을 본다|removing wrist suppressor while watching partner;침상 옆에 앉아 가까이 몸을 기댄다|leaning close beside isolation bed`),
+        pose: P(`강화유리 벽 앞에서 서로 마주 선 자세|facing each other near reinforced glass;침상 가장자리에 가까이 앉은 자세|sitting close on edge of isolation bed;한 명이 상대의 어깨에 이마를 기대는 자세|forehead resting on partner's shoulder`),
+        gaze: P(`오랫동안 못 본 사람을 확인하듯 바라보는 시선|longing gaze after separation;감시창을 의식하다 서로에게 집중하는 시선|glancing at observation window then focusing on partner`),
+        expression: P(`참았던 안도감이 터지는 표정|relief breaking through restraint;외로움과 열이 섞인 얼굴|lonely flushed expression`),
+        prop: P(`손목 억제기|wrist suppressor;강화유리 문|reinforced glass door;관찰 카메라|observation camera;센터 담요|center blanket`),
+        lighting: P(`차가운 백색 격리실 조명|cold white isolation-room lighting;감시창 너머 낮은 복도빛|dim corridor light through observation window`),
+        mood: P(`격리 후 재접촉의 강한 의존감|intense dependence after isolation;차가운 공간 속 유일한 온기|sole source of warmth in a cold room`),
+        composition: P(`강화유리 반사를 포함한 투샷|two-shot with reinforced-glass reflection;침상과 감시창이 함께 보이는 중거리 구도|medium shot including bed and observation window`)
+      }
     }
   },
+
   nsfw_dark: {
     label: 'NSFW · 암흑판타지',
     categories: {
-      ritual: {label: '의식 / 제물', background: P(`어두운 제단|dark ritual altar`), action: P(`제물로 바쳐지고 있다|offered as sacrifice`)},
-      demon: {label: '악마 / 계약', background: P(`악마의 소환진|demonic summoning circle`), action: P(`악마와 계약하고 있다|making pact with demon`)}
+      ritual: {
+        label: '의식 / 제물',
+        background: P(`검은 촛불이 둘러싼 제단|altar surrounded by black candles;붉은 마법진이 새겨진 지하 신전|underground temple with red magic circle;고대 석상 사이 의식실|ritual chamber between ancient statues;검은 장막이 드리운 성소|sanctum draped in black fabric`),
+        outfit: P(`얇은 의식용 로브|thin ritual robe;금속 장식 검은 예복|black ceremonial attire with metal accents;붉은 천과 금 장식 의식복|red ritual fabric with gold ornaments;어두운 망토 아래 가죽 스트랩|dark cloak over leather straps`),
+        action: P(`마법진 중앙에서 상대의 손을 맞잡는다|holding hands at center of magic circle;제단 앞에서 서로의 목에 의식 문양을 새긴다|marking ritual sigils on each other's neck;검은 촛불을 끄고 가까이 입을 맞춘다|extinguishing black candle before kissing;의식의 마지막 단계처럼 서로에게 밀착한다|pressing close as final stage of ritual`),
+        pose: P(`마법진 중앙에 함께 무릎을 꿇은 자세|kneeling together inside magic circle;제단 가장자리에 앉은 자세|sitting on ritual altar edge;한 명이 다른 한 명의 손목을 제단 위에 올려둔 자세|placing partner's wrist gently on altar`),
+        gaze: P(`의식에 취한 듯 몽롱한 시선|ritual-dazed gaze;상대에게서 시선을 떼지 않는 집착적인 눈빛|intense fixated gaze;촛불 너머로 낮게 바라보는 시선|low gaze through candlelight`),
+        expression: P(`마력에 취한 상기된 표정|flushed expression intoxicated by magic;경건함과 욕망이 섞인 얼굴|reverence mixed with desire;의식이 완성되며 안도하는 표정|relieved expression as ritual completes`),
+        prop: P(`검은 촛불|black candles;의식용 단검|ceremonial dagger;붉은 리본|red ritual ribbon;마법진|glowing magic circle;검은 성배|black chalice`),
+        lighting: P(`붉은 마법진과 촛불의 역광|red magic-circle glow and candle backlight;검은 공간 속 붉은 광원|red light in deep darkness`),
+        mood: P(`금기 의식의 관능적 긴장감|sensual forbidden-ritual tension;신성함과 타락이 겹친 분위기|sacred and decadent atmosphere`),
+        composition: P(`마법진을 원형 프레임으로 활용한 탑뷰|top-down composition using magic circle;제단과 촛불을 전경에 둔 투샷|two-shot with altar and candles in foreground`)
+      },
+      demon: {
+        label: '악마 / 계약',
+        background: P(`악마 소환진이 있는 석실|stone chamber with demonic summoning circle;불타는 문양의 계약실|contract chamber with burning sigils;검은 왕좌가 보이는 악마의 방|demon chamber with black throne;붉은 안개가 흐르는 지하 신전|underground temple filled with red mist`),
+        outfit: P(`검은 가죽과 금속 장식|black leather with metal ornaments;붉은 안감 긴 코트|long dark coat with red lining;악마 문양 목걸이와 얇은 셔츠|thin shirt with demonic pendant;검은 망토와 하네스|black cloak and harness`),
+        action: P(`계약 문양을 서로의 피부에 새긴다|placing contract sigil on each other's skin;손목을 맞잡아 마력을 공유한다|joining wrists to share magic;상대의 턱을 들어 계약의 조건을 확인하듯 바라본다|lifting partner's chin as if sealing a pact;계약이 성립되며 서로 강하게 끌어당긴다|pulling each other close as pact seals`),
+        pose: P(`소환진 위에 서로 마주 선 자세|facing each other atop summoning circle;한 명이 검은 왕좌에 앉고 다른 한 명이 가까이 선 자세|one seated on black throne, other standing close;서로의 손목을 맞댄 자세|wrists pressed together`),
+        gaze: P(`계약자를 탐색하는 날카로운 시선|sharp appraising gaze;상대를 소유하듯 바라보는 시선|possessive seductive gaze;계약 문양을 확인하다 눈을 맞추는 시선|looking from pact mark to partner's eyes`),
+        expression: P(`위험한 미소|dangerous smile;계약의 대가를 아는 듯한 여유로운 표정|knowing confident expression;마력에 취한 나른한 얼굴|dazed face under magical influence`),
+        prop: P(`악마 계약서|demonic contract parchment;붉은 봉인 문양|red seal sigil;검은 깃펜|black quill;마력 사슬|magical chains;흑요석 반지|obsidian ring`),
+        lighting: P(`붉은 소환진 빛|red summoning-circle glow;불꽃과 검은 그림자|firelight and black shadows`),
+        mood: P(`위험한 계약과 욕망의 거래|dangerous pact charged with desire;유혹과 권력의 긴장감|seductive power tension`),
+        composition: P(`소환진 중심의 대칭 투샷|symmetrical two-shot centered on summoning circle;계약 문양을 클로즈업한 손 중심 구도|hand-focused close composition of pact marks`)
+      },
+      cathedral: {
+        label: '타락한 성당',
+        background: P(`검은 스테인드글라스 성당|dark cathedral with black stained glass;촛불이 가득한 고딕 제단|gothic altar filled with candles;무너진 성당의 제단 앞|ruined cathedral altar;붉은 장미가 흩어진 예배당|chapel scattered with red roses`),
+        outfit: P(`검은 성직 예복을 변형한 의상|dark clerical-inspired attire;레이스와 검은 망토|black lace and cloak;흰 셔츠 위 검은 하네스|white shirt under black harness;붉은 리본이 묶인 어두운 예복|dark ceremonial outfit with red ribbons`),
+        action: P(`제단 앞에서 서로의 손가락을 얽는다|intertwining fingers before altar;스테인드글라스 아래에서 깊게 입을 맞춘다|deep kissing beneath stained glass;붉은 장미 꽃잎을 상대의 목 위에 떨어뜨린다|letting red rose petals fall over partner's neck;제단 가장자리에서 서로에게 몸을 기댄다|leaning into each other at altar edge`),
+        pose: P(`제단 앞에 함께 무릎을 꿇은 자세|kneeling together before altar;긴 의자 사이에서 서로 마주 선 자세|facing each other between pews;제단 가장자리에 기대 선 자세|leaning against altar edge`),
+        gaze: P(`신성모독적인 긴장감을 즐기듯 바라보는 시선|gaze enjoying forbidden tension;촛불 너머 상대를 응시하는 시선|staring at partner through candlelight`),
+        expression: P(`경건한 척 숨긴 욕망의 표정|repressed desire behind solemn expression;서늘한 미소|cold seductive smile;눈을 감고 감각에 집중한 표정|eyes closed, immersed expression`),
+        prop: P(`붉은 장미|red roses;검은 묵주|black rosary;촛대|candlestick;고딕 성배|gothic chalice;레이스 베일|black lace veil`),
+        lighting: P(`스테인드글라스의 붉고 보랏빛 광선|red and violet stained-glass beams;수많은 촛불의 낮은 빛|low light from many candles`),
+        mood: P(`금기와 신성함이 충돌하는 분위기|forbidden tension against sacred setting;고딕 로맨스의 퇴폐미|decadent gothic romance atmosphere`),
+        composition: P(`높은 스테인드글라스를 배경으로 한 세로 구도|vertical composition against tall stained glass;제단 중앙 대칭 투샷|symmetrical two-shot centered at altar`)
+      },
+      throne: {
+        label: '마왕성 / 왕좌',
+        background: P(`거대한 검은 왕좌의 마왕성|demon king castle with massive black throne;붉은 카펫이 깔린 어두운 왕좌실|dark throne hall with red carpet;용암빛이 비치는 지하 왕좌실|underground throne room lit by lava glow`),
+        outfit: P(`검은 왕족 예복과 가죽 장갑|black royal attire and leather gloves;금속 장식 긴 망토|long cloak with metal ornaments;붉은 안감 검은 코트|black coat with red lining`),
+        action: P(`왕좌에 앉아 상대를 무릎 가까이 끌어당긴다|seated on throne, pulling partner close to knees;검은 장갑 낀 손으로 상대의 턱을 들어 올린다|lifting partner's chin with black-gloved hand;왕좌 옆에 앉힌 뒤 몸을 가까이 기울인다|seating partner beside throne and leaning close;왕관을 벗어 상대 손에 쥐여준다|placing crown into partner's hand`),
+        pose: P(`왕좌에 한쪽 팔을 걸치고 앉은 자세|sitting on throne with one arm over armrest;왕좌 옆에 나란히 앉은 자세|sitting side by side on throne;왕좌 앞에서 상대에게 가까이 무릎을 꿇은 자세|kneeling close before throne`),
+        gaze: P(`위압적이지만 노골적으로 다정한 시선|commanding yet openly intimate gaze;왕관 아래로 내려다보는 시선|looking down beneath crown;상대만 바라보는 집착적인 시선|fixated gaze solely on partner`),
+        expression: P(`여유로운 권력자의 미소|confident ruler's smile;소유욕이 드러난 표정|possessive expression;상대 앞에서만 풀어진 얼굴|softened expression only for partner`),
+        prop: P(`검은 왕관|black crown;금속 장식 지팡이|ornate dark scepter;붉은 보석 반지|red gemstone ring;가죽 장갑|leather gloves`),
+        lighting: P(`왕좌 뒤 붉은 역광|red backlight behind throne;용암빛과 깊은 그림자|lava glow and deep shadows`),
+        mood: P(`압도적인 권력과 사적인 집착|overwhelming power mixed with private obsession;어둡고 호화로운 퇴폐 분위기|dark luxurious decadent atmosphere`),
+        composition: P(`왕좌를 중심으로 한 웅장한 로우앵글|grand low-angle composition centered on throne;왕좌와 두 사람을 함께 담은 대칭 전신 구도|symmetrical full-body shot with throne`)
+      }
     }
   },
+
   nsfw_outdoor: {
     label: 'NSFW · 야외/노출',
     categories: {
-      park: {label: '공원 / 숲', background: P(`밤의 공원|park at night;숲속 공터|forest clearing`), action: P(`야외에서 하고 있다|outdoor sex`)},
-      rooftop: {label: '옥상 / 고층', background: P(`도시 야경이 보이는 옥상|rooftop with city view`), action: P(`옥상에서 하고 있다|sex on rooftop`)}
+      park: {
+        label: '공원 / 숲',
+        background: P(`사람 없는 밤의 공원|empty park at night;달빛 숲속 공터|moonlit forest clearing;나무가 우거진 산책로 옆|secluded path surrounded by trees;가로등이 드문 공원 벤치 근처|quiet park bench under sparse streetlights;호숫가 숲길|wooded path beside lake`),
+        outfit: P(`얇은 셔츠와 가벼운 아우터|thin shirt and light outerwear;짧은 원피스와 가디건|short dress and cardigan;후드집업과 얇은 이너|hoodie over thin innerwear;검은 셔츠와 슬림 팬츠|black shirt and slim pants`),
+        action: P(`나무 뒤 그늘에서 서로 가까이 붙는다|pressing close in shadow behind trees;공원 벤치 옆에서 깊게 키스한다|deep kissing beside park bench;발소리가 들리면 잠시 멈췄다가 다시 서로를 끌어안는다|pausing at footsteps then embracing again;숲길에서 상대의 손을 잡아 안쪽으로 이끈다|leading partner deeper into secluded path by hand`),
+        pose: P(`나무에 등을 기대 서로 밀착한 자세|pressed together against tree;벤치 앞에서 한 명이 다른 한 명에게 몸을 기댄 자세|leaning into partner near bench;숲길 난간에 기대 가까이 선 자세|standing close against park railing`),
+        gaze: P(`주변을 경계하면서도 상대를 놓치지 않는 시선|watchful gaze while staying focused on partner;어둠 속에서 상대를 올려다보는 시선|looking up at partner in darkness`),
+        expression: P(`들킬까 긴장하면서 상기된 표정|flushed nervous expression;장난스럽게 숨을 죽이는 미소|quiet playful smile;야외의 차가운 공기에 열이 오른 얼굴|heated face in cool night air`),
+        prop: P(`공원 벤치|park bench;가로등|streetlamp;얇은 재킷|light jacket;작은 손전등|small flashlight`),
+        weather: P(`맑고 서늘한 밤|clear cool night;달빛이 강한 밤|bright moonlit night;비가 막 그친 밤|night just after rain;옅은 안개가 낀 밤|light mist at night`),
+        lighting: P(`달빛과 멀리 있는 가로등|moonlight and distant streetlights;나뭇잎 사이로 새는 빛|light filtering through leaves`),
+        mood: P(`들킬 수 있다는 긴장과 설렘|thrill of possible discovery;깊은 밤 숲의 은밀한 친밀감|secret intimacy in a deep-night forest`),
+        composition: P(`나뭇가지를 전경에 둔 몰래 엿보는 듯한 구도|framed through branches;달빛 역광의 근접 투샷|close two-shot with moonlit backlight`)
+      },
+      rooftop: {
+        label: '옥상 / 고층',
+        background: P(`도시 야경이 펼쳐진 빌딩 옥상|high-rise rooftop overlooking city at night;난간과 철문이 있는 회사 옥상|office rooftop with railing and metal door;네온이 보이는 고층 옥상|rooftop overlooking neon city;물탱크와 환기구가 있는 옥상|urban rooftop with water tank and vents`),
+        outfit: P(`바람에 흔들리는 셔츠와 코트|shirt and coat moving in wind;검은 셔츠와 슬랙스|black shirt and slacks;얇은 원피스와 재킷|light dress and jacket;후드집업과 슬림 팬츠|hoodie and slim pants`),
+        action: P(`난간에서 떨어진 벽 쪽에 서로 밀착한다|pressing close against rooftop wall away from railing;도시 야경을 등지고 깊게 키스한다|deep kissing with city lights behind;철문이 닫힌 것을 확인하고 상대를 끌어안는다|checking rooftop door then embracing;바람에 흐트러진 머리를 정리해주며 가까이 선다|fixing windblown hair while standing close`),
+        pose: P(`옥상 벽에 등을 기대 서로 마주 선 자세|facing each other against rooftop wall;난간에서 안전하게 떨어져 나란히 선 자세|standing together safely away from railing;철문 옆 벽에 기대 밀착한 자세|pressed close beside rooftop door`),
+        gaze: P(`도시를 한번 내려다본 뒤 상대에게 고정되는 시선|gaze moving from city to partner;바람에 눈을 가늘게 뜨고 상대를 보는 시선|narrowed eyes in wind, focused on partner`),
+        expression: P(`찬 바람과 열이 섞인 상기된 표정|flushed face in cold wind;해방감에 웃는 표정|liberated smile;긴장과 흥분이 섞인 얼굴|excited nervous expression`),
+        prop: P(`옥상 출입문|rooftop access door;난간|rooftop railing;바람에 날리는 넥타이|tie fluttering in wind;작은 캔 음료|small canned drink`),
+        weather: P(`바람이 강한 맑은 밤|clear windy night;여름의 습한 밤|humid summer night;비가 그친 직후의 옥상|rooftop just after rain;차가운 겨울 밤|cold winter night`),
+        lighting: P(`도시 야경의 네온 역광|city neon backlight;옥상 비상등과 달빛|rooftop emergency light and moonlight`),
+        mood: P(`탁 트인 공간과 은밀함이 공존하는 분위기|open-air freedom mixed with secrecy;도시 위에서 느끼는 위험한 해방감|risky sense of liberation above the city`),
+        composition: P(`도시 스카이라인을 크게 담은 투샷|two-shot with wide city skyline;옥상 철문을 프레임으로 활용한 근접 구도|close framing beside rooftop door`)
+      },
+      alley: {
+        label: '골목 / 뒷길',
+        background: P(`네온이 번지는 젖은 뒷골목|wet back alley with neon reflections;건물 사이 좁은 골목|narrow alley between buildings;가로등 하나만 있는 골목|alley lit by a single streetlamp;클럽 뒤편 서비스 골목|service alley behind nightclub`),
+        outfit: P(`가죽 재킷과 검은 셔츠|leather jacket and black shirt;클럽룩과 얇은 코트|night-out outfit with light coat;후드와 어두운 팬츠|hoodie and dark pants;셔츠와 느슨한 넥타이|dress shirt and loosened tie`),
+        action: P(`벽 그늘에서 서로 가까이 붙는다|pressing close in shadow against wall;네온 간판 아래 깊게 키스한다|deep kissing under neon sign;골목 입구를 확인한 뒤 상대의 허리를 끌어당긴다|checking alley entrance then pulling partner closer;비를 피하듯 처마 아래에서 서로에게 몸을 기댄다|leaning into each other under awning`),
+        pose: P(`벽돌벽에 등을 댄 자세|back against brick wall;한 명이 벽을 짚고 상대와 가까이 선 자세|one hand braced on wall, standing close;좁은 골목에서 서로 몸이 닿은 자세|bodies touching in narrow alley`),
+        gaze: P(`골목 입구를 경계하는 짧은 시선|brief watchful glance toward alley entrance;네온빛 아래 상대를 노골적으로 보는 시선|openly intimate gaze under neon light`),
+        expression: P(`술기운 없이도 열이 오른 얼굴|flushed heated face;장난스럽지만 긴장한 미소|playful tense smile;숨이 가쁜 표정|breathless expression`),
+        prop: P(`벽돌벽|brick wall;네온 간판|neon sign;접힌 우산|folded umbrella;작은 클러치백|small clutch bag`),
+        weather: P(`비가 내리는 밤|rainy night;비가 막 그친 밤|night after rain;후덥지근한 여름밤|muggy summer night`),
+        lighting: P(`젖은 바닥에 반사되는 네온|neon reflected on wet pavement;가로등 한 개의 강한 측광|single streetlamp side light`),
+        mood: P(`도심 뒷골목의 충동적인 친밀감|impulsive intimacy in a city back alley;빛과 그림자가 강한 퇴폐적 분위기|decadent urban atmosphere with hard light and shadow`),
+        composition: P(`골목 원근을 길게 살린 투샷|two-shot with deep alley perspective;네온 반사를 전경에 둔 로우앵글|low-angle composition with neon reflections`)
+      },
+      balcony: {
+        label: '발코니 / 테라스',
+        background: P(`호텔 고층 발코니|high-rise hotel balcony;야경이 보이는 펜트하우스 테라스|penthouse terrace overlooking city;바다가 내려다보이는 리조트 발코니|resort balcony overlooking ocean;파티가 끝난 뒤 조용한 테라스|quiet terrace after party`),
+        outfit: P(`실크 셔츠와 슬랙스|silk shirt and slacks;얇은 드레스와 숄|light dress and shawl;파티 정장에 재킷을 벗은 상태|formal party attire with jacket removed;호텔 가운 위에 얇은 셔츠|light shirt over hotel robe`),
+        action: P(`실내 소음을 등지고 발코니에서 서로 가까이 선다|standing close on balcony away from indoor noise;야경을 보다가 상대에게 돌아서 깊게 키스한다|turning from city view to deep kiss;숄이나 재킷을 상대 어깨에 걸쳐주고 끌어안는다|draping shawl or jacket over partner and embracing;발코니 문을 닫고 둘만의 공간을 만든다|closing balcony door to create privacy`),
+        pose: P(`난간에서 떨어진 벽 쪽에 함께 기대 선 자세|standing together near wall away from railing;테라스 소파에 가까이 앉은 자세|sitting close on terrace sofa;발코니 문 옆에 서로 마주 선 자세|facing each other beside balcony door`),
+        gaze: P(`야경과 상대 사이를 오가는 느긋한 시선|slow gaze between city view and partner;조용히 오래 마주보는 시선|lingering intimate eye contact`),
+        expression: P(`술잔 없이도 나른한 미소|soft languid smile;바람에 긴장이 풀린 표정|relaxed expression in breeze;은근히 상기된 얼굴|subtly flushed face`),
+        prop: P(`얇은 숄|light shawl;호텔 키카드|hotel key card;테라스 소파 쿠션|terrace sofa cushion;작은 테이블|small terrace table`),
+        weather: P(`따뜻한 여름밤|warm summer night;바닷바람이 부는 밤|breezy seaside night;맑은 별밤|clear starry night`),
+        lighting: P(`실내에서 새어 나오는 따뜻한 역광|warm backlight spilling from room;도시 야경과 달빛|city lights and moonlight`),
+        mood: P(`개방감 속에서도 사적인 로맨스|private intimacy despite open view;호텔 밤 특유의 느긋한 관능|languid sensual hotel-night atmosphere`),
+        composition: P(`실내와 발코니 경계를 함께 담은 구도|composition spanning indoor-outdoor boundary;야경을 넓게 담은 실루엣 투샷|silhouette two-shot against wide night view`)
+      }
     }
   }
 };
@@ -1081,6 +1351,47 @@ function conflictsWithNsfwGenre(type,item){
     if(type==='action'&&has(/using laptop|checking tablet|reading documents|lecturing|briefing|making coffee/)) return true;
     if(type==='mood'&&has(/clinical|ward|hospital/)) return true;
   }
+  if(ctx==='nsfw_office::elevator'){
+    if(type==='pose'&&has(/lying|bed|kneeling at altar|all fours/)) return true;
+    if(type==='prop'&&has(/rope|chains|whip|paddle|ritual dagger/)) return true;
+  }
+  if(ctx==='nsfw_office::meeting'){
+    if(type==='prop'&&has(/handcuffs|rope|chains|collar|leash|vibrator|dildo/)) return true;
+    if(type==='pose'&&has(/lying on stomach|all fours|legs over shoulders/)) return true;
+  }
+  if(ctx==='nsfw_office::executive'){
+    if(type==='prop'&&has(/shopping cart|iv stand|torch|sword|bow/)) return true;
+  }
+  if(ctx==='nsfw_dungeon::training'){
+    if(type==='prop'&&has(/smartphone|laptop|tablet|office documents|wine glass/)) return true;
+  }
+  if(ctx==='nsfw_dungeon::cell'){
+    if(type==='lighting'&&has(/neon|office|fluorescent|monitor glow/)) return true;
+    if(type==='outfit'&&has(/formal business|center uniform|school uniform|swimsuit/)) return true;
+  }
+  if(ctx==='nsfw_guide::emergency'){
+    if(type==='expression'&&has(/bright smile|playful smile|smug smile/)) return true;
+    if(type==='mood'&&has(/sweet intimate night|party|festival|depraved/)) return true;
+    if(type==='prop'&&has(/wine glass|candle|whip|dildo|vibrator/)) return true;
+  }
+  if(ctx==='nsfw_guide::aftermath'){
+    if(type==='action'&&has(/combat stance|charging|running|battle|aiming weapon/)) return true;
+  }
+  if(ctx==='nsfw_dark::cathedral'){
+    if(type==='prop'&&has(/smartphone|laptop|tablet|employee id|coffee cup/)) return true;
+    if(type==='lighting'&&has(/fluorescent|office light|dashboard glow/)) return true;
+  }
+  if(ctx==='nsfw_dark::ritual'||ctx==='nsfw_dark::demon'||ctx==='nsfw_dark::throne'){
+    if(type==='outfit'&&has(/hoodie|jeans|business suit|hospital gown|school uniform/)) return true;
+  }
+  if(ctx==='nsfw_outdoor::rooftop'){
+    if(type==='pose'&&has(/lying on bed|kneeling at altar|fully bound|legs forced open/)) return true;
+    if(type==='prop'&&has(/rope|chains|iv stand|pillow|blanket/)) return true;
+  }
+  if(ctx==='nsfw_outdoor::park'||ctx==='nsfw_outdoor::alley'){
+    if(type==='prop'&&has(/large sex toy|full bondage gear|iv stand|office files/)) return true;
+    if(type==='outfit'&&has(/three-piece suit|plate armor|hospital gown/)) return true;
+  }
   return false;
 }
 function currentContextFlags(){
@@ -1195,7 +1506,8 @@ function poolFor(type){
   if(isNsfwGenre() && NSFW_GENRE_STUB[genre.value]){
     const cat = NSFW_GENRE_STUB[genre.value].categories?.[category.value];
     if(cat && cat[type]) {
-      const w = type==='outfit'||type==='action'||type==='background' ? 8 : 3;
+      const nsfwWeights={background:18,action:18,outfit:14,pose:12,gaze:10,expression:10,prop:12,mood:14,lighting:12,composition:10,weather:10};
+      const w=nsfwWeights[type]||7;
       for(let i=0;i<w;i++) base.push(...cat[type]);
     }
   }
