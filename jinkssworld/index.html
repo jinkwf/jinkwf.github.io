@@ -265,6 +265,7 @@ body.has-nsfw-banner{padding-top:58px}
 <option value="dense" selected>농밀한 · Dense</option>
 <option value="vulgar">천박한 · Vulgar</option>
 <option value="extreme">하늘나라 · Extreme</option>
+<option value="maximum">최고 친밀도 · Maximum</option>
 </select><div class="character-mode-hint" id="intensityHint">🔥 수위에 따라 행동·의상·표정 풀이 달라집니다</div></div>
 <div class="opt"><label>QUALITY</label><select id="quality"><option value="masterpiece, best quality, amazing quality, very aesthetic, highly detailed">기본 고품질</option><option value="masterpiece, best quality, highly detailed, cinematic composition">시네마틱</option><option value="">사용 안 함</option></select></div><div class="opt"><label>STYLE</label><select id="style"><option value="">미지정</option><option value="anime style">Anime</option><option value="illustration">Illustration</option><option value="semi-realistic">Semi-realistic</option></select></div><div class="opt"><label>POV MODE</label><select id="povMode"><option value="off">사용 안 함</option><option value="on">사용 · 현재 인원수 연동</option></select></div><div class="opt"><label>POV 강도</label><select id="povStrength"><option value="subtle">약하게</option><option value="strong">강하게</option></select></div><div class="opt"><label>POV 타입</label><select id="povType"><option value="auto">자동</option><option value="talk">대화형 POV</option><option value="hand">손잡기 POV</option><option value="prekiss">키스 직전 POV</option></select><div class="character-mode-hint" id="povModeHint">📷 일반 시점 모드 · NSFW ON 시 성인용 POV 확장</div></div><div class="opt"><label>관계 / 상호작용</label><select id="relationPreset"><option value="none">미사용</option><option value="friend">친구 / 절친</option><option value="coworker">동료 / 같은 편</option><option value="rival">라이벌</option><option value="lover">연인 / 썸</option><option value="firsttime">첫 관계 / 조심스러운 친밀감</option><option value="longterm">오래된 연인 / 익숙한 친밀감</option><option value="obsession">집착 / 소유욕</option><option value="hatebond">혐관 / 앙숙</option><option value="salvation">구원 서사</option><option value="unrequited">짝사랑</option><option value="contract">계약 / 정략</option><option value="mentor">멘토 / 사제</option><option value="childhood">소꿉친구</option><option value="exlovers">전 연인 / 미련</option><option value="firstmeet">첫 만남</option><option value="reunion">재회</option><option value="guardian">보호 / 호위</option><option value="masterservant">주종 / 상하관계</option><option value="enemy">적대 / 대치</option><option value="teammate">전우 / 파티원</option></select><div class="character-mode-hint" id="relationHint">🤝 2인/3인에서 상호작용 가중치 적용</div></div><div class="opt"><label>장면 프리셋</label><select id="scenePreset"></select><div class="character-mode-hint" id="scenePresetHint">🎬 장르에 맞는 상황 프리셋을 적용합니다.</div></div><div class="opt"><label>충돌 방지</label><label class="check inline-check"><input type="checkbox" id="smartConflict" checked> 배경·의상·행동 충돌 자동 방지</label><div class="character-mode-hint" id="smartConflictHint">🧩 말이 안 되는 조합은 최대한 다시 뽑습니다.</div></div></div><div class="custom-grid"><div><label class="tiny-label">항상 추가할 태그</label><input id="customTags" type="text" placeholder="예: black hair, blue eyes, handsome male"></div><div><label class="tiny-label">기본 네거티브 태그</label><input id="negativeBase" type="text" value="lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, jpeg artifacts, signature, watermark, username, blurry"></div></div><div class="user-character-wrap"><button type="button" class="user-character-toggle" id="userCharacterToggle" aria-expanded="false" aria-controls="userCharacterPanel"><span>🙈 {{user}} 캐릭터 태그</span><span class="user-character-state" id="userCharacterState">OFF · 열기</span></button><div class="user-character-panel" id="userCharacterPanel" hidden><div class="custom-grid"><div><label class="tiny-label">{{user}} 성별 타입</label><select id="userGenderMode"><option value="random" selected>랜덤</option><option value="male">남성형</option><option value="female">여성형</option><option value="androgynous">중성형</option></select></div><div><label class="tiny-label">{{user}} 체형 타입</label><select id="userBodyMode"><option value="random" selected>랜덤</option><option value="slim">슬림</option><option value="average">보통</option><option value="curvy">굴곡짐</option><option value="athletic">탄탄함</option><option value="lean_muscular">잔근육</option><option value="soft">말랑함</option></select></div></div><div class="user-tag-tools"><input id="userCharacterTags" type="text" placeholder="버튼을 누르면 {{user}} 캐릭터 태그가 자동 생성됩니다." readonly><button type="button" class="tool" id="generateUserCharacter">🙈 {{user}}캐릭터 임의생성</button><button type="button" class="tool" id="copyUserCharacter">📋 {{user}}태그 복사</button></div><div class="user-tag-preview empty" id="userCharacterHint">앞머리가 눈을 완전히 가리는 설정은 고정 · 성별/체형/색상은 선택값 또는 랜덤으로 생성</div></div></div></section>
 <section class="panel" id="directorPanel"><div class="head"><div><h2 class="title">02A · NSFW Director</h2><p class="desc">NSFW 모드에서는 노출·밀착·흔적·역동성·표정·의상붕괴를 각각 독립적으로 조절합니다. 다인 장면은 캐릭터별 태그와 역할 배치를 분리해 합쳐짐을 줄입니다.</p></div></div><div class="director-grid"><div class="director-card"><label>노출도</label><select id="axisExposure"><option value="0">0 · 최소</option><option value="1" selected>1 · 부분노출</option><option value="2">2 · 부분탈의</option><option value="3">3 · 전라 허용</option></select></div><div class="director-card"><label>밀착도</label><select id="axisContact"><option value="0">0 · 거리 유지</option><option value="1">1 · 가까운 거리</option><option value="2" selected>2 · 신체 밀착</option><option value="3">3 · 강한 밀착</option></select></div><div class="director-card"><label>흔적 강도</label><select id="axisMarks"><option value="0">0 · 없음</option><option value="1" selected>1 · 약하게</option><option value="2">2 · 뚜렷하게</option><option value="3">3 · 강하게</option></select></div><div class="director-card"><label>역동성</label><select id="axisMotion"><option value="0">0 · 정적</option><option value="1" selected>1 · 자연스럽게</option><option value="2">2 · 역동적</option><option value="3">3 · 강한 움직임</option></select></div><div class="director-card"><label>표정 강도</label><select id="axisExpression"><option value="0">0 · 차분함</option><option value="1" selected>1 · 은은함</option><option value="2">2 · 강한 감정</option><option value="3">3 · 극대화</option></select></div><div class="director-card"><label>의상 붕괴도</label><select id="axisWardrobe"><option value="0">0 · 정돈</option><option value="1" selected>1 · 흐트러짐</option><option value="2">2 · 크게 흐트러짐</option><option value="3">3 · 부분탈의</option></select></div><div class="director-card"><label>다인 역할 배치</label><select id="roleLayout"><option value="auto">자동</option><option value="center">A 중앙 / B·C 양옆</option><option value="userfocus">A가 {{user}}와 상호작용</option><option value="foreground">A 전경 / B·C 후경</option><option value="triangle">삼각형 역할 분리</option></select></div></div><div class="char-separate-grid"><div class="char-separate-item" id="charABox"><label>CHARACTER A 전용 태그</label><input id="charATags" type="text" placeholder="예: black hair, white shirt"></div><div class="char-separate-item" id="charBBox"><label>CHARACTER B 전용 태그</label><input id="charBTags" type="text" placeholder="2인 이상에서 사용"></div><div class="char-separate-item" id="charCBox"><label>CHARACTER C 전용 태그</label><input id="charCTags" type="text" placeholder="3인에서 사용"></div></div><div class="director-note" id="directorHint">🔒 SFW에서는 Director가 잠깁니다.</div></section>
@@ -406,7 +407,7 @@ function isNsfwGenre(){return nsfwModeOn()}
 function updateIntensityMode(){const sel=$('intensity');const hint=$('intensityHint');const nsfw=isNsfwGenre();if(sel)sel.disabled=!nsfw;if(hint)hint.textContent=nsfw?'🔥 NSFW 모드 · 수위 설정 사용 가능':'🔒 SFW 모드 · 수위 설정 잠금';updateSpecialTagAvailability();const quickbox=$('promptQuickTags');if(quickbox)quickbox.style.opacity=nsfw?'1':'.58';if(typeof updatePovTypeOptions==='function')updatePovTypeOptions();if(typeof updatePovModeHint==='function')updatePovModeHint();if(typeof updateExposureStageHint==='function')updateExposureStageHint();if(typeof updateQuickRecommendations==='function')updateQuickRecommendations();if(typeof updateQuickEffectCount==='function')updateQuickEffectCount();if(typeof updateNegativePrompt==='function')updateNegativePrompt();if(typeof updateDirectorState==='function')updateDirectorState();['recommendNatural','recommendStronger','recommendCinematic'].forEach(id=>{if($(id))$(id).disabled=!nsfw});}
 function intensityWeight(){
   const v=intensityValue();
-  return v==='light'?1:v==='dense'?2:v==='vulgar'?3:4; // extreme=4
+  return v==='light'?1:v==='dense'?2:v==='vulgar'?3:v==='extreme'?4:5; // maximum=5
 }
 
 const P=s=>s.trim()?s.split(';').map(v=>{const i=v.indexOf('|');return E(v.slice(0,i),v.slice(i+1))}):[];
@@ -426,50 +427,57 @@ mood:P(`담백한 일상 분위기|casual everyday atmosphere;조용하고 차�
 
 /* =========================================================
    NSFW 전용 풀 (수위별 가중치 적용)
-   light < dense < vulgar < extreme
+   light < dense < vulgar < extreme < maximum
 ========================================================= */
 const NSFW_COMMON = {
   expression: {
     light: P(`상기된 표정|flushed expression;살짝 열린 입|slightly open mouth;숨을 고르는 표정|breathing heavily;수줍은 상기된 표정|shy flushed expression;초조하게 입술을 깨무는 표정|biting lip nervously`),
     dense: P(`황홀한 표정|ecstatic expression;눈을 반쯤 감은 표정|half-lidded eyes, pleasure;신음하는 표정|moaning expression;아득한 표정|dazed expression of pleasure;땀에 젖은 얼굴|sweaty face, pleasure`),
     vulgar: P(`아헤가오|ahegao, tongue out;침을 흘리는 표정|drooling, pleasure;눈이 풀린 표정|rolled eyes, ahegao;미친 듯이 쾌락에 빠진 표정|mind-broken pleasure expression;혀를 내민 채 헐떡임|panting with tongue out`),
-    extreme: P(`완전 아헤가오|full ahegao, crossed eyes, tongue out;실성 직전의 표정|broken mind expression;침과 눈물이 범벅인 얼굴|face covered in drool and tears;극한의 쾌락으로 일그러진 표정|extreme pleasure, face contorted`)
+    extreme: P(`완전 아헤가오|full ahegao, crossed eyes, tongue out;실성 직전의 표정|broken mind expression;침과 눈물이 범벅인 얼굴|face covered in drool and tears;극한의 쾌락으로 일그러진 표정|extreme pleasure, face contorted`),
+    maximum: P(`숨이 가빠진 강한 감정의 얼굴|breathless intense emotional expression;눈을 감고 서로에게 집중한 표정|eyes closed, focused on partner;긴장이 풀린 황홀한 표정|overwhelmed but non-graphic intimate expression;깊은 감정에 잠긴 표정|deeply absorbed intimate expression`)
   },
   outfit: {
     light: P(`살짝 흐트러진 옷차림|slightly disheveled clothes;단추 하나 푼 셔츠|shirt with one button undone;어깨가 드러난 옷|off-shoulder clothing;허벅지가 보이는 짧은 치마|short skirt, thigh focus`),
     dense: P(`속이 비치는 란제리|see-through lingerie;가슴골이 깊게 파인 옷|deep cleavage;브래지어가 비치는 셔츠|bra visible through shirt;슬립만 입은 상태|wearing only slip;찢어진 스타킹|torn stockings`),
     vulgar: P(`거의 벗은 상태|nearly nude;가슴이 거의 드러난 옷|barely covered breasts;가터벨트와 란제리|garter belt and lingerie;젖은 티셔츠|wet t-shirt, see-through;밑이 없는 치마|skirt with no underwear`),
-    extreme: P(`완전 누드|completely nude;정액에 더럽혀진 몸|body covered in cum;속옷만 걸친 상태|wearing only underwear;밧줄에 묶인 채 벗은 몸|bound and nude;정액이 묻은 란제리|cum-stained lingerie`)
+    extreme: P(`완전 누드|completely nude;정액에 더럽혀진 몸|body covered in cum;속옷만 걸친 상태|wearing only underwear;밧줄에 묶인 채 벗은 몸|bound and nude;정액이 묻은 란제리|cum-stained lingerie`),
+    maximum: P(`크게 흐트러진 의상|heavily disheveled clothing;부분적으로 풀린 의상|partially loosened clothing;어깨와 목선이 드러난 차림|shoulders and neckline exposed;주름진 침실용 의상|rumpled intimate loungewear`)
   },
   action: {
     light: P(`상대의 손을 잡고 있다|holding hands intimately;귓가에 속삭인다|whispering into ear;어깨에 기댄다|leaning on shoulder;살짝 키스한다|light kiss;볼을 쓰다듬는다|caressing cheek`),
     dense: P(`깊게 키스하고 있다|deep kissing;옷을 벗기고 있다|undressing someone;가슴을 만지고 있다|groping breasts;허벅지를 쓰다듬는다|caressing thigh;상대를 벽에 밀어붙인다|pinning against wall`),
     vulgar: P(`섹스 중이다|having sex;삽입 중이다|penetration;오럴 섹스 중이다|oral sex;뒤에서 삽입 중이다|doggy style;상대의 머리를 잡고 있다|holding head during oral`),
-    extreme: P(`격렬한 섹스 중이다|intense sex, pounding;여러 체위로 하고 있다|multiple sex positions;정액을 잔뜩 받고 있다|covered in cum;격렬하게 서로를 밀어붙이고 있다|consensual rough sex;완전히 지배당하고 있다|completely dominated`)
+    extreme: P(`격렬한 섹스 중이다|intense sex, pounding;여러 체위로 하고 있다|multiple sex positions;정액을 잔뜩 받고 있다|covered in cum;격렬하게 서로를 밀어붙이고 있다|consensual rough sex;완전히 지배당하고 있다|completely dominated`),
+    maximum: P(`오랫동안 깊게 키스하며 서로를 끌어안는다|prolonged deep kissing and close embrace;서로의 호흡에 맞춰 몸을 밀착한다|matching breathing while holding each other close;이마와 뺨을 맞댄 채 움직임을 멈춘다|resting forehead and cheek together in still intimacy;손을 맞잡은 채 가까이 끌어안는다|holding hands while drawing into a close embrace`)
   },
   pose: {
     light: P(`상대에게 기대어 있다|leaning into someone;손을 맞잡고 있다|holding hands;가까이 서 있다|standing close;살짝 몸을 숙인다|slightly bent over`),
     dense: P(`다리를 벌리고 앉아 있다|sitting with legs spread;상대 위에 앉아 있다|sitting on someone;무릎을 꿇고 있다|kneeling in front of someone;엎드려 있다|lying on stomach, arched back`),
     vulgar: P(`개가 된 자세|all fours, doggy position;다리를 어깨에 올리고 있다|legs over shoulders;M자 자세|M-legs spread;상대에게 앉아 삽입 중이다|cowgirl position`),
-    extreme: P(`완전히 구속된 자세|fully bound pose;다리가 벌어져 고정된 자세|legs forced open;공중으로 들어올려진 자세|lifted and penetrated;여러 명에게 둘러싸인 자세|surrounded, gangbang pose`)
+    extreme: P(`완전히 구속된 자세|fully bound pose;다리가 벌어져 고정된 자세|legs forced open;공중으로 들어올려진 자세|lifted and penetrated;여러 명에게 둘러싸인 자세|surrounded, gangbang pose`),
+    maximum: P(`서로의 몸을 가까이 감싸 안은 자세|closely entwined embrace;침대나 소파 가장자리에 밀착해 앉은 자세|sitting pressed close at bed or sofa edge;한 명이 다른 한 명의 어깨와 허리를 감싼 자세|one wrapping arms around the other's shoulders and waist;서로 기대어 균형을 나누는 자세|leaning into each other and sharing balance`)
   },
   gaze: {
     light: P(`상대를 유혹하듯 바라봄|seductive gaze;초조한 눈빛|nervous aroused gaze;상기된 눈으로 바라봄|flushed eyes looking at partner`),
     dense: P(`욕망에 찬 눈빛|lustful gaze;상대를 갈구하는 눈빛|needy gaze;쾌락에 젖은 눈|eyes filled with pleasure`),
     vulgar: P(`완전히 풀린 눈|glazed over eyes of pleasure;상대를 올려다보는 복종적인 눈|submissive upward gaze;아헤가오 눈|ahegao eyes`),
-    extreme: P(`실성한 눈|broken empty eyes of pleasure;극한의 쾌락으로 초점이 나간 눈|unfocused eyes from extreme pleasure`)
+    extreme: P(`실성한 눈|broken empty eyes of pleasure;극한의 쾌락으로 초점이 나간 눈|unfocused eyes from extreme pleasure`),
+    maximum: P(`상대에게 오래 머무는 강한 시선|long intense gaze fixed on partner;가까운 거리에서 부드럽게 풀린 눈빛|softened eyes at very close distance;감정을 숨기지 않는 깊은 시선|deep unguarded gaze`)
   },
   prop: {
     light: P(`와인잔|wine glass;촛불|candle;실크 스카프|silk scarf`),
     dense: P(`수갑|handcuffs;안대|blindfold;로프|rope;바이브레이터|vibrator`),
     vulgar: P(`딜도|dildo;채찍|whip;재갈|gag;목줄|collar and leash`),
-    extreme: P(`여러 개의 장난감|multiple sex toys;정액이 묻은 수건|cum-stained towel;구속 기구|full bondage gear`)
+    extreme: P(`여러 개의 장난감|multiple sex toys;정액이 묻은 수건|cum-stained towel;구속 기구|full bondage gear`),
+    maximum: P(`구겨진 이불|rumpled bedding;실크 리본|silk ribbon;떨어진 외투|discarded outer coat;희미한 무드등|dim bedside lamp`)
   },
   mood: {
     light: P(`은밀하고 설레는 분위기|secretive romantic tension;달콤한 밤 분위기|sweet intimate night atmosphere`),
     dense: P(`욕망이 가득한 분위기|lust-filled atmosphere;숨이 가쁜 긴장감|breathless sexual tension`),
     vulgar: P(`노골적인 성욕의 분위기|explicit sexual atmosphere;타락한 분위기|depraved atmosphere`),
-    extreme: P(`극한의 쾌락과 타락|extreme pleasure and corruption;완전한 지배와 복종|total domination and submission atmosphere`)
+    extreme: P(`극한의 쾌락과 타락|extreme pleasure and corruption;완전한 지배와 복종|total domination and submission atmosphere`),
+    maximum: P(`감정과 거리감이 완전히 가까워진 성인 로맨스 분위기|intense adult romantic intimacy;숨소리와 체온에 집중되는 조용한 분위기|quiet atmosphere focused on breath and warmth;장면의 감정 밀도가 가장 높은 분위기|maximum emotional intimacy without graphic action`)
   }
 };
 
@@ -906,6 +914,71 @@ const NSFW_CATEGORY_BY_GENRE = {
       lighting:P(`횃불과 깊은 그림자|torchlight and deep shadow;낮은 천장의 압박감 있는 빛|low oppressive lighting`),
       mood:P(`권력관계가 선명한 밀도 높은 긴장감|power-heavy intimate tension;질문과 복종이 엮인 분위기|atmosphere of questioning and submission`),
       composition:P(`돌 테이블 원근을 이용한 로우앵글|low-angle composition using stone table;한 명을 내려다보는 압박 구도|dominating composition looking down on partner`)
+    },
+    inhuman_tentacle: {
+      label:'인외 · 촉수형 생명체',
+      background:P(`생체 촉수가 자라는 고대 동굴|ancient cavern with living tendrils;희미하게 발광하는 촉수 숲|bioluminescent tendril grove;검은 수조와 유리관이 있는 이형 연구실|eldritch laboratory with dark tanks and glass tubes`),
+      outfit:P(`방수 망토와 가벼운 탐사복|water-resistant cloak and light expedition wear;찢어지지 않는 밀착형 탐사복|durable fitted exploration suit;어두운 마도사 로브|dark mage robe`),
+      action:P(`촉수가 팔과 허리 주변을 조심스럽게 감싼다|living tendrils carefully coil around arms and waist;촉수 끝이 손끝을 따라 움직이며 반응을 살핀다|tendril tips follow hand movements curiously;여러 촉수가 주변 바닥과 벽을 타고 인물을 둘러싼다|multiple tendrils spread across floor and walls around the character`),
+      pose:P(`촉수 사이에서 균형을 잡고 선 자세|standing balanced among living tendrils;한쪽 손으로 촉수를 밀어내며 몸을 비튼 자세|twisting body while guiding a tendril away;촉수에 둘러싸인 채 상체를 세운 자세|upright pose surrounded by tendrils`),
+      gaze:P(`정체를 파악하려는 경계 어린 시선|wary investigative gaze;움직이는 촉수를 따라가는 집중한 시선|focused gaze following moving tendrils`),
+      expression:P(`긴장과 호기심이 섞인 표정|expression mixing tension and curiosity;차가운 감촉에 놀란 얼굴|startled expression at the cold touch`),
+      prop:P(`발광 점액|bioluminescent gel;고대 봉인석|ancient sealing stone;유리 표본관|glass specimen tube`),
+      lighting:P(`청록색 생체 발광|teal bioluminescence;깊은 그림자와 발광 촉수|deep shadows with glowing tendrils`),
+      mood:P(`낯선 생명체와의 밀도 높은 조우|intense encounter with an unknown lifeform;기묘하고 몽환적인 생체 공간|strange dreamlike biological atmosphere`),
+      composition:P(`촉수를 전경 프레임으로 활용한 인물 구도|figure composition framed by tendrils;여러 곡선을 활용한 역동적인 중앙 구도|dynamic centered composition using curved tendrils`)
+    },
+    inhuman_dragon: {
+      label:'인외 · 드래곤형',
+      background:P(`용의 둥지가 있는 거대한 석굴|vast stone cavern with dragon nest;보물과 수정이 쌓인 용의 보금자리|dragon lair filled with treasure and crystals;붉은 달 아래 절벽 위 용의 성역|dragon sanctuary on cliff under red moon`),
+      outfit:P(`비늘 장식이 들어간 판타지 의상|fantasy attire with scale ornaments;가죽 탐험복과 긴 망토|leather expedition wear with long cloak;금속 장식의 의식복|ceremonial wear with metallic accents`),
+      action:P(`거대한 날개가 인물 뒤를 감싸듯 펼쳐진다|large wings spread protectively behind the character;용의 꼬리가 바닥을 둥글게 감아 공간을 만든다|dragon tail curves around the floor creating a boundary;비늘 달린 손이 조심스럽게 손등에 닿는다|scaled hand carefully touches the back of a hand`),
+      pose:P(`거대한 날개 아래 가까이 선 자세|standing close beneath large wings;꼬리로 둘러싸인 공간 안에 선 자세|standing within a space encircled by a tail;높은 바위 단 위를 올려다보는 자세|looking upward toward a raised stone ledge`),
+      gaze:P(`황금빛 세로동공과 마주치는 시선|eye contact with golden slit pupils;위압적이지만 침착한 시선|commanding yet calm gaze`),
+      expression:P(`긴장을 숨기며 침착한 얼굴|calm face hiding tension;압도된 듯 숨을 삼키는 표정|awed expression holding breath`),
+      prop:P(`붉은 수정|red crystal;고대 금화|ancient gold coins;용의 비늘 조각|shed dragon scale`),
+      lighting:P(`용암과 수정의 붉은 반사광|red reflections from lava and crystals;달빛을 받은 비늘 광택|moonlit scale highlights`),
+      mood:P(`압도적인 존재감과 기묘한 신뢰가 공존하는 분위기|atmosphere mixing overwhelming presence and strange trust;고대의 마력이 짙은 밀도|dense ancient magical atmosphere`),
+      composition:P(`날개와 꼬리의 곡선을 크게 살린 와이드 구도|wide composition emphasizing wings and tail curves;인간과 거대한 인외 존재의 크기 차이를 보여주는 구도|scale-contrast composition between human and immense nonhuman figure`)
+    },
+    inhuman_slime: {
+      label:'인외 · 슬라임형',
+      background:P(`발광 슬라임이 흐르는 수정 동굴|crystal cave with glowing slime streams;마도 연구소의 격리 수조|arcane laboratory containment tank;푸른 점액이 번지는 지하 유적|underground ruin with blue translucent slime`),
+      outfit:P(`방수 탐사복|water-resistant expedition suit;가벼운 마법 보호복|light magical protective wear;얇은 후드 로브|thin hooded robe`),
+      action:P(`반투명 점액이 손목과 발목 주변에 모인다|translucent slime gathers around wrists and ankles;슬라임이 옷자락을 따라 천천히 올라온다|slime slowly climbs along the edge of clothing;작은 슬라임 덩어리들이 움직임을 따라 모양을 바꾼다|small slime masses change shape following movement`),
+      pose:P(`미끄러운 바닥에서 균형을 잡는 자세|balancing on a slippery floor;한쪽 발을 뒤로 빼며 점액을 피하는 자세|stepping back from spreading slime;손을 들어 점액을 관찰하는 자세|raising a hand to inspect translucent slime`),
+      gaze:P(`투명한 내부를 관찰하는 호기심 어린 시선|curious gaze studying the translucent interior;움직임을 예측하려는 집중한 눈빛|focused gaze predicting its movement`),
+      expression:P(`차가운 감촉에 놀란 표정|surprised by the cool texture;기묘한 촉감에 당황한 얼굴|confused expression at the strange texture`),
+      prop:P(`마력 측정기|arcane measuring device;유리 플라스크|glass flask;결정 파편|crystal shard`),
+      lighting:P(`푸른 반투명 발광|blue translucent glow;수정 반사광과 점액의 은은한 빛|crystal reflections and soft slime glow`),
+      mood:P(`기묘하지만 위험하지 않은 호기심의 분위기|strange but nonthreatening curiosity;말랑하고 몽환적인 판타지 질감|soft dreamlike fantasy texture`),
+      composition:P(`반투명 점액을 전경에 둔 클로즈 구도|close composition with translucent slime in foreground;수정과 점액 반사를 활용한 몽환적 구도|dreamlike composition using crystal and slime reflections`)
+    },
+    inhuman_eldritch: {
+      label:'인외 · 이형 마족',
+      background:P(`검은 성문이 열린 마족의 전당|demonic hall with black gate;기괴한 문양이 떠 있는 어두운 회랑|dark corridor with floating eldritch sigils;붉은 안개가 깔린 마계 정원|demonic garden covered in red mist`),
+      outfit:P(`검은 로브와 금속 장식|black robe with metal ornaments;뿔과 날개에 어울리는 고딕 판타지 의상|gothic fantasy attire complementing horns and wings;붉은 안감의 긴 코트|long coat with crimson lining`),
+      action:P(`그림자 같은 팔이 뒤에서 공간을 감싼다|shadow-like arms frame the space from behind;검은 깃털과 마력이 주변을 천천히 돈다|black feathers and magic drift slowly around;뿔 달린 인외 존재가 가까운 거리에서 눈높이를 맞춘다|horned nonhuman figure lowers to meet eye level at close distance`),
+      pose:P(`날개가 반쯤 펼쳐진 정면 자세|front-facing pose with wings half spread;그림자 속에서 몸을 약간 숙인 자세|slightly lowered posture emerging from shadow;긴 꼬리가 바닥에 곡선을 그린 자세|long tail curved across the floor`),
+      gaze:P(`빛나는 이형의 눈동자|glowing inhuman eyes;상대 반응을 살피는 느긋한 시선|calm observant gaze watching the other person`),
+      expression:P(`위험한 여유가 있는 미소|dangerously relaxed smile;감정을 읽기 어려운 무표정|unreadable neutral expression`),
+      prop:P(`검은 깃털|black feathers;마력 결정|arcane crystal;봉인 사슬|sealing chain`),
+      lighting:P(`붉은 안개와 검은 역광|red mist and dark backlight;보랏빛 마력광|violet magical glow`),
+      mood:P(`낯선 종족 간의 긴장과 호기심|tension and curiosity between different species;위험하지만 통제된 마계 분위기|dangerous but controlled demonic atmosphere`),
+      composition:P(`뿔과 날개 실루엣을 강조한 역광 구도|backlit composition emphasizing horn and wing silhouette;그림자 팔을 프레임처럼 사용한 인물 구도|figure composition framed by shadow-like arms`)
+    },
+    inhuman_shapeshifter: {
+      label:'인외 · 변이체 / 변신형',
+      background:P(`거울이 많은 마법 실험실|magical laboratory filled with mirrors;달빛 아래 폐허가 된 회랑|ruined corridor under moonlight;변신 마법진이 남은 방|room with residual transformation circle`),
+      outfit:P(`변신 중 형태가 바뀌는 판타지 의상|fantasy clothing shifting during transformation;검은 셔츠와 긴 외투|black shirt and long coat;마력 문양이 새겨진 로브|robe marked with magical sigils`),
+      action:P(`팔과 어깨 일부가 비늘이나 그림자로 변한다|parts of arms and shoulders transform into scales or shadow;거울 속 모습과 실제 모습이 다르게 비친다|reflection shows a different form from reality;손끝이 발톱 형태로 변했다가 다시 돌아온다|fingertips shift into claws then return`),
+      pose:P(`변화하는 손을 바라보며 선 자세|standing while watching a transforming hand;거울 앞에서 몸을 반쯤 돌린 자세|half-turned pose before a mirror;한쪽 날개만 펼쳐진 불완전한 변신 자세|partial transformation with one wing extended`),
+      gaze:P(`거울 속 다른 자신을 바라보는 시선|gaze fixed on a different reflection;변화를 숨기려는 경계 어린 눈빛|wary gaze trying to conceal transformation`),
+      expression:P(`변화를 통제하려는 집중한 얼굴|focused expression controlling transformation;낯선 감각에 당황한 표정|unsettled expression at unfamiliar sensations`),
+      prop:P(`깨진 거울|cracked mirror;마력 촉매석|magical catalyst stone;변신 문양|transformation sigil`),
+      lighting:P(`달빛과 거울 반사광|moonlight and mirror reflections;변신 마법의 보랏빛 잔광|violet afterglow of transformation magic`),
+      mood:P(`정체성이 흔들리는 몽환적 긴장|dreamlike tension of shifting identity;낯선 신체 변화에 대한 호기심|curiosity toward unfamiliar bodily transformation`),
+      composition:P(`거울 반사를 활용한 이중 구도|dual composition using mirror reflection;변화 전후 실루엣을 겹쳐 보이는 구도|composition overlapping pre- and post-transformation silhouettes`)
     }
   },
   guideverse: {
@@ -1032,7 +1105,7 @@ const NSFW_CATEGORY_BY_GENRE = {
 
 const NSFW_CATEGORY_FAMILY_MAP = {
   modern:{office_afterhours:'office',office_elevator:'office',office_storage:'office',office_meeting:'office',office_executive:'office',office_copyroom:'office',office_breakroom:'office',outdoor_park:'outdoor',outdoor_rooftop:'outdoor',outdoor_alley:'outdoor',outdoor_balcony:'outdoor',outdoor_car:'outdoor',outdoor_stairwell:'outdoor'},
-  fantasy:{dark_ritual:'dark',dark_demon:'dark',dark_cathedral:'dark',dark_throne:'dark',dark_library:'dark',dark_garden:'dark',dungeon_restraint:'dungeon',dungeon_training:'dungeon',dungeon_cell:'dungeon',dungeon_throne:'dungeon',dungeon_cage:'dungeon',dungeon_interrogation:'dungeon'},
+  fantasy:{dark_ritual:'dark',dark_demon:'dark',dark_cathedral:'dark',dark_throne:'dark',dark_library:'dark',dark_garden:'dark',dungeon_restraint:'dungeon',dungeon_training:'dungeon',dungeon_cell:'dungeon',dungeon_throne:'dungeon',dungeon_cage:'dungeon',dungeon_interrogation:'dungeon',inhuman_tentacle:'inhuman',inhuman_dragon:'inhuman',inhuman_slime:'inhuman',inhuman_eldritch:'inhuman',inhuman_shapeshifter:'inhuman'},
   guideverse:{guide_guiding:'guide',guide_aftermath:'guide',guide_emergency:'guide',guide_isolation:'guide',guide_observation:'guide',guide_recovery:'guide',guide_nightshift:'guide',guide_dorm:'guide',dungeon_restraint:'dungeon',dungeon_training:'dungeon'},
   period:{period_restraint:'period',period_training:'period',period_cell:'period',period_ritual:'period',period_cathedral:'period',period_throne:'period',period_cell_bedchamber:'period',period_training_pavilion:'period',period_ritual_shrine:'period',period_throne_banquet:'period'}
 };
@@ -1083,6 +1156,15 @@ const NSFW_PROFILE_SUPPLEMENTS = {
     lighting:P(`모니터 블루라이트|blue monitor light;센터 야간 간접등|soft night lighting in center;붉은 비상등과 흰 의료등|red emergency light with white medical light;관찰창 너머 복도빛|hallway light through observation glass`),
     mood:P(`안정화와 친밀감의 경계가 흐려지는 순간|boundary between stabilization and intimacy blurring;위기 뒤 찾아온 의존적인 평온|dependent calm after crisis;차가운 시설 안에서 유독 가까운 체온감|warm closeness inside a clinical facility`),
     composition:P(`손과 센서를 함께 담은 근접 구도|close framing of hands and sensor;모니터 빛을 받은 얼굴 중심 투샷|face-focused two-shot lit by monitors;침상이나 관찰창을 배경에 둔 상반신 구도|upper-body composition with bed or observation window behind`)
+  },
+  inhuman:{
+    outfit:P(`마법 보호 장비가 더해진 탐사복|expedition wear with magical protection;비늘과 결정 장식의 판타지 의상|fantasy attire with scale and crystal accents;가벼운 방수 망토|light waterproof cloak;이형 생명체 관찰용 보호복|protective wear for observing unknown lifeforms`),
+    gaze:P(`낯선 움직임을 추적하는 집중한 시선|focused gaze tracking unfamiliar movement;경계와 호기심이 섞인 시선|gaze mixing caution and curiosity;눈앞의 인외 존재와 조심스럽게 시선을 맞춘다|careful eye contact with a nonhuman being`),
+    expression:P(`낯선 촉감과 존재감에 놀란 얼굴|surprised by unfamiliar texture and presence;긴장을 유지하며 침착한 표정|calm expression while staying alert;호기심이 드러나는 미세한 미소|subtle curious smile`),
+    prop:P(`마력 측정기|arcane scanner;보호 부적|protective charm;결정 표본|crystal specimen;봉인석|sealing stone`),
+    lighting:P(`생체 발광과 마력광|bioluminescence and magical glow;보랏빛 저조도|dim violet lighting;수정 반사광|crystal reflections`),
+    mood:P(`인간과 인외 존재 사이의 낯선 긴장감|uncanny tension between human and nonhuman beings;위험을 통제한 탐색적 분위기|controlled exploratory atmosphere;몽환적인 판타지 생태 공간|dreamlike fantasy ecosystem`),
+    composition:P(`인외 신체 특징을 프레임으로 활용한 구도|composition framed by nonhuman anatomy;인간과 인외 존재의 크기·질감 대비를 강조한 구도|composition emphasizing scale and texture contrast between human and nonhuman forms`)
   },
   period:{
     outfit:P(`비단 겉옷이 살짝 흐트러진 차림|slightly loosened silk outer robe;흰 속적삼과 전통 띠|white traditional underlayer with sash;검은 도포와 붉은 장식|dark robe with red ornament;자수 저고리와 느슨한 고름|embroidered jeogori with loosened ribbon`),
@@ -1138,7 +1220,12 @@ const NSFW_CATEGORY_MICRO_SUPPLEMENTS = {
     dungeon_training:{action:P(`가이딩 반응 수치를 보며 훈련 단계를 조절한다|adjusting training stage according to guiding response;사전 합의한 중단 신호를 다시 확인한다|reconfirming agreed stop signal before continuing`)}
   },
   period:{
-    period_restraint:{action:P(`비단 띠의 매듭을 천천히 확인한다|slowly checking knots of silk sash;손목 아래에 천을 덧대어 편하게 고정한다|padding beneath wrists before securing silk ties`)},
+    inhuman_tentacle:{outfit:[/business suit|school uniform|hospital gown|office attire/],prop:[/steering wheel|office copier|iv stand|smartphone/],action:[/driving|typing|office meeting|medical procedure/]},
+  inhuman_dragon:{outfit:[/business suit|school uniform|hospital gown|office attire/],prop:[/office copier|iv stand|shopping cart/],background:[/office|hospital|classroom/]},
+  inhuman_slime:{outfit:[/business suit|full armor|heavy coat/],prop:[/office copier|steering wheel|iv stand/],action:[/driving|office meeting|battle stance/]},
+  inhuman_eldritch:{outfit:[/business suit|school uniform|hospital gown/],prop:[/office copier|iv stand|shopping cart/],background:[/office|hospital|classroom/]},
+  inhuman_shapeshifter:{outfit:[/hospital gown|office uniform/],prop:[/office copier|iv stand/],background:[/office break room|hospital ward/]},
+  period_restraint:{action:P(`비단 띠의 매듭을 천천히 확인한다|slowly checking knots of silk sash;손목 아래에 천을 덧대어 편하게 고정한다|padding beneath wrists before securing silk ties`)},
     period_training:{action:P(`정해 둔 예법 신호를 확인한 뒤 자세를 가르친다|checking agreed etiquette signal before guiding posture;낮은 목소리로 하나씩 지시하며 반응을 살핀다|giving quiet step-by-step directions while watching response`)},
     period_cell:{action:P(`별채 문빗장을 걸고 등잔을 가까이 가져온다|bolting annex door and bringing lamp closer;창호지 밖 인기척을 확인한 뒤 다시 마주 앉는다|checking sounds beyond paper door then sitting face to face`)},
     period_ritual:{action:P(`제의 문양 위에 붉은 실을 함께 놓는다|placing red thread together over ritual sigil;향 연기가 잦아들 때까지 손끝을 맞댄다|keeping fingertips together until incense thins`)},
@@ -1153,7 +1240,7 @@ const NSFW_CATEGORY_MICRO_SUPPLEMENTS = {
 
 const NSFW_CATEGORY_PROFILE_MAP = {
   modern:{office_afterhours:'office_desk',office_elevator:'confined_vertical',office_storage:'confined_shelves',office_meeting:'office_table',office_executive:'office_luxury',office_copyroom:'office_machine',office_breakroom:'lounge',outdoor_park:'outdoor_nature',outdoor_rooftop:'outdoor_height',outdoor_alley:'outdoor_urban',outdoor_balcony:'outdoor_height',outdoor_car:'vehicle',outdoor_stairwell:'stairwell'},
-  fantasy:{dark_ritual:'ritual',dark_demon:'demonic',dark_cathedral:'sacred_dark',dark_throne:'throne_dark',dark_library:'library_dark',dark_garden:'garden_dark',dungeon_restraint:'restraint',dungeon_training:'training',dungeon_cell:'cell',dungeon_throne:'throne_dungeon',dungeon_cage:'cage',dungeon_interrogation:'interrogation'},
+  fantasy:{dark_ritual:'ritual',dark_demon:'demonic',dark_cathedral:'sacred_dark',dark_throne:'throne_dark',dark_library:'library_dark',dark_garden:'garden_dark',dungeon_restraint:'restraint',dungeon_training:'training',dungeon_cell:'cell',dungeon_throne:'throne_dungeon',dungeon_cage:'cage',dungeon_interrogation:'interrogation',inhuman_tentacle:'inhuman_tentacle',inhuman_dragon:'inhuman_dragon',inhuman_slime:'inhuman_slime',inhuman_eldritch:'inhuman_eldritch',inhuman_shapeshifter:'inhuman_shapeshifter'},
   guideverse:{guide_guiding:'medical_guiding',guide_aftermath:'recovery',guide_emergency:'emergency',guide_isolation:'isolation',guide_observation:'observation',guide_recovery:'recovery',guide_nightshift:'nightshift',guide_dorm:'dorm',dungeon_restraint:'restraint',dungeon_training:'training'},
   period:{period_restraint:'period_restraint',period_training:'period_training',period_cell:'period_cell',period_ritual:'period_ritual',period_cathedral:'period_shrine',period_throne:'period_court',period_cell_bedchamber:'period_bed',period_training_pavilion:'period_study',period_ritual_shrine:'period_shrine',period_throne_banquet:'period_court'}
 };
@@ -1164,14 +1251,14 @@ const QUICK_TAG_LABELS = {
 
 const NSFW_QUICK_RECOMMENDATIONS = {
   office_desk:['hickey','lipstick mark','sweat'],confined_vertical:['shaky lines','speed lines','hickey','sweat'],confined_shelves:['shaky lines','hickey','scratch marks'],office_table:['focus lines','hickey','lipstick mark'],office_luxury:['dynamic angle','hickey','lipstick mark','sweat'],office_machine:['shaky lines','hickey','sweat'],lounge:['hickey','lipstick mark','sweat'],outdoor_nature:['speed lines','shaky lines','sweat','hickey'],outdoor_height:['dynamic angle','speed lines','hickey','sweat'],outdoor_urban:['shaky lines','speed lines','hickey','scratch marks'],vehicle:['shaky lines','motion blur','hickey','sweat'],stairwell:['shaky lines','speed lines','hickey','sweat'],
-  ritual:['focus lines','dashed lines','hickey','saliva'],demonic:['impact lines','shaky lines','bite mark','scratch marks'],sacred_dark:['focus lines','hickey','lipstick mark','saliva'],throne_dark:['dynamic angle','hickey','bite mark','sweat'],library_dark:['focus lines','hickey','lipstick mark'],garden_dark:['hickey','lipstick mark','sweat'],restraint:['shaky lines','impact lines','bite mark','scratch marks'],training:['speed lines','shaky lines','impact lines','sweat'],cell:['shaky lines','hickey','scratch marks','saliva'],throne_dungeon:['dynamic angle','impact lines','bite mark','sweat'],cage:['shaky lines','dashed lines','scratch marks','sweat'],interrogation:['focus lines','impact lines','hickey','sweat'],
+  ritual:['focus lines','dashed lines','hickey','saliva'],demonic:['impact lines','shaky lines','bite mark','scratch marks'],sacred_dark:['focus lines','hickey','lipstick mark','saliva'],throne_dark:['dynamic angle','hickey','bite mark','sweat'],library_dark:['focus lines','hickey','lipstick mark'],garden_dark:['hickey','lipstick mark','sweat'],restraint:['shaky lines','impact lines','bite mark','scratch marks'],training:['speed lines','shaky lines','impact lines','sweat'],cell:['shaky lines','hickey','scratch marks','saliva'],throne_dungeon:['dynamic angle','impact lines','bite mark','sweat'],cage:['shaky lines','dashed lines','scratch marks','sweat'],interrogation:['focus lines','impact lines','hickey','sweat'],inhuman_tentacle:['focus lines','dynamic angle','shaky lines'],inhuman_dragon:['dynamic angle','focus lines','speed lines'],inhuman_slime:['focus lines','motion blur','shaky lines'],inhuman_eldritch:['dynamic angle','focus lines','dashed lines'],inhuman_shapeshifter:['motion blur','focus lines','dynamic angle'],
   medical_guiding:['shaky lines','focus lines','sweat','saliva'],recovery:['hickey','sweat','saliva'],emergency:['speed lines','shaky lines','motion blur','sweat'],isolation:['hickey','focus lines','sweat'],observation:['focus lines','shaky lines','sweat'],nightshift:['hickey','sweat','lipstick mark'],dorm:['hickey','lipstick mark','sweat','saliva'],
   period_restraint:['shaky lines','bite mark','scratch marks','sweat'],period_training:['shaky lines','hickey','sweat'],period_cell:['dashed lines','shaky lines','hickey'],period_ritual:['focus lines','dashed lines','hickey'],period_shrine:['focus lines','hickey','lipstick mark'],period_court:['dynamic angle','hickey','lipstick mark','sweat'],period_bed:['hickey','lipstick mark','sweat','saliva'],period_study:['focus lines','hickey','sweat']
 };
 
 const NSFW_EXPOSURE_STAGE = {
   office_desk:'partial', confined_vertical:'partial', confined_shelves:'partial', office_table:'partial', office_luxury:'partial', office_machine:'partial', vehicle:'partial', stairwell:'partial', observation:'partial', nightshift:'partial', emergency:'partial', period_study:'partial', period_court:'partial',
-  lounge:'medium', outdoor_nature:'medium', outdoor_height:'medium', outdoor_urban:'medium', library_dark:'medium', garden_dark:'medium', medical_guiding:'medium', recovery:'medium', isolation:'medium', sacred_dark:'medium', period_shrine:'medium', period_ritual:'medium',
+  lounge:'medium', outdoor_nature:'medium', outdoor_height:'medium', outdoor_urban:'medium', library_dark:'medium', garden_dark:'medium', medical_guiding:'medium', recovery:'medium', isolation:'medium', sacred_dark:'medium', period_shrine:'medium', period_ritual:'medium', inhuman_tentacle:'partial', inhuman_dragon:'partial', inhuman_slime:'partial', inhuman_eldritch:'partial', inhuman_shapeshifter:'partial',
   dorm:'full', period_bed:'full', restraint:'full', training:'full', cell:'full', cage:'full', interrogation:'full', ritual:'full', demonic:'full', throne_dark:'full', throne_dungeon:'full', period_restraint:'full', period_training:'full', period_cell:'full'
 };
 function currentExposureStage(){return isNsfwGenre()?(NSFW_EXPOSURE_STAGE[currentCategoryProfile()]||'medium'):'locked'}
@@ -1285,6 +1372,10 @@ function quickRecommendationCandidates(){
   if(w>=3 && /mouth|oral|open mouth|입|구강/.test(currentText))rec.push('open mouth, concentrated white turbidity in mouth, blush');
 
   rec=[...new Set(rec)];
+  if(intensityValue()==='maximum'){
+    const allowedMaximum=new Set(['speed lines','shaky lines','dashed lines','motion blur','action lines','impact lines','focus lines','dynamic angle','hickey','lipstick mark','sweat','loosened clothes','unbuttoned shirt','open shirt','slipped strap']);
+    rec=rec.filter(x=>allowedMaximum.has(x));
+  }
   if(!malePossible)rec=rec.filter(x=>!maleAnatomyTags().includes(x));
   if(!femalePossible)rec=rec.filter(x=>x!=='bra visible');
   if(rec.includes('fully nude'))rec=rec.filter(x=>!['naked','nude','shirtless','topless','bottomless',...partialExposureTags()].includes(x));
@@ -2449,13 +2540,18 @@ function poolFor(type){
   const inten = intensityValue();
   const nsfwLevels = ['light','dense','vulgar','extreme'];
   const maxIdx = nsfwLevels.indexOf(inten);
-  if(isNsfwGenre() && NSFW_COMMON[type] && maxIdx >= 0){
-    // 선택한 수위까지 포함 (낮은 수위는 항상 포함, 높은 수위는 가중치)
-    for(let i=0; i<=maxIdx; i++){
-      const level = nsfwLevels[i];
-      const pool = NSFW_COMMON[type][level] || [];
-      const weight = (i === maxIdx) ? (3 + intensityWeight()) : 1;
-      for(let w=0; w<weight; w++) base.push(...pool);
+  if(isNsfwGenre() && NSFW_COMMON[type]){
+    if(inten==='maximum'){
+      const pool=NSFW_COMMON[type].maximum||[];
+      for(let w=0;w<10;w++) base.push(...pool);
+    }else if(maxIdx>=0){
+      // 선택한 수위까지 포함 (낮은 수위는 항상 포함, 높은 수위는 가중치)
+      for(let i=0; i<=maxIdx; i++){
+        const level = nsfwLevels[i];
+        const pool = NSFW_COMMON[type][level] || [];
+        const weight = (i === maxIdx) ? (3 + intensityWeight()) : 1;
+        for(let w=0; w<weight; w++) base.push(...pool);
+      }
     }
   }
 
