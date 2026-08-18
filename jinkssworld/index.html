@@ -179,6 +179,62 @@ body.has-nsfw-banner{padding-top:58px}
   </div>
 </div>
 
+<script>
+/* Standalone age gate: intentionally initialized before the main app. */
+(function(){
+  const KEY='nsfw_asset_gacha_age_ok_v1';
+  const gate=document.getElementById('ageGate');
+  const check=document.getElementById('ageCheck');
+  const enter=document.getElementById('ageEnter');
+  const exit=document.getElementById('ageExit');
+  const denied=document.getElementById('ageDenied');
+  if(!gate||!check||!enter||!exit) return;
+
+  document.body.classList.add('has-nsfw-banner');
+
+  const storageGet=()=>{
+    try{return window.localStorage.getItem(KEY)}catch(_){return null}
+  };
+  const storageSet=()=>{
+    try{window.localStorage.setItem(KEY,'1')}catch(_){/* 입장은 저장 실패와 무관하게 허용 */}
+  };
+  const syncEnter=()=>{
+    enter.disabled=!check.checked;
+    enter.setAttribute('aria-disabled',enter.disabled?'true':'false');
+  };
+  const allowEntry=()=>{
+    if(!check.checked) return;
+    storageSet();
+    gate.classList.add('hidden');
+    gate.setAttribute('aria-hidden','true');
+    document.documentElement.style.overflow='';
+    document.body.style.overflow='';
+  };
+
+  if(storageGet()==='1'){
+    gate.classList.add('hidden');
+    gate.setAttribute('aria-hidden','true');
+    return;
+  }
+
+  gate.setAttribute('aria-hidden','false');
+  syncEnter();
+  check.addEventListener('change',syncEnter);
+  check.addEventListener('input',syncEnter);
+  enter.addEventListener('click',function(e){e.preventDefault();allowEntry()});
+  check.addEventListener('keydown',function(e){
+    if(e.key==='Enter'&&check.checked){e.preventDefault();allowEntry()}
+  });
+  exit.addEventListener('click',function(e){
+    e.preventDefault();
+    if(denied) denied.classList.add('show');
+    enter.disabled=true;
+    check.disabled=true;
+    exit.disabled=true;
+  });
+})();
+</script>
+
 <div class="page">
 <section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v1.1 · NSFW</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 수위(가벼운~하늘나라)를 선택할 수 있으며, 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능합니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
 <section class="panel"><div class="head"><div><h2 class="title">01 · 장르와 카테고리</h2><p class="desc">장르는 현대물 / 판타지 / 가이드버스 / 시대물 중에서 고르고, NSFW 버튼으로 SFW/NSFW 모드를 전환합니다. NSFW를 켜면 세부 카테고리도 성인용 전용 목록으로 바뀝니다.</p></div></div><div class="select-grid"><div class="field"><label>장르</label><select id="genre">
@@ -2812,40 +2868,6 @@ console.info('Guestbook/Analytics endpoint:',GUESTBOOK_WEB_APP_URL);
 console.info('[Asset Gacha v2] counter endpoint:',GUESTBOOK_WEB_APP_URL+'?kind=counter');
 console.info('[Asset Gacha v2] counter transport: hidden iframe postMessage + JSONP fallback');
 
-/* =========================================================
-   NSFW Age Gate
-========================================================= */
-(function initAgeGate(){
-  const KEY='nsfw_asset_gacha_age_ok_v1';
-  const gate=$('ageGate');
-  const check=$('ageCheck');
-  const enter=$('ageEnter');
-  const exit=$('ageExit');
-  const denied=$('ageDenied');
-  document.body.classList.add('has-nsfw-banner');
-
-  if(localStorage.getItem(KEY)==='1'){
-    gate.classList.add('hidden');
-    return;
-  }
-
-  check.addEventListener('change',()=>{
-    enter.disabled=!check.checked;
-  });
-
-  enter.addEventListener('click',()=>{
-    if(!check.checked) return;
-    localStorage.setItem(KEY,'1');
-    gate.classList.add('hidden');
-  });
-
-  exit.addEventListener('click',()=>{
-    denied.classList.add('show');
-    enter.disabled=true;
-    check.disabled=true;
-    exit.disabled=true;
-  });
-})();
 
 createCards();
 populateScenePresetOptions(false);
