@@ -2015,6 +2015,28 @@ function updatePromptDiagnostics(){
 }
 
 const POPULAR_CALLBACK='__assetGachaPopularAck';
+const POPULAR_BRIDGE_TYPE='nsfw-asset-gacha-recommendations-v1';
+const POPULAR_BRIDGE_TOKEN='nsfw-asset-gacha-recommend-v1';
+let popularFrame=null;
+function ensurePopularFrame(){
+  if(popularFrame&&document.body.contains(popularFrame))return popularFrame;
+  popularFrame=document.createElement('iframe');
+  popularFrame.id='popularRecommendationFrame';
+  popularFrame.title='통계 추천 연결';
+  popularFrame.style.cssText='display:none;width:0;height:0;border:0;position:absolute;left:-9999px';
+  document.body.appendChild(popularFrame);
+  return popularFrame;
+}
+function requestPopularFrame(seq){
+  try{
+    if(!GUESTBOOK_WEB_APP_URL)return false;
+    const frame=ensurePopularFrame();
+    const params=new URLSearchParams({kind:'recommendationsframe',token:POPULAR_BRIDGE_TOKEN,genre:genre.value||'',people:String(characterCount()),category:category.value||'',povType:isPovMode()?analyticsPovType():'',_:String(Date.now())});
+    frame.dataset.seq=String(seq||popularRequestSeq);
+    frame.src=GUESTBOOK_WEB_APP_URL+'?'+params.toString();
+    return true;
+  }catch(err){console.warn('[Asset Gacha Recommendations] frame request failed:',err);return false}
+}
 function setPopularUI(data){
   popularRecommendationState=data||null;
   $('popularCategory').textContent=data?.categoryLabel||'-';
@@ -2065,10 +2087,11 @@ function loadPopularRecommendations(){
   const qs=new URLSearchParams({kind:'recommendations',callback:POPULAR_CALLBACK,genre:genre.value||'',people:String(characterCount()),category:category.value||'',povType:isPovMode()?analyticsPovType():'',_:String(Date.now())});
   s.src=GUESTBOOK_WEB_APP_URL+'?'+qs.toString();
   s.onload=()=>setTimeout(()=>s.remove(),0);
-  s.onerror=()=>{s.remove();if(seq===popularRequestSeq)$('popularStatus').textContent='통계 추천 연결 실패 · Apps Script를 최신 Code.gs로 새 버전 배포했는지 확인해주세요.'};
+  s.onerror=()=>{s.remove();if(seq===popularRequestSeq){$('popularStatus').textContent='JSONP 연결 실패 · iframe 방식으로 다시 연결 중…';requestPopularFrame(seq);}};
   document.head.appendChild(s);
   $('popularStatus').textContent='Google Sheet 통계 분석 중…';
-  setTimeout(()=>{if(seq===popularRequestSeq && $('popularStatus').textContent==='Google Sheet 통계 분석 중…')$('popularStatus').textContent='통계 추천 응답 없음 · Apps Script가 구버전이면 kind=recommendations API가 없습니다. 최신 Code.gs로 재배포해주세요.';},7000);
+  setTimeout(()=>{if(seq===popularRequestSeq && $('popularStatus').textContent==='Google Sheet 통계 분석 중…'){ $('popularStatus').textContent='JSONP 응답 지연 · iframe 방식으로 다시 연결 중…';requestPopularFrame(seq);}},1200);
+  setTimeout(()=>{if(seq===popularRequestSeq && /연결 중|분석 중|응답 지연/.test($('popularStatus').textContent))$('popularStatus').textContent='통계 추천 응답 없음 · Apps Script V6 배포 또는 웹 앱 액세스 권한을 확인해주세요.';},7000);
 }
 function applyPopularRecommendation(){
   const d=popularRecommendationState;if(!d?.ok){show('📊 먼저 통계를 불러와주세요.');return;}
@@ -2143,7 +2166,23 @@ function requestCounterFrame(){
 }
 window.addEventListener('message',event=>{
   const data=event&&event.data;
-  if(!data||data.type!==COUNTER_BRIDGE_TYPE||data.token!==COUNTER_BRIDGE_TOKEN||data.ok!==true) return;
+  if(!data)return;
+  if(data.type===POPULAR_BRIDGE_TYPE&&data.token===POPULAR_BRIDGE_TOKEN){
+    popularRequestSeq++;
+    if(data.ok===false&&data.code==='NO_DATA'){
+      setPopularUI(null);
+      $('popularStatus').textContent='아직 추천에 사용할 roll 통계가 없습니다. 랜덤 생성을 몇 번 사용한 뒤 다시 불러와주세요.';
+      return;
+    }
+    if(data.ok===false){
+      setPopularUI(null);
+      $('popularStatus').textContent=`통계 추천 API 오류 · ${data.code||'SERVER_ERROR'}${data.error?' · '+data.error:''}`;
+      return;
+    }
+    setPopularUI(data);
+    return;
+  }
+  if(data.type!==COUNTER_BRIDGE_TYPE||data.token!==COUNTER_BRIDGE_TOKEN||data.ok!==true)return;
   setCounterUI(Number(data.today)||0,Number(data.total)||0);
 });
 async function requestCounterFetch(){
