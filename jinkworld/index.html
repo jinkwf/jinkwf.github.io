@@ -19,6 +19,49 @@
 .usage-note{position:absolute;z-index:3;top:76px;right:27px;color:#716a79;font-size:7px;letter-spacing:.02em}.usage-note.ok{color:#86c99d}.usage-note.error{color:#d99a9f}
 footer{text-align:center;color:#5f5967;font-size:9px;padding:14px 0;line-height:1.8}footer a{color:#a88cff;text-decoration:none;font-weight:800}footer a:hover{text-decoration:underline}@media(max-width:900px){.cards{grid-template-columns:repeat(2,1fr)}}@media(max-width:720px){.page{width:calc(100% - 18px);padding-top:13px}.hero{padding:82px 18px 23px;border-radius:20px}.usage-counter{top:17px;right:17px}.usage-item{min-width:74px;padding:8px 10px}.usage-value{font-size:14px}.usage-note{top:61px;right:18px}.panel{padding:14px;border-radius:17px}.select-grid,.custom-grid,.saved-grid{grid-template-columns:1fr}.options{grid-template-columns:1fr 1fr}.toolbar{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.card{min-height:0}}@media(max-width:450px){.options{grid-template-columns:1fr}}
 
+
+/* ===== 접기/펼치기 패널 ===== */
+.fold-panel{padding:0;overflow:hidden}
+.fold-summary{
+  list-style:none;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:18px 20px;
+  cursor:pointer;
+  user-select:none;
+  -webkit-user-select:none;
+}
+.fold-summary::-webkit-details-marker{display:none}
+.fold-summary::after{
+  content:'＋';
+  flex:0 0 auto;
+  width:28px;
+  height:28px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--panel3);
+  color:#d8d1df;
+  font-size:15px;
+  font-weight:700;
+  line-height:1;
+  transition:transform .18s ease,background .18s ease;
+}
+.fold-panel[open]>.fold-summary::after{content:'−'}
+.fold-summary:hover::after{background:rgba(255,255,255,.08)}
+.fold-summary .fold-head{min-width:0}
+.fold-summary .title{margin:0}
+.fold-summary .desc{margin:4px 0 0}
+.fold-body{padding:0 20px 20px}
+@media(max-width:720px){
+  .fold-summary{padding:15px 14px}
+  .fold-body{padding:0 14px 14px}
+}
+
 /* Guestbook */
 .guestbook-panel{position:relative;overflow:hidden}
 .guestbook-panel:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;right:-90px;bottom:-110px;background:rgba(166,140,255,.06);pointer-events:none}
@@ -97,8 +140,14 @@ select optgroup{
 <section class="panel"><div class="head"><div><h2 class="title">03 · 랜덤 슬롯</h2><p class="desc">↻ 재추첨 · 🔓/🔒 잠금 · ◉/○ 사용 여부</p></div><div class="mini-tools"><button class="small-btn" id="lockAll">🔒 전체 잠금</button><button class="small-btn" id="unlockAll">🔓 전체 해제</button><button class="small-btn" id="enableAll">◉ 전체 사용</button></div></div><div id="cards" class="cards"></div><div id="stats" class="stats"></div></section>
 <section class="panel"><div class="head"><div><h2 class="title">04 · NovelAI Prompt</h2><p class="desc">생성된 영어 태그는 직접 수정할 수 있습니다.</p></div></div><textarea id="prompt" class="prompt"></textarea><div class="toolbar"><button class="tool primary" id="copyPrompt">📋 NovelAI 태그 복사</button><button class="tool" id="saveFavorite">⭐ 현재 조합 저장</button><button class="tool" id="copyKo">🇰🇷 한글 결과 복사</button></div><div class="status" id="status"></div></section>
 <section class="panel"><div class="head"><div><h2 class="title">05 · Negative Prompt</h2><p class="desc">기본값을 원하는 태그로 바꿔두면 브라우저가 기억합니다.</p></div></div><textarea id="negative" class="prompt negative"></textarea><div class="toolbar"><button class="tool primary" id="copyNegative">📋 Negative 태그 복사</button><button class="tool" id="resetNegative">↺ 기본값 복구</button><button class="tool" id="saveNegative">💾 네거티브 저장</button></div></section>
-<section class="panel"><div class="head"><div><h2 class="title">현재 한글 조합</h2></div></div><div id="summary" class="summary"></div></section>
-<section class="panel"><div class="head"><div><h2 class="title">저장된 조합</h2><p class="desc">즐겨찾기와 최근 10회 결과는 이 브라우저의 localStorage에 저장됩니다.</p></div></div><div class="saved-grid"><div><div class="tiny-label">⭐ 즐겨찾기</div><div id="favorites" class="list"></div></div><div><div class="tiny-label">🕘 최근 기록</div><div id="history" class="list"></div></div></div></section>
+<details class="panel fold-panel">
+  <summary class="fold-summary"><div class="fold-head"><h2 class="title">현재 한글 조합</h2></div></summary>
+  <div class="fold-body"><div id="summary" class="summary"></div></div>
+</details>
+<details class="panel fold-panel">
+  <summary class="fold-summary"><div class="fold-head"><h2 class="title">저장된 조합</h2><p class="desc">즐겨찾기와 최근 10회 결과는 이 브라우저의 localStorage에 저장됩니다.</p></div></summary>
+  <div class="fold-body"><div class="saved-grid"><div><div class="tiny-label">⭐ 즐겨찾기</div><div id="favorites" class="list"></div></div><div><div class="tiny-label">🕘 최근 기록</div><div id="history" class="list"></div></div></div></div>
+</details>
 
 <section class="panel guestbook-panel" id="guestbookSection">
   <div class="head">
