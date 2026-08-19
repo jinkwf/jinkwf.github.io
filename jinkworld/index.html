@@ -468,40 +468,100 @@ Object.keys(SLOTS).forEach(k=>{state.selected[k]=null;state.locked[k]=false;stat
 const $=id=>document.getElementById(id);const genre=$('genre'),category=$('category'),cards=$('cards'),prompt=$('prompt'),summary=$('summary'),stats=$('stats'),status=$('status'),negative=$('negative');
 const LS={fav:'nai_asset_favorites_v3',hist:'nai_asset_history_v3',neg:'nai_asset_negative_v3',settings:'nai_asset_settings_v3'};
 /* Public aggregate usage counter
-   TODAY / TOTAL도 Google Apps Script + 사용통계 Sheet를 단일 소스로 사용합니다.
+   TODAY / TOTAL은 Google Apps Script + 사용통계 Sheet를 단일 소스로 사용합니다.
+   v2 안정화: 요청 세대(epoch) 분리 + 마지막 성공값 캐시 + stale failure 무시.
 */
 function formatCounter(v){
   const n=Number(v);
   if(!Number.isFinite(n)) return '00';
   return n<100?String(n).padStart(2,'0'):n.toLocaleString('en-US');
 }
-let counterResolvedAt=0;
 const COUNTER_BRIDGE_TYPE='asset-gacha-counter-v2';
-const COUNTER_BRIDGE_TOKEN='asset-gacha-v2';
-function setCounterUI(today,total,stateName=''){
-  counterResolvedAt=Date.now();
+const COUNTER_BRIDGE_TOKEN_BASE='asset-gacha-v2';
+const COUNTER_CACHE_KEY='nai_asset_public_counter_cache_v2';
+let counterEpoch=0;
+let counterResolvedEpoch=0;
+let activeCounterToken='';
+let lastCounterLoadAt=0;
+
+function kstDateKey(){
+  try{
+    return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+  }catch(_){
+    return new Date(Date.now()+9*60*60*1000).toISOString().slice(0,10);
+  }
+}
+function readCounterCache(){
+  try{
+    const data=JSON.parse(localStorage.getItem(COUNTER_CACHE_KEY)||'null');
+    if(!data||data.kstDate!==kstDateKey()) return null;
+    const today=Number(data.today),total=Number(data.total);
+    if(!Number.isFinite(today)||!Number.isFinite(total)) return null;
+    return {today,total,ts:Number(data.ts)||0};
+  }catch(_){return null}
+}
+function writeCounterCache(today,total){
+  try{
+    localStorage.setItem(COUNTER_CACHE_KEY,JSON.stringify({today:Number(today)||0,total:Number(total)||0,kstDate:kstDateKey(),ts:Date.now()}));
+  }catch(_){}
+}
+function hasDisplayedCounter(){
+  const t=$('todayCount')?.textContent||'';
+  const a=$('totalCount')?.textContent||'';
+  return t!=='--'&&a!=='--'&&t!==''&&a!=='';
+}
+function renderCounterValues(today,total,noteText,noteClass='ok'){
   const box=$('usageCounter');
+  if(!box) return;
   $('todayCount').textContent=formatCounter(today);
   $('totalCount').textContent=formatCounter(total);
   box.classList.remove('loading','error');
-  if(stateName) box.classList.add(stateName);
   const note=$('usageNote');
-  if(note){note.textContent='🎲 Google Sheet synced';note.classList.remove('error');note.classList.add('ok')}
+  if(note){
+    note.textContent=noteText||'🎲 Google Sheet synced';
+    note.classList.remove('ok','error');
+    if(noteClass) note.classList.add(noteClass);
+  }
 }
-function setCounterError(){
-  const box=$('usageCounter');box.classList.remove('loading');box.classList.add('error');
-  $('todayCount').textContent='--';$('totalCount').textContent='--';
-  const note=$('usageNote');if(note){note.textContent='⚠ 통계 연결 확인 필요';note.classList.remove('ok');note.classList.add('error')}
+function setCounterUI(today,total,epoch=counterEpoch){
+  if(epoch!==counterEpoch) return false;
+  const t=Number(today),a=Number(total);
+  if(!Number.isFinite(t)||!Number.isFinite(a)) return false;
+  counterResolvedEpoch=epoch;
+  writeCounterCache(t,a);
+  renderCounterValues(t,a,'🎲 Google Sheet synced','ok');
+  return true;
+}
+function setCounterError(epoch=counterEpoch){
+  if(epoch!==counterEpoch||counterResolvedEpoch===epoch) return;
+  const box=$('usageCounter');
+  const note=$('usageNote');
+  const cache=readCounterCache();
+  if(cache&&!hasDisplayedCounter()) renderCounterValues(cache.today,cache.total,'⏱ 최근 값 · 재연결 대기','');
+  if(hasDisplayedCounter()){
+    box?.classList.remove('loading');
+    if(note){note.textContent='⏱ 최근 값 · 재연결 대기';note.classList.remove('ok','error')}
+    return;
+  }
+  box?.classList.remove('loading');box?.classList.add('error');
+  if($('todayCount'))$('todayCount').textContent='--';
+  if($('totalCount'))$('totalCount').textContent='--';
+  if(note){note.textContent='⚠ 통계 연결 확인 필요';note.classList.remove('ok');note.classList.add('error')}
 }
 function markCounterLoading(){
-  const box=$('usageCounter');box.classList.remove('error');box.classList.add('loading');
-  const note=$('usageNote');if(note){note.textContent='🎲 통계 연결 중…';note.classList.remove('ok','error')}
+  const box=$('usageCounter');
+  const note=$('usageNote');
+  const cache=readCounterCache();
+  if(!hasDisplayedCounter()&&cache) renderCounterValues(cache.today,cache.total,'🎲 최신 통계 확인 중…','');
+  box?.classList.remove('error');box?.classList.add('loading');
+  if(note){note.textContent=hasDisplayedCounter()?'🎲 최신 통계 확인 중…':'🎲 통계 연결 중…';note.classList.remove('ok','error')}
 }
-function requestCounterFrame(){
+function requestCounterFrame(epoch=counterEpoch){
   try{
+    if(epoch!==counterEpoch) return false;
     const frame=$('counterBridge');
     if(!frame||!GUESTBOOK_WEB_APP_URL) return false;
-    const params=new URLSearchParams({kind:'counterframe',token:COUNTER_BRIDGE_TOKEN,_:String(Date.now())});
+    const params=new URLSearchParams({kind:'counterframe',token:activeCounterToken,_:String(Date.now())});
     frame.src=GUESTBOOK_WEB_APP_URL+'?'+params.toString();
     return true;
   }catch(err){
@@ -511,21 +571,32 @@ function requestCounterFrame(){
 }
 window.addEventListener('message',event=>{
   const data=event&&event.data;
-  if(!data||data.type!==COUNTER_BRIDGE_TYPE||data.token!==COUNTER_BRIDGE_TOKEN||data.ok!==true) return;
-  setCounterUI(Number(data.today)||0,Number(data.total)||0);
+  if(!data||data.type!==COUNTER_BRIDGE_TYPE||data.token!==activeCounterToken||data.ok!==true) return;
+  setCounterUI(Number(data.today),Number(data.total),counterEpoch);
 });
-function loadUsageCounts(){
-  counterResolvedAt=0;
+function loadUsageCounts(force=false){
+  const now=Date.now();
+  if(!force&&now-lastCounterLoadAt<700) return counterEpoch;
+  lastCounterLoadAt=now;
+  const epoch=++counterEpoch;
+  counterResolvedEpoch=0;
+  activeCounterToken=`${COUNTER_BRIDGE_TOKEN_BASE}-${epoch}-${now.toString(36)}`;
   markCounterLoading();
-  requestCounterFrame();
-  setTimeout(()=>{if(!counterResolvedAt)requestGoogleCounter(0)},850);
-  setTimeout(()=>{if(!counterResolvedAt)requestCounterFrame()},1800);
-  setTimeout(()=>{if(!counterResolvedAt)requestGoogleCounter(1)},2700);
-  setTimeout(()=>{if(!counterResolvedAt)setCounterError()},5200);
+  requestCounterFrame(epoch);
+  setTimeout(()=>{if(epoch===counterEpoch&&counterResolvedEpoch!==epoch)requestGoogleCounter(0,epoch)},900);
+  setTimeout(()=>{if(epoch===counterEpoch&&counterResolvedEpoch!==epoch)requestCounterFrame(epoch)},2000);
+  setTimeout(()=>{if(epoch===counterEpoch&&counterResolvedEpoch!==epoch)requestGoogleCounter(1,epoch)},3100);
+  setTimeout(()=>{
+    if(epoch===counterEpoch&&counterResolvedEpoch!==epoch){
+      setCounterError(epoch);
+      setTimeout(()=>{if(epoch===counterEpoch&&counterResolvedEpoch!==epoch&&document.visibilityState==='visible')loadUsageCounts(true)},15000);
+    }
+  },5600);
+  return epoch;
 }
 function trackMainRoll(){
   // 카운트 증가 자체는 trackAnalytics('roll')이 담당합니다.
-  // 별도의 외부 CountAPI는 더 이상 사용하지 않습니다.
+  // 별도의 외부 CountAPI는 사용하지 않습니다.
 }
 
 function safeJSON(key,def){try{return JSON.parse(localStorage.getItem(key))??def}catch{return def}}
@@ -586,39 +657,61 @@ window[ANALYTICS_CALLBACK]=function(data){
     return;
   }
   if(data.event==='roll'){
-    if(Number.isFinite(Number(data.today)) && Number.isFinite(Number(data.total))){
-      setCounterUI(Number(data.today),Number(data.total));
+    if(Number.isFinite(Number(data.today))&&Number.isFinite(Number(data.total))){
+      setCounterUI(Number(data.today),Number(data.total),counterEpoch);
     }else{
-      setTimeout(()=>requestGoogleCounter(0),180);
+      setTimeout(()=>loadUsageCounts(true),180);
     }
   }
 };
+/* 수동 JSONP 확인용 고정 callback. 실제 자동 조회는 요청별 고유 callback을 사용합니다. */
 window[COUNTER_CALLBACK]=function(data){
-  if(data&&data.ok===true){
-    setCounterUI(Number(data.today)||0,Number(data.total)||0);
+  if(data&&data.ok===true&&Number.isFinite(Number(data.today))&&Number.isFinite(Number(data.total))){
+    setCounterUI(Number(data.today),Number(data.total),counterEpoch);
   }else{
-    console.warn('[Asset Gacha Counter] invalid response:',data);
-    setCounterError();
+    console.warn('[Asset Gacha Counter] invalid manual callback response:',data);
   }
 };
-function requestGoogleCounter(attempt=0){
+function scheduleCounterJsonpRetry(epoch,attempt){
+  if(epoch!==counterEpoch||counterResolvedEpoch===epoch) return;
+  if(attempt<2){
+    setTimeout(()=>requestGoogleCounter(attempt+1,epoch),650*(attempt+1));
+  }else{
+    setCounterError(epoch);
+  }
+}
+function requestGoogleCounter(attempt=0,epoch=counterEpoch){
   try{
-    if(!GUESTBOOK_WEB_APP_URL){setCounterError();return false}
-    const params=new URLSearchParams({kind:'counter',callback:COUNTER_CALLBACK,version:'2',_:String(Date.now())});
-    return appendJsonpScript(params,()=>{
-      if(attempt<2){
-        setTimeout(()=>requestGoogleCounter(attempt+1),650*(attempt+1));
+    if(epoch!==counterEpoch||counterResolvedEpoch===epoch) return false;
+    if(!GUESTBOOK_WEB_APP_URL){setCounterError(epoch);return false}
+    const callback=`__assetGachaCounterAck_${epoch}_${attempt}_${Date.now().toString(36)}`;
+    let settled=false;
+    const cleanup=()=>{try{delete window[callback]}catch(_){window[callback]=undefined}};
+    const fail=()=>{
+      if(settled) return;
+      settled=true;
+      cleanup();
+      scheduleCounterJsonpRetry(epoch,attempt);
+    };
+    window[callback]=function(data){
+      if(settled) return;
+      settled=true;
+      cleanup();
+      if(epoch!==counterEpoch) return;
+      if(data&&data.ok===true&&Number.isFinite(Number(data.today))&&Number.isFinite(Number(data.total))){
+        setCounterUI(Number(data.today),Number(data.total),epoch);
       }else{
-        setCounterError();
+        console.warn('[Asset Gacha Counter] invalid response:',data);
+        scheduleCounterJsonpRetry(epoch,attempt);
       }
-    });
+    };
+    const params=new URLSearchParams({kind:'counter',callback,version:'2',_:String(Date.now())});
+    appendJsonpScript(params,fail);
+    setTimeout(fail,2200);
+    return true;
   }catch(err){
     console.warn('[Asset Gacha Counter] request failed:',err);
-    if(attempt<2){
-      setTimeout(()=>requestGoogleCounter(attempt+1),650*(attempt+1));
-      return false;
-    }
-    setCounterError();
+    scheduleCounterJsonpRetry(epoch,attempt);
     return false;
   }
 }
@@ -655,11 +748,11 @@ function trackAnalytics(eventName){
     relation:characterCount()===1?'':(RELATION_PRESETS[relationPresetValue()]?.label||''),
     scene:scenePresetValue()==='none'?'':sceneDisplayLabel(),
     smartConflict:conflictPreventionOn()?'ON':'OFF',
-    version:'2.1',
+    version:'2',
     page:location.href
   };
   const sent=postAnalyticsBeacon(payload);
-  if(eventName==='roll'){setTimeout(()=>requestCounterFrame(),650);setTimeout(()=>{if(!counterResolvedAt)requestGoogleCounter(0)},1200);}
+  if(eventName==='roll') setTimeout(()=>loadUsageCounts(true),650);
   return sent;
 }
 
