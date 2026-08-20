@@ -661,11 +661,23 @@ function markCounterLoading(){
   box?.classList.remove('error');box?.classList.add('loading');
   if(note){note.textContent=hasDisplayedCounter()?'🎲 최신 통계 확인 중…':'🎲 통계 연결 중…';note.classList.remove('ok','error')}
 }
+function ensureCounterBridge(){
+  let frame=$('counterBridge');
+  if(frame) return frame;
+  frame=document.createElement('iframe');
+  frame.id='counterBridge';
+  frame.title='counter bridge';
+  frame.setAttribute('aria-hidden','true');
+  frame.tabIndex=-1;
+  frame.style.cssText='position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;border:0;pointer-events:none;visibility:hidden';
+  document.body.appendChild(frame);
+  return frame;
+}
 function requestCounterFrame(epoch=counterEpoch){
   try{
-    if(epoch!==counterEpoch) return false;
-    const frame=$('counterBridge');
-    if(!frame||!GUESTBOOK_WEB_APP_URL) return false;
+    if(epoch!==counterEpoch||!GUESTBOOK_WEB_APP_URL) return false;
+    const frame=ensureCounterBridge();
+    if(!frame) return false;
     const params=new URLSearchParams({kind:'counterframe',token:activeCounterToken,_:String(Date.now())});
     frame.src=GUESTBOOK_WEB_APP_URL+'?'+params.toString();
     return true;
@@ -1503,8 +1515,9 @@ updateScenePresetHint();
 updateSmartConflictHint();
 loadCategories(false);
 renderSaved();
-loadUsageCounts();
+ensureCounterBridge();
+loadUsageCounts(true);
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')loadUsageCounts()});
 window.addEventListener('pageshow',()=>loadUsageCounts());
-</script><iframe id="counterBridge" title="counter bridge" aria-hidden="true" tabindex="-1" style="position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;border:0;pointer-events:none;visibility:hidden"></iframe>
+</script>
 </body></html>
