@@ -176,90 +176,210 @@ button,.small-btn,.tool,.guestbook-send,.age-btn,.quick-recommend-btn,.user-char
 @media(max-width:760px){.preset-slot-toolbar{grid-template-columns:1fr}.preset-slot-summary{grid-template-columns:38px 18px minmax(0,1fr);padding:11px 10px}.preset-slot-state{grid-column:3;justify-self:start}.preset-slot-number{width:32px;height:32px}.preset-slot-body{padding-left:10px}.preset-slot-actions{display:grid;grid-template-columns:1fr 1fr}.preset-slot-actions .tool{min-width:0}.preset-slot-actions .tool:last-child:nth-child(odd){grid-column:1/-1}}
 </style>
 </head>
-<body>
+
+<style id="accessControlStyle">
+body.access-locked{overflow:hidden!important}
+body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
+.access-code-wrap{margin:13px 0 15px;text-align:left}
+.access-code-wrap label{display:block;margin:0 0 7px;color:#cfc6d8;font-size:11px;font-weight:900;letter-spacing:.03em}
+.access-code-input{width:100%;height:48px;padding:0 14px;border:1px solid rgba(166,140,255,.34);border-radius:13px;background:#15111b;color:#fff;text-align:center;font-size:18px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;outline:none}
+.access-code-input:focus{border-color:#a68cff;box-shadow:0 0 0 3px rgba(166,140,255,.12)}
+.access-code-input::placeholder{color:#6f6878;letter-spacing:.08em}
+.access-auth-status{min-height:40px;margin-top:12px;padding:10px 11px;border-radius:11px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07);font-size:11px;line-height:1.55;color:#aaa3b4;text-align:left}
+.access-auth-status.ok{border-color:rgba(97,203,137,.34);background:rgba(97,203,137,.08);color:#aee8c2}
+.access-auth-status.error{border-color:rgba(255,119,139,.34);background:rgba(255,119,139,.08);color:#ffb0bc}
+.access-auth-status.loading{border-color:rgba(166,140,255,.34);background:rgba(166,140,255,.08);color:#d8ceff}
+.access-session-note{margin-top:9px;color:#817989;font-size:10px;line-height:1.55}
+.access-box{max-width:470px}
+.access-box .age-btn.enter{background:linear-gradient(135deg,#9d7aff,#7657ff)}
+.access-box .age-warn{margin-bottom:12px}
+</style>
+<body class="access-locked">
 <!-- NSFW 상단 고정 경고 배너 -->
 <div class="nsfw-banner" id="nsfwBanner">
   <strong>⚠️ 18금 · NSFW 전용 사이트</strong>
   <span class="banner-sub">무단 배포 및 미성년자 사용이 발각될 경우 해당 사이트는 중단됩니다. 부디 제가 서버를 열어 기록을 털지 않도록 양해 부탁드립니다.</span>
 </div>
 
-<!-- 연령 확인 모달 -->
+<!-- 성인 인증 + 개인 접속 코드 인증 -->
 <div class="age-gate" id="ageGate">
-  <div class="age-box">
-    <div class="age-icon">🔞</div>
-    <h2>연령 확인</h2>
-    <p>이 사이트는 <strong style="color:#ff9aa5">성인 전용(18세 이상)</strong> 콘텐츠를 포함합니다.<br>미성년자의 이용은 엄격히 금지됩니다.</p>
+  <div class="age-box access-box">
+    <div class="age-icon">🔐</div>
+    <h2>성인 인증</h2>
+    <p>성인 인증 후 발급받은 <strong style="color:#c9b8ff">접속 코드</strong>를 입력해주세요.</p>
     <div class="age-warn">
-      무단 배포 및 미성년자 사용이 발각될 경우 해당 사이트는 중단됩니다.<br>
-      부디 제가 서버를 열어 기록을 털지 않도록 양해 부탁드립니다.
+      이 페이지는 개인 접속 코드가 있어야 이용할 수 있습니다.<br>
+      등록 가능한 기기 수를 초과하거나 코드가 차단·만료된 경우 접속할 수 없습니다.
     </div>
     <label class="age-check">
       <input type="checkbox" id="ageCheck">
       <span>나는 18세 이상이며, 성인 콘텐츠 이용에 동의합니다.</span>
     </label>
+    <div class="access-code-wrap">
+      <label for="accessCode">개인 접속 코드</label>
+      <input class="access-code-input" id="accessCode" type="text" maxlength="11" placeholder="NSFW-______" autocomplete="off" autocapitalize="characters" spellcheck="false" inputmode="text">
+    </div>
     <div class="age-btns">
-      <button class="age-btn enter" id="ageEnter" disabled>입장하기</button>
+      <button class="age-btn enter" id="ageEnter" disabled>접속하기</button>
       <button class="age-btn exit" id="ageExit">18세 미만입니다 · 나가기</button>
     </div>
+    <div class="access-auth-status" id="accessAuthStatus">발급받은 개인 코드를 입력해주세요.</div>
+    <div class="access-session-note">인증 완료 후 이 브라우저에는 세션 토큰이 저장됩니다. 다음 접속부터는 저장된 세션을 먼저 확인합니다.</div>
     <div class="age-denied" id="ageDenied">
       미성년자는 이 사이트를 이용할 수 없습니다.<br>브라우저를 닫아 주세요.
     </div>
   </div>
 </div>
 
+<form id="accessAuthForm" method="POST" action="https://script.google.com/macros/s/AKfycbzzu4_GIqdS4duTRRk6rV97VmA3oOFS7LMtTuITOAxjdMZJXmC6QeVdi2M7NH3pd2OVWw/exec" target="accessAuthFrame" style="display:none">
+  <input name="kind" id="accessAuthKind">
+  <input name="code" id="accessAuthCodeField">
+  <input name="sessionToken" id="accessAuthSessionField">
+  <input name="deviceId" id="accessAuthDeviceField">
+  <input name="requestId" id="accessAuthRequestField">
+  <input name="page" id="accessAuthPageField">
+</form>
+<iframe id="accessAuthFrame" name="accessAuthFrame" title="접속 인증" aria-hidden="true" tabindex="-1" style="position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;border:0;pointer-events:none;visibility:hidden"></iframe>
+
 <script>
-/* Standalone age gate: intentionally initialized before the main app. */
+/* Private access gate: code login -> Apps Script -> session token -> periodic verify. */
 (function(){
-  const KEY='nsfw_asset_gacha_age_ok_v1';
+  const AGE_KEY='nsfw_asset_gacha_age_ok_v1';
+  const SESSION_KEY='nsfw_access_session_v1';
+  const DEVICE_KEY='nsfw_access_device_v1';
+  const MESSAGE_TYPE='nsfw-access-auth-v1';
+  const VERIFY_INTERVAL=60000;
   const gate=document.getElementById('ageGate');
   const check=document.getElementById('ageCheck');
   const enter=document.getElementById('ageEnter');
   const exit=document.getElementById('ageExit');
   const denied=document.getElementById('ageDenied');
-  if(!gate||!check||!enter||!exit) return;
+  const codeInput=document.getElementById('accessCode');
+  const status=document.getElementById('accessAuthStatus');
+  const form=document.getElementById('accessAuthForm');
+  const frame=document.getElementById('accessAuthFrame');
+  if(!gate||!check||!enter||!exit||!codeInput||!status||!form||!frame) return;
 
-  document.body.classList.add('has-nsfw-banner');
+  document.body.classList.add('access-locked','has-nsfw-banner');
+  let pending=null;
+  let verifyTimer=null;
+  let lastVerified=0;
 
-  const storageGet=()=>{
-    try{return window.localStorage.getItem(KEY)}catch(_){return null}
-  };
-  const storageSet=()=>{
-    try{window.localStorage.setItem(KEY,'1')}catch(_){/* 입장은 저장 실패와 무관하게 허용 */}
-  };
-  const syncEnter=()=>{
-    enter.disabled=!check.checked;
-    enter.setAttribute('aria-disabled',enter.disabled?'true':'false');
-  };
-  const allowEntry=()=>{
-    if(!check.checked) return;
-    storageSet();
-    gate.classList.add('hidden');
-    gate.setAttribute('aria-hidden','true');
-    document.documentElement.style.overflow='';
-    document.body.style.overflow='';
-  };
+  const get=(k)=>{try{return localStorage.getItem(k)}catch(_){return null}};
+  const set=(k,v)=>{try{localStorage.setItem(k,v)}catch(_){}};
+  const del=(k)=>{try{localStorage.removeItem(k)}catch(_){}};
+  const randomId=()=>{try{return crypto.randomUUID()}catch(_){return 'dev-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,14)}};
+  const deviceId=()=>{let id=get(DEVICE_KEY);if(!id){id=randomId();set(DEVICE_KEY,id)}return id};
+  const requestId=()=>Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,11);
+  const normalizeCode=(v)=>{let s=String(v||'').trim().toUpperCase().replace(/\s+/g,'').replace(/[^A-Z0-9-]/g,'');if(s&&!s.startsWith('NSFW-')&&/^[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{6}$/.test(s))s='NSFW-'+s;return s.slice(0,11)};
 
-  if(storageGet()==='1'){
-    gate.classList.add('hidden');
-    gate.setAttribute('aria-hidden','true');
-    return;
+  function setStatus(message,type=''){status.textContent=message;status.classList.remove('ok','error','loading');if(type)status.classList.add(type)}
+  function syncButton(){enter.disabled=!check.checked||normalizeCode(codeInput.value).length!==11;enter.setAttribute('aria-disabled',enter.disabled?'true':'false')}
+  function errorMessage(res){
+    const code=res&&res.code;
+    if(code==='DEVICE_LIMIT') return '등록 가능한 기기 수를 초과했습니다. 관리자에게 문의해주세요.';
+    if(code==='BLOCKED') return '차단된 접속 코드입니다. 관리자에게 문의해주세요.';
+    if(code==='EXPIRED') return '접속 코드의 사용 기간이 만료되었습니다. 관리자에게 문의해주세요.';
+    if(code==='USAGE_LIMIT') return '접속 가능 횟수를 모두 사용했습니다. 관리자에게 문의해주세요.';
+    if(code==='SESSION_EXPIRED'||code==='SESSION_INVALID'||code==='SESSION_DEVICE_MISMATCH') return '인증 세션이 만료되었습니다. 접속 코드를 다시 입력해주세요.';
+    if(code==='TOO_MANY_ATTEMPTS') return '인증 시도가 너무 많습니다. 잠시 후 다시 시도해주세요.';
+    if(code==='SERVER_ERROR') return '인증 서버 연결에 문제가 발생했습니다. 잠시 후 다시 시도해주세요.';
+    return (res&&res.message)||'접속 코드가 올바르지 않습니다.';
   }
 
-  gate.setAttribute('aria-hidden','false');
-  syncEnter();
-  check.addEventListener('change',syncEnter);
-  check.addEventListener('input',syncEnter);
-  enter.addEventListener('click',function(e){e.preventDefault();allowEntry()});
-  check.addEventListener('keydown',function(e){
-    if(e.key==='Enter'&&check.checked){e.preventDefault();allowEntry()}
+  function submitAuth(kind,payload){
+    if(pending){try{pending.reject(new Error('NEW_REQUEST'))}catch(_){}pending=null}
+    const rid=requestId();
+    document.getElementById('accessAuthKind').value=kind;
+    document.getElementById('accessAuthCodeField').value=payload.code||'';
+    document.getElementById('accessAuthSessionField').value=payload.sessionToken||'';
+    document.getElementById('accessAuthDeviceField').value=deviceId();
+    document.getElementById('accessAuthRequestField').value=rid;
+    document.getElementById('accessAuthPageField').value=location.href.slice(0,500);
+    return new Promise((resolve,reject)=>{
+      const timer=setTimeout(()=>{if(pending&&pending.rid===rid)pending=null;reject(new Error('TIMEOUT'))},15000);
+      pending={rid,resolve:(v)=>{clearTimeout(timer);pending=null;resolve(v)},reject:(e)=>{clearTimeout(timer);pending=null;reject(e)}};
+      try{form.submit()}catch(err){clearTimeout(timer);pending=null;reject(err)}
+    });
+  }
+
+  window.addEventListener('message',e=>{
+    if(e.source!==frame.contentWindow) return;
+    const data=e.data;
+    if(!data||data.type!==MESSAGE_TYPE||!pending||data.requestId!==pending.rid) return;
+    pending.resolve(data);
   });
-  exit.addEventListener('click',function(e){
-    e.preventDefault();
-    if(denied) denied.classList.add('show');
-    enter.disabled=true;
-    check.disabled=true;
-    exit.disabled=true;
-  });
+
+  function startVerifyTimer(){
+    if(verifyTimer)clearInterval(verifyTimer);
+    verifyTimer=setInterval(()=>verifyStoredSession(true),VERIFY_INTERVAL);
+  }
+  function unlockApp(res){
+    lastVerified=Date.now();
+    const deviceText=(res&&res.maxDevices)?` · 등록 기기 ${res.sessionCount||1}/${res.maxDevices}`:'';
+    setStatus('접속 인증 완료'+deviceText,'ok');
+    setTimeout(()=>{
+      gate.classList.add('hidden');gate.setAttribute('aria-hidden','true');
+      document.body.classList.remove('access-locked');
+      document.documentElement.style.overflow='';document.body.style.overflow='';
+      startVerifyTimer();
+      window.dispatchEvent(new CustomEvent('nsfw-auth-ready',{detail:res||{}}));
+    },300);
+  }
+  function relock(message){
+    del(SESSION_KEY);
+    if(verifyTimer){clearInterval(verifyTimer);verifyTimer=null}
+    document.body.classList.add('access-locked');
+    gate.classList.remove('hidden');gate.setAttribute('aria-hidden','false');
+    codeInput.value='';check.checked=get(AGE_KEY)==='1';syncButton();
+    setStatus(message||'접속 코드를 다시 입력해주세요.','error');
+  }
+
+  async function verifyStoredSession(silent=false){
+    const token=get(SESSION_KEY);
+    if(!token){if(!silent)setStatus('발급받은 개인 코드를 입력해주세요.');return false}
+    if(!silent)setStatus('저장된 인증 세션을 확인하고 있습니다…','loading');
+    try{
+      const res=await submitAuth('auth_verify',{sessionToken:token});
+      if(res&&res.ok){
+        lastVerified=Date.now();
+        if(document.body.classList.contains('access-locked')) unlockApp(res);
+        return true;
+      }
+      relock(errorMessage(res));return false;
+    }catch(err){
+      if(!silent)setStatus('인증 서버 연결을 확인할 수 없습니다. 접속 코드를 직접 입력해 다시 시도해주세요.','error');
+      return false;
+    }
+  }
+
+  async function login(){
+    if(!check.checked)return;
+    const code=normalizeCode(codeInput.value);codeInput.value=code;syncButton();
+    if(code.length!==11){setStatus('NSFW-XXXXXX 형식의 접속 코드를 입력해주세요.','error');return}
+    enter.disabled=true;codeInput.disabled=true;check.disabled=true;
+    setStatus('접속 코드를 확인하고 있습니다…','loading');
+    try{
+      const res=await submitAuth('auth_login',{code});
+      if(res&&res.ok&&res.sessionToken){set(AGE_KEY,'1');set(SESSION_KEY,res.sessionToken);unlockApp(res);return}
+      setStatus(errorMessage(res),'error');
+    }catch(err){setStatus('인증 서버 연결에 실패했습니다. 네트워크 상태를 확인해주세요.','error')}
+    finally{codeInput.disabled=false;check.disabled=false;syncButton()}
+  }
+
+  if(get(AGE_KEY)==='1')check.checked=true;
+  syncButton();
+  codeInput.addEventListener('input',()=>{codeInput.value=String(codeInput.value||'').toUpperCase().replace(/\s+/g,'').replace(/[^A-Z0-9-]/g,'').slice(0,11);syncButton()});
+  codeInput.addEventListener('blur',()=>{codeInput.value=normalizeCode(codeInput.value);syncButton()});
+  codeInput.addEventListener('keydown',e=>{if(e.key==='Enter'&&!enter.disabled){e.preventDefault();login()}});
+  check.addEventListener('change',syncButton);
+  check.addEventListener('input',syncButton);
+  enter.addEventListener('click',e=>{e.preventDefault();login()});
+  exit.addEventListener('click',e=>{e.preventDefault();if(denied)denied.classList.add('show');enter.disabled=true;check.disabled=true;codeInput.disabled=true;exit.disabled=true;setStatus('미성년자는 이 사이트를 이용할 수 없습니다.','error')});
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&!document.body.classList.contains('access-locked')&&Date.now()-lastVerified>VERIFY_INTERVAL)verifyStoredSession(true)});
+
+  if(check.checked&&get(SESSION_KEY)) verifyStoredSession(false);
+  else setStatus('성인 확인 후 발급받은 개인 접속 코드를 입력해주세요.');
 })();
 </script>
 
