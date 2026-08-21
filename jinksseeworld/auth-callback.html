@@ -9,16 +9,28 @@
 <body>
 <script>
 (function(){
+  var TYPE='nsfw-auth-callback-v2';
+  function send(message){
+    var targets=[];
+    try{if(window.top&&window.top!==window)targets.push(window.top);}catch(_){ }
+    try{if(window.parent&&window.parent!==window)targets.push(window.parent);}catch(_){ }
+    try{if(window.parent&&window.parent.parent&&window.parent.parent!==window.parent)targets.push(window.parent.parent);}catch(_){ }
+    for(var i=0;i<targets.length;i++){
+      try{targets[i].postMessage(message,'*');}catch(_){ }
+    }
+  }
   try{
     var raw=(location.hash||'').slice(1);
     if(!raw)throw new Error('EMPTY_CALLBACK');
     raw=raw.replace(/-/g,'+').replace(/_/g,'/');
     while(raw.length%4)raw+='=';
-    var json=decodeURIComponent(Array.prototype.map.call(atob(raw),function(c){return '%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)}).join(''));
-    var payload=JSON.parse(json);
-    parent.postMessage({type:'nsfw-auth-callback-v1',requestId:payload.requestId||'',result:payload.result||payload},location.origin);
+    var bytes=atob(raw);
+    var escaped='';
+    for(var i=0;i<bytes.length;i++)escaped+='%'+('00'+bytes.charCodeAt(i).toString(16)).slice(-2);
+    var payload=JSON.parse(decodeURIComponent(escaped));
+    send({type:TYPE,requestId:payload.requestId||'',bridgeToken:payload.bridgeToken||'',result:payload.result||payload});
   }catch(err){
-    parent.postMessage({type:'nsfw-auth-callback-v1',requestId:'',result:{ok:false,code:'CALLBACK_REJECTED',message:'인증 callback 처리에 실패했습니다.'}},location.origin);
+    send({type:TYPE,requestId:'',bridgeToken:'',result:{ok:false,code:'CALLBACK_REJECTED',message:'인증 callback 처리에 실패했습니다.'}});
   }
 })();
 </script>
