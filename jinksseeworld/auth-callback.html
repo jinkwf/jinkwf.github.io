@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Authentication Callback</title>
+</head>
+<body>
+<script>
+(function(){
+  try{
+    var raw=(location.hash||'').slice(1);
+    if(!raw)throw new Error('EMPTY_CALLBACK');
+    raw=raw.replace(/-/g,'+').replace(/_/g,'/');
+    while(raw.length%4)raw+='=';
+    var json=decodeURIComponent(Array.prototype.map.call(atob(raw),function(c){return '%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)}).join(''));
+    var payload=JSON.parse(json);
+    parent.postMessage({type:'nsfw-auth-callback-v1',requestId:payload.requestId||'',result:payload.result||payload},location.origin);
+  }catch(err){
+    parent.postMessage({type:'nsfw-auth-callback-v1',requestId:'',result:{ok:false,code:'CALLBACK_REJECTED',message:'인증 callback 처리에 실패했습니다.'}},location.origin);
+  }
+})();
+</script>
+</body>
+</html>
