@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#0e0c12">
-<title>NSFW 에셋 랜덤 프롬프트 생성기.v3</title>
+<title>NSFW 에셋 랜덤 프롬프트 생성기.v1</title>
 <style>
 :root{--bg:#0e0c12;--panel:#17141d;--panel2:#201c28;--panel3:#292333;--line:rgba(255,255,255,.09);--text:#f7f3fa;--sub:#aaa3b4;--accent:#a68cff;--pink:#e694c4;--gold:#f0c978;--green:#9fdfb6;--red:#ff9aa5;--shadow:0 20px 60px rgba(0,0,0,.35)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 8% 0,rgba(166,140,255,.13),transparent 27%),radial-gradient(circle at 100% 15%,rgba(230,148,196,.08),transparent 27%),var(--bg);color:var(--text);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif}button,select,input,textarea{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}.page{width:min(1220px,calc(100% - 28px));margin:auto;padding:28px 0 70px}.hero,.panel{border:1px solid var(--line);background:rgba(23,20,29,.96);box-shadow:var(--shadow)}.hero{position:relative;overflow:hidden;border-radius:26px;padding:31px;margin-bottom:17px}.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-100px;top:-135px;background:rgba(166,140,255,.12);filter:blur(12px);pointer-events:none}.eyebrow{font-size:11px;font-weight:900;letter-spacing:.2em;color:var(--accent)}
 .eyebrow-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
@@ -274,7 +274,7 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
   const normalizeCode=(v)=>{let s=String(v||'').trim().toUpperCase().replace(/\s+/g,'').replace(/[^A-Z0-9-]/g,'');if(s&&!s.startsWith('NSFW-')&&/^[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{6}$/.test(s))s='NSFW-'+s;return s.slice(0,11)};
 
   function setStatus(message,type=''){status.textContent=message;status.classList.remove('ok','error','loading');if(type)status.classList.add(type)}
-  function syncButton(){enter.disabled=!check.checked||normalizeCode(codeInput.value).length!==11;enter.setAttribute('aria-disabled',enter.disabled?'true':'false')}
+  function syncButton(){const normalized=normalizeCode(codeInput.value);const valid=/^NSFW-[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{6}$/.test(normalized);enter.disabled=!valid;enter.setAttribute('aria-disabled',enter.disabled?'true':'false');}
   function errorMessage(res){
     const code=res&&res.code;
     if(code==='DEVICE_LIMIT') return '등록 가능한 기기 수를 초과했습니다. 관리자에게 문의해주세요.';
@@ -354,9 +354,9 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
   }
 
   async function login(){
-    if(!check.checked)return;
     const code=normalizeCode(codeInput.value);codeInput.value=code;syncButton();
-    if(code.length!==11){setStatus('NSFW-XXXXXX 형식의 접속 코드를 입력해주세요.','error');return}
+    if(!/^NSFW-[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{6}$/.test(code)){setStatus('NSFW-XXXXXX 형식의 접속 코드를 입력해주세요.','error');return}
+    if(!check.checked){setStatus('먼저 18세 이상 성인 확인에 체크해주세요.','error');check.focus();return}
     enter.disabled=true;codeInput.disabled=true;check.disabled=true;
     setStatus('접속 코드를 확인하고 있습니다…','loading');
     try{
@@ -369,7 +369,7 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
 
   if(get(AGE_KEY)==='1')check.checked=true;
   syncButton();
-  codeInput.addEventListener('input',()=>{codeInput.value=String(codeInput.value||'').toUpperCase().replace(/\s+/g,'').replace(/[^A-Z0-9-]/g,'').slice(0,11);syncButton()});
+  codeInput.addEventListener('input',()=>{codeInput.value=normalizeCode(codeInput.value);syncButton();if(!enter.disabled)setStatus(check.checked?'접속할 준비가 되었습니다.':'코드 확인 완료 · 성인 확인에 체크해주세요.');});
   codeInput.addEventListener('blur',()=>{codeInput.value=normalizeCode(codeInput.value);syncButton()});
   codeInput.addEventListener('keydown',e=>{if(e.key==='Enter'&&!enter.disabled){e.preventDefault();login()}});
   check.addEventListener('change',syncButton);
