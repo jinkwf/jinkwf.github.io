@@ -1616,6 +1616,86 @@ const NSFW_PROFILE_SUPPLEMENTS = {
   }
 };
 
+
+Object.assign(NSFW_PROFILE_SUPPLEMENTS,{
+  noir:{
+    background:P(`비에 젖은 네온 골목|rain-soaked neon alley;연기 자욱한 재즈바|smoky jazz bar;어두운 스피크이지 바|dark speakeasy bar;VIP 부스가 있는 지하 클럽|underground club with VIP booths;블라인드가 내려간 탐정 사무실|detective office with blinds drawn;도박 테이블이 놓인 지하 카지노|underground casino with gambling tables`),
+    outfit:P(`젖은 트렌치코트|wet trench coat;구겨진 수트와 풀린 넥타이|rumpled suit with loosened tie;검은 셔츠와 슬랙스|black shirt and slacks;슬립 드레스와 긴 장갑|slip dress with long gloves;페도라와 코트|fedora and coat`),
+    gaze:P(`담배 연기 너머로 꽂히는 시선|gaze piercing through cigarette smoke;서늘하지만 욕망이 배어 있는 시선|cool gaze soaked with desire;서로를 의심하듯 재는 시선|measuring suspicious gaze;위험을 즐기듯 가늘게 웃는 눈빛|narrowed eyes enjoying danger`),
+    expression:P(`차갑고 나른한 표정|cold languid expression;술기운이 어린 느슨한 표정|slightly drunken loosened expression;감정을 숨긴 반쪽 미소|half-smile hiding emotion;위험한 거래 직전의 긴장된 얼굴|tense face before a dangerous deal`),
+    action:P(`위스키 잔을 내려놓고 가까이 다가간다|setting down a whiskey glass and stepping closer;담배를 비벼 끄고 서로를 마주 본다|crushing out a cigarette and facing each other;바 카운터에 기대 낮게 대화한다|leaning on the bar counter and speaking low;비 내리는 골목에서 코트 자락 안으로 끌어당긴다|pulling someone under the shelter of a coat in the rain`),
+    prop:P(`담배|cigarette;재떨이|ashtray;위스키 잔|whiskey glass;카드 칩|poker chips;카지노 카드|playing cards;라이터|lighter;권총 실루엣|gun silhouette`),
+    lighting:P(`강한 명암의 느와르 조명|high-contrast noir lighting;네온 간판 반사광|neon sign reflections;블라인드 그림자|venetian blind shadows;재즈바의 붉고 낮은 조명|low red jazz-bar lighting;비에 번지는 가로등|streetlights diffused through rain`),
+    mood:P(`범죄와 욕망이 뒤엉킨 느와르 분위기|crime-laced sensual noir atmosphere;술과 담배 냄새가 배인 심야 공기|late-night air soaked with alcohol and smoke;위험한 거래 직전의 팽팽한 긴장|taut tension before a dangerous deal;퇴폐적이고 어두운 도시 감성|decadent dark city mood`),
+    composition:P(`네온과 담배 연기를 전경에 둔 구도|composition with neon and cigarette smoke in foreground;바 카운터나 카지노 테이블을 활용한 구도|composition using bar counter or casino table;블라인드 그림자가 얼굴을 가르는 클로즈업|close-up with blind shadows cutting across the face`),
+    weather:P(`비 오는 밤|rainy night;습하고 무거운 심야 공기|humid heavy midnight air`)
+  },
+  interrogation:{
+    background:P(`한 줄기 램프 아래 취조실|interrogation room under a single hanging lamp;블라인드 그림자가 드리운 형사 사무실|detective office with blind shadows;차가운 금속 책상이 있는 심문실|interrogation room with cold metal desk`),
+    outfit:P(`구겨진 셔츠와 풀린 넥타이|wrinkled shirt and loosened tie;수갑이 채워진 차림|handcuffed attire;베스트를 벗어 던진 수트|suit with vest cast aside`),
+    prop:P(`책상 램프|desk lamp;수갑|handcuffs;재떨이|ashtray;서류철|case file`),
+    lighting:P(`한 줄기 백열 램프|single incandescent lamp;블라인드 줄무늬 그림자|striped blind shadows;강한 명암 대비|severe light-shadow contrast`),
+    mood:P(`심문과 유혹이 뒤섞인 날 선 긴장감|sharp tension mixing interrogation and seduction;권력 차이가 감도는 밀실 분위기|closed-room power imbalance atmosphere`),
+    composition:P(`테이블을 사이에 둔 압박감 있는 구도|pressured composition across a table;램프 빛 원뿔 아래 인물을 가두는 구도|composition trapping figures under the lamp cone`)
+  }
+});
+
+const CATEGORY_CORE_PROMPT_TAGS = {
+  modern:{
+    noir_rain:['noir atmosphere','rain-soaked city night','cigarette smoke','wet asphalt reflections','neon reflections','dark urban desire'],
+    noir_interrogation:['noir atmosphere','interrogation room tension','single hanging lamp','venetian blind shadows','cigarette smoke','crime-thriller mood'],
+    noir_safehouse:['noir atmosphere','safehouse tension','whiskey bottle','flickering neon light','crime-on-the-run mood','cigarette smoke'],
+    noir_jazz:['noir atmosphere','smoky jazz bar','whiskey glass','dim bar lighting','underground club mood','cigarette smoke']
+  }
+};
+function categoryCorePromptTags(){
+  if(!isNsfwGenre()) return [];
+  const byCategory=CATEGORY_CORE_PROMPT_TAGS[genre.value]?.[category.value]||[];
+  if(byCategory.length) return byCategory;
+  const family=currentCategoryFamily();
+  if(family==='noir') return ['noir atmosphere','cigarette smoke','whiskey','dark city night','high-contrast shadows'];
+  if(family==='interrogation') return ['interrogation room tension','single hanging lamp','high-contrast shadows','venetian blind shadows'];
+  return [];
+}
+
+const CATEGORY_FAMILY_CORE_PROMPT_TAGS = {
+  modern:{
+    office:['after-hours office','professional tension','office interior','formal wear','private workplace intimacy'],
+    outdoor:['nighttime outdoors','secret rendezvous','open-air tension','streetlights or moonlight','being careful of surroundings'],
+    home:['private domestic atmosphere','bedroom or living space','soft indoor lighting','casual intimate homewear'],
+    hotel:['hotel room atmosphere','clean interior','private suite tension','soft ambient lighting'],
+    public:['public space tension','risk of being discovered','confined public interior'],
+    bdsm:['bdsm atmosphere','consensual power exchange','restraints or leather details','controlled tension'],
+    noir:['noir atmosphere','cigarette smoke','whiskey','high-contrast shadows','dark city night'],
+    interrogation:['interrogation tension','single hanging lamp','venetian blind shadows','power imbalance']
+  },
+  fantasy:{
+    dark:['dark fantasy atmosphere','forbidden ritual mood','candlelit shadows','gothic decadence'],
+    dungeon:['dungeon atmosphere','stone walls and chains','captivity tension','rough low lighting'],
+    inhuman:['nonhuman encounter','uncanny anatomy','otherworldly atmosphere','creature tension']
+  },
+  guideverse:{
+    guide:['guideverse setting','guiding contact','center facility atmosphere','biometric monitoring','stabilization tension'],
+    dungeon:['controlled training or restraint setting','contained tension','monitoring and caution']
+  },
+  period:{
+    period:['historical setting','traditional architecture','silk robes','lamplight or moonlight','restrained period intimacy']
+  }
+};
+function categoryFamilyCorePromptTags(){
+  if(!isNsfwGenre()) return [];
+  const family=currentCategoryFamily();
+  return CATEGORY_FAMILY_CORE_PROMPT_TAGS[genre.value]?.[family]||[];
+}
+function categorySupplementWeight(type){
+  const family=currentCategoryFamily();
+  if(!family) return (type==='outfit'?7:type==='background'?5:type==='action'?5:2);
+  const strong={background:10,outfit:10,lighting:9,mood:9,action:8,prop:8,pose:6,gaze:6,expression:6,composition:5,weather:5};
+  const extraStrongFamilies=new Set(['bdsm','noir','interrogation','dark','dungeon','inhuman','guide','period']);
+  const extraStrong={background:12,outfit:11,lighting:11,mood:11,action:10,prop:9,pose:7,gaze:7,expression:7,composition:6,weather:6};
+  return (extraStrongFamilies.has(family)?extraStrong:strong)[type]||4;
+}
+
 const NSFW_CATEGORY_MICRO_SUPPLEMENTS = {
   modern:{
     office_afterhours:{action:P(`업무 메신저를 끄고 상대에게 몸을 돌린다|turning away from work messenger toward partner;책상 서랍을 닫고 가까이 끌어당긴다|closing desk drawer and pulling partner close`)},
@@ -3144,7 +3224,7 @@ function poolFor(type){
   if(category.value==='__all'){
     base.push(...sp);
   }else{
-    const w = type==='outfit'?7:type==='background'?5:type==='action'?5:2;
+    const w = categorySupplementWeight(type);
     for(let i=0;i<w;i++) base.push(...sp);
   }
 
@@ -3355,7 +3435,7 @@ function buildPrompt(){
   // NSFW ON이면 아래 3개는 항상 최종 NovelAI 프롬프트에 강제 포함한다.
   const nsfwBase=isNsfwGenre()?['nsfw','explicit','uncensored']:[];
   const userTags=activeUserCharacterText();
-  let a=[$('quality').value,$('gender').value,...requiredCorePromptTags(),$('style').value,artStyleTag(),...aiPresetPromptTags('novel'),...detailBoosterTags('novel'),...nsfwBase,...specialPromptTags(),...multiAxisPromptTags(),...povPromptTags(),...presetPromptTags(),...relationNsfwPromptTags(),...roleLayoutTags(),customTagsForPrompt(),...multiDistinctPromptTags()];
+  let a=[$('quality').value,$('gender').value,...requiredCorePromptTags(),$('style').value,artStyleTag(),...aiPresetPromptTags('novel'),...detailBoosterTags('novel'),...nsfwBase,...categoryFamilyCorePromptTags(),...categoryCorePromptTags(),...specialPromptTags(),...multiAxisPromptTags(),...povPromptTags(),...presetPromptTags(),...relationNsfwPromptTags(),...roleLayoutTags(),customTagsForPrompt(),...multiDistinctPromptTags()];
   promptSlotKeys().forEach(k=>{
     if(!state.active[k]||!state.selected[k]?.en) return;
     if(k==='outfit'){
