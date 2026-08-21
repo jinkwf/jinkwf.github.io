@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#0e0c12">
-<title>NSFW 에셋 랜덤 프롬프트 생성기.v3</title>
+<title>NSFW 에셋 랜덤 프롬프트 생성기.v1</title>
 <style>
 :root{--bg:#0e0c12;--panel:#17141d;--panel2:#201c28;--panel3:#292333;--line:rgba(255,255,255,.09);--text:#f7f3fa;--sub:#aaa3b4;--accent:#a68cff;--pink:#e694c4;--gold:#f0c978;--green:#9fdfb6;--red:#ff9aa5;--shadow:0 20px 60px rgba(0,0,0,.35)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 8% 0,rgba(166,140,255,.13),transparent 27%),radial-gradient(circle at 100% 15%,rgba(230,148,196,.08),transparent 27%),var(--bg);color:var(--text);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif}button,select,input,textarea{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}.page{width:min(1220px,calc(100% - 28px));margin:auto;padding:28px 0 70px}.hero,.panel{border:1px solid var(--line);background:rgba(23,20,29,.96);box-shadow:var(--shadow)}.hero{position:relative;overflow:hidden;border-radius:26px;padding:31px;margin-bottom:17px}.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-100px;top:-135px;background:rgba(166,140,255,.12);filter:blur(12px);pointer-events:none}.eyebrow{font-size:11px;font-weight:900;letter-spacing:.2em;color:var(--accent)}
 .eyebrow-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
@@ -243,7 +243,7 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
 <iframe id="accessAuthFrame" name="accessAuthFrame" title="접속 인증" aria-hidden="true" tabindex="-1" style="position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;border:0;pointer-events:none;visibility:hidden"></iframe>
 
 <script>
-/* Private access gate: POST secret -> one-time JSONP result polling -> session token -> periodic verify. */
+/* Fast private access gate · V4 challenge-response JSONP. No POST polling/postMessage dependency. */
 (function(){
   const AGE_KEY='nsfw_asset_gacha_age_ok_v1';
   const SESSION_KEY='nsfw_access_session_v1';
@@ -257,124 +257,113 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
   const denied=document.getElementById('ageDenied');
   const codeInput=document.getElementById('accessCode');
   const status=document.getElementById('accessAuthStatus');
-  const form=document.getElementById('accessAuthForm');
-  if(!gate||!check||!enter||!exit||!codeInput||!status||!form) return;
+  if(!gate||!check||!enter||!exit||!codeInput||!status)return;
 
   document.body.classList.add('access-locked','has-nsfw-banner');
-  let verifyTimer=null;
-  let lastVerified=0;
-  let authBusy=false;
+  let verifyTimer=null,lastVerified=0,authBusy=false;
+  let challengeCache=null,challengePromise=null;
 
-  const get=(k)=>{try{return localStorage.getItem(k)}catch(_){return null}};
+  const get=k=>{try{return localStorage.getItem(k)}catch(_){return null}};
   const set=(k,v)=>{try{localStorage.setItem(k,v)}catch(_){}};
-  const del=(k)=>{try{localStorage.removeItem(k)}catch(_){}};
+  const del=k=>{try{localStorage.removeItem(k)}catch(_){}};
   const randomId=()=>{try{return crypto.randomUUID()}catch(_){return 'dev-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,14)}};
-  const randomNonce=()=>{try{const a=new Uint8Array(18);crypto.getRandomValues(a);return [...a].map(v=>v.toString(16).padStart(2,'0')).join('')}catch(_){return randomId().replace(/[^A-Za-z0-9]/g,'')+Math.random().toString(36).slice(2,14)}};
   const deviceId=()=>{let id=get(DEVICE_KEY);if(!id){id=randomId();set(DEVICE_KEY,id)}return id};
-  const requestId=()=>Date.now().toString(36)+'-'+randomNonce().slice(0,18);
-  const normalizeCode=(v)=>{let s=String(v||'').trim().toUpperCase().replace(/\s+/g,'').replace(/[^A-Z0-9-]/g,'');if(s&&!s.startsWith('NSFW-')&&/^[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{6}$/.test(s))s='NSFW-'+s;return s.slice(0,11)};
+  const normalizeCode=v=>{let s=String(v||'').trim().toUpperCase().replace(/\s+/g,'').replace(/[^A-Z0-9-]/g,'');if(s&&!s.startsWith('NSFW-')&&/^[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{6}$/.test(s))s='NSFW-'+s;return s.slice(0,11)};
 
   function setStatus(message,type=''){status.textContent=message;status.classList.remove('ok','error','loading');if(type)status.classList.add(type)}
-  function syncButton(){const normalized=normalizeCode(codeInput.value);const valid=/^NSFW-[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{6}$/.test(normalized);enter.disabled=authBusy||!valid;enter.setAttribute('aria-disabled',enter.disabled?'true':'false')}
+  function syncButton(){const valid=/^NSFW-[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{6}$/.test(normalizeCode(codeInput.value));enter.disabled=authBusy||!valid;enter.setAttribute('aria-disabled',enter.disabled?'true':'false')}
   function errorMessage(res){
     const code=res&&res.code;
-    if(code==='DEVICE_LIMIT') return '등록 가능한 기기 수를 초과했습니다. 관리자에게 문의해주세요.';
-    if(code==='BLOCKED') return '차단된 접속 코드입니다. 관리자에게 문의해주세요.';
-    if(code==='EXPIRED') return '접속 코드의 사용 기간이 만료되었습니다. 관리자에게 문의해주세요.';
-    if(code==='USAGE_LIMIT') return '접속 가능 횟수를 모두 사용했습니다. 관리자에게 문의해주세요.';
-    if(code==='SESSION_EXPIRED'||code==='SESSION_INVALID'||code==='SESSION_DEVICE_MISMATCH') return '인증 세션이 만료되었습니다. 접속 코드를 다시 입력해주세요.';
-    if(code==='TOO_MANY_ATTEMPTS') return '인증 시도가 너무 많습니다. 잠시 후 다시 시도해주세요.';
-    if(code==='SERVER_ERROR') return '인증 서버에서 오류가 발생했습니다. 관리자에게 문의해주세요.';
-    return (res&&res.message)||'접속 코드가 올바르지 않습니다.';
+    if(code==='DEVICE_LIMIT')return'등록 가능한 기기 수를 초과했습니다. 관리자에게 문의해주세요.';
+    if(code==='BLOCKED')return'차단된 접속 코드입니다. 관리자에게 문의해주세요.';
+    if(code==='EXPIRED')return'접속 코드의 사용 기간이 만료되었습니다. 관리자에게 문의해주세요.';
+    if(code==='USAGE_LIMIT')return'접속 가능 횟수를 모두 사용했습니다. 관리자에게 문의해주세요.';
+    if(code==='SESSION_EXPIRED'||code==='SESSION_INVALID'||code==='SESSION_DEVICE_MISMATCH')return'인증 세션이 만료되었습니다. 접속 코드를 다시 입력해주세요.';
+    if(code==='TOO_MANY_ATTEMPTS')return'인증 시도가 너무 많습니다. 잠시 후 다시 시도해주세요.';
+    if(code==='CHALLENGE_EXPIRED')return'인증 요청이 만료되었습니다. 다시 접속해주세요.';
+    if(code==='SERVER_ERROR')return'인증 서버에서 오류가 발생했습니다. 관리자에게 문의해주세요.';
+    return(res&&res.message)||'접속 코드가 올바르지 않습니다.';
   }
 
-  function jsonpOnce(params, timeoutMs=6500){
+  function jsonpOnce(params,timeoutMs=5000){
     return new Promise((resolve,reject)=>{
-      const cb='__nsfwAuth_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,10);
-      const script=document.createElement('script');
-      let done=false;
-      const cleanup=()=>{if(done)return;done=true;clearTimeout(timer);try{delete window[cb]}catch(_){window[cb]=undefined}script.remove()};
-      const timer=setTimeout(()=>{cleanup();const e=new Error('JSONP_TIMEOUT');e.code='JSONP_TIMEOUT';reject(e)},timeoutMs);
-      window[cb]=(data)=>{cleanup();resolve(data)};
+      const cb='__nsfwV4_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,9);
+      const script=document.createElement('script');let finished=false;
+      const cleanup=()=>{if(finished)return;finished=true;clearTimeout(timer);try{delete window[cb]}catch(_){window[cb]=undefined}script.remove()};
+      const timer=setTimeout(()=>{cleanup();const e=new Error('AUTH_TIMEOUT');e.code='AUTH_TIMEOUT';reject(e)},timeoutMs);
+      window[cb]=data=>{cleanup();resolve(data)};
       const qs=new URLSearchParams({...params,callback:cb,_:Date.now().toString()});
-      script.src=AUTH_ENDPOINT+'?'+qs.toString();
-      script.async=true;
-      script.onerror=()=>{cleanup();const e=new Error('JSONP_LOAD_ERROR');e.code='JSONP_LOAD_ERROR';reject(e)};
+      script.src=AUTH_ENDPOINT+'?'+qs.toString();script.async=true;
+      script.onerror=()=>{cleanup();const e=new Error('AUTH_LOAD_ERROR');e.code='AUTH_LOAD_ERROR';reject(e)};
       document.head.appendChild(script);
     });
   }
 
-  async function pollAuthResult(rid,nonce){
-    const deadline=Date.now()+18000;
-    let lastError=null;
-    while(Date.now()<deadline){
-      try{
-        const res=await jsonpOnce({kind:'auth_result',requestId:rid,clientNonce:nonce},5500);
-        if(res&&res.ready) return res;
-        if(res&&res.pending===false&&res.ok===false) return res;
-      }catch(err){lastError=err}
-      await new Promise(r=>setTimeout(r,450));
-    }
-    const err=new Error('AUTH_RESULT_TIMEOUT');err.code=lastError?.code||'AUTH_RESULT_TIMEOUT';throw err;
+  async function sha256Hex(value){
+    if(!(window.crypto&&crypto.subtle))throw new Error('WEBCRYPTO_UNAVAILABLE');
+    const data=new TextEncoder().encode(String(value||''));
+    const digest=await crypto.subtle.digest('SHA-256',data);
+    return Array.from(new Uint8Array(digest),b=>b.toString(16).padStart(2,'0')).join('');
   }
 
-  function postAuth(kind,payload,rid,nonce){
-    document.getElementById('accessAuthKind').value=kind;
-    document.getElementById('accessAuthCodeField').value=payload.code||'';
-    document.getElementById('accessAuthSessionField').value=payload.sessionToken||'';
-    document.getElementById('accessAuthDeviceField').value=deviceId();
-    document.getElementById('accessAuthRequestField').value=rid;
-    document.getElementById('accessAuthNonceField').value=nonce;
-    document.getElementById('accessAuthPageField').value=location.href.slice(0,500);
-    form.submit();
+  function clearChallenge(){challengeCache=null;challengePromise=null}
+  async function getChallenge(force=false){
+    if(!force&&challengeCache&&challengeCache.expiresAt>Date.now()+10000)return challengeCache;
+    if(!force&&challengePromise)return challengePromise;
+    challengePromise=jsonpOnce({kind:'auth_challenge'},4500).then(res=>{
+      if(!res||!res.ok||!res.challengeId||!res.nonce){const e=new Error('BAD_CHALLENGE');e.payload=res;throw e}
+      challengeCache={challengeId:res.challengeId,nonce:res.nonce,expiresAt:Date.now()+Math.min(80,Number(res.expiresIn)||80)*1000};
+      challengePromise=null;return challengeCache;
+    }).catch(err=>{challengePromise=null;challengeCache=null;throw err});
+    return challengePromise;
+  }
+  function preloadChallenge(){getChallenge(false).catch(()=>{})}
+
+  async function loginWithChallenge(code){
+    const ch=await getChallenge(false);
+    const proof=await sha256Hex(code+'|'+ch.nonce);
+    clearChallenge();
+    const res=await jsonpOnce({kind:'auth_login_v4',challengeId:ch.challengeId,proof:proof,deviceId:deviceId(),page:location.pathname.slice(0,180)},5000);
+    preloadChallenge();
+    return res;
+  }
+  async function verifyWithChallenge(token){
+    const ch=await getChallenge(false);
+    const tokenHash=await sha256Hex(token);
+    const proof=await sha256Hex(tokenHash+'|'+ch.nonce);
+    clearChallenge();
+    const res=await jsonpOnce({kind:'auth_verify_v4',challengeId:ch.challengeId,proof:proof,deviceId:deviceId()},5000);
+    preloadChallenge();
+    return res;
   }
 
-  async function submitAuth(kind,payload){
-    const rid=requestId();
-    const nonce=randomNonce();
-    postAuth(kind,payload,rid,nonce);
-    return pollAuthResult(rid,nonce);
-  }
-
-  function startVerifyTimer(){
-    if(verifyTimer)clearInterval(verifyTimer);
-    verifyTimer=setInterval(()=>verifyStoredSession(true),VERIFY_INTERVAL);
-  }
+  function startVerifyTimer(){if(verifyTimer)clearInterval(verifyTimer);verifyTimer=setInterval(()=>verifyStoredSession(true),VERIFY_INTERVAL)}
   function unlockApp(res){
     lastVerified=Date.now();
     const deviceText=(res&&res.maxDevices)?` · 등록 기기 ${res.sessionCount||1}/${res.maxDevices}`:'';
     setStatus('접속 인증 완료'+deviceText,'ok');
     setTimeout(()=>{
-      gate.classList.add('hidden');gate.setAttribute('aria-hidden','true');
-      document.body.classList.remove('access-locked');
-      document.documentElement.style.overflow='';document.body.style.overflow='';
-      startVerifyTimer();
+      gate.classList.add('hidden');gate.setAttribute('aria-hidden','true');document.body.classList.remove('access-locked');
+      document.documentElement.style.overflow='';document.body.style.overflow='';startVerifyTimer();
       window.dispatchEvent(new CustomEvent('nsfw-auth-ready',{detail:res||{}}));
-    },300);
+    },100);
   }
   function relock(message){
-    del(SESSION_KEY);
-    if(verifyTimer){clearInterval(verifyTimer);verifyTimer=null}
-    document.body.classList.add('access-locked');
-    gate.classList.remove('hidden');gate.setAttribute('aria-hidden','false');
-    codeInput.value='';check.checked=get(AGE_KEY)==='1';authBusy=false;syncButton();
-    setStatus(message||'접속 코드를 다시 입력해주세요.','error');
+    del(SESSION_KEY);if(verifyTimer){clearInterval(verifyTimer);verifyTimer=null}document.body.classList.add('access-locked');
+    gate.classList.remove('hidden');gate.setAttribute('aria-hidden','false');codeInput.value='';check.checked=get(AGE_KEY)==='1';authBusy=false;syncButton();
+    setStatus(message||'접속 코드를 다시 입력해주세요.','error');preloadChallenge();
   }
 
   async function verifyStoredSession(silent=false){
-    const token=get(SESSION_KEY);
-    if(!token){if(!silent)setStatus('발급받은 개인 코드를 입력해주세요.');return false}
+    const token=get(SESSION_KEY);if(!token){if(!silent)setStatus('발급받은 개인 코드를 입력해주세요.');return false}
     if(!silent)setStatus('저장된 인증 세션을 확인하고 있습니다…','loading');
     try{
-      const res=await submitAuth('auth_verify',{sessionToken:token});
-      if(res&&res.ok){
-        lastVerified=Date.now();
-        if(document.body.classList.contains('access-locked')) unlockApp(res);
-        return true;
-      }
+      const res=await verifyWithChallenge(token);
+      if(res&&res.ok){lastVerified=Date.now();if(document.body.classList.contains('access-locked'))unlockApp(res);return true}
       relock(errorMessage(res));return false;
     }catch(err){
-      if(!silent)setStatus('인증 서버 결과를 확인하지 못했습니다. Apps Script 최신 버전 배포 여부를 확인해주세요.','error');
+      console.error('session verify transport',err);
+      if(!silent)setStatus('인증 서버 연결을 5초 안에 확인하지 못했습니다. Apps Script V4 배포 상태를 확인해주세요.','error');
       return false;
     }
   }
@@ -384,15 +373,14 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
     const code=normalizeCode(codeInput.value);codeInput.value=code;syncButton();
     if(!/^NSFW-[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{6}$/.test(code)){setStatus('NSFW-XXXXXX 형식의 접속 코드를 입력해주세요.','error');return}
     if(!check.checked){setStatus('먼저 18세 이상 성인 확인에 체크해주세요.','error');check.focus();return}
-    authBusy=true;syncButton();codeInput.disabled=true;check.disabled=true;
-    setStatus('접속 코드를 확인하고 있습니다…','loading');
+    authBusy=true;syncButton();codeInput.disabled=true;check.disabled=true;setStatus('접속 코드를 확인하고 있습니다…','loading');
     try{
-      const res=await submitAuth('auth_login',{code});
+      const res=await loginWithChallenge(code);
       if(res&&res.ok&&res.sessionToken){set(AGE_KEY,'1');set(SESSION_KEY,res.sessionToken);unlockApp(res);return}
       setStatus(errorMessage(res),'error');
     }catch(err){
-      console.error('access auth transport error',err);
-      setStatus('인증 서버 요청은 전송했지만 결과를 확인하지 못했습니다. Apps Script를 새 버전으로 재배포해주세요.','error');
+      console.error('access auth V4 transport',err);
+      setStatus('인증 서버 연결을 확인하지 못했습니다. Apps Script가 ACCESS-V4-CHALLENGE로 배포되어 있는지 확인해주세요.','error');
     }finally{authBusy=false;codeInput.disabled=false;check.disabled=false;syncButton()}
   }
 
@@ -401,14 +389,13 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
   codeInput.addEventListener('input',()=>{codeInput.value=normalizeCode(codeInput.value);syncButton();if(!enter.disabled)setStatus(check.checked?'접속할 준비가 되었습니다.':'코드 확인 완료 · 성인 확인에 체크해주세요.')});
   codeInput.addEventListener('blur',()=>{codeInput.value=normalizeCode(codeInput.value);syncButton()});
   codeInput.addEventListener('keydown',e=>{if(e.key==='Enter'&&!enter.disabled){e.preventDefault();login()}});
-  check.addEventListener('change',syncButton);
-  check.addEventListener('input',syncButton);
+  check.addEventListener('change',syncButton);check.addEventListener('input',syncButton);
   enter.addEventListener('click',e=>{e.preventDefault();login()});
   exit.addEventListener('click',e=>{e.preventDefault();if(denied)denied.classList.add('show');enter.disabled=true;check.disabled=true;codeInput.disabled=true;exit.disabled=true;setStatus('미성년자는 이 사이트를 이용할 수 없습니다.','error')});
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&!document.body.classList.contains('access-locked')&&Date.now()-lastVerified>VERIFY_INTERVAL)verifyStoredSession(true)});
 
-  if(check.checked&&get(SESSION_KEY)) verifyStoredSession(false);
-  else setStatus('성인 확인 후 발급받은 개인 접속 코드를 입력해주세요.');
+  preloadChallenge();
+  if(check.checked&&get(SESSION_KEY))verifyStoredSession(false);else setStatus('성인 확인 후 발급받은 개인 접속 코드를 입력해주세요.');
 })();
 </script>
 
@@ -489,6 +476,11 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
 <footer><div>문의사항 X : <a href="https://x.com/Jin_k__wf" target="_blank" rel="noopener noreferrer">@Jin_k__wf</a></div><div>NSFW Asset Gacha v2.0 · Smart Director · Stats Recommender · 18+</div><div style="margin-top:5px"><button type="button" id="analyticsPing" style="border:0;background:transparent;color:#6f6978;font-size:8px;cursor:pointer">통계 연결 테스트 · v1 NSFW</button></div></footer>
 </div>
 <script>
+(function(){
+function __bootAssetGachaAfterAuth(){
+  if(window.__assetGachaBooted)return;
+  window.__assetGachaBooted=true;
+
 const APP_VERSION='2.0-SMART-DIRECTOR';
 const E=(ko,en)=>({ko,en});
 /* ===== INTENSITY (수위) ===== */
@@ -3430,5 +3422,13 @@ initializeAssetGacha();
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')safeInitStep('counter visibility refresh',()=>loadUsageCounts())});
 window.addEventListener('pageshow',()=>safeInitStep('counter pageshow refresh',()=>loadUsageCounts()));
 $('usageCounter')?.addEventListener('click',()=>safeInitStep('counter manual refresh',()=>loadUsageCounts()));
+
+}
+if(document.body.classList.contains('access-locked')){
+  window.addEventListener('nsfw-auth-ready',__bootAssetGachaAfterAuth,{once:true});
+}else{
+  __bootAssetGachaAfterAuth();
+}
+})();
 </script><iframe id="counterBridge" title="counter bridge" aria-hidden="true" tabindex="-1" style="position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;border:0;pointer-events:none;visibility:hidden"></iframe>
 </body></html>
