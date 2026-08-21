@@ -298,7 +298,11 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
     if(code==='TOO_MANY_ATTEMPTS')return'인증 시도가 너무 많습니다. 잠시 후 다시 시도해주세요.';
     if(code==='SESSION_TOKEN_INVALID')return'브라우저 세션 생성에 실패했습니다. 페이지를 새로고침해주세요.';
     if(code==='CALLBACK_REJECTED')return'인증 callback 주소가 허용되지 않았습니다.';
-    if(code==='SERVER_ERROR')return'인증 서버에서 오류가 발생했습니다. 관리자에게 문의해주세요.';
+    if(code==='SERVER_ERROR'){
+      const diag=(res&&res.diagnosticId)?`\n진단 ID: ${res.diagnosticId}`:'';
+      const detail=(res&&res.message)?String(res.message):'인증 서버에서 오류가 발생했습니다.';
+      return detail+diag;
+    }
     return(res&&res.message)||'접속 코드가 올바르지 않습니다.';
   }
 
