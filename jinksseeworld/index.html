@@ -243,7 +243,7 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
 <iframe id="accessAuthFrame" name="accessAuthFrame" title="접속 인증" aria-hidden="true" tabindex="-1" style="position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;border:0;pointer-events:none;visibility:hidden"></iframe>
 
 <script>
-/* Fast private access gate · V7 optimized JSONP challenge transport. */
+/* Fast private access gate · V8 direct hash JSONP transport. */
 (function(){
   const AGE_KEY='nsfw_asset_gacha_age_ok_v1';
   const SESSION_KEY='nsfw_access_session_v1';
@@ -260,7 +260,7 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
   if(!gate||!check||!enter||!exit||!codeInput||!status)return;
 
   document.body.classList.add('access-locked','has-nsfw-banner');
-  let verifyTimer=null,lastVerified=0,authBusy=false,challengeCache=null,challengePromise=null;
+  let verifyTimer=null,lastVerified=0,authBusy=false;
 
   const get=k=>{try{return localStorage.getItem(k)}catch(_){return null}};
   const set=(k,v)=>{try{localStorage.setItem(k,v)}catch(_){}};
@@ -286,7 +286,7 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
 
   function jsonpOnce(params,timeoutMs=5000){
     return new Promise((resolve,reject)=>{
-      const cb='__nsfwV7_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,9);
+      const cb='__nsfwV8_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,9);
       const script=document.createElement('script');let finished=false;
       const cleanup=()=>{if(finished)return;finished=true;clearTimeout(timer);try{delete window[cb]}catch(_){window[cb]=undefined}script.remove()};
       const timer=setTimeout(()=>{cleanup();const e=new Error('AUTH_TIMEOUT');e.code='AUTH_TIMEOUT';reject(e)},timeoutMs);
@@ -298,42 +298,23 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
     });
   }
 
-  async function sha256Hex(value){
-    if(!(window.crypto&&crypto.subtle))throw new Error('WEBCRYPTO_UNAVAILABLE');
-    const data=new TextEncoder().encode(String(value||''));
-    const digest=await crypto.subtle.digest('SHA-256',data);
-    return Array.from(new Uint8Array(digest),b=>b.toString(16).padStart(2,'0')).join('');
+  async function sha256HexSafe(value){
+    if(window.crypto&&crypto.subtle&&window.TextEncoder){
+      const data=new TextEncoder().encode(String(value||''));
+      const digest=await crypto.subtle.digest('SHA-256',data);
+      return Array.from(new Uint8Array(digest),b=>b.toString(16).padStart(2,'0')).join('');
+    }
+    // GitHub Pages는 HTTPS라 WebCrypto가 정상 경로지만, 구형 브라우저에서는 명확히 안내한다.
+    const e=new Error('WEBCRYPTO_UNAVAILABLE');e.code='WEBCRYPTO_UNAVAILABLE';throw e;
   }
 
-  function clearChallenge(){challengeCache=null;challengePromise=null}
-  async function getChallenge(force=false){
-    if(!force&&challengeCache&&challengeCache.expiresAt>Date.now()+10000)return challengeCache;
-    if(!force&&challengePromise)return challengePromise;
-    challengePromise=jsonpOnce({kind:'auth_challenge'},4500).then(res=>{
-      if(!res||!res.ok||!res.challengeId||!res.nonce){const e=new Error('BAD_CHALLENGE');e.payload=res;throw e}
-      challengeCache={challengeId:res.challengeId,nonce:res.nonce,expiresAt:Date.now()+Math.min(80,Number(res.expiresIn)||80)*1000};
-      challengePromise=null;return challengeCache;
-    }).catch(err=>{challengePromise=null;challengeCache=null;throw err});
-    return challengePromise;
+  async function loginDirect(code){
+    const codeHash=await sha256HexSafe(code);
+    return jsonpOnce({kind:'auth_login_hash',codeHash:codeHash,deviceId:deviceId(),page:location.pathname.slice(0,180)},6500);
   }
-  function preloadChallenge(){getChallenge(false).catch(()=>{})}
-
-  async function loginWithChallenge(code){
-    const ch=await getChallenge(false);
-    const proof=await sha256Hex(code+'|'+ch.nonce);
-    clearChallenge();
-    const res=await jsonpOnce({kind:'auth_login_v4',challengeId:ch.challengeId,proof:proof,deviceId:deviceId(),page:location.pathname.slice(0,180)},8000);
-    preloadChallenge();
-    return res;
-  }
-  async function verifyWithChallenge(token){
-    const ch=await getChallenge(false);
-    const tokenHash=await sha256Hex(token);
-    const proof=await sha256Hex(tokenHash+'|'+ch.nonce);
-    clearChallenge();
-    const res=await jsonpOnce({kind:'auth_verify_v4',challengeId:ch.challengeId,proof:proof,deviceId:deviceId()},8000);
-    preloadChallenge();
-    return res;
+  async function verifyDirect(token){
+    const tokenHash=await sha256HexSafe(token);
+    return jsonpOnce({kind:'auth_verify_hash',tokenHash:tokenHash,deviceId:deviceId()},6500);
   }
 
   function startVerifyTimer(){if(verifyTimer)clearInterval(verifyTimer);verifyTimer=setInterval(()=>verifyStoredSession(true),VERIFY_INTERVAL)}
@@ -350,19 +331,19 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
   function relock(message){
     del(SESSION_KEY);if(verifyTimer){clearInterval(verifyTimer);verifyTimer=null}document.body.classList.add('access-locked');
     gate.classList.remove('hidden');gate.setAttribute('aria-hidden','false');codeInput.value='';check.checked=get(AGE_KEY)==='1';authBusy=false;syncButton();
-    setStatus(message||'접속 코드를 다시 입력해주세요.','error');preloadChallenge();
+    setStatus(message||'접속 코드를 다시 입력해주세요.','error');
   }
 
   async function verifyStoredSession(silent=false){
     const token=get(SESSION_KEY);if(!token){if(!silent)setStatus('발급받은 개인 코드를 입력해주세요.');return false}
     if(!silent)setStatus('저장된 인증 세션을 확인하고 있습니다…','loading');
     try{
-      const res=await verifyWithChallenge(token);
+      const res=await verifyDirect(token);
       if(res&&res.ok){lastVerified=Date.now();if(document.body.classList.contains('access-locked'))unlockApp(res);return true}
       relock(errorMessage(res));return false;
     }catch(err){
-      console.error('session verify V7',err);
-      if(!silent)setStatus('인증 서버 응답이 지연되고 있습니다. 다시 시도해주세요.','error');
+      console.error('session verify V8',err);
+      if(!silent)setStatus(err&&err.code==='AUTH_TIMEOUT'?'인증 서버 응답이 지연되고 있습니다. 다시 시도해주세요.':'인증 세션 확인에 실패했습니다. 다시 시도해주세요.','error');
       return false;
     }
   }
@@ -375,12 +356,12 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
     authBusy=true;syncButton();codeInput.disabled=true;check.disabled=true;setStatus('접속 코드를 확인하고 있습니다…','loading');
     const slowNotice=setTimeout(()=>{if(authBusy)setStatus('인증 처리 중입니다… 첫 접속은 몇 초 걸릴 수 있습니다.','loading')},2500);
     try{
-      const res=await loginWithChallenge(code);
+      const res=await loginDirect(code);
       if(res&&res.ok&&res.sessionToken){set(AGE_KEY,'1');set(SESSION_KEY,res.sessionToken);unlockApp(res);return}
       setStatus(errorMessage(res),'error');
     }catch(err){
-      console.error('access auth V7',err);
-      const msg=err&&err.code==='AUTH_TIMEOUT'?'인증 서버 처리가 지연되어 응답 제한 시간을 넘었습니다. 다시 한 번 시도해주세요.':'인증 응답을 불러오지 못했습니다. Apps Script가 ACCESS-V7-FAST-JSONP로 배포되어 있는지 확인해주세요.';
+      console.error('access auth V8',err);
+      const msg=err&&err.code==='AUTH_TIMEOUT'?'인증 서버 처리가 지연되어 응답 제한 시간을 넘었습니다. 다시 한 번 시도해주세요.':err&&err.code==='WEBCRYPTO_UNAVAILABLE'?'현재 브라우저에서 보안 해시 기능을 사용할 수 없습니다. 최신 Chrome/Edge/Safari에서 접속해주세요.':'인증 응답을 불러오지 못했습니다. Apps Script가 ACCESS-V8-HASH-JSONP로 배포되어 있는지 확인해주세요.';
       setStatus(msg,'error');
     }finally{clearTimeout(slowNotice);authBusy=false;codeInput.disabled=false;check.disabled=false;syncButton()}
   }
@@ -395,8 +376,7 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
   exit.addEventListener('click',e=>{e.preventDefault();if(denied)denied.classList.add('show');enter.disabled=true;check.disabled=true;codeInput.disabled=true;exit.disabled=true;setStatus('미성년자는 이 사이트를 이용할 수 없습니다.','error')});
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&!document.body.classList.contains('access-locked')&&Date.now()-lastVerified>VERIFY_INTERVAL)verifyStoredSession(true)});
 
-  // 게이트 화면을 즉시 보여준 뒤 challenge만 백그라운드에서 미리 받아둔다.
-  setTimeout(preloadChallenge,0);
+  // V8: 별도 사전 인증 요청 없이 게이트를 즉시 표시한다.
   if(check.checked&&get(SESSION_KEY))verifyStoredSession(false);else setStatus('성인 인증 후 발급받은 개인 접속 코드를 입력해주세요.');
 })();;
 </script>
