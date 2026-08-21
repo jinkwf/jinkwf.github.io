@@ -243,7 +243,7 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
 <iframe id="accessAuthFrame" name="accessAuthFrame" title="접속 인증" aria-hidden="true" tabindex="-1" style="position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;border:0;pointer-events:none;visibility:hidden"></iframe>
 
 <script>
-/* Stable private access gate · POST + non-sensitive result polling. */
+/* Stable private access gate · POST + iframe postMessage result bridge. */
 (function(){
   const AGE_KEY='nsfw_asset_gacha_age_ok_v1';
   const SESSION_KEY='nsfw_access_session_v1';
@@ -268,7 +268,7 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
   if(!gate||!check||!enter||!exit||!codeInput||!status||!form)return;
 
   document.body.classList.add('access-locked','has-nsfw-banner');
-  let verifyTimer=null,lastVerified=0,authBusy=false,serverReachable=null;
+  let verifyTimer=null,lastVerified=0,authBusy=false;
 
   const get=k=>{try{return localStorage.getItem(k)}catch(_){return null}};
   const set=(k,v)=>{try{localStorage.setItem(k,v)}catch(_){}};
@@ -296,17 +296,31 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
     return(res&&res.message)||'접속 코드가 올바르지 않습니다.';
   }
 
-  function jsonpOnce(params,timeoutMs=3200){
+  function frameGet(params,timeoutMs=3600){
     return new Promise((resolve,reject)=>{
-      const cb='__nsfwAuth_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,10);
-      const script=document.createElement('script');let done=false;
-      const cleanup=()=>{if(done)return;done=true;clearTimeout(timer);try{delete window[cb]}catch(_){window[cb]=undefined}script.remove()};
-      const timer=setTimeout(()=>{cleanup();const e=new Error('JSONP_TIMEOUT');e.code='JSONP_TIMEOUT';reject(e)},timeoutMs);
-      window[cb]=data=>{cleanup();resolve(data)};
-      const qs=new URLSearchParams({...params,callback:cb,_:Date.now().toString()});
-      script.src=AUTH_ENDPOINT+'?'+qs.toString();script.async=true;
-      script.onerror=()=>{cleanup();const e=new Error('JSONP_LOAD_ERROR');e.code='JSONP_LOAD_ERROR';reject(e)};
-      document.head.appendChild(script);
+      const requestId=String(params.requestId||randomId());
+      const bridgeToken=randomHex(18);
+      const frame=document.createElement('iframe');
+      let done=false;
+      frame.setAttribute('aria-hidden','true');
+      frame.tabIndex=-1;
+      frame.style.cssText='position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;border:0;pointer-events:none;visibility:hidden';
+      const cleanup=()=>{
+        if(done)return;done=true;clearTimeout(timer);window.removeEventListener('message',onMessage);
+        try{frame.remove()}catch(_){}
+      };
+      const onMessage=e=>{
+        const data=e&&e.data;
+        if(!data||data.type!=='nsfw-access-auth-v1')return;
+        if(String(data.requestId||'')!==requestId)return;
+        if(String(data.bridgeToken||'')!==bridgeToken)return;
+        cleanup();resolve(data);
+      };
+      const timer=setTimeout(()=>{cleanup();const err=new Error('FRAME_TIMEOUT');err.code='FRAME_TIMEOUT';reject(err)},timeoutMs);
+      window.addEventListener('message',onMessage);
+      const qs=new URLSearchParams({...params,requestId,bridgeToken,_:Date.now().toString()});
+      frame.src=AUTH_ENDPOINT+'?'+qs.toString();
+      document.body.appendChild(frame);
     });
   }
 
@@ -316,15 +330,16 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
     form.submit();
   }
 
-  async function pollResult(requestId,clientNonce,maxMs=11000){
+  async function pollResult(requestId,clientNonce,maxMs=12000){
     const started=Date.now();let pollNo=0;
     while(Date.now()-started<maxMs){
-      if(pollNo++) await new Promise(r=>setTimeout(r,pollNo<3?180:320));
+      if(pollNo++) await new Promise(r=>setTimeout(r,pollNo<3?220:420));
       try{
-        const res=await jsonpOnce({kind:'auth_result',requestId,clientNonce},2800);
+        const res=await frameGet({kind:'auth_result_frame',requestId,clientNonce},3600);
         if(res&&res.ready&&!res.pending)return res;
       }catch(err){
-        if(err&&err.code==='JSONP_LOAD_ERROR')throw err;
+        if(err&&err.code==='FRAME_TIMEOUT' && Date.now()-started<maxMs) continue;
+        throw err;
       }
     }
     const e=new Error('AUTH_RESULT_TIMEOUT');e.code='AUTH_RESULT_TIMEOUT';throw e;
@@ -338,8 +353,8 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
   }
 
   async function pingServer(){
-    try{const r=await jsonpOnce({kind:'auth_ping'},3000);serverReachable=!!(r&&r.ok);return serverReachable}
-    catch(_){serverReachable=false;return false}
+    try{const r=await frameGet({kind:'auth_ping_frame'},3600);return !!(r&&r.ok)}
+    catch(_){return false}
   }
 
   function startVerifyTimer(){if(verifyTimer)clearInterval(verifyTimer);verifyTimer=setInterval(()=>verifyStoredSession(true),VERIFY_INTERVAL)}
@@ -382,15 +397,13 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
     const browserSessionToken=randomHex(32);
     const slow=setTimeout(()=>{if(authBusy)setStatus('인증 처리 중입니다… Apps Script 첫 실행은 잠시 걸릴 수 있습니다.','loading')},2200);
     try{
-      if(serverReachable===false){const ok=await pingServer();if(!ok)throw Object.assign(new Error('AUTH_PING_FAILED'),{code:'AUTH_PING_FAILED'})}
       const res=await postAndWait('auth_login',{code,sessionToken:browserSessionToken});
       if(res&&res.ok){set(AGE_KEY,'1');set(SESSION_KEY,browserSessionToken);unlockApp(res);return}
       setStatus(errorMessage(res),'error');
     }catch(err){
       console.error('access auth stable',err);
       let msg='인증 처리 결과를 받지 못했습니다. 다시 한 번 시도해주세요.';
-      if(err&&err.code==='JSONP_LOAD_ERROR')msg='인증 결과 조회 연결에 실패했습니다. Apps Script 배포 상태를 확인해주세요.';
-      if(err&&err.code==='AUTH_PING_FAILED')msg='인증 서버에 연결할 수 없습니다. Apps Script 웹 앱 배포를 확인해주세요.';
+      if(err&&err.code==='FRAME_TIMEOUT')msg='인증 응답 채널이 지연되고 있습니다. 잠시 후 다시 시도해주세요.';
       if(err&&err.code==='AUTH_RESULT_TIMEOUT')msg='Apps Script 인증 처리가 오래 걸리고 있습니다. 잠시 후 다시 시도해주세요.';
       setStatus(msg,'error');
     }finally{clearTimeout(slow);authBusy=false;codeInput.disabled=false;check.disabled=false;syncButton()}
@@ -406,8 +419,7 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
   exit.addEventListener('click',e=>{e.preventDefault();if(denied)denied.classList.add('show');enter.disabled=true;check.disabled=true;codeInput.disabled=true;exit.disabled=true;setStatus('미성년자는 이 사이트를 이용할 수 없습니다.','error')});
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&!document.body.classList.contains('access-locked')&&Date.now()-lastVerified>VERIFY_INTERVAL)verifyStoredSession(true)});
 
-  // 화면은 즉시 표시하고 서버 ping은 뒤에서만 확인한다.
-  setTimeout(()=>pingServer(),0);
+  // 화면은 즉시 표시한다. 서버 연결은 실제 인증 요청에서 확인한다.
   if(check.checked&&get(SESSION_KEY))verifyStoredSession(false);else setStatus('성인 인증 후 발급받은 개인 접속 코드를 입력해주세요.');
 })();
 </script>
