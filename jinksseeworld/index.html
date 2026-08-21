@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#0e0c12">
-<title>NSFW 에셋 랜덤 프롬프트 생성기.v3</title>
+<title>NSFW 에셋 랜덤 프롬프트 생성기.v1</title>
 <style>
 :root{--bg:#0e0c12;--panel:#17141d;--panel2:#201c28;--panel3:#292333;--line:rgba(255,255,255,.09);--text:#f7f3fa;--sub:#aaa3b4;--accent:#a68cff;--pink:#e694c4;--gold:#f0c978;--green:#9fdfb6;--red:#ff9aa5;--shadow:0 20px 60px rgba(0,0,0,.35)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 8% 0,rgba(166,140,255,.13),transparent 27%),radial-gradient(circle at 100% 15%,rgba(230,148,196,.08),transparent 27%),var(--bg);color:var(--text);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif}button,select,input,textarea{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}.page{width:min(1220px,calc(100% - 28px));margin:auto;padding:28px 0 70px}.hero,.panel{border:1px solid var(--line);background:rgba(23,20,29,.96);box-shadow:var(--shadow)}.hero{position:relative;overflow:hidden;border-radius:26px;padding:31px;margin-bottom:17px}.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-100px;top:-135px;background:rgba(166,140,255,.12);filter:blur(12px);pointer-events:none}.eyebrow{font-size:11px;font-weight:900;letter-spacing:.2em;color:var(--accent)}
 .eyebrow-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
@@ -297,17 +297,27 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
     document.getElementById('accessAuthRequestField').value=rid;
     document.getElementById('accessAuthPageField').value=location.href.slice(0,500);
     return new Promise((resolve,reject)=>{
-      const timer=setTimeout(()=>{if(pending&&pending.rid===rid)pending=null;reject(new Error('TIMEOUT'))},15000);
-      pending={rid,resolve:(v)=>{clearTimeout(timer);pending=null;resolve(v)},reject:(e)=>{clearTimeout(timer);pending=null;reject(e)}};
+      const timer=setTimeout(()=>{const loaded=Boolean(pending&&pending.rid===rid&&pending.frameLoaded);if(pending&&pending.rid===rid)pending=null;const err=new Error(loaded?'NO_AUTH_MESSAGE':'TIMEOUT');err.code=loaded?'NO_AUTH_MESSAGE':'TIMEOUT';reject(err)},18000);
+      pending={rid,frameLoaded:false,resolve:(v)=>{clearTimeout(timer);pending=null;resolve(v)},reject:(e)=>{clearTimeout(timer);pending=null;reject(e)}};
       try{form.submit()}catch(err){clearTimeout(timer);pending=null;reject(err)}
     });
   }
 
+  function isTrustedAuthOrigin(origin){
+    if(origin==='null') return true;
+    try{
+      const host=new URL(origin).hostname.toLowerCase();
+      return host==='script.google.com'||host.endsWith('.script.google.com')||host==='script.googleusercontent.com'||host.endsWith('.script.googleusercontent.com');
+    }catch(_){return false}
+  }
   window.addEventListener('message',e=>{
-    if(e.source!==frame.contentWindow) return;
     const data=e.data;
     if(!data||data.type!==MESSAGE_TYPE||!pending||data.requestId!==pending.rid) return;
+    if(!isTrustedAuthOrigin(e.origin)) return;
     pending.resolve(data);
+  });
+  frame.addEventListener('load',()=>{
+    if(pending) pending.frameLoaded=true;
   });
 
   function startVerifyTimer(){
@@ -348,7 +358,10 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
       }
       relock(errorMessage(res));return false;
     }catch(err){
-      if(!silent)setStatus('인증 서버 연결을 확인할 수 없습니다. 접속 코드를 직접 입력해 다시 시도해주세요.','error');
+      if(!silent){
+        const msg=(err&&err.code==='NO_AUTH_MESSAGE')?'저장된 세션 확인 응답을 받지 못했습니다. Apps Script 최신 배포/공개 권한을 확인해주세요.':'인증 서버 연결을 확인할 수 없습니다. 접속 코드를 직접 입력해 다시 시도해주세요.';
+        setStatus(msg,'error');
+      }
       return false;
     }
   }
@@ -363,7 +376,10 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
       const res=await submitAuth('auth_login',{code});
       if(res&&res.ok&&res.sessionToken){set(AGE_KEY,'1');set(SESSION_KEY,res.sessionToken);unlockApp(res);return}
       setStatus(errorMessage(res),'error');
-    }catch(err){setStatus('인증 서버 연결에 실패했습니다. 네트워크 상태를 확인해주세요.','error')}
+    }catch(err){
+      if(err&&err.code==='NO_AUTH_MESSAGE') setStatus('인증 서버 페이지는 열렸지만 응답을 받지 못했습니다. Apps Script를 최신 버전으로 재배포했는지, 웹 앱 액세스 권한이 모든 사용자로 되어 있는지 확인해주세요.','error');
+      else setStatus('인증 서버에 연결하지 못했습니다. Apps Script 웹 앱 배포 상태와 네트워크를 확인해주세요.','error');
+    }
     finally{codeInput.disabled=false;check.disabled=false;syncButton()}
   }
 
