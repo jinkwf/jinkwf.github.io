@@ -243,7 +243,7 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
 <iframe id="accessAuthFrame" name="accessAuthFrame" title="접속 인증" aria-hidden="true" tabindex="-1" style="position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;border:0;pointer-events:none;visibility:hidden"></iframe>
 
 <script>
-/* Fast private access gate · V8 direct hash JSONP transport. */
+/* Stable private access gate · POST + non-sensitive result polling. */
 (function(){
   const AGE_KEY='nsfw_asset_gacha_age_ok_v1';
   const SESSION_KEY='nsfw_access_session_v1';
@@ -257,15 +257,27 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
   const denied=document.getElementById('ageDenied');
   const codeInput=document.getElementById('accessCode');
   const status=document.getElementById('accessAuthStatus');
-  if(!gate||!check||!enter||!exit||!codeInput||!status)return;
+  const form=document.getElementById('accessAuthForm');
+  const kindField=document.getElementById('accessAuthKind');
+  const codeField=document.getElementById('accessAuthCodeField');
+  const sessionField=document.getElementById('accessAuthSessionField');
+  const deviceField=document.getElementById('accessAuthDeviceField');
+  const requestField=document.getElementById('accessAuthRequestField');
+  const nonceField=document.getElementById('accessAuthNonceField');
+  const pageField=document.getElementById('accessAuthPageField');
+  if(!gate||!check||!enter||!exit||!codeInput||!status||!form)return;
 
   document.body.classList.add('access-locked','has-nsfw-banner');
-  let verifyTimer=null,lastVerified=0,authBusy=false;
+  let verifyTimer=null,lastVerified=0,authBusy=false,serverReachable=null;
 
   const get=k=>{try{return localStorage.getItem(k)}catch(_){return null}};
   const set=(k,v)=>{try{localStorage.setItem(k,v)}catch(_){}};
   const del=k=>{try{localStorage.removeItem(k)}catch(_){}};
-  const randomId=()=>{try{return crypto.randomUUID()}catch(_){return 'dev-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,14)}};
+  const randomId=()=>{try{return crypto.randomUUID()}catch(_){return 'id-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,16)}};
+  const randomHex=bytes=>{
+    try{const a=new Uint8Array(bytes);crypto.getRandomValues(a);return Array.from(a,b=>b.toString(16).padStart(2,'0')).join('')}
+    catch(_){return (randomId().replace(/-/g,'')+randomId().replace(/-/g,'')).slice(0,bytes*2).padEnd(bytes*2,'0')}
+  };
   const deviceId=()=>{let id=get(DEVICE_KEY);if(!id){id=randomId();set(DEVICE_KEY,id)}return id};
   const normalizeCode=v=>{let s=String(v||'').trim().toUpperCase().replace(/\s+/g,'').replace(/[^A-Z0-9-]/g,'');if(s&&!s.startsWith('NSFW-')&&/^[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{6}$/.test(s))s='NSFW-'+s;return s.slice(0,11)};
 
@@ -279,42 +291,55 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
     if(code==='USAGE_LIMIT')return'접속 가능 횟수를 모두 사용했습니다. 관리자에게 문의해주세요.';
     if(code==='SESSION_EXPIRED'||code==='SESSION_INVALID'||code==='SESSION_DEVICE_MISMATCH')return'인증 세션이 만료되었습니다. 접속 코드를 다시 입력해주세요.';
     if(code==='TOO_MANY_ATTEMPTS')return'인증 시도가 너무 많습니다. 잠시 후 다시 시도해주세요.';
-    if(code==='CHALLENGE_EXPIRED')return'인증 요청이 만료되었습니다. 다시 시도해주세요.';
+    if(code==='SESSION_TOKEN_INVALID')return'브라우저 세션 생성에 실패했습니다. 페이지를 새로고침해주세요.';
     if(code==='SERVER_ERROR')return'인증 서버에서 오류가 발생했습니다. 관리자에게 문의해주세요.';
     return(res&&res.message)||'접속 코드가 올바르지 않습니다.';
   }
 
-  function jsonpOnce(params,timeoutMs=5000){
+  function jsonpOnce(params,timeoutMs=3200){
     return new Promise((resolve,reject)=>{
-      const cb='__nsfwV8_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,9);
-      const script=document.createElement('script');let finished=false;
-      const cleanup=()=>{if(finished)return;finished=true;clearTimeout(timer);try{delete window[cb]}catch(_){window[cb]=undefined}script.remove()};
-      const timer=setTimeout(()=>{cleanup();const e=new Error('AUTH_TIMEOUT');e.code='AUTH_TIMEOUT';reject(e)},timeoutMs);
+      const cb='__nsfwAuth_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,10);
+      const script=document.createElement('script');let done=false;
+      const cleanup=()=>{if(done)return;done=true;clearTimeout(timer);try{delete window[cb]}catch(_){window[cb]=undefined}script.remove()};
+      const timer=setTimeout(()=>{cleanup();const e=new Error('JSONP_TIMEOUT');e.code='JSONP_TIMEOUT';reject(e)},timeoutMs);
       window[cb]=data=>{cleanup();resolve(data)};
       const qs=new URLSearchParams({...params,callback:cb,_:Date.now().toString()});
       script.src=AUTH_ENDPOINT+'?'+qs.toString();script.async=true;
-      script.onerror=()=>{cleanup();const e=new Error('AUTH_LOAD_ERROR');e.code='AUTH_LOAD_ERROR';reject(e)};
+      script.onerror=()=>{cleanup();const e=new Error('JSONP_LOAD_ERROR');e.code='JSONP_LOAD_ERROR';reject(e)};
       document.head.appendChild(script);
     });
   }
 
-  async function sha256HexSafe(value){
-    if(window.crypto&&crypto.subtle&&window.TextEncoder){
-      const data=new TextEncoder().encode(String(value||''));
-      const digest=await crypto.subtle.digest('SHA-256',data);
-      return Array.from(new Uint8Array(digest),b=>b.toString(16).padStart(2,'0')).join('');
-    }
-    // GitHub Pages는 HTTPS라 WebCrypto가 정상 경로지만, 구형 브라우저에서는 명확히 안내한다.
-    const e=new Error('WEBCRYPTO_UNAVAILABLE');e.code='WEBCRYPTO_UNAVAILABLE';throw e;
+  function submitAuthPost(kind,{code='',sessionToken='',requestId,clientNonce}){
+    kindField.value=kind;codeField.value=code;sessionField.value=sessionToken;deviceField.value=deviceId();
+    requestField.value=requestId;nonceField.value=clientNonce;pageField.value=location.pathname.slice(0,180);
+    form.submit();
   }
 
-  async function loginDirect(code){
-    const codeHash=await sha256HexSafe(code);
-    return jsonpOnce({kind:'auth_login_hash',codeHash:codeHash,deviceId:deviceId(),page:location.pathname.slice(0,180)},6500);
+  async function pollResult(requestId,clientNonce,maxMs=11000){
+    const started=Date.now();let pollNo=0;
+    while(Date.now()-started<maxMs){
+      if(pollNo++) await new Promise(r=>setTimeout(r,pollNo<3?180:320));
+      try{
+        const res=await jsonpOnce({kind:'auth_result',requestId,clientNonce},2800);
+        if(res&&res.ready&&!res.pending)return res;
+      }catch(err){
+        if(err&&err.code==='JSONP_LOAD_ERROR')throw err;
+      }
+    }
+    const e=new Error('AUTH_RESULT_TIMEOUT');e.code='AUTH_RESULT_TIMEOUT';throw e;
   }
-  async function verifyDirect(token){
-    const tokenHash=await sha256HexSafe(token);
-    return jsonpOnce({kind:'auth_verify_hash',tokenHash:tokenHash,deviceId:deviceId()},6500);
+
+  async function postAndWait(kind,{code='',sessionToken=''}){
+    const requestId=randomId();
+    const clientNonce=randomHex(24);
+    submitAuthPost(kind,{code,sessionToken,requestId,clientNonce});
+    return pollResult(requestId,clientNonce);
+  }
+
+  async function pingServer(){
+    try{const r=await jsonpOnce({kind:'auth_ping'},3000);serverReachable=!!(r&&r.ok);return serverReachable}
+    catch(_){serverReachable=false;return false}
   }
 
   function startVerifyTimer(){if(verifyTimer)clearInterval(verifyTimer);verifyTimer=setInterval(()=>verifyStoredSession(true),VERIFY_INTERVAL)}
@@ -326,7 +351,7 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
       gate.classList.add('hidden');gate.setAttribute('aria-hidden','true');document.body.classList.remove('access-locked');
       document.documentElement.style.overflow='';document.body.style.overflow='';startVerifyTimer();
       window.dispatchEvent(new CustomEvent('nsfw-auth-ready',{detail:res||{}}));
-    },80);
+    },60);
   }
   function relock(message){
     del(SESSION_KEY);if(verifyTimer){clearInterval(verifyTimer);verifyTimer=null}document.body.classList.add('access-locked');
@@ -338,12 +363,12 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
     const token=get(SESSION_KEY);if(!token){if(!silent)setStatus('발급받은 개인 코드를 입력해주세요.');return false}
     if(!silent)setStatus('저장된 인증 세션을 확인하고 있습니다…','loading');
     try{
-      const res=await verifyDirect(token);
+      const res=await postAndWait('auth_verify',{sessionToken:token});
       if(res&&res.ok){lastVerified=Date.now();if(document.body.classList.contains('access-locked'))unlockApp(res);return true}
       relock(errorMessage(res));return false;
     }catch(err){
-      console.error('session verify V8',err);
-      if(!silent)setStatus(err&&err.code==='AUTH_TIMEOUT'?'인증 서버 응답이 지연되고 있습니다. 다시 시도해주세요.':'인증 세션 확인에 실패했습니다. 다시 시도해주세요.','error');
+      console.error('session verify stable',err);
+      if(!silent)setStatus(err&&err.code==='JSONP_LOAD_ERROR'?'인증 결과 조회 연결에 실패했습니다. 페이지를 새로고침해주세요.':'인증 세션 확인이 지연되고 있습니다. 다시 시도해주세요.','error');
       return false;
     }
   }
@@ -354,16 +379,21 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
     if(!/^NSFW-[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{6}$/.test(code)){setStatus('NSFW-XXXXXX 형식의 접속 코드를 입력해주세요.','error');return}
     if(!check.checked){setStatus('먼저 18세 이상 성인 확인에 체크해주세요.','error');check.focus();return}
     authBusy=true;syncButton();codeInput.disabled=true;check.disabled=true;setStatus('접속 코드를 확인하고 있습니다…','loading');
-    const slowNotice=setTimeout(()=>{if(authBusy)setStatus('인증 처리 중입니다… 첫 접속은 몇 초 걸릴 수 있습니다.','loading')},2500);
+    const browserSessionToken=randomHex(32);
+    const slow=setTimeout(()=>{if(authBusy)setStatus('인증 처리 중입니다… Apps Script 첫 실행은 잠시 걸릴 수 있습니다.','loading')},2200);
     try{
-      const res=await loginDirect(code);
-      if(res&&res.ok&&res.sessionToken){set(AGE_KEY,'1');set(SESSION_KEY,res.sessionToken);unlockApp(res);return}
+      if(serverReachable===false){const ok=await pingServer();if(!ok)throw Object.assign(new Error('AUTH_PING_FAILED'),{code:'AUTH_PING_FAILED'})}
+      const res=await postAndWait('auth_login',{code,sessionToken:browserSessionToken});
+      if(res&&res.ok){set(AGE_KEY,'1');set(SESSION_KEY,browserSessionToken);unlockApp(res);return}
       setStatus(errorMessage(res),'error');
     }catch(err){
-      console.error('access auth V8',err);
-      const msg=err&&err.code==='AUTH_TIMEOUT'?'인증 서버 처리가 지연되어 응답 제한 시간을 넘었습니다. 다시 한 번 시도해주세요.':err&&err.code==='WEBCRYPTO_UNAVAILABLE'?'현재 브라우저에서 보안 해시 기능을 사용할 수 없습니다. 최신 Chrome/Edge/Safari에서 접속해주세요.':'인증 응답을 불러오지 못했습니다. Apps Script가 ACCESS-V8-HASH-JSONP로 배포되어 있는지 확인해주세요.';
+      console.error('access auth stable',err);
+      let msg='인증 처리 결과를 받지 못했습니다. 다시 한 번 시도해주세요.';
+      if(err&&err.code==='JSONP_LOAD_ERROR')msg='인증 결과 조회 연결에 실패했습니다. Apps Script 배포 상태를 확인해주세요.';
+      if(err&&err.code==='AUTH_PING_FAILED')msg='인증 서버에 연결할 수 없습니다. Apps Script 웹 앱 배포를 확인해주세요.';
+      if(err&&err.code==='AUTH_RESULT_TIMEOUT')msg='Apps Script 인증 처리가 오래 걸리고 있습니다. 잠시 후 다시 시도해주세요.';
       setStatus(msg,'error');
-    }finally{clearTimeout(slowNotice);authBusy=false;codeInput.disabled=false;check.disabled=false;syncButton()}
+    }finally{clearTimeout(slow);authBusy=false;codeInput.disabled=false;check.disabled=false;syncButton()}
   }
 
   if(get(AGE_KEY)==='1')check.checked=true;
@@ -376,9 +406,10 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
   exit.addEventListener('click',e=>{e.preventDefault();if(denied)denied.classList.add('show');enter.disabled=true;check.disabled=true;codeInput.disabled=true;exit.disabled=true;setStatus('미성년자는 이 사이트를 이용할 수 없습니다.','error')});
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&!document.body.classList.contains('access-locked')&&Date.now()-lastVerified>VERIFY_INTERVAL)verifyStoredSession(true)});
 
-  // V8: 별도 사전 인증 요청 없이 게이트를 즉시 표시한다.
+  // 화면은 즉시 표시하고 서버 ping은 뒤에서만 확인한다.
+  setTimeout(()=>pingServer(),0);
   if(check.checked&&get(SESSION_KEY))verifyStoredSession(false);else setStatus('성인 인증 후 발급받은 개인 접속 코드를 입력해주세요.');
-})();;
+})();
 </script>
 
 <div class="page">
