@@ -1683,7 +1683,7 @@ function updateCharacterModeHint(){
   const el=$('characterModeHint');
   if(!el) return;
   if(!$('gender')?.value){
-    el.textContent='👤 캐릭터 미지정 · 외형 프롬프트 자동 미포함';
+    el.textContent='👤 캐릭터 미지정 · 외형만 제외 / 의상·행동·표정·포즈 등은 유지';
     el.classList.remove('multi');
   }else if(n===1){
     el.textContent='👤 1인 모드 · 기존 랜덤 풀';
@@ -2938,6 +2938,19 @@ function renderCardState(k){const c=$('card-'+k),lb=document.querySelector(`[dat
 function render(){Object.keys(SLOTS).forEach(k=>{const v=state.selected[k];$('ko-'+k).textContent=v?.ko||'-';$('en-'+k).textContent=v?.en||'(태그 없음)';renderCardState(k)});buildPrompt();buildSummary();buildStats();if(typeof updateQuickRecommendations==='function')updateQuickRecommendations();if(typeof updatePromptDiagnostics==='function')updatePromptDiagnostics();if(typeof updateDirectorState==='function')updateDirectorState()}
 function cleanPieces(a){const seen=new Set();return a.map(x=>x?.trim()).filter(Boolean).filter(x=>{const key=x.toLowerCase();if(seen.has(key))return false;seen.add(key);return true})}
 function splitPromptTokens(text){return String(text||'').split(/\n+/).flatMap(line=>line.split(',')).map(v=>v.trim()).filter(Boolean)}
+function isCharacterAppearanceToken(token){
+  const t=String(token||'').trim().toLowerCase();
+  if(!t)return false;
+  // CHARACTER가 미지정일 때만 제거할 '고정 외형/신체 디자인' 계열.
+  // 의상·행동·표정·포즈·시선·배경·조명 등 장면 요소는 이 필터에 넣지 않는다.
+  return /(\b1boy\b|\b1girl\b|\bmale\b|\bfemale\b|\bboy\b|\bgirl\b|\bman\b|\bwoman\b|\bandrogyn(?:ous|y)\b|\bhandsome\b|\bbeautiful\b|\bpretty\b|\bcute\b|hair|bangs?|eyes?|iris|pupils?|skin|complexion|face|facial|jaw|chin|nose|lips?|mouth shape|ears?|freckles?|moles?|beauty mark|beard|mustache|moustache|stubble|body|build|physique|muscular|muscle|slim|skinny|curvy|chubby|petite|tall|short stature|broad shoulders?|narrow waist|abs|chest|breasts?|bust|hips?|thighs?|legs?|animal ears?|kemonomimi|horns?|wings?|tail|fangs?)/i.test(t);
+}
+function customTagsForPrompt(){
+  const raw=$('customTags')?.value||'';
+  if(hasSpecifiedCharacter())return raw;
+  // 미지정 모드에서는 커스텀 태그 안의 외형 정보만 제거하고, 장면/연출 태그는 보존한다.
+  return splitPromptTokens(raw).filter(t=>!isCharacterAppearanceToken(t)).join(', ');
+}
 function basePromptParagraph(){
   const parts=String(prompt?.value||'').split(/\n\s*\n/);
   return parts.filter(par=>!/^character\d+:\s*/i.test(par)&&!/^\{\{user\}\}:\s*/i.test(par)).join(', ');
@@ -2987,7 +3000,8 @@ function buildNijiPrompt(){
   const subject=count===1?'a single character':count===2?'two characters':count===3?'three characters':'';
   const mainVisual=cleanPieces([state.selected.composition?.en,state.selected.pose?.en,state.selected.action?.en,state.selected.expression?.en,state.selected.gaze?.en]).join(', ');
   const sceneVisual=cleanPieces([state.selected.background?.en,state.selected.season?.en,state.selected.weather?.en,state.selected.lighting?.en,state.selected.mood?.en]).join(', ');
-  const designVisual=specified?cleanPieces([state.selected.outfit?.en,state.selected.prop?.en,$('customTags')?.value||'']).join(', '):'';
+  // CHARACTER 미지정이어도 의상/소품은 유지한다. 고정 외형 태그만 제외한다.
+  const designVisual=cleanPieces([state.selected.outfit?.en,state.selected.prop?.en,customTagsForPrompt()]).join(', ');
   const relationPhrase=(count>=2)?nijiRelationPhrase():'';
   const sceneDirection=cleanPieces(presetPromptTags()).join(', ');
   const povPhrase=nijiPovPhrase();
@@ -3077,7 +3091,7 @@ function stripAutoNegativeTags(value){
 function buildPrompt(){
   const nsfwBase=isNsfwGenre()?['nsfw','explicit','uncensored']:[];
   const userTags=activeUserCharacterText();
-  let a=[$('quality').value,$('gender').value,$('style').value,artStyleTag(),...aiPresetPromptTags('novel'),...detailBoosterTags('novel'),...nsfwBase,...specialPromptTags(),...multiAxisPromptTags(),...povPromptTags(),...presetPromptTags(),...relationNsfwPromptTags(),...roleLayoutTags(),$('customTags').value,...multiDistinctPromptTags()];
+  let a=[$('quality').value,$('gender').value,$('style').value,artStyleTag(),...aiPresetPromptTags('novel'),...detailBoosterTags('novel'),...nsfwBase,...specialPromptTags(),...multiAxisPromptTags(),...povPromptTags(),...presetPromptTags(),...relationNsfwPromptTags(),...roleLayoutTags(),customTagsForPrompt(),...multiDistinctPromptTags()];
   promptSlotKeys().forEach(k=>{
     if(!state.active[k]||!state.selected[k]?.en) return;
     if(k==='outfit'){
