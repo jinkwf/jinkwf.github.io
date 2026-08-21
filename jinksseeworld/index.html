@@ -2092,6 +2092,7 @@ function rolePositionForCharacter(i){
 }
 function characterRoleTags(letter){const v=$(`char${letter}Role`)?.value||'';const map={gong:'seme, top',su:'uke, bottom',reverse:'switch, versatile',neutral:'no fixed role, role-neutral',multi_gong_one_su:'multiple seme, one uke',one_gong_multi_su:'one seme, multiple uke'};return map[v]||''}
 function hasSpecifiedCharacter(){return Boolean($('gender')?.value)}
+// 캐릭터 미지정: 성별/캐릭터별 외형(CHARACTER A/B/C)만 제외. 의상·행동·표정·포즈·배경 등 장면 슬롯은 유지.
 function characterSpecificParagraphs(){
   if(!hasSpecifiedCharacter())return[];
   const n=characterCount(),out=[],genders=characterGenderRoles();
@@ -3080,7 +3081,8 @@ function buildPrompt(){
   promptSlotKeys().forEach(k=>{
     if(!state.active[k]||!state.selected[k]?.en) return;
     if(k==='outfit'){
-      if(!hasSpecifiedCharacter())return;
+      // 캐릭터 미지정이어도 의상은 장면 요소로 유지한다.
+      // 미지정 시 제외되는 것은 성별/캐릭터별 외형 블록뿐이다.
       const filteredOutfit=filterOutfitPrompt(state.selected[k].en);
       if(filteredOutfit) a.push(filteredOutfit);
       return;
