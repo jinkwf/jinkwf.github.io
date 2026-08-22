@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#0e0c12">
-<title>NSFW 에셋 랜덤 프롬프트 생성기.v2.5</title>
+<title>NSFW 에셋 랜덤 프롬프트 생성기.v2.7</title>
 <style>
 :root{--bg:#0e0c12;--panel:#17141d;--panel2:#201c28;--panel3:#292333;--line:rgba(255,255,255,.09);--text:#f7f3fa;--sub:#aaa3b4;--accent:#a68cff;--pink:#e694c4;--gold:#f0c978;--green:#9fdfb6;--red:#ff9aa5;--shadow:0 20px 60px rgba(0,0,0,.35)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 8% 0,rgba(166,140,255,.13),transparent 27%),radial-gradient(circle at 100% 15%,rgba(230,148,196,.08),transparent 27%),var(--bg);color:var(--text);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif}button,select,input,textarea{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}.page{width:min(1220px,calc(100% - 28px));margin:auto;padding:28px 0 70px}.hero,.panel{border:1px solid var(--line);background:rgba(23,20,29,.96);box-shadow:var(--shadow)}.hero{position:relative;overflow:hidden;border-radius:26px;padding:31px;margin-bottom:17px}.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-100px;top:-135px;background:rgba(166,140,255,.12);filter:blur(12px);pointer-events:none}.eyebrow{font-size:11px;font-weight:900;letter-spacing:.2em;color:var(--accent)}
 .eyebrow-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
@@ -310,7 +310,7 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
 @media(max-width:820px){.scene-three-grid{grid-template-columns:1fr}.mode-standalone .mode-switch{max-width:none}}
 
 
-/* ===== v2.6 · SIMPLE / DETAIL UX ===== */
+/* ===== v2.7 · SIMPLE / DETAIL UX ===== */
 .workflow-mode-panel{display:flex;align-items:center;justify-content:space-between;gap:16px;border:1px solid var(--line);background:linear-gradient(145deg,rgba(166,140,255,.07),rgba(255,255,255,.018)),var(--panel);border-radius:18px;padding:14px 16px;margin:0 0 16px;box-shadow:0 12px 32px rgba(0,0,0,.18)}
 .workflow-mode-copy{min-width:0}.workflow-mode-title{font-size:12px;font-weight:950;color:#f0eaf5}.workflow-mode-hint{margin-top:4px;color:var(--sub);font-size:10px;line-height:1.5}
 .workflow-mode-switch{display:grid;grid-template-columns:1fr 1fr;gap:7px;min-width:220px;padding:4px;border:1px solid var(--line);border-radius:13px;background:#111017}
@@ -347,10 +347,10 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
    - 새 항목은 배열 맨 위에 추가하세요.
 ========================================================= */
 const UPDATE_NOTES = [
+  { date:'08.22', text:'6 : v2.7 Scene Coherence 2.0 · Hard Block + Soft Affinity + 장면 미세분류/상호의존 규칙을 적용했습니다.' },
   { date:'08.22', text:'5 : v2.6 Scene Coherence 패치 · 배경/계절/시간·날씨/의상/소품/행동 논리 정합성을 강화했습니다.' },
   { date:'08.22', text:'4 : 간편/상세 모드 및 현재 설정 요약 UI 개선' },
-  { date:'08.22', text:'3 : 랜덤 조합 품질 및 테마 연동 시스템 대규모 개선' },
-  { date:'08.22', text:'2 : 카테고리 대규모 업데이트 진행' }
+  { date:'08.22', text:'3 : 랜덤 조합 품질 및 테마 연동 시스템 대규모 개선' }
 ];
 
 function renderAdminUpdateNote(){
@@ -568,7 +568,7 @@ renderAdminUpdateNote();
 </script>
 
 <div class="page">
-<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v2.6</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v2.6</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 수위(가벼운~하늘나라)를 선택할 수 있으며, 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능합니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
+<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v2.7</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v2.7</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 수위(가벼운~하늘나라)를 선택할 수 있으며, 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능합니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
 <section class="workflow-mode-panel" id="workflowModePanel" aria-label="사용 모드 선택"><div class="workflow-mode-copy"><div class="workflow-mode-title">사용 모드</div><div class="workflow-mode-hint" id="workflowModeHint">처음이라면 간편 모드로 MODE → SCENE → THEME → 주사위만 따라가면 됩니다.</div></div><div class="workflow-mode-switch" role="group" aria-label="간편 또는 상세 모드"><button type="button" class="workflow-mode-btn active" data-ui-mode-btn="simple" aria-pressed="true">간편</button><button type="button" class="workflow-mode-btn" data-ui-mode-btn="detail" aria-pressed="false">상세</button></div></section>
 <section class="panel" id="contentModePanel"><div class="head"><div><h2 class="title">00 · MODE</h2><p class="desc">먼저 콘텐츠 모드를 선택합니다. 선택한 모드에 따라 아래 SCENE 분류와 NSFW 전용 기능이 자동으로 전환됩니다.</p></div></div><div class="mode-choice-card"><div class="mode-choice-label">콘텐츠 모드</div><div class="mode-choice-buttons" id="contentModeSwitch"><button type="button" class="mode-choice-btn" id="modePillSfw" data-content-mode="sfw">SFW</button><button type="button" class="mode-choice-btn" id="modePillNsfw" data-content-mode="nsfw">NSFW</button></div><div class="mode-first-meta" id="contentModeHint">SFW / NSFW를 먼저 선택하면 아래 분류가 현재 모드에 맞게 자동 전환됩니다.</div><input type="radio" name="contentMode" value="sfw" checked hidden><input type="radio" name="contentMode" value="nsfw" hidden><input type="checkbox" id="nsfwMode" hidden></div></section>
 <section class="panel" id="sceneCategoryPanel"><div class="head"><div><h2 class="title">01 · SCENE</h2><p class="desc">현재 MODE를 기준으로 대분류 → 중분류 → 소분류 순서로 장면을 선택합니다.</p></div></div><div class="select-grid category-hierarchy-grid scene-three-grid"><div class="field"><label>대분류 · 장르</label><select id="genre"><option value="modern">현대물</option><option value="fantasy">판타지물</option><option value="guideverse">가이드버스</option><option value="period">시대물</option><option value="sf">SF / 사이버펑크</option><option value="apocalypse">아포칼립스 / 재난</option></select></div><div class="field"><label>중분류 · 테마</label><select id="middleCategory"></select></div><div class="field"><label>소분류 · 장면</label><select id="category"></select></div></div><div class="check-row"><label class="check"><input type="checkbox" id="randomCategory"> 주사위를 돌릴 때마다 소분류도 랜덤</label><label class="check"><input type="checkbox" id="avoidSame" checked> 직전 결과와 같은 태그 최대한 피하기</label></div></section>
@@ -599,7 +599,7 @@ renderAdminUpdateNote();
 <option value="insertion">삽입섹스 · Insertive</option>
 <option value="maximum">MAX</option>
 </select><div class="character-mode-hint" id="intensityHint">🔥 수위에 따라 행동·의상·표정 풀이 달라집니다</div></div>
-<div class="opt"><label>QUALITY</label><select id="quality"><option value="masterpiece, best quality, amazing quality, very aesthetic, highly detailed">기본 고품질</option><option value="masterpiece, best quality, highly detailed, cinematic composition">시네마틱</option><option value="">사용 안 함</option></select></div><div class="opt"><label>STYLE</label><select id="style"><option value="">미지정</option><option value="anime style">Anime</option><option value="illustration">Illustration</option><option value="semi-realistic">Semi-realistic</option></select></div><div class="opt"><label>AI STYLE PRESET</label><select id="aiStylePreset"><option value="none">미지정</option><optgroup label="Clean / Base"><option value="clean">클린 애니</option><option value="clean_plus">클린 애니+</option><option value="manhwa">웹툰 / 만화풍</option><option value="gamecg">게임 CG</option></optgroup><optgroup label="Mood / Tone"><option value="soft_romance">소프트 로맨스</option><option value="dark_romance">다크 로맨스</option><option value="cinematic">시네마틱</option><option value="dreamy">몽환적</option><option value="fantasy">판타지</option><option value="noir">누아르</option></optgroup><optgroup label="Look / Finish"><option value="editorial">에디토리얼</option><option value="idol">아이돌 / 화보</option><option value="painterly">페인터리</option><option value="pastel">파스텔</option><option value="retro">레트로 애니</option><option value="shoujo">소녀만화 감성</option></optgroup></select><div class="character-mode-hint" id="aiStylePresetHint">🎨 AI별로 어울리는 스타일 표현을 자동 보강합니다. NovelAI / PixAI / NijiJourney에 맞게 다르게 번역됩니다.</div><div class="style-preset-meta" id="aiStylePresetMeta">현재 프리셋: 기본 동작</div></div><div class="opt"><label>화풍 / RENDER STYLE</label><select id="artStyle"><option value="">미지정</option><option value="cel shading">셀 채색</option><option value="watercolor illustration">수채화풍</option><option value="manga screentone">망가 스크린톤</option><option value="retro anime aesthetic">레트로 애니풍</option><option value="soft pastel painting">소프트 파스텔</option><option value="game cg">게임 CG풍</option><option value="ink line art">잉크 라인아트</option><option value="storybook illustration">동화 삽화풍</option></select></div><div class="opt"><label>프롬프트 강도</label><div class="range-wrap"><div class="range-inline"><input id="promptDetail" type="range" min="1" max="3" step="1" value="2"><span class="range-badge" id="promptDetailBadge">보통</span></div><div class="character-mode-hint" id="promptDetailHint">✍️ 간결함 ↔ 상세함을 조절합니다.</div></div></div><div class="opt"><label>POV MODE</label><select id="povMode"><option value="off">사용 안 함</option><option value="on">사용 · 현재 인원수 연동</option></select></div><div class="opt"><label>POV 강도</label><select id="povStrength"><option value="subtle">약하게</option><option value="strong">강하게</option></select></div><div class="opt"><label>POV 타입</label><select id="povType"><option value="auto">자동</option><option value="talk">대화형 POV</option><option value="hand">손잡기 POV</option><option value="prekiss">키스 직전 POV</option></select><div class="character-mode-hint" id="povModeHint">📷 일반 시점 모드 · NSFW ON 시 성인용 POV 확장</div></div><div class="opt"><label>관계 / 상호작용</label><select id="relationPreset"><option value="none">미사용</option><option value="friend">친구 / 절친</option><option value="coworker">동료 / 같은 편</option><option value="rival">라이벌</option><option value="lover">연인 / 썸</option><option value="firsttime">첫 관계 / 조심스러운 친밀감</option><option value="longterm">오래된 연인 / 익숙한 친밀감</option><option value="obsession">집착 / 소유욕</option><option value="hatebond">혐관 / 앙숙</option><option value="salvation">구원 서사</option><option value="unrequited">짝사랑</option><option value="contract">계약 / 정략</option><option value="mentor">멘토 / 사제</option><option value="childhood">소꿉친구</option><option value="exlovers">전 연인 / 미련</option><option value="firstmeet">첫 만남</option><option value="reunion">재회</option><option value="guardian">보호 / 호위</option><option value="masterservant">주종 / 상하관계</option><option value="enemy">적대 / 대치</option><option value="teammate">전우 / 파티원</option></select><div class="character-mode-hint" id="relationHint">🤝 2인/3인에서 상호작용 가중치 적용</div></div><div class="opt"><label>장면 프리셋</label><select id="scenePreset"></select><div class="character-mode-hint" id="scenePresetHint">🎬 장르에 맞는 상황 프리셋을 적용합니다.</div></div><div class="opt"><label>충돌 방지</label><label class="check inline-check"><input type="checkbox" id="smartConflict" checked> 배경·의상·행동 충돌 자동 방지</label><div class="character-mode-hint" id="smartConflictHint">🧩 Scene Coherence ON · 배경/계절/시간·날씨/의상/소품/행동 충돌을 다시 뽑습니다.</div></div></div><div class="custom-grid"><div><label class="tiny-label">항상 추가할 태그</label><input id="customTags" type="text" placeholder="예: black hair, blue eyes, handsome male"></div><div><label class="tiny-label">기본 네거티브 태그</label><input id="negativeBase" type="text" value="lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, jpeg artifacts, signature, watermark, username, blurry"></div></div><div class="user-character-wrap"><button type="button" class="user-character-toggle" id="userCharacterToggle" aria-expanded="false" aria-controls="userCharacterPanel"><span>🙈 {{user}} 캐릭터 태그</span><span class="user-character-state" id="userCharacterState">OFF · 열기</span></button><div class="user-character-panel" id="userCharacterPanel" hidden><div class="custom-grid"><div><label class="tiny-label">{{user}} 성별 타입</label><select id="userGenderMode"><option value="random" selected>랜덤</option><option value="male">남성형</option><option value="female">여성형</option><option value="androgynous">중성형</option></select></div><div><label class="tiny-label">{{user}} 체형 타입</label><select id="userBodyMode"><option value="random" selected>랜덤</option><option value="slim">슬림</option><option value="average">보통</option><option value="curvy">굴곡짐</option><option value="athletic">탄탄함</option><option value="lean_muscular">잔근육</option><option value="soft">말랑함</option></select></div></div><div class="user-tag-tools"><input id="userCharacterTags" type="text" placeholder="버튼을 누르면 {{user}} 캐릭터 태그가 자동 생성됩니다." readonly><button type="button" class="tool" id="generateUserCharacter">🙈 {{user}}캐릭터 임의생성</button><button type="button" class="tool" id="copyUserCharacter">📋 {{user}}태그 복사</button></div><div class="user-tag-preview empty" id="userCharacterHint">앞머리가 눈을 완전히 가리는 설정은 고정 · 성별/체형/색상은 선택값 또는 랜덤으로 생성</div></div></div></section>
+<div class="opt"><label>QUALITY</label><select id="quality"><option value="masterpiece, best quality, amazing quality, very aesthetic, highly detailed">기본 고품질</option><option value="masterpiece, best quality, highly detailed, cinematic composition">시네마틱</option><option value="">사용 안 함</option></select></div><div class="opt"><label>STYLE</label><select id="style"><option value="">미지정</option><option value="anime style">Anime</option><option value="illustration">Illustration</option><option value="semi-realistic">Semi-realistic</option></select></div><div class="opt"><label>AI STYLE PRESET</label><select id="aiStylePreset"><option value="none">미지정</option><optgroup label="Clean / Base"><option value="clean">클린 애니</option><option value="clean_plus">클린 애니+</option><option value="manhwa">웹툰 / 만화풍</option><option value="gamecg">게임 CG</option></optgroup><optgroup label="Mood / Tone"><option value="soft_romance">소프트 로맨스</option><option value="dark_romance">다크 로맨스</option><option value="cinematic">시네마틱</option><option value="dreamy">몽환적</option><option value="fantasy">판타지</option><option value="noir">누아르</option></optgroup><optgroup label="Look / Finish"><option value="editorial">에디토리얼</option><option value="idol">아이돌 / 화보</option><option value="painterly">페인터리</option><option value="pastel">파스텔</option><option value="retro">레트로 애니</option><option value="shoujo">소녀만화 감성</option></optgroup></select><div class="character-mode-hint" id="aiStylePresetHint">🎨 AI별로 어울리는 스타일 표현을 자동 보강합니다. NovelAI / PixAI / NijiJourney에 맞게 다르게 번역됩니다.</div><div class="style-preset-meta" id="aiStylePresetMeta">현재 프리셋: 기본 동작</div></div><div class="opt"><label>화풍 / RENDER STYLE</label><select id="artStyle"><option value="">미지정</option><option value="cel shading">셀 채색</option><option value="watercolor illustration">수채화풍</option><option value="manga screentone">망가 스크린톤</option><option value="retro anime aesthetic">레트로 애니풍</option><option value="soft pastel painting">소프트 파스텔</option><option value="game cg">게임 CG풍</option><option value="ink line art">잉크 라인아트</option><option value="storybook illustration">동화 삽화풍</option></select></div><div class="opt"><label>프롬프트 강도</label><div class="range-wrap"><div class="range-inline"><input id="promptDetail" type="range" min="1" max="3" step="1" value="2"><span class="range-badge" id="promptDetailBadge">보통</span></div><div class="character-mode-hint" id="promptDetailHint">✍️ 간결함 ↔ 상세함을 조절합니다.</div></div></div><div class="opt"><label>POV MODE</label><select id="povMode"><option value="off">사용 안 함</option><option value="on">사용 · 현재 인원수 연동</option></select></div><div class="opt"><label>POV 강도</label><select id="povStrength"><option value="subtle">약하게</option><option value="strong">강하게</option></select></div><div class="opt"><label>POV 타입</label><select id="povType"><option value="auto">자동</option><option value="talk">대화형 POV</option><option value="hand">손잡기 POV</option><option value="prekiss">키스 직전 POV</option></select><div class="character-mode-hint" id="povModeHint">📷 일반 시점 모드 · NSFW ON 시 성인용 POV 확장</div></div><div class="opt"><label>관계 / 상호작용</label><select id="relationPreset"><option value="none">미사용</option><option value="friend">친구 / 절친</option><option value="coworker">동료 / 같은 편</option><option value="rival">라이벌</option><option value="lover">연인 / 썸</option><option value="firsttime">첫 관계 / 조심스러운 친밀감</option><option value="longterm">오래된 연인 / 익숙한 친밀감</option><option value="obsession">집착 / 소유욕</option><option value="hatebond">혐관 / 앙숙</option><option value="salvation">구원 서사</option><option value="unrequited">짝사랑</option><option value="contract">계약 / 정략</option><option value="mentor">멘토 / 사제</option><option value="childhood">소꿉친구</option><option value="exlovers">전 연인 / 미련</option><option value="firstmeet">첫 만남</option><option value="reunion">재회</option><option value="guardian">보호 / 호위</option><option value="masterservant">주종 / 상하관계</option><option value="enemy">적대 / 대치</option><option value="teammate">전우 / 파티원</option></select><div class="character-mode-hint" id="relationHint">🤝 2인/3인에서 상호작용 가중치 적용</div></div><div class="opt"><label>장면 프리셋</label><select id="scenePreset"></select><div class="character-mode-hint" id="scenePresetHint">🎬 장르에 맞는 상황 프리셋을 적용합니다.</div></div><div class="opt"><label>충돌 방지</label><label class="check inline-check"><input type="checkbox" id="smartConflict" checked> Scene Coherence 2.0 자동 정합성</label><div class="character-mode-hint" id="smartConflictHint">🧩 Scene Coherence 2.0 ON · Hard Block + Soft Affinity로 장면 전체 정합성을 맞춥니다.</div></div></div><div class="custom-grid"><div><label class="tiny-label">항상 추가할 태그</label><input id="customTags" type="text" placeholder="예: black hair, blue eyes, handsome male"></div><div><label class="tiny-label">기본 네거티브 태그</label><input id="negativeBase" type="text" value="lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, jpeg artifacts, signature, watermark, username, blurry"></div></div><div class="user-character-wrap"><button type="button" class="user-character-toggle" id="userCharacterToggle" aria-expanded="false" aria-controls="userCharacterPanel"><span>🙈 {{user}} 캐릭터 태그</span><span class="user-character-state" id="userCharacterState">OFF · 열기</span></button><div class="user-character-panel" id="userCharacterPanel" hidden><div class="custom-grid"><div><label class="tiny-label">{{user}} 성별 타입</label><select id="userGenderMode"><option value="random" selected>랜덤</option><option value="male">남성형</option><option value="female">여성형</option><option value="androgynous">중성형</option></select></div><div><label class="tiny-label">{{user}} 체형 타입</label><select id="userBodyMode"><option value="random" selected>랜덤</option><option value="slim">슬림</option><option value="average">보통</option><option value="curvy">굴곡짐</option><option value="athletic">탄탄함</option><option value="lean_muscular">잔근육</option><option value="soft">말랑함</option></select></div></div><div class="user-tag-tools"><input id="userCharacterTags" type="text" placeholder="버튼을 누르면 {{user}} 캐릭터 태그가 자동 생성됩니다." readonly><button type="button" class="tool" id="generateUserCharacter">🙈 {{user}}캐릭터 임의생성</button><button type="button" class="tool" id="copyUserCharacter">📋 {{user}}태그 복사</button></div><div class="user-tag-preview empty" id="userCharacterHint">앞머리가 눈을 완전히 가리는 설정은 고정 · 성별/체형/색상은 선택값 또는 랜덤으로 생성</div></div></div></section>
 <section class="panel" id="characterAppearancePanel" data-ui-advanced="1"><div class="head"><div><h2 class="title">02A · CHARACTER 외형 / 역할 배치</h2><p class="desc">캐릭터 지정, {{user}} 캐릭터 태그, 다인 역할 배치, 제외 태그 / 싫어요 조건을 한곳에 모았습니다. CHARACTER 미지정이면 외형 태그는 출력되지 않고, 의상·행동·표정·배경 등 장면 정보만 유지됩니다.</p></div><div class="mini-tools"><button type="button" class="small-btn" id="resetCharacterAppearance" title="CHARACTER 외형 / 역할 배치 초기화" aria-label="CHARACTER 외형 / 역할 배치 초기화">🧹 초기화</button></div></div><div id="characterAppearanceBody"><div class="options" id="characterAppearanceOptions"></div><div id="userCharacterMount"></div><div class="custom-grid"><div><label class="tiny-label">🚫 제외 태그 / 싫어요 조건</label><input id="excludeTags" type="text" placeholder="예: rain, school uniform, close-up, weapon"></div><div><label class="tiny-label">작동 방식</label><div class="character-mode-hint">쉼표로 구분해서 입력하면 해당 키워드가 포함된 태그는 랜덤 선택과 04/05/06 프롬프트 출력에서 최대한 제외합니다.</div></div></div></div></section><section class="panel" id="directorPanel" style="display:none" aria-hidden="true"><div class="head"><div><h2 class="title">02C · NSFW Director</h2><p class="desc">장면이 얼마나 노출되는지, 몸이 얼마나 가까운지, 키스마크·긁힌자국 같은 흔적을 얼마나 남길지, 움직임·표정·의상 흐트러짐을 각각 따로 조절합니다.</p></div></div><button type="button" class="user-character-toggle" id="directorToggle" aria-expanded="false" aria-controls="directorBody" data-enabled="0"><span>🎛️ NSFW Director</span><span class="user-character-state" id="directorState">OFF · 열기</span></button><div id="directorBody" hidden><div class="director-grid"><div class="director-card"><label>노출 정도</label><select id="axisExposure"><option value="0">0 · 거의 노출 없음</option><option value="1" selected>1 · 옷이 살짝 흐트러짐 / 부분 노출</option><option value="2">2 · 상·하의 일부 탈의</option><option value="3">3 · 누드 / 전라까지 허용</option></select></div><div class="director-card"><label>몸의 밀착 정도</label><select id="axisContact"><option value="0">0 · 몸이 닿지 않음</option><option value="1">1 · 손·어깨가 닿는 가까운 거리</option><option value="2" selected>2 · 상체·허리가 자연스럽게 맞닿음</option><option value="3">3 · 전신이 강하게 밀착</option></select></div><div class="director-card"><label>몸에 남는 흔적 · 키스마크 / 긁힘</label><select id="axisMarks"><option value="0">0 · 흔적 없음</option><option value="1" selected>1 · 옅은 상기 / 가벼운 흔적</option><option value="2">2 · 선명한 키스마크</option><option value="3">3 · 키스마크 + 긁힌자국까지 강하게</option></select></div><div class="director-card"><label>움직임의 크기</label><select id="axisMotion"><option value="0">0 · 거의 정지된 장면</option><option value="1" selected>1 · 자연스러운 움직임</option><option value="2">2 · 몸의 움직임이 눈에 띔</option><option value="3">3 · 강한 동작 / 잔상까지 표현</option></select></div><div class="director-card"><label>표정의 강도</label><select id="axisExpression"><option value="0">0 · 차분하거나 담담한 얼굴</option><option value="1" selected>1 · 은은하게 상기된 표정</option><option value="2">2 · 감정이 확실히 드러나는 표정</option><option value="3">3 · 감정이 크게 무너진 강한 표정</option></select></div><div class="director-card"><label>의상 흐트러짐 / 탈의 정도</label><select id="axisWardrobe"><option value="0">0 · 의상을 단정히 착용</option><option value="1" selected>1 · 단추·깃 등이 살짝 흐트러짐</option><option value="2">2 · 옷이 크게 벌어지거나 풀림</option><option value="3">3 · 상의·하의 일부가 벗겨짐</option></select></div><div class="director-card"><label>다인 역할 배치</label><select id="roleLayout"><option value="auto">자동</option><option value="duo_lr">2인 · A 왼쪽 / B 오른쪽</option><option value="duo_fb">2인 · A 전경 / B 후경</option><option value="duo_face">2인 · 서로 마주보기</option><option value="userfocus">A가 {{user}}와 상호작용</option><option value="center">3인 · A 중앙 / B·C 양옆</option><option value="foreground">3인 · A 전경 / B·C 후경</option><option value="triangle">3인 · 삼각 배치</option><option value="surround">3인 · A 중심 / B·C가 좌우에서 감싸기</option><option value="lineup">3인 · A·B·C 일렬 배치</option><option value="staggered">3인 · 앞뒤 엇갈림 배치</option></select></div></div></div><div class="director-note" id="directorHint">🔒 NSFW Director OFF · 버튼을 눌러 펼치고 켜주세요.</div></section>
 <section class="panel" id="characterSlotPanel" data-ui-advanced="1"><div class="head"><div><h2 class="title">02B · CHARACTER A / B / C</h2><p class="desc">캐릭터별로 공/수 역할과 전용 태그를 분리해서 입력합니다. 입력하지 않은 캐릭터는 프롬프트에 자동 포함되지 않습니다.</p></div><div class="mini-tools"><button class="small-btn char-slot-reset" id="resetCharacterSlots">🧹 초기화</button></div></div><div class="char-separate-grid"><div class="char-separate-item" id="charABox"><div class="char-slot-head"><label>CHARACTER A</label></div><div class="char-slot-meta"><div class="char-role-wrap"><label>역할</label><select id="charARole"><option value="">미지정</option><option value="gong">공</option><option value="su">수</option><option value="reverse">리버스</option><option value="neutral">무관</option><option value="multi_gong_one_su">다공일수</option><option value="one_gong_multi_su">일공다수</option></select></div><div class="char-tag-wrap"><label>전용 태그</label><input id="charATags" type="text" placeholder="예: black hair, white shirt"></div></div></div><div class="char-separate-item" id="charBBox"><div class="char-slot-head"><label>CHARACTER B</label></div><div class="char-slot-meta"><div class="char-role-wrap"><label>역할</label><select id="charBRole"><option value="">미지정</option><option value="gong">공</option><option value="su">수</option><option value="reverse">리버스</option><option value="neutral">무관</option><option value="multi_gong_one_su">다공일수</option><option value="one_gong_multi_su">일공다수</option></select></div><div class="char-tag-wrap"><label>전용 태그</label><input id="charBTags" type="text" placeholder="2인 이상에서 사용"></div></div></div><div class="char-separate-item" id="charCBox"><div class="char-slot-head"><label>CHARACTER C</label></div><div class="char-slot-meta"><div class="char-role-wrap"><label>역할</label><select id="charCRole"><option value="">미지정</option><option value="gong">공</option><option value="su">수</option><option value="reverse">리버스</option><option value="neutral">무관</option><option value="multi_gong_one_su">다공일수</option><option value="one_gong_multi_su">일공다수</option></select></div><div class="char-tag-wrap"><label>전용 태그</label><input id="charCTags" type="text" placeholder="3인에서 사용"></div></div></div></div></section>
 <details class="panel collapsible-panel" id="characterPresetPanel" data-ui-advanced="1"><summary><div class="collapse-title-wrap"><h2 class="collapse-title">02C · 캐릭터 프리셋 저장소</h2><p class="collapse-desc">캐릭터 · 커스텀 태그 · AI 스타일 · {{user}} · 1~10 고정 슬롯</p></div><div style="display:flex;align-items:center;gap:10px;flex:0 0 auto"><span class="preset-count" id="charPresetCount">0 / 10</span><span class="collapse-arrow">⌄</span></div></summary><div class="collapse-body"><div class="preset-box"><div class="preset-save-scope"><span class="scope-chip">👤 <b>CHAR A/B/C</b></span><span class="scope-chip">🏷 <b>커스텀 태그</b></span><span class="scope-chip">🎨 <b>AI 스타일</b></span><span class="scope-chip">🙈 <b>{{user}}</b> 활성 시 포함</span></div><div class="preset-topline preset-topline-3"><div><label class="tiny-label">프리셋 이름</label><input id="charPresetName" type="text" maxlength="40" placeholder="예: 올리버 기본형 / 다크 로맨스 세팅"></div><div><label class="tiny-label">컬러 라벨</label><select id="charPresetLabel"><option value="violet">🟣 보라</option><option value="blue">🔵 파랑</option><option value="cyan">🩵 하늘</option><option value="green">🟢 초록</option><option value="yellow">🟡 노랑</option><option value="orange">🟠 주황</option><option value="red">🔴 빨강</option><option value="pink">🩷 핑크</option><option value="gray">⚪ 회색</option></select></div><div><label class="tiny-label">저장된 프리셋</label><select id="charPresetSelect"><option value="">저장된 프리셋 선택</option></select></div></div><div class="preset-manage-row"><div class="preset-search-wrap"><label class="tiny-label">프리셋 검색</label><input id="charPresetSearch" type="search" placeholder="이름 · 캐릭터 태그 · 커스텀 태그 · 스타일 검색"></div><div><label class="tiny-label">정렬</label><select id="charPresetSort"><option value="updated_desc">최근 수정순</option><option value="created_desc">최근 생성순</option><option value="name_asc">이름 A→Z</option><option value="name_desc">이름 Z→A</option><option value="label">컬러 라벨순</option></select></div><button type="button" class="tool preset-clear-search" id="clearPresetSearch">✕ 검색 초기화</button></div><div class="preset-result-meta" id="charPresetResultMeta">전체 프리셋 표시 중</div><div class="preset-slot-toolbar"><div><label class="tiny-label">저장 위치</label><select id="charPresetSlot"><option value="1">1번 슬롯</option><option value="2">2번 슬롯</option><option value="3">3번 슬롯</option><option value="4">4번 슬롯</option><option value="5">5번 슬롯</option><option value="6">6번 슬롯</option><option value="7">7번 슬롯</option><option value="8">8번 슬롯</option><option value="9">9번 슬롯</option><option value="10">10번 슬롯</option></select><div class="slot-select-hint" id="charPresetSlotHint">원하는 번호를 고른 뒤 저장하세요. 빈 슬롯을 남겨두어도 됩니다.</div></div><div><label class="tiny-label">1~10 고정 슬롯</label><div class="preset-mini-note">아래 목록은 항상 1→10 순서입니다. 정렬은 위의 빠른 선택 드롭다운에만 적용됩니다.</div></div></div><div class="preset-actions"><button type="button" class="tool primary" id="saveCharPreset">💾 현재 설정 저장 / 덮어쓰기</button><button type="button" class="tool subtle" id="loadCharPreset">📥 프리셋 불러오기</button><button type="button" class="tool subtle" id="deleteCharPreset">🗑 프리셋 삭제</button><button type="button" class="tool subtle" id="exportCharPresets">📤 JSON 내보내기</button><button type="button" class="tool subtle" id="importCharPresets">📥 JSON 가져오기</button></div><div class="preset-slot-list" id="charPresetSlotList"></div><div class="preset-preview-wrap"><div class="preset-preview-card" id="charPresetPreviewCard"><div class="preset-preview-head"><label class="tiny-label">선택된 프리셋 미리보기</label><span class="preset-label-badge" id="charPresetLabelBadge">🟣 보라</span></div><div class="preset-preview" id="charPresetPreview">저장된 프리셋을 선택하면 여기에 포함된 설정이 요약 표시됩니다.</div><div class="preset-mini-note">CHARACTER A/B/C 태그, 역할, 커스텀 태그, {{user}}, 스타일 설정이 함께 보여집니다.</div></div><div class="preset-preview-card"><label class="tiny-label">UX 안내</label><div class="preset-preview" id="charPresetScopeSummary">• 검색은 프리셋 이름뿐 아니라 캐릭터/커스텀 태그와 AI 스타일도 찾습니다.&#10;• 컬러 라벨로 캐릭터·장르·용도별로 빠르게 구분할 수 있습니다.&#10;• JSON 내보내기/가져오기 시 라벨과 생성·수정 시각도 함께 보존됩니다.</div><div class="preset-mini-note">추천 흐름: 설정 완료 → 이름/라벨 지정 → 저장 → 검색/정렬로 관리</div></div></div><div class="preset-subhint" id="charPresetHint">로컬 저장 전용 · 최대 10개 · 같은 브라우저에서만 보입니다.</div><input id="importCharPresetsFile" class="hidden-file" type="file" accept="application/json,.json"></div></div></details>
@@ -722,7 +722,7 @@ renderAdminUpdateNote();
   <div id="guestStatus" class="guestbook-status" role="status" aria-live="polite"></div>
 </section>
 
-<footer><div>문의사항 : <a href="https://open.kakao.com/o/sFqjQmBi" target="_blank" rel="noopener noreferrer">Jin_K</a></div><div>NSFW Asset Gacha v2.6 · Scene Coherence Update · 18+</div><div style="margin-top:5px"><button type="button" id="analyticsPing" style="border:0;background:transparent;color:#6f6978;font-size:8px;cursor:pointer">통계 연결 테스트 · v1 NSFW</button></div></footer>
+<footer><div>문의사항 : <a href="https://open.kakao.com/o/sFqjQmBi" target="_blank" rel="noopener noreferrer">Jin_K</a></div><div>NSFW Asset Gacha v2.7 · Scene Coherence 2.0 · 18+</div><div style="margin-top:5px"><button type="button" id="analyticsPing" style="border:0;background:transparent;color:#6f6978;font-size:8px;cursor:pointer">통계 연결 테스트 · v1 NSFW</button></div></footer>
 </div>
 <script>
 (function(){
@@ -2636,6 +2636,7 @@ function loadSmallCategories(keep=false,preferred=''){
 
 const SLOTS={background:'🏙️ 배경',outfit:'👔 의상',expression:'🙂 표정',action:'🎬 행동',season:'🍃 계절',weather:'🌦️ 시간 · 날씨',composition:'📷 구도',lighting:'💡 조명',gaze:'👁️ 시선',pose:'🧍 자세',prop:'🧳 소품',mood:'🎞️ 분위기'};
 const SCENE_COHERENCE_ROLL_ORDER=['background','season','weather','lighting','outfit','prop','pose','composition','gaze','action','expression','mood'];
+const SCENE_COHERENCE_VERSION='2.0';
 const state={selected:{},locked:{},active:{},sceneResolvedKey:''};
 Object.keys(SLOTS).forEach(k=>{state.selected[k]=null;state.locked[k]=false;state.active[k]=true});
 
@@ -3482,7 +3483,7 @@ function updateScenePresetHint(){
   el.classList.toggle('on',v!=='none');
 }
 function updateRelationHint(){const el=$('relationHint'),select=$('relationPreset');if(!el||!select)return;if(characterCount()===1){select.disabled=true;select.value='none';el.textContent='🤝 1인 모드에서는 관계 프리셋이 비활성화됩니다.';el.classList.remove('multi')}else{select.disabled=false;const label=RELATION_PRESETS[relationPresetValue()]?.label||'미사용';el.textContent=relationPresetValue()==='none'?'🤝 2인/3인에서 상호작용 가중치 적용':`🤝 현재 관계 프리셋 · ${label}`;el.classList.add('multi')}}
-function updateSmartConflictHint(){const el=$('smartConflictHint');if(!el)return;if(conflictPreventionOn()){el.textContent='🧩 Scene Coherence ON · 배경/계절/시간·날씨/의상/소품/행동 충돌을 다시 뽑습니다.';el.classList.add('on')}else{el.textContent='🧩 완전 랜덤 · 충돌 방지를 적용하지 않습니다.';el.classList.remove('on')}}
+function updateSmartConflictHint(){const el=$('smartConflictHint');if(!el)return;if(conflictPreventionOn()){el.textContent='🧩 Scene Coherence 2.0 ON · Hard Block + Soft Affinity로 장면 전체 정합성을 맞춥니다.';el.classList.add('on')}else{el.textContent='🧩 완전 랜덤 · 충돌 방지를 적용하지 않습니다.';el.classList.remove('on')}}
 function contextText(){return [genre.value,middleCategoryValue(),middleCategoryLabel(),category.value,activeCategoryLibrary()?.[category.value]?.label||'',state.selected.background?.ko||'',state.selected.background?.en||'',scenePresetConfig()?.label||''].join(' ').toLowerCase()}
 function currentNsfwContext(){return `${genre.value}::${category.value}`}
 function conflictsWithNsfwGenre(type,item){
@@ -3815,40 +3816,94 @@ function applyCategoryAffinity(pool,type){
   return hardFiltered.length?hardFiltered:pool;
 }
 
-function currentContextFlags(){
-  const t=contextText();
-  const relationKey=relationPresetValue();
-  const genreKey=genre.value;
-  const weaponRelation=['guardian','enemy','teammate','masterservant'].includes(relationKey);
-  const battleLike=/전투|던전|게이트|battle|combat|dungeon|mission|gate|escort|guard|훈련|training|호위|기사|knight|무기|weapon/.test(t);
-  const fantasyLike=/fantasy|period|궁중|왕좌|성당|cathedral|ritual|throne|palace|mage|magic/.test(t)||['fantasy','period'].includes(genreKey);
-  const hotelLike=/호텔|hotel/.test(t);
-  const loungeLike=/라운지|lounge|로비|lobby|bar|카페|cafe|restaurant|레스토랑/.test(t);
-  const poolLike=/수영장|pool|해변|beach|바닷가|hot spring|온천/.test(t);
-  const rooftopLike=/옥상|누각|성벽 야경|tower at night|rooftop|pavilion at night/.test(t);
+function selectedSlotText(type){
+  const v=state.selected[type];
+  return `${v?.ko||''} ${v?.en||''}`.toLowerCase();
+}
+function sceneAnchorText(){
+  return [
+    genre.value,
+    middleCategoryValue(),middleCategoryLabel(),
+    category.value,activeCategoryLibrary()?.[category.value]?.label||'',
+    selectedSlotText('background'),
+    scenePresetConfig()?.label||'',
+    purposePresetConfig()?.label||''
+  ].join(' ').toLowerCase();
+}
+function seasonKey(){
+  const t=selectedSlotText('season');
+  if(/spring|봄/.test(t))return 'spring';
+  if(/summer|여름/.test(t))return 'summer';
+  if(/autumn|fall|가을/.test(t))return 'autumn';
+  if(/winter|겨울/.test(t))return 'winter';
+  return 'neutral';
+}
+function weatherFactsFromText(value){
+  const t=String(value||'').toLowerCase();
   return {
-    shower:/샤워|욕실|bathroom|shower|bath/.test(t),
-    bedroom:/침실|침대|bedroom|bedside|bed/.test(t),
-    office:/사무실|오피스|회의실|office|meeting room|desk/.test(t),
-    school:/학교|교실|캠퍼스|도서관|school|classroom|campus|library/.test(t),
-    hospital:/병원|병실|의무실|회복실|치유실|hospital|ward|medical|infirmary|sickroom/.test(t),
-    battle:/전투|던전|게이트|battle|combat|dungeon|mission|gate/.test(t),
-    dining:/카페|레스토랑|바|술집|cafe|restaurant|bar|tavern/.test(t),
-    funeral:/장례|빈소|추모|상가|funeral|memorial|mourning|grave/.test(t),
-    rooftop:rooftopLike,
-    vehicle:/차 안|자동차|car interior|vehicle|taxi interior|back seat|driver's seat|passenger seat|장갑 수송차|호송차/.test(t),
-    formal:/알현|연회|궁중|audience|banquet|court hall|formal|lounge|lobby/.test(t),
-    outdoor:/야외|숲|광장|거리|옥상|rooftop|forest|outdoor|street|square|bridge|grassland|battlements|beach|seaside/.test(t),
-    restraint:/구속|속박|사슬|감금|던전|restrained|restraint|bound|chains|dungeon/.test(t),
-    indoor:/실내|로비|복도|병실|회의실|office|room|hallway|ward|lobby|interior|lounge|cafe|restaurant|bar|hotel/.test(t),
-    hotel:hotelLike,
-    lounge:loungeLike,
-    publicIndoor:(hotelLike||loungeLike||/영화관|cinema|쇼핑몰|mall|지하철|subway|버스|bus stop|백화점|department store/.test(t)) && !/private|bedroom|suite room/.test(t),
-    pool:poolLike,
-    summerSpot:poolLike,
-    weaponAllowed: fantasyLike || battleLike || weaponRelation,
-    modernUrban:/modern|office|campus|hospital|city|hotel|car interior|subway|mall|cinema/.test(t),
-    privateRoom:/private|suite|침실|bedroom|locker room|개인실|별실/.test(t)
+    rain:/rain|shower|storm|비|소나기|폭우/.test(t),
+    snow:/snow|blizzard|눈|폭설/.test(t),
+    fog:/fog|mist|안개/.test(t),
+    wind:/wind|breeze|바람/.test(t),
+    hot:/hot|heatwave|midsummer|폭염|더운|한여름/.test(t),
+    cold:/cold|freezing|차가운|추운/.test(t),
+    morning:/morning|아침/.test(t),
+    dawn:/dawn|pre-dawn|새벽|해 뜨기 직전/.test(t),
+    day:/daytime|midday|noon|afternoon|낮|오후/.test(t),
+    sunset:/sunset|golden hour|blue hour|석양|노을|해가 막 진/.test(t),
+    evening:/evening|저녁/.test(t),
+    night:/night|midnight|moon|starry|밤|자정|보름달|별이/.test(t)
+  };
+}
+function currentWeatherFacts(){return weatherFactsFromText(selectedSlotText('weather'))}
+function currentContextFlags(){
+  const t=sceneAnchorText();
+  const b=selectedSlotText('background');
+  const profile=currentAffinityProfile();
+  const genreKey=genre.value;
+  const fantasyLike=['fantasy','period'].includes(genreKey)||/fantasy|period|궁중|왕좌|성당|cathedral|ritual|throne|palace|mage|magic|기사|knight/.test(t);
+  const battleLike=['battle','ritualDark','throneDark'].includes(profile)||/전투|던전|게이트|battle|combat|dungeon|mission|gate|훈련|training|무기고|armory|전장|battlefield|기사단|mercenary|warrior/.test(t);
+  const hotel=/호텔|hotel/.test(t);
+  const hotelRoom=hotel&&(/hotel room|객실|room interior|bedroom|침실/.test(b)||category.value==='hotel_suite');
+  const hotelSuite=hotel&&/suite|스위트/.test(b+` ${category.value}`);
+  const hotelCorridor=hotel&&/corridor|hallway|복도/.test(b);
+  const hotelLobby=hotel&&/lobby|로비/.test(b);
+  const hotelLounge=hotel&&/lounge|라운지/.test(b);
+  const hotelBalcony=hotel&&/balcony|terrace|발코니|테라스/.test(b);
+  const hotelBathroom=hotel&&/bathroom|shower|욕실|샤워/.test(b);
+  const vehicle=/car interior|vehicle|taxi|back seat|driver's seat|passenger seat|자동차|차 안|차량 내부|호송차|수송차|carriage interior|마차 내부/.test(b||t)||profile==='travel'&&/car|taxi|carriage|vehicle|자동차|택시|마차/.test(t);
+  const bath=profile==='bath'||/bathroom|shower|bathhouse|hot spring|locker room|spa|poolside|욕실|샤워|목욕|온천|스파|탈의실/.test(t);
+  const medical=profile==='medical'||/hospital|ward|clinic|medical|infirmary|recovery room|quarantine|decon|병원|병실|진료|의무실|회복실|격리|제독/.test(t);
+  const shopping=/mart|supermarket|shopping mall|department store|market|store|convenience|마트|슈퍼|쇼핑몰|백화점|시장|상점|편의점/.test(t);
+  const religious=['sacred','ritualDark'].includes(profile)||/cathedral|church|chapel|monastery|shrine|temple|altar|성당|교회|예배당|수도원|신전|제단|사원/.test(t);
+  const royal=['royal','throneDark'].includes(profile)||/throne|palace|royal|court hall|manor|ballroom|왕좌|왕궁|황궁|궁정|귀족 저택|무도회/.test(t);
+  const survival=profile==='survival'||/shelter|ruined|survivor|bunker|quarantine|apocalypse|대피소|폐허|생존|벙커|재난/.test(t);
+  const research=profile==='research'||/laboratory|research|lab|archive|data center|연구소|실험실|기록실|데이터 센터|마탑|연금술/.test(t);
+  const lounge=/lounge|bar|cafe|restaurant|라운지|바|카페|레스토랑/.test(b||t);
+  const party=/club|party|banquet|ballroom|nightlife|연회|클럽|파티|무도회/.test(t);
+  const rooftop=/rooftop|옥상|battlements|성벽|tower at night|누각/.test(b||t);
+  const beachPool=/beach|pool|seaside|resort|hot spring|해변|수영장|바닷가|리조트|온천/.test(t);
+  const outdoor=/outdoor|street|alley|park|square|forest|bridge|rooftop|balcony|terrace|beach|garden|battlements|야외|거리|골목|공원|광장|숲|다리|옥상|발코니|테라스|해변|정원|성벽/.test(b||t);
+  const publicIndoor=hotelLobby||hotelLounge||hotelCorridor||/cafe|restaurant|mall|cinema|theater|lobby|corridor|station|airport|bar|카페|레스토랑|쇼핑몰|영화관|극장|로비|복도|역|공항|바/.test(b||t);
+  const privateRoom=hotelRoom||hotelSuite||profile==='privateRoom'||/bedroom|private room|bedchamber|safehouse room|침실|개인실|객실|침방|별실/.test(b||t);
+  const indoor=!outdoor&&(/interior|room|hall|lobby|corridor|office|classroom|ward|cafe|restaurant|bar|hotel|실내|방|홀|로비|복도|사무실|교실|병실|카페|레스토랑|호텔/.test(b||t)||['office','school','medical','privateRoom','research','lifestyle','stage'].includes(profile));
+  const railing=/railing|balcony|terrace|rooftop|bridge|battlements|deck|난간|발코니|테라스|옥상|다리|성벽|갑판/.test(b||t);
+  const desk=/desk|office|classroom|study|laboratory|meeting room|책상|사무실|교실|서재|실험실|회의실/.test(b||t);
+  const barCounter=/bar counter|cocktail bar|pub|tavern|lounge|바 카운터|술집|주점|라운지/.test(b||t);
+  const bedAvailable=privateRoom||medical||/bedside|bed|침대|병상/.test(b||t);
+  return {
+    profile,hotel,hotelRoom,hotelSuite,hotelCorridor,hotelLobby,hotelLounge,hotelBalcony,hotelBathroom,
+    vehicle,bath,medical,shopping,religious,royal,survival,research,lounge,party,rooftop,beachPool,
+    outdoor,indoor,publicIndoor,privateRoom,privacy:privateRoom&&!publicIndoor?'private':publicIndoor?'semi_public':outdoor?'public':'contextual',railing,desk,barCounter,bedAvailable,
+    office:profile==='office'||/office|meeting room|사무실|회의실|오피스/.test(t),
+    school:profile==='school'||/school|classroom|campus|library|academy|학교|교실|캠퍼스|도서관|아카데미/.test(t),
+    battle:battleLike,
+    dining:/cafe|restaurant|bar|tavern|카페|레스토랑|바|술집|주점/.test(t),
+    funeral:/funeral|memorial|mourning|grave|장례|빈소|추모|상가|묘지/.test(t),
+    restraint:profile==='restraint'||/restraint|bound|chains|dungeon|playroom|cell|cage|구속|속박|사슬|플레이룸|감금|케이지/.test(t),
+    formal:/audience|banquet|court hall|formal|lounge|lobby|알현|연회|궁중|라운지|로비/.test(t),
+    weaponAllowed:battleLike||['royal','ritualDark','throneDark'].includes(profile)||/knight|mercenary|warrior|guard|assassin|samurai|wuxia|general|기사|용병|전사|호위|암살자|사무라이|무협|장군|검사|무장/.test(t),
+    fantasyLike,battleLike
   };
 }
 function conflictsWithContext(type,item){
@@ -3856,50 +3911,94 @@ function conflictsWithContext(type,item){
   const t=`${item.ko||''} ${item.en||''}`.toLowerCase();
   if(conflictsWithNsfwGenre(type,item)) return true;
   const c=currentContextFlags();
-  const currentPose=`${state.selected.pose?.ko||''} ${state.selected.pose?.en||''}`.toLowerCase();
-  const currentAction=`${state.selected.action?.ko||''} ${state.selected.action?.en||''}`.toLowerCase();
-  const currentLight=`${state.selected.lighting?.ko||''} ${state.selected.lighting?.en||''}`.toLowerCase();
-  const currentWeather=`${state.selected.weather?.ko||''} ${state.selected.weather?.en||''}`.toLowerCase();
-  const currentSeason=`${state.selected.season?.ko||''} ${state.selected.season?.en||''}`.toLowerCase();
-  const currentBackground=`${state.selected.background?.ko||''} ${state.selected.background?.en||''}`.toLowerCase();
-  const currentProp=`${state.selected.prop?.ko||''} ${state.selected.prop?.en||''}`.toLowerCase();
-  const vehicleWords=/(seatbelt|safety belt|dashboard|steering wheel|driver's seat|passenger seat|car keys|taxi|back seat|운전대|대시보드|차 키|안전벨트)/;
-  const weaponWords=/(sword|greatsword|large sword|dagger|katana|blade|rapier|spear|bow|crossbow|staff|mace|weapon|검|대검|단검|활|창|지팡이|무기)/;
-  const loungeFormalOutfit=/(luxury business suit|three-piece suit|tailored suit|cocktail dress|formal attire|고급 정장|정장|드레스)/;
-  const winterLite=/(swimsuit|bikini|tank top|sleeveless|summer short-sleeve|summer outfit|얇은 셔츠와 면바지|반팔|민소매|수영복)/;
-  const winterHeavy=/(heavy coat|fur coat|long wool coat|padded jacket|thick knit|패딩|두꺼운 코트|퍼 코트)/;
-  const sleepyPrivateAction=/(drying hair|wiping off water|hugging blanket|just woke up|잠에서 깨어|담요를 끌어안|머리를 말리)/;
-  const bedPose=/(lying on bed|half-reclined on a bed|침대에 눕|침대에 기대)/;
-  const altarPose=/(kneeling at altar|제단 앞에 무릎)/;
+  const season=seasonKey();
+  const wf=currentWeatherFacts();
+  const currentPose=selectedSlotText('pose');
+  const currentAction=selectedSlotText('action');
+  const currentLight=selectedSlotText('lighting');
+  const currentProp=selectedSlotText('prop');
 
-  if(c.shower){
-    if(type==='outfit'&&/(suit|slacks|dress shirt|formal|armor|uniform|hanbok|kimono|school|coat|jacket)/.test(t))return true;
-    if(type==='action'&&/(shopping cart|driving|running|walking together|briefing|serving customers|studying|lecturing|market|battle|praying)/.test(t))return true;
-    if(type==='weather'&&/(snow|rainy|storm|blizzard)/.test(t))return true;
-    if(type==='prop'&&/(briefcase|shopping cart|laptop|wine glass|sword|bow|umbrella)/.test(t))return true;
+  const vehicleWords=/(seatbelt|safety belt|dashboard|steering wheel|driver's seat|passenger seat|car keys|gear shift|rearview mirror|운전대|대시보드|차 키|안전벨트|기어봉|백미러)/;
+  const medicalWords=/(iv stand|medical chart|heart monitor|syringe|stethoscope|defibrillator|hospital chart|수액|링거|의료 차트|심전도|주사기|청진기|제세동기)/;
+  const shoppingCart=/(shopping cart|shopping basket|쇼핑카트|장바구니)/;
+  const religiousWords=/(rosary|holy water|chalice|altar cross|scripture|성배|묵주|성수|제단 십자가|성서)/;
+  const royalWords=/(scepter|royal crown|black crown|왕관|홀|왕홀)/;
+  const beddingWords=/(pillow|blanket|duvet|bed sheet|베개|담요|이불|침구)/;
+  const bathWords=/(shampoo|soap|body wash|hair dryer|bath towel|bathrobe|샴푸|비누|바디워시|헤어드라이어|목욕타월|목욕가운)/;
+  const alcoholWords=/(cocktail glass|wine glass|whiskey glass|champagne glass|칵테일 잔|와인잔|위스키 잔|샴페인 잔)/;
+  const umbrellaWords=/(umbrella|parasol|우산|양산)/;
+  const campingWords=/(camping stove|tent|sleeping bag|camping lantern|camping gear|캠핑 버너|텐트|침낭|캠핑 랜턴|캠핑 장비)/;
+  const hazardWords=/(gas mask|respirator|hazmat|protective mask|방독면|호흡기|방호복|방진 마스크)/;
+  const weaponWords=/(sword|greatsword|large sword|dagger|katana|rapier|spear|bow|crossbow|mace|rifle|pistol|weapon|검|대검|단검|활|석궁|창|철퇴|소총|권총|무기)/;
+  const bathrobeWords=/(bathrobe|bath towel|shower robe|목욕가운|수건을 두른|샤워 가운)/;
+  const pajamaWords=/(pajama|sleepwear|homewear|파자마|잠옷|홈웨어)/;
+  const swimWords=/(swimsuit|bikini|swimwear|수영복|비키니)/;
+  const armorWords=/(full armor|knight armor|battle armor|plate armor|갑옷|전신 갑옷|기사 갑주)/;
+  const winterLite=/(swimsuit|bikini|tank top|sleeveless|summer short-sleeve|summer outfit|반팔|민소매|수영복|얇은 여름옷)/;
+  const winterHeavy=/(heavy coat|fur coat|long wool coat|padded jacket|thick knit|패딩|두꺼운 코트|퍼 코트|두꺼운 니트)/;
+  const sleepyPrivateAction=/(drying hair|wiping off water|hugging blanket|just woke up|getting into bed|잠에서 깨어|담요를 끌어안|머리를 말리|침대에 들어)/;
+  const bedPose=/(lying on bed|half-reclined on a bed|sitting on bed|bed edge|침대에 눕|침대에 기대|침대에 앉|침대 가장자리)/;
+  const altarPose=/(kneeling at altar|제단 앞에 무릎)/;
+  const railingPose=/(leaning on railing|against railing|난간에 기대|난간을 짚)/;
+  const deskPose=/(leaning on desk|against desk|sitting on desk|책상에 기대|책상에 걸터)/;
+  const barPose=/(leaning on bar counter|at bar counter|바 카운터에 기대|바 카운터에 앉)/;
+
+  // HARD BLOCK · location-required props/actions
+  if(!c.vehicle && ((type==='prop'||type==='action')&&vehicleWords.test(t)))return true;
+  if(!c.medical&&!c.research && type==='prop'&&medicalWords.test(t))return true;
+  if(!c.shopping && type==='prop'&&shoppingCart.test(t))return true;
+  if(!c.religious && type==='prop'&&religiousWords.test(t))return true;
+  if(!c.royal && type==='prop'&&royalWords.test(t))return true;
+  if(!c.bedAvailable && type==='prop'&&beddingWords.test(t))return true;
+  if(!c.bath && !c.privateRoom && type==='prop'&&bathWords.test(t))return true;
+  if(!(c.dining||c.lounge||c.party||c.hotelRoom||c.hotelSuite||c.hotelBalcony) && type==='prop'&&alcoholWords.test(t))return true;
+  if(type==='prop'&&umbrellaWords.test(t)&&!(c.outdoor&&(wf.rain||wf.snow)))return true;
+  if(type==='prop'&&campingWords.test(t)&&!(c.outdoor||c.survival))return true;
+  if(type==='prop'&&hazardWords.test(t)&&!(c.survival||c.battle||c.research||c.medical))return true;
+  if(type==='prop'&&weaponWords.test(t)&&!c.weaponAllowed)return true;
+
+  // HARD BLOCK · hotel micro-location
+  if(c.hotelLobby||c.hotelLounge||c.hotelCorridor){
+    if(type==='prop'&&(beddingWords.test(t)||bathWords.test(t)||medicalWords.test(t)||shoppingCart.test(t)))return true;
+    if(type==='outfit'&&(bathrobeWords.test(t)||pajamaWords.test(t)||swimWords.test(t)))return true;
+    if(type==='pose'&&bedPose.test(t))return true;
+    if(type==='action'&&sleepyPrivateAction.test(t))return true;
   }
-  if(c.bedroom){
-    if(type==='action'&&/(shopping cart|driving|making coffee|checking equipment|serving customers|fighting|battle|walking side by side|market|briefing)/.test(t))return true;
-    if(type==='outfit'&&/(armor|center uniform|store uniform|barista apron|business suit)/.test(t))return true;
+  if(c.hotelLounge&&!c.weaponAllowed){
+    if(type==='outfit'&&armorWords.test(t))return true;
+    if(type==='prop'&&weaponWords.test(t))return true;
   }
+  if(c.hotelBalcony){
+    if(type==='pose'&&bedPose.test(t))return true;
+    if(type==='action'&&vehicleWords.test(t))return true;
+  }
+  if(c.hotelRoom||c.hotelSuite){
+    if(type==='prop'&&(shoppingCart.test(t)||medicalWords.test(t)))return true;
+  }
+
+  // HARD BLOCK · outfit ↔ location
+  if(type==='outfit'){
+    if(bathrobeWords.test(t)&&!(c.bath||c.privateRoom))return true;
+    if(pajamaWords.test(t)&&!(c.privateRoom||c.medical))return true;
+    if(swimWords.test(t)&&!c.beachPool&&!c.bath)return true;
+    if(armorWords.test(t)&&!c.weaponAllowed)return true;
+    if(season==='winter'&&c.outdoor&&!c.beachPool&&winterLite.test(t))return true;
+    if(season==='summer'&&c.outdoor&&!c.formal&&!c.battle&&winterHeavy.test(t))return true;
+  }
+
+  // HARD BLOCK · scene/profile legacy
   if(c.office){
     if(type==='outfit'&&/(bath towel|bathrobe|pajama|swimsuit|bikini)/.test(t))return true;
-    if(type==='action'&&/(drying hair|wiping off water|hugging blanket|just woke up|praying at altar)/.test(t))return true;
+    if(type==='action'&&sleepyPrivateAction.test(t))return true;
   }
-  if(c.school){
-    if(type==='outfit'&&/(bath towel|bathrobe|armor|cleric|ritual robe)/.test(t))return true;
-  }
-  if(c.hospital){
-    if(type==='action'&&/(dancing|shopping cart|drinking in tavern|battle|making coffee|market shopping)/.test(t))return true;
+  if(c.school&&type==='outfit'&&/(bath towel|bathrobe|armor|cleric|ritual robe)/.test(t))return true;
+  if(c.medical){
+    if(type==='action'&&/(dancing|shopping cart|drinking in tavern|battle charge|market shopping)/.test(t))return true;
     if(type==='outfit'&&/(bikini|swimsuit|full armor|party dress)/.test(t))return true;
-    if(type==='prop'&&/(shopping cart|cocktail glass|sword|bow)/.test(t))return true;
   }
   if(c.battle){
     if(type==='action'&&/(drinking through straw|holding wine glass|hugging blanket|drying hair|shopping cart|making coffee)/.test(t))return true;
     if(type==='expression'&&/(sleepy expression|relaxed waking expression|bright smile)/.test(t))return true;
-  }
-  if(c.dining){
-    if(type==='action'&&/(wrapping bandage|checking weapon|preparing magic|tending wounds)/.test(t))return true;
   }
   if(c.funeral){
     if(type==='outfit'&&/(pajama|bath towel|bathrobe|swimsuit|bikini|party dress|festival attire)/.test(t))return true;
@@ -3910,20 +4009,16 @@ function conflictsWithContext(type,item){
   }
   if(c.rooftop){
     if(type==='prop'&&/(pillow|blanket|shopping cart|iv stand)/.test(t))return true;
-    if(type==='outfit'&&/(bath towel|bathrobe)/.test(t))return true;
+    if(type==='outfit'&&bathrobeWords.test(t))return true;
     if(type==='action'&&vehicleWords.test(t))return true;
   }
   if(c.vehicle){
     if(type==='pose'&&(bedPose.test(t)||altarPose.test(t)))return true;
     if(type==='prop'&&/(shopping cart|large sword|iv stand)/.test(t))return true;
   }
-  if(c.formal){
-    if(type==='outfit'&&/(pajama|bath towel|bathrobe|swimsuit)/.test(t))return true;
+  if(c.publicIndoor){
+    if(type==='pose'&&(bedPose.test(t)||altarPose.test(t)))return true;
     if(type==='action'&&sleepyPrivateAction.test(t))return true;
-  }
-  if(c.outdoor){
-    if(type==='prop'&&/(iv stand|desk lamp|office files|shopping cart)/.test(t))return true;
-    if(type==='outfit'&&/(bathrobe|pajama|hospital gown)/.test(t))return true;
   }
   if(c.restraint){
     if(type==='mood'&&/(cheerful|festival|playful|lively)/.test(t))return true;
@@ -3931,52 +4026,179 @@ function conflictsWithContext(type,item){
     if(type==='prop'&&/(shopping cart|coffee cup|takeaway coffee|wine glass)/.test(t))return true;
   }
 
-  // scene-anchor coherence
-  if(!c.vehicle){
-    if(type==='action'&&vehicleWords.test(t))return true;
-    if(type==='prop'&&vehicleWords.test(t))return true;
+  // HARD BLOCK · pose ↔ physical structure
+  if(type==='pose'){
+    if(railingPose.test(t)&&!c.railing)return true;
+    if(deskPose.test(t)&&!c.desk)return true;
+    if(barPose.test(t)&&!c.barCounter)return true;
+    if(bedPose.test(t)&&!c.bedAvailable)return true;
   }
-  if(c.hotel&&c.lounge&&!c.weaponAllowed){
-    if(type==='prop'&&weaponWords.test(t))return true;
-    if(type==='outfit'&&/(armor|full armor|battle gear|knight armor|전신 갑옷|갑옷|전투복)/.test(t))return true;
-  }
-  if(c.publicIndoor){
-    if(type==='pose'&&(bedPose.test(t)||altarPose.test(t)))return true;
-    if(type==='action'&&sleepyPrivateAction.test(t))return true;
-  }
-  if(c.modernUrban&&!c.weaponAllowed){
-    if(type==='prop'&&weaponWords.test(t))return true;
-  }
-  if(c.lounge&&type==='outfit'&&!c.weaponAllowed&&/(battle gear|full armor|ritual robe|cleric|갑옷|예복형 갑주)/.test(t))return true;
 
-  // season-time-weather coherence
-  if(type==='outfit'){
-    if(/겨울|winter/.test(currentSeason)&&c.outdoor&&!c.pool&&winterLite.test(t))return true;
-    if(/여름|summer/.test(currentSeason)&&c.outdoor&&!c.formal&&winterHeavy.test(t))return true;
+  // HARD BLOCK · action ↔ prop dependency
+  if(type==='action'){
+    const requires=[
+      {rx:/unfastening seatbelt|fastening seatbelt|안전벨트를 풀|안전벨트를 매/, prop:/seatbelt|safety belt|안전벨트/, context:()=>c.vehicle},
+      {rx:/opening umbrella|closing umbrella|sharing umbrella|우산을 펼|우산을 접|우산을 기울|함께 우산/, prop:/umbrella|우산/, context:()=>c.outdoor},
+      {rx:/drawing sword|unsheathing sword|검을 뽑|칼을 뽑/, prop:/sword|katana|blade|검|칼/, context:()=>c.weaponAllowed},
+      {rx:/drinking wine|holding wine glass|와인을 마시|와인잔을 들/, prop:/wine|cocktail|glass|와인|칵테일|잔/, context:()=>c.dining||c.lounge||c.party||c.privateRoom},
+      {rx:/using laptop|checking laptop|노트북을 보|노트북을 확인/, prop:/laptop|notebook computer|노트북/, context:()=>c.office||c.school||c.research||c.privateRoom||c.dining},
+      {rx:/handing.*flowers|offering flowers|꽃을 건네|꽃다발을 건네/, prop:/flower|bouquet|꽃|꽃다발/, context:()=>true},
+      {rx:/turning off radio|using radio|무전기를 끄|무전기로/, prop:/radio|walkie|무전기/, context:()=>c.battle||c.survival||c.travel}
+    ];
+    for(const r of requires){
+      if(r.rx.test(t) && (!r.context() || !r.prop.test(currentProp)))return true;
+    }
+  }
+
+  // HARD BLOCK · pose/action mutual consistency
+  if(type==='action'&&/(walking|running|walking toward|walking away|sprinting)/.test(t)&&/(sitting|lying|kneeling|crouching)/.test(currentPose))return true;
+  if(type==='pose'&&/(sitting|lying|kneeling|crouching)/.test(t)&&/(running|walking quickly|sprinting)/.test(currentAction))return true;
+  if(type==='pose'&&(c.office||c.school||c.vehicle)&&bedPose.test(t))return true;
+
+  // HARD BLOCK · gaze ↔ people / POV
+  if(type==='gaze'){
+    const n=characterCount();
+    if(n===1&&/(each other|one another|서로|둘 다|two people|three people|세 명|두 명)/.test(t))return true;
+    if(n===2&&/(three people|all three|세 명|3인)/.test(t))return true;
+    if(n<3&&/(two people looking at one person|one person looking at the other two|두 명이 한 명|한 명이 두 사람)/.test(t))return true;
+    if(!isPovMode()&&/(viewer'?s hand|reaching toward viewer|toward viewer's hand|시청자의 손|화면 밖 손)/.test(t))return true;
+  }
+
+  // HARD BLOCK · season/weather/time/light
+  if(type==='weather'){
+    const f=weatherFactsFromText(t);
+    if(season==='winter'&&f.hot)return true;
+    if(season==='summer'&&f.snow&&!c.fantasyLike&&!c.survival)return true;
+  }
+  if(type==='lighting'){
+    if(/moonlight|starlight|달빛|별빛/.test(t)&&(wf.day||wf.morning))return true;
+    if(/sunset|golden hour|석양|노을/.test(t)&&(wf.morning||wf.dawn||wf.night))return true;
+    if(/strong sunlight|midday sun|bright noon|강한 햇빛|정오/.test(t)&&wf.night)return true;
   }
   if(type==='weather'){
-    if(/겨울|winter/.test(currentSeason)&&/(heatwave|midsummer|tropical noon|한여름|폭염)/.test(t))return true;
-    if(/여름|summer/.test(currentSeason)&&/(blizzard|heavy snow|snowstorm|폭설|눈보라)/.test(t)&& !['fantasy','period'].includes(genre.value)) return true;
+    const f=weatherFactsFromText(t);
+    if((f.day||f.morning)&&/moonlight|starlight|달빛|별빛/.test(currentLight))return true;
+    if(f.night&&/strong sunlight|midday sun|bright noon|강한 햇빛|정오/.test(currentLight))return true;
   }
-  if(type==='lighting'&&/(moonlight|starlight)/.test(t)&&/(noon|midday|bright daytime)/.test(currentWeather))return true;
-  if(type==='weather'&&/(noon|midday|bright daytime)/.test(t)&&/(moonlight|starlight)/.test(currentLight))return true;
 
-  // pose / action / prop coherence
-  if(type==='action'&&/(walking|running|walking toward|walking away)/.test(t)&&/(sitting|lying|kneeling|crouching)/.test(currentPose))return true;
-  if(type==='pose'&&/(sitting|lying|kneeling|crouching)/.test(t)&&/(running|walking quickly)/.test(currentAction))return true;
-  if(type==='action'&&vehicleWords.test(currentProp)&&!c.vehicle) return true;
-  if(type==='prop'&&vehicleWords.test(t)&&/(rooftop|옥상|bedroom|침실|lounge|라운지)/.test(currentBackground)) return true;
-
-  // legacy broad checks
-  if(type==='pose'&&(c.office||c.school||c.vehicle)&&bedPose.test(t))return true;
-  if((genre.value==='period'||genre.value==='fantasy')&&type==='prop'&&/(smartphone|laptop|tablet computer)/.test(t))return true;
+  // period/fantasy tech mismatch
+  if((genre.value==='period'||genre.value==='fantasy')&&type==='prop'&&/(smartphone|laptop|tablet computer)/.test(t)&&!c.research)return true;
   if(c.battle&&type==='outfit'&&/(pajama|bathrobe|slip dress|homewear)/.test(t))return true;
-  if(c.indoor&&type==='action'&&!c.shower&&/(soaked by rain|standing in heavy rain)/.test(t))return true;
-  if(type==='weather'&&c.indoor&&/(snow|blizzard|rainstorm)/.test(t))return true;
   return false;
 }
-function applyConflictFilter(pool,type){if(!conflictPreventionOn())return pool;const filtered=pool.filter(x=>!conflictsWithContext(type,x));return filtered.length?filtered:pool}
-function enforceSmartConflicts(){if(!conflictPreventionOn())return;const order=['background','season','weather','lighting','outfit','prop','pose','composition','gaze','action','expression','mood'];for(let pass=0;pass<5;pass++){order.forEach(type=>{const cur=state.selected[type];if(cur&&conflictsWithContext(type,cur)&&!state.locked[type])state.selected[type]=choose(type)})}}
+function sceneAffinityScore(type,item){
+  if(!item)return 0;
+  const t=`${item.ko||''} ${item.en||''}`.toLowerCase();
+  const c=currentContextFlags();
+  const season=seasonKey();
+  const wf=currentWeatherFacts();
+  const prop=selectedSlotText('prop');
+  const pose=selectedSlotText('pose');
+  let s=0;
+
+  if(type==='weather'){
+    const f=weatherFactsFromText(t);
+    if(season==='spring'&&(/petal|spring rain|벚꽃|꽃잎|봄비/.test(t)||f.rain))s+=3;
+    if(season==='summer'&&(f.hot||/shower|humid|소나기|습한/.test(t)))s+=3;
+    if(season==='autumn'&&(/autumn|falling leaves|cool|가을|낙엽|선선/.test(t)))s+=3;
+    if(season==='winter'&&(f.snow||f.cold))s+=4;
+  }
+  if(type==='outfit'){
+    if(season==='winter'&&c.outdoor&&/coat|jacket|knit|scarf|gloves|코트|재킷|니트|목도리|장갑/.test(t))s+=4;
+    if(season==='summer'&&c.outdoor&&/light|short-sleeve|linen|summer|반팔|린넨|가벼운/.test(t))s+=3;
+    if((c.hotelLobby||c.hotelLounge)&&/suit|formal|dress|정장|드레스|세련된/.test(t))s+=4;
+    if((c.hotelRoom||c.hotelSuite)&&/homewear|pajama|bathrobe|shirt|홈웨어|파자마|목욕가운|셔츠/.test(t))s+=2;
+    if(c.bath&&/bathrobe|towel|swim|목욕가운|수건|수영복/.test(t))s+=4;
+  }
+  if(type==='prop'){
+    if(c.vehicle&&/seatbelt|car keys|dashboard|steering|안전벨트|차 키|운전대/.test(t))s+=5;
+    if(c.medical&&/iv|medical|stethoscope|syringe|수액|의료|청진기|주사기/.test(t))s+=5;
+    if(c.shopping&&/shopping cart|basket|shopping bag|쇼핑카트|장바구니|쇼핑백/.test(t))s+=5;
+    if((c.dining||c.lounge)&&/coffee|tea|cocktail|wine|menu|커피|차|칵테일|와인|메뉴/.test(t))s+=3;
+    if(c.religious&&/rosary|holy water|chalice|scripture|묵주|성수|성배|성서/.test(t))s+=4;
+    if(c.royal&&/crown|scepter|왕관|홀/.test(t))s+=4;
+    if(c.survival&&/radio|flashlight|map|supply|무전기|손전등|지도|보급/.test(t))s+=4;
+    if(c.battle&&/sword|bow|shield|weapon|검|활|방패|무기/.test(t))s+=4;
+    if(c.outdoor&&(wf.rain||wf.snow)&&/umbrella|우산/.test(t))s+=5;
+  }
+  if(type==='action'){
+    if(/umbrella|우산/.test(prop)&&/umbrella|우산/.test(t))s+=6;
+    if(/seatbelt|안전벨트/.test(prop)&&/seatbelt|안전벨트/.test(t))s+=6;
+    if(/sword|katana|검|칼/.test(prop)&&/sword|blade|검|칼/.test(t))s+=5;
+    if(/laptop|노트북/.test(prop)&&/laptop|screen|노트북|화면/.test(t))s+=4;
+    if(/wine|cocktail|와인|칵테일/.test(prop)&&/drink|glass|마시|잔/.test(t))s+=4;
+    if(c.railing&&/railing|city lights|난간|야경/.test(t))s+=3;
+    if(c.desk&&/documents|monitor|desk|서류|모니터|책상/.test(t))s+=3;
+  }
+  if(type==='pose'){
+    if(c.railing&&/railing|난간/.test(t))s+=4;
+    if(c.desk&&/desk|책상/.test(t))s+=3;
+    if(c.barCounter&&/bar counter|바 카운터/.test(t))s+=4;
+    if(c.bedAvailable&&/bed|침대/.test(t))s+=3;
+  }
+  if(type==='composition'){
+    if(/standing|walking/.test(pose)&&/full body|wide|environmental|전신|와이드/.test(t))s+=3;
+    if(/sitting|leaning/.test(pose)&&/upper body|medium|bust|상반신|미디엄/.test(t))s+=2;
+    if(/lying/.test(pose)&&/top-down|bird|overhead|탑뷰|버드/.test(t))s+=3;
+  }
+  if(type==='gaze'){
+    const n=characterCount();
+    if(n>=2&&/each other|one another|서로/.test(t))s+=3;
+    if(isPovMode()&&/viewer|camera|정면|시청자/.test(t))s+=3;
+  }
+  if(type==='lighting'){
+    if(wf.night&&/moon|neon|city|dim|달빛|네온|야경|어두운/.test(t))s+=4;
+    if(wf.sunset&&/golden|sunset|warm|노을|석양|따뜻한/.test(t))s+=4;
+    if((wf.morning||wf.day)&&/sunlight|window light|daylight|햇빛|자연광|창문/.test(t))s+=3;
+    if(c.indoor&&/interior|ambient|window|실내|무드|창문/.test(t))s+=2;
+  }
+  return s;
+}
+function applyConflictFilter(pool,type){
+  if(!conflictPreventionOn())return pool;
+  return pool.filter(x=>!conflictsWithContext(type,x));
+}
+function applySceneAffinity(pool,type){
+  if(!conflictPreventionOn()||!pool.length)return pool;
+  const out=[];
+  for(const item of pool){
+    const score=sceneAffinityScore(type,item);
+    const repeat=score>=6?4:score>=3?3:score>=1?2:1;
+    for(let i=0;i<repeat;i++)out.push(item);
+  }
+  return out;
+}
+function contextualizeItem(type,item){
+  if(!item||type!=='weather')return item;
+  const c=currentContextFlags();
+  if(!c.indoor)return item;
+  const f=weatherFactsFromText(`${item.ko||''} ${item.en||''}`);
+  if(!f.rain&&!f.snow)return item;
+  const nearWindow=c.hotelRoom||c.hotelSuite||c.hotelLounge||c.office||c.school||c.dining;
+  const koBase=item.ko||'';
+  const enBase=item.en||'';
+  if(f.rain){
+    return {ko:nearWindow?`창밖에 ${koBase}`:`실외에 ${koBase}`,en:nearWindow?`${enBase} outside the window`:`${enBase} outside`};
+  }
+  if(f.snow){
+    return {ko:nearWindow?`창밖에 ${koBase}`:`실외에 ${koBase}`,en:nearWindow?`${enBase} visible outside the window`:`${enBase} outside`};
+  }
+  return item;
+}
+function enforceSmartConflicts(){
+  if(!conflictPreventionOn())return;
+  const order=SCENE_COHERENCE_ROLL_ORDER;
+  for(let pass=0;pass<6;pass++){
+    order.forEach(type=>{
+      const cur=state.selected[type];
+      if(cur&&conflictsWithContext(type,cur)&&!state.locked[type])state.selected[type]=choose(type);
+    });
+  }
+}
+function prepareSceneCoherenceRoll(){
+  if(!conflictPreventionOn())return;
+  Object.keys(SLOTS).forEach(type=>{if(!state.locked[type])state.selected[type]=null;});
+}
 function specific(type){const cats=activeCategoryLibrary(),c=category.value;if(c==='__all'){let out=[];activeCategoryKeys().forEach(key=>{const x=cats[key];if(x)out.push(...(x[type]||[]),...categorySupplementPool(key,type))});return out}return [...(cats[c]?.[type]||[]),...categorySupplementPool(c,type)]}
 function poolFor(type){
   let base=[];
@@ -4075,14 +4297,28 @@ function poolFor(type){
   base=fitCompositionToPeople(base,type);
   base=fitCompositionToPov(base,type);
   base=applyConflictFilter(base,type);
+  base=applySceneAffinity(base,type);
   return base;
 }
 function uniqueCount(type){return uniq(poolFor(type)).length}
-function choose(type){const p=poolFor(type);if(!p.length)return null;const strength=randomStrengthValue();const source=strength==='bold'?uniq(p):p;let n=rand(source);const avoidLoops=strength==='safe'?28:18;if($('avoidSame').checked&&state.selected[type]&&source.length>1){for(let i=0;i<avoidLoops&&n.en===state.selected[type].en;i++)n=rand(source)}const excludeLoops=strength==='safe'?42:30;if(excludedTerms().length&&source.length>1){for(let i=0;i<excludeLoops&&(tokenMatchesExcluded(n?.en)||tokenMatchesExcluded(n?.ko));i++)n=rand(source)}if(strength==='safe'&&source.length>1&&conflictsWithContext(type,n)){for(let i=0;i<24&&conflictsWithContext(type,n);i++)n=rand(source)}if(tokenMatchesExcluded(n?.en)||tokenMatchesExcluded(n?.ko))return null;return n}
+function choose(type){
+  const p=poolFor(type);if(!p.length)return null;
+  const strength=randomStrengthValue();
+  const source=strength==='bold'?uniq(p):p;
+  let n=rand(source);
+  const avoidLoops=strength==='safe'?28:18;
+  if($('avoidSame').checked&&state.selected[type]&&source.length>1){for(let i=0;i<avoidLoops&&n.en===state.selected[type].en;i++)n=rand(source)}
+  const excludeLoops=strength==='safe'?42:30;
+  if(excludedTerms().length&&source.length>1){for(let i=0;i<excludeLoops&&(tokenMatchesExcluded(n?.en)||tokenMatchesExcluded(n?.ko));i++)n=rand(source)}
+  if(conflictPreventionOn()&&source.length>1&&conflictsWithContext(type,n)){for(let i=0;i<48&&conflictsWithContext(type,n);i++)n=rand(source)}
+  if(tokenMatchesExcluded(n?.en)||tokenMatchesExcluded(n?.ko))return null;
+  if(conflictPreventionOn()&&conflictsWithContext(type,n))return null;
+  return contextualizeItem(type,n);
+}
 function flash(type){const c=$('card-'+type);c.classList.remove('flash');void c.offsetWidth;c.classList.add('flash')}
 function rollSlot(type,force=false){if(state.locked[type]&&!force)return;state.selected[type]=choose(type);flash(type)}
 function randomizeCategory(){const opts=[...category.options].filter(o=>o.value!=='__all');if(opts.length)category.value=rand(opts).value}
-function rollAll(record=true){if($('randomCategory').checked)randomizeCategory();if(scenePresetValue()==='auto')resolveScenePreset(true);SCENE_COHERENCE_ROLL_ORDER.forEach(k=>rollSlot(k));enforceSmartConflicts();render();if(record)addHistory()}
+function rollAll(record=true){if($('randomCategory').checked)randomizeCategory();if(scenePresetValue()==='auto')resolveScenePreset(true);prepareSceneCoherenceRoll();SCENE_COHERENCE_ROLL_ORDER.forEach(k=>rollSlot(k));enforceSmartConflicts();render();if(record)addHistory()}
 function toggleLock(k){state.locked[k]=!state.locked[k];renderCardState(k)}
 function toggleActive(k){state.active[k]=!state.active[k];renderCardState(k);buildPrompt();buildSummary()}
 function renderCardState(k){const c=$('card-'+k),lb=document.querySelector(`[data-lock="${k}"]`),tb=document.querySelector(`[data-toggle="${k}"]`);c.classList.toggle('locked',state.locked[k]);c.classList.toggle('off',!state.active[k]);lb.classList.toggle('active',state.locked[k]);lb.textContent=state.locked[k]?'🔒':'🔓';tb.textContent=state.active[k]?'◉':'○';tb.classList.toggle('active',state.active[k])}
@@ -4746,8 +4982,8 @@ $('guestMessage').addEventListener('input',updateGuestCount);
 $('guestbookForm').addEventListener('submit',submitGuestbook);
 updateGuestCount();
 console.info('Guestbook/Analytics endpoint:',GUESTBOOK_WEB_APP_URL);
-console.info('[Asset Gacha v2.6] counter endpoint:',GUESTBOOK_WEB_APP_URL+'?kind=counter');
-console.info('[Asset Gacha v2.6] counter transport: hidden iframe postMessage + JSONP fallback');
+console.info('[Asset Gacha v2.7] counter endpoint:',GUESTBOOK_WEB_APP_URL+'?kind=counter');
+console.info('[Asset Gacha v2.7] counter transport: hidden iframe postMessage + JSONP fallback');
 
 function safeInitStep(name,fn){try{return fn()}catch(err){console.error(`[Asset Gacha Init] ${name} failed:`,err);return null}}
 function initializeAssetGacha(){
