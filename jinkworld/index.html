@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#0e0c12">
-<title>에셋 랜덤 프롬프트 생성기.v2</title>
+<title>에셋 랜덤 프롬프트 생성기.v2.4</title>
 <style>
 :root{--bg:#0e0c12;--panel:#17141d;--panel2:#201c28;--panel3:#292333;--line:rgba(255,255,255,.09);--text:#f7f3fa;--sub:#aaa3b4;--accent:#a68cff;--pink:#e694c4;--gold:#f0c978;--green:#9fdfb6;--red:#ff9aa5;--shadow:0 20px 60px rgba(0,0,0,.35)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 8% 0,rgba(166,140,255,.13),transparent 27%),radial-gradient(circle at 100% 15%,rgba(230,148,196,.08),transparent 27%),var(--bg);color:var(--text);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif}button,select,input,textarea{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}.page{width:min(1220px,calc(100% - 28px));margin:auto;padding:28px 0 70px}.hero,.panel{border:1px solid var(--line);background:rgba(23,20,29,.96);box-shadow:var(--shadow)}.hero{position:relative;overflow:hidden;border-radius:26px;padding:31px;margin-bottom:17px}.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-100px;top:-135px;background:rgba(166,140,255,.12);filter:blur(12px);pointer-events:none}.eyebrow{font-size:10px;font-weight:900;letter-spacing:.2em;color:var(--accent)}
 .eyebrow-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
@@ -136,11 +136,33 @@ select optgroup{
 #povStrength:disabled,#povType:disabled{opacity:.42;cursor:not-allowed;filter:saturate(.5)}
 
 
+
+/* ===== v2.4 · TOP NOTICE ===== */
+.top-notice{margin:0 0 12px;border:1px solid rgba(240,201,120,.34);border-radius:12px;background:linear-gradient(90deg,rgba(240,201,120,.075),rgba(255,255,255,.025));box-shadow:0 8px 24px rgba(0,0,0,.14);overflow:hidden}
+.top-notice>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:9px;padding:9px 12px;min-height:38px;user-select:none}
+.top-notice>summary::-webkit-details-marker{display:none}
+.top-notice-label{flex:0 0 auto;color:#f4d477;font-size:10px;font-weight:950;letter-spacing:.08em}
+.top-notice-text{min-width:0;color:#f8f5fb;font-size:10px;font-weight:700;line-height:1.55;word-break:keep-all}
+.top-notice-arrow{margin-left:auto;flex:0 0 auto;color:#e5c968;font-size:11px;transition:transform .18s ease}
+.top-notice[open] .top-notice-arrow{transform:rotate(180deg)}
+.top-notice-collapsed{display:none}
+.top-notice:not([open]) .top-notice-text{display:none}
+.top-notice:not([open])>summary{padding-top:8px;padding-bottom:8px}
+@media(max-width:720px){.top-notice{margin-bottom:9px}.top-notice>summary{align-items:flex-start;padding:9px 10px}.top-notice-label{font-size:9px}.top-notice-text{font-size:9px;line-height:1.55}.top-notice-arrow{margin-top:1px}}
+
 /* v2 · 서버 렌더링 TODAY/TOTAL 카운터 */
 </style>
 </head>
 <body><div class="page">
-<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · COMPLETE</div><span class="version-badge">v2</span></div><h1>🎲 에셋 랜덤 프롬프트 생성기.v2</h1><p>장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며 최근 기록과 즐겨찾기는 브라우저에 저장됩니다.</p><div class="chips"><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
+<details class="top-notice" id="topNotice" open>
+  <summary aria-label="공지 접기/펼치기">
+    <span class="top-notice-label">📢 공지</span>
+    <span class="top-notice-text">개발요청사항있으실 경우 방명록 및 문의사항란에 적어주시면 주기적으로 업데이트 진행하고있습니다.</span>
+    <span class="top-notice-arrow">⌄</span>
+  </summary>
+</details>
+
+<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · COMPLETE</div><span class="version-badge">v2.4</span></div><h1>🎲 에셋 랜덤 프롬프트 생성기.v2.4</h1><p>장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며 최근 기록과 즐겨찾기는 브라우저에 저장됩니다.</p><div class="chips"><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
 <section class="panel"><div class="head"><div><h2 class="title">01 · 장르와 카테고리</h2><p class="desc">「장르 전체 랜덤」은 선택한 장르의 모든 카테고리 전용 풀을 합쳐서 사용합니다.</p></div></div><div class="select-grid"><div class="field"><label>장르</label><select id="genre"><option value="modern">현대물</option><option value="fantasy">판타지물</option><option value="guideverse">가이드버스</option><option value="period">시대물</option></select></div><div class="field"><label>세부 카테고리</label><select id="category"></select></div></div><div class="check-row"><label class="check"><input type="checkbox" id="randomCategory"> 주사위를 돌릴 때마다 세부 카테고리도 랜덤</label><label class="check"><input type="checkbox" id="avoidSame" checked> 직전 결과와 같은 태그 최대한 피하기</label></div></section>
 <section class="panel"><div class="head"><div><h2 class="title">02 · 기본 태그</h2><p class="desc">1인·2인·3인을 선택할 수 있습니다. 2인/3인 선택 시 구도·자세·시선·행동 풀이 인원수에 맞게 자동 전환됩니다. POV MODE를 켜면 현재 인원수에 맞는 1인칭 시점 풀이 적용되고, POV 강도(약하게/강하게)와 POV 타입(자동/대화형/손잡기/키스 직전)을 세부 설정할 수 있습니다. 여기에 관계/상호작용 프리셋, 장면 프리셋, 충돌 방지 기능까지 더해 더 자연스러운 조합을 자동으로 만듭니다. 고정 외형 태그는 ‘항상 추가할 태그’에 넣어두면 유지됩니다.</p></div></div><div class="options"><div class="opt"><label>CHARACTER</label><select id="gender">
 <option value="">미지정 · 기본 1인</option>
@@ -227,7 +249,7 @@ select optgroup{
 <footer><div>문의사항 X : <a href="https://x.com/Jin_k__wf" target="_blank" rel="noopener noreferrer">@Jin_k__wf</a></div><div>에셋 랜덤 프롬프트 생성기.v2.3 · Multi AI Prompt · LocalStorage</div><div style="margin-top:5px"><button type="button" id="analyticsPing" style="border:0;background:transparent;color:#6f6978;font-size:8px;cursor:pointer">통계 연결 테스트 · v2.1</button></div></footer>
 </div>
 <script>
-const APP_VERSION='2.3-MULTI-AI';
+const APP_VERSION='2.4-MULTI-AI-NOTICE';
 const E=(ko,en)=>({ko,en});
 const P=s=>s.trim()?s.split(';').map(v=>{const i=v.indexOf('|');return E(v.slice(0,i),v.slice(i+1))}):[];
 const uniq=a=>[...new Map(a.filter(Boolean).map(x=>[x.en,x])).values()];
