@@ -18,7 +18,6 @@
 .usage-counter.error .usage-value{color:#aaa3b4}
 .usage-note{position:absolute;z-index:3;top:76px;right:27px;color:#716a79;font-size:8px;letter-spacing:.02em}.usage-note.ok{color:#86c99d}.usage-note.error{color:#d99a9f}
 footer{text-align:center;color:#5f5967;font-size:10px;padding:14px 0;line-height:1.8}footer a{color:#a88cff;text-decoration:none;font-weight:800}footer a:hover{text-decoration:underline}@media(max-width:900px){.cards{grid-template-columns:repeat(2,1fr)}}@media(max-width:720px){.page{width:calc(100% - 18px);padding-top:13px}.hero{padding:82px 18px 23px;border-radius:20px}.usage-counter{top:17px;right:17px}.usage-item{min-width:74px;padding:8px 10px}.usage-value{font-size:15px}.usage-note{top:61px;right:18px}.panel{padding:14px;border-radius:17px}.select-grid,.custom-grid,.saved-grid{grid-template-columns:1fr}.options{grid-template-columns:1fr 1fr}.toolbar{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.card{min-height:0}}@media(max-width:450px){.options{grid-template-columns:1fr}}
-.category-hierarchy-grid{grid-template-columns:repeat(3,minmax(0,1fr))}@media(max-width:760px){.category-hierarchy-grid{grid-template-columns:1fr}}
 
 /* Guestbook */
 .guestbook-panel{position:relative;overflow:hidden}
@@ -196,12 +195,13 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
 .access-box .age-warn{margin-bottom:12px}
 .update-note-strip{max-width:1100px;margin:8px auto 0;padding:0 14px}
 .update-note-strip details{border:1px solid rgba(232,186,48,.42);background:rgba(255,224,130,.14);border-radius:12px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.08)}
-.update-note-strip summary{list-style:none;cursor:pointer;padding:7px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;color:#fff;font-size:12px;font-weight:850;line-height:1.3;text-shadow:0 1px 2px rgba(0,0,0,.35)}
+.update-note-strip summary{list-style:none;cursor:pointer;padding:7px 12px;display:flex;align-items:center;justify-content:space-between;gap:10px;color:#5d4700;font-size:12px;font-weight:700;line-height:1.3}
 .update-note-strip summary::-webkit-details-marker{display:none}
 .update-note-strip .update-arrow{font-size:11px;opacity:.75;transition:transform .2s ease}
 .update-note-strip details[open] .update-arrow{transform:rotate(180deg)}
-.update-note-strip .update-note-body{padding:0 12px 9px;color:#fff;font-size:11px;line-height:1.55;border-top:1px solid rgba(255,255,255,.16)}
-.update-note-strip .update-note-body ul{margin:7px 0 0;padding:0;list-style:none}.update-note-strip .update-note-body li{color:#fff}.update-note-strip .update-note-body li+li{margin-top:3px}
+.update-note-strip .update-note-body{padding:0 12px 10px;color:#6d5600;font-size:11px;line-height:1.55;border-top:1px solid rgba(232,186,48,.18)}
+.update-note-strip .update-note-body ul{margin:7px 0 0 17px;padding:0}
+.update-note-strip .update-note-body li+li{margin-top:3px}
 
 </style>
 <body class="access-locked">
@@ -214,29 +214,62 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
 <script>
 /* =========================================================
    관리자용 업데이트 노트
-   - 최대 3개까지만 표시합니다.
-   - 형식: 날짜 - 내용
-   - 새 항목은 배열 맨 위에 추가하세요.
+   - 가장 위의 enabled:true 항목 1개가 사이트에 표시됩니다.
+   - 새 공지를 올릴 때 아래 배열 맨 위에 항목만 추가하면 됩니다.
+   - 숨기고 싶은 공지는 enabled:false 로 변경하세요.
 ========================================================= */
 const UPDATE_NOTES = [
-  { date:'08.22', text:'1. 대·중·소분류 카테고리 재정립, SF·아포칼립스 장르 확장, SFW/NSFW·BDSM 태그 및 플랫폼별 프롬프트를 정비했습니다.' }
+  {
+    enabled: true,
+    title: '8월 22일 업데이트 노트',
+    items: [
+      'NovelAI / PixAI / NijiJourney 프롬프트 출력 구조를 플랫폼별 성격에 맞게 다시 정리했습니다.',
+      'CHARACTER 외형 / 역할 배치와 제외 태그 / 싫어요 조건을 추가했습니다.',
+      'SFW 세부 카테고리와 다인 캐릭터 역할 배치를 확장했습니다.'
+    ]
+  }
+  /* 새 업데이트 예시
+  ,{
+    enabled: true,
+    title: '8월 23일 업데이트 노트',
+    items: [
+      '첫 번째 업데이트 내용',
+      '두 번째 업데이트 내용'
+    ]
+  }
+  */
 ];
 
 function renderAdminUpdateNote(){
   const host=document.getElementById('updateNoteStrip');
   if(!host)return;
-  const notes=UPDATE_NOTES.filter(item=>item&&item.enabled!==false&&String(item.date||'').trim()&&String(item.text||'').trim()).slice(0,3);
-  if(!notes.length){host.hidden=true;return;}
-  host.hidden=false;host.innerHTML='';
+  const note=UPDATE_NOTES.find(item=>item&&item.enabled!==false&&String(item.title||'').trim());
+  if(!note){host.hidden=true;return;}
+
+  host.hidden=false;
+  host.innerHTML='';
   const details=document.createElement('details');
   const summary=document.createElement('summary');
-  const title=document.createElement('span');title.textContent='📝 업데이트 노트';
-  const arrow=document.createElement('span');arrow.className='update-arrow';arrow.textContent='⌄';
+  const title=document.createElement('span');
+  title.textContent='📝 '+String(note.title).trim();
+  const arrow=document.createElement('span');
+  arrow.className='update-arrow';
+  arrow.textContent='⌄';
   summary.append(title,arrow);
-  const body=document.createElement('div');body.className='update-note-body';
+
+  const body=document.createElement('div');
+  body.className='update-note-body';
   const list=document.createElement('ul');
-  notes.forEach(note=>{const li=document.createElement('li');li.textContent=`${String(note.date).trim()} - ${String(note.text).trim()}`;list.appendChild(li)});
-  body.appendChild(list);details.append(summary,body);host.appendChild(details);
+  (Array.isArray(note.items)?note.items:[]).forEach(item=>{
+    const value=String(item||'').trim();
+    if(!value)return;
+    const li=document.createElement('li');
+    li.textContent=value;
+    list.appendChild(li);
+  });
+  body.appendChild(list);
+  details.append(summary,body);
+  host.appendChild(details);
 }
 renderAdminUpdateNote();
 </script>
@@ -438,14 +471,12 @@ renderAdminUpdateNote();
 
 <div class="page">
 <section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v2</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v2</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 수위(가벼운~하늘나라)를 선택할 수 있으며, 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능합니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
-<section class="panel"><div class="head"><div><h2 class="title">01 · 장르 / 카테고리</h2><p class="desc">대분류(장르) → 중분류(테마/공간) → 소분류(구체 장면) 순서로 선택합니다. NSFW 모드를 켜면 같은 대분류 안에서 성인용 중·소분류 체계로 전환됩니다.</p></div></div><div class="select-grid category-hierarchy-grid"><div class="field"><label>대분류 · 장르</label><select id="genre">
+<section class="panel"><div class="head"><div><h2 class="title">01 · 장르와 카테고리</h2><p class="desc">장르는 현대물 / 판타지 / 가이드버스 / 시대물 중에서 고르고, NSFW 버튼으로 SFW/NSFW 모드를 전환합니다. NSFW를 켜면 세부 카테고리도 성인용 전용 목록으로 바뀝니다.</p></div></div><div class="select-grid"><div class="field"><label>장르</label><select id="genre">
 <option value="modern">현대물</option>
 <option value="fantasy">판타지물</option>
 <option value="guideverse">가이드버스</option>
 <option value="period">시대물</option>
-<option value="sf">SF / 사이버펑크</option>
-<option value="apocalypse">아포칼립스 / 재난</option>
-</select></div><div class="field"><label>중분류 · 테마</label><select id="middleCategory"></select></div><div class="field"><label>소분류 · 장면</label><select id="category"></select></div></div><div class="check-row"><label class="check"><input type="checkbox" id="nsfwMode"> NSFW 모드 적용</label><label class="check"><input type="checkbox" id="randomCategory"> 주사위를 돌릴 때마다 세부 카테고리도 랜덤</label><label class="check"><input type="checkbox" id="avoidSame" checked> 직전 결과와 같은 태그 최대한 피하기</label></div></section>
+</select></div><div class="field"><label>세부 카테고리</label><select id="category"></select></div></div><div class="check-row"><label class="check"><input type="checkbox" id="nsfwMode"> NSFW 모드 적용</label><label class="check"><input type="checkbox" id="randomCategory"> 주사위를 돌릴 때마다 세부 카테고리도 랜덤</label><label class="check"><input type="checkbox" id="avoidSame" checked> 직전 결과와 같은 태그 최대한 피하기</label></div></section>
 <section class="panel"><div class="head"><div><h2 class="title">02 · 기본 태그</h2><p class="desc">1인·2인·3인을 선택할 수 있습니다. 2인/3인 선택 시 구도·자세·시선·행동 풀이 인원수에 맞게 자동 전환됩니다. POV MODE를 켜면 현재 인원수에 맞는 1인칭 시점 풀이 적용되고, POV 강도(약하게/강하게)를 조절할 수 있고, NSFW OFF에서는 일반 POV, NSFW ON에서는 키스·밀착·벽·침대·무릎·구강 근접 등 성인용 POV 타입까지 확장됩니다. 여기에 관계/상호작용 프리셋, 장면 프리셋, 충돌 방지 기능까지 더해 더 자연스러운 조합을 자동으로 만듭니다. 고정 외형 태그는 ‘항상 추가할 태그’에 넣어두면 유지됩니다.</p></div></div><div class="options"><div class="opt"><label>CHARACTER</label><select id="gender">
 <option value="">캐릭터 미지정</option>
 <optgroup label="1인">
@@ -477,7 +508,7 @@ renderAdminUpdateNote();
 <details class="panel collapsible-panel" id="characterPresetPanel"><summary><div class="collapse-title-wrap"><h2 class="collapse-title">02C · 프리셋 저장소</h2><p class="collapse-desc">캐릭터 · 커스텀 태그 · NSFW Director · AI 스타일 · 1~10 고정 슬롯</p></div><div style="display:flex;align-items:center;gap:10px;flex:0 0 auto"><span class="preset-count" id="charPresetCount">0 / 10</span><span class="collapse-arrow">⌄</span></div></summary><div class="collapse-body"><div class="preset-box"><div class="preset-save-scope"><span class="scope-chip">👤 <b>CHAR A/B/C</b></span><span class="scope-chip">🏷 <b>커스텀 태그</b></span><span class="scope-chip">🎛️ <b>NSFW Director</b></span><span class="scope-chip">🎨 <b>AI 스타일</b></span><span class="scope-chip">🙈 <b>{{user}}</b> 활성 시 포함</span></div><div class="preset-topline preset-topline-3"><div><label class="tiny-label">프리셋 이름</label><input id="charPresetName" type="text" maxlength="40" placeholder="예: 올리버 기본형 / 다크 로맨스 세팅"></div><div><label class="tiny-label">컬러 라벨</label><select id="charPresetLabel"><option value="violet">🟣 보라</option><option value="blue">🔵 파랑</option><option value="cyan">🩵 하늘</option><option value="green">🟢 초록</option><option value="yellow">🟡 노랑</option><option value="orange">🟠 주황</option><option value="red">🔴 빨강</option><option value="pink">🩷 핑크</option><option value="gray">⚪ 회색</option></select></div><div><label class="tiny-label">저장된 프리셋</label><select id="charPresetSelect"><option value="">저장된 프리셋 선택</option></select></div></div><div class="preset-manage-row"><div class="preset-search-wrap"><label class="tiny-label">프리셋 검색</label><input id="charPresetSearch" type="search" placeholder="이름 · 캐릭터 태그 · 커스텀 태그 · 스타일 검색"></div><div><label class="tiny-label">정렬</label><select id="charPresetSort"><option value="updated_desc">최근 수정순</option><option value="created_desc">최근 생성순</option><option value="name_asc">이름 A→Z</option><option value="name_desc">이름 Z→A</option><option value="label">컬러 라벨순</option></select></div><button type="button" class="tool preset-clear-search" id="clearPresetSearch">✕ 검색 초기화</button></div><div class="preset-result-meta" id="charPresetResultMeta">전체 프리셋 표시 중</div><div class="preset-slot-toolbar"><div><label class="tiny-label">저장 위치</label><select id="charPresetSlot"><option value="1">1번 슬롯</option><option value="2">2번 슬롯</option><option value="3">3번 슬롯</option><option value="4">4번 슬롯</option><option value="5">5번 슬롯</option><option value="6">6번 슬롯</option><option value="7">7번 슬롯</option><option value="8">8번 슬롯</option><option value="9">9번 슬롯</option><option value="10">10번 슬롯</option></select><div class="slot-select-hint" id="charPresetSlotHint">원하는 번호를 고른 뒤 저장하세요. 빈 슬롯을 남겨두어도 됩니다.</div></div><div><label class="tiny-label">1~10 고정 슬롯</label><div class="preset-mini-note">아래 목록은 항상 1→10 순서입니다. 정렬은 위의 빠른 선택 드롭다운에만 적용됩니다.</div></div></div><div class="preset-actions"><button type="button" class="tool primary" id="saveCharPreset">💾 현재 설정 저장 / 덮어쓰기</button><button type="button" class="tool subtle" id="loadCharPreset">📥 프리셋 불러오기</button><button type="button" class="tool subtle" id="deleteCharPreset">🗑 프리셋 삭제</button><button type="button" class="tool subtle" id="exportCharPresets">📤 JSON 내보내기</button><button type="button" class="tool subtle" id="importCharPresets">📥 JSON 가져오기</button></div><div class="preset-slot-list" id="charPresetSlotList"></div><div class="preset-preview-wrap"><div class="preset-preview-card" id="charPresetPreviewCard"><div class="preset-preview-head"><label class="tiny-label">선택된 프리셋 미리보기</label><span class="preset-label-badge" id="charPresetLabelBadge">🟣 보라</span></div><div class="preset-preview" id="charPresetPreview">저장된 프리셋을 선택하면 여기에 포함된 설정이 요약 표시됩니다.</div><div class="preset-mini-note">CHARACTER A/B/C 태그, 역할, 커스텀 태그, Director, 스타일 설정이 함께 보여집니다.</div></div><div class="preset-preview-card"><label class="tiny-label">UX 안내</label><div class="preset-preview" id="charPresetScopeSummary">• 검색은 프리셋 이름뿐 아니라 캐릭터/커스텀 태그와 AI 스타일도 찾습니다.&#10;• 컬러 라벨로 캐릭터·장르·용도별로 빠르게 구분할 수 있습니다.&#10;• JSON 내보내기/가져오기 시 라벨과 생성·수정 시각도 함께 보존됩니다.</div><div class="preset-mini-note">추천 흐름: 설정 완료 → 이름/라벨 지정 → 저장 → 검색/정렬로 관리</div></div></div><div class="preset-subhint" id="charPresetHint">로컬 저장 전용 · 최대 10개 · 같은 브라우저에서만 보입니다.</div><input id="importCharPresetsFile" class="hidden-file" type="file" accept="application/json,.json"></div></div></details>
 <button class="roll" id="rollAll">🎲 주사위 돌리기<span>잠금된 슬롯은 유지 · 꺼진 슬롯은 프롬프트에서 제외</span></button>
 <section class="panel"><div class="head"><div><h2 class="title">03 · 랜덤 슬롯</h2><p class="desc">↻ 재추첨 · 🔓/🔒 잠금 · ◉/○ 사용 여부</p></div><div class="mini-tools"><button class="small-btn" id="lockAll">🔒 전체 잠금</button><button class="small-btn" id="unlockAll">🔓 전체 해제</button><button class="small-btn" id="enableAll">◉ 전체 사용</button></div></div><div id="cards" class="cards"></div><div id="stats" class="stats"></div></section>
-<section class="panel"><div class="head"><div><h2 class="title">04 · NovelAI Prompt</h2><p class="desc">생성된 영어 태그는 직접 수정할 수 있습니다. 아래 효과 버튼을 눌러 즉시 추가할 수 있으며, {{user}} 캐릭터 태그는 프롬프트 맨 아래에 한 문단 띄워 별도로 배치됩니다.</p></div></div><details class="prompt-quickbox" id="quickEffectsDetails"><summary><span class="prompt-quicksummary-main">⚡ 빠른 효과 / 흔적 태그 <span class="prompt-quickcount" id="quickEffectCount">0</span></span><span class="quick-summary-actions recommend-triple"><button type="button" class="quick-recommend-btn" id="recommendNatural">✨ 자연스럽게</button><button type="button" class="quick-recommend-btn" id="recommendStronger">🔥 더 강하게</button><button type="button" class="quick-recommend-btn" id="recommendCinematic">🎬 연출 강화</button><button type="button" class="quick-recommend-btn quick-reset-btn" id="resetQuickEffects">🧹 초기화</button></span></summary><div class="prompt-quickbody"><div id="promptQuickTags"><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">삽입섹스 하위태그</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input type="checkbox" data-special-tag="sex">섹스</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="sex from behind">후배위</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">BDSM · 구속 / 자세</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input type="checkbox" data-special-tag="bondage">구속</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="rope bondage">로프바인딩</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="hogtie">호그타이</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="spreader bar">스프레더바</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="handcuffs">수갑</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="leather cuffs">가죽수갑</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">BDSM · 감각 / 플레이</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input type="checkbox" data-special-tag="blindfold">안대</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="gag">재갈</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="stockings gag">스타킹재갈</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="wax play">왁스플레이</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="spanking">스팽킹</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="over-the-knee">OTK</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="face sitting">페이스시팅</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">BDSM · 역할 / 컨트롤</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input type="checkbox" data-special-tag="collar">칼라</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="leash">리드줄</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="dominant">지배</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="submissive">복종</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">연출 / 선 효과</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input type="checkbox" data-special-tag="speed lines">움직임</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="shaky lines">떨림</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="dashed lines">파선</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="motion blur">잔상</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="action lines">액션선</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="impact lines">충격선</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="focus lines">집중선</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="dynamic angle">역동구도</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">흔적 / 반응</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input type="checkbox" data-special-tag="hickey">키스마크</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="bite mark">이빨자국</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="scratch marks">긁힌자국</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="lipstick mark">립스틱자국</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="sweat">땀</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="saliva">침</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="open mouth, concentrated white turbidity in mouth, blush">입안백탁</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">노출 / 신체</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input type="checkbox" data-special-tag="unbuttoned shirt">셔츠풀림</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="open shirt">셔츠벌어짐</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="shirt lift">상의들림</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="slipped strap">어깨끈흘러내림</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="cleavage">가슴골노출</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="bra visible">브라노출</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="underwear visible">속옷노출</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="panties visible">팬티노출</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="skirt lift">치마들림</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="pants pulled down">바지내림</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="loosened clothes">옷흐트러짐</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="naked">나체</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="nude">누드</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="fully nude">전라</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="shirtless">상의탈의</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="topless">토플리스</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="bottomless">하의탈의</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="nipples">유두</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="inverted nipples">함몰유두</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="erect nipples">돌출유두</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="large nipples">큰유두</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="small nipples">작은유두</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="large areolae">큰유륜</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="pink nipples">분홍유두</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="dark nipples">짙은유두</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="tongue out">혀내밀기</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="genitals visible">성기전체노출</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="penis visible">성기노출</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="erect penis">발기</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="big penis">큰성기</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="big dick">대물</label></div></div></div><div id="exposureStageHint" class="quick-recommend-hint">🔒 SFW 모드 · 노출 단계 추천 잠금</div><div id="quickRecommendHint" class="quick-recommend-hint">NSFW 모드를 켜면 현재 장르/카테고리에 어울리는 효과를 추천 표시합니다.</div></div></details><textarea id="prompt" class="prompt"></textarea><div class="toolbar"><button class="tool primary" id="copyPrompt">📋 NovelAI 태그 복사</button><button class="tool" id="optimizePrompt">✨ 프롬프트 최적화</button><button class="tool" id="saveFavorite">⭐ 현재 조합 저장</button><button class="tool" id="copyKo">🇰🇷 한글 결과 복사</button></div><div class="status" id="status"></div><div class="diagnostic-panel" id="promptDiagnostic"><div class="diagnostic-title">🧪 프롬프트 진단</div><div class="diagnostic-chips" id="diagnosticChips"></div></div></section>
+<section class="panel"><div class="head"><div><h2 class="title">04 · NovelAI Prompt</h2><p class="desc">생성된 영어 태그는 직접 수정할 수 있습니다. 아래 효과 버튼을 눌러 즉시 추가할 수 있으며, {{user}} 캐릭터 태그는 프롬프트 맨 아래에 한 문단 띄워 별도로 배치됩니다.</p></div></div><details class="prompt-quickbox" id="quickEffectsDetails"><summary><span class="prompt-quicksummary-main">⚡ 빠른 효과 / 흔적 태그 <span class="prompt-quickcount" id="quickEffectCount">0</span></span><span class="quick-summary-actions recommend-triple"><button type="button" class="quick-recommend-btn" id="recommendNatural">✨ 자연스럽게</button><button type="button" class="quick-recommend-btn" id="recommendStronger">🔥 더 강하게</button><button type="button" class="quick-recommend-btn" id="recommendCinematic">🎬 연출 강화</button><button type="button" class="quick-recommend-btn quick-reset-btn" id="resetQuickEffects">🧹 초기화</button></span></summary><div class="prompt-quickbody"><div id="promptQuickTags"><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">삽입섹스 하위태그</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input type="checkbox" data-special-tag="sex">섹스</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="sex from behind">후배위</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">BDSM 미니 태그</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input type="checkbox" data-special-tag="bondage">구속</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="rope bondage">로프바인딩</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="blindfold">안대</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="gag">재갈</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="collar">목걸이</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="leash">리드줄</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="handcuffs">수갑</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="leather cuffs">가죽수갑</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="dominant">지배</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="submissive">복종</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="spanking">스팽킹</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">연출 / 선 효과</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input type="checkbox" data-special-tag="speed lines">움직임</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="shaky lines">떨림</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="dashed lines">파선</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="motion blur">잔상</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="action lines">액션선</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="impact lines">충격선</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="focus lines">집중선</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="dynamic angle">역동구도</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">흔적 / 반응</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input type="checkbox" data-special-tag="hickey">키스마크</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="bite mark">이빨자국</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="scratch marks">긁힌자국</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="lipstick mark">립스틱자국</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="sweat">땀</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="saliva">침</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="open mouth, concentrated white turbidity in mouth, blush">입안백탁</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">노출 / 신체</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input type="checkbox" data-special-tag="unbuttoned shirt">셔츠풀림</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="open shirt">셔츠벌어짐</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="shirt lift">상의들림</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="slipped strap">어깨끈흘러내림</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="cleavage">가슴골노출</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="bra visible">브라노출</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="underwear visible">속옷노출</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="panties visible">팬티노출</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="skirt lift">치마들림</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="pants pulled down">바지내림</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="loosened clothes">옷흐트러짐</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="naked">나체</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="nude">누드</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="fully nude">전라</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="shirtless">상의탈의</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="topless">토플리스</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="bottomless">하의탈의</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="nipples">유두</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="inverted nipples">함몰유두</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="erect nipples">돌출유두</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="large nipples">큰유두</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="small nipples">작은유두</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="large areolae">큰유륜</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="pink nipples">분홍유두</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="dark nipples">짙은유두</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="tongue out">혀내밀기</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="genitals visible">성기전체노출</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="penis visible">성기노출</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="erect penis">발기</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="big penis">큰성기</label><label class="mini-prompt-check"><input type="checkbox" data-special-tag="big dick">대물</label></div></div></div><div id="exposureStageHint" class="quick-recommend-hint">🔒 SFW 모드 · 노출 단계 추천 잠금</div><div id="quickRecommendHint" class="quick-recommend-hint">NSFW 모드를 켜면 현재 장르/카테고리에 어울리는 효과를 추천 표시합니다.</div></div></details><textarea id="prompt" class="prompt"></textarea><div class="toolbar"><button class="tool primary" id="copyPrompt">📋 NovelAI 태그 복사</button><button class="tool" id="optimizePrompt">✨ 프롬프트 최적화</button><button class="tool" id="saveFavorite">⭐ 현재 조합 저장</button><button class="tool" id="copyKo">🇰🇷 한글 결과 복사</button></div><div class="status" id="status"></div><div class="diagnostic-panel" id="promptDiagnostic"><div class="diagnostic-title">🧪 프롬프트 진단</div><div class="diagnostic-chips" id="diagnosticChips"></div></div></section>
 <section class="panel"><div class="head"><div><h2 class="title">04A · NovelAI Negative Prompt</h2><p class="desc">기본 네거티브에 NSFW·POV·다인·노출 상태별 보정 태그가 자동 추가됩니다. 직접 저장한 기본값은 브라우저가 기억합니다.</p></div></div><textarea id="negative" class="prompt negative"></textarea><div class="toolbar"><button class="tool primary" id="copyNegative">📋 NovelAI Negative 복사</button><button class="tool" id="resetNegative">↺ 기본값 복구</button><button class="tool" id="saveNegative">💾 네거티브 저장</button></div></section>
 <section class="panel"><div class="head"><div><h2 class="title">05 · PixAI Prompt</h2><p class="desc">PixAI에서 바로 사용하기 쉽도록 Stable Diffusion 계열 태그 형식으로 정리합니다. 캐릭터를 지정한 경우 character1~3 블록을 문단으로 분리합니다.</p></div></div><textarea id="pixPrompt" class="prompt"></textarea><div class="toolbar"><button class="tool primary" id="copyPixPrompt">📋 PixAI 프롬프트 복사</button><button class="tool" id="optimizePixPrompt">✨ 프롬프트 최적화</button><button class="tool" id="savePixFavorite">⭐ 현재 조합 저장</button><button class="tool" id="copyPixKo">🇰🇷 한글 결과 복사</button></div></section>
 <section class="panel"><div class="head"><div><h2 class="title">06 · NijiJourney Prompt</h2><p class="desc">NijiJourney에 맞게 자연스러운 영어 서술형으로 정리합니다. 캐릭터를 지정한 경우 character1~3 블록을 별도 문단으로 분리합니다.</p></div></div><textarea id="nijiPrompt" class="prompt"></textarea><div class="toolbar"><button class="tool primary" id="copyNijiPrompt">📋 NijiJourney 프롬프트 복사</button><button class="tool" id="optimizeNijiPrompt">✨ 프롬프트 최적화</button><button class="tool" id="saveNijiFavorite">⭐ 현재 조합 저장</button><button class="tool" id="copyNijiKo">🇰🇷 한글 결과 복사</button></div></section>
@@ -609,12 +640,7 @@ function normalizeSpecialTagConflicts(changedEl){
   if(tag==='submissive') uncheck(['dominant']);
   if(tag==='bondage') uncheck(['rope bondage']);
   if(tag==='rope bondage') uncheck(['bondage']);
-  if(tag==='gag') uncheck(['stockings gag']);
-  if(tag==='stockings gag') uncheck(['gag']);
-  if(tag==='hogtie') uncheck(['spreader bar']);
-  if(tag==='spreader bar') uncheck(['hogtie']);
 }
-
 function updateSpecialTagAvailability(){
   const nsfw=isNsfwGenre();
   document.querySelectorAll('[data-special-tag]').forEach(el=>{
@@ -1551,7 +1577,7 @@ const NSFW_CATEGORY_PROFILE_MAP = {
 };
 
 const QUICK_TAG_LABELS = {
-  'sex':'섹스','sex from behind':'후배위','bondage':'구속','rope bondage':'로프바인딩','hogtie':'호그타이','spreader bar':'스프레더바','blindfold':'안대','gag':'재갈','stockings gag':'스타킹재갈','wax play':'왁스플레이','over-the-knee':'OTK','face sitting':'페이스시팅','collar':'칼라','leash':'리드줄','handcuffs':'수갑','leather cuffs':'가죽수갑','dominant':'지배','submissive':'복종','spanking':'스팽킹','speed lines':'움직임','shaky lines':'떨림','dashed lines':'파선','motion blur':'잔상','action lines':'액션선','impact lines':'충격선','focus lines':'집중선','dynamic angle':'역동구도','hickey':'키스마크','bite mark':'이빨자국','scratch marks':'긁힌자국','lipstick mark':'립스틱자국','sweat':'땀','saliva':'침','open mouth, concentrated white turbidity in mouth, blush':'입안백탁','unbuttoned shirt':'셔츠풀림','open shirt':'셔츠벌어짐','shirt lift':'상의들림','slipped strap':'어깨끈흘러내림','cleavage':'가슴골노출','bra visible':'브라노출','underwear visible':'속옷노출','panties visible':'팬티노출','skirt lift':'치마들림','pants pulled down':'바지내림','loosened clothes':'옷흐트러짐','naked':'나체','nude':'누드','fully nude':'전라','shirtless':'상의탈의','topless':'토플리스','bottomless':'하의탈의','nipples':'유두','inverted nipples':'함몰유두','erect nipples':'돌출유두','large nipples':'큰유두','small nipples':'작은유두','large areolae':'큰유륜','pink nipples':'분홍유두','dark nipples':'짙은유두','tongue out':'혀내밀기','genitals visible':'성기전체노출','penis visible':'성기노출','erect penis':'발기','big penis':'큰성기','big dick':'대물'
+  'sex':'섹스','sex from behind':'후배위','bondage':'구속','rope bondage':'로프바인딩','blindfold':'안대','gag':'재갈','collar':'목걸이','leash':'리드줄','handcuffs':'수갑','leather cuffs':'가죽수갑','dominant':'지배','submissive':'복종','spanking':'스팽킹','speed lines':'움직임','shaky lines':'떨림','dashed lines':'파선','motion blur':'잔상','action lines':'액션선','impact lines':'충격선','focus lines':'집중선','dynamic angle':'역동구도','hickey':'키스마크','bite mark':'이빨자국','scratch marks':'긁힌자국','lipstick mark':'립스틱자국','sweat':'땀','saliva':'침','open mouth, concentrated white turbidity in mouth, blush':'입안백탁','unbuttoned shirt':'셔츠풀림','open shirt':'셔츠벌어짐','shirt lift':'상의들림','slipped strap':'어깨끈흘러내림','cleavage':'가슴골노출','bra visible':'브라노출','underwear visible':'속옷노출','panties visible':'팬티노출','skirt lift':'치마들림','pants pulled down':'바지내림','loosened clothes':'옷흐트러짐','naked':'나체','nude':'누드','fully nude':'전라','shirtless':'상의탈의','topless':'토플리스','bottomless':'하의탈의','nipples':'유두','inverted nipples':'함몰유두','erect nipples':'돌출유두','large nipples':'큰유두','small nipples':'작은유두','large areolae':'큰유륜','pink nipples':'분홍유두','dark nipples':'짙은유두','tongue out':'혀내밀기','genitals visible':'성기전체노출','penis visible':'성기노출','erect penis':'발기','big penis':'큰성기','big dick':'대물'
 };
 
 const NSFW_QUICK_RECOMMENDATIONS = {
@@ -1681,13 +1707,13 @@ function quickRecommendationCandidates(){
     if(w>=2) rec.push('collar');
     if(w>=2 && characterCount()>=2) rec.push('submissive');
     if(w>=3) rec.push('blindfold','dominant');
-    if(w>=4){rec.push('rope bondage','leash');rec.push(rand(['hogtie','spreader bar','over-the-knee','wax play','face sitting']));}
+    if(w>=4) rec.push('rope bondage','gag','leash');
   }
   if(intensityValue()==='insertion') rec.push('sex','sex from behind');
 
   rec=[...new Set(rec)];
   if(intensityValue()==='maximum'){
-    const allowedMaximum=new Set(['speed lines','shaky lines','dashed lines','motion blur','action lines','impact lines','focus lines','dynamic angle','hickey','lipstick mark','sweat','loosened clothes','unbuttoned shirt','open shirt','slipped strap','bondage','rope bondage','blindfold','gag','collar','leash','handcuffs','leather cuffs','dominant','submissive','spanking','hogtie','spreader bar','stockings gag','wax play','over-the-knee','face sitting']);
+    const allowedMaximum=new Set(['speed lines','shaky lines','dashed lines','motion blur','action lines','impact lines','focus lines','dynamic angle','hickey','lipstick mark','sweat','loosened clothes','unbuttoned shirt','open shirt','slipped strap','bondage','rope bondage','blindfold','gag','collar','leash','handcuffs','leather cuffs','dominant','submissive','spanking']);
     rec=rec.filter(x=>allowedMaximum.has(x));
   }
   if(!malePossible)rec=rec.filter(x=>!maleAnatomyTags().includes(x));
@@ -2103,270 +2129,6 @@ chinaScholar:C('🇨🇳 중국 · 문인 / 서원',`고대 서원|ancient Chine
 chinaGeneral:C('🇨🇳 중국 · 장군 / 무관',`황궁 훈련장|ancient Chinese military training ground;성문 위|ancient Chinese city wall;군영|ancient Chinese military camp;전쟁 전 야영지|ancient Chinese war camp;무기고|ancient Chinese armory`,`장군 갑옷|ancient Chinese general armor;무관 예복|ancient Chinese military official robes;붉은 망토 갑옷|Chinese armor, red cape`,`검을 허리에 찬다|sword at waist;전장을 내려다본다|looking over battlefield;군 지도를 본다|looking at military map`)
 }}
 };
-/* ===== v2.1 · CATEGORY AUDIT / TAXONOMY EXPANSION ===== */
-Object.assign(DB.modern.categories,{
-  bookstore:C('📖 서점',`대형 서점 신간 코너|large bookstore new-release section;조용한 독립서점|quiet independent bookstore`,`니트와 슬랙스|knit sweater and slacks;가벼운 셔츠|casual shirt`,`책을 꺼내 펼쳐본다|taking a book from shelf;서가 사이를 천천히 걷는다|walking slowly between shelves`),
-  bakery:C('🥐 베이커리',`따뜻한 동네 베이커리|cozy neighborhood bakery;유리 진열대가 긴 제과점|bakery with long glass display`,`앞치마와 셔츠|apron and shirt;캐주얼 외출복|casual outing clothes`,`빵을 고른다|choosing pastries;트레이를 들고 계산대로 향한다|carrying tray to counter`),
-  flowerShop:C('💐 꽃집',`꽃이 가득한 작은 플라워숍|small flower shop full of blooms;온실형 꽃집|greenhouse-style flower shop`,`앞치마와 편한 셔츠|apron and casual shirt`,`꽃다발을 묶는다|wrapping a bouquet;꽃 한 송이를 골라 든다|choosing a single flower`),
-  laundromat:C('🧺 코인세탁방',`심야 코인세탁방|late-night laundromat;창가에 세탁기가 늘어선 세탁방|laundromat with washers by window`,`후드티와 데님|hoodie and denim;편한 홈웨어|casual loungewear`,`세탁기 앞 의자에 앉아 기다린다|waiting beside washing machine;빨래를 접는다|folding laundry`),
-  gallery:C('🖼️ 미술관 / 갤러리',`화이트큐브 갤러리|white cube gallery;현대미술관 전시장|contemporary art museum gallery`,`미니멀한 외출복|minimal smart casual outfit`,`작품 앞에 멈춰 선다|standing before artwork;전시 안내문을 읽는다|reading exhibit placard`),
-  aquarium:C('🐠 아쿠아리움',`푸른 대형 수조 터널|blue aquarium tunnel;해파리 전시관|jellyfish exhibit hall`,`데이트 캐주얼룩|casual date outfit`,`수조 유리에 손을 댄다|touching aquarium glass;물고기를 따라 시선을 옮긴다|following fish with gaze`),
-  amusement:C('🎡 놀이공원',`야간 대관람차 앞|amusement park ferris wheel at night;퍼레이드가 끝난 놀이공원|amusement park after parade`,`가벼운 데이트룩|light date outfit`,`솜사탕을 들고 걷는다|walking with cotton candy;놀이기구를 바라본다|looking at rides`),
-  rooftop:C('🌆 옥상',`도심 빌딩 옥상|city building rooftop;학교나 회사 옥상 난간|rooftop railing`,`가벼운 재킷과 셔츠|light jacket and shirt`,`난간에서 떨어져 야경을 본다|looking at city view away from railing;바람에 옷깃을 잡는다|holding collar in wind`),
-  theater:C('🎭 공연장 / 극장',`붉은 객석의 소극장|small theater with red seats;막이 내려간 공연장|theater after curtain call`,`단정한 관람복|smart theater attire`,`빈 무대를 바라본다|looking at empty stage;좌석 사이를 걷는다|walking between seats`),
-  backstage:C('🎬 백스테이지',`조명 장비가 놓인 백스테이지|backstage with lighting equipment;분장실 앞 복도|corridor outside dressing rooms`,`공연 의상 위 가운|robe over stage costume;스태프 캐주얼|staff casual outfit`,`대본을 확인한다|checking script;이어모니터를 정리한다|adjusting in-ear monitor`),
-  broadcast:C('📺 방송국 / 스튜디오',`방송국 스튜디오|broadcast studio;카메라가 늘어선 촬영장|TV set with cameras`,`방송 의상|broadcast outfit;스태프 블랙룩|crew black outfit`,`카메라 큐를 기다린다|waiting for camera cue;대본을 넘긴다|turning script pages`),
-  police:C('🚓 경찰서',`현대 경찰서 민원실|modern police station lobby;형사과 사무실|detective office`,`경찰 제복|police uniform;형사풍 셔츠와 재킷|detective shirt and jacket`,`서류철을 확인한다|checking case file;무전기를 든다|holding radio`),
-  courthouse:C('⚖️ 법원',`법원 복도|courthouse corridor;법정 앞 대기 공간|waiting area outside courtroom`,`정장|formal suit`,`서류를 품에 안고 기다린다|waiting with legal documents;법정 문을 바라본다|looking at courtroom door`),
-  lawfirm:C('📑 로펌',`고층 로펌 사무실|high-rise law firm office;변호사 회의실|law office meeting room`,`고급 정장|formal business suit`,`계약서를 검토한다|reviewing contract;파일을 정리한다|organizing case files`),
-  funeralHall:C('🕯️ 장례식장',`국화가 놓인 장례식장|funeral hall with chrysanthemums;조용한 조문실|quiet memorial room`,`검은 정장|black formal suit`,`헌화한다|laying flowers;영정 앞에 고개를 숙인다|bowing before memorial portrait`),
-  stadium:C('🏟️ 경기장',`야간 경기장 관중석|stadium stands at night;빈 실내 경기장|empty indoor arena`,`스포츠웨어|sportswear;팀 재킷|team jacket`,`관중석 난간에 기대 경기장을 본다|looking over field from stands;유니폼 지퍼를 올린다|zipping team jacket`),
-  concert:C('🎤 콘서트홀',`공연 직전 콘서트홀|concert hall before show;조명이 꺼진 무대 앞|dark stage before performance`,`공연 의상|stage outfit;스태프 블랙룩|crew black outfit`,`마이크를 점검한다|checking microphone;무대 뒤에서 큐를 기다린다|waiting for cue backstage`),
-  photoStudio:C('📸 촬영 스튜디오',`화이트 호리존 스튜디오|white cyclorama studio;조명과 배경지가 놓인 촬영장|photo studio with lights and backdrops`,`화보용 의상|editorial outfit;깔끔한 캐주얼|clean casual outfit`,`카메라 앞에서 포즈를 잡는다|posing before camera;조명 위치를 확인한다|checking lighting position`)
-});
-
-Object.assign(DB.fantasy.categories,{
-  guild:C('🛡️ 모험가 길드',`퀘스트 게시판이 있는 길드홀|adventurer guild hall with quest board;길드 접수대|guild reception desk`,`모험가 장비|adventurer gear`,`의뢰서를 확인한다|checking quest sheet;길드원과 지도를 본다|studying map with guild member`),
-  blacksmith:C('🔨 대장간',`불꽃이 튀는 대장간|fantasy blacksmith forge;무기가 늘어선 작업장|forge lined with weapons`,`가죽 앞치마와 작업복|leather apron and work clothes`,`검날을 점검한다|checking sword blade;망치로 금속을 두드린다|hammering metal`),
-  carriage:C('🐎 마차',`숲길을 달리는 마차 내부|carriage traveling forest road;왕실 마차 객실|royal carriage interior`,`여행 망토|travel cloak;귀족 외출복|noble travel attire`,`창밖을 바라본다|looking out carriage window;마차 손잡이를 잡는다|holding carriage strap`),
-  airship:C('🛩️ 비공정',`구름 위 비공정 갑판|airship deck above clouds;마력 엔진실|magical airship engine room`,`비공정 승무원 코트|airship crew coat;여행자 복장|traveler outfit`,`난간 너머 구름을 본다|looking over clouds;항로 지도를 펼친다|opening route map`),
-  harbor:C('⚓ 항구도시',`판타지 항구 부두|fantasy harbor docks;등불이 켜진 항구시장|lantern-lit harbor market`,`선원풍 셔츠와 부츠|sailor shirt and boots`,`배에서 짐을 내린다|unloading cargo;바다 지도를 확인한다|checking sea chart`),
-  pirateShip:C('🏴‍☠️ 해적선',`달빛 아래 해적선 갑판|pirate ship deck under moonlight;선장실|pirate captain cabin`,`해적 코트와 부츠|pirate coat and boots`,`밧줄을 잡고 돛을 올린다|raising sail with rope;항해도를 펼친다|spreading navigation chart`),
-  desert:C('🏜️ 사막',`끝없는 황금 사막|endless golden desert;고대 유적이 보이는 사막|desert with ancient ruins`,`사막 여행 망토|desert traveler cloak`,`모래바람을 막으며 걷는다|walking against sandstorm;멀리 유적을 본다|looking toward ruins`),
-  oasis:C('🌴 오아시스',`별빛 아래 오아시스|oasis under stars;야자수와 샘이 있는 쉼터|palm oasis spring`,`얇은 여행복|light travel clothes`,`샘물에 손을 담근다|dipping hand in water;야자수 그늘에 쉰다|resting under palm shade`),
-  icePalace:C('❄️ 빙결궁',`푸른 얼음 기둥의 궁전|ice palace with blue pillars;서리 낀 왕좌홀|frosted throne hall`,`흰색과 은색 겨울 예복|white and silver winter attire`,`얼음 벽에 손을 댄다|touching ice wall;서리 낀 창을 바라본다|looking through frosted window`),
-  crystalCave:C('💎 수정동굴',`빛나는 수정동굴|glowing crystal cave;거대한 마력 결정 앞|before giant magic crystal`,`탐험가 망토|explorer cloak`,`수정을 손전등처럼 비춘다|examining glowing crystal;결정 조각을 살핀다|studying crystal shard`),
-  fairyForest:C('🧚 요정숲',`빛가루가 떠다니는 요정숲|fairy forest with glowing motes;작은 요정불이 흐르는 숲길|forest path with fairy lights`,`숲 여행복|forest traveler outfit`,`빛가루를 손바닥에 받는다|catching glowing motes;작은 요정을 따라간다|following tiny fairy`),
-  skyCity:C('☁️ 공중도시',`구름 위 공중도시|floating city above clouds;공중교량|sky bridge`,`공중도시 시민복|floating-city attire`,`구름 아래를 내려다본다|looking down at clouds;공중교를 걷는다|walking across sky bridge`),
-  arena:C('🏟️ 투기장',`고대 원형 투기장|ancient fantasy arena;마법 결계가 둘러진 경기장|arena surrounded by magic barrier`,`경량 전투복|light combat gear`,`무기를 들어 경기 준비를 한다|raising weapon before match;관중석을 올려다본다|looking up at stands`)
-});
-
-Object.assign(DB.guideverse.categories,{
-  pairRegistration:C('📝 페어 등록',`센터 페어 등록실|pair registration office;전자 서명대가 있는 행정실|administration room with e-sign desk`,`센터 제복|center uniform`,`등록 서류에 서명한다|signing pair registration form;상대 정보 화면을 확인한다|checking partner profile screen`),
-  analysisLab:C('📈 파장 분석실',`파장 그래프가 떠 있는 분석실|waveform analysis lab;센서가 설치된 검사실|sensor-equipped analysis room`,`검사용 센터복|center test attire`,`센서를 착용한다|wearing sensors;파장 그래프를 확인한다|checking waveform graph`),
-  commandCenter:C('🛰️ 지휘통제실',`대형 상황판 지휘통제실|command center with large situation screens;작전 통제실|operations control room`,`센터 지휘 제복|command uniform`,`상황판을 가리킨다|pointing at tactical display;무전으로 지시한다|giving orders over radio`),
-  briefingRoom:C('📋 브리핑룸',`작전 브리핑룸|mission briefing room;프로젝터가 켜진 회의실|briefing room with projector`,`센터 제복|center uniform`,`임무 자료를 넘긴다|reviewing mission file;지도 위 위험구역을 가리킨다|pointing at danger zone on map`),
-  trainingGround:C('🥊 전투훈련장',`센터 전투훈련장|center combat training hall;보호매트가 깔린 훈련실|training room with safety mats`,`훈련복|training uniform`,`훈련 자세를 잡는다|taking training stance;장비를 점검한다|checking training gear`),
-  simulationRoom:C('🧪 시뮬레이션룸',`가상 게이트 시뮬레이터|virtual gate simulator;홀로그램 훈련실|holographic training room`,`시뮬레이션 슈트|simulation suit`,`가상 목표를 추적한다|tracking virtual target;시뮬레이터를 조작한다|operating simulator`),
-  shootingRange:C('🎯 사격장',`센터 실내 사격장|indoor center shooting range;표적지가 늘어선 사선|shooting lane with targets`,`전술 훈련복|tactical training outfit`,`보호장비를 착용한다|putting on protective gear;표적에 조준한다|aiming at target`),
-  decontamination:C('🚿 오염 세척실',`게이트 귀환 오염 세척실|post-gate decontamination room;소독 샤워 구역|decontamination shower zone`,`세척용 보호복|decontamination protective wear`,`장비 표면을 세척한다|cleaning equipment;오염 수치를 확인한다|checking contamination level`),
-  suppressorStorage:C('💊 억제기 보관실',`보안 잠금 억제기 보관실|secured suppressor storage;의약품 캐비닛이 있는 창고|medical cabinet storage`,`센터 의료복|center medical attire`,`보관함 번호를 확인한다|checking locker number;억제기 재고를 기록한다|recording suppressor inventory`),
-  archive:C('🗄️ 기록실',`센터 기밀 기록실|classified center archive;파일 서버가 있는 자료실|archive with file servers`,`사무용 센터복|administrative center attire`,`기록 파일을 검색한다|searching records;문서 상자를 꺼낸다|pulling archive box`),
-  cafeteria:C('🍱 센터 식당',`센터 구내식당|center cafeteria;야간 무인 식당|empty cafeteria at night`,`편한 센터복|casual center attire`,`식판을 들고 자리를 찾는다|carrying meal tray;자판기 음료를 뽑는다|getting drink from vending machine`),
-  locker:C('🧥 락커룸',`개인 락커가 늘어선 탈의실|locker room with personal lockers;훈련장 옆 락커룸|training-area locker room`,`훈련복과 재킷|training clothes and jacket`,`락커를 연다|opening locker;장갑과 장비를 정리한다|organizing gloves and gear`),
-  safehouse:C('🏠 안전가옥',`센터 비밀 안전가옥|center safehouse;커튼을 친 임시 거처|curtained temporary shelter`,`편한 사복|casual clothes`,`창문 잠금을 확인한다|checking window lock;응급 가방을 정리한다|organizing emergency bag`),
-  helipad:C('🚁 헬리패드',`센터 옥상 헬리패드|center rooftop helipad;구조 헬기 착륙장|rescue helicopter landing pad`,`구조 재킷|rescue jacket`,`헬기 바람을 막으며 대기한다|waiting against rotor wind;헤드셋으로 교신한다|communicating by headset`),
-  emergencyPassage:C('🚨 비상통로',`센터 비상통로|center emergency corridor;붉은 비상등이 켜진 연결통로|connecting corridor under red emergency lights`,`센터 제복|center uniform`,`비상문을 연다|opening emergency door;복도 끝을 경계한다|watching corridor end`),
-  nationalHQ:C('🏛️ 국가 대응본부',`국가 게이트 대응본부 상황실|national gate response headquarters;대형 국가 상황판|national crisis situation room`,`공식 지휘 제복|formal command uniform`,`보고서를 전달한다|delivering report;상황판을 브리핑한다|briefing situation board`)
-});
-
-Object.assign(DB.period.categories,{
-  koreaTemple:C('🪷 조선 · 사찰',`산중 사찰 대웅전|Joseon mountain temple;등불 켜진 절 마당|temple courtyard with lanterns`,`단정한 한복|neat hanbok`,`합장한다|hands together in prayer;돌계단을 오른다|walking stone steps`),
-  koreaYangban:C('🏡 조선 · 양반가',`사랑채가 있는 양반가|Joseon yangban house;대청마루|wooden main hall`,`도포와 한복|traditional robe and hanbok`,`마루에 앉아 차를 따른다|pouring tea on wooden floor;서찰을 읽는다|reading letter`),
-  koreaFerry:C('⛵ 조선 · 나루터',`강가 나루터|Joseon riverside ferry;나룻배가 묶인 선착장|ferry landing with wooden boat`,`여행 한복|travel hanbok`,`배를 기다린다|waiting for ferry;강물을 바라본다|looking at river`),
-  koreaVillage:C('🌾 조선 · 시골마을',`초가집이 이어진 시골마을|Joseon thatched-roof village;논길|rice-field path`,`서민 한복|commoner hanbok`,`우물가를 지난다|walking past village well;짚신을 턴다|dusting straw shoes`),
-  koreaBattlefield:C('🏹 조선 · 전장',`깃발이 펄럭이는 조선군 진영|Joseon military camp;전투 직후 들판|field after battle`,`군관 갑옷|Joseon officer armor`,`활과 칼을 점검한다|checking bow and sword;진영을 살핀다|surveying camp`),
-  koreaFuneral:C('⚱️ 조선 · 상례',`흰 상복이 모인 상가|Joseon funeral house;제상이 놓인 마당|courtyard with memorial table`,`흰 상복|white mourning hanbok`,`향을 올린다|offering incense;절을 한다|performing formal bow`),
-  japanCastle:C('🏯 일본 · 성',`에도 성 회랑|Edo castle corridor;성의 다다미 방|tatami chamber in castle`,`사무라이 예복|samurai formal wear`,`장지문을 연다|opening shoji door;정원 쪽을 본다|looking toward garden`),
-  japanTeaRoom:C('🍵 일본 · 다실',`작은 다다미 다실|small tatami tea room;로지 정원 옆 다실|tea room beside roji garden`,`기모노|kimono`,`차를 돌려 내민다|serving tea;찻잔을 두 손으로 든다|holding tea bowl with both hands`),
-  japanDojo:C('🥋 일본 · 도장',`목검이 걸린 도장|dojo with wooden swords;햇빛 드는 수련장|sunlit training dojo`,`도복|martial arts uniform`,`목검을 잡는다|holding wooden sword;정좌한다|sitting in seiza`),
-  japanPort:C('⚓ 일본 · 항구',`에도 시대 항구|Edo-period port;목조 창고가 있는 부두|dock with wooden warehouses`,`여행 기모노|travel kimono`,`짐꾼들을 바라본다|watching dock workers;배표를 확인한다|checking ferry ticket`),
-  japanFestival:C('🏮 일본 · 마츠리',`등불 가득 마츠리 거리|festival street full of lanterns;신사 앞 야시장|night stalls before shrine`,`유카타|yukata`,`부채를 들고 걷는다|walking with fan;금붕어 노점 앞에 선다|standing by festival stall`),
-  chinaSect:C('⛰️ 중국 · 문파',`산문이 보이는 무협 문파|wuxia sect in mountains;수련 마당|sect training courtyard`,`무협 문파복|wuxia sect robes`,`검법을 연습한다|practicing sword form;사형제와 인사한다|greeting fellow disciple`),
-  chinaClinic:C('🌿 중국 · 의원',`약재 선반이 가득한 의원|traditional Chinese clinic with herbs;진맥 탁자|diagnosis table`,`의원 장포|traditional healer robe`,`약첩을 묶는다|tying medicine packets;맥을 짚는다|checking pulse`),
-  chinaGarden:C('🌸 중국 · 황궁 후원',`연못과 정자가 있는 황궁 후원|imperial Chinese garden with pavilion;매화가 핀 후원|plum-blossom palace garden`,`궁중 예복|imperial court attire`,`정자 난간에 손을 얹는다|resting hand on pavilion rail;연못의 잉어를 본다|watching koi pond`),
-  europeManor:C('🏛️ 유럽 · 귀족저택',`촛불 샹들리에 귀족저택|European noble manor with chandeliers;벽난로 응접실|manor drawing room with fireplace`,`빅토리아풍 예복|Victorian formal attire`,`벽난로 앞에서 편지를 읽는다|reading letter by fireplace;계단 난간에 선다|standing by grand staircase`),
-  europeBallroom:C('💃 유럽 · 무도회',`대리석 무도회장|European marble ballroom;가면무도회장|masquerade ballroom`,`볼가운과 테일코트|ball gown and tailcoat`,`춤을 청한다|offering a dance;가면을 들어 올린다|lifting masquerade mask`),
-  europeOpera:C('🎼 유럽 · 오페라',`금장 오페라 극장|ornate European opera house;박스석|opera box seat`,`이브닝 드레스와 턱시도|evening dress and tuxedo`,`오페라 글라스를 든다|holding opera glasses;막이 오르기를 기다린다|waiting for curtain to rise`),
-  europeMonastery:C('⛪ 유럽 · 수도원',`석조 수도원 회랑|stone monastery cloister;촛불 기도실|candlelit chapel`,`수도복|monastic robe`,`회랑을 걷는다|walking cloister;성서를 읽는다|reading scripture`),
-  europeCarriage:C('🚋 유럽 · 마차',`비 내리는 런던풍 마차|Victorian carriage in rain;귀족 마차 내부|noble carriage interior`,`코트와 장갑|coat and gloves`,`창밖 거리를 본다|looking out carriage window;장갑을 벗는다|removing gloves`),
-  europePort:C('🚢 유럽 · 항구',`안개 낀 유럽 항구|foggy European harbor;증기선 부두|steamship dock`,`긴 코트와 모자|long coat and hat`,`여행 가방을 든다|holding travel bag;배를 기다린다|waiting for ship`)
-});
-
-DB.sf={label:'SF / 사이버펑크',common:MODERN,categories:{
-  megacity:C('🌃 네온 메가시티',`초고층 네온 메가시티|neon megacity skyline;홀로그램 광고 거리|street with holographic ads`,`테크웨어 재킷|techwear jacket;미래형 수트|futuristic suit`,`홀로그램 지도를 확인한다|checking holographic map;도시 야경을 올려다본다|looking up at neon skyline`),
-  neonAlley:C('💠 사이버 골목',`비 내리는 네온 골목|rainy cyberpunk alley;증기와 간판이 가득한 뒷골목|alley full of steam and signs`,`후드 테크웨어|hooded techwear`,`젖은 골목을 걷는다|walking through wet alley;벽면 단말기를 조작한다|using wall terminal`),
-  cyberCafe:C('☕ 사이버 카페',`홀로그램 메뉴 사이버 카페|cyber cafe with hologram menu;24시간 네트워크 라운지|24-hour network lounge`,`미래형 캐주얼|futuristic casual outfit`,`투명 디스플레이를 넘긴다|swiping transparent display;네온 컵을 든다|holding glowing cup`),
-  techLab:C('🧬 첨단 연구소',`투명 캡슐이 늘어선 첨단 연구소|advanced lab with transparent pods;바이오테크 실험실|biotech laboratory`,`연구원 코트와 인터페이스 장갑|research coat and interface gloves`,`데이터 패널을 분석한다|analyzing data panel;캡슐 상태를 확인한다|checking pod status`),
-  androidLab:C('🤖 안드로이드 랩',`안드로이드 정비실|android maintenance lab;휴머노이드 테스트룸|humanoid test room`,`엔지니어 작업복|engineer workwear`,`기계 팔을 점검한다|checking mechanical arm;진단 코드를 읽는다|reading diagnostic code`),
-  dataCenter:C('🖥️ 데이터센터',`푸른 서버랙 데이터센터|blue-lit data center;보안 서버 코어|secure server core`,`보안요원 테크웨어|security techwear;엔지니어 복장|engineer attire`,`서버랙 사이를 걷는다|walking between server racks;접속 키를 확인한다|checking access key`),
-  spaceStation:C('🛰️ 우주정거장',`지구가 보이는 우주정거장 창|space station window overlooking Earth;무중력 연결 통로|zero-gravity connector corridor`,`우주정거장 제복|space station uniform`,`창밖 지구를 본다|looking at Earth;손잡이를 잡고 이동한다|moving with handrail`),
-  spaceship:C('🚀 우주선',`장거리 우주선 조종실|long-range spaceship cockpit;함선 생활 구역|spaceship living quarters`,`승무원 제복|crew uniform`,`항로를 설정한다|setting navigation route;조종석 계기를 확인한다|checking cockpit instruments`),
-  colony:C('🌌 외계 식민도시',`돔으로 덮인 외계 식민도시|alien colony under dome;붉은 행성 거주구|red-planet habitat district`,`식민지 작업복|colony workwear`,`돔 밖 풍경을 바라본다|looking beyond colony dome;산소 수치를 확인한다|checking oxygen level`),
-  cyberRooftop:C('🌉 미래도시 옥상',`드론이 날아다니는 고층 옥상|high-rise rooftop with drones;네온 광고판 옆 옥상|rooftop beside neon billboards`,`바람막이 테크웨어|windbreaker techwear`,`드론을 바라본다|watching drones;도시 아래를 내려다본다|looking over city`)
-}};
-DB.apocalypse={label:'아포칼립스 / 재난',common:MODERN,categories:{
-  shelter:C('🧱 지하 대피소',`비상등이 켜진 지하 대피소|underground shelter with emergency lights;식량 상자가 쌓인 벙커|bunker stacked with supplies`,`생존자 재킷|survivor jacket;실용적인 작업복|practical workwear`,`비상식량을 정리한다|organizing emergency rations;지도에 안전구역을 표시한다|marking safe zones on map`),
-  ruinedCity:C('🏚️ 폐허 도시',`무너진 도심 거리|ruined city street;버려진 고층 빌딩 사이|among abandoned skyscrapers`,`먼지 묻은 생존복|dusty survival outfit`,`잔해 사이를 경계하며 걷는다|moving cautiously through debris;멀리 연기를 본다|watching distant smoke`),
-  safehouseAp:C('🏠 안전가옥',`창문을 막은 임시 안전가옥|boarded-up safehouse;발전기 소리가 나는 은신처|hideout with generator hum`,`편한 생존복|casual survival wear`,`창문 봉쇄를 확인한다|checking boarded windows;응급가방을 정리한다|organizing emergency bag`),
-  supplyDepot:C('📦 보급창고',`구호물자가 쌓인 보급창고|supply depot with relief crates;군용 컨테이너 창고|military container depot`,`전술 조끼|tactical vest`,`보급품 목록을 확인한다|checking supply list;상자를 옮긴다|moving crates`),
-  lookout:C('🔭 감시 옥상',`도시 폐허를 내려다보는 옥상|rooftop overlooking ruined city;망원경이 놓인 감시초소|lookout post with binoculars`,`후드와 방풍 재킷|hood and windbreaker`,`망원경으로 도로를 살핀다|scanning road with binoculars;무전기를 잡는다|holding radio`),
-  ruinedHospital:C('🏥 폐병원',`정전된 병원 복도|blackout hospital corridor;응급실 잔해|ruined emergency room`,`응급 구조복|emergency rescue wear`,`의약품을 찾는다|searching for medicine;손전등으로 병실을 비춘다|lighting room with flashlight`),
-  survivorCamp:C('🔥 생존자 캠프',`천막과 모닥불 생존자 캠프|survivor camp with tents and fire;폐차장 옆 임시 캠프|temporary camp beside wrecked cars`,`두꺼운 야외복|rugged outdoor wear`,`모닥불을 정리한다|tending campfire;식수를 나눈다|sharing water`),
-  convoy:C('🚙 호송대',`장갑차가 늘어선 호송대|convoy of armored vehicles;황폐한 도로의 차량 행렬|vehicle column on ruined highway`,`전술 장비|tactical gear`,`차량 점검을 한다|checking vehicle;노선 지도를 본다|studying route map`),
-  quarantine:C('☣️ 격리구역',`비닐 차단막이 있는 격리구역|quarantine zone with plastic barriers;소독 게이트 앞|decontamination gate`,`방호복|protective suit`,`체온 검사를 받는다|undergoing temperature check;소독 장비를 확인한다|checking decon equipment`),
-  disasterCenter:C('📡 재난 통제소',`비상 발전기 재난 통제실|disaster control room on backup power;대형 지도 상황실|war room with large maps`,`구조대 제복|rescue command uniform`,`상황판을 브리핑한다|briefing situation map;무전 채널을 조정한다|adjusting radio channel`)
-}};
-
-NSFW_CATEGORY_BY_GENRE.sf={
-  neon_hotel:C('네온 호텔 / 캡슐룸',`네온 간접등이 켜진 미래 호텔|futuristic hotel under neon ambient lights;프라이빗 캡슐룸|private capsule room`,`테크웨어와 가운|techwear and robe`,`문을 잠그고 투명창의 밝기를 낮춘다|locking door and dimming smart glass;침대 가장자리에 가까이 앉는다|sitting close on bed edge`),
-  cyber_club:C('사이버 클럽 VIP',`홀로그램이 번지는 VIP 부스|VIP booth with holographic lights;프라이빗 네온 라운지|private neon lounge`,`클럽 테크웨어|club techwear`,`부스 커튼을 닫고 가까이 선다|closing booth curtain and standing close;음악 속에서 시선을 맞춘다|meeting gaze under loud music`),
-  space_cabin:C('우주선 개인 객실',`별빛이 보이는 우주선 개인실|private spaceship cabin with star view;승무원 숙소|crew quarters`,`승무원 실내복|crew loungewear`,`무중력 잠금장치를 확인하고 가까이 앉는다|checking zero-g restraints and sitting close;창밖 별빛을 본다|looking at stars`),
-  android_night:C('안드로이드 정비실 / 야간',`불 꺼진 안드로이드 정비실|dark android maintenance lab;진단등만 켜진 테스트룸|test room lit by diagnostics`,`엔지니어 복장과 장갑|engineer outfit and gloves`,`진단 화면을 닫고 서로 가까이 선다|closing diagnostics and standing close;기계 팔의 상태를 확인한다|checking mechanical arm`),
-  bdsm_cyber:C('BDSM · 사이버 플레이룸',`스마트 구속 장치가 있는 네온 플레이룸|neon playroom with smart restraints;홀로그램 제어 패널이 있는 레드룸|red room with holographic controls`,`검은 테크웨어 하네스|black techwear harness`,`스마트 칼라의 설정을 확인한다|checking smart collar settings;구속 장치 잠금을 테스트한다|testing restraint lock`)
-};
-NSFW_CATEGORY_BY_GENRE.apocalypse={
-  bunker_private:C('벙커 개인실',`잠긴 벙커 개인실|locked private bunker room;비상등 아래 작은 침상|small bed under emergency lights`,`생존복을 느슨하게 푼 차림|loosened survival outfit`,`외부 소음을 확인하고 문을 잠근다|checking outside noise and locking door;침상 가장자리에 가까이 앉는다|sitting close on bed edge`),
-  safehouse_night:C('안전가옥 / 야간',`창문을 막은 야간 안전가옥|boarded safehouse at night;발전기만 켜진 은신처|hideout lit by generator`,`편한 생존복|casual survival wear`,`창문 덮개를 확인하고 소파에 가까이 앉는다|checking window cover and sitting close on sofa;응급가방을 내려놓는다|setting emergency bag down`),
-  convoy_rest:C('호송차 / 이동 중',`정차한 장갑차 내부|parked armored vehicle interior;야간 호송차 뒷좌석|night convoy back seat`,`전술복|tactical outfit`,`무전기를 끄고 서로의 상태를 확인한다|turning off radio and checking each other;안전벨트를 푼다|releasing seatbelt`),
-  quarantine_room:C('격리실 / 관찰실',`임시 격리 관찰실|temporary quarantine observation room;투명 차단막 안쪽|inside transparent isolation barrier`,`검사복과 방호복 일부|examination wear and partial protective gear`,`검사 결과를 기다리며 가까이 앉는다|waiting for results while sitting close;마스크를 벗어 둔다|setting mask aside`),
-  bdsm_shelter:C('BDSM · 비밀 벙커룸',`폐쇄된 지하 벙커의 프라이빗 룸|private room in sealed bunker;붉은 비상등 아래 구속 장비|restraint gear under red emergency light`,`검은 하네스와 생존 장비|black harness and survival gear`,`구속구 잠금을 확인한다|checking restraint locks;칼라와 리드줄을 준비한다|preparing collar and leash`)
-};
-NSFW_CATEGORY_FAMILY_MAP.sf={neon_hotel:'lounge',cyber_club:'lounge',space_cabin:'dorm',android_night:'observation',bdsm_cyber:'restraint'};
-NSFW_CATEGORY_PROFILE_MAP.sf={neon_hotel:'dorm',cyber_club:'lounge',space_cabin:'dorm',android_night:'observation',bdsm_cyber:'restraint'};
-NSFW_CATEGORY_FAMILY_MAP.apocalypse={bunker_private:'dorm',safehouse_night:'dorm',convoy_rest:'vehicle',quarantine_room:'isolation',bdsm_shelter:'restraint'};
-NSFW_CATEGORY_PROFILE_MAP.apocalypse={bunker_private:'dorm',safehouse_night:'dorm',convoy_rest:'dorm',quarantine_room:'isolation',bdsm_shelter:'restraint'};
-
-Object.assign(NSFW_CATEGORY_BY_GENRE.modern,{
-  hotel_suite:C('호텔 스위트 / 객실',`도시 야경이 보이는 호텔 스위트|hotel suite overlooking city;커튼 친 고급 객실|luxury room with curtains drawn`,`실크 셔츠와 가운|silk shirt and robe;파티 후 흐트러진 정장|disheveled formalwear after party`,`객실 문을 잠그고 서로 가까이 선다|locking the hotel-room door and standing close;창가에서 상대를 끌어안는다|embracing by hotel window`),
-  club_vip:C('클럽 VIP룸',`네온이 번지는 클럽 VIP 부스|nightclub VIP booth with neon;커튼 친 프라이빗 라운지|curtained private lounge`,`파티룩|party outfit;검은 셔츠와 재킷|black shirt and jacket`,`음악 소음 속에서 바짝 가까워진다|moving close under loud music;부스 소파에 나란히 앉는다|sitting close on booth sofa`),
-  locker_shower:C('락커룸 / 샤워실',`심야 체육관 락커룸|late-night gym locker room;김이 남은 샤워실 앞|steamy shower-room entrance`,`운동복과 타월|sportswear and towel;가벼운 샤워가운|light shower robe`,`락커 문을 닫고 상대에게 가까이 선다|closing locker and moving closer;수건을 건네며 시선을 맞춘다|offering towel and meeting gaze`),
-  studio_backstage:C('촬영장 / 백스테이지',`촬영 종료 후 스튜디오|photo studio after shoot;사람이 빠진 백스테이지|empty backstage after performance`,`화보 의상과 가운|editorial outfit and robe;공연 의상|stage costume`,`조명을 끄기 전 상대를 불러 세운다|stopping partner before lights go off;분장대 앞에서 가까이 선다|standing close by dressing table`),
-  bdsm_playroom:C('BDSM · 플레이룸 / 레드룸',`붉은 조명이 흐르는 프라이빗 플레이룸|private BDSM playroom under red lights;검은 가죽 가구가 놓인 레드룸|red room with black leather furniture`,`가죽 하네스와 검은 의상|leather harness and black attire`,`칼라와 리드줄을 정리하며 역할을 확인한다|checking collar and leash while confirming roles;구속 도구를 준비한다|preparing restraint equipment`),
-  private_cinema:C('프라이빗 시네마',`예약된 소형 프라이빗 상영관|reserved private cinema;불이 꺼진 리클라이너 좌석|dark recliner theater seats`,`데이트 외출복|date outfit`,`영화가 끝난 뒤 좌석에 남아 가까이 앉는다|staying seated close after movie;빈 상영관을 확인한다|checking empty theater`)
-});
-Object.assign(NSFW_CATEGORY_BY_GENRE.fantasy,{
-  tavern_room:C('여관 개인실',`벽난로가 있는 판타지 여관 개인실|private fantasy inn room with fireplace;창문에 비가 치는 객실|inn room with rain on window`,`여행복과 느슨한 셔츠|travel clothes and loose shirt`,`문을 잠그고 장비를 내려놓는다|locking door and setting gear down;벽난로 곁에 가까이 앉는다|sitting close by fireplace`),
-  fantasy_carriage:C('마차 / 이동 중',`비 내리는 밤 마차 내부|carriage interior on rainy night;커튼 친 왕실 마차|curtained royal carriage`,`여행 망토와 귀족복|travel cloak and noble attire`,`마차 흔들림에 서로 가까워진다|moving closer as carriage sways;커튼을 확인한다|checking carriage curtain`),
-  magic_hot_spring:C('마력 온천',`빛나는 광물이 있는 비밀 온천|secret hot spring with glowing minerals;산속 마법 온천|magical mountain hot spring`,`가벼운 목욕가운|light bathrobe`,`온천 가장자리에서 가까이 앉는다|sitting close at hot-spring edge;수건을 건넨다|offering towel`),
-  guild_private:C('길드 비밀방',`길드 지하 비밀실|secret room beneath guild;지도와 무기가 놓인 사적인 작전실|private strategy room with maps and weapons`,`모험가 장비를 느슨하게 푼 차림|loosened adventurer gear`,`문을 잠그고 임무 이야기를 멈춘다|locking door and stopping mission talk;테이블 가장자리에서 가까워진다|moving close by table edge`),
-  bdsm_arcane:C('BDSM · 마도 구속실',`룬과 사슬이 걸린 마도 구속실|arcane restraint chamber with runes and chains;붉은 마력등이 켜진 밀실|sealed room under red magic lamps`,`검은 로브와 가죽 스트랩|dark robe and leather straps`,`마법 구속구의 강도를 확인한다|checking magical restraint tension;칼라에 새겨진 룬을 점검한다|checking runes on collar`)
-});
-Object.assign(NSFW_CATEGORY_BY_GENRE.guideverse,{
-  guide_safehouse:C('안전가옥 / 임시거처',`센터 비밀 안전가옥|guide-center safehouse;커튼 친 임시 거처|curtained temporary shelter`,`임무 후 편한 사복|casual clothes after mission`,`상처를 확인한 뒤 소파에 가까이 앉는다|sitting close on sofa after checking injuries;창문 잠금을 확인한다|checking window lock`),
-  guide_decon:C('오염 세척실',`게이트 귀환 오염 세척실|post-gate decontamination room;샤워 구역 옆 준비실|prep room beside decon showers`,`세척용 센터복|decontamination center wear`,`오염 수치를 확인하며 장비를 벗어 정리한다|removing and organizing gear while checking contamination;수건을 건넨다|offering towel`),
-  guide_training:C('훈련실 / 시뮬레이션',`야간 전투 훈련실|night combat training room;홀로그램 시뮬레이션룸|holographic simulation room`,`훈련복|training uniform`,`훈련 종료 후 벽에 기대 숨을 고른다|catching breath against wall after training;상태를 확인한다|checking partner condition`),
-  guide_locker:C('센터 락커룸',`훈련장 옆 개인 락커룸|private lockers beside training hall;심야 탈의실|late-night changing room`,`훈련복과 센터 재킷|training clothes and center jacket`,`락커를 닫고 상대를 돌아본다|closing locker and turning to partner;장갑을 벗는다|removing gloves`),
-  guide_archive:C('기밀 기록실',`출입 제한 기록실|restricted archive room;서버 랙이 켜진 자료실|archive with lit server racks`,`센터 사무복|center office attire`,`기밀 파일을 덮고 상대를 바라본다|closing confidential file and looking at partner;문 잠금을 확인한다|checking door lock`),
-  guide_transport:C('수송차 / 이동 중',`센터 장갑 수송차 내부|armored center transport vehicle;게이트 복귀 차량|return transport from gate`,`먼지 묻은 임무복|dusty mission uniform`,`차량 흔들림 속에서 서로의 상태를 확인한다|checking each other while vehicle moves;안전벨트를 풀어준다|helping release seatbelt`)
-});
-Object.assign(NSFW_CATEGORY_BY_GENRE.period,{
-  period_ryokan:C('료칸 / 다다미 객실',`등불 켜진 료칸 다다미 객실|lantern-lit ryokan tatami room;온천 후 조용한 객실|quiet room after hot spring`,`느슨한 유카타|loosely worn yukata`,`장지문을 닫고 다다미에 가까이 앉는다|closing shoji and sitting close on tatami;차를 내려놓는다|setting tea aside`),
-  period_bathhouse:C('목욕탕 / 온천',`김이 가득한 전통 목욕탕|steamy traditional bathhouse;산속 노천온천|mountain open-air hot spring`,`목욕가운과 수건|bathrobe and towel`,`수건을 건네고 가까이 앉는다|offering towel and sitting close;온천 가장자리에 기대 쉰다|resting at hot-spring edge`),
-  period_carriage:C('귀족 마차',`커튼 친 귀족 마차 내부|curtained noble carriage;비 내리는 밤 마차|carriage on rainy night`,`코트와 예복|coat and formal attire`,`마차 커튼을 확인하고 맞은편에서 가까워진다|checking curtain and moving closer across seat;장갑을 벗는다|removing gloves`),
-  period_palace_secret:C('궁중 비밀방',`궁중 숨은 별실|hidden palace chamber;병풍 뒤 작은 밀실|small secret room behind folding screen`,`궁중 예복|court attire`,`문을 잠그고 낮은 목소리로 대화한다|locking door and speaking quietly;병풍 뒤로 이동한다|moving behind screen`),
-  period_europe_manor:C('유럽 귀족저택 / 개인실',`촛불 켜진 귀족저택 개인 응접실|private manor drawing room by candlelight;벽난로가 있는 침실 전실|antechamber with fireplace`,`코르셋풍 예복과 셔츠|corset-inspired formalwear and shirt`,`문을 닫고 벽난로 곁에 가까이 선다|closing door and standing close by fireplace;장갑을 천천히 벗는다|slowly removing gloves`)
-});
-
-Object.assign(NSFW_CATEGORY_FAMILY_MAP.modern||={}, {hotel_suite:'lounge',club_vip:'lounge',locker_shower:'lounge',studio_backstage:'lounge',bdsm_playroom:'restraint',private_cinema:'lounge'});
-Object.assign(NSFW_CATEGORY_PROFILE_MAP.modern||={}, {hotel_suite:'dorm',club_vip:'lounge',locker_shower:'dorm',studio_backstage:'lounge',bdsm_playroom:'restraint',private_cinema:'lounge'});
-Object.assign(NSFW_CATEGORY_FAMILY_MAP.fantasy||={}, {tavern_room:'lounge',fantasy_carriage:'vehicle',magic_hot_spring:'garden_dark',guild_private:'library_dark',bdsm_arcane:'restraint'});
-Object.assign(NSFW_CATEGORY_PROFILE_MAP.fantasy||={}, {tavern_room:'dorm',fantasy_carriage:'dorm',magic_hot_spring:'garden_dark',guild_private:'library_dark',bdsm_arcane:'restraint'});
-Object.assign(NSFW_CATEGORY_FAMILY_MAP.guideverse||={}, {guide_safehouse:'recovery',guide_decon:'medical_guiding',guide_training:'training',guide_locker:'dorm',guide_archive:'observation',guide_transport:'vehicle'});
-Object.assign(NSFW_CATEGORY_PROFILE_MAP.guideverse||={}, {guide_safehouse:'dorm',guide_decon:'medical_guiding',guide_training:'training',guide_locker:'dorm',guide_archive:'observation',guide_transport:'dorm'});
-Object.assign(NSFW_CATEGORY_FAMILY_MAP.period||={}, {period_ryokan:'period_bed',period_bathhouse:'period_bed',period_carriage:'period_bed',period_palace_secret:'period_study',period_europe_manor:'period_bed'});
-Object.assign(NSFW_CATEGORY_PROFILE_MAP.period||={}, {period_ryokan:'period_bed',period_bathhouse:'period_bed',period_carriage:'period_bed',period_palace_secret:'period_study',period_europe_manor:'period_bed'});
-
-const CATEGORY_TAXONOMY={
-  sfw:{
-    modern:{
-      daily:{label:'일상 / 데이트',keys:['cafe','restaurant','convenience','mart','street','alley','park','beach','mall','bookstore','bakery','flowerShop','laundromat','gallery','aquarium','amusement','rooftop']},
-      school:{label:'학교 / 캠퍼스 / 문화',keys:['school','campus','library','cinema','theater']},
-      work:{label:'직장 / 사회 / 전문직',keys:['office','meeting','executive','pantry','elevator','broadcast','police','courthouse','lawfirm']},
-      private:{label:'집 / 숙박 / 사적공간',keys:['bedroom','living','kitchen','restroom','shower','hotel']},
-      medical:{label:'병원 / 응급',keys:['hospital','emergency','funeralHall']},
-      transport:{label:'교통 / 여행',keys:['subway','bus','car','airport','station']},
-      leisure:{label:'스포츠 / 엔터 / 촬영',keys:['gym','pool','bar','club','studio','backstage','stadium','concert','photoStudio']}
-    },
-    fantasy:{
-      roles:{label:'직업 / 신분 / 종족',keys:['mage','knight','priest','royal','noble','mercenary','adventurer','assassin','alchemist','dragon','elf','demon']},
-      magic:{label:'마법기관 / 신성공간',keys:['academy','tower','palace','cathedral','temple','icePalace','crystalCave','fairyForest','skyCity']},
-      adventure:{label:'모험 / 여행 / 교역',keys:['guild','blacksmith','forest','dungeon','tavern','market','village','carriage','airship','harbor','pirateShip','desert','oasis']},
-      conflict:{label:'전투 / 정치 / 사교',keys:['battlefield','prison','ballroom','arena']}
-    },
-    guideverse:{
-      admin:{label:'센터 행정 / 연구',keys:['center','consultation','test','pairRegistration','analysisLab','commandCenter','briefingRoom','archive','nationalHQ']},
-      guiding:{label:'가이딩 / 의료 / 안정화',keys:['guiding','stabilization','isolation','hospital','after','emergencyGuiding','fieldGuiding','decontamination','suppressorStorage']},
-      training:{label:'작전 / 훈련',keys:['operations','trainingGround','simulationRoom','shootingRange']},
-      gate:{label:'게이트 / 전투 / 구조',keys:['gate','inside','dungeon','boss','monster','rescue','berserk']},
-      life:{label:'생활 / 이동 / 지원',keys:['dorm','transport','cafeteria','locker','safehouse','helipad','emergencyPassage']}
-    },
-    period:{
-      korea:{label:'한국 / 조선',keys:['koreaPalace','koreaScholar','koreaWarrior','koreaMarket','koreaGisaeng','koreaCourt','koreaTemple','koreaYangban','koreaFerry','koreaVillage','koreaBattlefield','koreaFuneral']},
-      japan:{label:'일본 / 에도',keys:['japanShrine','japanSamurai','japanRyokan','japanEdo','japanGeisha','japanCastle','japanTeaRoom','japanDojo','japanPort','japanFestival']},
-      china:{label:'중국 / 무협·궁중',keys:['chinaPalace','chinaWuxia','chinaTaoist','chinaInn','chinaScholar','chinaGeneral','chinaSect','chinaClinic','chinaGarden']},
-      europe:{label:'유럽 / 귀족·빅토리아',keys:['europeManor','europeBallroom','europeOpera','europeMonastery','europeCarriage','europePort']}
-    },
-    sf:{
-      city:{label:'메가시티 / 네온거리',keys:['megacity','neonAlley','cyberCafe','cyberRooftop']},
-      tech:{label:'연구 / 안드로이드 / 데이터',keys:['techLab','androidLab','dataCenter']},
-      space:{label:'우주 / 식민지',keys:['spaceStation','spaceship','colony']}
-    },
-    apocalypse:{
-      survival:{label:'생존 / 대피 / 보급',keys:['shelter','safehouseAp','supplyDepot','survivorCamp']},
-      ruins:{label:'폐허 / 탐색 / 의료',keys:['ruinedCity','lookout','ruinedHospital']},
-      operations:{label:'호송 / 격리 / 통제',keys:['convoy','quarantine','disasterCenter']}
-    }
-  },
-  nsfw:{
-    modern:{
-      office:{label:'오피스 / 직장',keys:['office_afterhours','office_elevator','office_storage','office_meeting','office_executive','office_copyroom','office_breakroom']},
-      outdoor:{label:'야외 / 이동 / 은밀공간',keys:['outdoor_park','outdoor_rooftop','outdoor_alley','outdoor_balcony','outdoor_car','outdoor_stairwell']},
-      private:{label:'호텔 / 클럽 / 촬영 / 사적공간',keys:['hotel_suite','club_vip','locker_shower','studio_backstage','private_cinema']},
-      bdsm:{label:'BDSM / 구속 / 플레이룸',keys:['bdsm_playroom']}
-    },
-    fantasy:{
-      dark:{label:'암흑판타지 / 금단',keys:['dark_ritual','dark_demon','dark_cathedral','dark_throne','dark_library','dark_garden']},
-      bdsm:{label:'BDSM / 던전 / 구속',keys:['dungeon_restraint','dungeon_training','dungeon_cell','dungeon_throne','dungeon_playroom','dungeon_cage','dungeon_interrogation','bdsm_arcane']},
-      inhuman:{label:'인외 / 이형',keys:['inhuman_tentacle','inhuman_dragon','inhuman_slime','inhuman_eldritch','inhuman_shapeshifter','inhuman_furry','inhuman_objecthead']},
-      private:{label:'여관 / 마차 / 온천 / 길드',keys:['tavern_room','fantasy_carriage','magic_hot_spring','guild_private']}
-    },
-    guideverse:{
-      guiding:{label:'가이딩 / 의료 / 회복',keys:['guide_guiding','guide_aftermath','guide_emergency','guide_isolation','guide_observation','guide_recovery']},
-      life:{label:'당직 / 숙소 / 지원공간',keys:['guide_nightshift','guide_dorm','guide_safehouse','guide_decon','guide_training','guide_locker','guide_archive','guide_transport']},
-      bdsm:{label:'BDSM / 구속 / 훈련',keys:['dungeon_restraint','dungeon_training','dungeon_playroom']}
-    },
-    period:{
-      bdsm:{label:'BDSM / 속박 / 훈육',keys:['period_restraint','period_training','period_playroom']},
-      dark:{label:'감금 / 금단 / 궁중',keys:['period_cell','period_ritual','period_cathedral','period_throne','period_palace_secret']},
-      private:{label:'침방 / 별당 / 료칸 / 온천',keys:['period_cell_bedchamber','period_training_pavilion','period_ritual_shrine','period_throne_banquet','period_ryokan','period_bathhouse','period_carriage','period_europe_manor']}
-    },
-    sf:{
-      neon:{label:'네온 / 호텔 / 클럽',keys:['neon_hotel','cyber_club']},
-      private:{label:'우주선 / 연구실',keys:['space_cabin','android_night']},
-      bdsm:{label:'BDSM / 스마트 구속',keys:['bdsm_cyber']}
-    },
-    apocalypse:{
-      private:{label:'벙커 / 안전가옥 / 이동',keys:['bunker_private','safehouse_night','convoy_rest']},
-      medical:{label:'격리 / 관찰',keys:['quarantine_room']},
-      bdsm:{label:'BDSM / 비밀 벙커룸',keys:['bdsm_shelter']}
-    }
-  }
-};
-
-function taxonomyMode(){return isNsfwGenre()?'nsfw':'sfw'}
-function activeTaxonomy(){return CATEGORY_TAXONOMY[taxonomyMode()]?.[genre.value]||{}}
-function normalizedTaxonomy(){
-  const lib=activeCategoryLibrary();const src=activeTaxonomy();const out={};const used=new Set();
-  Object.entries(src).forEach(([key,g])=>{const keys=(g.keys||[]).filter(k=>lib[k]);if(keys.length){out[key]={label:g.label,keys};keys.forEach(k=>used.add(k))}});
-  const rest=Object.keys(lib).filter(k=>!used.has(k));if(rest.length)out.other={label:'기타 / 추가 장면',keys:rest};return out;
-}
-function middleCategoryValue(){return $('middleCategory')?.value||'__all'}
-function middleCategoryLabel(){const v=middleCategoryValue();if(v==='__all')return'전체 중분류';return normalizedTaxonomy()[v]?.label||v}
-function activeCategoryKeys(){const lib=activeCategoryLibrary();const groups=normalizedTaxonomy();const mid=middleCategoryValue();return mid==='__all'?Object.keys(lib):(groups[mid]?.keys||Object.keys(lib))}
-function inferMiddleCategory(catKey){for(const [k,g] of Object.entries(normalizedTaxonomy()))if((g.keys||[]).includes(catKey))return k;return'__all'}
-function loadMiddleCategories(keep=false){
-  const el=$('middleCategory');if(!el)return;const old=el.value;el.innerHTML='<option value="__all">전체 중분류</option>';
-  Object.entries(normalizedTaxonomy()).forEach(([k,g])=>{const o=document.createElement('option');o.value=k;o.textContent=g.label;el.appendChild(o)});
-  if(keep&&[...el.options].some(o=>o.value===old))el.value=old;else el.value='__all';
-}
-function loadSmallCategories(keep=false,preferred=''){
-  const old=preferred||category.value;const cats=activeCategoryLibrary();const keys=activeCategoryKeys();
-  category.innerHTML='';const all=document.createElement('option');all.value='__all';all.textContent=middleCategoryValue()==='__all'?'전체 소분류 랜덤':`${middleCategoryLabel()} 전체 랜덤`;category.appendChild(all);
-  keys.forEach(k=>{const x=cats[k];if(!x)return;const o=document.createElement('option');o.value=k;o.textContent=x.label;category.appendChild(o)});
-  if(keep&&[...category.options].some(o=>o.value===old))category.value=old;else category.value='__all';
-}
-
 const SLOTS={background:'🏙️ 배경',outfit:'👔 의상',expression:'🙂 표정',action:'🎬 행동',season:'🍃 계절',weather:'🌦️ 시간 · 날씨',composition:'📷 구도',lighting:'💡 조명',gaze:'👁️ 시선',pose:'🧍 자세',prop:'🧳 소품',mood:'🎞️ 분위기'};
 const state={selected:{},locked:{},active:{},sceneResolvedKey:''};
 Object.keys(SLOTS).forEach(k=>{state.selected[k]=null;state.locked[k]=false;state.active[k]=true});
@@ -2783,7 +2545,7 @@ function analyticsGenreLabel(){
   return DB[genre.value]?.label||genre.options[genre.selectedIndex]?.textContent||genre.value;
 }
 function analyticsCategoryLabel(){
-  if(category.value==='__all') return middleCategoryValue()==='__all'?'대분류 전체 랜덤':`${middleCategoryLabel()} 전체 랜덤`;
+  if(category.value==='__all') return '장르 전체 랜덤';
   return activeCategoryLibrary()?.[category.value]?.label||category.options[category.selectedIndex]?.textContent||category.value;
 }
 function analyticsPovStrength(){
@@ -2960,11 +2722,17 @@ if(new URLSearchParams(location.search).get('analytics-debug')==='1'){
 
 function createCards(){cards.innerHTML='';Object.entries(SLOTS).forEach(([k,t])=>{const el=document.createElement('article');el.className='card';el.id='card-'+k;el.innerHTML=`<div class="card-top"><div class="card-title">${t}</div><div class="card-actions"><button class="icon" data-toggle="${k}" title="프롬프트 사용/제외">◉</button><button class="icon" data-reroll="${k}" title="이 항목만 재추첨">↻</button><button class="icon" data-lock="${k}" title="잠금">🔓</button></div></div><div class="ko" id="ko-${k}">-</div><div class="en" id="en-${k}">-</div><div class="lock-note">🔒 이 결과는 고정되어 있습니다.</div>`;cards.appendChild(el)})}
 function loadCategories(keep=false){
-  const oldCategory=category.value;
-  const oldMiddle=middleCategoryValue();
-  loadMiddleCategories(keep);
-  if(keep&&oldMiddle&&[...$('middleCategory').options].some(o=>o.value===oldMiddle))$('middleCategory').value=oldMiddle;
-  loadSmallCategories(keep,oldCategory);
+  const old=category.value;
+  category.innerHTML='<option value="__all">🎲 장르 전체 랜덤</option>';
+  const cats = activeCategoryLibrary();
+  Object.entries(cats).forEach(([k,v])=>{
+    const o=document.createElement('option');
+    o.value=k;
+    o.textContent=v.label||k;
+    category.appendChild(o);
+  });
+  if(keep&&[...category.options].some(o=>o.value===old))category.value=old;
+  else if(category.options.length>1) category.selectedIndex=1;
   rollAll(false);
 }
 
@@ -3101,7 +2869,7 @@ function updateScenePresetHint(){
 }
 function updateRelationHint(){const el=$('relationHint'),select=$('relationPreset');if(!el||!select)return;if(characterCount()===1){select.disabled=true;select.value='none';el.textContent='🤝 1인 모드에서는 관계 프리셋이 비활성화됩니다.';el.classList.remove('multi')}else{select.disabled=false;const label=RELATION_PRESETS[relationPresetValue()]?.label||'미사용';el.textContent=relationPresetValue()==='none'?'🤝 2인/3인에서 상호작용 가중치 적용':`🤝 현재 관계 프리셋 · ${label}`;el.classList.add('multi')}}
 function updateSmartConflictHint(){const el=$('smartConflictHint');if(!el)return;if(conflictPreventionOn()){el.textContent='🧩 말이 안 되는 조합은 최대한 다시 뽑습니다.';el.classList.add('on')}else{el.textContent='🧩 완전 랜덤 · 충돌 방지를 적용하지 않습니다.';el.classList.remove('on')}}
-function contextText(){return [genre.value,middleCategoryValue(),middleCategoryLabel(),category.value,activeCategoryLibrary()?.[category.value]?.label||'',state.selected.background?.ko||'',state.selected.background?.en||'',scenePresetConfig()?.label||''].join(' ').toLowerCase()}
+function contextText(){return [genre.value,category.value,activeCategoryLibrary()?.[category.value]?.label||'',state.selected.background?.ko||'',state.selected.background?.en||'',scenePresetConfig()?.label||''].join(' ').toLowerCase()}
 function currentNsfwContext(){return `${genre.value}::${category.value}`}
 function conflictsWithNsfwGenre(type,item){
   if(!isNsfwGenre()||!item) return false;
@@ -3223,7 +2991,7 @@ function conflictsWithContext(type,item){
 }
 function applyConflictFilter(pool,type){if(!conflictPreventionOn())return pool;const filtered=pool.filter(x=>!conflictsWithContext(type,x));return filtered.length?filtered:pool}
 function enforceSmartConflicts(){if(!conflictPreventionOn())return;const order=['background','outfit','weather','lighting','prop','pose','composition','gaze','action','expression','mood'];for(let pass=0;pass<5;pass++){order.forEach(type=>{const cur=state.selected[type];if(cur&&conflictsWithContext(type,cur)&&!state.locked[type])state.selected[type]=choose(type)})}}
-function specific(type){const cats=activeCategoryLibrary(),c=category.value;if(c==='__all'){let out=[];activeCategoryKeys().forEach(key=>{const x=cats[key];if(x)out.push(...(x[type]||[]),...categorySupplementPool(key,type))});return out}return [...(cats[c]?.[type]||[]),...categorySupplementPool(c,type)]}
+function specific(type){const cats=activeCategoryLibrary(),c=category.value;if(c==='__all'){let out=[];Object.entries(cats).forEach(([key,x])=>{out.push(...(x[type]||[]),...categorySupplementPool(key,type))});return out}return [...(cats[c]?.[type]||[]),...categorySupplementPool(c,type)]}
 function poolFor(type){
   let base=[];
   if(COMMON[type])base.push(...COMMON[type]);
@@ -3544,16 +3312,16 @@ function buildStats(){
   const povInfo=isPovMode()?`POV ${povStrength()==='strong'?'STRONG':'SUBTLE'} / ${povType().toUpperCase()}`:'POV OFF';
   const relInfo=characterCount()===1?'RELATION OFF':(relationPresetValue()==='none'?'RELATION NONE':`RELATION ${relationPresetValue().toUpperCase()}`);
   const sceneInfo=scenePresetValue()==='none'?'SCENE NONE':`SCENE ${sceneResolvedKey().toUpperCase()}`;
-  stats.textContent=`현재 사용 가능한 고유 랜덤 풀 · ${count} · 카테고리 ${Object.keys(activeCategoryLibrary()).length}종 · ${n}인 모드 · ${povInfo} · ${relInfo} · ${sceneInfo} · ${conflictPreventionOn()?'SMART-CONFLICT ON':'SMART-CONFLICT OFF'}`
+  stats.textContent=`현재 사용 가능한 고유 랜덤 풀 · ${count} · 카테고리 ${Object.keys(DB[genre.value].categories).length}종 · ${n}인 모드 · ${povInfo} · ${relInfo} · ${sceneInfo} · ${conflictPreventionOn()?'SMART-CONFLICT ON':'SMART-CONFLICT OFF'}`
 }
 async function copyText(text,msg){try{await navigator.clipboard.writeText(text)}catch{const t=document.createElement('textarea');t.value=text;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove()}show(msg)}
 function show(msg){status.textContent=msg;status.classList.add('show');clearTimeout(window.__st);window.__st=setTimeout(()=>status.classList.remove('show'),1700)}
-function snap(){return{time:Date.now(),genre:genre.value,middleCategory:middleCategoryValue(),category:category.value,gender:$('gender')?.value||'',quality:$('quality')?.value||'',style:$('style')?.value||'',aiStylePreset:$('aiStylePreset')?.value||'none',artStyle:$('artStyle')?.value||'',promptDetail:$('promptDetail')?.value||'2',intensity:$('intensity')?.value||'dense',povMode:$('povMode')?.value||'off',povStrength:$('povStrength')?.value||'subtle',povType:$('povType')?.value||'auto',relationPreset:relationPresetValue(),scenePreset:scenePresetValue(),sceneResolvedKey:state.sceneResolvedKey,smartConflict:conflictPreventionOn(),director:{enabled:directorEnabled(),axisExposure:$('axisExposure')?.value,axisContact:$('axisContact')?.value,axisMarks:$('axisMarks')?.value,axisMotion:$('axisMotion')?.value,axisExpression:$('axisExpression')?.value,axisWardrobe:$('axisWardrobe')?.value,roleLayout:$('roleLayout')?.value},characters:{charARole:$('charARole')?.value||'',charATags:$('charATags')?.value||'',charBRole:$('charBRole')?.value||'',charBTags:$('charBTags')?.value||'',charCRole:$('charCRole')?.value||'',charCTags:$('charCTags')?.value||''},selected:JSON.parse(JSON.stringify(state.selected)),active:{...state.active},prompt:prompt.value,pixPrompt:pixPrompt?.value||'',nijiPrompt:nijiPrompt?.value||'',summary:summary.textContent}}
+function snap(){return{time:Date.now(),genre:genre.value,category:category.value,gender:$('gender')?.value||'',quality:$('quality')?.value||'',style:$('style')?.value||'',aiStylePreset:$('aiStylePreset')?.value||'none',artStyle:$('artStyle')?.value||'',promptDetail:$('promptDetail')?.value||'2',intensity:$('intensity')?.value||'dense',povMode:$('povMode')?.value||'off',povStrength:$('povStrength')?.value||'subtle',povType:$('povType')?.value||'auto',relationPreset:relationPresetValue(),scenePreset:scenePresetValue(),sceneResolvedKey:state.sceneResolvedKey,smartConflict:conflictPreventionOn(),director:{enabled:directorEnabled(),axisExposure:$('axisExposure')?.value,axisContact:$('axisContact')?.value,axisMarks:$('axisMarks')?.value,axisMotion:$('axisMotion')?.value,axisExpression:$('axisExpression')?.value,axisWardrobe:$('axisWardrobe')?.value,roleLayout:$('roleLayout')?.value},characters:{charARole:$('charARole')?.value||'',charATags:$('charATags')?.value||'',charBRole:$('charBRole')?.value||'',charBTags:$('charBTags')?.value||'',charCRole:$('charCRole')?.value||'',charCTags:$('charCTags')?.value||''},selected:JSON.parse(JSON.stringify(state.selected)),active:{...state.active},prompt:prompt.value,pixPrompt:pixPrompt?.value||'',nijiPrompt:nijiPrompt?.value||'',summary:summary.textContent}}
 function addHistory(){let a=safeJSON(LS.hist,[]);a.unshift(snap());a=a.slice(0,10);storageSet(LS.hist,JSON.stringify(a));renderSaved()}
 function addFavorite(source='novel'){let a=safeJSON(LS.fav,[]);const s=snap();s.id=Date.now()+Math.random();s.savedFrom=source;a.unshift(s);a=a.slice(0,50);storageSet(LS.fav,JSON.stringify(a));renderSaved();const label=source==='pix'?'PixAI':source==='niji'?'NijiJourney':'NovelAI';show(`⭐ ${label} 현재 조합을 저장했습니다.`);trackAnalytics('favorite')}
-function loadSnap(s){genre.value=s.genre;loadCategories(false);const inferred=s.middleCategory&&[...$('middleCategory').options].some(o=>o.value===s.middleCategory)?s.middleCategory:inferMiddleCategory(s.category);$('middleCategory').value=inferred;loadSmallCategories(false,s.category);if([...category.options].some(o=>o.value===s.category))category.value=s.category;populateScenePresetOptions(false);if(s.gender!==undefined&&$('gender'))$('gender').value=s.gender;if(s.quality!==undefined&&$('quality'))$('quality').value=s.quality;if(s.style!==undefined&&$('style'))$('style').value=s.style;if(s.aiStylePreset!==undefined&&$('aiStylePreset'))$('aiStylePreset').value=s.aiStylePreset;if(s.artStyle!==undefined&&$('artStyle'))$('artStyle').value=s.artStyle;if(s.promptDetail!==undefined&&$('promptDetail'))$('promptDetail').value=s.promptDetail;if(s.intensity!==undefined&&$('intensity'))$('intensity').value=s.intensity;if(s.povMode!==undefined&&$('povMode'))$('povMode').value=s.povMode;if(s.povStrength!==undefined&&$('povStrength'))$('povStrength').value=s.povStrength;updatePovTypeOptions(s.povType||'auto');if(s.relationPreset&&[...$('relationPreset').options].some(o=>o.value===s.relationPreset))$('relationPreset').value=s.relationPreset;if(s.scenePreset&&[...$('scenePreset').options].some(o=>o.value===s.scenePreset))$('scenePreset').value=s.scenePreset;state.sceneResolvedKey=s.sceneResolvedKey||'';if(typeof s.smartConflict==='boolean')$('smartConflict').checked=s.smartConflict;if(s.director){if(s.director.enabled!==undefined)setDirectorEnabled(s.director.enabled,{silent:true});Object.entries(s.director).forEach(([k,v])=>{if($(k)&&v!==undefined)$(k).value=v});}if(s.characters)Object.entries(s.characters).forEach(([k,v])=>{if($(k)&&v!==undefined)$(k).value=v});updatePromptDetailUI();updateIntensityMode();updateDirectorState();updateCharacterSpecificUI();Object.keys(SLOTS).forEach(k=>{state.selected[k]=s.selected?.[k]||null;state.active[k]=s.active?.[k]??true;state.locked[k]=false});updateRelationHint();updateScenePresetHint();updateSmartConflictHint();render();window.scrollTo({top:$('cards').getBoundingClientRect().top+scrollY-20,behavior:'smooth'})}
+function loadSnap(s){genre.value=s.genre;loadCategories(true);populateScenePresetOptions(false);if(s.gender!==undefined&&$('gender'))$('gender').value=s.gender;if(s.quality!==undefined&&$('quality'))$('quality').value=s.quality;if(s.style!==undefined&&$('style'))$('style').value=s.style;if(s.aiStylePreset!==undefined&&$('aiStylePreset'))$('aiStylePreset').value=s.aiStylePreset;if(s.artStyle!==undefined&&$('artStyle'))$('artStyle').value=s.artStyle;if(s.promptDetail!==undefined&&$('promptDetail'))$('promptDetail').value=s.promptDetail;if(s.intensity!==undefined&&$('intensity'))$('intensity').value=s.intensity;if(s.povMode!==undefined&&$('povMode'))$('povMode').value=s.povMode;if(s.povStrength!==undefined&&$('povStrength'))$('povStrength').value=s.povStrength;updatePovTypeOptions(s.povType||'auto');if([...category.options].some(o=>o.value===s.category))category.value=s.category;if(s.relationPreset&&[...$('relationPreset').options].some(o=>o.value===s.relationPreset))$('relationPreset').value=s.relationPreset;if(s.scenePreset&&[...$('scenePreset').options].some(o=>o.value===s.scenePreset))$('scenePreset').value=s.scenePreset;state.sceneResolvedKey=s.sceneResolvedKey||'';if(typeof s.smartConflict==='boolean')$('smartConflict').checked=s.smartConflict;if(s.director){if(s.director.enabled!==undefined)setDirectorEnabled(s.director.enabled,{silent:true});Object.entries(s.director).forEach(([k,v])=>{if($(k)&&v!==undefined)$(k).value=v});}if(s.characters)Object.entries(s.characters).forEach(([k,v])=>{if($(k)&&v!==undefined)$(k).value=v});updatePromptDetailUI();updateIntensityMode();updateDirectorState();updateCharacterSpecificUI();Object.keys(SLOTS).forEach(k=>{state.selected[k]=s.selected?.[k]||null;state.active[k]=s.active?.[k]??true;state.locked[k]=false});updateRelationHint();updateScenePresetHint();updateSmartConflictHint();render();window.scrollTo({top:$('cards').getBoundingClientRect().top+scrollY-20,behavior:'smooth'})}
 function deleteFav(id){let a=safeJSON(LS.fav,[]).filter(x=>x.id!==id);storageSet(LS.fav,JSON.stringify(a));renderSaved()}
-function itemHTML(s,i,isFav){const g=DB[s.genre]?.label||s.genre;const c=(s.nsfw?NSFW_CATEGORY_BY_GENRE[s.genre]?.[s.category]?.label:null)||DB[s.genre]?.categories?.[s.category]?.label||(s.category==='__all'?'카테고리 전체 랜덤':s.category);const source=s.savedFrom||'novel';const sourceLabel=source==='pix'?'PixAI':source==='niji'?'NijiJourney':'NovelAI';const shown=source==='pix'?(s.pixPrompt||s.prompt||''):source==='niji'?(s.nijiPrompt||s.prompt||''):(s.prompt||'');return `<div class="list-item"><div class="list-title">${g} · ${c} · ${sourceLabel}</div><div class="list-text">${shown.replace(/</g,'&lt;')}</div><div class="list-tools"><button data-load="${isFav?'f':'h'}:${i}">불러오기</button>${isFav?`<button data-del="${s.id}">삭제</button>`:''}</div></div>`}
+function itemHTML(s,i,isFav){const g=DB[s.genre]?.label||s.genre;const c=DB[s.genre]?.categories?.[s.category]?.label||(s.category==='__all'?'장르 전체 랜덤':s.category);const source=s.savedFrom||'novel';const sourceLabel=source==='pix'?'PixAI':source==='niji'?'NijiJourney':'NovelAI';const shown=source==='pix'?(s.pixPrompt||s.prompt||''):source==='niji'?(s.nijiPrompt||s.prompt||''):(s.prompt||'');return `<div class="list-item"><div class="list-title">${g} · ${c} · ${sourceLabel}</div><div class="list-text">${shown.replace(/</g,'&lt;')}</div><div class="list-tools"><button data-load="${isFav?'f':'h'}:${i}">불러오기</button>${isFav?`<button data-del="${s.id}">삭제</button>`:''}</div></div>`}
 function renderSaved(){const f=safeJSON(LS.fav,[]),h=safeJSON(LS.hist,[]);$('favorites').innerHTML=f.length?f.map((x,i)=>itemHTML(x,i,true)).join(''):'<div class="empty">저장된 조합이 없습니다.</div>';$('history').innerHTML=h.length?h.map((x,i)=>itemHTML(x,i,false)).join(''):'<div class="empty">최근 기록이 없습니다.</div>'}
 function saveSettings(){
   storageSet(LS.settings,JSON.stringify({
@@ -3623,7 +3391,7 @@ function loadSettings(){
   updateDirectorState();updateCharacterSpecificUI();updatePromptDiagnostics();
 }
 cards.addEventListener('click',e=>{const a=e.target.closest('[data-lock],[data-reroll],[data-toggle]');if(!a)return;if(a.dataset.lock)toggleLock(a.dataset.lock);if(a.dataset.toggle)toggleActive(a.dataset.toggle);if(a.dataset.reroll){rollSlot(a.dataset.reroll,true);render();addHistory()}});
-$('rollAll').onclick=()=>{rollAll(true);trackAnalytics('roll')};genre.onchange=()=>{loadCategories(false);populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();updateIntensityMode();updateQuickRecommendations();updateDirectorState();render();buildPrompt();buildSummary();saveSettings()};$('middleCategory')?.addEventListener('change',()=>{loadSmallCategories(false);updateIntensityMode();updateQuickRecommendations();rollAll(false);buildPrompt();buildSummary();saveSettings()});category.onchange=()=>{updateIntensityMode();updateQuickRecommendations();rollAll(false);buildPrompt();buildSummary();saveSettings()};$('nsfwMode').addEventListener('change',()=>{updateIntensityMode();loadCategories(false);updateQuickRecommendations();updateDirectorState();render();buildPrompt();buildSummary();saveSettings();show(`🔞 NSFW 모드 ${isNsfwGenre()?'ON':'OFF'}`);});
+$('rollAll').onclick=()=>{rollAll(true);trackAnalytics('roll')};genre.onchange=()=>{loadCategories(false);populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();updateIntensityMode();updateQuickRecommendations();updateDirectorState();render();buildPrompt();buildSummary();saveSettings()};category.onchange=()=>{updateIntensityMode();updateQuickRecommendations();rollAll(false);buildPrompt();buildSummary();saveSettings()};$('nsfwMode').addEventListener('change',()=>{updateIntensityMode();loadCategories(false);updateQuickRecommendations();updateDirectorState();render();buildPrompt();buildSummary();saveSettings();show(`🔞 NSFW 모드 ${isNsfwGenre()?'ON':'OFF'}`);});
 $('lockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=true);render()};$('unlockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=false);render()};$('enableAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.active[k]=true);render()};
 ['quality','style','aiStylePreset','artStyle','customTags','randomCategory','avoidSame','smartConflict','intensity','userGenderMode','userBodyMode'].forEach(id=>{
   const el=$(id);
