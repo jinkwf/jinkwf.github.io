@@ -224,6 +224,34 @@ button,.small-btn,.tool,.guestbook-send,.age-btn,.quick-recommend-btn,.user-char
   #cards .en{font-size:9.5px}
 }
 
+
+/* ===== 01A · THEME / TROPE ===== */
+.theme-trope-panel{overflow:hidden}
+.theme-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:-2px 0 12px}
+.theme-selected-summary{font-size:11px;line-height:1.55;color:var(--sub)}
+.theme-selected-summary b{color:#e9e2f1}
+.theme-clear{min-height:34px;padding:0 11px;border:1px solid var(--line);border-radius:10px;background:var(--panel3);color:#ded7e5;font-size:10px;font-weight:850}
+.theme-groups{display:flex;flex-direction:column;gap:10px}
+.theme-group{border:1px solid var(--line);border-radius:15px;background:rgba(255,255,255,.018);overflow:hidden}
+.theme-group>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;cursor:pointer;font-size:13px;font-weight:900;color:#f2edf6;user-select:none}
+.theme-group>summary::-webkit-details-marker{display:none}
+.theme-group>summary:after{content:'⌄';color:#a69ead;font-size:12px;transition:transform .18s ease}
+.theme-group[open]>summary:after{transform:rotate(180deg)}
+.theme-group[open]>summary{border-bottom:1px solid var(--line)}
+.theme-group-meta{font-size:9px;color:#908899;font-weight:700;margin-left:8px}
+.theme-chip-wrap{display:flex;flex-wrap:wrap;gap:7px;padding:12px 14px 14px}
+.theme-chip{display:inline-flex;align-items:center;gap:5px;padding:7px 10px;border:1px solid rgba(255,255,255,.07);border-radius:11px;background:var(--panel2);color:#e7e1eb;font-size:10px;font-weight:800;line-height:1;cursor:pointer;user-select:none;transition:.14s ease}
+.theme-chip:hover{filter:brightness(1.12)}
+.theme-chip input{position:absolute;opacity:0;pointer-events:none}
+.theme-chip:has(input:checked){border-color:rgba(166,140,255,.60);background:linear-gradient(135deg,rgba(117,85,214,.72),rgba(154,104,218,.72));color:#fff;box-shadow:0 8px 20px rgba(102,75,190,.14)}
+.theme-chip.nsfw-only{border-color:rgba(230,148,196,.18)}
+.theme-chip.nsfw-only:has(input:disabled){opacity:.32;cursor:not-allowed;filter:grayscale(.25)}
+.theme-bl-wrap{padding:0 14px 14px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.theme-bl-box{border:1px solid rgba(255,255,255,.07);border-radius:13px;background:rgba(255,255,255,.016);padding:10px}
+.theme-bl-title{font-size:11px;font-weight:900;color:#d7ccff;margin:0 0 8px}
+.theme-bl-box .theme-chip-wrap{padding:0}
+@media(max-width:760px){.theme-bl-wrap{grid-template-columns:1fr}.theme-group>summary{padding:11px 12px}.theme-chip-wrap{padding:11px 12px 13px}.theme-chip{font-size:10px;padding:7px 9px}}
+
 </style>
 </head>
 
@@ -268,6 +296,7 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
    - 새 항목은 배열 맨 위에 추가하세요.
 ========================================================= */
 const UPDATE_NOTES = [
+  { date:'08.22', text:'2. THEME / TROPE 복수 선택 필터를 추가하고 장르·캐릭터·관계·세계관·BL 역할 분류를 확장했습니다.' },
   { date:'08.22', text:'1. 대·중·소분류 카테고리 재정립, SF·아포칼립스 장르 확장, SFW/NSFW·BDSM 태그 및 플랫폼별 프롬프트를 정비했습니다.' }
 ];
 
@@ -486,7 +515,7 @@ renderAdminUpdateNote();
 </script>
 
 <div class="page">
-<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v2</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v2</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 수위(가벼운~하늘나라)를 선택할 수 있으며, 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능합니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
+<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v2.1</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v2.1</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 수위(가벼운~하늘나라)를 선택할 수 있으며, 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능합니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
 <section class="panel"><div class="head"><div><h2 class="title">01 · MODE / SCENE</h2><p class="desc">먼저 콘텐츠 모드(SFW / NSFW)를 선택하고, 그 다음 대분류 → 중분류 → 소분류 순서로 장면을 정합니다. 모드를 먼저 고르면 해당 모드에 맞는 분류 체계만 열려서 SFW/NSFW를 계속 다시 누를 필요가 없습니다.</p></div></div><div class="mode-first-grid"><div class="mode-first-box"><label>콘텐츠 모드</label><div class="mode-switch" id="contentModeSwitch"><label class="mode-pill" id="modePillSfw"><input type="radio" name="contentMode" value="sfw" checked> SFW</label><label class="mode-pill" id="modePillNsfw"><input type="radio" name="contentMode" value="nsfw"> NSFW</label></div><div class="mode-first-meta" id="contentModeHint">SFW / NSFW를 먼저 선택하면, 아래 대·중·소분류가 현재 모드에 맞는 풀로 자동 전환됩니다.</div><input type="checkbox" id="nsfwMode" hidden></div><div class="mode-category-box"><div class="select-grid category-hierarchy-grid"><div class="field"><label>대분류 · 장르</label><select id="genre">
 <option value="modern">현대물</option>
 <option value="fantasy">판타지물</option>
@@ -495,6 +524,7 @@ renderAdminUpdateNote();
 <option value="sf">SF / 사이버펑크</option>
 <option value="apocalypse">아포칼립스 / 재난</option>
 </select></div><div class="field"><label>중분류 · 테마</label><select id="middleCategory"></select></div><div class="field"><label>소분류 · 장면</label><select id="category"></select></div></div></div></div><div class="check-row"><label class="check"><input type="checkbox" id="randomCategory"> 주사위를 돌릴 때마다 소분류도 랜덤</label><label class="check"><input type="checkbox" id="avoidSame" checked> 직전 결과와 같은 태그 최대한 피하기</label></div></section>
+<section class="panel theme-trope-panel" id="themeTropePanel"><div class="head"><div><h2 class="title">01A · THEME / TROPE</h2><p class="desc">장면의 장소 분류와 별개로 작품의 장르·톤, 캐릭터 타입, 관계/소재, 세계관/직업, BL 역할을 복수 선택합니다. 선택한 항목은 NovelAI에는 태그, PixAI에는 정리된 테마 태그, NijiJourney에는 자연어 콘셉트 설명으로 반영됩니다.</p></div></div><div class="theme-toolbar"><div class="theme-selected-summary" id="themeSelectedSummary"><b>0개 선택</b> · 필요한 테마만 골라 조합하세요.</div><button type="button" class="theme-clear" id="clearThemeTrope">선택 초기화</button></div><div class="theme-groups" id="themeTropeGroups"></div></section>
 <section class="panel"><div class="head"><div><h2 class="title">02 · 기본 태그</h2><p class="desc">1인·2인·3인을 선택할 수 있습니다. 2인/3인 선택 시 구도·자세·시선·행동 풀이 인원수에 맞게 자동 전환됩니다. POV MODE를 켜면 현재 인원수에 맞는 1인칭 시점 풀이 적용되고, POV 강도(약하게/강하게)를 조절할 수 있고, NSFW OFF에서는 일반 POV, NSFW ON에서는 키스·밀착·벽·침대·무릎·구강 근접 등 성인용 POV 타입까지 확장됩니다. 여기에 관계/상호작용 프리셋, 장면 프리셋, 충돌 방지 기능까지 더해 더 자연스러운 조합을 자동으로 만듭니다. 고정 외형 태그는 ‘항상 추가할 태그’에 넣어두면 유지됩니다.</p></div></div><div class="options"><div class="opt"><label>CHARACTER</label><select id="gender">
 <option value="">캐릭터 미지정</option>
 <optgroup label="1인">
@@ -561,7 +591,7 @@ renderAdminUpdateNote();
   <div id="guestStatus" class="guestbook-status" role="status" aria-live="polite"></div>
 </section>
 
-<footer><div>문의사항 X : <a href="https://x.com/Jin_k__wf" target="_blank" rel="noopener noreferrer">@Jin_k__wf</a></div><div>NSFW Asset Gacha v2.0 · Smart Director · Stats Recommender · 18+</div><div style="margin-top:5px"><button type="button" id="analyticsPing" style="border:0;background:transparent;color:#6f6978;font-size:8px;cursor:pointer">통계 연결 테스트 · v1 NSFW</button></div></footer>
+<footer><div>문의사항 X : <a href="https://x.com/Jin_k__wf" target="_blank" rel="noopener noreferrer">@Jin_k__wf</a></div><div>NSFW Asset Gacha v2.1 · Smart Director · Stats Recommender · 18+</div><div style="margin-top:5px"><button type="button" id="analyticsPing" style="border:0;background:transparent;color:#6f6978;font-size:8px;cursor:pointer">통계 연결 테스트 · v1 NSFW</button></div></footer>
 </div>
 <script>
 (function(){
@@ -3419,6 +3449,44 @@ function basePromptParagraph(){
   const parts=String(prompt?.value||'').split(/\n\s*\n/);
   return parts.filter(par=>!/^character\d+:\s*/i.test(par)&&!/^\{\{user\}\}:\s*/i.test(par)).join(', ');
 }
+
+const THEME_TROPE_GROUPS={
+  genre:{label:'장르 / 톤',open:true,items:[
+    ['sf','SF','science fiction'],['comedy','개그','comedy'],['court','궁정물','court intrigue'],['noir','느와르','noir'],['sweet','달달물','sweet romance'],['eastern','동양풍','east asian aesthetic'],['drama','드라마','drama'],['romcom','러브코미디','romantic comedy'],['romance','로맨스','romance'],['rofan','로판','romantic fantasy'],['wuxia','무협','wuxia'],['mystery','미스터리','mystery'],['absurd','병맛','absurd comedy'],['suspense','서스펜스','suspense'],['western','서양풍','western historical aesthetic'],['growth','성장물','coming of age'],['beastfolk','수인물','beastfolk fantasy'],['sports','스포츠','sports drama'],['period','시대극','historical drama'],['action','액션','action'],['occult','오컬트','occult'],['isekai','이세계물','isekai'],['slice','일상','slice of life'],['calm','잔잔물','quiet slice of life'],['reunion_theme','재회물','reunion romance'],['gore','잔혹/고어','dark violent atmosphere'],['mystery2','추리','detective mystery'],['fantasy','판타지','fantasy'],['darkangst','피폐물','dark angst'],['hardboiled','하드보일드','hard-boiled noir'],['academy','학원','school setting'],['modern','현대물','modern setting'],['horror','호러/스릴러','horror thriller'],['healing','힐링물','healing story'],['campus','캠퍼스물','college campus'],['boys_love','BL','boys love'],['yuri','백합/GL','girls love'],['shounen','소년만화','shounen manga energy'],['food','음식','food story'],['cyberpunk','사이버펑크','cyberpunk'],['apocalypse','아포칼립스','post-apocalyptic'],['darkfantasy','다크판타지','dark fantasy'],['dreamy','몽환','dreamlike atmosphere'],['decadent','퇴폐','decadent mood'],['youth','청춘','youthful drama'],['sm_theme','SM','BDSM-themed atmosphere','nsfw']
+  ]},
+  character:{label:'캐릭터',open:true,items:[
+    ['knight','기사','knight'],['vampire','뱀파이어','vampire'],['secretary','비서','secretary'],['teacher','선생님','teacher'],['younger_man','연하남','younger man'],['older_man','연상남','older man'],['celebrity','연예인','celebrity'],['idol','아이돌','idol'],['actor','배우','actor'],['doctor','의사','doctor'],['nurse','간호사','nurse'],['lawyer','변호사','lawyer'],['prosecutor','검사','prosecutor'],['detective','형사','detective'],['police','경찰','police officer'],['bodyguard','경호원','bodyguard'],['soldier','군인','soldier'],['mercenary','용병','mercenary'],['assassin','암살자','assassin'],['mafia','마피아','mafia member'],['gangster','조폭','gangster'],['chaebol','재벌','chaebol heir'],['ceo','CEO','CEO'],['officeworker','회사원','office worker'],['professor','교수','professor'],['student','학생','student'],['royal','왕족','royalty'],['emperor','황제','emperor'],['noble','귀족','aristocrat'],['priest','성직자','priest'],['mage','마법사','mage'],['alchemist','연금술사','alchemist'],['adventurer','모험가','adventurer'],['hero','히어로','hero'],['villain','빌런','villain'],['angel','천사','angel'],['demon','악마','demon'],['dragon','드래곤','dragon person'],['beast','수인','beastfolk'],['nonhuman','인외존재','nonhuman character'],['android','안드로이드','android'],['cyborg','사이보그','cyborg'],['middleaged','중년','middle-aged character'],['prettyboy','미인형','beautiful male'],['handsome','미남형','handsome character'],['cold','냉혈한','cold-hearted character'],['sunshine','햇살캐','sunshine personality'],['tsundere','츤데레','tsundere'],['obsessive_char','집착형','obsessive personality'],['devoted_char','헌신형','devoted personality']
+  ]},
+  relation:{label:'관계 / 소재',open:true,items:[
+    ['guideverse','가이드버스','guideverse'],['omegaverse','오메가버스','omegaverse'],['sentinelverse','센티넬버스','sentinel guide universe'],['family','가족','family relationship'],['game','게임','game world'],['marriage','결혼','marriage'],['contract','계약관계','contract relationship'],['arranged','정략결혼','arranged marriage'],['marryfirst','선결혼후연애','marriage before love'],['childhood','소꿉친구','childhood friends'],['firstlove','첫사랑','first love'],['unrequited','짝사랑','unrequited love'],['mutual_save','쌍방구원','mutual salvation'],['reunion','재회','reunion'],['exes','전연인','former lovers'],['enemies','혐관','hostile relationship'],['lovehate','애증','love-hate relationship'],['rivals','라이벌','rivals'],['office_romance','오피스물','office romance'],['coworker_romance','사내연애','workplace romance'],['boss_subordinate','상사부하','boss and subordinate'],['senior_junior','선후배','senior and junior'],['mentor','사제지간','mentor and student'],['master_servant','주종관계','master servant dynamic'],['guarded','호위관계','protector and protected'],['enemies2','적대관계','enemies'],['accomplice','공범','accomplices'],['partners','파트너','partners'],['coworkers','동료','coworkers'],['comrades','전우','comrades in arms'],['roommates','룸메이트','roommates'],['neighbors','이웃','neighbors'],['stepsiblings','의붓형제','step-siblings'],['triangle','삼각관계','love triangle'],['poly','다각관계','multi-person relationship'],['revenge','복수','revenge plot'],['secret_identity','정체숨김','hidden identity'],['double_life','이중생활','double life'],['secret_romance','비밀연애','secret romance'],['salvation','구원서사','salvation narrative'],['obsession','집착','obsessive attachment'],['memoryloss','기억상실','memory loss'],['regression','회귀','regression'],['possession','빙의','possession/transmigration'],['reincarnation','환생','reincarnation'],['dimension','차원이동','dimension travel'],['political','정치결혼','political marriage'],['forbidden','금지된관계','forbidden relationship'],['rivals_to_lovers','라이벌→연인','rivals to lovers'],['enemies_to_lovers','혐관→연인','enemies to lovers'],['friends_to_lovers','친구→연인','friends to lovers'],['one_night','원나잇','one-night encounter','nsfw']
+  ]},
+  world:{label:'세계관 / 직업 소재',open:false,items:[
+    ['school','학교','school'],['university','대학교','university'],['company','회사','corporate workplace'],['hospital','병원','hospital'],['entertainment','연예계','entertainment industry'],['broadcast','방송국','broadcasting station'],['sports_industry','스포츠계','sports industry'],['military','군대','military'],['police_world','경찰','police organization'],['legal','법조계','legal world'],['politics','정치계','political world'],['chaebol_family','재벌가','chaebol family'],['royal_court','왕실','royal court'],['aristocracy','귀족사회','aristocratic society'],['magic_school','마법학교','magic academy'],['guild','길드','adventurer guild'],['mercenary_group','용병단','mercenary company'],['knight_order','기사단','knight order'],['church','교회','church organization'],['holy_state','종교국가','theocratic state'],['research','연구기관','research institute'],['government','정부기관','government agency'],['secret_org','비밀조직','secret organization'],['crime_org','범죄조직','criminal organization'],['spaceship','우주선','spaceship'],['colony','우주식민지','space colony'],['cybercity','사이버시티','cyber city'],['laboratory','연구소','laboratory'],['survivalcamp','생존캠프','survival camp'],['quarantine','격리구역','quarantine zone'],['palace','궁전','palace'],['dungeonworld','던전세계','dungeon world'],['academy_world','아카데미','academy world'],['underworld','뒷세계','underworld'],['showbiz','쇼비즈','show business'],['culinary','요식업','culinary industry'],['fashion','패션업계','fashion industry'],['aviation','항공업계','aviation industry'],['maritime','해양/항구','maritime setting']
+  ]},
+  bl:{label:'BL 역할',open:false,bl:true,seme:[
+    ['strong_seme','강공','strong seme'],['jerk_seme','개아가공','cruel seme'],['schemer_seme','계략공','scheming seme'],['mad_seme','광공','unhinged seme'],['teasing_seme','능글공','teasing seme'],['dominant_seme','능욕공','dominant seme'],['gentle_seme','다정공','gentle seme'],['bigdog_seme','대형견공','big-dog seme'],['aloof_seme','무심공','aloof seme'],['handsome_seme','미남공','handsome seme'],['pretty_seme','미인공','beautiful seme'],['loving_seme','사랑꾼공','devoted lover seme'],['wounded_seme','상처공','wounded seme'],['pure_seme','순정공','pure-hearted seme'],['older_seme','연상공','older seme'],['younger_seme','연하공','younger seme'],['crybaby_seme','울보공','crybaby seme'],['seductive_seme','유혹공','seductive seme'],['chaebol_seme','재벌공','chaebol seme'],['regret_seme','후회공','regretful seme'],['obsessive_seme','집착공','obsessive seme'],['unrequited_seme','짝사랑공','unrequited-love seme'],['childish_seme','초딩공','childish seme'],['tsun_seme','츤데레공','tsundere seme'],['short_seme','키작공','short seme'],['ordinary_seme','평범공','ordinary seme'],['devoted_seme','헌신공','devoted seme']
+  ],uke:[
+    ['strong_uke','강수','strong uke'],['brat_uke','까칠수','prickly uke'],['smart_uke','계략수','scheming uke'],['cold_uke','무심수','aloof uke'],['pretty_uke','미인수','beautiful uke'],['handsome_uke','미남수','handsome uke'],['soft_uke','다정수','gentle uke'],['sunshine_uke','햇살수','sunshine uke'],['wounded_uke','상처수','wounded uke'],['pure_uke','순정수','pure-hearted uke'],['older_uke','연상수','older uke'],['younger_uke','연하수','younger uke'],['crybaby_uke','울보수','crybaby uke'],['seductive_uke','유혹수','seductive uke'],['chaebol_uke','재벌수','chaebol uke'],['regret_uke','후회수','regretful uke'],['obsessive_uke','집착수','obsessive uke'],['unrequited_uke','짝사랑수','unrequited-love uke'],['tsun_uke','츤데레수','tsundere uke'],['ordinary_uke','평범수','ordinary uke'],['devoted_uke','헌신수','devoted uke'],['competent_uke','능력수','competent uke'],['righteous_uke','단정수','proper uke'],['tough_uke','떡대수','broad-built uke'],['sensitive_uke','예민수','sensitive uke'],['calm_uke','차분수','calm uke']
+  ]}
+};
+function themeItemKey(group,id){return `${group}:${id}`}
+function themeItemsFlat(){const out=[];Object.entries(THEME_TROPE_GROUPS).forEach(([group,g])=>{if(g.bl){(g.seme||[]).forEach(item=>out.push({group,side:'seme',item}));(g.uke||[]).forEach(item=>out.push({group,side:'uke',item}));}else (g.items||[]).forEach(item=>out.push({group,item}));});return out}
+function selectedThemeKeys(){return [...document.querySelectorAll('[data-theme-key]:checked')].map(el=>el.dataset.themeKey).filter(Boolean)}
+function selectedThemeRecords(){const set=new Set(selectedThemeKeys());return themeItemsFlat().filter(({group,item})=>set.has(themeItemKey(group,item[0]))).map(({group,side,item})=>({group,side,id:item[0],label:item[1],en:item[2],mode:item[3]||'all'}))}
+function themeNovelTags(){return applyExcludedTokens(selectedThemeRecords().map(x=>x.en))}
+function themePixTags(){return applyExcludedTokens(selectedThemeRecords().map(x=>x.en))}
+function themeNijiPhrase(){return nijiHumanizeList(selectedThemeRecords().map(x=>x.en))}
+function updateThemeSelectedSummary(){const el=$('themeSelectedSummary');if(!el)return;const selected=selectedThemeRecords();const preview=selected.slice(0,5).map(x=>x.label).join(' · ');el.innerHTML=`<b>${selected.length}개 선택</b>${preview?` · ${preview}${selected.length>5?' 외 '+(selected.length-5)+'개':''}`:' · 필요한 테마만 골라 조합하세요.'}`}
+function syncThemeModeAvailability(){const nsfw=isNsfwGenre();document.querySelectorAll('[data-theme-mode="nsfw"]').forEach(el=>{el.disabled=!nsfw;if(!nsfw&&el.checked)el.checked=false});updateThemeSelectedSummary()}
+function themeChipHTML(group,item){const [id,label,en,mode='all']=item;const key=themeItemKey(group,id);return `<label class="theme-chip ${mode==='nsfw'?'nsfw-only':''}" title="${en.replace(/"/g,'&quot;')}"><input type="checkbox" data-theme-key="${key}" data-theme-mode="${mode}"><span>${label}</span></label>`}
+function renderThemeTropeUI(){const host=$('themeTropeGroups');if(!host)return;host.innerHTML='';Object.entries(THEME_TROPE_GROUPS).forEach(([group,g])=>{const details=document.createElement('details');details.className='theme-group';details.dataset.themeGroup=group;if(g.open)details.open=true;const summary=document.createElement('summary');summary.innerHTML=`<span>${g.label}<span class="theme-group-meta" data-theme-count="${group}"></span></span>`;details.appendChild(summary);if(g.bl){const wrap=document.createElement('div');wrap.className='theme-bl-wrap';const seme=document.createElement('div');seme.className='theme-bl-box';seme.innerHTML=`<div class="theme-bl-title">공</div><div class="theme-chip-wrap">${(g.seme||[]).map(x=>themeChipHTML(group,x)).join('')}</div>`;const uke=document.createElement('div');uke.className='theme-bl-box';uke.innerHTML=`<div class="theme-bl-title">수</div><div class="theme-chip-wrap">${(g.uke||[]).map(x=>themeChipHTML(group,x)).join('')}</div>`;wrap.append(seme,uke);details.appendChild(wrap);}else{const body=document.createElement('div');body.className='theme-chip-wrap';body.innerHTML=(g.items||[]).map(x=>themeChipHTML(group,x)).join('');details.appendChild(body);}host.appendChild(details);});
+  host.querySelectorAll('[data-theme-key]').forEach(el=>el.addEventListener('change',()=>{updateThemeGroupCounts();updateThemeSelectedSummary();buildPrompt();buildSummary();saveSettings();}));
+  syncThemeModeAvailability();updateThemeGroupCounts();updateThemeSelectedSummary();
+}
+function updateThemeGroupCounts(){Object.keys(THEME_TROPE_GROUPS).forEach(group=>{const count=[...document.querySelectorAll(`[data-theme-key^="${group}:"]:checked`)].length;const el=document.querySelector(`[data-theme-count="${group}"]`);if(el)el.textContent=count?`· ${count}개 선택`:''})}
+function applyThemeSelections(keys=[]){const set=new Set(Array.isArray(keys)?keys:[]);document.querySelectorAll('[data-theme-key]').forEach(el=>{el.checked=set.has(el.dataset.themeKey)});syncThemeModeAvailability();updateThemeGroupCounts();updateThemeSelectedSummary()}
+function clearThemeSelections(){document.querySelectorAll('[data-theme-key]:checked').forEach(el=>el.checked=false);updateThemeGroupCounts();updateThemeSelectedSummary();buildPrompt();buildSummary();saveSettings();show('🧩 THEME / TROPE 선택을 초기화했습니다.')}
+
 function pixTagLine(label,items){
   const list=cleanPieces(applyExcludedTokens(items||[]));
   return list.length?`${label}: ${list.join(', ')}`:'';
@@ -3437,9 +3505,10 @@ function buildPixPrompt(){
   const subjectLine=pixTagLine('subject / composition',[$('gender')?.value||'', ...multiDistinctPromptTags(), state.selected.composition?.en||'', state.selected.pose?.en||'', state.selected.gaze?.en||'']);
   const sceneLine=pixTagLine('scene / atmosphere',[state.selected.background?.en||'', state.selected.weather?.en||'', state.selected.season?.en||'', state.selected.lighting?.en||'', state.selected.mood?.en||'']);
   const stylingLine=pixTagLine('outfit / action / props',[state.selected.outfit?.en||'', state.selected.action?.en||'', state.selected.expression?.en||'', state.selected.prop?.en||'', customTagsForPrompt()]);
+  const themeLine=pixTagLine('theme / trope',themePixTags());
   const controlLine=pixTagLine('control / direction',[...povPromptTags(), ...presetPromptTags(), ...relationNsfwPromptTags(), ...roleLayoutTags()]);
   const nsfwLine=isNsfwGenre()?pixTagLine('nsfw / emphasis',['nsfw','explicit','uncensored', ...specialPromptTags(), ...multiAxisPromptTags()]):'';
-  const paragraphs=[qualityLine,subjectLine,sceneLine,stylingLine,controlLine,nsfwLine].filter(Boolean);
+  const paragraphs=[qualityLine,themeLine,subjectLine,sceneLine,stylingLine,controlLine,nsfwLine].filter(Boolean);
   if(hasSpecifiedCharacter())paragraphs.push(...characterSpecificParagraphs());
   const user=activeUserCharacterText();
   if(user)paragraphs.push(`{{user}}:
@@ -3494,6 +3563,8 @@ function buildNijiPrompt(){
 
   const styleBits=nijiHumanizeList([nijiAiStyleSentence(), nijiArtStyleSentence()].filter(Boolean),'and');
   if(styleBits) sentences.push(`Use ${styleBits}.`);
+  const themePhrase=themeNijiPhrase();
+  if(themePhrase) sentences.push(`The overall concept combines ${themePhrase}.`);
   if(relationPhrase) sentences.push(`The emotional dynamic should feel like ${relationPhrase}.`);
   if(sceneDirection) sentences.push(`Stage the scene with ${sceneDirection}.`);
   if(mainVisual) sentences.push(`The main focus is ${mainVisual}.`);
@@ -3575,7 +3646,7 @@ function stripAutoNegativeTags(value){
 function buildPrompt(){
   const nsfwBase=isNsfwGenre()?['nsfw','explicit','uncensored']:[];
   const userTags=activeUserCharacterText();
-  let a=applyExcludedTokens([$('quality').value,$('gender').value,$('style').value,artStyleTag(),...aiPresetPromptTags('novel'),...detailBoosterTags('novel'),...nsfwBase,...specialPromptTags(),...multiAxisPromptTags(),...povPromptTags(),...presetPromptTags(),...relationNsfwPromptTags(),...roleLayoutTags(),customTagsForPrompt(),...multiDistinctPromptTags()]);
+  let a=applyExcludedTokens([$('quality').value,$('gender').value,$('style').value,artStyleTag(),...aiPresetPromptTags('novel'),...detailBoosterTags('novel'),...themeNovelTags(),...nsfwBase,...specialPromptTags(),...multiAxisPromptTags(),...povPromptTags(),...presetPromptTags(),...relationNsfwPromptTags(),...roleLayoutTags(),customTagsForPrompt(),...multiDistinctPromptTags()]);
   promptSlotKeys().forEach(k=>{
     if(!state.active[k]||!state.selected[k]?.en) return;
     if(k==='outfit'){
@@ -3607,10 +3678,11 @@ function buildSummary(){
   const userModeLine=`${$('userGenderMode')?.selectedOptions?.[0]?.textContent||'랜덤'} / ${$('userBodyMode')?.selectedOptions?.[0]?.textContent||'랜덤'}`;
   const userLine=userCharacterEnabled()?($('userCharacterTags')?.value?.trim()||'ON · 아직 생성 안 됨'):'OFF · 프롬프트 미사용';
   const specialLine=quickEffectsEnabled()?(specialPromptTags().length?specialPromptTags().join(', '):'미사용'):'OFF · 폴더 닫힘';
+  const themeLine=selectedThemeRecords().length?selectedThemeRecords().map(x=>x.label).join(' · '):'미사용';
   const outfitLine=outfitStatusLabel();
   const directorLine=directorActive()?`노출: ${axisSelectedText('axisExposure')} / 밀착: ${axisSelectedText('axisContact')} / 몸의 흔적: ${axisSelectedText('axisMarks')} / 움직임: ${axisSelectedText('axisMotion')} / 표정: ${axisSelectedText('axisExpression')} / 의상: ${axisSelectedText('axisWardrobe')}`:isNsfwGenre()?'OFF':'SFW 잠금';
   const roleLine=characterCount()>=2?roleLayoutValue():'1인 미사용';
-  const head=['CHARACTER',$('gender').value?($('gender').selectedOptions[0]?.textContent||'미지정'):'캐릭터 미지정','','INTENSITY',intensityLine,'','NSFW DIRECTOR',directorLine,'','POV MODE',isPovMode()?`사용 · ${povStrength()==='strong'?'강하게':'약하게'} · ${povDirectorLabel()}`:'사용 안 함','','RELATION',relationLine,'','ROLE LAYOUT',roleLine,'','SCENE PRESET',sceneLine,'','SMART CONFLICT',conflictLine,'','NSFW BASE',nsfwLine,'','SPECIAL TAGS',specialLine,'','OUTFIT STATUS',outfitLine,'','{{user}} MODE',userModeLine,'','{{user}} TAGS',userLine].join('\n');
+  const head=['CHARACTER',$('gender').value?($('gender').selectedOptions[0]?.textContent||'미지정'):'캐릭터 미지정','','INTENSITY',intensityLine,'','NSFW DIRECTOR',directorLine,'','POV MODE',isPovMode()?`사용 · ${povStrength()==='strong'?'강하게':'약하게'} · ${povDirectorLabel()}`:'사용 안 함','','RELATION',relationLine,'','ROLE LAYOUT',roleLine,'','SCENE PRESET',sceneLine,'','SMART CONFLICT',conflictLine,'','NSFW BASE',nsfwLine,'','THEME / TROPE',themeLine,'','SPECIAL TAGS',specialLine,'','OUTFIT STATUS',outfitLine,'','{{user}} MODE',userModeLine,'','{{user}} TAGS',userLine].join('\n');
   summary.textContent=head+'\n\n'+Object.entries(SLOTS).map(([k,t])=>`${state.active[k]?'●':'○'} ${t}\n${state.selected[k]?.ko||'-'}${state.locked[k]?'  🔒':''}`).join('\n\n')
 }
 function buildStats(){
@@ -3654,6 +3726,7 @@ function saveSettings(){
     userBodyMode:$('userBodyMode')?.value||'random',
     userCharacter:$('userCharacterTags')?.value||'',
     specialTags:specialPromptTags(),
+    themeSelections:selectedThemeKeys(),
     custom:$('customTags').value,
     excludeTags:$('excludeTags')?.value||'',
     randomCategory:$('randomCategory').checked,
@@ -3682,6 +3755,7 @@ function loadSettings(){
   if(s.userGenderMode!==undefined&&$('userGenderMode'))$('userGenderMode').value=s.userGenderMode;
   if(s.userBodyMode!==undefined&&$('userBodyMode'))$('userBodyMode').value=s.userBodyMode;
   if(Array.isArray(s.specialTags))document.querySelectorAll('[data-special-tag]').forEach(el=>{el.checked=s.specialTags.includes(el.getAttribute('data-special-tag'))});
+  if(Array.isArray(s.themeSelections))applyThemeSelections(s.themeSelections);
   if(s.userCharacter!==undefined&&$('userCharacterTags'))$('userCharacterTags').value=s.userCharacter;
   setUserCharacterEnabled(s.userCharacterEnabled===true,{silent:true});
   if(s.custom!==undefined)$('customTags').value=s.custom;
@@ -3698,7 +3772,7 @@ function loadSettings(){
   updateDirectorState();updateCharacterSpecificUI();updatePromptDiagnostics();
 }
 cards.addEventListener('click',e=>{const a=e.target.closest('[data-lock],[data-reroll],[data-toggle]');if(!a)return;if(a.dataset.lock)toggleLock(a.dataset.lock);if(a.dataset.toggle)toggleActive(a.dataset.toggle);if(a.dataset.reroll){rollSlot(a.dataset.reroll,true);render();addHistory()}});
-$('rollAll').onclick=()=>{rollAll(true);trackAnalytics('roll')};genre.onchange=()=>{loadCategories(false);populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();updateIntensityMode();updateQuickRecommendations();updateDirectorState();render();buildPrompt();buildSummary();saveSettings()};$('middleCategory')?.addEventListener('change',()=>{loadSmallCategories(false);updateIntensityMode();updateQuickRecommendations();rollAll(false);buildPrompt();buildSummary();saveSettings()});category.onchange=()=>{updateIntensityMode();updateQuickRecommendations();rollAll(false);buildPrompt();buildSummary();saveSettings()};$('nsfwMode').addEventListener('change',()=>{syncContentModeUI();updateIntensityMode();loadCategories(false);populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();updateQuickRecommendations();updateDirectorState();render();buildPrompt();buildSummary();saveSettings();show(`🔞 콘텐츠 모드 ${isNsfwGenre()?'NSFW':'SFW'}`);});
+$('rollAll').onclick=()=>{rollAll(true);trackAnalytics('roll')};genre.onchange=()=>{loadCategories(false);populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();updateIntensityMode();updateQuickRecommendations();updateDirectorState();render();buildPrompt();buildSummary();saveSettings()};$('middleCategory')?.addEventListener('change',()=>{loadSmallCategories(false);updateIntensityMode();updateQuickRecommendations();rollAll(false);buildPrompt();buildSummary();saveSettings()});category.onchange=()=>{updateIntensityMode();updateQuickRecommendations();rollAll(false);buildPrompt();buildSummary();saveSettings()};$('nsfwMode').addEventListener('change',()=>{syncContentModeUI();syncThemeModeAvailability();updateIntensityMode();loadCategories(false);populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();updateQuickRecommendations();updateDirectorState();render();buildPrompt();buildSummary();saveSettings();show(`🔞 콘텐츠 모드 ${isNsfwGenre()?'NSFW':'SFW'}`);});
 $('lockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=true);render()};$('unlockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=false);render()};$('enableAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.active[k]=true);render()};
 ['quality','style','aiStylePreset','artStyle','customTags','randomCategory','avoidSame','smartConflict','intensity','userGenderMode','userBodyMode'].forEach(id=>{
   const el=$(id);
@@ -3787,6 +3861,7 @@ $('roleLayout')?.addEventListener('change',()=>{updateCharacterSpecificUI();buil
 ['charATags','charBTags','charCTags'].forEach(id=>$(id)?.addEventListener('input',()=>{buildPrompt();buildSummary();saveSettings()}));
 function resetCharacterSlots(){['charARole','charBRole','charCRole'].forEach(id=>{if($(id))$(id).value=''});['charATags','charBTags','charCTags'].forEach(id=>{if($(id))$(id).value=''});buildPrompt();buildSummary();saveSettings();show('🧹 CHARACTER A/B/C 전용 설정을 초기화했습니다.')}
 $('resetCharacterSlots')?.addEventListener('click',()=>resetCharacterSlots());
+$('clearThemeTrope')?.addEventListener('click',clearThemeSelections);
 $('excludeTags')?.addEventListener('input',()=>{Object.keys(SLOTS).forEach(k=>{if(!state.locked[k])state.selected[k]=choose(k)});enforceSmartConflicts();render();saveSettings();show('🚫 제외 태그 / 싫어요 조건을 적용했습니다.');});
 
 function initializeCharacterAppearancePanel(){
@@ -3932,6 +4007,7 @@ function initializeAssetGacha(){
   safeInitStep('random slot cards',()=>createCards());
   safeInitStep('character appearance panel',()=>initializeCharacterAppearancePanel());
   safeInitStep('scene presets',()=>populateScenePresetOptions(false));
+  safeInitStep('theme trope',()=>renderThemeTropeUI());
   safeInitStep('settings',()=>loadSettings());
   safeInitStep('content mode ui',()=>initializeContentModeUI());
   safeInitStep('character presets',()=>{renderCharacterPresetOptions();renderPresetSlotList()});
