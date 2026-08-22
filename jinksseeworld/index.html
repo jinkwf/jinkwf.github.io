@@ -622,7 +622,7 @@ function __bootAssetGachaAfterAuth(){
   if(window.__assetGachaBooted)return;
   window.__assetGachaBooted=true;
 
-const APP_VERSION='2.4-RANDOM-QUALITY';
+const APP_VERSION='2.4-RANDOM-QUALITY-CATEGORY-FIX';
 const E=(ko,en)=>({ko,en});
 /* ===== INTENSITY (수위) ===== */
 function intensityValue(){const el=$('intensity');return el?el.value:'dense'}
@@ -3105,6 +3105,12 @@ function loadCategories(keep=false){
   loadSmallCategories(keep,oldCategory);
   rollAll(false);
 }
+function recoverCategorySelectors(){
+  const middle=$('middleCategory'), small=$('category');
+  if(!middle||!small)return;
+  if(middle.options.length===0)loadMiddleCategories(false);
+  if(small.options.length===0)loadSmallCategories(false);
+}
 
 const RELATION_PRESETS={
   none:{label:'미사용',minPeople:1},
@@ -3915,7 +3921,7 @@ function loadSettings(){
   updateDirectorState();updateCharacterSpecificUI();updatePurposeHint();updateRandomStrengthHint();refreshSetLockUI();updatePromptDiagnostics();
 }
 cards.addEventListener('click',e=>{const a=e.target.closest('[data-lock],[data-reroll],[data-toggle]');if(!a)return;if(a.dataset.lock)toggleLock(a.dataset.lock);if(a.dataset.toggle)toggleActive(a.dataset.toggle);if(a.dataset.reroll){rollSlot(a.dataset.reroll,true);render();addHistory()}});
-$('rollAll').onclick=()=>{rollAll(true);trackAnalytics('roll')};genre.onchange=()=>{loadCategories(false);populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();updateIntensityMode();updateQuickRecommendations();updateDirectorState();render();buildPrompt();buildSummary();saveSettings()};$('middleCategory')?.addEventListener('change',()=>{loadSmallCategories(false);updateIntensityMode();updateQuickRecommendations();rollAll(false);buildPrompt();buildSummary();saveSettings()});category.onchange=()=>{updateIntensityMode();updateQuickRecommendations();rollAll(false);buildPrompt();buildSummary();saveSettings()};$('nsfwMode').addEventListener('change',()=>{syncContentModeUI();syncThemeModeAvailability();updateIntensityMode();loadCategories(false);populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();updateQuickRecommendations();updateDirectorState();render();buildPrompt();buildSummary();saveSettings();show(`🔞 콘텐츠 모드 ${isNsfwGenre()?'NSFW':'SFW'}`);});
+$('rollAll').onclick=()=>{rollAll(true);trackAnalytics('roll')};genre.onchange=()=>{loadCategories(false);recoverCategorySelectors();populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();updateIntensityMode();updateQuickRecommendations();updateDirectorState();render();buildPrompt();buildSummary();saveSettings()};$('middleCategory')?.addEventListener('change',()=>{loadSmallCategories(false);updateIntensityMode();updateQuickRecommendations();rollAll(false);buildPrompt();buildSummary();saveSettings()});category.onchange=()=>{updateIntensityMode();updateQuickRecommendations();rollAll(false);buildPrompt();buildSummary();saveSettings()};$('nsfwMode').addEventListener('change',()=>{syncContentModeUI();syncThemeModeAvailability();updateIntensityMode();loadCategories(false);recoverCategorySelectors();populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();updateQuickRecommendations();updateDirectorState();render();buildPrompt();buildSummary();saveSettings();show(`🔞 콘텐츠 모드 ${isNsfwGenre()?'NSFW':'SFW'}`);});
 $('lockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=true);render()};$('unlockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=false);render()};$('enableAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.active[k]=true);render()};
 ['quality','style','aiStylePreset','artStyle','customTags','randomCategory','avoidSame','smartConflict','intensity','userGenderMode','userBodyMode'].forEach(id=>{
   const el=$(id);
@@ -4192,8 +4198,9 @@ function initializeAssetGacha(){
   safeInitStep('random strength hint',()=>updateRandomStrengthHint());
   safeInitStep('conflict hint',()=>updateSmartConflictHint());
   safeInitStep('set lock ui',()=>refreshSetLockUI());
-  safeInitStep('genre categories',()=>loadCategories(false));
+  safeInitStep('genre categories',()=>{loadCategories(false);recoverCategorySelectors()});
   safeInitStep('saved items',()=>renderSaved());
+  setTimeout(()=>safeInitStep('category recovery',()=>recoverCategorySelectors()),0);
 
 }
 initializeAssetGacha();
