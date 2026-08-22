@@ -3303,6 +3303,302 @@ function conflictsWithNsfwGenre(type,item){
   }
   return false;
 }
+
+const CATEGORY_AFFINITY_PROFILES={
+  bath:{
+    background:[/bath|shower|bathroom|locker room|powder room|changing area|pool|poolside|hot spring|spa|욕실|샤워|목욕|탈의실|수영장|온천|세면/],
+    outfit:[/bath towel|bathrobe|robe|swimsuit|bikini|rash guard|wet shirt|shirtless|topless|nude|underwear|towel|가운|수건|수영복|래시가드|젖은|상의탈의|하의탈의|누드|전라/],
+    action:[/drying hair|wiping off water|stepping out of bath|adjusting towel|shaking wet hair|washing|shower|looking in mirror|물기|젖은 머리|거울|샤워|수건/],
+    expression:[/relaxed|soft smile|flushed|shy|embarrassed|sleepy|나른|상기|부끄|편안|은은한 미소/],
+    prop:[/towel|mirror|shampoo|soap|toiletries|water droplets|steam|욕실 거울|수건|비누|샴푸|물방울/]
+  },
+  office:{
+    background:[/office|meeting room|conference room|executive office|board room|copy room|break room|elevator|law office|courthouse|police station|studio office|desk|cubicle|사무실|회의실|임원실|복사실|탕비실|엘리베이터|로펌|법원|경찰서|책상/],
+    outfit:[/suit|formal suit|business suit|shirt|dress shirt|blouse|slacks|office skirt|tie|jacket|cardigan|business casual|정장|셔츠|블라우스|슬랙스|넥타이|재킷|가디건|오피스/],
+    action:[/checking documents|reviewing contract|holding coffee|adjusting tie|typing|signing|reading file|briefing|서류|계약서|타이|노트북|브리핑|결재|사인|커피/],
+    expression:[/calm|serious|cool|focused|composed|slight smile|무표정|냉정|집중|침착|담담/],
+    prop:[/documents|briefcase|laptop|file|pen|coffee cup|office id|clipboard|서류|브리프케이스|노트북|파일|펜|커피|사원증/]
+  },
+  school:{
+    background:[/school|classroom|campus|academy|library|lecture hall|dormitory|gymnasium|교실|학교|캠퍼스|아카데미|도서관|강의실|기숙사/],
+    outfit:[/school uniform|academy uniform|blazer|shirt and tie|hoodie|student|campus casual|교복|학생|셔츠와 넥타이|블레이저|과잠|후드/],
+    action:[/reading textbook|writing notes|looking at blackboard|walking between shelves|holding notebook|공부|필기|교과서|노트|게시판/],
+    expression:[/bright smile|awkward smile|curious|focused|shy|playful|웃음|수줍|호기심|집중/],
+    prop:[/book|notebook|pen|backpack|tablet|student id|책|노트|펜|백팩|교재/]
+  },
+  medical:{
+    background:[/hospital|clinic|ward|medical|recovery room|analysis room|decontamination|quarantine|infirmary|sickroom|observation|병원|병실|의무실|회복실|격리실|검사실|관찰실|분석실|세척실/],
+    outfit:[/lab coat|medical gown|scrubs|protective suit|nurse|doctor|center uniform|examination wear|의료복|가운|방호복|간호|의사|센터 제복|검사복/],
+    action:[/checking chart|taking pulse|monitoring|sanitizing|guiding|decontamination|examining|검사|치료|기록|모니터링|소독|가이딩/],
+    expression:[/concerned|tired|relieved|focused|gentle|worried|걱정|안도|피곤|집중|부드러운 표정/],
+    prop:[/medical chart|iv stand|monitor|sensor|clipboard|medicine|stethoscope|주사|차트|모니터|센서|의약품|청진기/]
+  },
+  privateRoom:{
+    background:[/bedroom|hotel room|suite|private room|dormitory|cabin|safehouse|bedchamber|객실|침실|숙소|개인실|기숙사|선실|별당|침방/],
+    outfit:[/pajama|robe|homewear|loungewear|slip dress|shirt|silk|lingerie|잠옷|가운|홈웨어|실내복|원피스|셔츠/],
+    action:[/locking door|sitting close on bed edge|leaning on headboard|looking out hotel window|curtain|bed edge|door lock|침대 가장자리|커튼|문을 잠그/],
+    expression:[/sleepy|soft smile|relaxed|flushed|tender|shy|나른|편안|상기|다정|수줍/],
+    prop:[/bed|pillow|blanket|lamp|wine glass|room key|bedside|베개|담요|스탠드|와인잔|열쇠/]
+  },
+  outdoor:{
+    background:[/park|street|rooftop|alley|balcony|bridge|garden|bus stop|outdoor|beach|square|terrace|공원|거리|옥상|골목|발코니|정원|정류장|야외|광장|해변/],
+    outfit:[/jacket|hoodie|coat|windbreaker|casual|streetwear|denim|jeans|재킷|후드|코트|바람막이|캐주얼|청바지/],
+    action:[/walking|leaning on railing|looking at city view|standing under|holding shopping bag|산책|난간|걸어|도시 야경|바라본다/],
+    expression:[/thoughtful|playful|soft smile|relaxed|windblown|사색|장난기|미소|편안/],
+    prop:[/umbrella|shopping bag|bench|takeaway coffee|bouquet|phone|우산|쇼핑백|벤치|테이크아웃 커피|꽃다발/]
+  },
+  travel:{
+    background:[/airport|train|station|bus|car|taxi|carriage|airship|ship|harbor|terminal|platform|공항|기차|역|버스|자동차|택시|마차|비공정|항구|플랫폼/],
+    outfit:[/travel|coat|backpack|suitcase|traveler cloak|hoodie|여행용|코트|백팩|캐리어|여행 망토/],
+    action:[/checking ticket|holding suitcase|looking out window|fastening seat belt|boarding pass|차창 밖|탑승권|승차권|캐리어/],
+    expression:[/anticipation|tired smile|longing|focused|기대|피곤한 미소|그리움|집중/],
+    prop:[/boarding pass|ticket|suitcase|passport|steering wheel|seat belt|map|탑승권|승차권|캐리어|여권|운전대|안전벨트|지도/]
+  },
+  lifestyle:{
+    background:[/bookstore|bakery|flower shop|mall|gallery|aquarium|amusement|cinema|cafe|restaurant|bar|laundromat|theater|서점|베이커리|꽃집|쇼핑몰|갤러리|아쿠아리움|놀이공원|영화관|카페|레스토랑|바|세탁방|공연장/],
+    outfit:[/apron|knit|shirt|date outfit|casual|dress|cardigan|앞치마|니트|셔츠|데이트|캐주얼|원피스|가디건/],
+    action:[/choosing|holding tray|wrapping bouquet|reading exhibit|shopping|holding popcorn|팝콘|쇼핑|꽃다발|트레이|고른다|전시 안내문/],
+    expression:[/warm smile|bright smile|curious|content|pleased|다정한 미소|환한 미소|호기심|만족/],
+    prop:[/book|bread|flower|shopping bag|popcorn|ticket|tray|coffee|laundry basket|책|빵|꽃|쇼핑백|팝콘|티켓|트레이|커피/]
+  },
+  stage:{
+    background:[/studio|backstage|concert hall|broadcast|theater|photo studio|stage|촬영장|백스테이지|콘서트홀|방송국|극장|무대/],
+    outfit:[/stage outfit|robe over stage costume|staff black|editorial outfit|broadcast outfit|공연 의상|스태프 블랙룩|화보용 의상|방송 의상/],
+    action:[/posing|checking microphone|waiting for cue|checking script|camera cue|포즈|마이크|큐를 기다린다|대본/],
+    expression:[/confident|dramatic|smiling for camera|focused|당당|연출된 표정|카메라 미소|집중/],
+    prop:[/camera|microphone|script|light stand|mirror|카메라|마이크|대본|조명/]
+  },
+  sports:{
+    background:[/gym|pool|stadium|arena|training ground|shooting range|헬스장|수영장|경기장|투기장|훈련장|사격장/],
+    outfit:[/athletic|tracksuit|sportswear|training uniform|swimsuit|rash guard|운동복|트레이닝복|스포츠웨어|훈련복|수영복|래시가드/],
+    action:[/stretching|holding water bottle|training stance|warming up|aiming|운동|스트레칭|훈련 자세|조준/],
+    expression:[/determined|competitive|sweaty smile|focused|결의|승부욕|운동 후 미소|집중/],
+    prop:[/water bottle|towel|training gear|weights|ball|물병|수건|훈련 장비|웨이트/]
+  },
+  royal:{
+    background:[/throne|palace|royal|noble|manor|ballroom|court|왕좌|왕궁|귀족|저택|무도회|궁정/],
+    outfit:[/royal|noble|formal|gown|crown|cape|ceremonial|왕실|귀족|예복|왕관|망토|드레스/],
+    action:[/offering a dance|reading royal documents|holding teacup|standing before fireplace|발코니 아래|왕실 문서|찻잔|춤을 청한/],
+    expression:[/composed smile|regal|elegant|aloof|gentle smile|우아|고고|여유로운 미소|기품/],
+    prop:[/crown|scepter|teacup|mask|cane|royal documents|왕관|홀|찻잔|가면|지팡이|문서/]
+  },
+  battle:{
+    background:[/battlefield|training ground|armory|camp|arena|frontier|guild|dungeon entrance|전장|훈련장|무기고|야영지|투기장|길드|던전 입구/],
+    outfit:[/armor|combat|cloak|weapon|boots|전투복|갑옷|망토|무기|경갑/],
+    action:[/drawing sword|checking weapons|taking stance|watching battlefield|sharpening sword|검|무기 점검|전투 자세|전장을 내려다/],
+    expression:[/grim|serious|fierce|focused|stoic|비장|진지|사나운|무표정/],
+    prop:[/sword|shield|bow|helmet|map|coin pouch|검|방패|활|투구|지도|동전 주머니/]
+  },
+  sacred:{
+    background:[/cathedral|church|chapel|monastery|shrine|temple|altar|성당|교회|예배당|수도원|신전|제단/],
+    outfit:[/clerical|vestments|robe|holy|priest|성직자|예복|수도복|로브/],
+    action:[/praying|reading holy book|holding cross|touching holy water|기도|성서를 읽|십자가|성수/],
+    expression:[/serene|gentle|solemn|prayerful|calm|평온|경건|차분|온화/],
+    prop:[/cross|holy water|candles|altar|scripture|십자가|성수|촛불|제단|성서/]
+  },
+  research:{
+    background:[/laboratory|lab|research|mage tower|alchemy|archive|magic laboratory|연구소|실험실|기록실|마탑|연금술/],
+    outfit:[/research coat|robe|apron|gloves|work clothes|연구복|로브|앞치마|장갑|작업복/],
+    action:[/analyzing|reading spellbook|stirring cauldron|checking data|casting magic|분석|실험|마법서|가마솥/],
+    expression:[/absorbed|curious|intense|focused|academic|몰입|호기심|집중|진중/],
+    prop:[/spellbook|crystal|flask|cauldron|runes|sensor|data panel|마법서|수정구|플라스크|가마솥|룬|데이터 패널/]
+  },
+  survival:{
+    background:[/shelter|safehouse|ruined|camp|convoy|quarantine|bunker|survivor|대피소|안전가옥|폐허|캠프|호송대|격리구역|벙커/],
+    outfit:[/survival|tactical|protective suit|hood|jacket|생존복|전술|방호복|후드|재킷/],
+    action:[/organizing supplies|scanning road|moving cautiously|sharing water|checking vehicle|보급품|경계|대피|차량 점검|물 나눈다/],
+    expression:[/wary|tired|determined|guarded|relieved|경계|피곤|결의|안도/],
+    prop:[/radio|flashlight|supply crate|mask|map|무전기|손전등|보급 상자|마스크|지도/]
+  },
+  restraint:{
+    background:[/bdsm|dungeon|playroom|restraint|cell|cage|레드룸|던전|플레이룸|구속|감금|케이지/],
+    outfit:[/harness|collar|latex|leather|lingerie|strap|하네스|칼라|라텍스|가죽|란제리/],
+    action:[/testing restraint|locking collar|pulling leash|kneeling|칼라|리드줄|구속|훈육|복종/],
+    expression:[/submissive|dominant|teasing|tense|blushing|복종|지배적|도발적|긴장|상기/],
+    prop:[/chains|cuffs|leash|spreader bar|gag|wax|restraint gear|사슬|수갑|리드줄|스프레더 바|개그볼|왁스/]
+  },
+  inhuman:{
+    background:[/dragon|tentacle|slime|eldritch|monster|lair|cave|촉수|드래곤|슬라임|이형|괴물|둥지|동굴/],
+    outfit:[/scale|monster|demonic|feral|dragon|비늘|마물|수인|오브젝트헤드/],
+    action:[/spreading wings|coiling tentacles|oozing|looming|날개를 펼|촉수가|슬라임|다가선다/],
+    expression:[/predatory|mysterious|wild|dangerous|otherworldly|포식자 같은|야성적|위험한|기묘한/],
+    prop:[/treasure|chains|runes|organic|금화|보물|촉수|마력 결정/]
+  },
+  ritualDark:{
+    background:[/ritual|altar|black candles|magic circle|sanctum|제단|의식|촛불|마법진|성소/],
+    outfit:[/ritual robe|ceremonial|black ceremonial|red ritual|cloak|의식복|예복|로브|망토/],
+    action:[/marking ritual sigils|holding hands at center|extinguishing black candle|kneeling inside magic circle|의식 문양|제단|마법진 중앙|촛불/],
+    expression:[/trance|devoted|reverent|dazed|intense|몽롱|경건|몰입|집착/],
+    prop:[/black candles|ceremonial dagger|black chalice|magic circle|red ribbon|검은 촛불|의식용 단검|성배|리본/]
+  },
+  throneDark:{
+    background:[/throne room|black throne|demon king castle|lava|왕좌|마왕성|용암|왕좌실/],
+    outfit:[/royal attire|black royal|cape|gloves|crown|왕실 예복|망토|장갑|왕관/],
+    action:[/seated on throne|lifting partner's chin|placing crown|pulling partner close to knees|왕좌에 앉|턱을 들어|왕관/],
+    expression:[/possessive|confident|dangerous smile|softened only for partner|소유욕|여유로운 미소|위압적/],
+    prop:[/black crown|scepter|gemstone ring|leather gloves|검은 왕관|지팡이|보석 반지|가죽 장갑/]
+  }
+};
+const CATEGORY_KEY_AFFINITY={
+  // SFW · 현대
+  cafe:'lifestyle',restaurant:'lifestyle',convenience:'lifestyle',mart:'lifestyle',street:'outdoor',alley:'outdoor',park:'outdoor',beach:'outdoor',mall:'lifestyle',bookstore:'lifestyle',bakery:'lifestyle',flowerShop:'lifestyle',laundromat:'lifestyle',gallery:'lifestyle',aquarium:'lifestyle',amusement:'lifestyle',rooftop:'outdoor',
+  school:'school',campus:'school',library:'school',cinema:'lifestyle',theater:'stage',
+  office:'office',meeting:'office',executive:'office',pantry:'office',elevator:'office',broadcast:'stage',police:'office',courthouse:'office',lawfirm:'office',
+  bedroom:'privateRoom',living:'privateRoom',kitchen:'privateRoom',restroom:'bath',shower:'bath',hotel:'privateRoom',hospital:'medical',emergency:'medical',funeralHall:'sacred',
+  subway:'travel',bus:'travel',car:'travel',airport:'travel',station:'travel',gym:'sports',pool:'bath',bar:'lifestyle',club:'stage',studio:'stage',backstage:'stage',stadium:'sports',concert:'stage',photoStudio:'stage',
+  // SFW · 판타지
+  mage:'research',knight:'battle',priest:'sacred',royal:'royal',noble:'royal',mercenary:'battle',adventurer:'battle',assassin:'battle',alchemist:'research',dragon:'inhuman',elf:'outdoor',demon:'inhuman',
+  academy:'school',tower:'research',palace:'royal',cathedral:'sacred',temple:'sacred',icePalace:'royal',crystalCave:'research',fairyForest:'outdoor',skyCity:'travel',
+  guild:'battle',blacksmith:'battle',forest:'outdoor',dungeon:'battle',tavern:'lifestyle',market:'lifestyle',village:'lifestyle',carriage:'travel',airship:'travel',harbor:'travel',pirateShip:'travel',desert:'outdoor',oasis:'outdoor',battlefield:'battle',prison:'battle',ballroom:'royal',arena:'sports',
+  // SFW · 가이드버스
+  center:'office',consultation:'medical',test:'medical',pairRegistration:'office',analysisLab:'medical',commandCenter:'office',briefingRoom:'office',archive:'research',nationalHQ:'office',
+  guiding:'medical',stabilization:'medical',isolation:'medical',after:'medical',emergencyGuiding:'medical',fieldGuiding:'medical',decontamination:'medical',suppressorStorage:'medical',operations:'office',trainingGround:'sports',simulationRoom:'research',shootingRange:'sports',
+  gate:'battle',inside:'battle',boss:'battle',monster:'inhuman',rescue:'medical',berserk:'battle',dorm:'privateRoom',transport:'travel',cafeteria:'lifestyle',locker:'bath',safehouse:'privateRoom',helipad:'travel',emergencyPassage:'travel',
+  // SFW · 시대물
+  koreaPalace:'royal',koreaScholar:'school',koreaWarrior:'battle',koreaMarket:'lifestyle',koreaGisaeng:'royal',koreaCourt:'royal',koreaTemple:'sacred',koreaYangban:'royal',koreaFerry:'travel',koreaVillage:'lifestyle',koreaBattlefield:'battle',koreaFuneral:'sacred',
+  japanShrine:'sacred',japanSamurai:'battle',japanRyokan:'privateRoom',japanEdo:'lifestyle',japanGeisha:'royal',japanCastle:'royal',japanTeaRoom:'lifestyle',japanDojo:'battle',japanPort:'travel',japanFestival:'lifestyle',
+  chinaPalace:'royal',chinaWuxia:'battle',chinaTaoist:'sacred',chinaInn:'travel',chinaScholar:'school',chinaGeneral:'battle',chinaSect:'battle',chinaClinic:'medical',chinaGarden:'royal',
+  europeManor:'royal',europeBallroom:'royal',europeOpera:'stage',europeMonastery:'sacred',europeCarriage:'travel',europePort:'travel',
+  // SFW · SF / 아포칼립스
+  megacity:'outdoor',neonAlley:'outdoor',cyberCafe:'lifestyle',cyberRooftop:'outdoor',techLab:'research',androidLab:'research',dataCenter:'research',spaceStation:'travel',spaceship:'travel',colony:'travel',
+  shelter:'survival',safehouseAp:'survival',supplyDepot:'survival',survivorCamp:'survival',ruinedCity:'survival',lookout:'survival',ruinedHospital:'medical',convoy:'travel',quarantine:'medical',disasterCenter:'office',
+  // NSFW · 현대
+  office_afterhours:'office',office_elevator:'office',office_storage:'office',office_meeting:'office',office_executive:'office',office_copyroom:'office',office_breakroom:'office',
+  outdoor_park:'outdoor',outdoor_rooftop:'outdoor',outdoor_alley:'outdoor',outdoor_balcony:'outdoor',outdoor_car:'travel',outdoor_stairwell:'outdoor',hotel_suite:'privateRoom',club_vip:'stage',locker_shower:'bath',studio_backstage:'stage',private_cinema:'privateRoom',bdsm_playroom:'restraint',
+  // NSFW · 판타지
+  dark_ritual:'ritualDark',dark_demon:'ritualDark',dark_cathedral:'ritualDark',dark_throne:'throneDark',dark_library:'research',dark_garden:'outdoor',
+  dungeon_restraint:'restraint',dungeon_training:'restraint',dungeon_cell:'restraint',dungeon_throne:'restraint',dungeon_playroom:'restraint',dungeon_cage:'restraint',dungeon_interrogation:'restraint',bdsm_arcane:'restraint',
+  inhuman_tentacle:'inhuman',inhuman_dragon:'inhuman',inhuman_slime:'inhuman',inhuman_eldritch:'inhuman',inhuman_shapeshifter:'inhuman',inhuman_furry:'inhuman',inhuman_objecthead:'inhuman',
+  tavern_room:'privateRoom',fantasy_carriage:'travel',magic_hot_spring:'bath',guild_private:'privateRoom',
+  // NSFW · 가이드버스
+  guide_guiding:'medical',guide_aftermath:'medical',guide_emergency:'medical',guide_isolation:'medical',guide_observation:'medical',guide_recovery:'medical',guide_nightshift:'office',guide_dorm:'privateRoom',guide_safehouse:'privateRoom',guide_decon:'medical',guide_training:'sports',guide_locker:'bath',guide_archive:'research',guide_transport:'travel',
+  // NSFW · 시대물
+  period_restraint:'restraint',period_training:'restraint',period_playroom:'restraint',period_cell:'restraint',period_ritual:'ritualDark',period_cathedral:'sacred',period_throne:'royal',period_palace_secret:'royal',period_cell_bedchamber:'privateRoom',period_training_pavilion:'battle',period_ritual_shrine:'sacred',period_throne_banquet:'royal',period_ryokan:'privateRoom',period_bathhouse:'bath',period_carriage:'travel',period_europe_manor:'royal',
+  // NSFW · SF / 아포칼립스
+  neon_hotel:'privateRoom',cyber_club:'stage',space_cabin:'privateRoom',android_night:'research',bdsm_cyber:'restraint',bunker_private:'privateRoom',safehouse_night:'privateRoom',convoy_rest:'travel',quarantine_room:'medical',bdsm_shelter:'restraint'
+}
+function activeCategoryMetaText(){
+  const catLabel=category?.selectedOptions?.[0]?.textContent||'';
+  return [genre?.value||'', middleCategoryLabel(), catLabel, category?.value||'', state.sceneResolvedKey||''].join(' ').toLowerCase();
+}
+function currentAffinityProfile(){
+  const direct=CATEGORY_KEY_AFFINITY[category?.value||''];
+  if(direct) return direct;
+  const t=activeCategoryMetaText();
+  if(!t||category?.value==='__all') return '';
+  if(/bdsm|dungeon|restraint|playroom|cage|cell|구속|플레이룸|감금/.test(t)) return 'restraint';
+  if(/tentacle|dragon|slime|eldritch|shapeshifter|furry|objecthead|인외|촉수|드래곤|슬라임|오브젝트헤드|수인/.test(t)) return 'inhuman';
+  if(/ritual|altar|black candles|dark cathedral|demon|의식|제단|타락한 성당|악마 계약/.test(t)) return 'ritualDark';
+  if(/throne|마왕성|왕좌/.test(t)) return 'throneDark';
+  if(/bath|shower|bathroom|bathhouse|hot spring|locker|poolside|욕실|샤워|온천|목욕|탈의실/.test(t)) return 'bath';
+  if(/office|meeting|executive|lawfirm|courthouse|police|copyroom|breakroom|elevator|오피스|사무실|회의실|로펌|법원|경찰/.test(t)) return 'office';
+  if(/school|classroom|campus|academy|library|dorm|교실|학교|캠퍼스|아카데미|도서관|기숙사/.test(t)) return 'school';
+  if(/hospital|clinic|ward|medical|infirmary|recovery|analysis|quarantine|decon|guiding|병원|병실|의무실|회복실|격리|분석|가이딩/.test(t)) return 'medical';
+  if(/hotel|suite|private|cabin|bedchamber|dormitory|safehouse|침실|객실|개인실|숙소|침방|별당/.test(t)) return 'privateRoom';
+  if(/airport|train|station|bus|car|taxi|carriage|airship|ship|harbor|port|공항|기차|역|버스|자동차|마차|비공정|항구/.test(t)) return 'travel';
+  if(/bookstore|bakery|flower|mall|gallery|aquarium|amusement|cinema|cafe|restaurant|bar|laundromat|서점|베이커리|꽃집|쇼핑몰|갤러리|아쿠아리움|놀이공원|영화관|카페|레스토랑|바|세탁방/.test(t)) return 'lifestyle';
+  if(/studio|backstage|concert|broadcast|theater|photo studio|촬영장|백스테이지|공연장|방송국|극장/.test(t)) return 'stage';
+  if(/gym|pool|stadium|arena|training|shooting range|헬스장|수영장|경기장|투기장|훈련장|사격장/.test(t)) return 'sports';
+  if(/throne|palace|royal|noble|manor|ballroom|court|왕좌|왕궁|귀족|저택|무도회|궁정/.test(t)) return 'royal';
+  if(/knight|mercenary|adventurer|battle|armory|camp|guild|frontier|기사|용병|모험가|전장|무기고|길드/.test(t)) return 'battle';
+  if(/cathedral|church|chapel|monastery|shrine|temple|altar|성당|교회|수도원|신전|제단/.test(t)) return 'sacred';
+  if(/mage|alchemist|laboratory|research|tower|archive|마법사|연금술|연구|실험실|마탑|기록실/.test(t)) return 'research';
+  if(/shelter|ruined|survivor|bunker|convoy|safehouse|대피소|폐허|생존|벙커|호송/.test(t)) return 'survival';
+  if(/park|street|rooftop|alley|balcony|outdoor|square|beach|garden|공원|거리|옥상|골목|발코니|광장|해변|정원/.test(t)) return 'outdoor';
+  return '';
+}
+function affinityTextOf(item){return `${item?.ko||''} ${item?.en||''}`.toLowerCase()}
+const CATEGORY_HARD_FORBIDDEN={
+  bath:{background:[/office|meeting room|classroom|courtroom|battlefield|throne|사무실|회의실|교실|전장|왕좌/],outfit:[/business suit|formal suit|three-piece|armor|school uniform|clerical|lab coat|정장|갑옷|교복|성직자복|연구복/],action:[/briefing|typing|signing contract|studying|battle stance|driving|서류|브리핑|공부|전투|운전/],prop:[/briefcase|office documents|laptop|sword|shield|school book|서류가방|업무 서류|노트북|검|방패|교재/]},
+  office:{background:[/bathroom|shower|bedroom|beach|battlefield|dungeon|욕실|샤워|침실|해변|전장|던전/],outfit:[/bath towel|bathrobe|pajama|swimsuit|bikini|full armor|ritual robe|수건|목욕가운|잠옷|수영복|갑옷|의식복/],action:[/drying hair|wiping off water|sleeping|praying at altar|drawing sword|샤워|물기|잠든|기도|검을 뽑/],prop:[/shampoo|soap|pillow|blanket|sword|shield|샴푸|비누|베개|담요|검|방패/]},
+  school:{background:[/bathroom|hospital ward|battlefield|throne room|욕실|병실|전장|왕좌실/],outfit:[/bath towel|bathrobe|medical gown|full armor|royal gown|수건|가운|환자복|갑옷|왕실 예복/],action:[/drying hair|medical exam|battle stance|praying at altar|샤워|검사|전투 자세|기도/],prop:[/iv stand|medical chart|sword|crown|주사대|차트|검|왕관/]},
+  medical:{background:[/nightclub|ballroom|beach|throne room|클럽|무도회|해변|왕좌실/],outfit:[/party dress|swimsuit|bikini|full armor|royal gown|파티 드레스|수영복|갑옷|왕실 예복/],action:[/dancing|shopping|battle stance|drinking cocktail|춤|쇼핑|전투 자세|칵테일/],prop:[/cocktail glass|shopping bag|sword|crown|칵테일잔|쇼핑백|검|왕관/]},
+  privateRoom:{background:[/battlefield|classroom|operating room|public street|전장|교실|수술실|대로변/],action:[/military briefing|shopping cart|combat charge|브리핑|쇼핑카트|돌격/],prop:[/shopping cart|large shield|office copier|쇼핑카트|대형 방패|복합기/]},
+  travel:{background:[/bedroom|bathroom|office desk|altar|침실|욕실|사무실 책상|제단/],outfit:[/bath towel|pajama|full ceremonial robe|수건|잠옷|의식 예복/],action:[/lying in bed|taking shower|praying at altar|침대에 누|샤워|제단 기도/],prop:[/pillow|blanket|iv stand|office copier|베개|담요|주사대|복합기/]},
+  lifestyle:{outfit:[/full armor|medical gown|protective suit|ritual robe|갑옷|환자복|방호복|의식복/],action:[/battle stance|medical exam|decontamination|전투 자세|의료 검사|제독/],prop:[/iv stand|sword|shield|rifle|주사대|검|방패|소총/]},
+  stage:{outfit:[/bath towel|hospital gown|full armor|수건|환자복|갑옷/],action:[/medical exam|shopping cart|battle charge|의료 검사|쇼핑카트|돌격/],prop:[/iv stand|shopping cart|camping stove|주사대|쇼핑카트|캠핑 버너/]},
+  sports:{outfit:[/business suit|royal gown|bathrobe|정장|왕실 예복|목욕가운/],action:[/office briefing|formal audience|praying at altar|업무 브리핑|알현|기도/],prop:[/briefcase|crown|scepter|서류가방|왕관|홀/]},
+  royal:{outfit:[/tracksuit|hospital gown|bath towel|트레이닝복|환자복|수건/],action:[/gym workout|medical exam|shopping cart|운동|의료 검사|쇼핑카트/],prop:[/iv stand|dumbbell|shopping cart|주사대|덤벨|쇼핑카트/]},
+  battle:{outfit:[/pajama|bathrobe|office suit|sleepwear|잠옷|목욕가운|오피스 정장/],action:[/making coffee|shopping|taking shower|커피 내리|쇼핑|샤워/],prop:[/coffee machine|shopping bag|pillow|커피머신|쇼핑백|베개/]},
+  sacred:{outfit:[/swimsuit|sportswear|tactical vest|수영복|스포츠웨어|전술조끼/],action:[/gym workout|shopping|driving|운동|쇼핑|운전/],prop:[/dumbbell|shopping bag|steering wheel|덤벨|쇼핑백|운전대/]},
+  research:{outfit:[/party dress|swimsuit|royal gown|파티 드레스|수영복|왕실 예복/],action:[/dancing|shopping cart|sunbathing|춤|쇼핑카트|일광욕/],prop:[/cocktail glass|shopping bag|beach towel|칵테일잔|쇼핑백|비치타월/]},
+  survival:{outfit:[/ball gown|formal party|bathrobe|무도회 드레스|파티 정장|목욕가운/],action:[/ballroom dance|formal tea service|shopping spree|무도회 춤|다과 접대|쇼핑/],prop:[/crown|opera glasses|shopping bag|왕관|오페라글라스|쇼핑백/]},
+  restraint:{background:[/classroom|family cafe|bright amusement|교실|밝은 놀이공원|가족 카페/],outfit:[/school uniform|sports jersey|교복|스포츠 유니폼/],prop:[/shopping cart|school textbook|shopping bag|쇼핑카트|교과서|쇼핑백/]},
+  inhuman:{outfit:[/business suit|school uniform|medical gown|정장|교복|환자복/],action:[/office briefing|taking attendance|medical charting|브리핑|출석 체크|차트 기록/]}
+};
+const STRICT_CATEGORY_TYPES=['background','outfit','action','expression','prop'];
+const SOFT_CATEGORY_TYPES=['pose','gaze','lighting','mood','composition'];
+function currentCategoryOwnPool(type){
+  const lib=activeCategoryLibrary();
+  if(category.value!=='__all'){
+    const cat=lib[category.value];
+    return cat?[...(cat[type]||[]),...categorySupplementPool(category.value,type)]:[];
+  }
+  const keys=activeCategoryKeys();
+  let out=[];
+  keys.forEach(k=>{const cat=lib[k];if(cat)out.push(...(cat[type]||[]),...categorySupplementPool(k,type))});
+  return out;
+}
+function categoryHardAllowed(item,type,profile){
+  if(!item||!profile)return true;
+  const rules=CATEGORY_HARD_FORBIDDEN[profile]?.[type]||[];
+  const t=affinityTextOf(item);
+  return !rules.some(rx=>rx.test(t));
+}
+function profileCompatible(item,type,profile){
+  if(!item)return false;
+  if(!categoryHardAllowed(item,type,profile))return false;
+  const pats=CATEGORY_AFFINITY_PROFILES[profile]?.[type]||[];
+  if(!pats.length)return true;
+  return pats.some(rx=>rx.test(affinityTextOf(item)));
+}
+function compatibleThemeOverlay(type,profile){
+  const src=[...themeContextPool(type),...purposePool(type)];
+  return src.filter(it=>profileCompatible(it,type,profile));
+}
+function applyCategoryAffinity(pool,type){
+  const profile=currentAffinityProfile();
+  const own=uniq(currentCategoryOwnPool(type));
+  if(category.value==='__all'&&middleCategoryValue()==='__all'&&!profile){
+    // 대분류 전체 랜덤: 장르 안에서만 구성하고 COMMON 무작위 유입을 제거.
+    if(STRICT_CATEGORY_TYPES.includes(type)&&own.length)return own;
+    return pool;
+  }
+  if(!profile){
+    if(STRICT_CATEGORY_TYPES.includes(type)&&own.length)return own;
+    return pool;
+  }
+  const hardFiltered=pool.filter(it=>categoryHardAllowed(it,type,profile));
+  const compatible=hardFiltered.filter(it=>profileCompatible(it,type,profile));
+  const themeOverlay=compatibleThemeOverlay(type,profile);
+
+  if(STRICT_CATEGORY_TYPES.includes(type)){
+    // 소분류/중분류가 선택되어 있으면 해당 카테고리 자체 풀을 최우선으로 고정한다.
+    // 테마/트로프는 장면과 양립 가능한 항목만 소량 덧붙인다.
+    if(own.length){
+      const weighted=[];
+      for(let i=0;i<8;i++)weighted.push(...own);
+      for(let i=0;i<2;i++)weighted.push(...themeOverlay);
+      return weighted.length?weighted:own;
+    }
+    // 카테고리에 해당 슬롯 데이터가 없을 때만 같은 계열 프로필에서 보충.
+    if(compatible.length)return [...compatible,...compatible,...themeOverlay];
+    return hardFiltered.length?hardFiltered:pool;
+  }
+
+  if(SOFT_CATEGORY_TYPES.includes(type)){
+    // 자세/시선/조명/무드/구도는 장소를 깨지 않는 선에서 테마/트로프를 적극 반영.
+    const exact=own.filter(it=>categoryHardAllowed(it,type,profile));
+    const out=[];
+    if(exact.length){for(let i=0;i<5;i++)out.push(...exact)}
+    out.push(...hardFiltered);
+    if(themeOverlay.length){for(let i=0;i<3;i++)out.push(...themeOverlay)}
+    return out.length?out:pool;
+  }
+
+  return hardFiltered.length?hardFiltered:pool;
+}
+
 function currentContextFlags(){
   const t=contextText();
   return {
@@ -3495,7 +3791,8 @@ function poolFor(type){
     for(let i=0;i<weight;i++)base.push(...pov);
   }
 
-  base=fitCompositionToPeople(base.filter(Boolean),type);
+  base=applyCategoryAffinity(base.filter(Boolean),type);
+  base=fitCompositionToPeople(base,type);
   base=fitCompositionToPov(base,type);
   base=applyConflictFilter(base,type);
   return base;
@@ -3834,7 +4131,7 @@ function buildStats(){
   const povInfo=isPovMode()?`POV ${povStrength()==='strong'?'STRONG':'SUBTLE'} / ${povType().toUpperCase()}`:'POV OFF';
   const relInfo=characterCount()===1?'RELATION OFF':(relationPresetValue()==='none'?'RELATION NONE':`RELATION ${relationPresetValue().toUpperCase()}`);
   const sceneInfo=scenePresetValue()==='none'?'SCENE NONE':`SCENE ${sceneResolvedKey().toUpperCase()}`;
-  stats.textContent=`현재 사용 가능한 고유 랜덤 풀 · ${count} · 카테고리 ${Object.keys(activeCategoryLibrary()).length}종 · ${n}인 모드 · ${povInfo} · ${relInfo} · ${sceneInfo} · ${conflictPreventionOn()?'SMART-CONFLICT ON':'SMART-CONFLICT OFF'}`
+  stats.textContent=`현재 사용 가능한 고유 랜덤 풀 · ${count} · 카테고리 ${Object.keys(activeCategoryLibrary()).length}종 · ${n}인 모드 · ${povInfo} · ${relInfo} · ${sceneInfo} · ${conflictPreventionOn()?'SMART-CONFLICT 2.0 ON':'SMART-CONFLICT OFF'} · CATEGORY-AFFINITY STRICT`
 }
 async function copyText(text,msg){try{await navigator.clipboard.writeText(text)}catch{const t=document.createElement('textarea');t.value=text;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove()}show(msg)}
 function show(msg){status.textContent=msg;status.classList.add('show');clearTimeout(window.__st);window.__st=setTimeout(()=>status.classList.remove('show'),1700)}
