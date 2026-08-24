@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#0e0c12">
-<title>NSFW 에셋 랜덤 프롬프트 생성기.v4.2</title>
+<title>NSFW 에셋 랜덤 프롬프트 생성기.v4.3</title>
 <style>
 :root{--bg:#0e0c12;--panel:#17141d;--panel2:#201c28;--panel3:#292333;--line:rgba(255,255,255,.09);--text:#f7f3fa;--sub:#aaa3b4;--accent:#a68cff;--pink:#e694c4;--gold:#f0c978;--green:#9fdfb6;--red:#ff9aa5;--shadow:0 20px 60px rgba(0,0,0,.35)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 8% 0,rgba(166,140,255,.13),transparent 27%),radial-gradient(circle at 100% 15%,rgba(230,148,196,.08),transparent 27%),var(--bg);color:var(--text);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif}button,select,input,textarea{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}.page{width:min(1220px,calc(100% - 28px));margin:auto;padding:28px 0 70px}.hero,.panel{border:1px solid var(--line);background:rgba(23,20,29,.96);box-shadow:var(--shadow)}.hero{position:relative;overflow:hidden;border-radius:26px;padding:31px;margin-bottom:17px}.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-100px;top:-135px;background:rgba(166,140,255,.12);filter:blur(12px);pointer-events:none}.eyebrow{font-size:11px;font-weight:900;letter-spacing:.2em;color:var(--accent)}
 .eyebrow-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
@@ -384,6 +384,7 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
    - 새 항목은 배열 맨 위에 추가하세요.
 ========================================================= */
 const UPDATE_NOTES = [
+  { date:'08.25', text:'2 : v4.3 폴더 토글 스코프 수정 · 02A/02D 클릭 시 발생하던 스크립트 스코프 오류를 제거하고, 패널 상태와 메인 랜덤 엔진을 브리지로 연결했습니다.' },
   { date:'08.25', text:'1 : v4.2 폴더 패널 수정 · CHARACTER 외형/역할 배치와 장면 목적/랜덤 제어의 열기/닫기 CSS 충돌을 제거하고, 02A에 {{user}} 외형 자동생성·복사 UI가 반드시 표시되도록 보강했습니다.' },
   { date:'08.24', text:'4 : v4.1 직접선택 속도 개선 · 슬롯 후보를 캐시/지연 로딩 방식으로 바꿔 검색과 재열기 속도를 개선하고, CHARACTER 외형/역할 배치와 장면 목적/랜덤 제어를 폴더형 토글로 통일했습니다.' },
   { date:'08.24', text:'4 : v4.0 패널 토글 안정화 · CHARACTER 외형/역할 배치와 장면 목적/랜덤 제어의 열기·닫기를 직접 제어 방식으로 수정하고, 슬롯 후보 목록 높이를 컴팩트하게 조정했습니다.' },
@@ -619,7 +620,7 @@ renderAdminUpdateNote();
 </script>
 
 <div class="page">
-<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v4.2</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v4.2</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 수위(가벼운~하늘나라)를 선택할 수 있으며, 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능합니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
+<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v4.3</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v4.3</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 수위(가벼운~하늘나라)를 선택할 수 있으며, 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능합니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
 <section class="workflow-mode-panel" id="workflowModePanel" aria-label="사용 모드 선택"><div class="workflow-mode-copy"><div class="workflow-mode-title">사용 모드</div><div class="workflow-mode-hint" id="workflowModeHint">간편은 랜덤 슬롯 중심 · 상세은 슬롯 직접 선택과 세부 설정까지 제공합니다.</div></div><div class="workflow-mode-switch" role="group" aria-label="간편 또는 상세 모드"><button type="button" class="workflow-mode-btn active" data-ui-mode-btn="simple" aria-pressed="true">간편</button><button type="button" class="workflow-mode-btn" data-ui-mode-btn="detail" aria-pressed="false">상세</button></div></section>
 <section class="panel" id="contentModePanel"><div class="head"><div><h2 class="title">00 · MODE</h2><p class="desc">먼저 콘텐츠 모드를 선택합니다. 선택한 모드에 따라 아래 SCENE 분류와 NSFW 전용 기능이 자동으로 전환됩니다.</p></div></div><div class="mode-choice-card"><div class="mode-choice-label">콘텐츠 모드</div><div class="mode-choice-buttons" id="contentModeSwitch"><button type="button" class="mode-choice-btn" id="modePillSfw" data-content-mode="sfw">SFW</button><button type="button" class="mode-choice-btn" id="modePillNsfw" data-content-mode="nsfw">NSFW</button></div><div class="mode-first-meta" id="contentModeHint">SFW / NSFW를 먼저 선택하면 아래 분류가 현재 모드에 맞게 자동 전환됩니다.</div><input type="radio" name="contentMode" value="sfw" checked hidden><input type="radio" name="contentMode" value="nsfw" hidden><input type="checkbox" id="nsfwMode" hidden></div></section>
 <section class="panel" id="sceneCategoryPanel"><div class="head"><div><h2 class="title">01 · SCENE</h2><p class="desc">현재 MODE를 기준으로 대분류 → 중분류 → 소분류 순서로 장면을 선택합니다.</p></div></div><div class="select-grid category-hierarchy-grid scene-three-grid"><div class="field"><label>대분류 · 장르</label><select id="genre"><option value="modern">현대물</option><option value="fantasy">판타지물</option><option value="guideverse">가이드버스</option><option value="period">시대물</option><option value="sf">SF / 사이버펑크</option><option value="apocalypse">아포칼립스 / 재난</option></select></div><div class="field"><label>중분류 · 테마</label><select id="middleCategory"></select></div><div class="field"><label>소분류 · 장면</label><select id="category"></select></div></div><div class="check-row" data-ui-advanced="1"><label class="check"><input type="checkbox" id="randomCategory"> 주사위를 돌릴 때마다 소분류도 랜덤</label><label class="check"><input type="checkbox" id="avoidSame" checked> 직전 결과와 같은 태그 최대한 피하기</label></div></section>
@@ -780,7 +781,7 @@ renderAdminUpdateNote();
   <div id="guestStatus" class="guestbook-status" role="status" aria-live="polite"></div>
 </section>
 
-<footer><div>문의사항 : <a href="https://open.kakao.com/o/sFqjQmBi" target="_blank" rel="noopener noreferrer">Jin_K</a></div><div>NSFW Asset Gacha v4.2 · Simple UI + Metadata First · 18+</div><div style="margin-top:5px"><button type="button" id="analyticsPing" style="border:0;background:transparent;color:#6f6978;font-size:8px;cursor:pointer">통계 연결 테스트 · v1 NSFW</button></div></footer>
+<footer><div>문의사항 : <a href="https://open.kakao.com/o/sFqjQmBi" target="_blank" rel="noopener noreferrer">Jin_K</a></div><div>NSFW Asset Gacha v4.3 · Simple UI + Metadata First · 18+</div><div style="margin-top:5px"><button type="button" id="analyticsPing" style="border:0;background:transparent;color:#6f6978;font-size:8px;cursor:pointer">통계 연결 테스트 · v1 NSFW</button></div></footer>
 </div>
 <script>
 (function(){
@@ -788,7 +789,7 @@ function __bootAssetGachaAfterAuth(){
   if(window.__assetGachaBooted)return;
   window.__assetGachaBooted=true;
 
-const APP_VERSION='4.2-FOLDER-PANEL-FIX';
+const APP_VERSION='4.3-FOLDER-SCOPE-BRIDGE-FIX';
 const E=(ko,en,meta=null)=>meta?({ko,en,_meta:meta}):({ko,en});
 /* ===== INTENSITY (수위) ===== */
 function intensityValue(){const el=$('intensity');return el?el.value:'dense'}
@@ -3908,6 +3909,26 @@ function setLockGroupActive(name){const arr=SET_LOCK_GROUPS[name]||[];return !!a
 function refreshSetLockUI(){const map={mood:'setLockMood',acting:'setLockActing',style:'setLockStyle'};Object.entries(map).forEach(([k,id])=>$(id)?.classList.toggle('active',setLockGroupActive(k)));const parts=[];if(setLockGroupActive('mood'))parts.push('분위기');if(setLockGroupActive('acting'))parts.push('연기');if(setLockGroupActive('style'))parts.push('스타일링');const host=$('setLockStatus');if(host)host.textContent=parts.length?`활성 세트 락 · ${parts.join(' / ')} (관련 슬롯이 함께 잠금 상태입니다.)`:'세트 락 미사용 · 개별 슬롯 잠금은 03 · 랜덤 슬롯에서 계속 사용할 수 있습니다.'}
 function applySetLockPreset(name){if(!panelApplyEnabled('randomControlPanel')){show('먼저 장면 목적 / 랜덤 제어를 열어 적용해주세요.');return}const arr=SET_LOCK_GROUPS[name]||[];if(!arr.length)return;const next=!setLockGroupActive(name);arr.forEach(k=>state.locked[k]=next);refreshSetLockUI();render();saveSettings();show(next?`🔒 ${name==='mood'?'분위기':name==='acting'?'연기':'스타일링'} 세트를 잠갔습니다.`:`🔓 ${name==='mood'?'분위기':name==='acting'?'연기':'스타일링'} 세트를 해제했습니다.`)}
 
+window.__assetPanelBridge={
+  clearRandomControlLocks(){
+    ['mood','acting','style'].forEach(name=>(SET_LOCK_GROUPS[name]||[]).forEach(k=>state.locked[k]=false));
+    refreshSetLockUI();
+    Object.keys(SLOTS).forEach(k=>renderCardState(k));
+  },
+  sync(){
+    render();
+    saveSettings();
+  },
+  resetRandomControl(){
+    if($('purposePreset'))$('purposePreset').value='none';
+    if($('randomStrength'))$('randomStrength').value='balanced';
+    ['mood','acting','style'].forEach(name=>(SET_LOCK_GROUPS[name]||[]).forEach(k=>state.locked[k]=false));
+    refreshSetLockUI();
+    render();
+    saveSettings();
+  }
+};
+
 function currentSceneLibrary(){return SCENE_LIBRARY[genre.value]||{none:{label:'미사용'}}}
 function scenePresetValue(){return $('scenePreset')?.value||'none'}
 function relationPresetValue(){return $('relationPreset')?.value||'none'}
@@ -5590,15 +5611,15 @@ $('guestMessage').addEventListener('input',updateGuestCount);
 $('guestbookForm').addEventListener('submit',submitGuestbook);
 updateGuestCount();
 console.info('Guestbook/Analytics endpoint:',GUESTBOOK_WEB_APP_URL);
-console.info('[Asset Gacha v4.2] counter endpoint:',GUESTBOOK_WEB_APP_URL+'?kind=counter');
-console.info('[Asset Gacha v4.2] counter transport: hidden iframe postMessage + JSONP fallback');
+console.info('[Asset Gacha v4.3] counter endpoint:',GUESTBOOK_WEB_APP_URL+'?kind=counter');
+console.info('[Asset Gacha v4.3] counter transport: hidden iframe postMessage + JSONP fallback');
 
 function safeInitStep(name,fn){try{return fn()}catch(err){console.error(`[Asset Gacha Init] ${name} failed:`,err);return null}}
 function initializeAssetGacha(){
   // 카운터는 메인 UI와 독립적으로 가장 먼저 시작합니다.
   safeInitStep('usage counter',()=>loadUsageCounts());
   safeInitStep('random slot cards',()=>createCards());
-  safeInitStep('character appearance panel',()=>{initializeCharacterAppearancePanel();ensureCharacterAppearanceContents?.();});
+  safeInitStep('character appearance panel',()=>initializeCharacterAppearancePanel());
   safeInitStep('scene presets',()=>populateScenePresetOptions(false));
   safeInitStep('theme trope',()=>renderThemeTropeUI());
   safeInitStep('settings',()=>loadSettings());
@@ -5880,6 +5901,8 @@ if(document.body.classList.contains('access-locked')){
     }
   }
 
+  function panelIsOpen(panelId){return $(panelId)?.dataset.applyEnabled==='1'}
+
   function setApplyPanel(panelId,on,{save=true}={}){
     const panel=$(panelId);if(!panel)return;
     if(panelId==='characterAppearancePanel')ensureCharacterAppearanceContents();
@@ -5912,18 +5935,9 @@ if(document.body.classList.contains('access-locked')){
     }
 
     if(panelId==='randomControlPanel'&&!on){
-      ['mood','acting','style'].forEach(name=>{
-        if(setLockGroupActive(name))(SET_LOCK_GROUPS[name]||[]).forEach(k=>state.locked[k]=false)
-      });
-      refreshSetLockUI();
-      Object.keys(SLOTS).forEach(k=>renderCardState?.(k));
+      window.__assetPanelBridge?.clearRandomControlLocks?.();
     }
-
-    if(typeof buildPrompt==='function')buildPrompt();
-    if(typeof buildSummary==='function')buildSummary();
-    if(typeof updateQuickRecommendations==='function')updateQuickRecommendations();
-    if(typeof updatePromptDiagnostics==='function')updatePromptDiagnostics();
-    if(typeof saveSettings==='function')saveSettings();
+    window.__assetPanelBridge?.sync?.();
   }
 
   function initApplyPanels(){
@@ -5944,7 +5958,7 @@ if(document.body.classList.contains('access-locked')){
       try{on=localStorage.getItem(`assetGachaApply_${panelId}`)==='1'}catch(_){}
       setApplyPanel(panelId,on,{save:false});
 
-      const toggle=()=>setApplyPanel(panelId,!panelApplyEnabled(panelId));
+      const toggle=()=>setApplyPanel(panelId,!panelIsOpen(panelId));
 
       // 버튼 1회 클릭 = 열림, 재클릭 = 닫힘
       btn.addEventListener('click',e=>{
@@ -5962,16 +5976,9 @@ if(document.body.classList.contains('access-locked')){
     });
 
     $('resetRandomControl')?.addEventListener('click',e=>{
+      e.preventDefault();
       e.stopPropagation();
-      if($('purposePreset'))$('purposePreset').value='none';
-      if($('randomStrength'))$('randomStrength').value='balanced';
-      ['mood','acting','style'].forEach(name=>{
-        if(setLockGroupActive(name))(SET_LOCK_GROUPS[name]||[]).forEach(k=>state.locked[k]=false)
-      });
-      refreshSetLockUI();
-      Object.keys(SLOTS).forEach(k=>renderCardState?.(k));
-      buildPrompt();buildSummary();saveSettings();
-      show('🧹 장면 목적 / 랜덤 제어를 초기화했습니다.');
+      window.__assetPanelBridge?.resetRandomControl?.();
     });
 
     $('resetCharacterAppearance')?.addEventListener('click',e=>e.stopPropagation());
