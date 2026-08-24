@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#0e0c12">
-<title>NSFW 에셋 랜덤 프롬프트 생성기.v3.4</title>
+<title>NSFW 에셋 랜덤 프롬프트 생성기.v3.6</title>
 <style>
 :root{--bg:#0e0c12;--panel:#17141d;--panel2:#201c28;--panel3:#292333;--line:rgba(255,255,255,.09);--text:#f7f3fa;--sub:#aaa3b4;--accent:#a68cff;--pink:#e694c4;--gold:#f0c978;--green:#9fdfb6;--red:#ff9aa5;--shadow:0 20px 60px rgba(0,0,0,.35)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 8% 0,rgba(166,140,255,.13),transparent 27%),radial-gradient(circle at 100% 15%,rgba(230,148,196,.08),transparent 27%),var(--bg);color:var(--text);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif}button,select,input,textarea{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}.page{width:min(1220px,calc(100% - 28px));margin:auto;padding:28px 0 70px}.hero,.panel{border:1px solid var(--line);background:rgba(23,20,29,.96);box-shadow:var(--shadow)}.hero{position:relative;overflow:hidden;border-radius:26px;padding:31px;margin-bottom:17px}.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-100px;top:-135px;background:rgba(166,140,255,.12);filter:blur(12px);pointer-events:none}.eyebrow{font-size:11px;font-weight:900;letter-spacing:.2em;color:var(--accent)}
 .eyebrow-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
@@ -321,13 +321,23 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
 .current-setup-chip{flex:0 0 auto;display:inline-flex;align-items:center;max-width:250px;padding:6px 9px;border:1px solid rgba(255,255,255,.075);border-radius:999px;background:rgba(255,255,255,.035);color:#ddd6e5;font-size:9px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .current-setup-chip.primary{border-color:rgba(166,140,255,.34);background:rgba(166,140,255,.11);color:#e8e0ff}.current-setup-chip.warn{border-color:rgba(240,201,120,.35);background:rgba(240,201,120,.1);color:#f3d991}
 .current-setup-detail{flex:0 0 auto;height:32px;padding:0 10px;border:1px solid var(--line);border-radius:9px;background:var(--panel3);color:#ded7e5;font-size:9px;font-weight:900;cursor:pointer}.current-setup-detail:hover{filter:brightness(1.12)}
-body[data-ui-mode="simple"] [data-ui-advanced="1"]{display:none!important}
+
+.workflow-mode-panel .workflow-mode-switch{display:none!important}
+.subsetting-hub{margin:0 0 16px;padding:14px 16px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,.026),rgba(255,255,255,.008)),var(--panel);box-shadow:0 12px 28px rgba(0,0,0,.16)}
+.subsetting-search-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;margin-top:10px}.subsetting-search-row input{width:100%;height:40px;border:1px solid var(--line);border-radius:12px;background:var(--panel2);color:var(--text);padding:0 14px}.subsetting-search-row button{height:40px;padding:0 14px;border:1px solid var(--line);border-radius:12px;background:var(--panel3);color:var(--text);font-weight:800;cursor:pointer}
+.subsetting-chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.subsetting-chip{height:34px;padding:0 12px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.04);color:#e4dff0;font-size:11px;font-weight:850;cursor:pointer}.subsetting-chip.hidden{display:none}.subsetting-chip:hover{border-color:rgba(166,140,255,.35);background:rgba(166,140,255,.09)}.subsetting-chip.active{border-color:rgba(240,201,120,.45);background:rgba(240,201,120,.11);color:#f3d991}
+.subsetting-meta{margin-top:10px;color:var(--sub);font-size:10px;line-height:1.55}
+.simple-subcat{margin-top:12px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.026)}.simple-subcat>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px;font-size:11px;font-weight:900;color:#eae3f1}.simple-subcat>summary::-webkit-details-marker{display:none}.simple-subcat .simple-subcat-copy{display:flex;flex-direction:column;gap:4px}.simple-subcat .simple-subcat-desc{font-size:9px;font-weight:500;color:var(--sub)}.simple-subcat[open]>summary{border-bottom:1px solid var(--line)}.simple-subcat-arrow{transition:transform .16s ease}.simple-subcat[open] .simple-subcat-arrow{transform:rotate(180deg)}
+.simple-collapsible-panel{display:block!important}.simple-collapsible-panel .simple-collapsible-body[hidden]{display:none!important}.simple-collapsible-headbtn{margin-left:auto;height:32px;padding:0 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel3);color:#e4dff0;font-size:10px;font-weight:900;cursor:pointer}.simple-collapsible-headbtn:hover{filter:brightness(1.08)}.simple-collapsible-panel.open .simple-collapsible-headbtn{border-color:rgba(240,201,120,.42);background:rgba(240,201,120,.1);color:#f3d991}
+.advanced-field-highlight{outline:2px solid rgba(240,201,120,.55)!important;box-shadow:0 0 0 4px rgba(240,201,120,.08);border-radius:12px;transition:box-shadow .25s ease, outline-color .25s ease}
+@media(max-width:720px){.subsetting-search-row{grid-template-columns:1fr}.subsetting-search-row button{width:100%}}
+body[data-ui-mode="simple"] [data-ui-advanced="1"]{display:block}
 body[data-ui-mode="simple"] .hero .chips{display:none!important}
-body[data-ui-mode="simple"] #sceneCategoryPanel .check-row{display:none!important}
+
 body[data-ui-mode="simple"] #basicTagsPanel .simple-core-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 body[data-ui-mode="simple"] #basicTagsPanel .simple-fixed-grid{grid-template-columns:1fr}
 body[data-ui-mode="simple"] #basicTagsPanel .simple-sfw-hidden{display:none!important}
-body[data-ui-mode="simple"] #slotPanel .slot-source{display:none!important}
+
 body[data-ui-mode="simple"] #quickEffectsDetails{display:none!important}
 body[data-ui-mode="simple"] .simple-engine-note{display:flex}
 body[data-ui-mode="detail"] .simple-engine-note{display:none!important}
@@ -364,6 +374,8 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
    - 새 항목은 배열 맨 위에 추가하세요.
 ========================================================= */
 const UPDATE_NOTES = [
+  { date:'08.23', text:'9 : v3.6 검색 확장 · 하위 카테고리 검색이 실제 옵션 라벨과 선택지 텍스트까지 탐색하도록 확장했습니다.' },
+  { date:'08.23', text:'8 : v3.5 하위 카테고리 UX · 기본 화면에서 슬롯 잠금/재추첨을 유지하고, 하위 카테고리 펼침 + 검색 방식으로 세부 설정에 접근하도록 개편했습니다.' },
   { date:'08.23', text:'7 : v3.4 UI Diet + Metadata First · 간편 모드를 MODE→SCENE→THEME→CHARACTER→랜덤 생성 흐름으로 정리하고, 소품/표정/의상 매칭을 메타데이터 우선 구조로 전환해 문자열 정규식 의존도를 줄였습니다.' },
   { date:'08.23', text:'6 : v3.3 Semantic Match Engine · 소품/표정 카테고리 직접 선택, 소품↔행동·자세·구도, 표정↔행동, 계절↔의상, 날씨↔소품, 장소 전용 소품, 의상 레이어 조합, 슬롯 출처 표시, 조합 품질 진단 2.0을 통합했습니다.' },
   { date:'08.23', text:'5 : v3.2 랜덤 슬롯 카테고리 매칭 · 장르/장면/날씨/배경 성격에 맞춰 소품 슬롯이 패션/계절/직업/촬영/판타지/의료 카테고리를 우선 선택하도록 조정했습니다.' },
@@ -592,12 +604,13 @@ renderAdminUpdateNote();
 </script>
 
 <div class="page">
-<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v3.4</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v3.4</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 수위(가벼운~하늘나라)를 선택할 수 있으며, 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능합니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
-<section class="workflow-mode-panel" id="workflowModePanel" aria-label="사용 모드 선택"><div class="workflow-mode-copy"><div class="workflow-mode-title">사용 모드</div><div class="workflow-mode-hint" id="workflowModeHint">처음이라면 간편 모드로 MODE → SCENE → THEME → 주사위만 따라가면 됩니다.</div></div><div class="workflow-mode-switch" role="group" aria-label="간편 또는 상세 모드"><button type="button" class="workflow-mode-btn active" data-ui-mode-btn="simple" aria-pressed="true">간편</button><button type="button" class="workflow-mode-btn" data-ui-mode-btn="detail" aria-pressed="false">상세</button></div></section>
+<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v3.6</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v3.6</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 수위(가벼운~하늘나라)를 선택할 수 있으며, 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능합니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
+<section class="workflow-mode-panel" id="workflowModePanel" aria-label="세부 설정 탐색"><div class="workflow-mode-copy"><div class="workflow-mode-title">세부 설정 탐색</div><div class="workflow-mode-hint" id="workflowModeHint">기본 화면에서 바로 랜덤을 돌리고, 필요할 때만 하위 카테고리를 펼쳐 세부 설정을 조절하세요.</div></div><div class="workflow-mode-switch" role="group" aria-label="세부 설정 탐색"></div></section>
 <section class="panel" id="contentModePanel"><div class="head"><div><h2 class="title">00 · MODE</h2><p class="desc">먼저 콘텐츠 모드를 선택합니다. 선택한 모드에 따라 아래 SCENE 분류와 NSFW 전용 기능이 자동으로 전환됩니다.</p></div></div><div class="mode-choice-card"><div class="mode-choice-label">콘텐츠 모드</div><div class="mode-choice-buttons" id="contentModeSwitch"><button type="button" class="mode-choice-btn" id="modePillSfw" data-content-mode="sfw">SFW</button><button type="button" class="mode-choice-btn" id="modePillNsfw" data-content-mode="nsfw">NSFW</button></div><div class="mode-first-meta" id="contentModeHint">SFW / NSFW를 먼저 선택하면 아래 분류가 현재 모드에 맞게 자동 전환됩니다.</div><input type="radio" name="contentMode" value="sfw" checked hidden><input type="radio" name="contentMode" value="nsfw" hidden><input type="checkbox" id="nsfwMode" hidden></div></section>
-<section class="panel" id="sceneCategoryPanel"><div class="head"><div><h2 class="title">01 · SCENE</h2><p class="desc">현재 MODE를 기준으로 대분류 → 중분류 → 소분류 순서로 장면을 선택합니다.</p></div></div><div class="select-grid category-hierarchy-grid scene-three-grid"><div class="field"><label>대분류 · 장르</label><select id="genre"><option value="modern">현대물</option><option value="fantasy">판타지물</option><option value="guideverse">가이드버스</option><option value="period">시대물</option><option value="sf">SF / 사이버펑크</option><option value="apocalypse">아포칼립스 / 재난</option></select></div><div class="field"><label>중분류 · 테마</label><select id="middleCategory"></select></div><div class="field"><label>소분류 · 장면</label><select id="category"></select></div></div><div class="check-row"><label class="check"><input type="checkbox" id="randomCategory"> 주사위를 돌릴 때마다 소분류도 랜덤</label><label class="check"><input type="checkbox" id="avoidSame" checked> 직전 결과와 같은 태그 최대한 피하기</label></div></section>
+<section class="panel" id="sceneCategoryPanel"><div class="head"><div><h2 class="title">01 · SCENE</h2><p class="desc">현재 MODE를 기준으로 대분류 → 중분류 → 소분류 순서로 장면을 선택합니다.</p></div></div><div class="select-grid category-hierarchy-grid scene-three-grid"><div class="field"><label>대분류 · 장르</label><select id="genre"><option value="modern">현대물</option><option value="fantasy">판타지물</option><option value="guideverse">가이드버스</option><option value="period">시대물</option><option value="sf">SF / 사이버펑크</option><option value="apocalypse">아포칼립스 / 재난</option></select></div><div class="field"><label>중분류 · 테마</label><select id="middleCategory"></select></div><div class="field"><label>소분류 · 장면</label><select id="category"></select></div></div><details class="simple-subcat" id="sceneOptionBox"><summary><span class="simple-subcat-copy"><span>01-Sub · SCENE 옵션</span><span class="simple-subcat-desc">소분류 랜덤과 직전 결과 회피를 조절합니다.</span></span><span class="simple-subcat-arrow">⌄</span></summary><div class="check-row"><label class="check"><input type="checkbox" id="randomCategory"> 주사위를 돌릴 때마다 소분류도 랜덤</label><label class="check"><input type="checkbox" id="avoidSame" checked> 직전 결과와 같은 태그 최대한 피하기</label></div></details></section>
 <section class="panel theme-trope-panel" id="themeTropePanel"><div class="head"><div><h2 class="title">01A · THEME / TROPE</h2><p class="desc">장면의 장소 분류와 별개로 작품의 장르·톤, 캐릭터 타입, 관계/소재, 세계관/직업, BL 역할을 복수 선택합니다. 선택한 항목은 NovelAI에는 태그, PixAI에는 정리된 테마 태그, NijiJourney에는 자연어 콘셉트 설명으로 반영됩니다.</p></div></div><div class="theme-toolbar"><div class="theme-selected-summary" id="themeSelectedSummary"><b>0개 선택</b> · 필요한 테마만 골라 조합하세요.</div><button type="button" class="theme-clear" id="clearThemeTrope">선택 초기화</button></div><div class="theme-groups" id="themeTropeGroups"></div></section>
-<section class="current-setup-bar" id="currentSetupBar" aria-live="polite"><div class="current-setup-label">현재 설정</div><div class="current-setup-chips" id="currentSetupChips"></div><button type="button" class="current-setup-detail" id="openDetailedFromSummary">상세 설정</button></section>
+<section class="current-setup-bar" id="currentSetupBar" aria-live="polite"><div class="current-setup-label">현재 설정</div><div class="current-setup-chips" id="currentSetupChips"></div><button type="button" class="current-setup-detail" id="openDetailedFromSummary">하위 설정</button></section>
+<section class="subsetting-hub" id="subSettingHub"><div class="head"><div><h2 class="title">01B · 하위 카테고리</h2><p class="desc">기본 화면은 가볍게 두고, 필요한 항목만 눌러 펼쳐 세부 설정을 조절합니다. 슬롯 잠금·개별 재추첨은 그대로 사용하고, 아래 검색으로 원하는 설정 구역을 빠르게 찾을 수 있습니다.</p></div></div><div class="subsetting-search-row"><input id="advancedSettingSearch" type="search" placeholder="예: POV, 표정, 소품, 의상, 관계, 캐릭터"><button type="button" id="clearAdvancedSettingSearch">검색 초기화</button></div><div class="subsetting-chip-row" id="advancedQuickLinks"><button type="button" class="subsetting-chip" data-advanced-target="scene">SCENE 옵션</button><button type="button" class="subsetting-chip" data-advanced-target="quality">품질 / 스타일</button><button type="button" class="subsetting-chip" data-advanced-target="pov">POV</button><button type="button" class="subsetting-chip" data-advanced-target="relation">관계 / 장면</button><button type="button" class="subsetting-chip" data-advanced-target="expression">표정</button><button type="button" class="subsetting-chip" data-advanced-target="outfit">의상</button><button type="button" class="subsetting-chip" data-advanced-target="prop">소품</button><button type="button" class="subsetting-chip" data-advanced-target="character">캐릭터 외형</button><button type="button" class="subsetting-chip" data-advanced-target="slots">A/B/C 슬롯</button><button type="button" class="subsetting-chip" data-advanced-target="preset">캐릭터 프리셋</button><button type="button" class="subsetting-chip" data-advanced-target="random">랜덤 제어</button></div><div class="subsetting-meta" id="advancedSearchMeta">버튼을 누르면 해당 설정 구역으로 이동하고 자동으로 펼쳐집니다.</div></section>
 <section class="panel" id="basicTagsPanel"><div class="head"><div><h2 class="title">02 · 기본 태그</h2><p class="desc">1인·2인·3인을 선택할 수 있습니다. 2인/3인 선택 시 구도·자세·시선·행동 풀이 인원수에 맞게 자동 전환됩니다. POV MODE를 켜면 현재 인원수에 맞는 1인칭 시점 풀이 적용되고, POV 강도(약하게/강하게)를 조절할 수 있고, NSFW OFF에서는 일반 POV, NSFW ON에서는 키스·밀착·벽·침대·무릎·구강 근접 등 성인용 POV 타입까지 확장됩니다. 여기에 관계/상호작용 프리셋, 장면 프리셋, 충돌 방지 기능까지 더해 더 자연스러운 조합을 자동으로 만듭니다. 고정 외형 태그는 ‘항상 추가할 태그’에 넣어두면 유지됩니다.</p></div></div><div class="options simple-core-grid"><div class="opt"><label>CHARACTER</label><select id="gender">
 <option value="">캐릭터 미지정</option>
 <optgroup label="1인">
@@ -624,8 +637,8 @@ renderAdminUpdateNote();
 <option value="maximum">MAX</option>
 </select><div class="character-mode-hint" id="intensityHint">🔥 수위에 따라 행동·의상·표정 풀이 달라집니다</div></div></div>
 <div class="custom-grid simple-fixed-grid"><div><label class="tiny-label">고정 외형 / 항상 추가할 태그</label><input id="customTags" type="text" placeholder="예: black hair, blue eyes, handsome male"></div></div>
-<div class="simple-engine-note" id="simpleEngineNote"><span>✨</span><span><strong>나머지는 자동 처리됩니다.</strong> 품질·스타일·POV·관계·소품·표정·의상·정합성은 현재 장면에 맞춰 기본값으로 작동합니다. 필요할 때만 ‘상세 설정’을 여세요.</span></div>
-<div class="advanced-basic-wrap" data-ui-advanced="1"><div class="advanced-settings-head"><b>ADVANCED SETTINGS</b> · 품질/스타일, POV, 관계, 장면 프리셋, 소품·표정·의상 방식, 충돌 방지를 직접 조절합니다.</div><div class="options advanced-options"><div class="opt"><label>QUALITY</label><select id="quality"><option value="masterpiece, best quality, amazing quality, very aesthetic, highly detailed">기본 고품질</option><option value="masterpiece, best quality, highly detailed, cinematic composition">시네마틱</option><option value="">사용 안 함</option></select></div><div class="opt"><label>STYLE</label><select id="style"><option value="">미지정</option><option value="anime style">Anime</option><option value="illustration">Illustration</option><option value="semi-realistic">Semi-realistic</option></select></div><div class="opt"><label>AI STYLE PRESET</label><select id="aiStylePreset"><option value="none">미지정</option><optgroup label="Clean / Base"><option value="clean">클린 애니</option><option value="clean_plus">클린 애니+</option><option value="manhwa">웹툰 / 만화풍</option><option value="gamecg">게임 CG</option></optgroup><optgroup label="Mood / Tone"><option value="soft_romance">소프트 로맨스</option><option value="dark_romance">다크 로맨스</option><option value="cinematic">시네마틱</option><option value="dreamy">몽환적</option><option value="fantasy">판타지</option><option value="noir">누아르</option></optgroup><optgroup label="Look / Finish"><option value="editorial">에디토리얼</option><option value="idol">아이돌 / 화보</option><option value="painterly">페인터리</option><option value="pastel">파스텔</option><option value="retro">레트로 애니</option><option value="shoujo">소녀만화 감성</option></optgroup></select><div class="character-mode-hint" id="aiStylePresetHint">🎨 AI별로 어울리는 스타일 표현을 자동 보강합니다. NovelAI / PixAI / NijiJourney에 맞게 다르게 번역됩니다.</div><div class="style-preset-meta" id="aiStylePresetMeta">현재 프리셋: 기본 동작</div></div><div class="opt"><label>화풍 / RENDER STYLE</label><select id="artStyle"><option value="">미지정</option><option value="cel shading">셀 채색</option><option value="watercolor illustration">수채화풍</option><option value="manga screentone">망가 스크린톤</option><option value="retro anime aesthetic">레트로 애니풍</option><option value="soft pastel painting">소프트 파스텔</option><option value="game cg">게임 CG풍</option><option value="ink line art">잉크 라인아트</option><option value="storybook illustration">동화 삽화풍</option></select></div><div class="opt"><label>프롬프트 강도</label><div class="range-wrap"><div class="range-inline"><input id="promptDetail" type="range" min="1" max="3" step="1" value="2"><span class="range-badge" id="promptDetailBadge">보통</span></div><div class="character-mode-hint" id="promptDetailHint">✍️ 간결함 ↔ 상세함을 조절합니다.</div></div></div><div class="opt"><label>POV MODE</label><select id="povMode"><option value="off">사용 안 함</option><option value="on">사용 · 현재 인원수 연동</option></select></div><div class="opt"><label>POV 강도</label><select id="povStrength"><option value="subtle">약하게</option><option value="strong">강하게</option></select></div><div class="opt"><label>POV 타입</label><select id="povType"><option value="auto">자동</option><option value="talk">대화형 POV</option><option value="hand">손잡기 POV</option><option value="prekiss">키스 직전 POV</option></select><div class="character-mode-hint" id="povModeHint">📷 일반 시점 모드 · NSFW ON 시 성인용 POV 확장</div></div><div class="opt"><label>관계 / 상호작용</label><select id="relationPreset"><option value="none">미사용</option><option value="friend">친구 / 절친</option><option value="coworker">동료 / 같은 편</option><option value="rival">라이벌</option><option value="lover">연인 / 썸</option><option value="firsttime">첫 관계 / 조심스러운 친밀감</option><option value="longterm">오래된 연인 / 익숙한 친밀감</option><option value="obsession">집착 / 소유욕</option><option value="hatebond">혐관 / 앙숙</option><option value="salvation">구원 서사</option><option value="unrequited">짝사랑</option><option value="contract">계약 / 정략</option><option value="mentor">멘토 / 사제</option><option value="childhood">소꿉친구</option><option value="exlovers">전 연인 / 미련</option><option value="firstmeet">첫 만남</option><option value="reunion">재회</option><option value="guardian">보호 / 호위</option><option value="masterservant">주종 / 상하관계</option><option value="enemy">적대 / 대치</option><option value="teammate">전우 / 파티원</option></select><div class="character-mode-hint" id="relationHint">🤝 2인/3인에서 상호작용 가중치 적용</div></div><div class="opt"><label>장면 프리셋</label><select id="scenePreset"></select><div class="character-mode-hint" id="scenePresetHint">🎬 장르에 맞는 상황 프리셋을 적용합니다.</div></div>
+<div class="simple-engine-note" id="simpleEngineNote"><span>✨</span><span><strong>나머지는 자동 처리됩니다.</strong> 품질·스타일·POV·관계·소품·표정·의상·정합성은 현재 장면에 맞춰 기본값으로 작동합니다. 필요할 때만 아래 ‘하위 카테고리’를 눌러 세부 설정을 펼치세요.</span></div>
+<details class="simple-subcat" id="basicSubcategoryBox" data-ui-advanced="1"><summary><span class="simple-subcat-copy"><span>02A · 품질 / 스타일 / POV / 관계 / 소품 / 표정 / 의상</span><span class="simple-subcat-desc">필요할 때만 펼쳐 세부 설정을 조절합니다.</span></span><span class="simple-subcat-arrow">⌄</span></summary><div class="advanced-basic-wrap"><div class="advanced-settings-head"><b>ADVANCED SETTINGS</b> · 품질/스타일, POV, 관계, 장면 프리셋, 소품·표정·의상 방식, 충돌 방지를 직접 조절합니다.</div><div class="options advanced-options"><div class="opt"><label>QUALITY</label><select id="quality"><option value="masterpiece, best quality, amazing quality, very aesthetic, highly detailed">기본 고품질</option><option value="masterpiece, best quality, highly detailed, cinematic composition">시네마틱</option><option value="">사용 안 함</option></select></div><div class="opt"><label>STYLE</label><select id="style"><option value="">미지정</option><option value="anime style">Anime</option><option value="illustration">Illustration</option><option value="semi-realistic">Semi-realistic</option></select></div><div class="opt"><label>AI STYLE PRESET</label><select id="aiStylePreset"><option value="none">미지정</option><optgroup label="Clean / Base"><option value="clean">클린 애니</option><option value="clean_plus">클린 애니+</option><option value="manhwa">웹툰 / 만화풍</option><option value="gamecg">게임 CG</option></optgroup><optgroup label="Mood / Tone"><option value="soft_romance">소프트 로맨스</option><option value="dark_romance">다크 로맨스</option><option value="cinematic">시네마틱</option><option value="dreamy">몽환적</option><option value="fantasy">판타지</option><option value="noir">누아르</option></optgroup><optgroup label="Look / Finish"><option value="editorial">에디토리얼</option><option value="idol">아이돌 / 화보</option><option value="painterly">페인터리</option><option value="pastel">파스텔</option><option value="retro">레트로 애니</option><option value="shoujo">소녀만화 감성</option></optgroup></select><div class="character-mode-hint" id="aiStylePresetHint">🎨 AI별로 어울리는 스타일 표현을 자동 보강합니다. NovelAI / PixAI / NijiJourney에 맞게 다르게 번역됩니다.</div><div class="style-preset-meta" id="aiStylePresetMeta">현재 프리셋: 기본 동작</div></div><div class="opt"><label>화풍 / RENDER STYLE</label><select id="artStyle"><option value="">미지정</option><option value="cel shading">셀 채색</option><option value="watercolor illustration">수채화풍</option><option value="manga screentone">망가 스크린톤</option><option value="retro anime aesthetic">레트로 애니풍</option><option value="soft pastel painting">소프트 파스텔</option><option value="game cg">게임 CG풍</option><option value="ink line art">잉크 라인아트</option><option value="storybook illustration">동화 삽화풍</option></select></div><div class="opt"><label>프롬프트 강도</label><div class="range-wrap"><div class="range-inline"><input id="promptDetail" type="range" min="1" max="3" step="1" value="2"><span class="range-badge" id="promptDetailBadge">보통</span></div><div class="character-mode-hint" id="promptDetailHint">✍️ 간결함 ↔ 상세함을 조절합니다.</div></div></div><div class="opt"><label>POV MODE</label><select id="povMode"><option value="off">사용 안 함</option><option value="on">사용 · 현재 인원수 연동</option></select></div><div class="opt"><label>POV 강도</label><select id="povStrength"><option value="subtle">약하게</option><option value="strong">강하게</option></select></div><div class="opt"><label>POV 타입</label><select id="povType"><option value="auto">자동</option><option value="talk">대화형 POV</option><option value="hand">손잡기 POV</option><option value="prekiss">키스 직전 POV</option></select><div class="character-mode-hint" id="povModeHint">📷 일반 시점 모드 · NSFW ON 시 성인용 POV 확장</div></div><div class="opt"><label>관계 / 상호작용</label><select id="relationPreset"><option value="none">미사용</option><option value="friend">친구 / 절친</option><option value="coworker">동료 / 같은 편</option><option value="rival">라이벌</option><option value="lover">연인 / 썸</option><option value="firsttime">첫 관계 / 조심스러운 친밀감</option><option value="longterm">오래된 연인 / 익숙한 친밀감</option><option value="obsession">집착 / 소유욕</option><option value="hatebond">혐관 / 앙숙</option><option value="salvation">구원 서사</option><option value="unrequited">짝사랑</option><option value="contract">계약 / 정략</option><option value="mentor">멘토 / 사제</option><option value="childhood">소꿉친구</option><option value="exlovers">전 연인 / 미련</option><option value="firstmeet">첫 만남</option><option value="reunion">재회</option><option value="guardian">보호 / 호위</option><option value="masterservant">주종 / 상하관계</option><option value="enemy">적대 / 대치</option><option value="teammate">전우 / 파티원</option></select><div class="character-mode-hint" id="relationHint">🤝 2인/3인에서 상호작용 가중치 적용</div></div><div class="opt"><label>장면 프리셋</label><select id="scenePreset"></select><div class="character-mode-hint" id="scenePresetHint">🎬 장르에 맞는 상황 프리셋을 적용합니다.</div></div>
 <div class="opt"><label>소품 카테고리</label><select id="propCategoryMode"><option value="auto" selected>자동 매칭</option><option value="all">전체 랜덤</option><option value="fashion">패션</option><option value="season">계절</option><option value="occupation">직업</option><option value="shooting">촬영</option><option value="fantasy">판타지</option><option value="medical">의료</option></select><div class="match-hint" id="propCategoryHint">🧳 자동 · 장면/날씨/장르를 보고 소품군을 선택</div></div>
 <div class="opt"><label>표정 카테고리</label><select id="expressionCategoryMode"><option value="auto" selected>자동 매칭</option><option value="neutral">무표정 / 차분</option><option value="smile">웃음 / 미소</option><option value="tears">눈물 / 울음</option><option value="fluster">당황 / 난감</option><option value="surprise">놀람 / 경악</option><option value="anger">분노 / 짜증</option><option value="sadness">슬픔 / 쓸쓸함</option><option value="shy">수줍음 / 부끄러움</option><option value="tired">피로 / 졸림</option><option value="tense">긴장 / 불안</option><option value="pleasure">황홀 / 쾌락</option></select><div class="match-hint" id="expressionCategoryHint">🙂 자동 · 행동과 분위기에 맞춰 표정군을 선택</div></div>
 <div class="opt"><label>의상 생성 방식</label><select id="outfitMode"><option value="complete" selected>완성 의상 랜덤</option><option value="layered">레이어 조합</option></select><div class="match-hint" id="outfitModeHint">👔 완성 의상 · 기존 장면별 의상 풀 사용</div></div>
@@ -752,7 +765,7 @@ renderAdminUpdateNote();
   <div id="guestStatus" class="guestbook-status" role="status" aria-live="polite"></div>
 </section>
 
-<footer><div>문의사항 : <a href="https://open.kakao.com/o/sFqjQmBi" target="_blank" rel="noopener noreferrer">Jin_K</a></div><div>NSFW Asset Gacha v3.4 · Simple UI + Metadata First · 18+</div><div style="margin-top:5px"><button type="button" id="analyticsPing" style="border:0;background:transparent;color:#6f6978;font-size:8px;cursor:pointer">통계 연결 테스트 · v1 NSFW</button></div></footer>
+<footer><div>문의사항 : <a href="https://open.kakao.com/o/sFqjQmBi" target="_blank" rel="noopener noreferrer">Jin_K</a></div><div>NSFW Asset Gacha v3.6 · Simple UI + Metadata First · 18+</div><div style="margin-top:5px"><button type="button" id="analyticsPing" style="border:0;background:transparent;color:#6f6978;font-size:8px;cursor:pointer">통계 연결 테스트 · v1 NSFW</button></div></footer>
 </div>
 <script>
 (function(){
@@ -760,7 +773,7 @@ function __bootAssetGachaAfterAuth(){
   if(window.__assetGachaBooted)return;
   window.__assetGachaBooted=true;
 
-const APP_VERSION='3.4-SIMPLE-UI-METADATA-FIRST';
+const APP_VERSION='3.6-OPTION-LABEL-SEARCH';
 const E=(ko,en,meta=null)=>meta?({ko,en,_meta:meta}):({ko,en});
 /* ===== INTENSITY (수위) ===== */
 function intensityValue(){const el=$('intensity');return el?el.value:'dense'}
@@ -5480,8 +5493,8 @@ $('guestMessage').addEventListener('input',updateGuestCount);
 $('guestbookForm').addEventListener('submit',submitGuestbook);
 updateGuestCount();
 console.info('Guestbook/Analytics endpoint:',GUESTBOOK_WEB_APP_URL);
-console.info('[Asset Gacha v3.4] counter endpoint:',GUESTBOOK_WEB_APP_URL+'?kind=counter');
-console.info('[Asset Gacha v3.4] counter transport: hidden iframe postMessage + JSONP fallback');
+console.info('[Asset Gacha v3.6] counter endpoint:',GUESTBOOK_WEB_APP_URL+'?kind=counter');
+console.info('[Asset Gacha v3.6] counter transport: hidden iframe postMessage + JSONP fallback');
 
 function safeInitStep(name,fn){try{return fn()}catch(err){console.error(`[Asset Gacha Init] ${name} failed:`,err);return null}}
 function initializeAssetGacha(){
@@ -5548,20 +5561,20 @@ if(document.body.classList.contains('access-locked')){
     try{const saved=localStorage.getItem(UI_KEY);return saved==='detail'?'detail':'simple'}catch(_){return 'simple'}
   }
   function setUiMode(mode,{save=true}={}){
-    mode=mode==='detail'?'detail':'simple';document.body.dataset.uiMode=mode;
-    qa('[data-ui-mode-btn]').forEach(btn=>{const active=btn.dataset.uiModeBtn===mode;btn.classList.toggle('active',active);btn.setAttribute('aria-pressed',active?'true':'false')});
-    const hint=$('workflowModeHint');if(hint)hint.textContent=mode==='simple'?'MODE → SCENE → THEME → CHARACTER → 🎲 생성. 나머지는 자동 매칭됩니다.':'품질·스타일·POV·관계·소품·표정·의상·랜덤 제어까지 모두 직접 조절합니다.';
+    mode='simple';document.body.dataset.uiMode='simple';
+    qa('[data-ui-mode-btn]').forEach(btn=>{const active=btn.dataset.uiModeBtn==='simple';btn.classList.toggle('active',active);btn.setAttribute('aria-pressed',active?'true':'false')});
+    const hint=$('workflowModeHint');if(hint)hint.textContent='기본 화면에서 바로 랜덤을 돌리고, 필요할 때만 하위 카테고리를 펼쳐 세부 설정을 조절하세요.';
     const textMap={
       contentModePanel:'SFW / NSFW만 먼저 고릅니다.',
-      sceneCategoryPanel:'장르 → 테마 → 장면 순서로 선택합니다. 나머지 장면 정합성은 자동으로 맞춥니다.',
+      sceneCategoryPanel:'장르 → 테마 → 장면 순서로 선택하고, 필요할 때만 SCENE 옵션을 펼쳐 조절합니다.',
       themeTropePanel:'원하는 소재만 선택하세요. 필요 없으면 건너뛰어도 됩니다.',
-      basicTagsPanel:'캐릭터와 고정 외형 태그만 정하면 됩니다. NSFW일 때만 수위를 선택합니다.',
-      slotPanel:'완성된 장면 요소를 확인합니다. 상세 모드에서는 개별 재추첨·잠금·ON/OFF와 매칭 출처를 볼 수 있습니다.'
+      basicTagsPanel:'캐릭터와 고정 외형 태그를 정하고, 필요할 때만 하위 카테고리에서 품질·POV·관계·소품·표정·의상 방식을 조절합니다.',
+      slotPanel:'완성된 장면 요소를 확인합니다. 기본 화면에서도 개별 재추첨·잠금·ON/OFF를 그대로 사용할 수 있습니다.'
     };
-    Object.entries(textMap).forEach(([id,simpleText])=>{const d=$(id)?.querySelector('.desc');if(!d)return;if(!d.dataset.fullText)d.dataset.fullText=d.textContent;d.textContent=mode==='simple'?simpleText:d.dataset.fullText});
-    const basicTitle=$('basicTagsPanel')?.querySelector('.title');if(basicTitle){if(!basicTitle.dataset.fullText)basicTitle.dataset.fullText=basicTitle.textContent;basicTitle.textContent=mode==='simple'?'02 · CHARACTER':basicTitle.dataset.fullText}
-    const roll=$('rollAll');if(roll){if(!roll.dataset.fullHtml)roll.dataset.fullHtml=roll.innerHTML;roll.innerHTML=mode==='simple'?'🎲 랜덤 생성<span>장면에 맞춰 자동 매칭</span>':roll.dataset.fullHtml}
-    if(save){try{localStorage.setItem(UI_KEY,mode)}catch(_){}}updateCurrentSetupBar();
+    Object.entries(textMap).forEach(([id,simpleText])=>{const d=$(id)?.querySelector('.desc');if(!d)return;if(!d.dataset.fullText)d.dataset.fullText=d.textContent;d.textContent=simpleText});
+    const basicTitle=$('basicTagsPanel')?.querySelector('.title');if(basicTitle){if(!basicTitle.dataset.fullText)basicTitle.dataset.fullText=basicTitle.textContent;basicTitle.textContent='02 · CHARACTER'}
+    const roll=$('rollAll');if(roll){if(!roll.dataset.fullHtml)roll.dataset.fullHtml=roll.innerHTML;roll.innerHTML='🎲 랜덤 생성<span>잠금된 슬롯은 유지 · 필요한 슬롯만 다시 돌리기 가능</span>'}
+    if(save){try{localStorage.setItem(UI_KEY,'simple')}catch(_){}}updateCurrentSetupBar();
   }
 
   function hiddenAdvancedActive(){
@@ -5607,10 +5620,145 @@ if(document.body.classList.contains('access-locked')){
     if(value('outfitMode')==='layered')host.appendChild(chip('의상 · 레이어 조합'));
   }
 
+
+  function createSectionBody(section){
+    const head=section.querySelector('.head');
+    if(!head || section.querySelector(':scope > .simple-collapsible-body')) return section.querySelector(':scope > .simple-collapsible-body');
+    const body=document.createElement('div');body.className='simple-collapsible-body';
+    let node=head.nextSibling;
+    while(node){const next=node.nextSibling;body.appendChild(node);node=next;}
+    body.hidden=true;section.appendChild(body);return body;
+  }
+  function ensureCollapsibleSection(sectionId,label){
+    const section=$(sectionId);if(!section||section.dataset.collapseReady==='1')return section;section.dataset.collapseReady='1';section.classList.add('simple-collapsible-panel');
+    const head=section.querySelector('.head');if(!head)return section;const body=createSectionBody(section);
+    const btn=document.createElement('button');btn.type='button';btn.className='simple-collapsible-headbtn';btn.innerHTML=`${label||'하위 설정'} <span>⌄</span>`;
+    btn.addEventListener('click',()=>toggleCollapsibleSection(section,true));
+    head.appendChild(btn);section._collapseBody=body;section._collapseBtn=btn;return section;
+  }
+  function toggleCollapsibleSection(section,forceOpen=false){
+    if(!section)return;const body=section._collapseBody||section.querySelector(':scope > .simple-collapsible-body');if(!body)return;const open=forceOpen?true:body.hidden;body.hidden=!open?true:false;section.classList.toggle('open',open);
+  }
+  function ensureAdvancedStructure(){
+    ensureCollapsibleSection('characterAppearancePanel','열기');
+    ensureCollapsibleSection('characterSlotPanel','열기');
+    ensureCollapsibleSection('randomControlPanel','열기');
+    const preset=$('characterPresetPanel');if(preset && !preset.open)preset.open=false;
+    const basic=$('basicSubcategoryBox');if(basic)basic.open=false;
+    const scene=$('sceneOptionBox');if(scene)scene.open=false;
+  }
+  const ADVANCED_JUMP_MAP={
+    scene:{target:'#sceneOptionBox',keywords:'scene 장면 랜덤 카테고리 same 회피 옵션'},
+    quality:{target:'#basicSubcategoryBox',focus:'#quality',keywords:'quality style ai preset render 화풍 품질 스타일'},
+    pov:{target:'#basicSubcategoryBox',focus:'#povMode',keywords:'pov 시점 perspective point of view'},
+    relation:{target:'#basicSubcategoryBox',focus:'#relationPreset',keywords:'relation scene preset 관계 장면 프리셋'},
+    expression:{target:'#basicSubcategoryBox',focus:'#expressionCategoryMode',keywords:'expression 표정 웃음 눈물 당황 놀람'},
+    outfit:{target:'#basicSubcategoryBox',focus:'#outfitMode',keywords:'outfit 의상 layered layer 레이어'},
+    prop:{target:'#basicSubcategoryBox',focus:'#propCategoryMode',keywords:'prop 소품 패션 계절 직업 촬영 판타지 의료'},
+    character:{target:'#characterAppearancePanel',keywords:'character 캐릭터 외형 user appearance exclude'},
+    slots:{target:'#characterSlotPanel',keywords:'slot character a b c 슬롯 공 수 role'},
+    preset:{target:'#characterPresetPanel',keywords:'preset save load 프리셋 저장'},
+    random:{target:'#randomControlPanel',keywords:'random control 목적 랜덤 제어 strength purpose'}
+  };
+  function openAdvancedTarget(key,query=''){
+    const cfg=ADVANCED_JUMP_MAP[key];if(!cfg)return;const target=q(cfg.target);if(!target)return;
+    if(target.tagName==='DETAILS')target.open=true;
+    if(target.id==='basicSubcategoryBox'){target.open=true;}
+    if(target.id==='sceneOptionBox'){target.open=true;}
+    if(target.classList.contains('simple-collapsible-panel'))toggleCollapsibleSection(target,true);
+    const preferred=query?findMatchingAdvancedField(key,query):null;
+    const focusEl=preferred || (cfg.focus?q(cfg.focus):null);
+    if(focusEl){focusEl.classList.add('advanced-field-highlight');setTimeout(()=>focusEl.classList.remove('advanced-field-highlight'),1400);if(focusEl.focus)focusEl.focus({preventScroll:true});focusEl.scrollIntoView({behavior:'smooth',block:'center'});return;}
+    target.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  function advancedSearchTokensForTarget(key){
+    const cfg=ADVANCED_JUMP_MAP[key];
+    const target=cfg? q(cfg.target):null;
+    const tokens=[];
+    if(cfg?.keywords)tokens.push(cfg.keywords);
+    const chipBtn=q(`[data-advanced-target="${key}"]`,$('advancedQuickLinks'));
+    if(chipBtn)tokens.push(chipBtn.textContent||'');
+    if(target){
+      tokens.push(target.textContent||'');
+      qa('label,summary,.title,.desc,.advanced-settings-head,.character-mode-hint,.style-preset-meta,.director-note,.scope-chip',target).forEach(el=>tokens.push(el.textContent||''));
+      qa('select option',target).forEach(el=>tokens.push(el.textContent||''));
+      qa('input[placeholder],textarea[placeholder]',target).forEach(el=>tokens.push(el.getAttribute('placeholder')||''));
+      qa('button, .small-btn, .tool',target).forEach(el=>tokens.push(el.textContent||''));
+    }
+    return tokens.join(' ').replace(/\s+/g,' ').trim().toLowerCase();
+  }
+  function findMatchingAdvancedField(key,query){
+    const cfg=ADVANCED_JUMP_MAP[key];
+    const target=cfg? q(cfg.target):null;
+    if(!target||!query)return null;
+    const lower=query.toLowerCase();
+    const labeled=qa('.opt, .field, .char-separate-item, .user-character-wrap, .preset-box, .director-grid > div, .check-row label, .tool-row, .custom-grid > div',target);
+    for(const box of labeled){
+      const labelText=(q('label',box)?.textContent||box.textContent||'').toLowerCase();
+      if(labelText.includes(lower)){
+        return q('select,input,textarea,button',box) || box;
+      }
+    }
+    for(const sel of qa('select',target)){
+      const matchedOpt=[...sel.options].find(opt=>(opt.textContent||'').toLowerCase().includes(lower));
+      if(matchedOpt)return sel;
+    }
+    for(const el of qa('input[placeholder],textarea[placeholder]',target)){
+      const ph=(el.getAttribute('placeholder')||'').toLowerCase();
+      if(ph.includes(lower))return el;
+    }
+    return null;
+  }
+  function matchedOptionPreview(key,query){
+    const cfg=ADVANCED_JUMP_MAP[key];
+    const target=cfg? q(cfg.target):null;
+    if(!target||!query)return [];
+    const lower=query.toLowerCase();
+    const picks=[];
+    qa('label,summary,.title,select option,input[placeholder],textarea[placeholder]',target).forEach(el=>{
+      const text=(el.textContent||el.getAttribute?.('placeholder')||'').replace(/\s+/g,' ').trim();
+      if(text && text.toLowerCase().includes(lower) && !picks.includes(text)) picks.push(text);
+    });
+    return picks.slice(0,3);
+  }
+  function setupAdvancedSearchHub(){
+    const input=$('advancedSettingSearch'),clear=$('clearAdvancedSettingSearch'),meta=$('advancedSearchMeta');if(!input||!meta)return;
+    const chips=qa('[data-advanced-target]',$('advancedQuickLinks'));
+    const run=()=>{
+      const query=(input.value||'').trim().toLowerCase();let visible=0;let first=null;const previews=[];
+      chips.forEach(btn=>{
+        const key=btn.dataset.advancedTarget;
+        const hay=advancedSearchTokensForTarget(key);
+        const matched=!query||hay.includes(query);
+        btn.classList.toggle('hidden',!matched);
+        btn.classList.toggle('active',matched&&query.length>0);
+        if(matched){
+          visible++;
+          if(!first)first=btn;
+          if(query){
+            const sample=matchedOptionPreview(key,query);
+            if(sample.length)previews.push(`${btn.textContent.trim()} → ${sample.join(' / ')}`);
+          }
+        }
+      });
+      if(query){
+        const previewText=previews.length?` · 예: ${previews.slice(0,2).join(' · ')}`:'';
+        meta.textContent=`검색 결과 ${visible}개 · 실제 옵션/라벨까지 탐색합니다. Enter를 누르면 첫 결과로 이동합니다.${previewText}`;
+      }else{
+        meta.textContent='버튼을 누르면 해당 설정 구역으로 이동하고 자동으로 펼쳐집니다. 검색은 실제 옵션 라벨과 선택지 텍스트까지 포함합니다.';
+      }
+      input.dataset.firstMatch=first?.dataset.advancedTarget||'';
+    };
+    input.addEventListener('input',run);
+    input.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();const key=input.dataset.firstMatch;if(key)openAdvancedTarget(key,input.value.trim());}});
+    clear.addEventListener('click',()=>{input.value='';run();input.focus();});
+    chips.forEach(btn=>btn.addEventListener('click',()=>openAdvancedTarget(btn.dataset.advancedTarget,input.value.trim())));
+    run();
+  }
+
   function bind(){
     markAdvancedControls();
-    qa('[data-ui-mode-btn]').forEach(btn=>btn.addEventListener('click',()=>setUiMode(btn.dataset.uiModeBtn)));
-    $('openDetailedFromSummary')?.addEventListener('click',()=>{setUiMode('detail');(q('.advanced-basic-wrap')||$('basicTagsPanel'))?.scrollIntoView({behavior:'smooth',block:'start'})});
+    $('openDetailedFromSummary')?.addEventListener('click',()=>{const hub=$('subSettingHub');hub?.scrollIntoView({behavior:'smooth',block:'start'});$('advancedSettingSearch')?.focus()});
     document.addEventListener('change',()=>setTimeout(updateCurrentSetupBar,0),true);
     document.addEventListener('input',()=>setTimeout(updateCurrentSetupBar,0),true);
     document.addEventListener('click',e=>{
@@ -5618,7 +5766,9 @@ if(document.body.classList.contains('access-locked')){
     },true);
     const themeHost=$('themeSelectedSummary');
     if(themeHost)new MutationObserver(()=>updateCurrentSetupBar()).observe(themeHost,{childList:true,subtree:true,characterData:true});
-    setUiMode(readUiMode(),{save:false});
+    ensureAdvancedStructure();
+    setupAdvancedSearchHub();
+    setUiMode('simple',{save:false});
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind,{once:true});else bind();
 })();
