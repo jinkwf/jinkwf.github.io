@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#100b10" />
+  <title>SRS | 스토커 대여 서비스 센터</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0c0a0d;
+      --bg-soft:#161118;
+      --panel:#f4eadf;
+      --paper:#fff8f1;
+      --beige:#f1e0d0;
+      --ink:#181319;
+      --muted:#70656c;
+      --pink:#ff77a8;
+      --hot:#ff2f89;
+      --neon:#ff47b4;
+      --soft-neon:#ff9fd0;
+      --line:#2f2530;
+      --white:#ffffff;
+      --shadow:0 18px 50px rgba(0,0,0,.32);
+      --radius:24px;
+      --glass-line:rgba(255,255,255,.24);
+      --glass-fill:rgba(255,255,255,.08);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      min-height:100vh;
+      color:var(--white);
+      line-height:1.6;
+      font-family:"Noto Sans KR", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 18% 0%, rgba(255,71,180,.14), transparent 28%),
+        radial-gradient(circle at 84% 12%, rgba(255,119,168,.10), transparent 22%),
+        linear-gradient(180deg, #110d12 0%, #0c0a0d 100%);
+      overflow-x:hidden;
+    }
+
+    body.intro-lock{overflow:hidden}
+    body.cursor-hidden, body.cursor-hidden *{cursor:none !important}
+
+    a{color:inherit;text-decoration:none}
+    button,input,textarea,select{font:inherit}
+    img{max-width:100%;display:block}
+
+    .noise{
+      position:fixed;inset:0;pointer-events:none;z-index:1000;opacity:.04;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+    }
+
+    .container{width:min(1180px, calc(100% - 40px));margin:0 auto}
+
+    .intro-screen{
+      position:fixed;inset:0;z-index:2000;
+      display:grid;place-items:center;
+      background:
+        radial-gradient(circle at center, rgba(255,71,180,.22), transparent 35%),
+        linear-gradient(180deg, rgba(10,8,12,.96), rgba(12,10,13,.98));
+      transition:opacity .8s ease, visibility .8s ease;
+    }
+    .intro-screen.hidden{opacity:0;visibility:hidden}
+    .intro-inner{text-align:center;padding:32px 20px;max-width:620px}
+    .intro-heart{
+      width:min(34vw,190px);aspect-ratio:1/1;margin:0 auto 26px;position:relative;
+      display:grid;place-items:center;filter:drop-shadow(0 0 18px rgba(255,71,180,.65));
+      animation:heartIntro 2.5s ease-in-out infinite;
+    }
+    .intro-heart::before{
+      content:"♡";font-size:min(28vw,180px);line-height:1;color:var(--soft-neon);
+      text-shadow:0 0 12px var(--neon),0 0 26px var(--neon),0 0 56px rgba(255,71,180,.85);
+    }
+    .intro-logo{
+      position:absolute;inset:0;display:grid;place-items:center;
+      font-size:clamp(28px,5vw,56px);font-weight:900;letter-spacing:.04em;color:#fff;
+      text-shadow:0 0 16px rgba(255,71,180,.7);
+    }
+    .intro-copy{min-height:64px;font-size:clamp(18px,2.3vw,28px);font-weight:800;letter-spacing:-.02em}
+    .typing-cursor{display:inline-block;margin-left:4px;color:var(--soft-neon);animation:blink 1s step-end infinite}
+    .intro-sub{margin-top:10px;color:#d7c6d2;font-size:14px}
+    .intro-skip{
+      margin-top:22px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.05);color:#fff;
+      border-radius:999px;padding:10px 18px;font-weight:800;cursor:pointer
+    }
+
+    @keyframes heartIntro{
+      0%{transform:scale(1.28);opacity:.7;filter:drop-shadow(0 0 8px rgba(255,71,180,.5))}
+      18%{transform:scale(.78);opacity:1}
+      42%{transform:scale(1.06)}
+      58%{transform:scale(.94)}
+      72%{transform:scale(1.02);filter:drop-shadow(0 0 26px rgba(255,71,180,.9))}
+      100%{transform:scale(1.18);opacity:.82}
+    }
+    @keyframes blink{50%{opacity:0}}
+
+    .nav{
+      position:sticky;top:0;z-index:80;
+      backdrop-filter:blur(20px);
+      -webkit-backdrop-filter:blur(20px);
+      background:rgba(12,10,13,.72);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .nav-inner{height:74px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:.02em}
+    .brand-mark{
+      width:40px;height:40px;border-radius:14px;display:grid;place-items:center;
+      color:#fff;background:linear-gradient(135deg,var(--hot),#ff82b5);
+      box-shadow:0 0 22px rgba(255,47,137,.55), inset 0 1px 0 rgba(255,255,255,.35);
+      font-size:18px;
+    }
+    .brand small{display:block;color:#cfc0ca;font-size:11px;font-weight:700;letter-spacing:.08em}
+    .nav-links{display:flex;gap:24px;color:#ded1d8;font-size:14px;font-weight:700;flex-wrap:wrap}
+    .nav-links a{position:relative}
+    .nav-links a::after{content:"";position:absolute;left:0;bottom:-6px;width:100%;height:2px;background:var(--neon);transform:scaleX(0);transform-origin:left;transition:.25s}
+    .nav-links a:hover{color:#fff}
+    .nav-links a:hover::after{transform:scaleX(1)}
+    .nav-actions{display:flex;gap:10px;align-items:center}
+    .btn{
+      border:0;border-radius:999px;padding:12px 18px;font-weight:900;cursor:pointer;
+      transition:transform .2s ease, box-shadow .25s ease, opacity .2s ease;
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    }
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{color:white;background:linear-gradient(135deg,var(--hot),#ff66ad);box-shadow:0 0 22px rgba(255,47,137,.28)}
+    .btn-ghost{color:#fff;background:#1a151b;border:1px solid rgba(255,255,255,.12)}
+    .menu-btn{display:none}
+
+    .hero{padding:72px 0 36px}
+    .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:26px;align-items:stretch}
+    .hero-copy{
+      min-height:560px;padding:56px;border-radius:34px;
+      background:linear-gradient(150deg,rgba(255,250,245,.98),rgba(243,231,221,.98));
+      color:var(--ink);position:relative;overflow:hidden;box-shadow:var(--shadow);
+      border:1px solid rgba(255,255,255,.7);
+    }
+    .hero-copy::before{
+      content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-70px;top:-70px;
+      background:radial-gradient(circle,rgba(255,62,165,.30),transparent 66%);filter:blur(4px)
+    }
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;
+      background:#ffe0eb;color:#a51d56;font-size:12px;font-weight:900
+    }
+    h1{margin:22px 0 16px;font-size:clamp(42px,6vw,78px);line-height:.95;letter-spacing:-.06em}
+    h1 span{display:block;color:var(--hot);margin-top:12px;font-size:.62em;letter-spacing:-.05em}
+    .hero-desc{font-size:18px;color:#4d444b;max-width:640px}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+    .hero-note{margin-top:40px;padding-top:20px;border-top:1px dashed #b9a8b0;color:#6f636b;font-size:13px}
+
+    .hero-visual{
+      border-radius:34px;min-height:560px;overflow:hidden;position:relative;box-shadow:var(--shadow);
+      background:
+        linear-gradient(rgba(12,10,13,.24),rgba(12,10,13,.48)),
+        linear-gradient(180deg,#5f4659 0%, #2b2028 40%, #171218 100%);
+      border:1px solid rgba(255,255,255,.1);
+    }
+    .building{position:absolute;inset:0;padding:74px 52px 42px;display:flex;flex-direction:column;justify-content:flex-end}
+    .awning{position:absolute;left:11%;right:11%;top:17%;height:60px;border-radius:16px 16px 4px 4px;background:repeating-linear-gradient(90deg,#e8a2b9 0 42px,#ffd9e5 42px 84px);box-shadow:0 10px 0 rgba(0,0,0,.12)}
+    .storefront{height:52%;border:2px solid rgba(255,255,255,.18);border-radius:10px;background:rgba(10,9,12,.76);box-shadow:inset 0 0 0 12px rgba(255,255,255,.03)}
+    .neon-sign{text-align:center;font-weight:900;color:#ffd1e4;text-shadow:0 0 8px var(--neon),0 0 18px var(--neon),0 0 34px var(--neon);font-size:clamp(34px,4vw,62px);margin-top:58px}
+    .neon-sub{text-align:center;color:#ffb9d5;text-shadow:0 0 10px var(--neon);letter-spacing:.12em;font-size:13px;font-weight:900}
+    .mascot{
+      position:absolute;right:40px;bottom:20px;width:150px;height:175px;border-radius:70px 70px 36px 36px;
+      background:#101014;border:3px solid #2d2430;box-shadow:0 0 0 8px rgba(0,0,0,.12), 0 18px 40px rgba(0,0,0,.4)
+    }
+    .mascot:before,.mascot:after{content:"";position:absolute;top:62px;width:24px;height:18px;border-radius:50%;background:#ff9bff;box-shadow:0 0 14px #ff5de1}
+    .mascot:before{left:36px}.mascot:after{right:36px}
+    .mascot-logo{position:absolute;left:50%;transform:translateX(-50%);bottom:28px;color:#ff4a99;font-weight:900}
+
+    .sticky-note{
+      position:absolute;padding:18px 18px 16px;background:#f8d871;color:#302a2b;width:188px;
+      box-shadow:0 12px 26px rgba(0,0,0,.25);font-weight:400;font-size:30px;line-height:1.06;
+      transform:rotate(-4deg);font-family:"Nanum Pen Script", cursive;border-radius:4px;
+      animation:noteShake 3.2s ease-in-out infinite;
+      z-index:2;
+    }
+    .sticky-note.one{top:24px;left:22px}
+    .sticky-note.two{top:92px;right:18px;background:#ffbed2;transform:rotate(3deg);animation:noteShakeAlt 3.4s ease-in-out infinite}
+    @keyframes noteShake{
+      0%,100%{transform:rotate(-4deg) translateY(0)}
+      25%{transform:rotate(-2deg) translateY(-3px)}
+      50%{transform:rotate(-5deg) translateY(0)}
+      75%{transform:rotate(-3deg) translateY(3px)}
+    }
+    @keyframes noteShakeAlt{
+      0%,100%{transform:rotate(3deg) translateY(0)}
+      25%{transform:rotate(5deg) translateY(-3px)}
+      50%{transform:rotate(2deg) translateY(0)}
+      75%{transform:rotate(4deg) translateY(3px)}
+    }
+
+    section{padding:34px 0}
+    .section-title{
+      display:flex;align-items:center;justify-content:center;gap:20px;margin-bottom:18px;text-align:center
+    }
+    .section-title>div{width:100%}
+    .section-title h2{margin:0;font-size:32px;letter-spacing:-.04em}
+    .section-title p{margin:6px 0 0;color:#c0b2bc;font-size:14px}
+
+    .paper{
+      background:linear-gradient(180deg,#fffaf4,#f1e4d8);
+      color:var(--ink);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid #fff;
+    }
+
+    .hover-glass{position:relative;overflow:hidden;isolation:isolate;transition:transform .25s ease, box-shadow .25s ease}
+    .hover-glass::after{
+      content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .28s ease;
+      background:linear-gradient(135deg, rgba(255,255,255,.18), rgba(255,255,255,.04));
+      backdrop-filter:blur(16px) saturate(140%);
+      -webkit-backdrop-filter:blur(16px) saturate(140%);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.28), inset 0 -1px 0 rgba(255,255,255,.08);
+    }
+    .hover-glass:hover{
+      transform:translateY(-4px);
+      box-shadow:0 22px 55px rgba(0,0,0,.35), 0 0 22px rgba(255,71,180,.12);
+    }
+    .hover-glass:hover::after{opacity:1}
+
+    .overview{display:grid;grid-template-columns:repeat(5,1fr);padding:24px;gap:14px}
+    .step{text-align:center;padding:22px 12px;border:1px dashed #c7b8c0;border-radius:18px;background:rgba(255,255,255,.58)}
+    .step-icon{width:52px;height:52px;border-radius:50%;margin:0 auto 12px;display:grid;place-items:center;background:#ffd7e6;font-size:22px}
+    .step strong{display:block;margin-bottom:4px}
+    .step small{color:#736972}
+
+    .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;justify-content:center}
+    .chip{border:1px solid rgba(255,255,255,.12);background:#19151a;color:#d8cfd5;border-radius:999px;padding:10px 14px;font-weight:800;cursor:pointer;transition:.22s}
+    .chip.active,.chip:hover{background:var(--hot);color:#fff;border-color:transparent;box-shadow:0 0 18px rgba(255,47,137,.3)}
+
+    .agent-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+    .agent-card{position:relative;background:#f6ebdf;color:#17131a;border-radius:20px;border:1px solid #fff;box-shadow:0 15px 38px rgba(0,0,0,.26)}
+    .agent-visual{height:180px;background:
+      radial-gradient(circle at 50% 38%,#ffe6ee 0 28%,transparent 29%),
+      linear-gradient(160deg,#ffd0df,#efb6ca 45%,#d797b0);position:relative}
+    .head{position:absolute;width:78px;height:88px;border-radius:46% 46% 43% 43%;background:#f5d7ca;left:50%;top:32px;transform:translateX(-50%);border:3px solid rgba(0,0,0,.1)}
+    .hair{position:absolute;width:96px;height:70px;border-radius:50% 50% 36% 36%;background:#17151b;left:50%;top:20px;transform:translateX(-50%);clip-path:polygon(0 0,100% 0,100% 72%,86% 55%,72% 75%,56% 45%,44% 70%,28% 44%,15% 67%,0 80%)}
+    .body-shape{position:absolute;width:120px;height:84px;border-radius:55px 55px 12px 12px;background:#1a1820;left:50%;bottom:-6px;transform:translateX(-50%)}
+    .agent-badge{position:absolute;left:12px;top:12px;background:#120f13;color:#ff86b7;padding:6px 9px;border-radius:999px;font-size:11px;font-weight:900;z-index:2}
+    .agent-body{padding:17px}
+    .agent-body h3{margin:0 0 6px;font-size:18px}
+    .agent-body p{margin:0;color:#645b62;font-size:13px;min-height:42px}
+    .tagrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+    .tag{font-size:11px;padding:5px 8px;background:#fff;border:1px solid #d8cbd2;border-radius:999px}
+
+    .split{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .use-box,.principles{padding:26px}
+    .use-list{display:grid;gap:12px;margin-top:12px}
+    .use-item{display:flex;gap:12px;align-items:flex-start;padding:14px;border-radius:14px;background:#fff8fb;border:1px solid #ecd3df}
+    .check{width:24px;height:24px;border-radius:7px;display:grid;place-items:center;background:#ffe0ec;color:#b51f5a;font-weight:900;flex:none}
+
+    .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .price-card{padding:26px;position:relative;overflow:hidden}
+    .price-card.popular{outline:3px solid var(--hot);transform:translateY(-8px)}
+    .price-label{display:inline-flex;padding:7px 10px;border-radius:999px;background:#fff;color:#1a1619;font-weight:900;font-size:12px;border:1px solid #d9ccd3}
+    .price{font-size:36px;font-weight:1000;margin:14px 0 6px;letter-spacing:-.04em}
+    .price span{font-size:14px;color:#7e737a;font-weight:700}
+    .features{list-style:none;padding:0;margin:20px 0;display:grid;gap:10px;color:#4f464d}
+    .features li:before{content:"✓";color:var(--hot);font-weight:1000;margin-right:8px}
+    .price-card .btn{width:100%}
+    .ribbon{position:absolute;top:18px;right:-34px;transform:rotate(36deg);background:var(--hot);color:#fff;padding:7px 42px;font-size:11px;font-weight:900}
+
+    .missions{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .mission{background:#171319;border:1px solid rgba(255,255,255,.08);border-radius:18px;overflow:hidden}
+    .mission-art{height:150px;background:
+      linear-gradient(135deg,rgba(255,47,137,.18),rgba(255,255,255,.02)),
+      repeating-linear-gradient(90deg,transparent 0 22px,rgba(255,255,255,.025) 22px 23px),#262029;position:relative}
+    .mission-art:after{content:"SRS";position:absolute;inset:0;display:grid;place-items:center;color:#ff6da8;font-weight:1000;font-size:36px;text-shadow:0 0 20px rgba(255,62,165,.65)}
+    .mission-body{padding:16px}
+    .mission-body strong{display:block;margin-bottom:5px}
+    .mission-body span{color:#9e9199;font-size:13px}
+
+    .principle-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
+    .principle{padding:18px;border-radius:16px;background:#fff;border:1px solid #ddced5;text-align:center;color:var(--ink)}
+    .principle-icon{font-size:28px;margin-bottom:8px}
+    .principle b{display:block;margin-bottom:5px}
+    .principle small{color:#6f656c}
+
+    .warning{padding:28px;border-radius:24px;background:linear-gradient(180deg,#fff2f5,#f8d9e1);color:#32151f;border:1px solid #ffb0c9;box-shadow:var(--shadow)}
+    .warning h2{margin:0;color:#c51e5f;font-size:30px}
+    .warning ul{margin:14px 0 0;padding-left:20px}
+    .warning li{margin:8px 0}
+
+    .center-preview{display:grid;grid-template-columns:1.25fr .75fr;gap:18px;align-items:stretch}
+    .room{min-height:280px;border-radius:24px;background:
+      linear-gradient(rgba(10,8,11,.25),rgba(10,8,11,.58)),
+      linear-gradient(135deg,#6e4b60,#34272f 55%,#141116);position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.1)}
+    .room:before{content:"";position:absolute;left:8%;right:8%;top:16%;height:2px;background:rgba(255,255,255,.18);box-shadow:0 54px 0 rgba(255,255,255,.08),0 108px 0 rgba(255,255,255,.07)}
+    .room-neon{position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);font-size:58px;font-weight:1000;color:#ffc6dc;text-shadow:0 0 12px var(--neon),0 0 34px var(--neon)}
+    .room-caption{position:absolute;left:22px;bottom:18px;color:#ffc4db;font-weight:900}
+    .contact-card{padding:28px;background:#f1e3d7;color:#17131a;border-radius:24px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:var(--shadow)}
+    .contact-card h3{margin:0;font-size:26px;line-height:1.2}
+    .contact-meta{display:grid;gap:12px;margin-top:20px;color:#5e555b;font-size:14px}
+
+    footer{padding:42px 0 58px;color:#948992}
+    .footer-inner{display:flex;justify-content:space-between;gap:20px;border-top:1px solid rgba(255,255,255,.08);padding-top:24px}
+
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
+    .modal.open{display:flex}
+    .modal-card{width:min(680px,100%);max-height:90vh;overflow:auto;background:#f7ebe0;color:#17131a;border-radius:26px;padding:28px;box-shadow:0 25px 80px rgba(0,0,0,.55)}
+    .modal-top{display:flex;justify-content:space-between;gap:20px;align-items:center}
+    .close{width:38px;height:38px;border:0;border-radius:50%;background:#1b171b;color:#fff;cursor:pointer}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}
+    .field{display:grid;gap:7px}.field.full{grid-column:1/-1}
+    .field label{font-size:13px;font-weight:900;color:#463b43}
+    .field input,.field select,.field textarea{width:100%;border:1px solid #cfbec7;border-radius:12px;padding:12px 13px;background:#fffaf6;color:#1b171b;outline:none}
+    .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--hot);box-shadow:0 0 0 3px rgba(255,47,137,.1)}
+    .form-note{font-size:12px;color:#786c73;background:#fff5f8;border:1px solid #f0cedb;border-radius:12px;padding:12px;margin-top:14px}
+
+    .toast{position:fixed;right:24px;bottom:24px;background:#161217;color:#fff;border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow);opacity:0;transform:translateY(15px);pointer-events:none;transition:.25s;z-index:110}
+    .toast.show{opacity:1;transform:translateY(0)}
+
+    .cursor-heart{
+      position:fixed;left:0;top:0;z-index:1500;pointer-events:none;opacity:0;transform:translate(-50%,-50%) scale(1);
+      font-size:22px;color:var(--soft-neon);
+      text-shadow:0 0 6px var(--neon),0 0 14px var(--neon),0 0 24px rgba(255,71,180,.85);
+      transition:transform .08s linear, opacity .2s ease;
+      mix-blend-mode:screen;
+    }
+    .cursor-heart.active{opacity:1}
+    .cursor-heart.hovering{transform:translate(-50%,-50%) scale(1.35)}
+    .heart-trail{
+      position:fixed;left:0;top:0;z-index:1499;pointer-events:none;
+      color:var(--soft-neon);font-size:14px;opacity:1;
+      text-shadow:0 0 10px var(--neon),0 0 18px rgba(255,71,180,.8);
+      animation:trailFloat .8s ease-out forwards;
+    }
+    @keyframes trailFloat{
+      0%{transform:translate(-50%,-50%) scale(.9);opacity:.95}
+      100%{transform:translate(calc(-50% + var(--dx, 0px)), calc(-50% - 22px)) scale(1.45);opacity:0}
+    }
+
+    [data-reveal]{opacity:0;transform:translateY(28px);transition:opacity .78s ease, transform .78s ease}
+    [data-reveal].visible{opacity:1;transform:translateY(0)}
+
+    @media (max-width: 1040px){
+      .hero-grid,.split,.center-preview{grid-template-columns:1fr}
+      .overview{grid-template-columns:repeat(3,1fr)}
+      .agent-grid{grid-template-columns:repeat(2,1fr)}
+      .pricing{grid-template-columns:1fr}
+      .price-card.popular{transform:none}
+      .missions{grid-template-columns:repeat(2,1fr)}
+      .principle-grid{grid-template-columns:repeat(2,1fr)}
+    }
+
+    @media (max-width: 860px){
+      .nav-links{display:none}
+      .menu-btn{display:inline-flex}
+      .nav-actions .btn-ghost:not(.menu-btn){display:none}
+    }
+
+    @media (max-width: 640px){
+      .container{width:min(100% - 24px,1180px)}
+      .nav-inner{height:66px}
+      .hero{padding-top:28px}
+      .hero-copy{padding:30px;min-height:auto}
+      .hero-visual{min-height:460px}
+      .building{padding:60px 18px 24px}
+      .mascot{width:118px;height:140px;right:16px}
+      .sticky-note{width:138px;padding:12px 12px 10px;font-size:24px}
+      .sticky-note.two{display:none}
+      .overview{grid-template-columns:1fr 1fr}
+      .overview .step:last-child{grid-column:1/-1}
+      .agent-grid,.missions,.principle-grid{grid-template-columns:1fr}
+      .form-grid{grid-template-columns:1fr}
+      .field.full{grid-column:auto}
+      .footer-inner{flex-direction:column}
+      .section-title h2{font-size:27px}
+      h1{font-size:46px}
+      .hero-desc{font-size:16px}
+      .intro-copy{min-height:58px}
+    }
+
+    @media (pointer:coarse){
+      body.cursor-hidden, body.cursor-hidden *{cursor:auto !important}
+      .cursor-heart,.heart-trail{display:none !important}
+    }
+
+  </style>
+</head>
+<body class="intro-lock">
+  <div class="intro-screen" id="introScreen" aria-hidden="false">
+    <div class="intro-inner">
+      <div class="intro-heart">
+        <div class="intro-logo">SRS</div>
+      </div>
+      <div class="intro-copy"><span id="typedText"></span><span class="typing-cursor">|</span></div>
+      <div class="intro-sub">Stalker Rental Service Center</div>
+      <button class="intro-skip" id="skipIntro" type="button">바로 입장하기</button>
+    </div>
+  </div>
+
+  <div class="cursor-heart" id="cursorHeart">♥</div>
+  <div class="noise"></div>
+
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top">
+        <span class="brand-mark">♥</span>
+        <span>SRS <small>STALKER RENTAL SERVICE</small></span>
+      </a>
+      <div class="nav-links">
+        <a href="#service">서비스</a>
+        <a href="#catalog">대여 서비스</a>
+        <a href="#price">요금제</a>
+        <a href="#rules">운영 원칙</a>
+        <a href="#center">센터 안내</a>
+      </div>
+      <div class="nav-actions">
+        <button class="btn btn-ghost" data-scroll="#catalog">서비스 보기</button>
+        <button class="btn btn-primary" data-open-modal>상담 신청</button>
+        <button class="btn btn-ghost menu-btn" id="menuBtn">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy hover-glass" data-reveal>
+          <span class="eyebrow">합작 · SRS CENTER</span>
+          <h1 data-reveal>스토커<span>대여 서비스 센터</span></h1>
+          <p class="hero-desc" data-reveal>상상만 하던 스토커, 이제 <b>안전한 역할극 서비스</b>로 만나보세요. 상황과 취향에 맞춰 캐릭터를 매칭하고, 사전 합의된 범위 안에서 하루를 특별하게 연출합니다.</p>
+          <div class="hero-actions" data-reveal>
+            <button class="btn btn-primary" data-open-modal>지금 상담 신청하기</button>
+            <button class="btn btn-ghost" style="color:#17131a;background:#fff;border-color:#d8cbd2" data-scroll="#catalog">서비스 둘러보기</button>
+          </div>
+          <div class="hero-note" data-reveal>※ 본 페이지는 창작 세계관용 웹 UI입니다. 실제 위치 추적·개인정보 수집·무단 감시 기능은 제공하지 않습니다.</div>
+        </div>
+
+        <div class="hero-visual hover-glass" aria-label="SRS 센터 야간 외관을 모티브로 한 그래픽" data-reveal>
+          <div class="awning"></div>
+          <div class="sticky-note hover-glass one">연락 금지?<br>너무 쌀쌀해?<br>누군가 내 하루를<br>다 알아봤으면...?</div>
+          <div class="sticky-note hover-glass two">우리의 약속!<br>24시간 밀착 케어<br>비밀 보장 100%</div>
+          <div class="building">
+            <div class="storefront">
+              <div class="neon-sign">SRS ♡</div>
+              <div class="neon-sub">24 HOURS · OPEN</div>
+            </div>
+          </div>
+          <div class="mascot"><div class="mascot-logo">SRS</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="service">
+      <div class="container">
+        <div class="section-title" data-reveal>
+          <div><h2>서비스 오버뷰</h2><p>상담부터 파견, 종료 후 피드백까지 한 번에.</p></div>
+        </div>
+        <div class="paper overview hover-glass" data-reveal>
+          <div class="step hover-glass"><div class="step-icon">👥</div><strong>고객 상담</strong><small>상황·취향·금지선 정리</small></div>
+          <div class="step hover-glass"><div class="step-icon">📋</div><strong>맞춤 매칭</strong><small>성향과 연출 강도 선택</small></div>
+          <div class="step hover-glass"><div class="step-icon">🥷</div><strong>스토커 파견</strong><small>합의된 시나리오만 수행</small></div>
+          <div class="step hover-glass"><div class="step-icon">💗</div><strong>밀착 관찰</strong><small>감정선 중심의 역할극</small></div>
+          <div class="step hover-glass"><div class="step-icon">✅</div><strong>만족도 관리</strong><small>종료 후 피드백 반영</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="catalog">
+      <div class="container">
+        <div class="section-title" data-reveal>
+          <div><h2>대여 가능한 서비스</h2><p>일부 예시입니다. 상담 시 취향에 맞게 세부 조정 가능합니다.</p></div>
+        </div>
+        <div class="filters" data-reveal>
+          <button class="chip active" data-filter="all">전체</button>
+          <button class="chip" data-filter="clingy">집착형</button>
+          <button class="chip" data-filter="cute">귀여움</button>
+          <button class="chip" data-filter="smart">지능형</button>
+          <button class="chip" data-filter="quiet">조용한 타입</button>
+        </div>
+        <div class="agent-grid">
+          <article class="agent-card hover-glass" data-type="clingy smart" data-reveal><div class="agent-visual"><span class="agent-badge">집착 공공형</span><div class="hair"></div><div class="head"></div><div class="body-shape"></div></div><div class="agent-body"><h3>집착 공공형</h3><p>하루 종일 당신의 동선을 기억해두는 과몰입형.</p><div class="tagrow"><span class="tag">고집</span><span class="tag">잔소리</span><span class="tag">과보호</span></div></div></article>
+          <article class="agent-card hover-glass" data-type="quiet smart" data-reveal><div class="agent-visual"><span class="agent-badge">츤데레 냉미남형</span><div class="hair"></div><div class="head"></div><div class="body-shape"></div></div><div class="agent-body"><h3>츤데레 냉미남형</h3><p>무심한 척하지만 챙길 건 끝까지 챙기는 타입.</p><div class="tagrow"><span class="tag">무심</span><span class="tag">관찰</span><span class="tag">은근다정</span></div></div></article>
+          <article class="agent-card hover-glass" data-type="quiet" data-reveal><div class="agent-visual"><span class="agent-badge">조용 관찰형</span><div class="hair"></div><div class="head"></div><div class="body-shape"></div></div><div class="agent-body"><h3>조용 관찰형</h3><p>눈을 마주친 순간조차 기록해둘 것 같은 정적 타입.</p><div class="tagrow"><span class="tag">낮은 말수</span><span class="tag">정확함</span><span class="tag">거리 유지</span></div></div></article>
+          <article class="agent-card hover-glass" data-type="cute" data-reveal><div class="agent-visual"><span class="agent-badge">귀여운 강아지형</span><div class="hair"></div><div class="head"></div><div class="body-shape"></div></div><div class="agent-body"><h3>귀여운 강아지형</h3><p>당신을 보면 꼬리라도 흔들 것 같은 친근 밀착형.</p><div class="tagrow"><span class="tag">대형견</span><span class="tag">애교</span><span class="tag">충성</span></div></div></article>
+          <article class="agent-card hover-glass" data-type="smart" data-reveal><div class="agent-visual"><span class="agent-badge">지능형 해커 타입</span><div class="hair"></div><div class="head"></div><div class="body-shape"></div></div><div class="agent-body"><h3>지능형 해커 타입</h3><p>정보 수집을 잘하는 척 연기하는 브레인 캐릭터.</p><div class="tagrow"><span class="tag">분석가</span><span class="tag">브레인</span><span class="tag">계획형</span></div></div></article>
+          <article class="agent-card hover-glass" data-type="clingy cute" data-reveal><div class="agent-visual"><span class="agent-badge">스포츠 집착형</span><div class="hair"></div><div class="head"></div><div class="body-shape"></div></div><div class="agent-body"><h3>스포츠 집착형</h3><p>체력만큼 추진력도 넘치는 직진형 스토커 캐릭터.</p><div class="tagrow"><span class="tag">직진</span><span class="tag">활동적</span><span class="tag">열정</span></div></div></article>
+          <article class="agent-card hover-glass" data-type="quiet clingy" data-reveal><div class="agent-visual"><span class="agent-badge">금수저 스토커</span><div class="hair"></div><div class="head"></div><div class="body-shape"></div></div><div class="agent-body"><h3>금수저 스토커</h3><p>말보다 먼저 선물과 이벤트가 도착하는 타입.</p><div class="tagrow"><span class="tag">재력</span><span class="tag">품위</span><span class="tag">집요함</span></div></div></article>
+          <article class="agent-card hover-glass" data-type="clingy" data-reveal><div class="agent-visual" style="background:radial-gradient(circle at 50% 38%,#ffe8ea 0 28%,transparent 29%),linear-gradient(160deg,#f7c0c8,#c84d6f 70%)"><span class="agent-badge">미친 사랑꾼형</span><div class="hair" style="background:#7a1831"></div><div class="head"></div><div class="body-shape"></div></div><div class="agent-body"><h3>미친 사랑꾼형</h3><p>당신밖에 모르는 극단적 헌신형 캐릭터.</p><div class="tagrow"><span class="tag">올인</span><span class="tag">과몰입</span><span class="tag">헌신</span></div></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container split">
+        <div class="paper use-box hover-glass" data-reveal>
+          <div class="section-title" style="margin-bottom:10px"><div><h2 style="font-size:30px">어떤 상황에 이용하나요?</h2></div></div>
+          <div class="use-list">
+            <div class="use-item hover-glass" data-reveal><div class="check">✓</div><div><b>썸남/썸녀가 나를 신경 쓰게 만들고 싶을 때</b><br><small>질투 유발용 상황극</small></div></div>
+            <div class="use-item hover-glass" data-reveal><div class="check">✓</div><div><b>바람핀 연인에게 혼란을 주고 싶을 때</b><br><small>드라마틱한 연출용</small></div></div>
+            <div class="use-item hover-glass" data-reveal><div class="check">✓</div><div><b>일상이 무료하고 재미가 필요할 때</b><br><small>콘셉트형 하루 체험</small></div></div>
+            <div class="use-item hover-glass" data-reveal><div class="check">✓</div><div><b>나를 진짜 좋아하는지 시험해보고 싶을 때</b><br><small>관계 시뮬레이션</small></div></div>
+            <div class="use-item hover-glass" data-reveal><div class="check">✓</div><div><b>생일·기념일 같은 특별한 이벤트가 필요할 때</b><br><small>맞춤 이벤트 연출</small></div></div>
+          </div>
+        </div>
+        <div class="warning hover-glass" data-reveal>
+          <div class="section-title" style="margin-bottom:12px"><div><h2 style="margin:0;color:#c51e5f">⚠ 경고</h2></div></div>
+          <ul>
+            <li>모든 스토커는 합의된 <b>역할극 캐릭터</b>입니다.</li>
+            <li>고객의 선택과 판단에 따라 연출 결과는 달라질 수 있습니다.</li>
+            <li>과도한 집착 콘셉트는 예상치 못한 감정적 몰입을 일으킬 수 있습니다.</li>
+            <li>실제 위협·무단 추적·개인정보 침해는 서비스 범위에 포함되지 않습니다.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="price">
+      <div class="container">
+        <div class="section-title" data-reveal><div><h2>서비스 이용 요금제</h2><p>24시간 단위의 가상 패키지 예시입니다.</p></div></div>
+        <div class="pricing">
+          <div class="paper price-card hover-glass" data-reveal>
+            <span class="price-label" style="background:#daf4d8">BASIC</span>
+            <div class="price">₩129,000<span>~ / 24H</span></div>
+            <ul class="features"><li>기본 미행 연출</li><li>SNS 감시 콘셉트</li><li>일일 보고서 1회</li><li>위험 행동 없음</li></ul>
+            <button class="btn btn-ghost" style="color:#17131a;background:#fff;border-color:#d7c9d1" data-plan="BASIC">이 플랜 선택</button>
+          </div>
+          <div class="paper price-card popular hover-glass" data-reveal>
+            <div class="ribbon">인기</div>
+            <span class="price-label" style="background:#dfe7ff">PREMIUM</span>
+            <div class="price">₩259,000<span>~ / 24H</span></div>
+            <ul class="features"><li>밀착 미행 연출</li><li>실시간 위치 공유 콘셉트 UI</li><li>사진/영상 촬영 연출</li><li>일일 보고서 3회</li><li>경고 메시지 연출</li></ul>
+            <button class="btn btn-primary" data-plan="PREMIUM">이 플랜 선택</button>
+          </div>
+          <div class="paper price-card hover-glass" data-reveal>
+            <span class="price-label" style="background:#ffdce7">VIP</span>
+            <div class="price">₩499,000<span>~ / 24H</span></div>
+            <ul class="features"><li>24시간 밀착 연출</li><li>생활 전반 케어 콘셉트</li><li>실시간 보고 연출</li><li>선물/편지 대행 콘셉트</li><li>맞춤형 이벤트</li></ul>
+            <button class="btn btn-ghost" style="color:#17131a;background:#fff;border-color:#d7c9d1" data-plan="VIP">이 플랜 선택</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-title" data-reveal><div><h2>이용 방법</h2><p>복잡하지 않게, 다섯 단계로.</p></div></div>
+        <div class="paper overview hover-glass" data-reveal>
+          <div class="step hover-glass"><div class="step-icon">📝</div><strong>상담 신청</strong><small>홈페이지·문의 접수</small></div>
+          <div class="step hover-glass"><div class="step-icon">📑</div><strong>요청서 작성</strong><small>원하는 스토커 타입·목적</small></div>
+          <div class="step hover-glass"><div class="step-icon">👤</div><strong>매칭 및 견적</strong><small>캐릭터 프로필 확인</small></div>
+          <div class="step hover-glass"><div class="step-icon">💳</div><strong>계약 및 결제</strong><small>이용 약관 동의</small></div>
+          <div class="step hover-glass"><div class="step-icon">🚙</div><strong>파견 시작</strong><small>합의된 시간·장소부터</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-title" data-reveal><div><h2>스토커 파견 예시</h2><p>당신의 이야기는, 우리 스토커의 하루가 됩니다.</p></div></div>
+        <div class="missions">
+          <div class="mission hover-glass" data-reveal><div class="mission-art"></div><div class="mission-body"><strong>출근길에 몰래 따라가기</strong><span>낯익은 듯 낯선 시선 연출</span></div></div>
+          <div class="mission hover-glass" data-reveal><div class="mission-art"></div><div class="mission-body"><strong>SNS 실시간 감시</strong><span>피드·스토리 반응 콘셉트</span></div></div>
+          <div class="mission hover-glass" data-reveal><div class="mission-art"></div><div class="mission-body"><strong>우연을 가장한 만남</strong><span>카페·서점·퇴근길 이벤트</span></div></div>
+          <div class="mission hover-glass" data-reveal><div class="mission-art"></div><div class="mission-body"><strong>특별한 날 이벤트 준비</strong><span>기념일 맞춤 시나리오</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="rules">
+      <div class="container">
+        <div class="paper principles hover-glass" data-reveal>
+          <div class="section-title"><div><h2>우리의 원칙</h2></div></div>
+          <div class="principle-grid">
+            <div class="principle hover-glass" data-reveal><div class="principle-icon">🛡️</div><b>절대 불법 행위 금지</b><small>폭행·협박·재물손괴 등은 수행하지 않습니다.</small></div>
+            <div class="principle hover-glass" data-reveal><div class="principle-icon">🔒</div><b>고객 정보 철저 보호</b><small>세계관 설정상 모든 개인정보는 비공개 처리됩니다.</small></div>
+            <div class="principle hover-glass" data-reveal><div class="principle-icon">↔️</div><b>적절한 거리 유지</b><small>사전 합의한 범위 밖으로 접근하지 않습니다.</small></div>
+            <div class="principle hover-glass" data-reveal><div class="principle-icon">💗</div><b>당신의 행복 우선</b><small>불편하면 즉시 연출 강도를 조정합니다.</small></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="center">
+      <div class="container">
+        <div class="section-title" data-reveal><div><h2>센터 내부 살짝 공개</h2><p>365일, 24시간 관리 중.</p></div></div>
+        <div class="center-preview">
+          <div class="room hover-glass" data-reveal><div class="room-neon">SRS ♡</div><div class="room-caption">CONTROL ROOM · 24H</div></div>
+          <div class="contact-card hover-glass" data-reveal>
+            <div>
+              <span class="eyebrow">STALKER RENTAL SERVICE CENTER</span>
+              <h3>당신의 일상에,<br>특별한 그림자를.</h3>
+              <div class="contact-meta"><span>● 운영 시간: 24H / 365D</span><span>● 상담 방식: 웹 접수 · 예약제</span><span>● 콘셉트: 창작/역할극 전용</span></div>
+            </div>
+            <button class="btn btn-primary" data-open-modal>상담 예약하기</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div><b style="color:#fff">SRS · STALKER RENTAL SERVICE</b><br><small>Fictional concept website for creative use.</small></div>
+      <div style="text-align:right"><small>© 2026 SRS CENTER. All rights reserved.</small></div>
+    </div>
+  </footer>
+
+  <div class="modal" id="applyModal" aria-hidden="true">
+    <div class="modal-card hover-glass">
+      <div class="modal-top">
+        <div><span class="eyebrow">SRS COUNSELING</span><h2 style="margin:10px 0 0">상담 신청서</h2></div>
+        <button class="close" id="closeModal" type="button">✕</button>
+      </div>
+      <form id="applyForm">
+        <div class="form-grid">
+          <div class="field"><label>닉네임</label><input required placeholder="예: 데이" /></div>
+          <div class="field"><label>희망 요금제</label><select id="planSelect"><option>BASIC</option><option>PREMIUM</option><option>VIP</option></select></div>
+          <div class="field"><label>희망 서비스</label><select><option>집착 공공형</option><option>츤데레 냉미남형</option><option>조용 관찰형</option><option>귀여운 강아지형</option><option>지능형 해커 타입</option><option>미친 사랑꾼형</option></select></div>
+          <div class="field"><label>연출 강도</label><select><option>LIGHT</option><option>MEDIUM</option><option>DRAMA</option></select></div>
+          <div class="field full"><label>원하는 상황</label><textarea rows="5" placeholder="예: 퇴근길 우연을 가장한 만남 → 카페에서 마주치기 → 집 앞에서 짧은 메시지 남기기"></textarea></div>
+        </div>
+        <div class="form-note">이 데모 폼은 실제 서버로 전송되지 않습니다. 제출 버튼을 누르면 프론트엔드에서 완료 메시지만 표시됩니다.</div>
+        <button class="btn btn-primary" style="width:100%;margin-top:16px" type="submit">상담 내용 임시 접수</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">상담 내용이 임시 접수되었습니다. ♡</div>
+
+  <script>
+    const modal = document.getElementById('applyModal');
+    const planSelect = document.getElementById('planSelect');
+    const toast = document.getElementById('toast');
+    const introScreen = document.getElementById('introScreen');
+    const typedText = document.getElementById('typedText');
+    const skipIntro = document.getElementById('skipIntro');
+    const cursorHeart = document.getElementById('cursorHeart');
+
+    function openModal(plan){
+      if(plan) planSelect.value = plan;
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden','false');
+      document.body.style.overflow='hidden';
+    }
+    function closeModal(){
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden','true');
+      document.body.style.overflow='';
+      if(document.body.classList.contains('intro-lock')){
+        document.body.style.overflow='hidden';
+      }
+    }
+
+    document.querySelectorAll('[data-open-modal]').forEach(btn=>btn.addEventListener('click',()=>openModal()));
+    document.querySelectorAll('[data-plan]').forEach(btn=>btn.addEventListener('click',()=>openModal(btn.dataset.plan)));
+    document.getElementById('closeModal').addEventListener('click',closeModal);
+    modal.addEventListener('click',e=>{ if(e.target===modal) closeModal(); });
+    document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+
+    document.querySelectorAll('[data-scroll]').forEach(btn=>btn.addEventListener('click',()=>{
+      document.querySelector(btn.dataset.scroll)?.scrollIntoView({behavior:'smooth'});
+    }));
+
+    document.querySelectorAll('.chip').forEach(chip=>{
+      chip.addEventListener('click',()=>{
+        document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+        chip.classList.add('active');
+        const filter = chip.dataset.filter;
+        document.querySelectorAll('.agent-card').forEach(card=>{
+          const show = filter === 'all' || card.dataset.type.includes(filter);
+          card.style.display = show ? 'block' : 'none';
+        });
+      });
+    });
+
+    document.getElementById('applyForm').addEventListener('submit',e=>{
+      e.preventDefault();
+      closeModal();
+      toast.classList.add('show');
+      setTimeout(()=>toast.classList.remove('show'),2600);
+      e.target.reset();
+    });
+
+    document.getElementById('menuBtn').addEventListener('click',()=>{
+      document.querySelector('#catalog').scrollIntoView({behavior:'smooth'});
+    });
+
+    const revealTargets = document.querySelectorAll('[data-reveal]');
+    const revealObserver = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {threshold:.14, rootMargin:'0px 0px -40px 0px'});
+    revealTargets.forEach(el=>revealObserver.observe(el));
+
+    let introDone = false;
+    function finishIntro(){
+      if(introDone) return;
+      introDone = true;
+      introScreen.classList.add('hidden');
+      introScreen.setAttribute('aria-hidden','true');
+      document.body.classList.remove('intro-lock');
+      document.body.style.overflow='';
+    }
+
+    const introMessage = '어서오세요. SRS 서비스입니다.';
+    let idx = 0;
+    function typeIntro(){
+      if(idx < introMessage.length){
+        typedText.textContent += introMessage.charAt(idx);
+        idx += 1;
+        setTimeout(typeIntro, 90);
+      } else {
+        setTimeout(finishIntro, 900);
+      }
+    }
+    setTimeout(typeIntro, 500);
+    skipIntro.addEventListener('click', finishIntro);
+
+    if(window.matchMedia('(pointer:fine)').matches){
+      document.body.classList.add('cursor-hidden');
+      let lastTrail = 0;
+      let mouseX = window.innerWidth/2;
+      let mouseY = window.innerHeight/2;
+
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        cursorHeart.style.left = mouseX + 'px';
+        cursorHeart.style.top = mouseY + 'px';
+        cursorHeart.classList.add('active');
+
+        const now = performance.now();
+        if(now - lastTrail > 34){
+          lastTrail = now;
+          const trail = document.createElement('span');
+          trail.className = 'heart-trail';
+          trail.textContent = Math.random() > .35 ? '♥' : '♡';
+          trail.style.left = mouseX + 'px';
+          trail.style.top = mouseY + 'px';
+          trail.style.setProperty('--dx', `${(Math.random() * 18) - 9}px`);
+          trail.style.fontSize = `${12 + Math.random() * 10}px`;
+          document.body.appendChild(trail);
+          setTimeout(()=>trail.remove(), 820);
+        }
+      });
+
+      document.addEventListener('mouseleave', ()=>cursorHeart.classList.remove('active'));
+      document.querySelectorAll('a, button, .hover-glass, input, textarea, select').forEach(el=>{
+        el.addEventListener('mouseenter', ()=>cursorHeart.classList.add('hovering'));
+        el.addEventListener('mouseleave', ()=>cursorHeart.classList.remove('hovering'));
+      });
+    }
+  </script>
+</body>
+</html>
