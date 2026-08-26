@@ -93,8 +93,11 @@
     .intro-sub{margin-top:12px;color:#d7c6d2;font-size:18px}
     .intro-skip{
       margin-top:26px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.05);color:#fff;
-      border-radius:999px;padding:12px 22px;font-weight:800;cursor:pointer
+      border-radius:999px;padding:12px 22px;font-weight:800;cursor:pointer;
+      opacity:0;pointer-events:none;transform:translateY(10px);transition:opacity .35s ease,transform .35s ease,box-shadow .25s ease
     }
+    .intro-skip.ready{opacity:1;pointer-events:auto;transform:translateY(0)}
+    .intro-skip.ready:hover{box-shadow:0 0 10px rgba(255,42,167,.8),0 0 28px rgba(255,42,167,.45)}
 
     @keyframes heartOnly{
       0%{transform:scale(1.25);opacity:.72;filter:brightness(.95)}
@@ -201,8 +204,8 @@
       animation:noteShake 3.2s ease-in-out infinite;
       z-index:2;user-select:none;-webkit-user-select:none;touch-action:none;cursor:grab;
     }
-    .sticky-note.dragging{animation:none!important;cursor:grabbing;transform:rotate(0deg)!important;box-shadow:0 18px 38px rgba(0,0,0,.42),0 0 14px rgba(255,42,167,.35)!important;filter:brightness(1.04);z-index:1300!important}
-    .sticky-note.dragged{z-index:120!important}
+    .sticky-note.dragging{animation:none!important;cursor:grabbing;transform:rotate(0deg)!important;box-shadow:0 18px 38px rgba(0,0,0,.42),0 0 14px rgba(255,42,167,.35)!important;filter:brightness(1.04);z-index:1700!important}
+    .sticky-note.dragged{position:fixed!important;right:auto!important;bottom:auto!important;z-index:1600!important;margin:0!important;will-change:left,top;touch-action:none}
     .sticky-note.one{top:22px;left:26px}
     .sticky-note.two{top:24px;right:26px;background:repeating-linear-gradient(2deg,rgba(120,55,78,.045) 0 1px,transparent 1px 5px),linear-gradient(145deg,#ffc4d8,#f6a8c3);transform:rotate(3deg);animation:noteShakeAlt 3.4s ease-in-out infinite}
     @keyframes noteShake{
@@ -483,7 +486,7 @@
         <div class="intro-copy-wrap">
           <div class="intro-copy"><span id="typedText"></span><span class="typing-cursor">|</span></div>
           <div class="intro-sub">Stalker Rental Service Center</div>
-          <button class="intro-skip" id="skipIntro" type="button">바로 입장하기</button>
+          <button class="intro-skip" id="skipIntro" type="button">입장하기</button>
         </div>
       </div>
     </div>
@@ -885,50 +888,63 @@
     });
     window.addEventListener('resize',()=>{if(window.innerWidth > 860) closeMobileMenu();});
 
-    // 쪽지 드래그: 처음 잡는 순간 본문 레이어로 이동해 카드 밖으로도 자유롭게 꺼낼 수 있습니다.
+    // 쪽지 드래그: 잡는 순간 body 최상위의 fixed 레이어로 이동시켜
+    // 원래 카드의 overflow 영역을 완전히 벗어나 어디든 끌어낼 수 있게 합니다.
     document.querySelectorAll('[data-draggable-note]').forEach(note=>{
       let dragging = false;
+      let pointerId = null;
       let offsetX = 0;
       let offsetY = 0;
-      let pointerId = null;
+
+      const moveNote = (clientX, clientY) => {
+        note.style.left = (clientX - offsetX) + 'px';
+        note.style.top = (clientY - offsetY) + 'px';
+      };
 
       note.addEventListener('pointerdown', e=>{
-        if(e.button !== undefined && e.button !== 0) return;
+        if(e.pointerType === 'mouse' && e.button !== 0) return;
         const rect = note.getBoundingClientRect();
-        offsetX = e.clientX - rect.left;
-        offsetY = e.clientY - rect.top;
         pointerId = e.pointerId;
         dragging = true;
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
 
+        // 카드 안에 있던 쪽지를 body 직속 자식으로 빼내면 부모의 overflow:hidden에 잘리지 않습니다.
         if(note.parentElement !== document.body){
           document.body.appendChild(note);
         }
+
         note.classList.add('dragged','dragging');
-        note.style.position = 'absolute';
         note.style.width = rect.width + 'px';
-        note.style.left = (rect.left + window.scrollX) + 'px';
-        note.style.top = (rect.top + window.scrollY) + 'px';
+        note.style.height = rect.height + 'px';
+        note.style.left = rect.left + 'px';
+        note.style.top = rect.top + 'px';
         note.style.right = 'auto';
         note.style.bottom = 'auto';
-        note.setPointerCapture?.(e.pointerId);
+
+        // 첫 프레임부터 손가락/마우스 위치를 정확히 따라오게 합니다.
+        moveNote(e.clientX, e.clientY);
+        try{ note.setPointerCapture?.(e.pointerId); }catch(_){}
         e.preventDefault();
       });
 
-      note.addEventListener('pointermove', e=>{
+      document.addEventListener('pointermove', e=>{
         if(!dragging || e.pointerId !== pointerId) return;
-        note.style.left = (e.clientX + window.scrollX - offsetX) + 'px';
-        note.style.top = (e.clientY + window.scrollY - offsetY) + 'px';
-      });
+        moveNote(e.clientX, e.clientY);
+        e.preventDefault();
+      }, {passive:false});
 
-      function endDrag(e){
-        if(!dragging || (e.pointerId !== undefined && e.pointerId !== pointerId)) return;
+      const endDrag = e=>{
+        if(!dragging) return;
+        if(e && e.pointerId !== undefined && e.pointerId !== pointerId) return;
         dragging = false;
         note.classList.remove('dragging');
         try{ note.releasePointerCapture?.(pointerId); }catch(_){}
         pointerId = null;
-      }
-      note.addEventListener('pointerup', endDrag);
-      note.addEventListener('pointercancel', endDrag);
+      };
+
+      document.addEventListener('pointerup', endDrag);
+      document.addEventListener('pointercancel', endDrag);
     });
 
     // 리뷰 카테고리 필터
@@ -1040,7 +1056,8 @@
         idx += 1;
         setTimeout(typeIntro, 90);
       } else {
-        setTimeout(finishIntro, 900);
+        // 자동 진입하지 않습니다. 타이핑이 끝난 뒤 사용자가 직접 입장 버튼을 눌러야 합니다.
+        skipIntro.classList.add('ready');
       }
     }
     setTimeout(typeIntro, 500);
