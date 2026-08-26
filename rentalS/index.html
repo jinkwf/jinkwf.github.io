@@ -63,41 +63,46 @@
       position:fixed;inset:0;z-index:2000;
       display:grid;place-items:center;
       background:
-        radial-gradient(circle at center, rgba(255,71,180,.22), transparent 35%),
-        linear-gradient(180deg, rgba(10,8,12,.96), rgba(12,10,13,.98));
+        radial-gradient(circle at center, rgba(255,71,180,.24), transparent 36%),
+        linear-gradient(180deg, rgba(10,8,12,.965), rgba(12,10,13,.985));
       transition:opacity .8s ease, visibility .8s ease;
     }
     .intro-screen.hidden{opacity:0;visibility:hidden}
-    .intro-inner{text-align:center;padding:32px 20px;max-width:620px}
-    .intro-heart{
-      width:min(34vw,190px);aspect-ratio:1/1;margin:0 auto 26px;position:relative;
-      display:grid;place-items:center;filter:drop-shadow(0 0 18px rgba(255,71,180,.65));
-      animation:heartIntro 2.5s ease-in-out infinite;
+    .intro-inner{text-align:center;padding:32px 20px;max-width:760px;width:min(100%,760px)}
+    .intro-stage{position:relative;min-height:470px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
+    .intro-heart-wrap{
+      position:absolute;left:50%;top:6px;transform:translateX(-50%);
+      width:min(52vw,340px);aspect-ratio:1/1;pointer-events:none;z-index:1;
+      display:grid;place-items:center;filter:drop-shadow(0 0 24px rgba(255,71,180,.72));
     }
-    .intro-heart::before{
-      content:"♡";font-size:min(28vw,180px);line-height:1;color:var(--soft-neon);
-      text-shadow:0 0 12px var(--neon),0 0 26px var(--neon),0 0 56px rgba(255,71,180,.85);
+    .intro-heart-shape{
+      position:absolute;inset:0;display:grid;place-items:center;
+      color:var(--soft-neon);font-size:min(44vw,300px);line-height:1;
+      text-shadow:0 0 12px var(--neon),0 0 30px var(--neon),0 0 70px rgba(255,71,180,.92);
+      animation:heartOnly 2.8s ease-in-out infinite;
     }
     .intro-logo{
-      position:absolute;inset:0;display:grid;place-items:center;
-      font-size:clamp(28px,5vw,56px);font-weight:900;letter-spacing:.04em;color:#fff;
-      text-shadow:0 0 16px rgba(255,71,180,.7);
+      position:relative;z-index:2;display:grid;place-items:center;
+      font-size:clamp(44px,8vw,72px);font-weight:900;letter-spacing:.04em;color:#fff;
+      text-shadow:0 0 16px rgba(255,71,180,.72),0 0 30px rgba(255,71,180,.42);
+      transform:translateY(-4px);
     }
-    .intro-copy{min-height:64px;font-size:clamp(18px,2.3vw,28px);font-weight:800;letter-spacing:-.02em}
+    .intro-copy-wrap{position:relative;z-index:3;padding-top:250px}
+    .intro-copy{min-height:84px;font-size:clamp(33px,4.1vw,43px);font-weight:900;letter-spacing:-.03em;line-height:1.2}
     .typing-cursor{display:inline-block;margin-left:4px;color:var(--soft-neon);animation:blink 1s step-end infinite}
-    .intro-sub{margin-top:10px;color:#d7c6d2;font-size:14px}
+    .intro-sub{margin-top:12px;color:#d7c6d2;font-size:18px}
     .intro-skip{
-      margin-top:22px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.05);color:#fff;
-      border-radius:999px;padding:10px 18px;font-weight:800;cursor:pointer
+      margin-top:26px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.05);color:#fff;
+      border-radius:999px;padding:12px 22px;font-weight:800;cursor:pointer
     }
 
-    @keyframes heartIntro{
-      0%{transform:scale(1.28);opacity:.7;filter:drop-shadow(0 0 8px rgba(255,71,180,.5))}
-      18%{transform:scale(.78);opacity:1}
-      42%{transform:scale(1.06)}
-      58%{transform:scale(.94)}
-      72%{transform:scale(1.02);filter:drop-shadow(0 0 26px rgba(255,71,180,.9))}
-      100%{transform:scale(1.18);opacity:.82}
+    @keyframes heartOnly{
+      0%{transform:scale(1.25);opacity:.72;filter:brightness(.95)}
+      18%{transform:scale(.82);opacity:1}
+      40%{transform:scale(1.03);filter:brightness(1.06)}
+      58%{transform:scale(.96)}
+      75%{transform:scale(1.08);filter:brightness(1.18)}
+      100%{transform:scale(1.25);opacity:.8}
     }
     @keyframes blink{50%{opacity:0}}
 
@@ -311,9 +316,10 @@
     .room:before{content:"";position:absolute;left:8%;right:8%;top:16%;height:2px;background:rgba(255,255,255,.18);box-shadow:0 54px 0 rgba(255,255,255,.08),0 108px 0 rgba(255,255,255,.07)}
     .room-neon{position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);font-size:58px;font-weight:1000;color:#fff3fb;text-shadow:0 0 6px #fff,0 0 14px var(--neon),0 0 34px var(--neon),0 0 68px rgba(255,42,167,.68);animation:neonPulse 3.2s ease-in-out infinite}
     .room-caption{position:absolute;left:22px;bottom:18px;color:#ffc4db;font-weight:900}
-    .contact-card{padding:28px;background:repeating-linear-gradient(2deg,rgba(98,66,43,.03) 0 1px,transparent 1px 5px),linear-gradient(180deg,#f5e7d8,#e2cbb5);color:#17131a;border-radius:24px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 18px 48px rgba(0,0,0,.35),inset 0 0 30px rgba(104,70,45,.07);border:1px solid rgba(128,88,60,.22)}
-    .contact-card h3{margin:0;font-size:26px;line-height:1.2}
-    .contact-meta{display:grid;gap:12px;margin-top:20px;color:#5e555b;font-size:14px}
+    .contact-card{padding:34px 42px 34px;background:repeating-linear-gradient(2deg,rgba(98,66,43,.03) 0 1px,transparent 1px 5px),linear-gradient(180deg,#f5e7d8,#e2cbb5);color:#17131a;border-radius:24px;display:flex;flex-direction:column;justify-content:flex-start;gap:22px;box-shadow:0 18px 48px rgba(0,0,0,.35),inset 0 0 30px rgba(104,70,45,.07);border:1px solid rgba(128,88,60,.22)}
+    .contact-card h3{margin:0;font-size:41px;line-height:1.05;letter-spacing:-.04em;max-width:420px}
+    .contact-meta{display:grid;gap:16px;margin-top:8px;color:#6b6067;font-size:14px;font-weight:500}
+    .contact-meta span{display:flex;align-items:center;gap:10px}
 
     footer{padding:42px 0 58px;color:#948992}
     .footer-inner{display:flex;justify-content:space-between;gap:20px;border-top:1px solid rgba(255,255,255,.08);padding-top:24px}
@@ -393,7 +399,14 @@
       .section-title h2{font-size:27px}
       h1{font-size:46px}
       .hero-desc{font-size:16px}
-      .intro-copy{min-height:58px}
+      .contact-card{padding:28px 24px}
+      .contact-card h3{font-size:36px}
+      .intro-stage{min-height:420px}
+      .intro-heart-wrap{width:min(74vw,320px);top:18px}
+      .intro-logo{font-size:clamp(42px,11vw,66px)}
+      .intro-copy-wrap{padding-top:220px}
+      .intro-copy{min-height:72px;font-size:clamp(28px,8vw,38px)}
+      .intro-sub{font-size:16px}
     }
 
     @media (pointer:coarse){
@@ -406,12 +419,17 @@
 <body class="intro-lock">
   <div class="intro-screen" id="introScreen" aria-hidden="false">
     <div class="intro-inner">
-      <div class="intro-heart">
-        <div class="intro-logo">SRS</div>
+      <div class="intro-stage">
+        <div class="intro-heart-wrap" aria-hidden="true">
+          <div class="intro-heart-shape">♡</div>
+          <div class="intro-logo">SRS</div>
+        </div>
+        <div class="intro-copy-wrap">
+          <div class="intro-copy"><span id="typedText"></span><span class="typing-cursor">|</span></div>
+          <div class="intro-sub">Stalker Rental Service Center</div>
+          <button class="intro-skip" id="skipIntro" type="button">바로 입장하기</button>
+        </div>
       </div>
-      <div class="intro-copy"><span id="typedText"></span><span class="typing-cursor">|</span></div>
-      <div class="intro-sub">Stalker Rental Service Center</div>
-      <button class="intro-skip" id="skipIntro" type="button">바로 입장하기</button>
     </div>
   </div>
 
@@ -617,9 +635,9 @@
             <div>
               <span class="eyebrow">STALKER RENTAL SERVICE CENTER</span>
               <h3>당신의 일상에,<br>특별한 그림자를.</h3>
-              <div class="contact-meta"><span>● 운영 시간: 24H / 365D</span><span>● 상담 방식: 웹 접수 · 예약제</span><span>● 콘셉트: 창작/역할극 전용</span></div>
+              <div class="contact-meta"><span><b>●</b> 운영 시간: 24H / 365D</span><span><b>●</b> 상담 방식: 웹 접수 · 예약제</span><span><b>●</b> 콘셉트: 창작/역할극 전용</span></div>
             </div>
-            <button class="btn btn-primary" data-open-modal>상담 예약하기</button>
+            <button class="btn btn-primary" style="width:100%;padding:18px 24px;font-size:20px" data-open-modal>상담 예약하기</button>
           </div>
         </div>
       </div>
