@@ -199,8 +199,10 @@
       box-shadow:0 12px 26px rgba(0,0,0,.30), inset 0 0 18px rgba(115,76,25,.08);font-weight:400;font-size:29px;line-height:1.06;
       transform:rotate(-4deg);font-family:"Nanum Pen Script", cursive;border-radius:4px;
       animation:noteShake 3.2s ease-in-out infinite;
-      z-index:2;
+      z-index:2;user-select:none;-webkit-user-select:none;touch-action:none;cursor:grab;
     }
+    .sticky-note.dragging{animation:none!important;cursor:grabbing;transform:rotate(0deg)!important;box-shadow:0 18px 38px rgba(0,0,0,.42),0 0 14px rgba(255,42,167,.35)!important;filter:brightness(1.04);z-index:1300!important}
+    .sticky-note.dragged{z-index:120!important}
     .sticky-note.one{top:22px;left:26px}
     .sticky-note.two{top:24px;right:26px;background:repeating-linear-gradient(2deg,rgba(120,55,78,.045) 0 1px,transparent 1px 5px),linear-gradient(145deg,#ffc4d8,#f6a8c3);transform:rotate(3deg);animation:noteShakeAlt 3.4s ease-in-out infinite}
     @keyframes noteShake{
@@ -321,6 +323,54 @@
     .contact-meta{display:grid;gap:16px;margin-top:8px;color:#6b6067;font-size:14px;font-weight:500}
     .contact-meta span{display:flex;align-items:center;gap:10px}
 
+    .reviews-shell{
+      padding:30px;
+      background:
+        radial-gradient(circle at 12% 15%,rgba(107,73,48,.065) 0 1px,transparent 1.4px),
+        repeating-linear-gradient(1deg,rgba(110,76,50,.026) 0 1px,transparent 1px 4px),
+        linear-gradient(180deg,#fff8ee,#ead6c2);
+      color:var(--ink);border-radius:28px;border:1px solid rgba(130,91,63,.26);
+      box-shadow:0 20px 54px rgba(0,0,0,.40),inset 0 0 38px rgba(108,73,49,.07);
+    }
+    .review-overview{display:grid;grid-template-columns:220px 1fr;gap:28px;align-items:center;padding-bottom:26px;border-bottom:1px dashed rgba(103,75,85,.28)}
+    .rating-main{text-align:center;padding:22px;border-radius:20px;background:rgba(255,255,255,.52);border:1px solid rgba(148,103,119,.20)}
+    .rating-score{font-size:54px;font-weight:1000;line-height:1;letter-spacing:-.06em}
+    .rating-stars{color:var(--hot);font-size:22px;letter-spacing:2px;text-shadow:0 0 12px rgba(255,42,167,.28);margin-top:7px}
+    .rating-count{margin-top:6px;color:#746870;font-size:13px}
+    .rating-bars{display:grid;gap:9px}
+    .rating-row{display:grid;grid-template-columns:38px 1fr 42px;gap:10px;align-items:center;font-size:12px;color:#6d6269}
+    .rating-track{height:8px;border-radius:999px;background:#ddcfc6;overflow:hidden}
+    .rating-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#ff2f89,#ff72b8);box-shadow:0 0 10px rgba(255,42,167,.22)}
+    .review-toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:24px 0 18px}
+    .review-filters{display:flex;gap:8px;flex-wrap:wrap}
+    .review-chip{border:1px solid rgba(85,63,74,.18);background:#fff9f4;color:#51464d;border-radius:999px;padding:9px 13px;font-weight:800;font-size:12px;cursor:pointer;transition:.2s}
+    .review-chip.active,.review-chip:hover{background:#181318;color:#fff;border-color:#181318;box-shadow:0 0 16px rgba(255,42,167,.24)}
+    .review-write{border:0;border-radius:999px;background:linear-gradient(135deg,var(--hot),#ff67b4);color:#fff;padding:10px 16px;font-weight:900;cursor:pointer;box-shadow:0 0 18px rgba(255,42,167,.27)}
+    .review-list{display:grid;gap:14px}
+    .review-card{padding:20px;border-radius:18px;background:rgba(255,255,255,.58);border:1px solid rgba(135,96,69,.18);box-shadow:0 9px 24px rgba(87,57,42,.08);transition:.24s}
+    .review-card:hover{transform:translateY(-3px);box-shadow:0 15px 32px rgba(87,57,42,.12),0 0 18px rgba(255,42,167,.12)}
+    .review-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+    .review-user{display:flex;align-items:center;gap:12px;min-width:0}
+    .review-avatar{width:42px;height:42px;flex:none;border-radius:50%;display:grid;place-items:center;background:#201820;color:#ff91c4;font-weight:900;border:1px solid rgba(255,42,167,.22)}
+    .review-user strong{display:block;font-size:14px}
+    .review-meta{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:3px;color:#7b6f76;font-size:11px}
+    .verified{display:inline-flex;align-items:center;gap:4px;background:#ffe1ec;color:#aa275d;border-radius:999px;padding:3px 7px;font-weight:900}
+    .review-stars{color:var(--hot);font-size:15px;letter-spacing:1px;white-space:nowrap}
+    .review-text{margin:15px 0 14px;color:#493f46;font-size:14px;line-height:1.75}
+    .review-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:13px}
+    .review-tag{font-size:11px;padding:5px 8px;border:1px solid #dbcbd2;border-radius:999px;background:#fffaf7;color:#685b63}
+    .review-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;color:#8a7d84;font-size:11px}
+    .helpful{border:1px solid #ddcdd4;background:#fffaf7;color:#5e5359;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:800;cursor:pointer;transition:.2s}
+    .helpful:hover,.helpful.liked{border-color:#ff79ad;color:#b51f5c;background:#fff0f6}
+    .review-empty{display:none;text-align:center;padding:46px 20px;color:#74676f}
+    .review-compose{display:none;margin-top:18px;padding:20px;border-radius:18px;background:#fff8fb;border:1px solid #ecced9}
+    .review-compose.open{display:block}
+    .review-compose-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .review-compose textarea{grid-column:1/-1;min-height:110px}
+    .review-compose input,.review-compose select,.review-compose textarea{width:100%;border:1px solid #d3bdc7;background:#fffdfa;color:#1d171b;border-radius:12px;padding:11px 12px;outline:none}
+    .review-compose input:focus,.review-compose select:focus,.review-compose textarea:focus{border-color:var(--hot);box-shadow:0 0 0 3px rgba(255,42,167,.08)}
+    .review-compose-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+
     footer{padding:42px 0 58px;color:#948992}
     .footer-inner{display:flex;justify-content:space-between;gap:20px;border-top:1px solid rgba(255,255,255,.08);padding-top:24px}
 
@@ -401,6 +451,12 @@
       .hero-desc{font-size:16px}
       .contact-card{padding:28px 24px}
       .contact-card h3{font-size:36px}
+      .reviews-shell{padding:20px 16px}
+      .review-overview{grid-template-columns:1fr;gap:16px}
+      .rating-main{padding:18px}
+      .review-head{align-items:flex-start}
+      .review-compose-grid{grid-template-columns:1fr}
+      .review-compose textarea{grid-column:auto}
       .intro-stage{min-height:420px}
       .intro-heart-wrap{width:min(74vw,320px);top:18px}
       .intro-logo{font-size:clamp(42px,11vw,66px)}
@@ -448,6 +504,7 @@
         <a href="#price">요금제</a>
         <a href="#rules">운영 원칙</a>
         <a href="#center">센터 안내</a>
+        <a href="#reviews">후기</a>
       </div>
       <div class="nav-actions">
         <button class="btn btn-ghost" data-scroll="#catalog">서비스 보기</button>
@@ -462,6 +519,7 @@
         <a href="#price">서비스 이용 요금제</a>
         <a href="#rules">우리의 원칙</a>
         <a href="#center">센터 안내</a>
+        <a href="#reviews">이용 후기</a>
         <button type="button" data-open-modal>상담 신청하기 ♥</button>
       </div>
     </div>
@@ -483,8 +541,8 @@
 
         <div class="hero-visual hover-glow" aria-label="SRS 센터 야간 외관을 모티브로 한 그래픽" data-reveal>
           <div class="awning"></div>
-          <div class="sticky-note hover-glow one">연락 금지?<br>너무 쌀쌀해?<br>누군가 내 하루를<br>다 알아봤으면...?</div>
-          <div class="sticky-note hover-glow two">우리의 약속!<br>24시간 밀착 케어<br>비밀 보장 100%</div>
+          <div class="sticky-note hover-glow one" data-draggable-note title="드래그해서 원하는 곳으로 옮길 수 있어요">연락 금지?<br>너무 쌀쌀해?<br>누군가 내 하루를<br>다 알아봤으면...?</div>
+          <div class="sticky-note hover-glow two" data-draggable-note title="드래그해서 원하는 곳으로 옮길 수 있어요">우리의 약속!<br>24시간 밀착 케어<br>비밀 보장 100%</div>
           <div class="building">
             <div class="storefront">
               <div class="neon-sign">SRS ♡</div>
@@ -642,6 +700,84 @@
         </div>
       </div>
     </section>
+
+    <section id="reviews">
+      <div class="container">
+        <div class="section-title" data-reveal><div><h2>이용 후기</h2><p>SRS를 먼저 경험한 고객들의 실제 이용 후기처럼 구성된 데모 리뷰입니다.</p></div></div>
+        <div class="reviews-shell" data-reveal>
+          <div class="review-overview">
+            <div class="rating-main">
+              <div class="rating-score">4.9</div>
+              <div class="rating-stars">★★★★★</div>
+              <div class="rating-count">총 1,284개의 후기</div>
+            </div>
+            <div class="rating-bars" aria-label="별점 분포">
+              <div class="rating-row"><span>5점</span><div class="rating-track"><div class="rating-fill" style="width:88%"></div></div><span>88%</span></div>
+              <div class="rating-row"><span>4점</span><div class="rating-track"><div class="rating-fill" style="width:9%"></div></div><span>9%</span></div>
+              <div class="rating-row"><span>3점</span><div class="rating-track"><div class="rating-fill" style="width:2%"></div></div><span>2%</span></div>
+              <div class="rating-row"><span>2점</span><div class="rating-track"><div class="rating-fill" style="width:1%"></div></div><span>1%</span></div>
+              <div class="rating-row"><span>1점</span><div class="rating-track"><div class="rating-fill" style="width:.4%"></div></div><span>&lt;1%</span></div>
+            </div>
+          </div>
+
+          <div class="review-toolbar">
+            <div class="review-filters">
+              <button class="review-chip active" data-review-filter="all">전체</button>
+              <button class="review-chip" data-review-filter="clingy">집착형</button>
+              <button class="review-chip" data-review-filter="cute">강아지형</button>
+              <button class="review-chip" data-review-filter="event">이벤트</button>
+              <button class="review-chip" data-review-filter="vip">VIP</button>
+            </div>
+            <button class="review-write" id="reviewWriteBtn" type="button">후기 작성하기 ♡</button>
+          </div>
+
+          <div class="review-compose" id="reviewCompose">
+            <div class="review-compose-grid">
+              <input id="reviewName" maxlength="14" placeholder="닉네임" />
+              <select id="reviewType"><option value="clingy">집착형</option><option value="cute">강아지형</option><option value="event">이벤트</option><option value="vip">VIP</option></select>
+              <select id="reviewRating"><option value="5">★★★★★ 5점</option><option value="4">★★★★☆ 4점</option><option value="3">★★★☆☆ 3점</option><option value="2">★★☆☆☆ 2점</option><option value="1">★☆☆☆☆ 1점</option></select>
+              <input id="reviewPlan" maxlength="20" placeholder="이용 서비스/플랜 (예: PREMIUM)" />
+              <textarea id="reviewText" maxlength="500" placeholder="서비스를 이용하며 인상 깊었던 점을 남겨주세요."></textarea>
+            </div>
+            <div class="review-compose-actions">
+              <button class="btn btn-ghost" style="color:#17131a;background:#fff;border:1px solid #d9c8d0" id="reviewCancel" type="button">취소</button>
+              <button class="btn btn-primary" id="reviewSubmit" type="button">후기 등록</button>
+            </div>
+          </div>
+
+          <div class="review-list" id="reviewList">
+            <article class="review-card" data-review-type="cute">
+              <div class="review-head"><div class="review-user"><div class="review-avatar">윤</div><div><strong>윤***</strong><div class="review-meta"><span class="verified">✓ 이용 인증</span><span>PREMIUM · 귀여운 강아지형</span><span>2026.08.24</span></div></div></div><div class="review-stars">★★★★★</div></div>
+              <p class="review-text">퇴근길 콘셉트로 신청했는데 설정 숙지가 진짜 빠르더라고요. 너무 티 나게 들이대는 느낌이 아니라 멀리서 기다리다가 눈 마주치면 당황해서 시선 피하는 디테일이 너무 좋았어요. 마지막에 준비해 둔 쪽지까지 완벽했습니다.</p>
+              <div class="review-tags"><span class="review-tag">#강아지형</span><span class="review-tag">#퇴근길</span><span class="review-tag">#디테일좋음</span></div>
+              <div class="review-foot"><span>재이용 의사 100%</span><button class="helpful" type="button" data-helpful="82">♡ 도움돼요 82</button></div>
+            </article>
+
+            <article class="review-card" data-review-type="clingy">
+              <div class="review-head"><div class="review-user"><div class="review-avatar">서</div><div><strong>서***</strong><div class="review-meta"><span class="verified">✓ 이용 인증</span><span>BASIC · 집착 공공형</span><span>2026.08.21</span></div></div></div><div class="review-stars">★★★★★</div></div>
+              <p class="review-text">처음엔 BASIC이면 좀 심심할 줄 알았는데 오히려 과하지 않아서 좋았어요. 약속한 선은 정확히 지키면서도 이미 제 습관을 다 아는 사람처럼 연기해서 묘하게 소름 돋는 맛이 있었습니다. 상담에서 말한 금지 요소도 하나도 안 나왔어요.</p>
+              <div class="review-tags"><span class="review-tag">#집착형</span><span class="review-tag">#선지킴</span><span class="review-tag">#몰입감</span></div>
+              <div class="review-foot"><span>상담 만족도 ★★★★★</span><button class="helpful" type="button" data-helpful="61">♡ 도움돼요 61</button></div>
+            </article>
+
+            <article class="review-card" data-review-type="event vip">
+              <div class="review-head"><div class="review-user"><div class="review-avatar">M</div><div><strong>mango***</strong><div class="review-meta"><span class="verified">✓ 이용 인증</span><span>VIP · 기념일 이벤트</span><span>2026.08.17</span></div></div></div><div class="review-stars">★★★★★</div></div>
+              <p class="review-text">생일 이벤트 때문에 VIP로 했어요. 카페에서 우연히 마주치는 장면부터 집에 돌아왔을 때 문 앞에 선물이 놓여 있는 연출까지 흐름이 자연스러웠고, 중간중간 보고 메시지가 오는 타이밍도 딱 좋았어요. 친구들이 진짜 업체냐고 물어봤습니다 ㅋㅋ</p>
+              <div class="review-tags"><span class="review-tag">#VIP</span><span class="review-tag">#생일</span><span class="review-tag">#이벤트</span></div>
+              <div class="review-foot"><span>연출 만족도 ★★★★★</span><button class="helpful" type="button" data-helpful="104">♡ 도움돼요 104</button></div>
+            </article>
+
+            <article class="review-card" data-review-type="event">
+              <div class="review-head"><div class="review-user"><div class="review-avatar">김</div><div><strong>김***</strong><div class="review-meta"><span class="verified">✓ 이용 인증</span><span>PREMIUM · 우연을 가장한 만남</span><span>2026.08.11</span></div></div></div><div class="review-stars">★★★★☆</div></div>
+              <p class="review-text">전체적으로 만족했어요. 카페에서 만나는 부분은 진짜 자연스러웠는데 초반 메시지가 제가 생각한 것보다 조금 일찍 와서 별 하나 뺐습니다. 그래도 피드백하자마자 바로 톤 조정해줘서 이후 진행은 좋았어요.</p>
+              <div class="review-tags"><span class="review-tag">#이벤트</span><span class="review-tag">#피드백빠름</span><span class="review-tag">#카페</span></div>
+              <div class="review-foot"><span>재이용 의사 있음</span><button class="helpful" type="button" data-helpful="39">♡ 도움돼요 39</button></div>
+            </article>
+          </div>
+          <div class="review-empty" id="reviewEmpty">해당 카테고리의 후기가 아직 없습니다. ♡</div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer>
@@ -748,6 +884,132 @@
       });
     });
     window.addEventListener('resize',()=>{if(window.innerWidth > 860) closeMobileMenu();});
+
+    // 쪽지 드래그: 처음 잡는 순간 본문 레이어로 이동해 카드 밖으로도 자유롭게 꺼낼 수 있습니다.
+    document.querySelectorAll('[data-draggable-note]').forEach(note=>{
+      let dragging = false;
+      let offsetX = 0;
+      let offsetY = 0;
+      let pointerId = null;
+
+      note.addEventListener('pointerdown', e=>{
+        if(e.button !== undefined && e.button !== 0) return;
+        const rect = note.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+        pointerId = e.pointerId;
+        dragging = true;
+
+        if(note.parentElement !== document.body){
+          document.body.appendChild(note);
+        }
+        note.classList.add('dragged','dragging');
+        note.style.position = 'absolute';
+        note.style.width = rect.width + 'px';
+        note.style.left = (rect.left + window.scrollX) + 'px';
+        note.style.top = (rect.top + window.scrollY) + 'px';
+        note.style.right = 'auto';
+        note.style.bottom = 'auto';
+        note.setPointerCapture?.(e.pointerId);
+        e.preventDefault();
+      });
+
+      note.addEventListener('pointermove', e=>{
+        if(!dragging || e.pointerId !== pointerId) return;
+        note.style.left = (e.clientX + window.scrollX - offsetX) + 'px';
+        note.style.top = (e.clientY + window.scrollY - offsetY) + 'px';
+      });
+
+      function endDrag(e){
+        if(!dragging || (e.pointerId !== undefined && e.pointerId !== pointerId)) return;
+        dragging = false;
+        note.classList.remove('dragging');
+        try{ note.releasePointerCapture?.(pointerId); }catch(_){}
+        pointerId = null;
+      }
+      note.addEventListener('pointerup', endDrag);
+      note.addEventListener('pointercancel', endDrag);
+    });
+
+    // 리뷰 카테고리 필터
+    const reviewChips = document.querySelectorAll('[data-review-filter]');
+    const reviewCards = document.querySelectorAll('.review-card');
+    const reviewEmpty = document.getElementById('reviewEmpty');
+    reviewChips.forEach(chip=>{
+      chip.addEventListener('click',()=>{
+        reviewChips.forEach(c=>c.classList.remove('active'));
+        chip.classList.add('active');
+        const filter = chip.dataset.reviewFilter;
+        let visibleCount = 0;
+        reviewCards.forEach(card=>{
+          const types = card.dataset.reviewType || '';
+          const show = filter === 'all' || types.split(' ').includes(filter);
+          card.style.display = show ? 'block' : 'none';
+          if(show) visibleCount += 1;
+        });
+        reviewEmpty.style.display = visibleCount ? 'none' : 'block';
+      });
+    });
+
+    // 도움돼요 버튼
+    document.querySelectorAll('.helpful').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const current = Number(btn.dataset.helpful || 0);
+        const liked = btn.classList.toggle('liked');
+        const next = liked ? current + 1 : current;
+        btn.textContent = `${liked ? '♥' : '♡'} 도움돼요 ${next}`;
+      });
+    });
+
+    // 후기 작성 데모: 현재 페이지에 즉시 새 리뷰를 추가합니다.
+    const reviewWriteBtn = document.getElementById('reviewWriteBtn');
+    const reviewCompose = document.getElementById('reviewCompose');
+    const reviewCancel = document.getElementById('reviewCancel');
+    const reviewSubmit = document.getElementById('reviewSubmit');
+    reviewWriteBtn.addEventListener('click',()=>{
+      reviewCompose.classList.toggle('open');
+      if(reviewCompose.classList.contains('open')) reviewCompose.scrollIntoView({behavior:'smooth',block:'center'});
+    });
+    reviewCancel.addEventListener('click',()=>reviewCompose.classList.remove('open'));
+    reviewSubmit.addEventListener('click',()=>{
+      const name = (document.getElementById('reviewName').value || '익명').trim();
+      const type = document.getElementById('reviewType').value;
+      const rating = Math.max(1, Math.min(5, Number(document.getElementById('reviewRating').value || 5)));
+      const plan = (document.getElementById('reviewPlan').value || 'SRS 서비스').trim();
+      const body = document.getElementById('reviewText').value.trim();
+      if(!body){
+        toast.textContent = '후기 내용을 입력해주세요. ♡';
+        toast.classList.add('show');
+        setTimeout(()=>toast.classList.remove('show'),2200);
+        return;
+      }
+      const typeLabel = {clingy:'집착형',cute:'강아지형',event:'이벤트',vip:'VIP'}[type] || '서비스';
+      const today = new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'}).replace(/\. /g,'.').replace(/\.$/,'');
+      const article = document.createElement('article');
+      article.className = 'review-card';
+      article.dataset.reviewType = type;
+      article.innerHTML = `
+        <div class="review-head"><div class="review-user"><div class="review-avatar">${name.charAt(0).toUpperCase()}</div><div><strong>${name}</strong><div class="review-meta"><span class="verified">✓ 이용 인증</span><span>${plan} · ${typeLabel}</span><span>${today}</span></div></div></div><div class="review-stars">${'★'.repeat(rating)}${'☆'.repeat(5-rating)}</div></div>
+        <p class="review-text"></p>
+        <div class="review-tags"><span class="review-tag">#${typeLabel}</span><span class="review-tag">#신규후기</span></div>
+        <div class="review-foot"><span>방금 등록된 후기</span><button class="helpful" type="button" data-helpful="0">♡ 도움돼요 0</button></div>`;
+      article.querySelector('.review-text').textContent = body;
+      const helpful = article.querySelector('.helpful');
+      helpful.addEventListener('click',()=>{
+        const current = Number(helpful.dataset.helpful || 0);
+        const liked = helpful.classList.toggle('liked');
+        helpful.textContent = `${liked ? '♥' : '♡'} 도움돼요 ${liked ? current + 1 : current}`;
+      });
+      document.getElementById('reviewList').prepend(article);
+      reviewCompose.classList.remove('open');
+      ['reviewName','reviewPlan','reviewText'].forEach(id=>document.getElementById(id).value='');
+      reviewChips.forEach(c=>c.classList.toggle('active', c.dataset.reviewFilter === 'all'));
+      document.querySelectorAll('.review-card').forEach(card=>card.style.display='block');
+      reviewEmpty.style.display='none';
+      toast.textContent = '후기가 등록되었습니다. 감사합니다. ♡';
+      toast.classList.add('show');
+      setTimeout(()=>toast.classList.remove('show'),2600);
+    });
 
     const revealTargets = document.querySelectorAll('[data-reveal]');
     const revealObserver = new IntersectionObserver((entries)=>{
