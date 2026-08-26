@@ -473,6 +473,193 @@
       .cursor-heart,.heart-trail{display:none !important}
     }
 
+
+    /* ===== SRS 익명 라운지 ===== */
+    .anon-chat-launcher{
+      position:fixed;right:22px;bottom:18px;z-index:1280;
+      display:flex;flex-direction:column;align-items:flex-end;gap:8px;
+    }
+    .anon-chat-bubble{
+      position:relative;max-width:235px;padding:11px 14px;border-radius:16px 16px 4px 16px;
+      background:linear-gradient(180deg,#fff8ed,#ead7c3);color:#2a2027;
+      border:1px solid rgba(255,42,167,.28);box-shadow:0 12px 30px rgba(0,0,0,.34),0 0 18px rgba(255,42,167,.18);
+      font-size:12px;font-weight:800;line-height:1.45;
+      animation:chatBubbleFloat 3.2s ease-in-out infinite;
+    }
+    .anon-chat-bubble::after{
+      content:"";position:absolute;right:22px;bottom:-7px;width:14px;height:14px;
+      background:#ead7c3;border-right:1px solid rgba(255,42,167,.22);border-bottom:1px solid rgba(255,42,167,.22);
+      transform:rotate(45deg);
+    }
+    @keyframes chatBubbleFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+
+    .anon-character-btn{
+      position:relative;width:118px;height:142px;padding:0;border:0;background:transparent;
+      display:block;filter:drop-shadow(0 18px 20px rgba(0,0,0,.38));
+      transition:transform .2s ease,filter .25s ease;
+    }
+    .anon-character-btn:hover{transform:translateY(-5px) rotate(-1deg);filter:drop-shadow(0 18px 22px rgba(0,0,0,.42)) drop-shadow(0 0 16px rgba(255,42,167,.42))}
+    .anon-character{
+      position:absolute;inset:0;animation:chatMascotIdle 3.6s ease-in-out infinite;
+    }
+    @keyframes chatMascotIdle{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-5px) rotate(.8deg)}}
+    .anon-hood{
+      position:absolute;left:50%;top:5px;transform:translateX(-50%);width:92px;height:94px;
+      border-radius:48px 48px 36px 36px;background:linear-gradient(145deg,#25202a,#0e0c11 72%);
+      border:2px solid #3c3040;box-shadow:inset 0 0 18px rgba(255,255,255,.025),0 0 0 5px rgba(0,0,0,.16);
+    }
+    .anon-hood::before{
+      content:"";position:absolute;left:50%;top:16px;transform:translateX(-50%);width:67px;height:58px;
+      border-radius:45% 45% 48% 48%;background:#09090c;border:1px solid #312735;
+    }
+    .anon-eye{
+      position:absolute;top:44px;width:17px;height:11px;border-radius:50%;z-index:3;
+      background:#ffd0f4;box-shadow:0 0 5px #fff,0 0 12px #ff56df,0 0 24px rgba(255,42,167,.88);
+      transform-origin:center;animation:anonBlink 5.1s infinite;
+    }
+    .anon-eye.left{left:31px}.anon-eye.right{right:31px}
+    @keyframes anonBlink{
+      0%,82%,100%{transform:scaleY(1)}
+      84%,86%{transform:scaleY(.08)}
+      88%{transform:scaleY(1)}
+      92%,94%{transform:scaleY(.08)}
+    }
+    .anon-body{
+      position:absolute;left:50%;bottom:4px;transform:translateX(-50%);width:84px;height:66px;
+      border-radius:40px 40px 20px 20px;background:linear-gradient(180deg,#211c24,#0c0b0f);
+      border:2px solid #332a36;box-shadow:inset 0 0 14px rgba(255,255,255,.025);
+    }
+    .anon-body::before{
+      content:"SRS";position:absolute;left:50%;top:24px;transform:translateX(-50%);
+      color:#ff4cae;font-size:13px;font-weight:900;letter-spacing:.06em;
+      text-shadow:0 0 10px rgba(255,42,167,.72);
+    }
+    .anon-arm{
+      position:absolute;bottom:9px;width:28px;height:54px;border-radius:20px;background:#151218;border:2px solid #332a36;z-index:-1;
+    }
+    .anon-arm.left{left:8px;transform:rotate(13deg)}.anon-arm.right{right:8px;transform:rotate(-13deg)}
+    .anon-unread{
+      position:absolute;right:-3px;top:5px;min-width:25px;height:25px;padding:0 7px;border-radius:999px;
+      display:none;place-items:center;background:var(--hot);color:#fff;font-size:11px;font-weight:900;
+      box-shadow:0 0 8px #ff2aa7,0 0 22px rgba(255,42,167,.64);border:2px solid #160f16;
+    }
+    .anon-unread.show{display:grid}
+
+    .anon-chat-window{
+      position:fixed;right:22px;bottom:176px;z-index:1270;
+      width:min(390px,calc(100vw - 28px));height:min(570px,calc(100vh - 205px));
+      display:flex;flex-direction:column;overflow:hidden;
+      border-radius:24px;background:linear-gradient(180deg,#171118 0%,#0e0b10 100%);
+      border:1px solid rgba(255,88,188,.48);
+      box-shadow:0 28px 70px rgba(0,0,0,.58),0 0 12px rgba(255,42,167,.38),0 0 42px rgba(255,42,167,.18);
+      opacity:0;visibility:hidden;transform:translateY(16px) scale(.97);transform-origin:bottom right;
+      transition:opacity .24s ease,visibility .24s ease,transform .24s ease;
+    }
+    .anon-chat-window.open{opacity:1;visibility:visible;transform:translateY(0) scale(1)}
+    .anon-chat-header{
+      padding:15px 16px 13px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+      background:linear-gradient(180deg,rgba(255,42,167,.13),rgba(255,42,167,.035));
+      border-bottom:1px solid rgba(255,255,255,.075);
+    }
+    .anon-chat-title{display:flex;align-items:center;gap:10px;min-width:0}
+    .anon-chat-title-mark{
+      width:38px;height:38px;border-radius:13px;display:grid;place-items:center;flex:none;
+      background:#1d151e;border:1px solid rgba(255,64,176,.42);color:#ffc4e7;font-weight:900;
+      box-shadow:inset 0 0 15px rgba(255,42,167,.09),0 0 14px rgba(255,42,167,.18)
+    }
+    .anon-chat-title strong{display:block;font-size:14px;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .anon-chat-status{display:flex;align-items:center;gap:6px;color:#b8a9b3;font-size:10px;font-weight:700;margin-top:2px}
+    .anon-online-dot{width:7px;height:7px;border-radius:50%;background:#63f5a8;box-shadow:0 0 9px rgba(99,245,168,.75)}
+    .anon-chat-actions{display:flex;gap:6px}
+    .anon-icon-btn{
+      width:34px;height:34px;border-radius:11px;border:1px solid rgba(255,255,255,.09);background:#211922;color:#eadce6;
+      display:grid;place-items:center;font-weight:900;font-size:14px;transition:.2s;
+    }
+    .anon-icon-btn:hover{border-color:rgba(255,42,167,.48);color:#fff;box-shadow:0 0 14px rgba(255,42,167,.16)}
+
+    .anon-profile-strip{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 14px;
+      background:#120e13;border-bottom:1px solid rgba(255,255,255,.055);font-size:11px;color:#a99aa4;
+    }
+    .anon-profile-name{color:#ffc1df;font-weight:900}
+    .anon-reroll{
+      border:0;background:transparent;color:#d2c0cb;font-size:11px;font-weight:800;padding:4px 7px;border-radius:8px;
+    }
+    .anon-reroll:hover{background:rgba(255,42,167,.10);color:#fff}
+    .anon-demo-chip{
+      padding:3px 7px;border-radius:999px;background:rgba(255,192,81,.09);border:1px solid rgba(255,192,81,.22);color:#e5c787;font-size:9px;font-weight:900;letter-spacing:.05em
+    }
+
+    .anon-message-list{
+      flex:1;min-height:0;overflow-y:auto;padding:16px 14px 18px;display:flex;flex-direction:column;gap:14px;
+      scrollbar-width:thin;scrollbar-color:#513046 transparent;
+      background:
+        radial-gradient(circle at 80% 0%,rgba(255,42,167,.06),transparent 28%),
+        repeating-linear-gradient(0deg,rgba(255,255,255,.013) 0 1px,transparent 1px 5px);
+    }
+    .anon-system-message{
+      align-self:center;max-width:92%;padding:7px 10px;border-radius:999px;text-align:center;
+      background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.055);color:#9d9099;font-size:10px
+    }
+    .anon-msg{display:flex;flex-direction:column;align-items:flex-start;max-width:84%}
+    .anon-msg.mine{align-self:flex-end;align-items:flex-end}
+    .anon-msg-head{display:flex;align-items:center;gap:7px;margin:0 5px 4px;color:#948891;font-size:9px}
+    .anon-msg-name{color:#d7c4d0;font-weight:900;font-size:10px}
+    .anon-msg.mine .anon-msg-name{color:#ffabd2}
+    .anon-msg-bubble{
+      position:relative;padding:10px 12px;border-radius:5px 16px 16px 16px;
+      background:#252027;color:#f4eaf0;border:1px solid rgba(255,255,255,.07);font-size:12px;line-height:1.5;
+      word-break:break-word;box-shadow:0 8px 18px rgba(0,0,0,.18)
+    }
+    .anon-msg.mine .anon-msg-bubble{
+      border-radius:16px 5px 16px 16px;background:linear-gradient(135deg,#d51c74,#ff3fa6);border-color:rgba(255,160,208,.24);color:#fff
+    }
+    .anon-msg-report{
+      margin-top:3px;border:0;background:none;color:#625861;font-size:9px;padding:2px 5px;opacity:0;transition:.2s
+    }
+    .anon-msg:hover .anon-msg-report{opacity:1}
+    .anon-msg.mine .anon-msg-report{display:none}
+
+    .anon-composer{
+      padding:11px 12px 12px;background:#120e13;border-top:1px solid rgba(255,255,255,.065)
+    }
+    .anon-input-wrap{display:flex;align-items:flex-end;gap:8px}
+    .anon-chat-input{
+      flex:1;resize:none;min-height:42px;max-height:96px;padding:10px 12px;border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);background:#211920;color:#fff;outline:none;font-size:12px;line-height:1.45;
+    }
+    .anon-chat-input::placeholder{color:#776a73}
+    .anon-chat-input:focus{border-color:rgba(255,54,171,.55);box-shadow:0 0 0 3px rgba(255,42,167,.08),0 0 17px rgba(255,42,167,.08)}
+    .anon-send{
+      width:43px;height:43px;flex:none;border:0;border-radius:14px;display:grid;place-items:center;
+      background:linear-gradient(135deg,#ff1681,#ff48b2);color:#fff;font-size:17px;font-weight:900;
+      box-shadow:0 0 14px rgba(255,42,167,.34);transition:.2s
+    }
+    .anon-send:hover{transform:translateY(-2px);box-shadow:0 0 8px rgba(255,42,167,.82),0 0 22px rgba(255,42,167,.38)}
+    .anon-composer-foot{display:flex;justify-content:space-between;gap:12px;margin-top:6px;padding:0 3px;color:#6f626b;font-size:9px}
+    .anon-char-count.warn{color:#ff8ebb}
+
+    @media (max-width:640px){
+      .anon-chat-launcher{right:10px;bottom:10px}
+      .anon-character-btn{width:94px;height:118px}
+      .anon-hood{width:76px;height:79px}
+      .anon-hood::before{width:55px;height:48px;top:14px}
+      .anon-eye{top:38px;width:14px;height:9px}
+      .anon-eye.left{left:25px}.anon-eye.right{right:25px}
+      .anon-body{width:70px;height:55px}
+      .anon-body::before{top:19px;font-size:11px}
+      .anon-arm{width:23px;height:44px}
+      .anon-chat-bubble{max-width:190px;font-size:11px}
+      .anon-chat-window{
+        left:8px;right:8px;bottom:8px;width:auto;height:min(76vh,620px);
+        border-radius:22px;transform-origin:bottom center;z-index:1290
+      }
+      .anon-chat-window.open{transform:translateY(0) scale(1)}
+      .anon-chat-launcher.chat-open{opacity:0;pointer-events:none}
+      .anon-message-list{padding:14px 12px 16px}
+      .anon-msg{max-width:88%}
+    }
+
   </style>
 </head>
 <body class="intro-lock">
@@ -790,6 +977,56 @@
     </div>
   </footer>
 
+
+  <!-- SRS 익명 라운지: 현재는 로컬 데모 모드. Firebase 연결 시 동일 UI를 실시간 데이터로 교체 가능 -->
+  <div class="anon-chat-launcher" id="anonChatLauncher">
+    <div class="anon-chat-bubble" id="anonChatBubble">익명 라운지에 들어가실래요?<br>다들 조용히 수군거리는 중이에요. ♡</div>
+    <button class="anon-character-btn" id="anonCharacterBtn" type="button" aria-label="SRS 익명 라운지 열기" aria-expanded="false">
+      <span class="anon-character" aria-hidden="true">
+        <span class="anon-arm left"></span><span class="anon-arm right"></span>
+        <span class="anon-body"></span>
+        <span class="anon-hood"></span>
+        <span class="anon-eye left"></span><span class="anon-eye right"></span>
+      </span>
+      <span class="anon-unread" id="anonUnread">2</span>
+    </button>
+  </div>
+
+  <aside class="anon-chat-window" id="anonChatWindow" aria-hidden="true" aria-label="SRS 익명 라운지">
+    <div class="anon-chat-header">
+      <div class="anon-chat-title">
+        <div class="anon-chat-title-mark">♥</div>
+        <div>
+          <strong>SRS ANONYMOUS LOUNGE</strong>
+          <div class="anon-chat-status"><span class="anon-online-dot"></span><span id="anonOnlineCount">1명 접속중</span><span>·</span><span>익명 대화</span></div>
+        </div>
+      </div>
+      <div class="anon-chat-actions">
+        <button class="anon-icon-btn" id="anonMinimize" type="button" aria-label="채팅 최소화">—</button>
+        <button class="anon-icon-btn" id="anonClose" type="button" aria-label="채팅 닫기">✕</button>
+      </div>
+    </div>
+
+    <div class="anon-profile-strip">
+      <div>나의 익명 이름 · <span class="anon-profile-name" id="anonNickname"></span> <button class="anon-reroll" id="anonReroll" type="button">↻ 변경</button></div>
+      <span class="anon-demo-chip" id="anonBackendChip">LOCAL DEMO</span>
+    </div>
+
+    <div class="anon-message-list" id="anonMessageList" aria-live="polite"></div>
+
+    <div class="anon-composer">
+      <div class="anon-input-wrap">
+        <textarea class="anon-chat-input" id="anonChatInput" rows="1" maxlength="280" placeholder="익명으로 메시지 입력…"></textarea>
+        <button class="anon-send" id="anonSend" type="button" aria-label="메시지 보내기">♥</button>
+      </div>
+      <div class="anon-composer-foot">
+        <span>개인정보를 남기지 마세요.</span>
+        <span class="anon-char-count" id="anonCharCount">0 / 280</span>
+      </div>
+    </div>
+  </aside>
+
+
   <div class="modal" id="applyModal" aria-hidden="true">
     <div class="modal-card hover-glow">
       <div class="modal-top">
@@ -1062,6 +1299,146 @@
     }
     setTimeout(typeIntro, 500);
     skipIntro.addEventListener('click', finishIntro);
+
+
+    // ===== SRS 익명 라운지 =====
+    // 현재는 브라우저 로컬 데모입니다. Firebase 연결 시 아래 local adapter 부분만
+    // Firestore/Realtime Database 구독으로 교체하면 UI는 그대로 사용할 수 있습니다.
+    // 권장 Firebase 구조:
+    //   /rooms/public/messages/{messageId} = { uid, nickname, text, createdAt }
+    //   /presence/{uid} = { nickname, lastSeen }
+    const anonChatWindow = document.getElementById('anonChatWindow');
+    const anonChatLauncher = document.getElementById('anonChatLauncher');
+    const anonCharacterBtn = document.getElementById('anonCharacterBtn');
+    const anonChatBubble = document.getElementById('anonChatBubble');
+    const anonUnread = document.getElementById('anonUnread');
+    const anonClose = document.getElementById('anonClose');
+    const anonMinimize = document.getElementById('anonMinimize');
+    const anonNicknameEl = document.getElementById('anonNickname');
+    const anonReroll = document.getElementById('anonReroll');
+    const anonMessageList = document.getElementById('anonMessageList');
+    const anonChatInput = document.getElementById('anonChatInput');
+    const anonSend = document.getElementById('anonSend');
+    const anonCharCount = document.getElementById('anonCharCount');
+
+    const ANON_PROFILE_KEY = 'srs_anon_profile_v1';
+    const ANON_MESSAGES_KEY = 'srs_anon_messages_v1';
+    const anonNames = ['그림자','의뢰인','관찰자','감시자','검은후드','분홍쪽지','야간손님','복도끝','미행초보','익명요원'];
+
+    const anonSafeParse = (value, fallback) => {
+      try { return JSON.parse(value) ?? fallback; } catch (_) { return fallback; }
+    };
+    const anonEscape = (str='') => String(str).replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
+    const anonTime = ts => new Intl.DateTimeFormat('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(ts));
+
+    function createAnonProfile(){
+      const id = (crypto?.randomUUID?.() || ('anon-' + Math.random().toString(36).slice(2) + Date.now().toString(36)));
+      const nickname = anonNames[Math.floor(Math.random()*anonNames.length)] + '#' + String(Math.floor(Math.random()*10000)).padStart(4,'0');
+      return {id,nickname};
+    }
+
+    let anonProfile = anonSafeParse(localStorage.getItem(ANON_PROFILE_KEY), null);
+    if(!anonProfile || !anonProfile.id || !anonProfile.nickname){
+      anonProfile = createAnonProfile();
+      localStorage.setItem(ANON_PROFILE_KEY, JSON.stringify(anonProfile));
+    }
+    anonNicknameEl.textContent = anonProfile.nickname;
+
+    const now = Date.now();
+    const seedMessages = [
+      {id:'seed-1',uid:'seed-a',nickname:'그림자#1032',text:'혹시 PREMIUM 써본 사람 있어요?',createdAt:now-1000*60*18},
+      {id:'seed-2',uid:'seed-b',nickname:'의뢰인#8921',text:'강아지형 귀엽던데… 생각보다 디테일 좋았어요 ㅋㅋ',createdAt:now-1000*60*12},
+      {id:'seed-3',uid:'seed-c',nickname:'분홍쪽지#4410',text:'저는 이벤트형 궁금해서 후기 보는 중 👀',createdAt:now-1000*60*7}
+    ];
+    let anonMessages = anonSafeParse(localStorage.getItem(ANON_MESSAGES_KEY), null);
+    if(!Array.isArray(anonMessages) || anonMessages.length === 0){
+      anonMessages = seedMessages;
+      localStorage.setItem(ANON_MESSAGES_KEY, JSON.stringify(anonMessages));
+    }
+
+    function renderAnonMessages(){
+      anonMessageList.innerHTML = '<div class="anon-system-message">익명 라운지에 입장했습니다 · 메시지는 현재 이 브라우저에만 저장됩니다.</div>';
+      anonMessages.slice(-80).forEach(msg => {
+        const mine = msg.uid === anonProfile.id;
+        const row = document.createElement('div');
+        row.className = 'anon-msg' + (mine ? ' mine' : '');
+        row.innerHTML = `
+          <div class="anon-msg-head"><span class="anon-msg-name">${anonEscape(msg.nickname)}</span><span>${anonTime(msg.createdAt)}</span></div>
+          <div class="anon-msg-bubble">${anonEscape(msg.text).replace(/\n/g,'<br>')}</div>
+          <button class="anon-msg-report" type="button">신고</button>`;
+        row.querySelector('.anon-msg-report')?.addEventListener('click',()=>{
+          toast.textContent = '이 메시지를 신고 대상으로 표시했습니다. (데모)';
+          toast.classList.add('show');
+          setTimeout(()=>toast.classList.remove('show'),2200);
+        });
+        anonMessageList.appendChild(row);
+      });
+      requestAnimationFrame(()=>{ anonMessageList.scrollTop = anonMessageList.scrollHeight; });
+    }
+
+    function setAnonChat(open){
+      anonChatWindow.classList.toggle('open',open);
+      anonChatWindow.setAttribute('aria-hidden',String(!open));
+      anonCharacterBtn.setAttribute('aria-expanded',String(open));
+      anonChatLauncher.classList.toggle('chat-open',open && window.innerWidth <= 640);
+      if(open){
+        anonUnread.classList.remove('show');
+        anonUnread.textContent = '0';
+        anonChatBubble.style.display = 'none';
+        renderAnonMessages();
+        setTimeout(()=>anonChatInput.focus({preventScroll:true}),180);
+      }
+    }
+
+    anonCharacterBtn.addEventListener('click',()=>setAnonChat(!anonChatWindow.classList.contains('open')));
+    anonClose.addEventListener('click',()=>setAnonChat(false));
+    anonMinimize.addEventListener('click',()=>setAnonChat(false));
+
+    anonReroll.addEventListener('click',()=>{
+      const oldId = anonProfile.id;
+      anonProfile = createAnonProfile();
+      // 브라우저 익명 식별자는 유지하고 표시 닉네임만 변경합니다.
+      anonProfile.id = oldId;
+      localStorage.setItem(ANON_PROFILE_KEY, JSON.stringify(anonProfile));
+      anonNicknameEl.textContent = anonProfile.nickname;
+      toast.textContent = `익명 이름이 ${anonProfile.nickname}(으)로 바뀌었습니다. ♡`;
+      toast.classList.add('show');
+      setTimeout(()=>toast.classList.remove('show'),2200);
+    });
+
+    function submitAnonMessage(){
+      const text = anonChatInput.value.trim();
+      if(!text) return;
+      anonMessages.push({
+        id:'local-' + Date.now() + '-' + Math.random().toString(36).slice(2,7),
+        uid:anonProfile.id,nickname:anonProfile.nickname,text,createdAt:Date.now()
+      });
+      anonMessages = anonMessages.slice(-80);
+      localStorage.setItem(ANON_MESSAGES_KEY, JSON.stringify(anonMessages));
+      anonChatInput.value='';
+      anonChatInput.style.height='auto';
+      anonCharCount.textContent='0 / 280';
+      anonCharCount.classList.remove('warn');
+      renderAnonMessages();
+    }
+    anonSend.addEventListener('click',submitAnonMessage);
+    anonChatInput.addEventListener('keydown',e=>{
+      if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); submitAnonMessage(); }
+    });
+    anonChatInput.addEventListener('input',()=>{
+      const n = anonChatInput.value.length;
+      anonCharCount.textContent = `${n} / 280`;
+      anonCharCount.classList.toggle('warn',n>240);
+      anonChatInput.style.height='auto';
+      anonChatInput.style.height=Math.min(96,anonChatInput.scrollHeight)+'px';
+    });
+
+    // 라운지를 발견할 수 있도록 첫 방문 시 작은 미확인 배지를 표시합니다.
+    anonUnread.textContent='3';
+    anonUnread.classList.add('show');
+    setTimeout(()=>{
+      if(!anonChatWindow.classList.contains('open')) anonChatBubble.style.display='block';
+    },1100);
 
     if(window.matchMedia('(pointer:fine)').matches){
       document.body.classList.add('cursor-hidden');
