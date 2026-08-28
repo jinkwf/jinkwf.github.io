@@ -436,9 +436,6 @@ body[data-ui-mode="simple"] #characterSlotPanel,
 body[data-ui-mode="simple"] #characterPresetPanel,
 body[data-ui-mode="simple"] #randomControlPanel,
 body[data-ui-mode="simple"] #guideverseAbilityPanel,
-body[data-ui-mode="simple"] #negativePromptPanel,
-body[data-ui-mode="simple"] #pixPromptPanel,
-body[data-ui-mode="simple"] #nijiPromptPanel,
 body[data-ui-mode="simple"] .guestbook-panel,
 body[data-ui-mode="simple"] #analyticsPing,
 body[data-ui-mode="simple"] [data-ui-advanced="1"]{
@@ -453,6 +450,35 @@ body[data-ui-mode="simple"] #contentModePanel .desc{display:none}
 body[data-ui-mode="simple"] .hero p{display:none}
 body[data-ui-mode="simple"] #novelPromptPanel{margin-bottom:8px}
 body[data-ui-mode="simple"] #rollAll{display:none!important}
+
+/* 간편: Novel / Pix / Niji 프롬프트 복구 */
+body[data-ui-mode="simple"] #novelPromptPanel,
+body[data-ui-mode="simple"] #pixPromptPanel,
+body[data-ui-mode="simple"] #nijiPromptPanel{
+  display:block!important;
+}
+body[data-ui-mode="simple"] #negativePromptPanel{
+  display:none!important;
+}
+body[data-ui-mode="simple"] .page{
+  padding-bottom:130px;
+}
+#simpleStickyDock .dock-inner{
+  grid-template-columns:1fr 1fr 1fr 1fr;
+}
+#simpleStickyDock .dock-btn.dock-copy-pix,
+#simpleStickyDock .dock-btn.dock-copy-niji{
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  color:#efeaff;
+}
+@media(max-width:720px){
+  #simpleStickyDock .dock-inner{
+    grid-template-columns:1fr 1fr;
+  }
+  body[data-ui-mode="simple"] .page{padding-bottom:160px}
+}
+
 body[data-ui-mode="simple"] #slotPanel .desc{font-size:10px}
 body[data-ui-mode="simple"] .workflow-mode-hint{font-size:10px}
 
@@ -700,8 +726,8 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
    - 새 항목은 배열 맨 위에 추가하세요.
 ========================================================= */
 /* 빌드 ID가 바뀌면 사용자에게 새로고침 팝업을 띄웁니다. 배포 시 이 값만 올리면 됩니다. */
-const APP_BUILD_ID = '5.5.20260828-float-prompt';
-const APP_BUILD_LABEL = 'v5.5 · 상세 전체폭 + 플로팅 프롬프트';
+const APP_BUILD_ID = '5.5.20260828-simple-pix-niji';
+const APP_BUILD_LABEL = 'v5.5 · 간편 Pix/Niji 복사 복구';
 const UPDATE_NOTES = [
   { date:'08.28', text:'0 : v5.5 GUIDEVERSE 좌우 분할 · 상위 패널은 열기/닫기만 담당하고 GUIDE / ESPER를 정확히 50:50 두 박스로 분리했습니다. 각 박스 안에 개별 임의 생성·초기화를 유지하고 VISUAL DIRECTION은 하단 전체폭으로 분리했습니다.' },
   { date:'08.28', text:'2 : v5.4 GitHub 업로드 최종 정리 · 버전 표기를 전 구역에서 통일하고, 출력 폴딩 상태 저장·에스퍼 속성별 능력 이펙트 자동 정합성·가이드버스 시각 연출 보강을 추가했습니다.' },
@@ -7562,12 +7588,15 @@ if(document.body.classList.contains('access-locked')){
       if(btn) btn.textContent=on?'슬롯 접기 · 핵심만 보기':'슬롯 더보기 · 계절/날씨/구도/조명/시선/소품';
     });
 
-    $('dockCopyPrompt')?.addEventListener('click',()=>{
-      const t=$('prompt')?.value||'';
+    const dockCopy = (id, label)=>{
+      const t=$(id)?.value||'';
       if(!t){window.show?.('⚠️ 먼저 랜덤 생성해주세요.');return;}
-      if(typeof copyText==='function')copyText(t,'✅ NovelAI 태그를 복사했습니다.');
+      if(typeof copyText==='function')copyText(t,`✅ ${label} 프롬프트를 복사했습니다.`);
       else navigator.clipboard?.writeText(t);
-    });
+    };
+    $('dockCopyPrompt')?.addEventListener('click',()=>dockCopy('prompt','NovelAI'));
+    $('dockCopyPix')?.addEventListener('click',()=>dockCopy('pixPrompt','PixAI'));
+    $('dockCopyNiji')?.addEventListener('click',()=>dockCopy('nijiPrompt','NijiJourney'));
     document.addEventListener('change',e=>{if(e.target.closest('#genre,#middleCategory,#category,#nsfwMode,#intensity,#gender,#scenePreset,#relationPreset,#purposePreset,#propCategoryMode,#expressionCategoryMode,#outfitMode'))window.__assetSlotPickerBridge?.invalidate?.();setTimeout(updateCurrentSetupBar,0)},true);
     document.addEventListener('input',()=>setTimeout(updateCurrentSetupBar,0),true);
     document.addEventListener('click',e=>{
@@ -7598,8 +7627,10 @@ if(document.body.classList.contains('access-locked')){
 <div id="simpleStickyDock" aria-label="간편 모드 빠른 실행">
   <div class="dock-inner">
     <div class="dock-meta"><span>간편 · 뽑고 복사</span><span id="dockSetupMeta"><b>설정 요약</b></span></div>
-    <button type="button" class="dock-btn dock-roll" id="dockRollAll">🎲 랜덤 생성</button>
-    <button type="button" class="dock-btn dock-copy" id="dockCopyPrompt">📋 NovelAI 복사</button>
+    <button type="button" class="dock-btn dock-roll" id="dockRollAll">🎲 생성</button>
+    <button type="button" class="dock-btn dock-copy" id="dockCopyPrompt">📋 Novel</button>
+    <button type="button" class="dock-btn dock-copy-pix" id="dockCopyPix">📋 Pix</button>
+    <button type="button" class="dock-btn dock-copy-niji" id="dockCopyNiji">📋 Niji</button>
   </div>
 </div>
 
