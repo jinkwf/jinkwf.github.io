@@ -483,6 +483,106 @@ body[data-ui-mode="simple"] .page{
 }
 #promptFloatDock.is-open{width:min(480px,calc(100vw - 16px))}
 
+/* Novel/Pix/Niji 버튼 색 통일 */
+.prompt-float-copy-row button,
+.prompt-float-copy-row button.primary,
+#promptFloatCopyNovel,
+#promptFloatCopyPix,
+#promptFloatCopyNiji{
+  border:0!important;
+  background:linear-gradient(135deg,#7864d8,#a370dc)!important;
+  color:#fff!important;
+  box-shadow:0 6px 16px rgba(120,100,216,.22);
+}
+.prompt-float-tab{
+  background:rgba(255,255,255,.04)!important;
+  color:#cfc8df!important;
+}
+.prompt-float-tab.active{
+  background:linear-gradient(135deg,rgba(120,100,216,.55),rgba(163,112,220,.45))!important;
+  color:#fff!important;
+  box-shadow:none!important;
+}
+
+/* 팝업 리사이즈 */
+#promptFloatDock{
+  resize:none;
+}
+#promptFloatDock.is-open{
+  width:min(520px,calc(100vw - 16px));
+  min-width:280px;
+  max-width:calc(100vw - 12px);
+}
+#promptFloatPanel{
+  position:relative;
+  resize:both;
+  overflow:auto;
+  min-width:260px;
+  min-height:280px;
+  max-width:calc(100vw - 12px);
+  max-height:min(85vh,720px);
+}
+#promptFloatResizeHandle{
+  position:absolute;left:0;top:0;width:18px;height:18px;
+  cursor:nwse-resize;z-index:2;
+  background:linear-gradient(135deg,rgba(166,140,255,.5),transparent 60%);
+  border-radius:4px 0 0 0;
+  pointer-events:auto;
+}
+#promptFloatPanel .prompt-float-body textarea{
+  min-height:120px;
+  flex:1;
+}
+
+/* 01B 하위카테고리 · 02C 디렉터 제거 */
+#subSettingHub,
+#directorPanel,
+section#subSettingHub,
+section#directorPanel{
+  display:none!important;
+  visibility:hidden!important;
+  height:0!important;
+  overflow:hidden!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+}
+
+/* 팝업 안 빠른효과 */
+#floatQuickEffects{
+  margin:0 8px 4px;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:12px;
+  background:rgba(255,255,255,.03);
+  overflow:hidden;
+}
+#floatQuickEffects > summary{
+  list-style:none;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding:8px 10px;
+  font-size:11px;
+  font-weight:900;
+  color:#e8e0ff;
+  user-select:none;
+}
+#floatQuickEffects > summary::-webkit-details-marker{display:none}
+#floatQuickMount{
+  max-height:200px;
+  overflow:auto;
+  padding:0 8px 8px;
+}
+#floatQuickMount .prompt-quickbox{
+  margin:0;
+  border:0;
+  background:transparent;
+  box-shadow:none;
+}
+
+
 body[data-ui-mode="simple"] #slotPanel .desc{font-size:10px}
 body[data-ui-mode="simple"] .workflow-mode-hint{font-size:10px}
 
@@ -706,7 +806,8 @@ body[data-ui-mode="simple"] #basicTagsPanel .simple-core-grid{grid-template-colu
 body[data-ui-mode="simple"] #basicTagsPanel .simple-fixed-grid{grid-template-columns:1fr}
 body[data-ui-mode="simple"] #basicTagsPanel .simple-sfw-hidden{display:none!important}
 
-body[data-ui-mode="simple"] #quickEffectsDetails{display:none!important}
+body[data-ui-mode="simple"] #basicTagsPanel #quickEffectsDetails{display:none!important}
+#floatQuickMount #quickEffectsDetails{display:block!important}
 body[data-ui-mode="simple"] .simple-engine-note{display:flex}
 body[data-ui-mode="detail"] .simple-engine-note{display:none!important}
 .simple-engine-note{display:none;align-items:center;gap:8px;margin:12px 0 0;padding:10px 12px;border:1px solid rgba(166,140,255,.18);border-radius:11px;background:rgba(166,140,255,.055);color:#bcb4c7;font-size:9px;line-height:1.55}
@@ -757,8 +858,8 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
    - 새 항목은 배열 맨 위에 추가하세요.
 ========================================================= */
 /* 빌드 ID가 바뀌면 사용자에게 새로고침 팝업을 띄웁니다. 배포 시 이 값만 올리면 됩니다. */
-const APP_BUILD_ID = '5.5.20260828-detail-opts';
-const APP_BUILD_LABEL = 'v5.5 · 상세 옵션/프롬프트 표시 복구';
+const APP_BUILD_ID = '5.5.20260828-ui-cleanup';
+const APP_BUILD_LABEL = 'v5.5 · 팝업 정리 · 01B/디렉터 제거';
 const UPDATE_NOTES = [
   { date:'08.28', text:'0 : v5.5 GUIDEVERSE 좌우 분할 · 상위 패널은 열기/닫기만 담당하고 GUIDE / ESPER를 정확히 50:50 두 박스로 분리했습니다. 각 박스 안에 개별 임의 생성·초기화를 유지하고 VISUAL DIRECTION은 하단 전체폭으로 분리했습니다.' },
   { date:'08.28', text:'2 : v5.4 GitHub 업로드 최종 정리 · 버전 표기를 전 구역에서 통일하고, 출력 폴딩 상태 저장·에스퍼 속성별 능력 이펙트 자동 정합성·가이드버스 시각 연출 보강을 추가했습니다.' },
@@ -4615,23 +4716,12 @@ function optimizePromptText(value){
   return{text:out.join('\n\n'),removed,conflicts};
 }
 function optimizeCurrentPrompt(){const r=optimizePromptText(prompt.value);prompt.value=r.text;lastPromptDiagnostics.duplicates=r.removed;lastPromptDiagnostics.dominated=r.conflicts;buildAllToolPrompts();updatePromptDiagnostics();updateQuickRecommendations();show(`✨ NovelAI 최적화 완료 · 중복/충돌 ${r.removed+r.conflicts}개 정리`)}
-function optimizePixCurrentPrompt(){const r=optimizePromptText(pixPrompt?.value||'');if(pixPrompt)pixPrompt.value=r.text;show(`✨ PixAI 최적화 완료 · 중복/충돌 ${r.removed+r.conflicts}개 정리`)}
+function optimizeAllToolPrompts(){rebuildAllOptimizedPrompts();show('✨ Novel / Pix / Niji 프롬프트를 모두 최적화해 출력했습니다.');}
+function optimizePixCurrentPrompt(){if(!pixPrompt)return;pixPrompt.value=applyPixPromptOptimization(pixPrompt.value||'');show('✨ PixAI 프롬프트를 최적화해 출력했습니다.');}
 function optimizeNijiCurrentPrompt(){
   if(!nijiPrompt)return;
-  const blocks=String(nijiPrompt.value||'').split(/\n\s*\n/).map(v=>v.trim()).filter(Boolean);
-  const out=blocks.map(block=>{
-    const m=/^(character\d+|\{\{user\}\}):\s*/i.exec(block);
-    if(m){
-      const body=block.slice(m[0].length).replace(/\s+/g,' ').replace(/\s+([,.!?])/g,'$1').trim();
-      const label=m[1].toLowerCase()==='{{user}}'?'{{user}}':m[1].toLowerCase();
-      return `${label}:\n${body}`;
-    }
-    const chunks=block.replace(/\s+/g,' ').match(/[^.!?]+[.!?]?/g)||[];
-    const seen=new Set();
-    return chunks.map(v=>v.trim()).filter(Boolean).filter(v=>!/미지정/.test(v)).filter(v=>{const k=v.toLowerCase();if(seen.has(k))return false;seen.add(k);return true}).join(' ');
-  });
-  nijiPrompt.value=out.join('\n\n').replace(/미지정/g,'').replace(/[ ]{2,}/g,' ').trim();
-  show('✨ NijiJourney 프롬프트를 문장형으로 정리했습니다.');
+  nijiPrompt.value=applyNijiPromptOptimization(nijiPrompt.value||'');
+  show('✨ NijiJourney 프롬프트를 최적화해 출력했습니다.');
 }
 
 function applyQuickRecommendationMode(mode){
@@ -6667,7 +6757,56 @@ function buildNijiPrompt(){
 ${toSentence(user)}`);
   nijiPrompt.value=paragraphs.filter(Boolean).join('\n\n');
 }
-function buildAllToolPrompts(){buildPixPrompt();buildNijiPrompt();}
+function applyPixPromptOptimization(text){
+  const r=optimizePromptText(String(text||''));
+  return r.text;
+}
+function applyNijiPromptOptimization(text){
+  const blocks=String(text||'').split(/\n\s*\n/).map(v=>v.trim()).filter(Boolean);
+  const out=blocks.map(block=>{
+    const m=/^(character\d+|\{\{user\}\}):\s*/i.exec(block);
+    if(m){
+      const body=block.slice(m[0].length).replace(/\s+/g,' ').replace(/\s+([,.!?])/g,'$1').trim();
+      const label=m[1].toLowerCase()==='{{user}}'?'{{user}}':m[1].toLowerCase();
+      return `${label}:\n${body}`;
+    }
+    const chunks=block.replace(/\s+/g,' ').match(/[^.!?]+[.!?]?/g)||[];
+    const seen=new Set();
+    return chunks.map(v=>v.trim()).filter(Boolean).filter(v=>!/미지정/.test(v)).filter(v=>{const k=v.toLowerCase();if(seen.has(k))return false;seen.add(k);return true}).join(' ');
+  });
+  return out.join('\n\n').replace(/미지정/g,'').replace(/[ ]{2,}/g,' ').trim();
+}
+function finalizeOptimizedToolPrompts(){
+  if(typeof pixPrompt!=='undefined'&&pixPrompt){
+    pixPrompt.value=applyPixPromptOptimization(pixPrompt.value||'');
+  }
+  if(typeof nijiPrompt!=='undefined'&&nijiPrompt){
+    nijiPrompt.value=applyNijiPromptOptimization(nijiPrompt.value||'');
+  }
+  try{
+    const floatTa=document.getElementById('promptFloatText');
+    if(floatTa&&document.getElementById('promptFloatDock')?.classList.contains('is-open')){
+      const tab=document.querySelector('.prompt-float-tab.active')?.dataset?.floatTab||'novel';
+      const map={novel:typeof prompt!=='undefined'?prompt:null,pix:pixPrompt,niji:nijiPrompt};
+      const src=map[tab];
+      if(src&&document.activeElement!==floatTa) floatTa.value=src.value||'';
+    }
+  }catch(_){}
+}
+function buildAllToolPrompts(){
+  buildPixPrompt();
+  buildNijiPrompt();
+  finalizeOptimizedToolPrompts();
+}
+function rebuildAllOptimizedPrompts(){
+  buildPrompt(); // Novel 최적화 + Pix/Niji 재생성 + 최종 최적화
+  return {
+    novel:(typeof prompt!=='undefined'&&prompt)?prompt.value:'',
+    pix:(typeof pixPrompt!=='undefined'&&pixPrompt)?pixPrompt.value:'',
+    niji:(typeof nijiPrompt!=='undefined'&&nijiPrompt)?nijiPrompt.value:''
+  };
+}
+
 function userCharacterPromptTags(){const v=activeUserCharacterText();return v?[v]:[]}
 function selectedUserGenderMode(){return $('userGenderMode')?.value||'random'}
 function selectedUserBodyMode(){return $('userBodyMode')?.value||'random'}
@@ -6943,7 +7082,7 @@ $('setLockMood')?.addEventListener('click',()=>applySetLockPreset('mood'));
 $('setLockActing')?.addEventListener('click',()=>applySetLockPreset('acting'));
 $('setLockStyle')?.addEventListener('click',()=>applySetLockPreset('style'));
 $('smartConflict').addEventListener('change',()=>{updateSmartConflictHint();enforceSmartConflicts();render();saveSettings();show(`🧩 충돌 방지 ${conflictPreventionOn()?'ON':'OFF'}`);});
-$('copyPrompt').onclick=()=>{copyText(prompt.value,'✅ NovelAI 태그를 복사했습니다.');trackAnalytics('copy_prompt')};$('copyKo').onclick=()=>copyText(summary.textContent,'✅ 한글 결과를 복사했습니다.');$('saveFavorite').onclick=()=>addFavorite('novel');
+$('copyPrompt').onclick=()=>{try{rebuildAllOptimizedPrompts()}catch(_){}copyText(prompt.value,'✅ NovelAI 최적화 태그를 복사했습니다.');trackAnalytics('copy_prompt')};$('copyKo').onclick=()=>copyText(summary.textContent,'✅ 한글 결과를 복사했습니다.');$('saveFavorite').onclick=()=>addFavorite('novel');
 if($('saveCharPreset'))$('saveCharPreset').onclick=saveCharacterPreset;
 if($('loadCharPreset'))$('loadCharPreset').onclick=loadCharacterPreset;
 if($('deleteCharPreset'))$('deleteCharPreset').onclick=deleteCharacterPreset;
@@ -7045,11 +7184,11 @@ function initializeCharacterAppearancePanel(){
 
 prompt.addEventListener('input',()=>{updateQuickRecommendations();updatePromptDiagnostics()});
 $('copyNegative').onclick=()=>copyText(negative.value,'✅ NovelAI Negative 태그를 복사했습니다.');$('saveNegative').onclick=()=>{const base=stripAutoNegativeTags(negative.value);storageSet(LS.neg,base);$('negativeBase').value=base;updateNegativePrompt();show('💾 기본 Negative Prompt를 저장했습니다. 자동 보정 태그는 상태에 따라 계속 추가됩니다.')};$('resetNegative').onclick=()=>{const d='lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, jpeg artifacts, signature, watermark, username, blurry';$('negativeBase').value=d;storageRemove(LS.neg);updateNegativePrompt()};$('negativeBase').addEventListener('input',()=>updateNegativePrompt());
-if($('copyPixPrompt')) $('copyPixPrompt').onclick=()=>copyText(pixPrompt?.value||'','✅ PixAI 프롬프트를 복사했습니다.');
+if($('copyPixPrompt')) $('copyPixPrompt').onclick=()=>{try{rebuildAllOptimizedPrompts()}catch(_){}copyText(pixPrompt?.value||'','✅ PixAI 최적화 프롬프트를 복사했습니다.');};
 if($('optimizePixPrompt')) $('optimizePixPrompt').onclick=optimizePixCurrentPrompt;
 if($('savePixFavorite')) $('savePixFavorite').onclick=()=>addFavorite('pix');
 if($('copyPixKo')) $('copyPixKo').onclick=()=>copyText(summary.textContent,'✅ PixAI용 한글 결과를 복사했습니다.');
-if($('copyNijiPrompt')) $('copyNijiPrompt').onclick=()=>copyText(nijiPrompt?.value||'','✅ NijiJourney 프롬프트를 복사했습니다.');
+if($('copyNijiPrompt')) $('copyNijiPrompt').onclick=()=>{try{rebuildAllOptimizedPrompts()}catch(_){}copyText(nijiPrompt?.value||'','✅ NijiJourney 최적화 프롬프트를 복사했습니다.');};
 if($('optimizeNijiPrompt')) $('optimizeNijiPrompt').onclick=optimizeNijiCurrentPrompt;
 if($('saveNijiFavorite')) $('saveNijiFavorite').onclick=()=>addFavorite('niji');
 if($('copyNijiKo')) $('copyNijiKo').onclick=()=>copyText(summary.textContent,'✅ NijiJourney용 한글 결과를 복사했습니다.');
@@ -7625,9 +7764,10 @@ if(document.body.classList.contains('access-locked')){
     });
 
     const dockCopy = (id, label)=>{
+      try{if(typeof rebuildAllOptimizedPrompts==='function')rebuildAllOptimizedPrompts();}catch(_){}
       const t=$(id)?.value||'';
       if(!t){window.show?.('⚠️ 먼저 랜덤 생성해주세요.');return;}
-      if(typeof copyText==='function')copyText(t,`✅ ${label} 프롬프트를 복사했습니다.`);
+      if(typeof copyText==='function')copyText(t,`✅ ${label} 최적화 프롬프트를 복사했습니다.`);
       else navigator.clipboard?.writeText(t);
     };
     $('dockCopyPrompt')?.addEventListener('click',()=>dockCopy('prompt','NovelAI'));
@@ -7696,11 +7836,16 @@ if(document.body.classList.contains('access-locked')){
     <span class="float-label">프롬프트</span>
   </button>
   <div id="promptFloatPanel" role="dialog" aria-label="프롬프트 패널">
+    <div id="promptFloatResizeHandle" title="드래그해서 크기 조절"></div>
     <div class="prompt-float-tabs" role="tablist">
       <button type="button" class="prompt-float-tab active" data-float-tab="novel">NovelAI</button>
       <button type="button" class="prompt-float-tab" data-float-tab="pix">PixAI</button>
       <button type="button" class="prompt-float-tab" data-float-tab="niji">Niji</button>
     </div>
+    <details id="floatQuickEffects">
+      <summary>⚡ 빠른 효과 / 흔적 태그 <span id="floatQuickCount" class="prompt-quickcount">0</span></summary>
+      <div id="floatQuickMount"></div>
+    </details>
     <div class="prompt-float-body">
       <div class="result-status-badges" id="floatResultBadges"></div>
       <div class="prompt-float-meta" id="promptFloatMeta">상세 모드 · 스크롤과 무관하게 우측 하단에 고정됩니다.</div>
@@ -7712,7 +7857,7 @@ if(document.body.classList.contains('access-locked')){
       </div>
       <div class="prompt-float-actions">
         <button type="button" id="promptFloatRoll">🎲 생성</button>
-        <button type="button" id="promptFloatOptimize">✨ 최적화</button>
+        <button type="button" id="promptFloatOptimize">✨ 전체 최적화</button>
         <button type="button" id="promptFloatCopy">📋 현재 탭 복사</button>
         <button type="button" id="promptFloatClose">닫기</button>
       </div>
@@ -7782,9 +7927,11 @@ if(document.body.classList.contains('access-locked')){
     });
     
     const copyId=(id,label)=>{
+      try{if(typeof rebuildAllOptimizedPrompts==='function')rebuildAllOptimizedPrompts();}catch(_){}
+      syncFromSource();
       const t=$(id)?.value||'';
       if(!t){window.show?.('⚠️ 먼저 랜덤 생성해주세요.');return}
-      if(typeof copyText==='function')copyText(t,`✅ ${label} 복사`);
+      if(typeof copyText==='function')copyText(t,`✅ ${label} 최적화 프롬프트 복사`);
       else navigator.clipboard?.writeText(t);
     };
     $('promptFloatCopyNovel')?.addEventListener('click',()=>{syncToSource();copyId('prompt','NovelAI')});
@@ -7804,9 +7951,14 @@ if(document.body.classList.contains('access-locked')){
     });
     $('promptFloatRoll')?.addEventListener('click',()=>{$('rollAll')?.click();setTimeout(syncFromSource,50)});
     $('promptFloatOptimize')?.addEventListener('click',()=>{
-      if(tab==='novel') $('optimizePrompt')?.click();
-      else if(tab==='pix') $('optimizePixPrompt')?.click();
-      else $('optimizeNijiPrompt')?.click();
+      try{
+        if(typeof optimizeAllToolPrompts==='function') optimizeAllToolPrompts();
+        else {
+          if(tab==='novel') $('optimizePrompt')?.click();
+          else if(tab==='pix') $('optimizePixPrompt')?.click();
+          else $('optimizeNijiPrompt')?.click();
+        }
+      }catch(err){console.warn(err)}
       setTimeout(syncFromSource,80);
     });
     // keep float text in sync when main engine rebuilds prompt
@@ -7839,6 +7991,88 @@ if(document.body.classList.contains('access-locked')){
       try{localStorage.setItem('promptFloatOpenV1',$('promptFloatDock')?.classList.contains('is-open')?'1':'0')}catch(_){}
     }
   });
+})();
+</script>
+
+
+<script id="floatQuickEffectsBridge">
+(()=>{
+  const $ = (id)=>document.getElementById(id);
+  function mountQuickEffects(){
+    const host = $('floatQuickMount');
+    const src = $('quickEffectsDetails');
+    if(!host||!src) return;
+    if(host.contains(src)) return;
+    // move entire details content body if possible
+    host.appendChild(src);
+    src.open = false;
+    src.style.margin = '0';
+    // hide outer summary duplication - keep source summary inside
+    syncQuickCount();
+  }
+  function syncQuickCount(){
+    const a = $('quickEffectCount');
+    const b = $('floatQuickCount');
+    if(a&&b) b.textContent = a.textContent || '0';
+  }
+  const obs = new MutationObserver(syncQuickCount);
+  function bindResize(){
+    const panel = $('promptFloatPanel');
+    const handle = $('promptFloatResizeHandle');
+    if(!panel||!handle) return;
+    let dragging=false, sx=0, sy=0, sw=0, sh=0;
+    const onMove = (e)=>{
+      if(!dragging) return;
+      const dx = sx - (e.clientX||0);
+      const dy = sy - (e.clientY||0);
+      // handle is top-left: grow left/up by increasing size when dragging left/up
+      const nw = Math.min(Math.max(280, sw + dx), window.innerWidth - 12);
+      const nh = Math.min(Math.max(260, sh + dy), window.innerHeight - 12);
+      panel.style.width = nw + 'px';
+      panel.style.height = nh + 'px';
+      const dock = $('promptFloatDock');
+      if(dock) dock.style.width = nw + 'px';
+    };
+    const onUp = ()=>{
+      dragging=false;
+      document.removeEventListener('pointermove', onMove);
+      document.removeEventListener('pointerup', onUp);
+      try{
+        localStorage.setItem('promptFloatSizeV1', JSON.stringify({
+          w: parseInt(panel.style.width||'0',10)||0,
+          h: parseInt(panel.style.height||'0',10)||0
+        }));
+      }catch(_){}
+    };
+    handle.addEventListener('pointerdown', (e)=>{
+      e.preventDefault();
+      dragging=true;
+      sx=e.clientX; sy=e.clientY;
+      const rect=panel.getBoundingClientRect();
+      sw=rect.width; sh=rect.height;
+      document.addEventListener('pointermove', onMove);
+      document.addEventListener('pointerup', onUp);
+    });
+    try{
+      const saved=JSON.parse(localStorage.getItem('promptFloatSizeV1')||'null');
+      if(saved?.w&&saved?.h){
+        panel.style.width=saved.w+'px';
+        panel.style.height=saved.h+'px';
+        const dock=$('promptFloatDock');
+        if(dock) dock.style.width=saved.w+'px';
+      }
+    }catch(_){}
+  }
+  function boot(){
+    mountQuickEffects();
+    bindResize();
+    const a=$('quickEffectCount');
+    if(a) obs.observe(a,{childList:true,characterData:true,subtree:true});
+    // also when float opens
+    document.getElementById('promptFloatToggle')?.addEventListener('click',()=>setTimeout(mountQuickEffects,0));
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot,{once:true});
+  else boot();
 })();
 </script>
 
