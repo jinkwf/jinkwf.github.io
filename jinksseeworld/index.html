@@ -548,7 +548,12 @@ section#directorPanel{
   border:0!important;
 }
 
-/* 팝업 안 빠른효과 · 가독성 + 열릴 때 패널 확장 */
+/* 팝업 안 빠른효과 · 스크롤 가능 + 열릴 때 패널 확장 */
+#promptFloatDock.is-open #promptFloatPanel{
+  display:flex!important;
+  flex-direction:column;
+  overflow:hidden!important;
+}
 #floatQuickEffects{
   margin:0 10px 6px;
   border:1px solid rgba(166,140,255,.28);
@@ -556,6 +561,7 @@ section#directorPanel{
   background:rgba(166,140,255,.06);
   overflow:hidden;
   flex:0 0 auto;
+  min-height:0;
 }
 #floatQuickEffects > summary{
   list-style:none;
@@ -569,15 +575,37 @@ section#directorPanel{
   font-weight:900;
   color:#efeaff;
   user-select:none;
+  flex:0 0 auto;
+  position:sticky;
+  top:0;
+  z-index:2;
+  background:rgba(30,24,48,.96);
 }
 #floatQuickEffects > summary::-webkit-details-marker{display:none}
 #floatQuickEffects[open]{
   margin-bottom:8px;
+  flex:1 1 auto;
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  max-height:none;
 }
 #floatQuickMount{
-  max-height:none;
-  overflow:visible;
-  padding:0 10px 12px;
+  flex:1 1 auto;
+  min-height:140px;
+  max-height:min(48vh, 460px);
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  padding:0 10px 14px;
+  scrollbar-gutter:stable;
+}
+#floatQuickMount::-webkit-scrollbar{width:8px}
+#floatQuickMount::-webkit-scrollbar-thumb{
+  background:rgba(166,140,255,.45);
+  border-radius:999px;
 }
 #floatQuickMount .prompt-quickbox,
 #floatQuickMount #quickEffectsDetails{
@@ -585,6 +613,8 @@ section#directorPanel{
   border:0!important;
   background:transparent!important;
   box-shadow:none!important;
+  max-height:none!important;
+  overflow:visible!important;
 }
 /* 내부 중복 헤더 숨김 */
 #floatQuickMount #quickEffectsDetails > summary{
@@ -593,6 +623,8 @@ section#directorPanel{
 #floatQuickMount .prompt-quickbody,
 #floatQuickMount .prompt-quickgroup{
   display:block!important;
+  overflow:visible!important;
+  max-height:none!important;
 }
 #floatQuickMount .prompt-quicktags{
   gap:8px;
@@ -605,10 +637,16 @@ section#directorPanel{
 #promptFloatPanel.quick-expanded{
   max-height:min(92vh,860px)!important;
   height:min(92vh,860px)!important;
+  overflow:hidden!important;
+}
+#promptFloatPanel.quick-expanded .prompt-float-body{
+  flex:0 0 auto;
+  min-height:0;
+  overflow:visible;
 }
 #promptFloatPanel.quick-expanded .prompt-float-body textarea{
-  min-height:100px;
-  max-height:22vh;
+  min-height:88px;
+  max-height:18vh;
 }
 #promptFloatDock.is-open.quick-expanded{
   width:min(560px,calc(100vw - 12px));
@@ -890,8 +928,8 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
    - 새 항목은 배열 맨 위에 추가하세요.
 ========================================================= */
 /* 빌드 ID가 바뀌면 사용자에게 새로고침 팝업을 띄웁니다. 배포 시 이 값만 올리면 됩니다. */
-const APP_BUILD_ID = '5.5.20260828-quick-expand';
-const APP_BUILD_LABEL = 'v5.5 · 빠른효과 펼침 시 팝업 확장';
+const APP_BUILD_ID = '5.5.20260828-single-image';
+const APP_BUILD_LABEL = 'v5.5 · 단일 이미지 강제';
 const UPDATE_NOTES = [
   { date:'08.28', text:'0 : v5.5 GUIDEVERSE 좌우 분할 · 상위 패널은 열기/닫기만 담당하고 GUIDE / ESPER를 정확히 50:50 두 박스로 분리했습니다. 각 박스 안에 개별 임의 생성·초기화를 유지하고 VISUAL DIRECTION은 하단 전체폭으로 분리했습니다.' },
   { date:'08.28', text:'2 : v5.4 GitHub 업로드 최종 정리 · 버전 표기를 전 구역에서 통일하고, 출력 폴딩 상태 저장·에스퍼 속성별 능력 이펙트 자동 정합성·가이드버스 시각 연출 보강을 추가했습니다.' },
@@ -1381,10 +1419,19 @@ const APP_VERSION='5.4-GITHUB-GUIDEVERSE-VISUAL-COHERENCE';
 const E=(ko,en,meta=null)=>meta?({ko,en,_meta:meta}):({ko,en});
 /* ===== INTENSITY (수위) ===== */
 function intensityValue(){const el=$('intensity');return el?el.value:'dense'}
-function quickEffectsEnabled(){return $('quickEffectsDetails')?.open===true}
+function collectedSpecialTagValues(){
+  return [...document.querySelectorAll('[data-special-tag]:checked')]
+    .map(el=>el.getAttribute('data-special-tag'))
+    .filter(Boolean);
+}
+function quickEffectsEnabled(){
+  // 체크된 태그가 있으면 폴더 open 여부와 무관하게 적용 (팝업 이동 후에도 유지)
+  if(collectedSpecialTagValues().length>0) return true;
+  return $('quickEffectsDetails')?.open===true || $('floatQuickEffects')?.open===true;
+}
 function specialPromptTags(){
-  if(!quickEffectsEnabled())return[];
-  const raw=[...document.querySelectorAll('[data-special-tag]:checked')].map(el=>el.getAttribute('data-special-tag')).filter(Boolean);
+  if(!quickEffectsEnabled() && collectedSpecialTagValues().length===0) return [];
+  const raw=collectedSpecialTagValues();
   // 우선순위 정렬: 행위/체위 → 오럴/자위/토이 → 구속도구 → 감각플레이 → 의상상세 → 노출/신체 → 기타
   const rank=(t)=>{
     const groups=[
@@ -1430,7 +1477,7 @@ function femaleCharacterPossible(){
   return false;
 }
 function outfitExposureMode(){
-  const picked=specialPromptTags();
+  const picked=specialPromptTags().map(t=>String(t).toLowerCase());
   const full = picked.some(tag=>['naked','nude','fully nude'].includes(tag));
   const upper = picked.some(tag=>['shirtless','topless'].includes(tag));
   const lower = picked.includes('bottomless');
@@ -1439,6 +1486,39 @@ function outfitExposureMode(){
   if(lower) return 'lower';
   return 'none';
 }
+/** 빠른효과/흔적태그가 랜덤 슬롯보다 우선. 충돌 슬롯 태그는 프롬프트에서 제외 */
+function quickSlotOverrides(){
+  const tags=specialPromptTags().map(t=>String(t).toLowerCase().trim()).filter(Boolean);
+  const set=new Set(tags);
+  const hasExact=(arr)=>arr.some(t=>set.has(String(t).toLowerCase()));
+  const hasMatch=(re)=>tags.some(t=>re.test(t));
+
+  const ACTION_EXACT=['sex','sex from behind','cowgirl','reverse cowgirl','missionary','mating press','standing sex','against wall','deep penetration','vaginal','anal','deepthroat','irrumatio','fellatio','cunnilingus','oral','mutual masturbation','female masturbation','male masturbation','masturbation','remote vibrator','vibrator','anal beads','butt plug','dildo'];
+  const ACTION_RE=/\b(sex|cowgirl|missionary|mating press|penetration|fellatio|cunnilingus|irrumatio|deepthroat|masturbation|handjob|paizuri|frottage)\b/i;
+
+  const suppressOutfit = outfitExposureMode()==='full'
+    || hasExact(['naked','nude','fully nude']);
+  const suppressAction = hasExact(ACTION_EXACT) || hasMatch(ACTION_RE);
+  // 체위/성행위가 빠른효과에 있으면 슬롯 자세도 충돌 가능성이 높아 제외
+  const suppressPose = suppressAction
+    || hasExact(['sex from behind','cowgirl','reverse cowgirl','missionary','mating press','standing sex','against wall']);
+
+  return {
+    suppressOutfit,
+    suppressAction,
+    suppressPose,
+    mode: outfitExposureMode(),
+    tags
+  };
+}
+function shouldSkipSlotForQuick(slotKey){
+  const o=quickSlotOverrides();
+  if(slotKey==='outfit' && o.suppressOutfit) return true;
+  if(slotKey==='action' && o.suppressAction) return true;
+  if(slotKey==='pose' && o.suppressPose) return true;
+  return false;
+}
+
 function shouldSuppressOutfitTag(){return outfitExposureMode()!=='none'}
 function filterOutfitPrompt(text){
   const mode=outfitExposureMode();
@@ -1536,7 +1616,7 @@ function updateSpecialTagAvailability(){
     if(!allowed)el.checked=false;
   });
 }
-function updateQuickEffectCount(){const el=$('quickEffectCount');if(el)el.textContent=String(quickEffectsEnabled()?[...document.querySelectorAll('[data-special-tag]:checked')].length:0)}
+function updateQuickEffectCount(){const n=collectedSpecialTagValues().length;const el=$('quickEffectCount');if(el)el.textContent=String(n);const fl=$('floatQuickCount');if(fl)fl.textContent=String(n)}
 function resetQuickEffects(){const checked=[...document.querySelectorAll('[data-special-tag]:checked')];checked.forEach(el=>{el.checked=false});updateSpecialTagAvailability();updateQuickEffectCount();buildPrompt();buildSummary();updateNegativePrompt();saveSettings();updateQuickRecommendations();updateExposureStageHint();show(checked.length?`🧹 빠른 효과 / 흔적 태그 ${checked.length}개를 초기화했습니다.`:'🧹 초기화할 빠른 효과 / 흔적 태그가 없습니다.');}
 function multiDistinctPromptTags(){
   const n=characterCount();
@@ -4615,15 +4695,16 @@ function characterSpecificParagraphs(){
     if(!parts.length&&fallback)parts.push(String(fallback).trim());
     return [...new Set(parts)].join(', ');
   };
+  const _charQ=quickSlotOverrides();
   ['A','B','C'].forEach((letter,i)=>{
     if(i>=n)return;
     const manual=$(`char${letter}Tags`)?.value?.trim()||'';
     const pairRole=characterRoleTags(letter);
-    const roleExtra=characterRoleNsfwExtraTags(letter);
-    const autoRole=rolePositionForCharacter(i);
-    const position=combine($(`char${letter}PositionPreset`)?.value||'', $(`char${letter}Position`)?.value||'', autoRole);
-    const action=combine($(`char${letter}ActionPreset`)?.value||'', $(`char${letter}Action`)?.value||'', roleAwareCharacterAction(letter));
-    const forcedPieces=roleForcedPromptPieces(letter);
+    const roleExtra=_charQ.suppressAction?[]:characterRoleNsfwExtraTags(letter);
+    const autoRole=_charQ.suppressPose?'':rolePositionForCharacter(i);
+    const position=_charQ.suppressPose?'':combine($(`char${letter}PositionPreset`)?.value||'', $(`char${letter}Position`)?.value||'', autoRole);
+    const action=_charQ.suppressAction?'':combine($(`char${letter}ActionPreset`)?.value||'', $(`char${letter}Action`)?.value||'', roleAwareCharacterAction(letter));
+    const forcedPieces=_charQ.suppressAction?[]:roleForcedPromptPieces(letter);
     const pieces=applyExcludedTokens([
       genders[i],
       pairRole,
@@ -5979,6 +6060,8 @@ function currentContextFlags(){
 function conflictsWithContext(type,item){
   if(!conflictPreventionOn()||!item)return false;
   const t=`${item.ko||''} ${item.en||''}`.toLowerCase();
+  // 분할/패널 구도는 항상 제외 → 한 장 구성만
+  if(isSplitCompositionText(item.en)||isSplitCompositionText(item.ko)||isSplitCompositionText(t)) return true;
   if(conflictsWithNsfwGenre(type,item)) return true;
   const c=currentContextFlags();
   const season=seasonKey();
@@ -6545,6 +6628,12 @@ function updateResultStatusBadges(){
     try{
       const nsfw=typeof isNsfwGenre==='function'&&isNsfwGenre();
       host.appendChild(mk(nsfw?'NSFW':'SFW','primary'));
+      try{
+        const o=typeof quickSlotOverrides==='function'?quickSlotOverrides():null;
+        if(o?.suppressOutfit) host.appendChild(mk('의상제외(빠른효과)','warn'));
+        if(o?.suppressAction) host.appendChild(mk('행위우선(빠른효과)','hot'));
+      }catch(_){}
+
       const g=document.getElementById('gender');
       if(g?.selectedOptions?.[0]) host.appendChild(mk((g.selectedOptions[0].textContent||'').split('·')[0].trim()||'인원'));
       if(nsfw){
@@ -6707,10 +6796,10 @@ function nijiHumanizeList(items,lastJoin='and'){
 
 function buildPixPrompt(){
   if(!pixPrompt) return;
-  const qualityLine=pixTagLine('quality / render',[$('quality')?.value||'', $('style')?.value||'', artStyleTag(), ...aiPresetPromptTags('pix'), ...detailBoosterTags('pix')]);
-  const subjectLine=pixTagLine('subject / composition',[$('gender')?.value||'', ...multiDistinctPromptTags(), state.selected.composition?.en||'', state.selected.pose?.en||'', state.selected.gaze?.en||'']);
+  const qualityLine=pixTagLine('quality / render',[$('quality')?.value||'', $('style')?.value||'', artStyleTag(), ...aiPresetPromptTags('pix'), ...detailBoosterTags('pix'), ...singleImagePositiveTags()]);
+  const _qo=quickSlotOverrides(); const subjectLine=pixTagLine('subject / composition',[$('gender')?.value||'', ...multiDistinctPromptTags(), state.selected.composition?.en||'', (_qo.suppressPose?'':(state.selected.pose?.en||'')), state.selected.gaze?.en||'']);
   const sceneLine=pixTagLine('scene / atmosphere',[state.selected.background?.en||'', state.selected.weather?.en||'', state.selected.season?.en||'', state.selected.lighting?.en||'', state.selected.mood?.en||'']);
-  const stylingLine=pixTagLine('outfit / action / props',[state.selected.outfit?.en||'', state.selected.action?.en||'', state.selected.expression?.en||'', state.selected.prop?.en||'', customTagsForPrompt()]);
+  const stylingLine=pixTagLine('outfit / action / props',[(_qo.suppressOutfit?'':filterOutfitPrompt(state.selected.outfit?.en||'')), (_qo.suppressAction?'':(state.selected.action?.en||'')), state.selected.expression?.en||'', state.selected.prop?.en||'', customTagsForPrompt()]);
   const themeLine=pixTagLine('theme / trope',themePixTags());
   const controlLine=pixTagLine('control / direction',[...povPromptTags(), ...presetPromptTags(), ...relationNsfwPromptTags(), ...roleLayoutTags()]);
   const nsfwLine=isNsfwGenre()?pixTagLine('nsfw / emphasis',['nsfw','explicit','uncensored', ...specialPromptTags(), ...multiAxisPromptTags()]):'';
@@ -6755,9 +6844,9 @@ function buildNijiPrompt(){
   const styleValue=$('style')?.value||'';
   const subject=count===1?'a single character':count===2?'two characters':count===3?'three characters':'the scene';
   const relationPhrase=(count>=2)?nijiRelationPhrase():'';
-  const mainVisual=nijiHumanizeList([state.selected.composition?.en,state.selected.pose?.en,state.selected.action?.en,state.selected.expression?.en,state.selected.gaze?.en]);
+  const _nq=quickSlotOverrides(); const mainVisual=nijiHumanizeList([state.selected.composition?.en, _nq.suppressPose?null:state.selected.pose?.en, _nq.suppressAction?null:state.selected.action?.en, state.selected.expression?.en, state.selected.gaze?.en]);
   const atmosphere=nijiHumanizeList([state.selected.background?.en,state.selected.season?.en,state.selected.weather?.en,state.selected.lighting?.en,state.selected.mood?.en]);
-  const design=nijiHumanizeList(applyExcludedTokens([state.selected.outfit?.en,state.selected.prop?.en,customTagsForPrompt()]));
+  const design=nijiHumanizeList(applyExcludedTokens([_nq.suppressOutfit?null:filterOutfitPrompt(state.selected.outfit?.en||''),state.selected.prop?.en,customTagsForPrompt()]));
   const sceneDirection=nijiHumanizeList(presetPromptTags());
   const povPhrase=nijiPovPhrase();
   const nsfwBits=isNsfwGenre()?nijiHumanizeList(applyExcludedTokens([...specialPromptTags(),...multiAxisPromptTags()])):'';
@@ -6810,10 +6899,16 @@ function applyNijiPromptOptimization(text){
 }
 function finalizeOptimizedToolPrompts(){
   if(typeof pixPrompt!=='undefined'&&pixPrompt){
-    pixPrompt.value=applyPixPromptOptimization(pixPrompt.value||'');
+    pixPrompt.value=stripSplitCompositionTokens(applyPixPromptOptimization(pixPrompt.value||''));
   }
   if(typeof nijiPrompt!=='undefined'&&nijiPrompt){
-    nijiPrompt.value=applyNijiPromptOptimization(nijiPrompt.value||'');
+    let n=applyNijiPromptOptimization(nijiPrompt.value||'');
+    // niji 문장에서 분할 표현 제거
+    n=n.replace(/\b(split screen|multiple panels|comic strip|collage|diptych|triptych|storyboard|multiple views)\b/gi,'');
+    if(!/single (image|panel|scene)|one scene|unified scene/i.test(n)){
+      n=('A single cohesive image of the scene. '+n).replace(/\s+/g,' ').trim();
+    }
+    nijiPrompt.value=n.replace(/[ ]{2,}/g,' ').trim();
   }
   try{
     const floatTa=document.getElementById('promptFloatText');
@@ -6871,8 +6966,29 @@ function generateUserCharacterTags(){
   saveSettings();
   show('🙈 {{user}} 캐릭터 태그를 생성했습니다.');
 }
+/** 이미지가 여러 패널/분할로 나오지 않도록 항상 차단 */
+function singleImageNegativeTags(){
+  return [
+    'split screen','split image','split view','divided image','image split',
+    'multiple panels','multi panel','comic panel','comic strip','manga panel','manga page','comic page',
+    'collage','photo collage','grid layout','grid of images','image grid',
+    'diptych','triptych','polyptych','contact sheet','storyboard','sequence art',
+    'multiple views','multiple angles','two scenes','three scenes','side by side comparison','before and after',
+    'picture-in-picture','inset image','border panel','panel border','2koma','4koma','koma',
+    'separate frames','framed panels','page layout'
+  ];
+}
+function singleImagePositiveTags(){
+  return ['single image','single panel','one scene','unified scene','full frame composition','cohesive single shot'];
+}
+function isSplitCompositionText(text){
+  return /\b(split\s*screen|split\s*image|multi\s*panel|multiple\s*panels|comic\s*panel|comic\s*strip|manga\s*page|collage|diptych|triptych|polyptych|storyboard|2koma|4koma|grid\s*layout|multiple\s*views|side\s*by\s*side|before\s*and\s*after)\b/i.test(String(text||''));
+}
+function stripSplitCompositionTokens(text){
+  return String(text||'').split(',').map(s=>s.trim()).filter(Boolean).filter(t=>!isSplitCompositionText(t)).join(', ');
+}
 function dynamicNegativeTags(){
-  const tags=[];
+  const tags=[...singleImageNegativeTags()];
   if(isNsfwGenre()) tags.push('bad genital anatomy','malformed genitals','incorrect genital placement','fused bodies','merged bodies','extra limbs','missing limbs','duplicate body parts','detached limbs','poorly drawn feet');
   if(isPovMode()) tags.push('wrong perspective','inconsistent perspective','floating hands','detached hands','extra hands','malformed hands');
   if(characterCount()>=2) tags.push('merged bodies','fused limbs','overlapping faces','duplicate face','ambiguous limb ownership');
@@ -6904,9 +7020,13 @@ function buildPrompt(){
   let a=applyExcludedTokens([$('quality').value,$('gender').value,$('style').value,artStyleTag(),...aiPresetPromptTags('novel'),...detailBoosterTags('novel'),...themeNovelTags(),...guideverseCoreVisualPromptTags(),...nsfwBase,...specialPromptTags(),...multiAxisPromptTags(),...povPromptTags(),...presetPromptTags(),...relationNsfwPromptTags(),...roleLayoutTags(),...rolePairDynamicsTags(),customTagsForPrompt(),...multiDistinctPromptTags()]);
   promptSlotKeys().forEach(k=>{
     if(!state.active[k]||!state.selected[k]?.en) return;
+    if(shouldSkipSlotForQuick(k)){
+      return; // 빠른효과/흔적태그가 우선 → 충돌 슬롯 태그 삭제
+    }
     if(k==='outfit'){
       // 캐릭터 미지정이어도 의상은 장면 요소로 유지한다.
       // 미지정 시 제외되는 것은 성별/캐릭터별 외형 블록뿐이다.
+      // 부분 노출(topless/bottomless)은 filterOutfitPrompt가 처리
       const filteredOutfit=filterOutfitPrompt(state.selected[k].en);
       if(filteredOutfit&&!tokenMatchesExcluded(filteredOutfit)) a.push(filteredOutfit);
       return;
@@ -6914,11 +7034,14 @@ function buildPrompt(){
     if(!tokenMatchesExcluded(state.selected[k].en)) a.push(state.selected[k].en);
   });
   const rawMain=cleanPieces(applyExcludedTokens(a)).join(', ');
-  const optimized=optimizePromptText(rawMain);
-  lastPromptDiagnostics={duplicates:optimized.removed,dominated:optimized.conflicts,poseConflicts:optimized.conflicts,multi:characterCount()>=2,outfit:outfitExposureMode()!=='none',categoryFit:'높음'};
-  const paragraphs=[optimized.text,...characterSpecificParagraphs(),...guideverseAbilityParagraphs()];
+  const singleBits=singleImagePositiveTags().join(', ');
+  const mergedMain=cleanPieces([singleBits, rawMain]).join(', ');
+  const optimized=optimizePromptText(mergedMain);
+  const cleanedMain=stripSplitCompositionTokens(optimized.text);
+  lastPromptDiagnostics={duplicates:optimized.removed,dominated:optimized.conflicts,poseConflicts:optimized.conflicts,multi:characterCount()>=2,outfit:outfitExposureMode()!=='none',categoryFit:'높음',singleImage:true};
+  const paragraphs=[cleanedMain,...characterSpecificParagraphs(),...guideverseAbilityParagraphs()];
   if(userTags)paragraphs.push(userTags);
-  prompt.value=paragraphs.filter(Boolean).join('\n\n');
+  prompt.value=paragraphs.filter(Boolean).map(stripSplitCompositionTokens).filter(Boolean).join('\n\n');
   updateNegativePrompt();
   buildAllToolPrompts();
   updatePromptDiagnostics();
@@ -8042,15 +8165,25 @@ if(document.body.classList.contains('access-locked')){
     panel.classList.toggle('quick-expanded', !!open);
     dock?.classList.toggle('quick-expanded', !!open);
     if(open){
-      // 세로 확장: 화면 대부분 사용
       const h = Math.min(Math.floor(window.innerHeight * 0.92), 860);
       const w = Math.min(Math.max(panel.getBoundingClientRect().width || 480, 480), window.innerWidth - 12);
       panel.style.height = h + 'px';
       panel.style.maxHeight = h + 'px';
       panel.style.width = w + 'px';
+      panel.style.overflow = 'hidden';
       if(dock) dock.style.width = w + 'px';
-      // 빠른효과 영역이 보이도록 스크롤
-      setTimeout(()=>{$('floatQuickEffects')?.scrollIntoView({block:'nearest', behavior:'smooth'})}, 30);
+      const mount = $('floatQuickMount');
+      if(mount){
+        // 패널 안에서 빠른효과 목록만 세로 스크롤
+        const mountMax = Math.min(Math.floor(window.innerHeight * 0.48), 460);
+        mount.style.maxHeight = mountMax + 'px';
+        mount.style.overflowY = 'auto';
+        mount.style.webkitOverflowScrolling = 'touch';
+      }
+      setTimeout(()=>{
+        const m=$('floatQuickMount');
+        if(m) m.scrollTop = 0;
+      }, 30);
     }else{
       // 수동 리사이즈 값 복구 시도
       try{
