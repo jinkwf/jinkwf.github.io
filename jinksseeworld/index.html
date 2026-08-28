@@ -928,8 +928,8 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
    - 새 항목은 배열 맨 위에 추가하세요.
 ========================================================= */
 /* 빌드 ID가 바뀌면 사용자에게 새로고침 팝업을 띄웁니다. 배포 시 이 값만 올리면 됩니다. */
-const APP_BUILD_ID = '5.5.20260828-single-image';
-const APP_BUILD_LABEL = 'v5.5 · 단일 이미지 강제';
+const APP_BUILD_ID = '5.5.20260828-category-align';
+const APP_BUILD_LABEL = 'v5.5 · 카테고리-태그 정합 점검';
 const UPDATE_NOTES = [
   { date:'08.28', text:'0 : v5.5 GUIDEVERSE 좌우 분할 · 상위 패널은 열기/닫기만 담당하고 GUIDE / ESPER를 정확히 50:50 두 박스로 분리했습니다. 각 박스 안에 개별 임의 생성·초기화를 유지하고 VISUAL DIRECTION은 하단 전체폭으로 분리했습니다.' },
   { date:'08.28', text:'2 : v5.4 GitHub 업로드 최종 정리 · 버전 표기를 전 구역에서 통일하고, 출력 폴딩 상태 저장·에스퍼 속성별 능력 이펙트 자동 정합성·가이드버스 시각 연출 보강을 추가했습니다.' },
@@ -3072,7 +3072,7 @@ const NSFW_CATEGORY_BY_GENRE = {
 
 const NSFW_CATEGORY_FAMILY_MAP = {
   modern:{office_afterhours:'office',office_elevator:'office',office_storage:'office',office_meeting:'office',office_executive:'office',office_copyroom:'office',office_breakroom:'office',outdoor_park:'outdoor',outdoor_rooftop:'outdoor',outdoor_alley:'outdoor',outdoor_balcony:'outdoor',outdoor_car:'outdoor',outdoor_stairwell:'outdoor'},
-  fantasy:{dark_ritual:'dark',dark_demon:'dark',dark_cathedral:'dark',dark_throne:'dark',dark_library:'dark',dark_garden:'dark',dungeon_restraint:'dungeon',dungeon_training:'dungeon',dungeon_cell:'dungeon',dungeon_throne:'dungeon',dungeon_cage:'dungeon',dungeon_interrogation:'dungeon',inhuman_tentacle:'inhuman',inhuman_dragon:'inhuman',inhuman_slime:'inhuman',inhuman_eldritch:'inhuman',inhuman_shapeshifter:'inhuman',inhuman_furry:'inhuman',inhuman_objecthead:'inhuman'},
+  fantasy:{dark_ritual:'dark',dark_demon:'dark',dark_cathedral:'dark',dark_throne:'dark',dark_library:'dark',dark_garden:'dark',dungeon_restraint:'dungeon',dungeon_training:'dungeon',dungeon_cell:'dungeon',dungeon_throne:'dungeon',dungeon_cage:'dungeon',dungeon_interrogation:'dungeon',dungeon_playroom:'dungeon',inhuman_tentacle:'inhuman_tentacle',inhuman_dragon:'inhuman_dragon',inhuman_slime:'inhuman_slime',inhuman_eldritch:'inhuman_eldritch',inhuman_shapeshifter:'inhuman_shapeshifter',inhuman_furry:'inhuman_furry',inhuman_objecthead:'inhuman_objecthead'},
   guideverse:{guide_guiding:'guide',guide_aftermath:'guide',guide_emergency:'guide',guide_isolation:'guide',guide_observation:'guide',guide_recovery:'guide',guide_nightshift:'guide',guide_dorm:'guide',dungeon_restraint:'dungeon',dungeon_training:'dungeon'},
   period:{period_restraint:'period',period_training:'period',period_cell:'period',period_ritual:'period',period_cathedral:'period',period_throne:'period',period_cell_bedchamber:'period',period_training_pavilion:'period',period_ritual_shrine:'period',period_throne_banquet:'period'}
 };
@@ -3125,7 +3125,7 @@ const NSFW_PROFILE_SUPPLEMENTS = {
     composition:P(`손과 센서를 함께 담은 근접 구도|close framing of hands and sensor;모니터 빛을 받은 얼굴 중심 투샷|face-focused two-shot lit by monitors;침상이나 관찰창을 배경에 둔 상반신 구도|upper-body composition with bed or observation window behind`)
   },
   inhuman:{
-    outfit:P(`마법 보호 장비가 더해진 탐사복|expedition wear with magical protection;비늘과 결정 장식의 판타지 의상|fantasy attire with scale and crystal accents;가벼운 방수 망토|light waterproof cloak;이형 생명체 관찰용 보호복|protective wear for observing unknown lifeforms`),
+    outfit:P(`마법 보호 장비가 더해진 탐사복|expedition wear with magical protection;가벼운 방수 망토|light waterproof cloak;이형 생명체 관찰용 보호복|protective wear for observing unknown lifeforms`),
     gaze:P(`낯선 움직임을 추적하는 집중한 시선|focused gaze tracking unfamiliar movement;경계와 호기심이 섞인 시선|gaze mixing caution and curiosity;눈앞의 인외 존재와 조심스럽게 시선을 맞춘다|careful eye contact with a nonhuman being`),
     expression:P(`낯선 촉감과 존재감에 놀란 얼굴|surprised by unfamiliar texture and presence;긴장을 유지하며 침착한 표정|calm expression while staying alert;호기심이 드러나는 미세한 미소|subtle curious smile`),
     prop:P(`마력 측정기|arcane scanner;보호 부적|protective charm;결정 표본|crystal specimen;봉인석|sealing stone`),
@@ -3133,6 +3133,58 @@ const NSFW_PROFILE_SUPPLEMENTS = {
     mood:P(`인간과 인외 존재 사이의 낯선 긴장감|uncanny tension between human and nonhuman beings;위험을 통제한 탐색적 분위기|controlled exploratory atmosphere;몽환적인 판타지 생태 공간|dreamlike fantasy ecosystem`),
     composition:P(`인외 신체 특징을 프레임으로 활용한 구도|composition framed by nonhuman anatomy;인간과 인외 존재의 크기·질감 대비를 강조한 구도|composition emphasizing scale and texture contrast between human and nonhuman forms`)
   },
+  inhuman_slime:{
+    outfit:P(`방수 탐사복|water-resistant expedition suit;점액이 묻지 않는 마법 보호복|slime-repellent magical protective wear;얇은 후드 로브|thin hooded robe`),
+    action:P(`반투명 슬라임이 손목과 발목 주변에 모인다|translucent slime gathers around wrists and ankles;슬라임이 옷자락을 따라 천천히 올라온다|slime slowly climbs along clothing edges;작은 슬라임 덩어리가 모양을 바꾼다|small slime mass shifts shape`),
+    pose:P(`미끄러운 바닥에서 균형을 잡는 자세|balancing on a slippery floor;점액을 피해 한 발 물러선 자세|stepping back from spreading slime`),
+    prop:P(`슬라임 표본 병|slime sample vial;봉인 문양이 새겨진 수조|sealed containment tank with sigils;마력 억제 팔찌|mana suppression bracelet`),
+    lighting:P(`청록색 슬라임 발광|teal slime bioluminescence;수정 동굴의 젖은 반사광|wet crystal-cave reflections`),
+    mood:P(`점액질 감촉이 만드는 기묘한 긴장|uncanny tension from viscous contact;반투명 생태를 관찰하는 분위기|observational mood around translucent ecology`),
+    expression:P(`점액의 감촉에 당황한 얼굴|flustered by slimy texture;호기심으로 빛나는 눈|eyes lit with curiosity at the slime`)
+  },
+  inhuman_tentacle:{
+    outfit:P(`방수 망토와 탐사복|water-resistant cloak and expedition wear;어두운 마도사 로브|dark mage robe`),
+    action:P(`촉수가 팔과 허리 주변을 감싼다|tentacles coil around arms and waist;촉수 끝이 손끝을 따라 움직인다|tentacle tips follow the hands`),
+    prop:P(`촉수 억제 부적|tentacle-warding charm;생체 촉수 표본|living tentacle specimen`),
+    lighting:P(`보랏빛 생체 발광|violet bioluminescence;촉수 숲의 저조도|dim light in tendril grove`),
+    mood:P(`촉수 생명체와 대치하는 긴장|tension facing a tentacled being`)
+  },
+  inhuman_dragon:{
+    outfit:P(`비늘 장식 판타지 의상|fantasy attire with scale accents;내열 망토|heat-resistant cloak`),
+    action:P(`드래곤의 존재감에 압도되어 한 발 물러선다|stepping back under a dragon's presence`),
+    prop:P(`용의 비늘 조각|dragon scale fragment;봉인된 용언 석판|sealed draconic tablet`),
+    lighting:P(`용암과 수정의 붉은 반사|red reflections from lava and crystals`),
+    mood:P(`고대 용과의 대면|facing an ancient dragon`)
+  },
+  inhuman_furry:{
+    outfit:P(`수인 친화적인 가벼운 여행 복장|light travel wear suited for beastkin;모피 장식 망토|fur-trimmed cloak`),
+    action:P(`수인의 귀와 꼬리 움직임을 살핀다|watching beastkin ears and tail movement`),
+    prop:P(`짐승 발자국이 남은 흙|soil with beast tracks;수인 부족 토템|beastkin tribal totem`),
+    lighting:P(`숲 사이로 스미는 따뜻한 빛|warm light filtering through forest`),
+    mood:P(`수인과의 경계와 친밀이 공존하는 분위기|tension and kinship with a beastkin`)
+  },
+  inhuman_eldritch:{
+    outfit:P(`이형 관측용 로브|robe for observing otherworldly forms`),
+    action:P(`이해할 수 없는 형태를 관찰한다|observing an incomprehensible form`),
+    prop:P(`금기 서적|forbidden tome;봉인 원진|sealing circle`),
+    lighting:P(`비틀린 보랏빛 마력광|warped violet arcane light`),
+    mood:P(`이질적인 공포와 경외|alien dread and awe`)
+  },
+  inhuman_shapeshifter:{
+    outfit:P(`변신 관측용 보호복|protective wear for observing a shapeshifter`),
+    action:P(`형태가 바뀌는 순간을 주시한다|watching the moment the form shifts`),
+    prop:P(`변신 억제 부적|shift-suppression charm`),
+    lighting:P(`일렁이는 형태를 비추는 빛|light catching a wavering silhouette`),
+    mood:P(`정체를 알 수 없는 긴장|tension of uncertain identity`)
+  },
+  inhuman_objecthead:{
+    outfit:P(`일상복 차림|everyday clothing`),
+    action:P(`오브젝트헤드의 표정을 읽으려 한다|trying to read an object-head expression`),
+    prop:P(`일상 소품|everyday object prop`),
+    lighting:P(`실내 평범한 조명|ordinary indoor lighting`),
+    mood:P(`기이하지만 일상적인 분위기|uncanny yet ordinary mood`)
+  },
+
   period:{
     outfit:P(`비단 겉옷이 살짝 흐트러진 차림|slightly loosened silk outer robe;흰 속적삼과 전통 띠|white traditional underlayer with sash;검은 도포와 붉은 장식|dark robe with red ornament;자수 저고리와 느슨한 고름|embroidered jeogori with loosened ribbon`),
     gaze:P(`예법 아래 감춘 뜨거운 시선|heated gaze hidden beneath formal propriety;등잔불 아래 낮게 이어지는 눈빛|low sustained gaze under lamplight;말보다 오래 머무는 조용한 시선|quiet gaze lingering longer than words;금기를 의식하면서도 피하지 않는 눈빛|unflinching gaze aware of taboo`),
@@ -3209,7 +3261,7 @@ const NSFW_CATEGORY_MICRO_SUPPLEMENTS = {
 
 const NSFW_CATEGORY_PROFILE_MAP = {
   modern:{office_afterhours:'office_desk',office_elevator:'confined_vertical',office_storage:'confined_shelves',office_meeting:'office_table',office_executive:'office_luxury',office_copyroom:'office_machine',office_breakroom:'lounge',outdoor_park:'outdoor_nature',outdoor_rooftop:'outdoor_height',outdoor_alley:'outdoor_urban',outdoor_balcony:'outdoor_height',outdoor_car:'vehicle',outdoor_stairwell:'stairwell'},
-  fantasy:{dark_ritual:'ritual',dark_demon:'demonic',dark_cathedral:'sacred_dark',dark_throne:'throne_dark',dark_library:'library_dark',dark_garden:'garden_dark',dungeon_restraint:'restraint',dungeon_training:'training',dungeon_cell:'cell',dungeon_throne:'throne_dungeon',dungeon_cage:'cage',dungeon_interrogation:'interrogation',inhuman_tentacle:'inhuman_tentacle',inhuman_dragon:'inhuman_dragon',inhuman_slime:'inhuman_slime',inhuman_eldritch:'inhuman_eldritch',inhuman_shapeshifter:'inhuman_shapeshifter',inhuman_furry:'inhuman_furry',inhuman_objecthead:'inhuman_objecthead'},
+  fantasy:{dark_ritual:'ritual',dark_demon:'demonic',dark_cathedral:'sacred_dark',dark_throne:'throne_dark',dark_library:'library_dark',dark_garden:'garden_dark',dungeon_restraint:'restraint',dungeon_training:'training',dungeon_cell:'cell',dungeon_throne:'throne_dungeon',dungeon_cage:'cage',dungeon_interrogation:'interrogation',dungeon_playroom:'restraint',inhuman_tentacle:'inhuman_tentacle',inhuman_dragon:'inhuman_dragon',inhuman_slime:'inhuman_slime',inhuman_eldritch:'inhuman_eldritch',inhuman_shapeshifter:'inhuman_shapeshifter',inhuman_furry:'inhuman_furry',inhuman_objecthead:'inhuman_objecthead'},
   guideverse:{guide_guiding:'medical_guiding',guide_aftermath:'recovery',guide_emergency:'emergency',guide_isolation:'isolation',guide_observation:'observation',guide_recovery:'recovery',guide_nightshift:'nightshift',guide_dorm:'dorm',dungeon_restraint:'restraint',dungeon_training:'training'},
   period:{period_restraint:'period_restraint',period_training:'period_training',period_cell:'period_cell',period_ritual:'period_ritual',period_cathedral:'period_shrine',period_throne:'period_court',period_cell_bedchamber:'period_bed',period_training_pavilion:'period_study',period_ritual_shrine:'period_shrine',period_throne_banquet:'period_court'}
 };
@@ -5823,7 +5875,7 @@ const CATEGORY_KEY_AFFINITY={
   // NSFW · 판타지
   dark_ritual:'ritualDark',dark_demon:'ritualDark',dark_cathedral:'ritualDark',dark_throne:'throneDark',dark_library:'research',dark_garden:'outdoor',
   dungeon_restraint:'restraint',dungeon_training:'restraint',dungeon_cell:'restraint',dungeon_throne:'restraint',dungeon_playroom:'restraint',dungeon_cage:'restraint',dungeon_interrogation:'restraint',bdsm_arcane:'restraint',
-  inhuman_tentacle:'inhuman',inhuman_dragon:'inhuman',inhuman_slime:'inhuman',inhuman_eldritch:'inhuman',inhuman_shapeshifter:'inhuman',inhuman_furry:'inhuman',inhuman_objecthead:'inhuman',
+  inhuman_tentacle:'inhuman_tentacle',inhuman_dragon:'inhuman_dragon',inhuman_slime:'inhuman_slime',inhuman_eldritch:'inhuman_eldritch',inhuman_shapeshifter:'inhuman_shapeshifter',inhuman_furry:'inhuman_furry',inhuman_objecthead:'inhuman_objecthead',
   tavern_room:'privateRoom',fantasy_carriage:'travel',magic_hot_spring:'bath',guild_private:'privateRoom',
   // NSFW · 가이드버스
   guide_guiding:'medical',guide_aftermath:'medical',guide_emergency:'medical',guide_isolation:'medical',guide_observation:'medical',guide_recovery:'medical',guide_nightshift:'office',guide_dorm:'privateRoom',guide_safehouse:'privateRoom',guide_decon:'medical',guide_training:'sports',guide_locker:'bath',guide_archive:'research',guide_transport:'travel',
@@ -6057,9 +6109,124 @@ function currentContextFlags(){
     fantasyLike,battleLike
   };
 }
+
+/** 인외 세부 종족(슬라임/촉수/수인 등) 선택과 실제 태그가 어긋나지 않도록 고정 */
+const CATEGORY_SPECIES_RULES = {
+  inhuman_slime: {
+    label: '슬라임',
+    forceTags: ['slime', 'translucent slime', 'gelatinous body'],
+    ban: /tentacle|tendril|dragon|wyvern|scale armor|\bscales\b|dragon wings|bat wings|furry|kemono|beastkin|beast ears|wolf ears|fox ears|cat ears|paw pads|muzzle|snout|수인|촉수|드래곤|비늘|날개\b|털짐승|수인화/i
+  },
+  inhuman_tentacle: {
+    label: '촉수',
+    forceTags: ['tentacles', 'living tentacles', 'tendrils'],
+    ban: /\bslime\b|gelatinous|ooze body|furry|kemono|beastkin|wolf ears|fox ears|dragon wings|수인|슬라임|비늘 날개/i
+  },
+  inhuman_dragon: {
+    label: '드래곤',
+    forceTags: ['dragon', 'scales', 'draconic features'],
+    ban: /\bslime\b|tentacle|tendril|furry|kemono|beastkin|wolf ears|수인|슬라임|촉수/i
+  },
+  inhuman_eldritch: {
+    label: '엘드리치',
+    forceTags: ['eldritch', 'otherworldly form'],
+    ban: /furry|kemono|beastkin|wolf ears|fox ears|cute animal ears|수인화/i
+  },
+  inhuman_shapeshifter: {
+    label: '변신체',
+    forceTags: ['shapeshifter', 'shifting form'],
+    ban: /office copier|hospital bed/i
+  },
+  inhuman_furry: {
+    label: '수인',
+    forceTags: ['kemono', 'beastkin features', 'animal ears'],
+    ban: /\bslime\b|tentacle|tendril|dragon wings|eldritch horror|슬라임|촉수/i
+  },
+  inhuman_objecthead: {
+    label: '오브젝트헤드',
+    forceTags: ['object head', 'inanimate head'],
+    ban: /furry|kemono|tentacle|slime|수인|촉수|슬라임/i
+  }
+};
+function currentSpeciesRule(){
+  const key = category?.value || '';
+  return CATEGORY_SPECIES_RULES[key] || null;
+}
+function conflictsWithCategorySpecies(type, item){
+  const rule = currentSpeciesRule();
+  if(!rule || !item) return false;
+  const t = `${item.ko||''} ${item.en||''}`;
+  if(rule.ban && rule.ban.test(t)) return true;
+  return false;
+}
+function categorySpeciesPromptTags(){
+  const rule = currentSpeciesRule();
+  if(!rule?.forceTags?.length) return [];
+  // 선택 종족 핵심 태그를 항상 포함
+  return rule.forceTags;
+}
+function stripCrossSpeciesTokens(text){
+  let parts=String(text||'').split(',').map(s=>s.trim()).filter(Boolean);
+  const rule = currentSpeciesRule();
+  if(rule?.ban) parts=parts.filter(tok=>!rule.ban.test(tok));
+  const ctx=typeof currentNsfwContext==='function'?currentNsfwContext():'';
+  if(ctx.startsWith('modern::office_')){
+    parts=parts.filter(tok=>!/tentacle|slime|dragon features|kemono|beastkin|eldritch|촉수|슬라임|드래곤|수인/i.test(tok));
+  }
+  if(ctx.startsWith('modern::outdoor_')){
+    parts=parts.filter(tok=>!/tentacle|eldritch horror|ritual altar|throne room|촉수|마왕 왕좌/i.test(tok));
+  }
+  if(ctx.startsWith('fantasy::dungeon_')||ctx.startsWith('guideverse::dungeon_')){
+    parts=parts.filter(tok=>!/smartphone|laptop|office cubicle|business meeting/i.test(tok));
+  }
+  if(ctx.startsWith('guideverse::guide_')){
+    parts=parts.filter(tok=>!/tentacle forest|dragon lair|throne of the demon king|촉수 숲|마왕 왕좌/i.test(tok));
+  }
+  if(ctx.includes('::inhuman_')){
+    parts=parts.filter(tok=>!/smartphone|laptop|office meeting|business suit|school uniform|hospital gown/i.test(tok));
+  }
+  return parts.join(', ');
+}
+function categoryLockPromptTags(){
+  const tags=[...(typeof categorySpeciesPromptTags==='function'?categorySpeciesPromptTags():[])];
+  const key=category?.value||'';
+  const locks={
+    office_afterhours:['office','after hours office'],
+    office_elevator:['elevator','elevator interior'],
+    office_storage:['storage room','archive room'],
+    office_meeting:['meeting room','conference room'],
+    office_executive:['executive office'],
+    office_copyroom:['copy room'],
+    office_breakroom:['break room'],
+    outdoor_park:['park'],
+    outdoor_rooftop:['rooftop'],
+    outdoor_alley:['alley'],
+    outdoor_balcony:['balcony'],
+    outdoor_car:['inside car'],
+    outdoor_stairwell:['stairwell'],
+    dark_ritual:['ritual','magic circle'],
+    dark_demon:['demon'],
+    dark_cathedral:['dark cathedral'],
+    dark_throne:['throne room'],
+    dungeon_restraint:['restraint','bondage room'],
+    dungeon_training:['training room'],
+    dungeon_cell:['prison cell'],
+    dungeon_cage:['cage'],
+    dungeon_playroom:['playroom','bdsm furniture'],
+    guide_guiding:['guiding'],
+    guide_emergency:['emergency guiding'],
+    guide_isolation:['isolation room']
+  };
+  if(locks[key]) tags.push(...locks[key]);
+  return [...new Set(tags.filter(Boolean))];
+}
+
 function conflictsWithContext(type,item){
-  if(!conflictPreventionOn()||!item)return false;
+  if(!item)return false;
   const t=`${item.ko||''} ${item.en||''}`.toLowerCase();
+  // 종족 카테고리 불일치(슬라임↔촉수/수인 등)는 충돌방지 OFF여도 항상 차단
+  if(conflictsWithCategorySpecies(type,item)) return true;
+  if(!conflictPreventionOn())return false;
   // 분할/패널 구도는 항상 제외 → 한 장 구성만
   if(isSplitCompositionText(item.en)||isSplitCompositionText(item.ko)||isSplitCompositionText(t)) return true;
   if(conflictsWithNsfwGenre(type,item)) return true;
@@ -6434,7 +6601,8 @@ function poolFor(type){
   if(category.value==='__all'){
     base.push(...sp);
   }else{
-    const w = type==='outfit'?7:type==='background'?5:type==='action'?5:2;
+    const speciesBoost = currentSpeciesRule()? 3 : 1;
+    const w = (type==='outfit'?7:type==='background'?5:type==='action'?5:2) * speciesBoost;
     for(let i=0;i<w;i++) base.push(...sp);
   }
 
@@ -6489,7 +6657,20 @@ function poolFor(type){
   base=applySexPositionAffinity(base,type);
   base=applyCharacterRoleBanFilter(base,type);
   base=applyCharacterRoleAffinity(base,type);
+  base=applyCategoryMatchFilter(base,type);
   return base;
+}
+/** 카테고리와 안 맞는 후보를 풀에서 제거 (슬라임↔촉수, 오피스↔인외 등) */
+function applyCategoryMatchFilter(base,type){
+  if(!Array.isArray(base)||!base.length) return base;
+  const out=base.filter(item=>{
+    if(!item) return false;
+    if(typeof conflictsWithCategorySpecies==='function'&&conflictsWithCategorySpecies(type,item)) return false;
+    if(typeof conflictsWithNsfwGenre==='function'&&conflictsWithNsfwGenre(type,item)) return false;
+    return true;
+  });
+  // 전부 걸러지면 원본 유지(빈 풀 방지)하되, 종족 강제 태그는 buildPrompt에서 보정
+  return out.length?out:base;
 }
 function uniqueCount(type){return uniq(poolFor(type)).length}
 function choose(type){
@@ -6632,6 +6813,8 @@ function updateResultStatusBadges(){
         const o=typeof quickSlotOverrides==='function'?quickSlotOverrides():null;
         if(o?.suppressOutfit) host.appendChild(mk('의상제외(빠른효과)','warn'));
         if(o?.suppressAction) host.appendChild(mk('행위우선(빠른효과)','hot'));
+        const sp=typeof currentSpeciesRule==='function'?currentSpeciesRule():null;
+        if(sp?.label) host.appendChild(mk('종족 '+sp.label,'primary'));
       }catch(_){}
 
       const g=document.getElementById('gender');
@@ -7016,8 +7199,9 @@ function stripAutoNegativeTags(value){
 }
 function buildPrompt(){
   const nsfwBase=isNsfwGenre()?['nsfw','explicit','uncensored']:[];
+  const speciesTags=(typeof categoryLockPromptTags==='function'?categoryLockPromptTags():categorySpeciesPromptTags());
   const userTags=activeUserCharacterText();
-  let a=applyExcludedTokens([$('quality').value,$('gender').value,$('style').value,artStyleTag(),...aiPresetPromptTags('novel'),...detailBoosterTags('novel'),...themeNovelTags(),...guideverseCoreVisualPromptTags(),...nsfwBase,...specialPromptTags(),...multiAxisPromptTags(),...povPromptTags(),...presetPromptTags(),...relationNsfwPromptTags(),...roleLayoutTags(),...rolePairDynamicsTags(),customTagsForPrompt(),...multiDistinctPromptTags()]);
+  let a=applyExcludedTokens([$('quality').value,$('gender').value,$('style').value,artStyleTag(),...aiPresetPromptTags('novel'),...detailBoosterTags('novel'),...themeNovelTags(),...guideverseCoreVisualPromptTags(),...nsfwBase,...speciesTags,...specialPromptTags(),...multiAxisPromptTags(),...povPromptTags(),...presetPromptTags(),...relationNsfwPromptTags(),...roleLayoutTags(),...rolePairDynamicsTags(),customTagsForPrompt(),...multiDistinctPromptTags()]);
   promptSlotKeys().forEach(k=>{
     if(!state.active[k]||!state.selected[k]?.en) return;
     if(shouldSkipSlotForQuick(k)){
@@ -7037,7 +7221,7 @@ function buildPrompt(){
   const singleBits=singleImagePositiveTags().join(', ');
   const mergedMain=cleanPieces([singleBits, rawMain]).join(', ');
   const optimized=optimizePromptText(mergedMain);
-  const cleanedMain=stripSplitCompositionTokens(optimized.text);
+  const cleanedMain=stripCrossSpeciesTokens(stripSplitCompositionTokens(optimized.text));
   lastPromptDiagnostics={duplicates:optimized.removed,dominated:optimized.conflicts,poseConflicts:optimized.conflicts,multi:characterCount()>=2,outfit:outfitExposureMode()!=='none',categoryFit:'높음',singleImage:true};
   const paragraphs=[cleanedMain,...characterSpecificParagraphs(),...guideverseAbilityParagraphs()];
   if(userTags)paragraphs.push(userTags);
