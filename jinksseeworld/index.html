@@ -369,7 +369,7 @@ body.access-locked .page,body.access-locked .nsfw-banner{display:none!important}
 
 #subSettingHub{display:none!important}
 body[data-ui-mode="simple"] [data-ui-advanced="1"]{display:none!important}
-body[data-ui-mode="detail"] [data-ui-advanced="1"]{display:block}
+body[data-ui-mode="detail"] [data-ui-advanced="1"]{display:revert!important}
 .slot-detail-picker{display:none;margin-top:12px;padding-top:11px;border-top:1px solid var(--line)}
 body[data-ui-mode="detail"] .slot-detail-picker{display:block}
 .slot-detail-picker>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:8px;cursor:pointer;padding:6px 9px;border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.025);font-size:10px;font-weight:900;color:#ddd6e5}.slot-detail-picker>summary::-webkit-details-marker{display:none}.slot-detail-picker[open]>summary{border-color:rgba(166,140,255,.35);background:rgba(166,140,255,.07)}
@@ -443,48 +443,77 @@ body[data-ui-mode="simple"] [data-ui-advanced="1"]{
 }
 body[data-ui-mode="simple"] #basicTagsPanel .desc{display:none}
 body[data-ui-mode="simple"] #basicTagsPanel .options{grid-template-columns:1fr 1fr}
-body[data-ui-mode="simple"] #basicTagsPanel .opt:not(.simple-keep){display:none!important}
-body[data-ui-mode="simple"] #sceneCategoryPanel .check-row{display:none!important}
+/* simple: 기본 태그 옵션 전부 표시 (숨김 해제) */
 body[data-ui-mode="simple"] #sceneCategoryPanel .desc{display:none}
 body[data-ui-mode="simple"] #contentModePanel .desc{display:none}
 body[data-ui-mode="simple"] .hero p{display:none}
 body[data-ui-mode="simple"] #novelPromptPanel{margin-bottom:8px}
 body[data-ui-mode="simple"] #rollAll{display:none!important}
 
-/* 간편: Novel / Pix / Niji 프롬프트 복구 */
+/* 간편/상세: 본문 대형 프롬프트는 숨기고 우하단 팝업으로 통합 */
 body[data-ui-mode="simple"] #novelPromptPanel,
 body[data-ui-mode="simple"] #pixPromptPanel,
-body[data-ui-mode="simple"] #nijiPromptPanel{
-  display:block!important;
-}
+body[data-ui-mode="simple"] #nijiPromptPanel,
 body[data-ui-mode="simple"] #negativePromptPanel{
   display:none!important;
 }
 body[data-ui-mode="simple"] .page{
-  padding-bottom:130px;
+  padding-bottom:88px;
 }
+/* 간편 하단바: 생성 + 프롬프트 팝업 */
 #simpleStickyDock .dock-inner{
-  grid-template-columns:1fr 1fr 1fr 1fr;
-}
-#simpleStickyDock .dock-btn.dock-copy-pix,
-#simpleStickyDock .dock-btn.dock-copy-niji{
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.12);
-  color:#efeaff;
+  grid-template-columns:1.2fr 1fr;
 }
 @media(max-width:720px){
-  #simpleStickyDock .dock-inner{
-    grid-template-columns:1fr 1fr;
-  }
-  body[data-ui-mode="simple"] .page{padding-bottom:160px}
+  #simpleStickyDock .dock-inner{grid-template-columns:1fr 1fr}
+  body[data-ui-mode="simple"] .page{padding-bottom:100px}
 }
+/* 팝업 안 3종 복사 한 줄 */
+.prompt-float-copy-row{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:6px;
+}
+.prompt-float-copy-row button{
+  height:40px;border-radius:11px;border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.06);color:#efeaff;font-size:11px;font-weight:900;cursor:pointer;
+}
+.prompt-float-copy-row button.primary{
+  border:0;background:linear-gradient(135deg,#7864d8,#a370dc);color:#fff;
+}
+#promptFloatDock.is-open{width:min(480px,calc(100vw - 16px))}
 
 body[data-ui-mode="simple"] #slotPanel .desc{font-size:10px}
 body[data-ui-mode="simple"] .workflow-mode-hint{font-size:10px}
 
 /* 상세: 기존 밀도 유지 + 고급 표시 */
-body[data-ui-mode="detail"] [data-ui-advanced="1"]{display:block}
+body[data-ui-mode="detail"] [data-ui-advanced="1"]{display:revert!important}
 body[data-ui-mode="detail"] #simpleStickyDock{display:none!important}
+
+/* 상세: 설정 패널 강제 표시 */
+body[data-ui-mode="detail"] #themeTropePanel,
+body[data-ui-mode="detail"] #subSettingHub,
+body[data-ui-mode="detail"] #basicTagsPanel,
+body[data-ui-mode="detail"] #basicTagsPanel .opt,
+body[data-ui-mode="detail"] #characterAppearancePanel,
+body[data-ui-mode="detail"] #characterSlotPanel,
+body[data-ui-mode="detail"] #characterPresetPanel,
+body[data-ui-mode="detail"] #directorPanel,
+body[data-ui-mode="detail"] #randomControlPanel,
+body[data-ui-mode="detail"] #guideverseAbilityPanel,
+body[data-ui-mode="detail"] #userCharacterPanel,
+body[data-ui-mode="detail"] #rollAll{
+  display:revert!important;
+  visibility:visible!important;
+}
+body[data-ui-mode="detail"] #basicTagsPanel .options{
+  display:grid!important;
+}
+body[data-ui-mode="detail"] #promptFloatDock{
+  display:block!important;
+  z-index:9200;
+}
+
 body[data-ui-mode="detail"] #rollAll{display:block}
 
 /* ===== DETAIL: full-width flow + floating prompt ===== */
@@ -530,11 +559,12 @@ body[data-ui-mode="detail"] #slotPanel .cards{
   body[data-ui-mode="detail"] #slotPanel .cards{grid-template-columns:1fr}
 }
 
-/* 상세: 인라인 Novel/Pix/Niji 패널은 플로팅으로 대체 · 본문에서는 숨김(Negative는 유지 가능) */
+/* 상세: 본문 프롬프트 패널 + 플로팅 동시 사용 */
 body[data-ui-mode="detail"] #novelPromptPanel,
 body[data-ui-mode="detail"] #pixPromptPanel,
-body[data-ui-mode="detail"] #nijiPromptPanel{
-  display:none!important;
+body[data-ui-mode="detail"] #nijiPromptPanel,
+body[data-ui-mode="detail"] #negativePromptPanel{
+  display:block!important;
 }
 
 /* ===== Floating prompt dock (detail) ===== */
@@ -549,7 +579,8 @@ body[data-ui-mode="detail"] #nijiPromptPanel{
   pointer-events:none;
 }
 body[data-ui-mode="detail"] #promptFloatDock{display:block}
-body[data-ui-mode="simple"] #promptFloatDock{display:none!important}
+body[data-ui-mode="simple"] #promptFloatDock{display:block;bottom:78px}
+body[data-ui-mode="detail"] #promptFloatDock{bottom:16px}
 
 #promptFloatToggle{
   pointer-events:auto;
@@ -726,8 +757,8 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
    - 새 항목은 배열 맨 위에 추가하세요.
 ========================================================= */
 /* 빌드 ID가 바뀌면 사용자에게 새로고침 팝업을 띄웁니다. 배포 시 이 값만 올리면 됩니다. */
-const APP_BUILD_ID = '5.5.20260828-simple-pix-niji';
-const APP_BUILD_LABEL = 'v5.5 · 간편 Pix/Niji 복사 복구';
+const APP_BUILD_ID = '5.5.20260828-detail-opts';
+const APP_BUILD_LABEL = 'v5.5 · 상세 옵션/프롬프트 표시 복구';
 const UPDATE_NOTES = [
   { date:'08.28', text:'0 : v5.5 GUIDEVERSE 좌우 분할 · 상위 패널은 열기/닫기만 담당하고 GUIDE / ESPER를 정확히 50:50 두 박스로 분리했습니다. 각 박스 안에 개별 임의 생성·초기화를 유지하고 VISUAL DIRECTION은 하단 전체폭으로 분리했습니다.' },
   { date:'08.28', text:'2 : v5.4 GitHub 업로드 최종 정리 · 버전 표기를 전 구역에서 통일하고, 출력 폴딩 상태 저장·에스퍼 속성별 능력 이펙트 자동 정합성·가이드버스 시각 연출 보강을 추가했습니다.' },
@@ -7201,7 +7232,11 @@ if(document.body.classList.contains('access-locked')){
     if(save){try{localStorage.setItem(UI_KEY,mode)}catch(_){}}
     updateCurrentSetupBar();
     updateDockSetupMeta();
+    // 상세에서는 고급 옵션 숨김 속성을 무시(표시 보장)
     if(mode==='detail'){
+      document.querySelectorAll('[data-ui-advanced]').forEach(el=>{
+        el.style.removeProperty('display');
+      });
       setTimeout(()=>window.__assetSlotPickerBridge?.refreshAll?.(),0);
       setTimeout(()=>window.__assetSlotPickerBridge?.refreshAll?.(),90);
       setTimeout(()=>window.__assetSlotPickerBridge?.prewarm?.(),140);
@@ -7581,6 +7616,7 @@ if(document.body.classList.contains('access-locked')){
     qa('[data-ui-mode-btn]').forEach(btn=>btn.addEventListener('click',()=>setUiMode(btn.dataset.uiModeBtn)));
     $('openDetailedFromSummary')?.addEventListener('click',()=>{setUiMode('detail');$('slotPanel')?.scrollIntoView({behavior:'smooth',block:'start'})});
     $('dockRollAll')?.addEventListener('click',()=>{$('rollAll')?.click()});
+    $('dockOpenPromptFloat')?.addEventListener('click',()=>{$('promptFloatToggle')?.click()});
     $('simpleSlotsToggle')?.addEventListener('click',()=>{
       document.body.classList.toggle('simple-show-all-slots');
       const on=document.body.classList.contains('simple-show-all-slots');
@@ -7628,9 +7664,7 @@ if(document.body.classList.contains('access-locked')){
   <div class="dock-inner">
     <div class="dock-meta"><span>간편 · 뽑고 복사</span><span id="dockSetupMeta"><b>설정 요약</b></span></div>
     <button type="button" class="dock-btn dock-roll" id="dockRollAll">🎲 생성</button>
-    <button type="button" class="dock-btn dock-copy" id="dockCopyPrompt">📋 Novel</button>
-    <button type="button" class="dock-btn dock-copy-pix" id="dockCopyPix">📋 Pix</button>
-    <button type="button" class="dock-btn dock-copy-niji" id="dockCopyNiji">📋 Niji</button>
+    <button type="button" class="dock-btn dock-copy" id="dockOpenPromptFloat">📋 프롬프트 (Novel/Pix/Niji)</button>
   </div>
 </div>
 
@@ -7671,10 +7705,15 @@ if(document.body.classList.contains('access-locked')){
       <div class="result-status-badges" id="floatResultBadges"></div>
       <div class="prompt-float-meta" id="promptFloatMeta">상세 모드 · 스크롤과 무관하게 우측 하단에 고정됩니다.</div>
       <textarea id="promptFloatText" spellcheck="false" placeholder="랜덤 생성 후 프롬프트가 여기에 표시됩니다."></textarea>
+      <div class="prompt-float-copy-row">
+        <button type="button" class="primary" id="promptFloatCopyNovel">📋 Novel</button>
+        <button type="button" id="promptFloatCopyPix">📋 Pix</button>
+        <button type="button" id="promptFloatCopyNiji">📋 Niji</button>
+      </div>
       <div class="prompt-float-actions">
-        <button type="button" class="primary" id="promptFloatCopy">📋 복사</button>
         <button type="button" id="promptFloatRoll">🎲 생성</button>
         <button type="button" id="promptFloatOptimize">✨ 최적화</button>
+        <button type="button" id="promptFloatCopy">📋 현재 탭 복사</button>
         <button type="button" id="promptFloatClose">닫기</button>
       </div>
     </div>
@@ -7719,7 +7758,6 @@ if(document.body.classList.contains('access-locked')){
     if(open){
       syncFromSource();
       try{updateResultStatusBadges()}catch(_){}
-      // float badges
       const host=$('floatResultBadges');
       const src=$('resultStatusBadges')||$('simpleResultBadges');
       if(host&&src) host.innerHTML=src.innerHTML;
@@ -7734,7 +7772,6 @@ if(document.body.classList.contains('access-locked')){
   }
   function bind(){
     $('promptFloatToggle')?.addEventListener('click',()=>{
-      if(!isDetail()) return;
       const dock=$('promptFloatDock');
       setOpen(!dock?.classList.contains('is-open'));
     });
@@ -7743,6 +7780,17 @@ if(document.body.classList.contains('access-locked')){
     document.querySelectorAll('[data-float-tab]').forEach(b=>{
       b.addEventListener('click',()=>{syncToSource();setTab(b.dataset.floatTab)});
     });
+    
+    const copyId=(id,label)=>{
+      const t=$(id)?.value||'';
+      if(!t){window.show?.('⚠️ 먼저 랜덤 생성해주세요.');return}
+      if(typeof copyText==='function')copyText(t,`✅ ${label} 복사`);
+      else navigator.clipboard?.writeText(t);
+    };
+    $('promptFloatCopyNovel')?.addEventListener('click',()=>{syncToSource();copyId('prompt','NovelAI')});
+    $('promptFloatCopyPix')?.addEventListener('click',()=>{syncToSource();copyId('pixPrompt','PixAI')});
+    $('promptFloatCopyNiji')?.addEventListener('click',()=>{syncToSource();copyId('nijiPrompt','NijiJourney')});
+
     $('promptFloatCopy')?.addEventListener('click',async()=>{
       syncToSource();
       const text=$('promptFloatText')?.value||'';
@@ -7772,7 +7820,6 @@ if(document.body.classList.contains('access-locked')){
     const _render = window.render;
     // patch via MutationObserver on prompt value changes is heavy; hook periodic when open
     setInterval(()=>{
-      if(!isDetail()) return;
       if(!$('promptFloatDock')?.classList.contains('is-open')) return;
       const src=sourceMap()[tab];
       const ta=$('promptFloatText');
