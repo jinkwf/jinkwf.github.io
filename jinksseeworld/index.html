@@ -3550,7 +3550,486 @@ function rolePositionForCharacter(i){
   };
   return (maps[layout]||maps.auto)[i]||'';
 }
-function characterRoleTags(letter){const v=$(`char${letter}Role`)?.value||'';const map={gong:'seme, top',su:'uke, bottom',reverse:'switch, versatile',neutral:'no fixed role, role-neutral',multi_gong_one_su:'multiple seme, one uke',one_gong_multi_su:'one seme, multiple uke'};return map[v]||''}
+/* =========================================================
+   CHARACTER ROLE SYSTEM · 공/수/리버스/무관 + NSFW 확장
+   - 역할 태그를 프롬프트·체위·자세·행동에 실제 반영
+   - 2인/3인에서 공↔수 상보 자동 보정
+========================================================= */
+const CHARACTER_ROLE_DEFS={
+  gong:{
+    label:'공',
+    base:['seme','top','dominant partner'],
+    nsfw:['dominant','active partner','thrusting','holding partner','leading the act','controlling pace'],
+    posePrefer:/holding|gripping|standing behind|on top|leaning over|from behind|잡고|뒤에서|위에|주도/,
+    poseBan:/on all fours receiving only|lying under passive only/,
+    actionPrefer:/from behind|thrusting|holding hips|pinning|pressing|밀어|허리를 잡|제압/,
+    actionBan:/receiving only passively|being penetrated only/,
+    sexBias:['doggy','standing','missionary','mating_press','sex'],
+    positionHint:'standing behind or leaning over partner',
+    actionHint:'holding partner, leading penetration'
+  },
+  su:{
+    label:'수',
+    base:['uke','bottom','receptive partner'],
+    nsfw:['submissive','receiving','being held','arched back','taking penetration','reactive'],
+    posePrefer:/on all fours|kneeling|lying on back|arched|bent over|held|네발|무릎|누운|안긴/,
+    poseBan:/standing behind dominating only|pinning partner only/,
+    actionPrefer:/receiving|being held|moaning|arched|taken from behind|안기|받는|허리를 내밀/,
+    actionBan:/thrusting into partner only|pinning from behind only/,
+    sexBias:['doggy','missionary','cowgirl','mating_press','oral','sex'],
+    positionHint:'in front or beneath partner',
+    actionHint:'receiving, reactive body language'
+  },
+  reverse:{
+    label:'리버스',
+    base:['switch','versatile','role reversible'],
+    nsfw:['switch dynamics','alternating dominance','versatile intimacy','power exchange'],
+    posePrefer:/straddling|facing|holding|close|걸터|마주|밀착/,
+    poseBan:null,
+    actionPrefer:/kissing|straddling|holding|switching|밀착|키스|번갈아/,
+    actionBan:null,
+    sexBias:['cowgirl','reverse_cowgirl','missionary','sex'],
+    positionHint:'flexible position, can lead or receive',
+    actionHint:'versatile interaction'
+  },
+  neutral:{
+    label:'무관',
+    base:['role-neutral','no fixed dominance'],
+    nsfw:['equal intimacy','mutual exchange','shared control'],
+    posePrefer:/side by side|face to face|close together|나란히|마주|밀착/,
+    poseBan:null,
+    actionPrefer:/kissing|embracing|mutual|together|서로|포옹|키스/,
+    actionBan:null,
+    sexBias:['missionary','sex','oral'],
+    positionHint:'equal framing',
+    actionHint:'mutual intimacy'
+  },
+  multi_gong_one_su:{
+    label:'다공일수',
+    base:['multiple seme','one uke','group dominance on one'],
+    nsfw:['multiple dominant partners','one receptive focus','shared attention on one uke'],
+    posePrefer:/center focus|surrounded|held by two|중앙|양쪽|둘러/,
+    poseBan:/solo isolated only/,
+    actionPrefer:/threesome|group|both sides|surrounded|양쪽에서|다인/,
+    actionBan:null,
+    sexBias:['threesome','sex','oral'],
+    positionHint:'uke centered, multiple partners around',
+    actionHint:'group focus on one receptive partner'
+  },
+  one_gong_multi_su:{
+    label:'일공다수',
+    base:['one seme','multiple uke','one dominant with multiple partners'],
+    nsfw:['one dominant partner','multiple receptive partners','central dominant focus'],
+    posePrefer:/center dominant|two partners|leading two|중앙 주도|양쪽 상대/,
+    poseBan:/solo isolated only/,
+    actionPrefer:/threesome|group|one leading|central dominant|한 명이 주도|다인/,
+    actionBan:null,
+    sexBias:['threesome','sex','oral'],
+    positionHint:'one dominant centered with multiple partners',
+    actionHint:'one leading multiple partners'
+  }
+};
+
+function characterRoleValue(letter){
+  return $(`char${letter}Role`)?.value||'';
+}
+function characterRoleDef(letter){
+  return CHARACTER_ROLE_DEFS[characterRoleValue(letter)]||null;
+}
+function allAssignedRoles(){
+  const n=characterCount();
+  return ['A','B','C'].slice(0,n).map(letter=>({letter,role:characterRoleValue(letter),def:characterRoleDef(letter)}));
+}
+function characterRoleTags(letter){
+  const def=characterRoleDef(letter);
+  if(!def) return '';
+  const tags=[...def.base];
+  if(isNsfwGenre()) tags.push(...def.nsfw);
+  const cleaned=(typeof cleanPieces==='function')?cleanPieces(tags):[...new Set(tags.filter(Boolean))];
+  return cleaned.join(', ');
+}
+function characterRoleNsfwExtraTags(letter){
+  if(!isNsfwGenre()) return [];
+  const def=characterRoleDef(letter);
+  if(!def) return [];
+  const extra=[];
+  if(def.positionHint) extra.push(def.positionHint);
+  if(def.actionHint) extra.push(def.actionHint);
+  return extra;
+}
+function complementaryRole(role){
+  if(role==='gong') return 'su';
+  if(role==='su') return 'gong';
+  if(role==='multi_gong_one_su') return 'su';
+  if(role==='one_gong_multi_su') return 'gong';
+  return '';
+}
+function autoFillComplementaryRoles({silent=false}={}){
+  const n=characterCount();
+  if(n<2) return;
+  const letters=['A','B','C'].slice(0,n);
+  const values=letters.map(l=>characterRoleValue(l));
+  const filled=values.filter(Boolean);
+  // 한 명만 공/수면 나머지 빈 칸에 상보 역할 제안 채움 (이미 값 있으면 유지)
+  if(filled.length===1){
+    const srcIdx=values.findIndex(Boolean);
+    const src=values[srcIdx];
+    const comp=complementaryRole(src);
+    if(!comp) return;
+    letters.forEach((letter,i)=>{
+      if(i===srcIdx) return;
+      const el=$(`char${letter}Role`);
+      if(el&&!el.value){
+        // 3인에서 multi 역할이면 특별 처리
+        if(n===3&&src==='gong') el.value='su';
+        else if(n===3&&src==='su') el.value='gong';
+        else el.value=comp;
+      }
+    });
+    if(!silent) show(`🎭 역할 상보 자동 적용 · ${CHARACTER_ROLE_DEFS[src]?.label||src} ↔ ${CHARACTER_ROLE_DEFS[comp]?.label||comp}`);
+  }
+}
+function rolePairDynamicsTags(){
+  if(!isNsfwGenre()||characterCount()<2) return [];
+  const roles=allAssignedRoles().map(x=>x.role).filter(Boolean);
+  if(!roles.length) return [];
+  const tags=[];
+  const has=r=>roles.includes(r);
+  if(has('gong')&&has('su')) tags.push('clear seme-uke dynamics','dominant and receptive pairing');
+  if(has('reverse')) tags.push('switch dynamics between partners');
+  if(has('neutral')) tags.push('equal mutual intimacy');
+  if(has('multi_gong_one_su')) tags.push('multiple seme focusing on one uke');
+  if(has('one_gong_multi_su')) tags.push('one seme with multiple uke');
+  if(characterCount()===3&&roles.filter(r=>r==='gong').length>=2) tags.push('multiple dominant partners');
+  if(characterCount()===3&&roles.filter(r=>r==='su').length>=2) tags.push('multiple receptive partners');
+  return tags;
+}
+function roleBiasedSexPositionKeys(){
+  if(!isNsfwGenre()||characterCount()<2) return [];
+  const keys=[];
+  allAssignedRoles().forEach(({def})=>{
+    if(def?.sexBias) keys.push(...def.sexBias);
+  });
+  // 공+수 기본 조합이면 후배위/정상위 가중
+  const roles=allAssignedRoles().map(x=>x.role);
+  if(roles.includes('gong')&&roles.includes('su')){
+    keys.push('doggy','missionary','standing','sex');
+  }
+  return keys;
+}
+function applyCharacterRoleAffinity(pool, type){
+  if(!isNsfwGenre()||characterCount()<2) return pool;
+  const roles=allAssignedRoles().filter(x=>x.def);
+  if(!roles.length) return pool;
+  const out=pool.slice();
+  roles.forEach(({def})=>{
+    let rx=null;
+    if(type==='pose') rx=def.posePrefer;
+    else if(type==='action') rx=def.actionPrefer;
+    if(!rx) return;
+    const matched=pool.filter(x=>rx.test(`${x.en||''} ${x.ko||''}`.toLowerCase()));
+    if(!matched.length) return;
+    const weight=type==='action'?8:6;
+    for(let i=0;i<slotFitsRoleWeight(type);i++) out.push(...matched);
+  });
+  // 체위 키 바이어스: action 풀에 역할 선호 체위 문구가 있으면 가중
+  if(type==='action'){
+    const biasKeys=roleBiasedSexPositionKeys();
+    biasKeys.forEach(key=>{
+      const rule=SEX_POSITION_RULES?.[key];
+      if(!rule?.actionRx) return;
+      const matched=pool.filter(x=>rule.actionRx.test(`${x.en||''} ${x.ko||''}`.toLowerCase()));
+      if(matched.length) for(let i=0;i<5;i++) out.push(...matched);
+    });
+  }
+  return out;
+}
+function slotFitsRoleWeight(type){
+  return type==='action'?8:type==='pose'?6:4;
+}
+function applyCharacterRoleBanFilter(pool, type){
+  if(!isNsfwGenre()||characterCount()<2) return pool;
+  // 전역 슬롯은 여러 역할이 섞이므로 ban은 캐릭터 문단 쪽에서 더 강하게 처리
+  // 여기서는 모든 역할이 동시에 금지하는 극단적 경우만 제거
+  const roles=allAssignedRoles().filter(x=>x.def);
+  if(roles.length<1) return pool;
+  if(type!=='action'&&type!=='pose') return pool;
+  // 전원 공만 있는데 receiving only 같은 태그는 약화
+  const allGong=roles.every(x=>x.role==='gong');
+  const allSu=roles.every(x=>x.role==='su');
+  if(!allGong&&!allSu) return pool;
+  const filtered=pool.filter(x=>{
+    const t=`${x.en||''} ${x.ko||''}`.toLowerCase();
+    if(allGong&&/receiving only|passive uke only|being penetrated only/.test(t)) return false;
+    if(allSu&&/dominant thrusting only|pinning partner only|from behind dominating only/.test(t)) return false;
+    return true;
+  });
+  return filtered.length?filtered:pool;
+}
+/* ===== 체위 × 역할 강제 규칙 =====
+   현재 action이 특정 체위로 판별되면 공/수/리버스 등에
+   위치·행동 태그를 캐릭터 문단에 강제 주입한다.
+*/
+const SEX_POSITION_ROLE_FORCE={
+  doggy:{
+    gong:{
+      position:['standing behind partner','behind the receptive partner'],
+      action:['thrusting from behind','holding partner hips from behind','sex from behind, dominant'],
+      pose:['leaning over partner from behind','gripping hips']
+    },
+    su:{
+      position:['in front of dominant partner','on all fours'],
+      action:['receiving from behind','on all fours, arched back','being taken from behind'],
+      pose:['on all fours','kneeling, bent forward','arched back']
+    },
+    reverse:{
+      position:['flexible doggy positioning'],
+      action:['switch doggy dynamics','alternating rear entry control'],
+      pose:['close rear-entry stance']
+    },
+    neutral:{
+      position:['doggy style positioning'],
+      action:['doggy style intercourse'],
+      pose:['doggy style pose']
+    }
+  },
+  missionary:{
+    gong:{
+      position:['on top, facing partner'],
+      action:['missionary, thrusting from above','pinning partner on back'],
+      pose:['lying on top of partner','between partner legs']
+    },
+    su:{
+      position:['lying on back beneath partner'],
+      action:['receiving in missionary','legs open, looking up'],
+      pose:['lying on back','legs raised or spread']
+    },
+    reverse:{
+      position:['face to face, interchangeable top'],
+      action:['missionary with switch control'],
+      pose:['face to face lying close']
+    },
+    neutral:{
+      position:['face to face on bed'],
+      action:['missionary intercourse'],
+      pose:['lying face to face']
+    }
+  },
+  cowgirl:{
+    gong:{
+      position:['lying on back beneath partner'],
+      action:['receiving cowgirl, hands on partner hips','looking up at partner'],
+      pose:['lying on back','holding partner waist']
+    },
+    su:{
+      position:['straddling on top, facing partner'],
+      action:['cowgirl, riding on top','setting the pace from above'],
+      pose:['straddling partner','sitting on top facing partner']
+    },
+    reverse:{
+      position:['cowgirl switch positioning'],
+      action:['cowgirl with shared control'],
+      pose:['straddling, face to face']
+    },
+    neutral:{
+      position:['cowgirl positioning'],
+      action:['cowgirl intercourse'],
+      pose:['straddling pose']
+    }
+  },
+  reverse_cowgirl:{
+    gong:{
+      position:['lying on back beneath partner'],
+      action:['receiving reverse cowgirl','hands on partner hips from below'],
+      pose:['lying on back','looking at partner back']
+    },
+    su:{
+      position:['straddling on top, back to partner'],
+      action:['reverse cowgirl, riding facing away','looking back over shoulder'],
+      pose:['straddling, back to partner','looking back']
+    },
+    reverse:{
+      position:['reverse cowgirl switch'],
+      action:['reverse cowgirl, alternating control'],
+      pose:['straddling facing away']
+    },
+    neutral:{
+      position:['reverse cowgirl positioning'],
+      action:['reverse cowgirl intercourse'],
+      pose:['straddling facing away']
+    }
+  },
+  standing:{
+    gong:{
+      position:['standing, pressing partner to wall'],
+      action:['standing sex, thrusting','holding partner against wall'],
+      pose:['standing behind or face to face at wall','lifting or bracing partner']
+    },
+    su:{
+      position:['pressed against wall'],
+      action:['standing sex, receiving','one leg raised, braced on wall'],
+      pose:['standing against wall','one leg up or held']
+    },
+    reverse:{
+      position:['standing close, switch control'],
+      action:['standing sex with shared lead'],
+      pose:['standing pressed together']
+    },
+    neutral:{
+      position:['standing intimate position'],
+      action:['standing intercourse'],
+      pose:['standing close']
+    }
+  },
+  mating_press:{
+    gong:{
+      position:['on top, deep press'],
+      action:['mating press, deep thrusting','folding partner legs'],
+      pose:['pressing down from above','body folded over partner']
+    },
+    su:{
+      position:['on back, legs folded toward chest'],
+      action:['receiving mating press','legs up, overwhelmed'],
+      pose:['lying on back, legs pressed up']
+    },
+    reverse:{
+      position:['mating press switch'],
+      action:['deep press with alternating control'],
+      pose:['folded intimate press']
+    },
+    neutral:{
+      position:['mating press positioning'],
+      action:['mating press intercourse'],
+      pose:['deep press pose']
+    }
+  },
+  oral:{
+    gong:{
+      position:['standing or sitting above partner head'],
+      action:['receiving oral, hand in partner hair','looking down'],
+      pose:['standing or sitting, hips forward']
+    },
+    su:{
+      position:['kneeling or lower position'],
+      action:['performing oral','looking up, mouth engaged'],
+      pose:['kneeling','head between partner legs or at hips']
+    },
+    reverse:{
+      position:['oral switch positioning'],
+      action:['mutual or alternating oral'],
+      pose:['close oral stance']
+    },
+    neutral:{
+      position:['oral positioning'],
+      action:['oral sex'],
+      pose:['kneeling or reclining oral pose']
+    }
+  },
+  threesome:{
+    gong:{
+      position:['dominant position among group'],
+      action:['leading group act','holding one or more partners'],
+      pose:['central or behind receptive partners']
+    },
+    su:{
+      position:['receptive focus in group'],
+      action:['receiving from one or more partners'],
+      pose:['centered or between partners']
+    },
+    multi_gong_one_su:{
+      position:['with other dominant partners around one uke'],
+      action:['multiple seme focusing on one uke'],
+      pose:['surrounding the receptive partner']
+    },
+    one_gong_multi_su:{
+      position:['central dominant with multiple uke'],
+      action:['one seme engaging multiple partners'],
+      pose:['centered dominant stance']
+    },
+    reverse:{
+      position:['flexible group positioning'],
+      action:['group switch dynamics'],
+      pose:['entangled group pose']
+    },
+    neutral:{
+      position:['group intimate positioning'],
+      action:['threesome intercourse'],
+      pose:['three people close together']
+    }
+  },
+  sex:{
+    gong:{
+      position:['dominant intimate position'],
+      action:['leading penetration','holding partner'],
+      pose:['active dominant stance']
+    },
+    su:{
+      position:['receptive intimate position'],
+      action:['receiving penetration','reactive body'],
+      pose:['receptive stance']
+    },
+    reverse:{
+      position:['versatile intimate position'],
+      action:['switch intercourse'],
+      pose:['close versatile stance']
+    },
+    neutral:{
+      position:['mutual intimate position'],
+      action:['intercourse, mutual'],
+      pose:['close mutual pose']
+    }
+  }
+};
+
+function forcedRoleTagsForLetter(letter){
+  if(!isNsfwGenre()||characterCount()<2) return {position:[],action:[],pose:[]};
+  const role=characterRoleValue(letter);
+  if(!role) return {position:[],action:[],pose:[]};
+  const posKey=currentSexPositionKey();
+  if(!posKey) return {position:[],action:[],pose:[]};
+  const table=SEX_POSITION_ROLE_FORCE[posKey];
+  if(!table) return {position:[],action:[],pose:[]};
+  // multi 역할은 전용 키가 있으면 사용, 없으면 gong/su로 폴백
+  let entry=table[role];
+  if(!entry){
+    if(role==='multi_gong_one_su') entry=table.gong||table.su;
+    else if(role==='one_gong_multi_su') entry=table.gong||table.su;
+  }
+  if(!entry) return {position:[],action:[],pose:[]};
+  return {
+    position:[...(entry.position||[])],
+    action:[...(entry.action||[])],
+    pose:[...(entry.pose||[])]
+  };
+}
+function roleAwareCharacterAction(letter){
+  const def=characterRoleDef(letter);
+  if(!def||!isNsfwGenre()) return '';
+  const hints=[];
+  const forced=forcedRoleTagsForLetter(letter);
+  // 체위 강제 태그를 최우선
+  hints.push(...forced.action, ...forced.pose, ...forced.position);
+  if(def.actionHint) hints.push(def.actionHint);
+  if(def.positionHint) hints.push(def.positionHint);
+  return [...new Set(hints.filter(Boolean))].join(', ');
+}
+function roleForcedPromptPieces(letter){
+  const forced=forcedRoleTagsForLetter(letter);
+  return [...forced.position, ...forced.pose, ...forced.action];
+}
+function globalRolePositionSummaryTags(){
+  if(!isNsfwGenre()||characterCount()<2) return [];
+  const posKey=currentSexPositionKey();
+  if(!posKey) return [];
+  const roles=allAssignedRoles().filter(x=>x.role);
+  if(!roles.length) return [];
+  const tags=[`position dynamics: ${posKey}`];
+  roles.forEach(({letter,role})=>{
+    const forced=forcedRoleTagsForLetter(letter);
+    if(forced.position[0]) tags.push(`character ${letter} (${role}): ${forced.position[0]}`);
+  });
+  return tags;
+}
 function hasSpecifiedCharacter(){return Boolean($('gender')?.value)}
 // 캐릭터 미지정: 성별/캐릭터별 외형(CHARACTER A/B/C)만 제외. 의상·행동·표정·포즈·배경 등 장면 슬롯은 유지.
 function characterSpecificParagraphs(){
@@ -3565,13 +4044,27 @@ function characterSpecificParagraphs(){
     if(i>=n)return;
     const manual=$(`char${letter}Tags`)?.value?.trim()||'';
     const pairRole=characterRoleTags(letter);
+    const roleExtra=characterRoleNsfwExtraTags(letter);
     const autoRole=rolePositionForCharacter(i);
     const position=combine($(`char${letter}PositionPreset`)?.value||'', $(`char${letter}Position`)?.value||'', autoRole);
-    const action=combine($(`char${letter}ActionPreset`)?.value||'', $(`char${letter}Action`)?.value||'');
-    const pieces=applyExcludedTokens([genders[i],pairRole,position,...splitPromptTokens(manual),...splitPromptTokens(action)]);
+    const action=combine($(`char${letter}ActionPreset`)?.value||'', $(`char${letter}Action`)?.value||'', roleAwareCharacterAction(letter));
+    const forcedPieces=roleForcedPromptPieces(letter);
+    const pieces=applyExcludedTokens([
+      genders[i],
+      pairRole,
+      ...roleExtra,
+      ...forcedPieces,
+      position,
+      ...splitPromptTokens(manual),
+      ...splitPromptTokens(action)
+    ]);
     out.push(`character ${letter}:
 ${pieces.join(', ')}`);
   });
+  // 전역 역학 태그(공수 페어 등) + 체위별 역할 강제 요약
+  const dynamics=[...rolePairDynamicsTags(),...globalRolePositionSummaryTags()];
+  if(dynamics.length) out.push(`role dynamics:
+${dynamics.join(', ')}`);
   return out;
 }
 
@@ -5347,6 +5840,8 @@ function poolFor(type){
   base=applySceneAffinity(base,type);
   base=applySexPositionBanFilter(base,type);
   base=applySexPositionAffinity(base,type);
+  base=applyCharacterRoleBanFilter(base,type);
+  base=applyCharacterRoleAffinity(base,type);
   return base;
 }
 function uniqueCount(type){return uniq(poolFor(type)).length}
@@ -5755,7 +6250,7 @@ function stripAutoNegativeTags(value){
 function buildPrompt(){
   const nsfwBase=isNsfwGenre()?['nsfw','explicit','uncensored']:[];
   const userTags=activeUserCharacterText();
-  let a=applyExcludedTokens([$('quality').value,$('gender').value,$('style').value,artStyleTag(),...aiPresetPromptTags('novel'),...detailBoosterTags('novel'),...themeNovelTags(),...guideverseCoreVisualPromptTags(),...nsfwBase,...specialPromptTags(),...multiAxisPromptTags(),...povPromptTags(),...presetPromptTags(),...relationNsfwPromptTags(),...roleLayoutTags(),customTagsForPrompt(),...multiDistinctPromptTags()]);
+  let a=applyExcludedTokens([$('quality').value,$('gender').value,$('style').value,artStyleTag(),...aiPresetPromptTags('novel'),...detailBoosterTags('novel'),...themeNovelTags(),...guideverseCoreVisualPromptTags(),...nsfwBase,...specialPromptTags(),...multiAxisPromptTags(),...povPromptTags(),...presetPromptTags(),...relationNsfwPromptTags(),...roleLayoutTags(),...rolePairDynamicsTags(),customTagsForPrompt(),...multiDistinctPromptTags()]);
   promptSlotKeys().forEach(k=>{
     if(!state.active[k]||!state.selected[k]?.en) return;
     if(k==='outfit'){
@@ -5946,11 +6441,13 @@ $('gender').addEventListener('change',()=>{
   updateCharacterModeHint();
   updateRelationHint();
   updateSpecialTagAvailability();
+  updateCharacterSpecificUI();
 
   const slots=isPovMode()?['composition','background','pose','gaze','action','prop','mood','expression']:['composition','pose','gaze','action','mood','expression'];
   updatePovModeHint();
   slots.forEach(k=>{state.selected[k]=choose(k);flash(k)});
   enforceSmartConflicts();
+  enforceSemanticQuality();
   render();
   saveSettings();
   show(`👥 ${characterCount()}인 모드${isPovMode()?' + POV':''}에 맞춰 관련 슬롯을 다시 뽑았습니다.`);
@@ -5997,7 +6494,21 @@ $('quickEffectsDetails')?.addEventListener('toggle',()=>{updateQuickEffectCount(
 $('optimizePrompt')?.addEventListener('click',optimizeCurrentPrompt);
 ['axisExposure','axisContact','axisMarks','axisMotion','axisExpression','axisWardrobe'].forEach(id=>$(id)?.addEventListener('change',()=>{updateDirectorState();['outfit','action','pose','expression','mood'].forEach(k=>{if(!state.locked[k])state.selected[k]=choose(k)});enforceSmartConflicts();render();saveSettings();updateQuickRecommendations()}));
 $('roleLayout')?.addEventListener('change',()=>{updateCharacterSpecificUI();buildPrompt();buildSummary();saveSettings()});
-['charARole','charBRole','charCRole','charAPositionPreset','charAActionPreset','charBPositionPreset','charBActionPreset','charCPositionPreset','charCActionPreset'].forEach(id=>$(id)?.addEventListener('change',()=>{buildPrompt();buildSummary();saveSettings()}));
+['charARole','charBRole','charCRole','charAPositionPreset','charAActionPreset','charBPositionPreset','charBActionPreset','charCPositionPreset','charCActionPreset'].forEach(id=>$(id)?.addEventListener('change',()=>{
+  if(['charARole','charBRole','charCRole'].includes(id)){
+    autoFillComplementaryRoles({silent:false});
+    // 역할 변경 시 NSFW 행동/자세 재추첨으로 공수 반영
+    if(isNsfwGenre()&&characterCount()>=2){
+      ['action','pose','composition','gaze','expression','mood'].forEach(k=>{
+        if(!state.locked[k]){state.selected[k]=choose(k);flash(k)}
+      });
+      enforceSmartConflicts();
+      enforceSemanticQuality();
+      render();
+    }
+  }
+  buildPrompt();buildSummary();saveSettings();
+}));
 ['charATags','charBTags','charCTags','charAPosition','charAAction','charBPosition','charBAction','charCPosition','charCAction'].forEach(id=>$(id)?.addEventListener('input',()=>{buildPrompt();buildSummary();saveSettings()}));
 function resetCharacterSlots(){['charARole','charBRole','charCRole','charAPositionPreset','charAActionPreset','charBPositionPreset','charBActionPreset','charCPositionPreset','charCActionPreset'].forEach(id=>{if($(id))$(id).value=''});['charATags','charBTags','charCTags','charAPosition','charAAction','charBPosition','charBAction','charCPosition','charCAction'].forEach(id=>{if($(id))$(id).value=''});buildPrompt();buildSummary();saveSettings();show('🧹 CHARACTER A/B/C 전용 설정을 초기화했습니다.')}
 $('resetCharacterSlots')?.addEventListener('click',()=>resetCharacterSlots());
