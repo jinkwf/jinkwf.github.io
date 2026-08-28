@@ -1315,49 +1315,284 @@ function semanticQualityStatus(){
   const expOk=expressionActionCompatible();const peopleOk=compositionPeopleCompatible();const propLink=propActionMatched();
   return {seasonOk,propOk,actionOk,expOk,peopleOk,propLink}
 }
+/* ===== 체위별 정합성 · 가중치 규칙 (NSFW multi) =====
+   posKey별 preferred / banned 패턴으로 pose·composition·gaze·expression·mood·prop을 맞춤
+*/
+const SEX_POSITION_RULES={
+  doggy:{
+    label:'후배위',
+    actionRx:/doggy|from behind|sex from behind|후배위/,
+    posePrefer:/from behind|doggy|kneeling|all fours|on all fours|bent over|leaning forward|on knees|hands and knees|허리|무릎|뒤에서|후배위|숙인/,
+    poseBan:/missionary|face to face lying|on back facing|lying face to face|마주 보고 누운|정상위 전용/,
+    compositionPrefer:/from behind|rear view|side view|over-the-shoulder|full body|two-shot|뒤에서|측면|전신/,
+    compositionBan:/face close-up only|bust shot only|portrait only/,
+    gazePrefer:/looking back|looking over shoulder|looking down|half-lidded|뒤를 돌아|어깨 너머|내려다/,
+    gazeBan:/both looking at viewer only smiling casually/,
+    expressionPrefer:/moaning|flushed|half-lidded|pleasure|ecstatic|ahegao|biting lip|신음|상기|황홀|반쯤 감/,
+    expressionBan:/bright smile|cheerful smile|innocent smile|peaceful smile|밝은 미소|천진한/,
+    moodPrefer:/intense|lust|breathless|heated|rough|격렬|욕망|거친 숨|뜨거운/,
+    moodBan:/cheerful festival|peaceful morning|밝은 축제|평화로운 아침/,
+    propPrefer:/bed|sheets|pillow|wall|floor|mattress|이불|베개|침대|벽|바닥/,
+    propBan:/shopping cart|umbrella|laptop|shopping basket|쇼핑카트|우산|노트북/,
+    weights:{pose:14,composition:10,gaze:8,expression:10,mood:8,prop:6}
+  },
+  missionary:{
+    label:'정상위',
+    actionRx:/missionary|정상위/,
+    posePrefer:/missionary|lying on back|face to face|on back|legs spread|누운|마주|정상위|다리/,
+    poseBan:/doggy|all fours|from behind only|standing only|후배위 전용|네발/,
+    compositionPrefer:/face to face|two-shot|close-up|top-down|overhead|마주|투샷|근접|위에서/,
+    compositionBan:/rear view only|from behind only/,
+    gazePrefer:/looking at each other|looking at partner|eye contact|half-lidded|서로 바라|눈맞춤/,
+    gazeBan:/looking away only|avoiding gaze only/,
+    expressionPrefer:/flushed|pleasure|moaning|soft ecstasy|biting lip|said|상기|신음|황홀|입술/,
+    expressionBan:/bright smile|cheerful|innocent|밝은 미소|천진/,
+    moodPrefer:/intimate|tender lust|heated|close|밀착|은밀|뜨거운|친밀/,
+    moodBan:/public festival|cheerful crowd/,
+    propPrefer:/bed|sheets|pillow|blanket|mattress|이불|베개|침대|담요/,
+    propBan:/shopping cart|steering wheel|umbrella/,
+    weights:{pose:14,composition:12,gaze:10,expression:10,mood:8,prop:6}
+  },
+  cowgirl:{
+    label:'카우걸',
+    actionRx:/(?<!reverse )cowgirl|카우걸(?!.*리버스)/,
+    posePrefer:/cowgirl|straddling|on top|sitting on partner|riding|걸터|위에 앉|카우걸|타고/,
+    poseBan:/doggy|all fours|lying under only|from behind only/,
+    compositionPrefer:/two-shot|full body|low angle|from below|waist up|투샷|전신|아래에서|허리 위/,
+    compositionBan:/rear view only/,
+    gazePrefer:/looking down at partner|looking at viewer|eye contact|내려다|정면|서로/,
+    gazeBan:/looking away only/,
+    expressionPrefer:/dominant pleasure|flushed|moaning|ecstatic|biting lip|상기|황홀|신음/,
+    expressionBan:/innocent smile|cheerful only/,
+    moodPrefer:/lust|control|heated|intense|욕망|주도|뜨거운/,
+    moodBan:/peaceful quiet morning only/,
+    propPrefer:/bed|sofa|chair|sheets|침대|소파|의자|이불/,
+    propBan:/umbrella|shopping cart/,
+    weights:{pose:14,composition:10,gaze:8,expression:10,mood:8,prop:6}
+  },
+  reverse_cowgirl:{
+    label:'리버스 카우걸',
+    actionRx:/reverse cowgirl|리버스 카우걸/,
+    posePrefer:/reverse cowgirl|straddling|on top|back to partner|sitting on|걸터|등 돌린|리버스/,
+    poseBan:/missionary face to face lying only|doggy all fours only/,
+    compositionPrefer:/from behind|rear view|side view|full body|two-shot|뒤에서|측면|전신/,
+    compositionBan:/face close-up only/,
+    gazePrefer:/looking back|looking over shoulder|looking at viewer|뒤를 돌아|어깨 너머/,
+    gazeBan:/face to face eye contact only/,
+    expressionPrefer:/flushed|moaning|pleasure|half-lidded|상기|신음|반쯤/,
+    expressionBan:/innocent bright smile/,
+    moodPrefer:/lust|heated|intense|욕망|뜨거운/,
+    moodBan:/cheerful festival/,
+    propPrefer:/bed|sofa|sheets|침대|소파|이불/,
+    propBan:/umbrella|laptop/,
+    weights:{pose:14,composition:10,gaze:10,expression:10,mood:8,prop:6}
+  },
+  standing:{
+    label:'스탠딩 / 벽',
+    actionRx:/standing sex|against wall|벽.*섹스|서서.*섹스|standing intercourse/,
+    posePrefer:/standing|against wall|pressed to wall|lifted|one leg up|서 있|벽|밀착|다리 든/,
+    poseBan:/lying on bed|on back on mattress|all fours on floor|침대에 누운|네발/,
+    compositionPrefer:/full body|two-shot|vertical|side view|against wall|전신|투샷|세로|벽/,
+    compositionBan:/top-down bed only|overhead lying only/,
+    gazePrefer:/looking at each other|looking at viewer|close face|서로|정면|근접 얼굴/,
+    gazeBan:/looking at floor only/,
+    expressionPrefer:/flushed|intense|moaning|biting lip|상기|격한|신음/,
+    expressionBan:/sleepy peaceful smile/,
+    moodPrefer:/urgent|rough|heated|wall|급박|거친|뜨거운|벽/,
+    moodBan:/lazy morning bed only/,
+    propPrefer:/wall|door|window|counter|벽|문|창|카운터/,
+    propBan:/bed sheets only|pillow pile only|이불 더미만/,
+    weights:{pose:14,composition:12,gaze:8,expression:10,mood:8,prop:7}
+  },
+  mating_press:{
+    label:'메이팅 프레스',
+    actionRx:/mating press/,
+    posePrefer:/mating press|lying on back|legs up|legs folded|deep press|누운|다리 올린|접힌/,
+    poseBan:/standing|doggy|cowgirl straddling standing/,
+    compositionPrefer:/top-down|overhead|close two-shot|full body on bed|위에서|근접|침대 전신/,
+    compositionBan:/standing full body only|rear standing only/,
+    gazePrefer:/looking up|half-lidded|eye contact|올려다|반쯤|눈맞춤/,
+    gazeBan:/looking away casually/,
+    expressionPrefer:/overwhelmed|moaning|ahegao|ecstatic|flushed|아헤|신음|황홀|상기/,
+    expressionBan:/bright cheerful smile/,
+    moodPrefer:/intense|deep|overwhelming|격렬|깊은|압도/,
+    moodBan:/light playful only/,
+    propPrefer:/bed|mattress|sheets|pillow|침대|매트리스|이불|베개/,
+    propBan:/umbrella|shopping cart|wall only/,
+    weights:{pose:14,composition:12,gaze:8,expression:12,mood:8,prop:6}
+  },
+  threesome:{
+    label:'3인 / 다인',
+    actionRx:/threesome|3인 섹스|다인|three people.*sex|group sex/,
+    posePrefer:/three people|group|together|entangled|center and sides|세 사람|밀착|양쪽/,
+    poseBan:/solo only|alone standing only/,
+    compositionPrefer:/group shot|three-shot|full body group|wide intimate|그룹|3인|전신 그룹/,
+    compositionBan:/single portrait only|solo face close-up/,
+    gazePrefer:/varied gazes|looking at each other|looking at viewer|엇갈린|서로|정면/,
+    gazeBan:/all looking away/,
+    expressionPrefer:/flushed|pleasure|moaning|mixed ecstasy|상기|신음|황홀/,
+    expressionBan:/innocent group smile only/,
+    moodPrefer:/multi partner|heated group|layered lust|다인|뜨거운 그룹|욕망/,
+    moodBan:/quiet solo morning/,
+    propPrefer:/wide bed|multiple pillows|messy sheets|넓은 침대|여러 베개|흐트러진 이불/,
+    propBan:/single chair only|laptop/,
+    weights:{pose:12,composition:14,gaze:8,expression:10,mood:10,prop:6}
+  },
+  oral:{
+    label:'구강',
+    actionRx:/oral|fellatio|cunnilingus|irrumatio|deepthroat|구강|펠라|커닐링구스/,
+    posePrefer:/kneeling|sitting|lying|head between|on knees|무릎|앉|눕|머리/,
+    poseBan:/standing full distance only|walking/,
+    compositionPrefer:/close-up|low angle|from above|two-shot intimate|근접|아래에서|위에서|밀착 투샷/,
+    compositionBan:/wide landscape only|far full body crowd/,
+    gazePrefer:/looking up|looking down|eye contact|half-lidded|올려다|내려다|반쯤/,
+    gazeBan:/looking at distant scenery only/,
+    expressionPrefer:/mouth open|tongue|flushed|concentrated|moaning|입 벌린|혀|상기|집중|신음/,
+    expressionBan:/closed-mouth bright smile only/,
+    moodPrefer:/intimate|focused|lust|은밀|집중|욕망/,
+    moodBan:/festival crowd cheer/,
+    propPrefer:/bed|sofa|chair|floor|침대|소파|의자|바닥/,
+    propBan:/umbrella|shopping cart/,
+    weights:{pose:12,composition:12,gaze:10,expression:12,mood:8,prop:5}
+  },
+  sex:{
+    label:'일반 섹스',
+    actionRx:/\bsex\b|intercourse|섹스|삽입(?!.*표현)/,
+    posePrefer:/lying|sitting|kneeling|standing|pressed|bed|sofa|밀착|눕|앉|무릎|서/,
+    poseBan:/walking away|running|far apart standing casually/,
+    compositionPrefer:/two-shot|intimate|full body|close|투샷|밀착|전신|근접/,
+    compositionBan:/solo portrait only/,
+    gazePrefer:/looking at each other|half-lidded|looking at viewer|서로|반쯤|정면/,
+    gazeBan:/avoiding completely/,
+    expressionPrefer:/flushed|pleasure|moaning|ecstatic|상기|황홀|신음/,
+    expressionBan:/innocent cheerful only/,
+    moodPrefer:/lust|intimate|heated|욕망|밀착|뜨거운/,
+    moodBan:/bright festival only/,
+    propPrefer:/bed|sheets|sofa|wall|침대|이불|소파|벽/,
+    propBan:/shopping cart|umbrella outdoors only/,
+    weights:{pose:10,composition:10,gaze:6,expression:10,mood:8,prop:5}
+  }
+};
+
 function sexPositionKeyFromAction(item){
   const t=`${item?.en||''} ${item?.ko||''}`.toLowerCase();
-  if(/doggy|from behind|후배위/.test(t)) return 'doggy';
-  if(/missionary|정상위/.test(t)) return 'missionary';
-  if(/reverse cowgirl|리버스 카우걸/.test(t)) return 'reverse_cowgirl';
-  if(/cowgirl|카우걸/.test(t)) return 'cowgirl';
-  if(/standing sex|against wall|벽.*섹스|서서.*섹스/.test(t)) return 'standing';
-  if(/mating press/.test(t)) return 'mating_press';
-  if(/threesome|3인 섹스|다인/.test(t)) return 'threesome';
-  if(/\bsex\b|intercourse|섹스|삽입/.test(t)) return 'sex';
-  if(/oral|fellatio|cunnilingus|구강/.test(t)) return 'oral';
+  // 더 구체적인 키를 먼저 판별
+  const order=['reverse_cowgirl','cowgirl','doggy','missionary','mating_press','standing','threesome','oral','sex'];
+  for(const key of order){
+    const rule=SEX_POSITION_RULES[key];
+    if(rule&&rule.actionRx.test(t)) return key;
+  }
   return '';
+}
+function currentSexPositionKey(){
+  return sexPositionKeyFromAction(state?.selected?.action);
+}
+function textOfAsset(item){
+  return `${item?.en||''} ${item?.ko||''}`.toLowerCase();
 }
 function poseFitsSexPosition(poseItem, posKey){
   if(!posKey||!poseItem) return true;
-  const t=`${poseItem.en||''} ${poseItem.ko||''}`.toLowerCase();
-  const rules={
-    doggy: /from behind|doggy|kneeling|all fours|on all fours|bent over|허리|무릎|뒤에서|후배위/,
-    missionary: /lying|missionary|on back|face to face|facing|누운|정상위|마주/,
-    cowgirl: /straddling|cowgirl|on top|sitting on|걸터|카우걸|위에 앉/,
-    reverse_cowgirl: /straddling|reverse|on top|걸터|리버스/,
-    standing: /standing|against wall|pressed|서 있|벽/,
-    mating_press: /lying|on back|legs|누운|다리/,
-    threesome: /three|group|together|밀착|세 사람|3인/,
-    sex: /lying|sitting|kneeling|standing|pressed|bed|sofa|밀착|눕|앉|무릎/,
-    oral: /kneeling|sitting|lying|무릎|앉|눕/
+  const rule=SEX_POSITION_RULES[posKey];
+  if(!rule) return true;
+  const t=textOfAsset(poseItem);
+  if(rule.poseBan&&rule.poseBan.test(t)) return false;
+  return true;
+}
+function slotFitsSexPosition(type, item, posKey){
+  if(!posKey||!item) return true;
+  const rule=SEX_POSITION_RULES[posKey];
+  if(!rule) return true;
+  const t=textOfAsset(item);
+  const banMap={
+    pose:rule.poseBan,
+    composition:rule.compositionBan,
+    gaze:rule.gazeBan,
+    expression:rule.expressionBan,
+    mood:rule.moodBan,
+    prop:rule.propBan
   };
-  const rx=rules[posKey];
-  if(!rx) return true;
-  // 완전 반대 자세만 차단 (서 있는데 누워있는 체위 등 강한 불일치)
-  if(posKey==='doggy'&&/face to face sitting|facing each other sitting only/.test(t)) return false;
-  if(posKey==='standing'&&/lying on bed|on back only/.test(t)) return false;
-  return true; // soft: prefer match via pool weighting; hard-block only clear conflicts
+  const ban=banMap[type];
+  if(ban&&ban.test(t)) return false;
+  return true;
 }
 function expressionFitsIntimateAction(expItem, actionItem){
   if(!expItem||!actionItem) return true;
-  const a=`${actionItem.en||''} ${actionItem.ko||''}`.toLowerCase();
-  const e=`${expItem.en||''} ${expItem.ko||''}`.toLowerCase();
+  const posKey=sexPositionKeyFromAction(actionItem);
+  if(posKey) return slotFitsSexPosition('expression', expItem, posKey);
+  const a=textOfAsset(actionItem);
+  const e=textOfAsset(expItem);
   const sexual=/sex|intercourse|doggy|missionary|cowgirl|oral|thrust|penetration|섹스|후배위|삽입|구강/;
   if(!sexual.test(a)) return true;
-  // 밝고 평온한 일상 표정은 성인 행위와 충돌
   if(/bright smile|cheerful smile|innocent smile|peaceful smile|밝은 미소|천진한/.test(e)&&!/flushed|pleasure|moan|ahegao|ecstatic|상기|황홀|신음/.test(e)) return false;
   return true;
+}
+function applySexPositionAffinity(pool, type){
+  if(!isNsfwGenre()||characterCount()<2) return pool;
+  const posKey=currentSexPositionKey();
+  if(!posKey) return pool;
+  const rule=SEX_POSITION_RULES[posKey];
+  if(!rule) return pool;
+  const preferMap={
+    pose:rule.posePrefer,
+    composition:rule.compositionPrefer,
+    gaze:rule.gazePrefer,
+    expression:rule.expressionPrefer,
+    mood:rule.moodPrefer,
+    prop:rule.propPrefer
+  };
+  const prefer=preferMap[type];
+  if(!prefer) return pool;
+  const w=(rule.weights&&rule.weights[type])||8;
+  const matched=pool.filter(x=>prefer.test(textOfAsset(x)));
+  if(!matched.length) return pool;
+  const out=pool.slice();
+  for(let i=0;i<w;i++) out.push(...matched);
+  return out;
+}
+function applySexPositionBanFilter(pool, type){
+  if(!isNsfwGenre()||characterCount()<2) return pool;
+  const posKey=currentSexPositionKey();
+  if(!posKey) return pool;
+  const filtered=pool.filter(x=>slotFitsSexPosition(type,x,posKey));
+  return filtered.length?filtered:pool;
+}
+function sexPositionPreferRx(type, posKey){
+  const rule=SEX_POSITION_RULES[posKey];
+  if(!rule) return null;
+  return ({
+    pose:rule.posePrefer,
+    composition:rule.compositionPrefer,
+    gaze:rule.gazePrefer,
+    expression:rule.expressionPrefer,
+    mood:rule.moodPrefer,
+    prop:rule.propPrefer
+  })[type]||null;
+}
+function enforceSexPositionCoherence(){
+  if(!isNsfwGenre()||characterCount()<2||!conflictPreventionOn()) return;
+  const act=state.selected.action;
+  const posKey=sexPositionKeyFromAction(act);
+  if(!posKey) return;
+  const types=['pose','composition','gaze','expression','mood','prop'];
+  types.forEach(type=>{
+    if(state.locked[type]) return;
+    const cur=state.selected[type];
+    // 1) 금지 패턴이면 즉시 재추첨
+    if(cur&&!slotFitsSexPosition(type,cur,posKey)){
+      state.selected[type]=choose(type);
+      return;
+    }
+    // 2) 선호 패턴이 있는데 현재 값이 전혀 안 맞으면 선호 쪽으로 재시도
+    const prefer=sexPositionPreferRx(type,posKey);
+    if(!prefer||!cur) return;
+    if(prefer.test(textOfAsset(cur))) return;
+    for(let i=0;i<10;i++){
+      const next=choose(type);
+      if(!next) break;
+      state.selected[type]=next;
+      if(prefer.test(textOfAsset(next))&&slotFitsSexPosition(type,next,posKey)) break;
+    }
+  });
 }
 function enforceSemanticQuality(){
   if(!conflictPreventionOn())return;
@@ -1367,22 +1602,7 @@ function enforceSemanticQuality(){
     if(state.selected.action&&conflictsWithContext('action',state.selected.action)&&!state.locked.action)state.selected.action=choose('action');
     if(!expressionActionCompatible()&&!state.locked.expression)state.selected.expression=choose('expression');
     if(!compositionPeopleCompatible()&&!state.locked.composition)state.selected.composition=choose('composition');
-
-    // NSFW 다인: 체위 ↔ 자세/표정 정합성
-    if(isNsfwGenre()&&characterCount()>=2){
-      const act=state.selected.action;
-      const posKey=sexPositionKeyFromAction(act);
-      if(posKey&&state.selected.pose&&!state.locked.pose&&!poseFitsSexPosition(state.selected.pose,posKey)){
-        state.selected.pose=choose('pose');
-      }
-      if(act&&state.selected.expression&&!state.locked.expression&&!expressionFitsIntimateAction(state.selected.expression,act)){
-        state.selected.expression=choose('expression');
-      }
-      // 2인/3인인데 1인 전용 구도가 남으면 재추첨
-      if(!compositionPeopleCompatible()&&!state.locked.composition){
-        state.selected.composition=choose('composition');
-      }
-    }
+    enforceSexPositionCoherence();
   }
 }
 function updateSemanticModeHints(){
@@ -5125,6 +5345,8 @@ function poolFor(type){
   base=fitCompositionToPov(base,type);
   base=applyConflictFilter(base,type);
   base=applySceneAffinity(base,type);
+  base=applySexPositionBanFilter(base,type);
+  base=applySexPositionAffinity(base,type);
   return base;
 }
 function uniqueCount(type){return uniq(poolFor(type)).length}
