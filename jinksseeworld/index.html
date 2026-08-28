@@ -1315,6 +1315,50 @@ function semanticQualityStatus(){
   const expOk=expressionActionCompatible();const peopleOk=compositionPeopleCompatible();const propLink=propActionMatched();
   return {seasonOk,propOk,actionOk,expOk,peopleOk,propLink}
 }
+function sexPositionKeyFromAction(item){
+  const t=`${item?.en||''} ${item?.ko||''}`.toLowerCase();
+  if(/doggy|from behind|후배위/.test(t)) return 'doggy';
+  if(/missionary|정상위/.test(t)) return 'missionary';
+  if(/reverse cowgirl|리버스 카우걸/.test(t)) return 'reverse_cowgirl';
+  if(/cowgirl|카우걸/.test(t)) return 'cowgirl';
+  if(/standing sex|against wall|벽.*섹스|서서.*섹스/.test(t)) return 'standing';
+  if(/mating press/.test(t)) return 'mating_press';
+  if(/threesome|3인 섹스|다인/.test(t)) return 'threesome';
+  if(/\bsex\b|intercourse|섹스|삽입/.test(t)) return 'sex';
+  if(/oral|fellatio|cunnilingus|구강/.test(t)) return 'oral';
+  return '';
+}
+function poseFitsSexPosition(poseItem, posKey){
+  if(!posKey||!poseItem) return true;
+  const t=`${poseItem.en||''} ${poseItem.ko||''}`.toLowerCase();
+  const rules={
+    doggy: /from behind|doggy|kneeling|all fours|on all fours|bent over|허리|무릎|뒤에서|후배위/,
+    missionary: /lying|missionary|on back|face to face|facing|누운|정상위|마주/,
+    cowgirl: /straddling|cowgirl|on top|sitting on|걸터|카우걸|위에 앉/,
+    reverse_cowgirl: /straddling|reverse|on top|걸터|리버스/,
+    standing: /standing|against wall|pressed|서 있|벽/,
+    mating_press: /lying|on back|legs|누운|다리/,
+    threesome: /three|group|together|밀착|세 사람|3인/,
+    sex: /lying|sitting|kneeling|standing|pressed|bed|sofa|밀착|눕|앉|무릎/,
+    oral: /kneeling|sitting|lying|무릎|앉|눕/
+  };
+  const rx=rules[posKey];
+  if(!rx) return true;
+  // 완전 반대 자세만 차단 (서 있는데 누워있는 체위 등 강한 불일치)
+  if(posKey==='doggy'&&/face to face sitting|facing each other sitting only/.test(t)) return false;
+  if(posKey==='standing'&&/lying on bed|on back only/.test(t)) return false;
+  return true; // soft: prefer match via pool weighting; hard-block only clear conflicts
+}
+function expressionFitsIntimateAction(expItem, actionItem){
+  if(!expItem||!actionItem) return true;
+  const a=`${actionItem.en||''} ${actionItem.ko||''}`.toLowerCase();
+  const e=`${expItem.en||''} ${expItem.ko||''}`.toLowerCase();
+  const sexual=/sex|intercourse|doggy|missionary|cowgirl|oral|thrust|penetration|섹스|후배위|삽입|구강/;
+  if(!sexual.test(a)) return true;
+  // 밝고 평온한 일상 표정은 성인 행위와 충돌
+  if(/bright smile|cheerful smile|innocent smile|peaceful smile|밝은 미소|천진한/.test(e)&&!/flushed|pleasure|moan|ahegao|ecstatic|상기|황홀|신음/.test(e)) return false;
+  return true;
+}
 function enforceSemanticQuality(){
   if(!conflictPreventionOn())return;
   for(let pass=0;pass<2;pass++){
@@ -1323,6 +1367,22 @@ function enforceSemanticQuality(){
     if(state.selected.action&&conflictsWithContext('action',state.selected.action)&&!state.locked.action)state.selected.action=choose('action');
     if(!expressionActionCompatible()&&!state.locked.expression)state.selected.expression=choose('expression');
     if(!compositionPeopleCompatible()&&!state.locked.composition)state.selected.composition=choose('composition');
+
+    // NSFW 다인: 체위 ↔ 자세/표정 정합성
+    if(isNsfwGenre()&&characterCount()>=2){
+      const act=state.selected.action;
+      const posKey=sexPositionKeyFromAction(act);
+      if(posKey&&state.selected.pose&&!state.locked.pose&&!poseFitsSexPosition(state.selected.pose,posKey)){
+        state.selected.pose=choose('pose');
+      }
+      if(act&&state.selected.expression&&!state.locked.expression&&!expressionFitsIntimateAction(state.selected.expression,act)){
+        state.selected.expression=choose('expression');
+      }
+      // 2인/3인인데 1인 전용 구도가 남으면 재추첨
+      if(!compositionPeopleCompatible()&&!state.locked.composition){
+        state.selected.composition=choose('composition');
+      }
+    }
   }
 }
 function updateSemanticModeHints(){
@@ -2526,7 +2586,16 @@ function updateCharacterModeHint(){
 
 function multiPersonPool(type){
   const n=characterCount();
-  return MULTI_PERSON[n]?.[type]||[];
+  const base=MULTI_PERSON[n]?.[type]||[];
+  if(!isNsfwGenre()||n<2) return base;
+  const nsfw=MULTI_PERSON_NSFW[n]?.[type]||[];
+  if(!nsfw.length) return base;
+  // NSFW 다인: 성인 상호작용 풀을 강하게 가중해 랜덤 결합
+  const inten=intensityValue();
+  const weight = inten==='light' ? 4 : inten==='dense' ? 8 : inten==='vulgar' ? 12 : 16;
+  const out=[...base];
+  for(let i=0;i<weight;i++) out.push(...nsfw);
+  return out;
 }
 
 function fitCompositionToPeople(pool,type){
@@ -2576,6 +2645,32 @@ const POV_PERSON={
     prop:P(`테이블 위 여러 개의 컵이나 문서|multiple cups or documents on table foreground;세 사람이 보여주는 화면이나 지도|screen or map shown toward viewer;전경에 놓인 선물이나 작은 소품들|gifts or small props in foreground`)
   }
 };
+
+/* ===== MULTI_PERSON NSFW · 2인/3인 성인 장면 연동 풀 =====
+   - NSFW ON + 2인/3인일 때 자세·행동·표정·소품·분위기·구도를 성인 상호작용에 맞게 가중 결합
+   - 체위(sex / doggy / missionary 등)와 pose·composition·expression이 충돌하지 않도록 설계
+*/
+const MULTI_PERSON_NSFW={
+  2:{
+    composition:P(`2인 밀착 투샷|intimate two-shot, bodies close;2인 침대 위 투샷|two people on bed, intimate two-shot;2인 벽 밀착 구도|two people pressed against wall, close two-shot;2인 무릎 꿇은 근접 구도|two-shot, one kneeling, intimate distance;2인 전신 체위 구도|full-body two-shot sexual position;2인 오버숄더 밀착|over-the-shoulder intimate two-shot;2인 위에서 내려다본 밀착|top-down intimate two-shot;2인 측면 체위 구도|side-view sexual two-shot`),
+    pose:P(`서로 밀착해 서 있음|two people standing pressed together;한 명이 뒤에서 안은 자세|one embracing the other from behind;한 명은 무릎 꿇고 한 명은 서 있음|one kneeling, one standing;침대에 함께 누운 자세|two people lying together on bed;후배위 자세|sex from behind pose, doggy style stance;정상위 자세|missionary pose, facing each other;카우걸 자세|cowgirl pose, one straddling the other;벽에 밀착된 자세|pressed against wall, intimate pose;한 명이 상대 허리를 잡은 자세|one gripping the other's hips;소파에 걸터앉아 밀착|straddling on sofa, intimate pose`),
+    gaze:P(`서로 가까이 바라봄|looking at each other closely;한 명은 뒤를 돌아보고 한 명은 내려다봄|one looking back, one looking down;황홀하게 눈을 반쯤 감음|half-lidded eyes, mutual pleasure gaze;정면을 보며 밀착|both looking at viewer while intimate;상대 목을 보며 키스 직전|gazing at neck before kiss`),
+    action:P(`서로 깊게 키스하고 있다|two people deep kissing;한 명이 뒤에서 안고 있다|embracing from behind;섹스 중|sex, intercourse;후배위|sex from behind, doggy style;정상위|missionary sex;카우걸|cowgirl position;리버스 카우걸|reverse cowgirl;벽에 밀어붙인 채 섹스|standing sex against wall;침대 위에서 격렬하게 움직인다|intense sex on bed;허리를 잡고 밀어붙인다|gripping hips and thrusting;서로의 옷을 벗기고 있다|undressing each other;구강 애무|oral sex;상호 자위|mutual masturbation;한 명이 상대를 무릎에 앉힌다|pulling partner onto lap`),
+    expression:P(`황홀한 표정으로 서로를 봄|ecstatic expressions looking at each other;상기되고 땀에 젖은 얼굴|flushed sweaty faces;신음하는 표정|moaning expressions;눈을 반쯤 감은 쾌락|half-lidded pleasure;입술을 깨물며 참는 표정|biting lips in restrained pleasure`),
+    prop:P(`흐트러진 이불과 베개|disheveled sheets and pillows;침대 가장자리|edge of bed;벽에 기댄 손|hand braced on wall;바닥에 떨어진 옷|discarded clothes on floor;콘돔|condom;윤활제|lube`),
+    mood:P(`욕망이 가득한 밀착 분위기|lust-filled intimate atmosphere;거친 숨이 섞인 긴장|breathless sexual tension;은밀하고 뜨거운 분위기|secretive heated intimacy;격렬한 성행위 분위기|intense sexual atmosphere`)
+  },
+  3:{
+    composition:P(`3인 밀착 그룹샷|intimate three-person group shot;3인 침대 위 구도|three people on bed, group composition;3인 전신 체위 구도|full-body three-person sexual composition;중앙 1명 양옆 밀착|center focus with two partners close;3인 오버헤드 구도|top-down three-person intimate shot`),
+    pose:P(`세 사람이 밀착해 있음|three people pressed close together;한 명이 중앙에서 양쪽과 접촉|one in center contacting both partners;다인 후배위 배치|multi-partner sex from behind arrangement;한 명은 무릎, 두 명은 밀착|one kneeling, two pressed close;침대 위 3인 자세|three people entangled on bed`),
+    gaze:P(`세 사람 시선이 엇갈리며 밀착|varied intimate gazes among three;중앙을 바라보는 양옆|sides looking at center partner;쾌락에 잠긴 시선들|pleasure-dazed gazes`),
+    action:P(`3인 섹스|threesome sex;한 명이 양쪽과 동시에 접촉|one engaged with both partners;다인 후배위|multi-partner sex from behind;구강과 삽입이 동시에|oral and penetration simultaneously;서로 옷을 벗기며 밀착|undressing each other in group;한 명을 가운데 두고 양쪽에서 안음|embracing one from both sides`),
+    expression:P(`세 사람 모두 상기된 표정|all three flushed with pleasure;황홀과 집중이 섞인 표정|mixed ecstatic focused expressions;신음과 땀이 보이는 얼굴|moaning sweaty faces`),
+    prop:P(`넓은 침대와 흐트러진 이불|wide bed with messy sheets;바닥에 흩어진 옷|scattered clothes;여러 개의 베개|multiple pillows`),
+    mood:P(`다인 밀착의 뜨거운 분위기|heated multi-partner intimacy;욕망이 겹친 긴장감|layered lust and tension;격렬한 그룹 성행위 분위기|intense group sexual atmosphere`)
+  }
+};
+
 const POV_TYPE_OPTIONS_SFW=[
   ['auto','자동'],['talk','대화형'],['hand','손잡기'],['prekiss','키스 직전']
 ];
@@ -4753,6 +4848,17 @@ function conflictsWithContext(type,item){
   if(type==='pose'&&/(sitting|lying|kneeling|crouching)/.test(t)&&/(running|walking quickly|sprinting)/.test(currentAction))return true;
   if(type==='pose'&&(c.office||c.school||c.vehicle)&&bedPose.test(t))return true;
 
+  // HARD BLOCK · multi-person NSFW: solo vs multi action mismatch
+  if(isNsfwGenre()&&characterCount()>=2){
+    const soloOnly=/(^|,)\s*masturbation\b|female masturbation|male masturbation(?!.*mutual)|혼자 자위/;
+    if(type==='action'&&soloOnly.test(t)&&!/mutual|together|two people|three people|partner/.test(t)) return true;
+    if(type==='pose'&&/(solo standing only|alone facing viewer only)/.test(t)) return true;
+  }
+  if(isNsfwGenre()&&characterCount()===1){
+    if(type==='action'&&/(two people|three people|threesome|2인|3인 섹스)/.test(t)) return true;
+    if(type==='pose'&&/(two people|three people|세 사람|둘 다)/.test(t)) return true;
+  }
+
   // HARD BLOCK · gaze ↔ people / POV
   if(type==='gaze'){
     const n=characterCount();
@@ -4996,7 +5102,12 @@ function poolFor(type){
 
   const multi=multiPersonPool(type);
   if(multi.length){
-    const weight=(type==='composition'||type==='pose'||type==='gaze'||type==='action')?9:3;
+    let weight=(type==='composition'||type==='pose'||type==='gaze'||type==='action')?9:3;
+    if(isNsfwGenre()&&characterCount()>=2){
+      if(type==='action'||type==='pose') weight=18;
+      else if(type==='expression'||type==='mood'||type==='composition') weight=12;
+      else if(type==='prop'||type==='gaze') weight=8;
+    }
     for(let i=0;i<weight;i++)base.push(...multi);
   }
 
