@@ -548,13 +548,14 @@ section#directorPanel{
   border:0!important;
 }
 
-/* 팝업 안 빠른효과 */
+/* 팝업 안 빠른효과 · 가독성 + 열릴 때 패널 확장 */
 #floatQuickEffects{
-  margin:0 8px 4px;
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:12px;
-  background:rgba(255,255,255,.03);
+  margin:0 10px 6px;
+  border:1px solid rgba(166,140,255,.28);
+  border-radius:14px;
+  background:rgba(166,140,255,.06);
   overflow:hidden;
+  flex:0 0 auto;
 }
 #floatQuickEffects > summary{
   list-style:none;
@@ -563,23 +564,54 @@ section#directorPanel{
   align-items:center;
   justify-content:space-between;
   gap:8px;
-  padding:8px 10px;
-  font-size:11px;
+  padding:10px 12px;
+  font-size:12px;
   font-weight:900;
-  color:#e8e0ff;
+  color:#efeaff;
   user-select:none;
 }
 #floatQuickEffects > summary::-webkit-details-marker{display:none}
-#floatQuickMount{
-  max-height:200px;
-  overflow:auto;
-  padding:0 8px 8px;
+#floatQuickEffects[open]{
+  margin-bottom:8px;
 }
-#floatQuickMount .prompt-quickbox{
-  margin:0;
-  border:0;
-  background:transparent;
-  box-shadow:none;
+#floatQuickMount{
+  max-height:none;
+  overflow:visible;
+  padding:0 10px 12px;
+}
+#floatQuickMount .prompt-quickbox,
+#floatQuickMount #quickEffectsDetails{
+  margin:0!important;
+  border:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+/* 내부 중복 헤더 숨김 */
+#floatQuickMount #quickEffectsDetails > summary{
+  display:none!important;
+}
+#floatQuickMount .prompt-quickbody,
+#floatQuickMount .prompt-quickgroup{
+  display:block!important;
+}
+#floatQuickMount .prompt-quicktags{
+  gap:8px;
+}
+#floatQuickMount .mini-prompt-check{
+  font-size:11px;
+  padding:7px 10px;
+  line-height:1.25;
+}
+#promptFloatPanel.quick-expanded{
+  max-height:min(92vh,860px)!important;
+  height:min(92vh,860px)!important;
+}
+#promptFloatPanel.quick-expanded .prompt-float-body textarea{
+  min-height:100px;
+  max-height:22vh;
+}
+#promptFloatDock.is-open.quick-expanded{
+  width:min(560px,calc(100vw - 12px));
 }
 
 
@@ -858,8 +890,8 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
    - 새 항목은 배열 맨 위에 추가하세요.
 ========================================================= */
 /* 빌드 ID가 바뀌면 사용자에게 새로고침 팝업을 띄웁니다. 배포 시 이 값만 올리면 됩니다. */
-const APP_BUILD_ID = '5.5.20260828-ui-cleanup';
-const APP_BUILD_LABEL = 'v5.5 · 팝업 정리 · 01B/디렉터 제거';
+const APP_BUILD_ID = '5.5.20260828-quick-expand';
+const APP_BUILD_LABEL = 'v5.5 · 빠른효과 펼침 시 팝업 확장';
 const UPDATE_NOTES = [
   { date:'08.28', text:'0 : v5.5 GUIDEVERSE 좌우 분할 · 상위 패널은 열기/닫기만 담당하고 GUIDE / ESPER를 정확히 50:50 두 박스로 분리했습니다. 각 박스 안에 개별 임의 생성·초기화를 유지하고 VISUAL DIRECTION은 하단 전체폭으로 분리했습니다.' },
   { date:'08.28', text:'2 : v5.4 GitHub 업로드 최종 정리 · 버전 표기를 전 구역에서 통일하고, 출력 폴딩 상태 저장·에스퍼 속성별 능력 이펙트 자동 정합성·가이드버스 시각 연출 보강을 추가했습니다.' },
@@ -7998,38 +8030,89 @@ if(document.body.classList.contains('access-locked')){
 <script id="floatQuickEffectsBridge">
 (()=>{
   const $ = (id)=>document.getElementById(id);
-  function mountQuickEffects(){
-    const host = $('floatQuickMount');
-    const src = $('quickEffectsDetails');
-    if(!host||!src) return;
-    if(host.contains(src)) return;
-    // move entire details content body if possible
-    host.appendChild(src);
-    src.open = false;
-    src.style.margin = '0';
-    // hide outer summary duplication - keep source summary inside
-    syncQuickCount();
-  }
   function syncQuickCount(){
     const a = $('quickEffectCount');
     const b = $('floatQuickCount');
     if(a&&b) b.textContent = a.textContent || '0';
   }
+  function expandPanelForQuick(open){
+    const panel = $('promptFloatPanel');
+    const dock = $('promptFloatDock');
+    if(!panel) return;
+    panel.classList.toggle('quick-expanded', !!open);
+    dock?.classList.toggle('quick-expanded', !!open);
+    if(open){
+      // 세로 확장: 화면 대부분 사용
+      const h = Math.min(Math.floor(window.innerHeight * 0.92), 860);
+      const w = Math.min(Math.max(panel.getBoundingClientRect().width || 480, 480), window.innerWidth - 12);
+      panel.style.height = h + 'px';
+      panel.style.maxHeight = h + 'px';
+      panel.style.width = w + 'px';
+      if(dock) dock.style.width = w + 'px';
+      // 빠른효과 영역이 보이도록 스크롤
+      setTimeout(()=>{$('floatQuickEffects')?.scrollIntoView({block:'nearest', behavior:'smooth'})}, 30);
+    }else{
+      // 수동 리사이즈 값 복구 시도
+      try{
+        const saved=JSON.parse(localStorage.getItem('promptFloatSizeV1')||'null');
+        if(saved?.w&&saved?.h){
+          panel.style.width=saved.w+'px';
+          panel.style.height=saved.h+'px';
+          panel.style.maxHeight='';
+          if(dock) dock.style.width=saved.w+'px';
+        }else{
+          panel.style.height='';
+          panel.style.maxHeight='';
+        }
+      }catch(_){
+        panel.style.height='';
+        panel.style.maxHeight='';
+      }
+    }
+  }
+  function mountQuickEffects(){
+    const host = $('floatQuickMount');
+    const src = $('quickEffectsDetails');
+    if(!host||!src) return;
+    if(!host.contains(src)){
+      host.appendChild(src);
+      src.style.margin = '0';
+    }
+    // 내부 details는 항상 연 상태로, 바깥 floatQuickEffects만 접기/펼치기
+    src.open = true;
+    const innerSummary = src.querySelector(':scope > summary');
+    if(innerSummary) innerSummary.style.display = 'none';
+    // 본문 강제 표시
+    const body = src.querySelector('.prompt-quickbody');
+    if(body) body.style.display = 'block';
+    syncQuickCount();
+  }
+  function bindQuickToggle(){
+    const wrap = $('floatQuickEffects');
+    if(!wrap || wrap.dataset.boundQuick==='1') return;
+    wrap.dataset.boundQuick='1';
+    wrap.addEventListener('toggle', ()=>{
+      mountQuickEffects();
+      expandPanelForQuick(wrap.open);
+    });
+  }
   const obs = new MutationObserver(syncQuickCount);
   function bindResize(){
     const panel = $('promptFloatPanel');
     const handle = $('promptFloatResizeHandle');
-    if(!panel||!handle) return;
+    if(!panel||!handle||handle.dataset.boundResize==='1') return;
+    handle.dataset.boundResize='1';
     let dragging=false, sx=0, sy=0, sw=0, sh=0;
     const onMove = (e)=>{
       if(!dragging) return;
       const dx = sx - (e.clientX||0);
       const dy = sy - (e.clientY||0);
-      // handle is top-left: grow left/up by increasing size when dragging left/up
       const nw = Math.min(Math.max(280, sw + dx), window.innerWidth - 12);
       const nh = Math.min(Math.max(260, sh + dy), window.innerHeight - 12);
       panel.style.width = nw + 'px';
       panel.style.height = nh + 'px';
+      panel.classList.remove('quick-expanded');
+      $('promptFloatDock')?.classList.remove('quick-expanded');
       const dock = $('promptFloatDock');
       if(dock) dock.style.width = nw + 'px';
     };
@@ -8065,11 +8148,15 @@ if(document.body.classList.contains('access-locked')){
   }
   function boot(){
     mountQuickEffects();
+    bindQuickToggle();
     bindResize();
     const a=$('quickEffectCount');
     if(a) obs.observe(a,{childList:true,characterData:true,subtree:true});
-    // also when float opens
-    document.getElementById('promptFloatToggle')?.addEventListener('click',()=>setTimeout(mountQuickEffects,0));
+    document.getElementById('promptFloatToggle')?.addEventListener('click',()=>setTimeout(()=>{
+      mountQuickEffects();
+      bindQuickToggle();
+      if($('floatQuickEffects')?.open) expandPanelForQuick(true);
+    },0));
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot,{once:true});
   else boot();
