@@ -461,7 +461,7 @@ body[data-ui-mode="detail"] [data-ui-advanced="1"]{display:block}
 body[data-ui-mode="detail"] #simpleStickyDock{display:none!important}
 body[data-ui-mode="detail"] #rollAll{display:block}
 
-/* ===== DETAIL 2-COLUMN + RESULT STICKY ===== */
+/* ===== DETAIL: full-width flow + floating prompt ===== */
 .result-status-badges{
   display:none;
   flex-wrap:wrap;gap:6px;
@@ -479,54 +479,127 @@ body[data-ui-mode="detail"] #rollAll{display:block}
 .result-badge.warn{border-color:rgba(240,201,120,.4);background:rgba(240,201,120,.12);color:#f3d991}
 .result-badge.hot{border-color:rgba(230,148,196,.4);background:rgba(230,148,196,.12);color:#ffd0e8}
 
-@media (min-width:1100px){
-  body[data-ui-mode="detail"] .page{
-    display:grid;
-    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-    column-gap:16px;
-    align-items:start;
-  }
-  body[data-ui-mode="detail"] .page > .hero,
-  body[data-ui-mode="detail"] .page > #workflowModePanel,
-  body[data-ui-mode="detail"] .page > #currentSetupBar,
-  body[data-ui-mode="detail"] .page > #simpleStickyDock{
-    grid-column:1 / -1;
-  }
-  body[data-ui-mode="detail"] .page > #contentModePanel,
-  body[data-ui-mode="detail"] .page > #sceneCategoryPanel,
-  body[data-ui-mode="detail"] .page > #themeTropePanel,
-  body[data-ui-mode="detail"] .page > #subSettingHub,
-  body[data-ui-mode="detail"] .page > #basicTagsPanel,
-  body[data-ui-mode="detail"] .page > #userCharacterPanel,
-  body[data-ui-mode="detail"] .page > #characterAppearancePanel,
-  body[data-ui-mode="detail"] .page > #directorPanel,
-  body[data-ui-mode="detail"] .page > #characterSlotPanel,
-  body[data-ui-mode="detail"] .page > #rollAll,
-  body[data-ui-mode="detail"] .page > #randomControlPanel,
-  body[data-ui-mode="detail"] .page > #guideverseAbilityPanel,
-  body[data-ui-mode="detail"] .page > #characterPresetPanel{
-    grid-column:1;
-  }
-  body[data-ui-mode="detail"] .page > #resultsColumn{
-    grid-column:2;
-    grid-row:2 / span 40;
-    align-self:start;
-  }
-  body[data-ui-mode="detail"] .results-sticky-inner{
-    position:sticky;
-    top:12px;
-    max-height:calc(100vh - 24px);
-    overflow:auto;
-    padding-right:4px;
-    scrollbar-gutter:stable;
-  }
-  body[data-ui-mode="detail"] .page > #guestbookSection,
-  body[data-ui-mode="detail"] .page > footer{
-    grid-column:1 / -1;
-  }
-  body[data-ui-mode="detail"] #slotPanel .cards{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-  }
+/* 상세: 2열 제거 · 전체 폭 단일 흐름 */
+body[data-ui-mode="detail"] .page{
+  display:block;
+  width:min(1220px,calc(100% - 28px));
+}
+body[data-ui-mode="detail"] .results-column{
+  display:block;
+  width:100%;
+}
+body[data-ui-mode="detail"] .results-sticky-inner{
+  position:static;
+  max-height:none;
+  overflow:visible;
+  padding-right:0;
+}
+body[data-ui-mode="detail"] #slotPanel .cards{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+}
+@media(max-width:900px){
+  body[data-ui-mode="detail"] #slotPanel .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:560px){
+  body[data-ui-mode="detail"] #slotPanel .cards{grid-template-columns:1fr}
+}
+
+/* 상세: 인라인 Novel/Pix/Niji 패널은 플로팅으로 대체 · 본문에서는 숨김(Negative는 유지 가능) */
+body[data-ui-mode="detail"] #novelPromptPanel,
+body[data-ui-mode="detail"] #pixPromptPanel,
+body[data-ui-mode="detail"] #nijiPromptPanel{
+  display:none!important;
+}
+
+/* ===== Floating prompt dock (detail) ===== */
+#promptFloatDock{
+  display:none;
+  position:fixed;
+  right:16px;
+  bottom:16px;
+  z-index:9200;
+  width:min(440px,calc(100vw - 20px));
+  font-family:inherit;
+  pointer-events:none;
+}
+body[data-ui-mode="detail"] #promptFloatDock{display:block}
+body[data-ui-mode="simple"] #promptFloatDock{display:none!important}
+
+#promptFloatToggle{
+  pointer-events:auto;
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  min-width:52px;
+  height:52px;
+  padding:0 16px;
+  border:1px solid rgba(166,140,255,.45);
+  border-radius:999px;
+  background:linear-gradient(135deg,#745fd4,#9d70dd 50%,#cf7eaf);
+  color:#fff;
+  font-size:13px;
+  font-weight:900;
+  box-shadow:0 12px 32px rgba(0,0,0,.4),0 0 0 1px rgba(255,255,255,.08) inset;
+  cursor:pointer;
+  float:right;
+}
+#promptFloatToggle .float-label{display:none}
+#promptFloatDock.is-open #promptFloatToggle .float-label{display:inline}
+#promptFloatDock.is-open #promptFloatToggle{
+  width:100%;
+  float:none;
+  border-radius:14px 14px 0 0;
+  height:46px;
+}
+
+#promptFloatPanel{
+  pointer-events:auto;
+  display:none;
+  flex-direction:column;
+  max-height:min(62vh,560px);
+  border:1px solid rgba(166,140,255,.35);
+  border-top:0;
+  border-radius:0 0 18px 18px;
+  background:rgba(18,14,28,.97);
+  box-shadow:0 20px 50px rgba(0,0,0,.5);
+  backdrop-filter:blur(14px);
+  overflow:hidden;
+}
+#promptFloatDock.is-open #promptFloatPanel{display:flex}
+#promptFloatDock.is-open #promptFloatToggle{margin-bottom:0}
+
+.prompt-float-tabs{
+  display:flex;gap:4px;padding:8px 8px 0;background:rgba(0,0,0,.2);
+}
+.prompt-float-tab{
+  flex:1;height:34px;border:0;border-radius:10px 10px 0 0;
+  background:transparent;color:#9f96ae;font-size:11px;font-weight:900;cursor:pointer;
+}
+.prompt-float-tab.active{
+  background:rgba(166,140,255,.15);color:#efeaff;
+  box-shadow:0 -1px 0 rgba(166,140,255,.25) inset;
+}
+.prompt-float-body{padding:10px 12px 12px;display:flex;flex-direction:column;gap:8px;min-height:0;flex:1}
+.prompt-float-body textarea{
+  width:100%;min-height:140px;max-height:36vh;resize:vertical;
+  border-radius:12px;border:1px solid rgba(255,255,255,.1);
+  background:#0d0b10;color:var(--text,#f7f3fa);
+  font-family:Consolas,monospace;font-size:11px;line-height:1.55;padding:10px;
+}
+.prompt-float-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.prompt-float-actions button{
+  height:40px;border-radius:11px;border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.06);color:#efeaff;font-size:11px;font-weight:900;cursor:pointer;
+}
+.prompt-float-actions button.primary{
+  border:0;background:linear-gradient(135deg,#7864d8,#a370dc);color:#fff;
+}
+.prompt-float-meta{font-size:10px;color:#8e8797;line-height:1.4}
+@media(max-width:560px){
+  #promptFloatDock{right:10px;bottom:10px;width:calc(100vw - 20px)}
+  body[data-ui-mode="detail"]{padding-bottom:72px}
 }
 
 /* 간편: 슬롯 핵심 6 + 더보기 */
@@ -627,8 +700,8 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
    - 새 항목은 배열 맨 위에 추가하세요.
 ========================================================= */
 /* 빌드 ID가 바뀌면 사용자에게 새로고침 팝업을 띄웁니다. 배포 시 이 값만 올리면 됩니다. */
-const APP_BUILD_ID = '5.5.20260828-layout';
-const APP_BUILD_LABEL = 'v5.5 · UI 레이아웃 개편';
+const APP_BUILD_ID = '5.5.20260828-float-prompt';
+const APP_BUILD_LABEL = 'v5.5 · 상세 전체폭 + 플로팅 프롬프트';
 const UPDATE_NOTES = [
   { date:'08.28', text:'0 : v5.5 GUIDEVERSE 좌우 분할 · 상위 패널은 열기/닫기만 담당하고 GUIDE / ESPER를 정확히 50:50 두 박스로 분리했습니다. 각 박스 안에 개별 임의 생성·초기화를 유지하고 VISUAL DIRECTION은 하단 전체폭으로 분리했습니다.' },
   { date:'08.28', text:'2 : v5.4 GitHub 업로드 최종 정리 · 버전 표기를 전 구역에서 통일하고, 출력 폴딩 상태 저장·에스퍼 속성별 능력 이펙트 자동 정합성·가이드버스 시각 연출 보강을 추가했습니다.' },
@@ -6285,7 +6358,7 @@ window.__assetSlotPickerBridge={
 
 
 function updateResultStatusBadges(){
-  const hosts=[document.getElementById('resultStatusBadges'),document.getElementById('simpleResultBadges')].filter(Boolean);
+  const hosts=[document.getElementById('resultStatusBadges'),document.getElementById('simpleResultBadges'),document.getElementById('floatResultBadges')].filter(Boolean);
   if(!hosts.length) return;
   const mk=(text,cls)=>{const s=document.createElement('span');s.className='result-badge'+(cls?' '+cls:'');s.textContent=text;return s};
   const fill=(host)=>{
@@ -7548,6 +7621,146 @@ if(document.body.classList.contains('access-locked')){
       if(first) first.open=false;
     }
   }, true);
+})();
+</script>
+
+
+<div id="promptFloatDock" aria-live="polite">
+  <button type="button" id="promptFloatToggle" aria-expanded="false" title="프롬프트 열기/닫기">
+    <span aria-hidden="true">📋</span>
+    <span class="float-label">프롬프트</span>
+  </button>
+  <div id="promptFloatPanel" role="dialog" aria-label="프롬프트 패널">
+    <div class="prompt-float-tabs" role="tablist">
+      <button type="button" class="prompt-float-tab active" data-float-tab="novel">NovelAI</button>
+      <button type="button" class="prompt-float-tab" data-float-tab="pix">PixAI</button>
+      <button type="button" class="prompt-float-tab" data-float-tab="niji">Niji</button>
+    </div>
+    <div class="prompt-float-body">
+      <div class="result-status-badges" id="floatResultBadges"></div>
+      <div class="prompt-float-meta" id="promptFloatMeta">상세 모드 · 스크롤과 무관하게 우측 하단에 고정됩니다.</div>
+      <textarea id="promptFloatText" spellcheck="false" placeholder="랜덤 생성 후 프롬프트가 여기에 표시됩니다."></textarea>
+      <div class="prompt-float-actions">
+        <button type="button" class="primary" id="promptFloatCopy">📋 복사</button>
+        <button type="button" id="promptFloatRoll">🎲 생성</button>
+        <button type="button" id="promptFloatOptimize">✨ 최적화</button>
+        <button type="button" id="promptFloatClose">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script id="promptFloatDockScript">
+(()=>{
+  const $ = (id)=>document.getElementById(id);
+  let tab = 'novel';
+  const sourceMap = ()=>({
+    novel: $('prompt'),
+    pix: $('pixPrompt'),
+    niji: $('nijiPrompt')
+  });
+  function isDetail(){return document.body?.dataset?.uiMode==='detail'}
+  function syncFromSource(){
+    const ta = $('promptFloatText');
+    const src = sourceMap()[tab];
+    if(ta && src) ta.value = src.value || '';
+    const meta = $('promptFloatMeta');
+    if(meta){
+      const labels={novel:'NovelAI 태그',pix:'PixAI 문단',niji:'NijiJourney 서술'};
+      meta.textContent = `${labels[tab]||tab} · 수정 내용은 원본 패널과 동기화됩니다.`;
+    }
+  }
+  function syncToSource(){
+    const ta = $('promptFloatText');
+    const src = sourceMap()[tab];
+    if(ta && src){
+      src.value = ta.value;
+      src.dispatchEvent(new Event('input',{bubbles:true}));
+    }
+  }
+  function setOpen(open){
+    const dock = $('promptFloatDock');
+    const btn = $('promptFloatToggle');
+    if(!dock||!btn) return;
+    dock.classList.toggle('is-open', open);
+    btn.setAttribute('aria-expanded', open?'true':'false');
+    if(open){
+      syncFromSource();
+      try{updateResultStatusBadges()}catch(_){}
+      // float badges
+      const host=$('floatResultBadges');
+      const src=$('resultStatusBadges')||$('simpleResultBadges');
+      if(host&&src) host.innerHTML=src.innerHTML;
+    }
+  }
+  function setTab(next){
+    tab = next;
+    document.querySelectorAll('[data-float-tab]').forEach(b=>{
+      b.classList.toggle('active', b.dataset.floatTab===tab);
+    });
+    syncFromSource();
+  }
+  function bind(){
+    $('promptFloatToggle')?.addEventListener('click',()=>{
+      if(!isDetail()) return;
+      const dock=$('promptFloatDock');
+      setOpen(!dock?.classList.contains('is-open'));
+    });
+    $('promptFloatClose')?.addEventListener('click',()=>setOpen(false));
+    $('promptFloatText')?.addEventListener('input',syncToSource);
+    document.querySelectorAll('[data-float-tab]').forEach(b=>{
+      b.addEventListener('click',()=>{syncToSource();setTab(b.dataset.floatTab)});
+    });
+    $('promptFloatCopy')?.addEventListener('click',async()=>{
+      syncToSource();
+      const text=$('promptFloatText')?.value||'';
+      if(!text){window.show?.('⚠️ 먼저 랜덤 생성해주세요.');return}
+      try{
+        if(typeof copyText==='function') await copyText(text,'✅ 프롬프트를 복사했습니다.');
+        else {await navigator.clipboard.writeText(text);window.show?.('✅ 복사됨')}
+      }catch(_){
+        window.show?.('⚠️ 복사에 실패했습니다.');
+      }
+    });
+    $('promptFloatRoll')?.addEventListener('click',()=>{$('rollAll')?.click();setTimeout(syncFromSource,50)});
+    $('promptFloatOptimize')?.addEventListener('click',()=>{
+      if(tab==='novel') $('optimizePrompt')?.click();
+      else if(tab==='pix') $('optimizePixPrompt')?.click();
+      else $('optimizeNijiPrompt')?.click();
+      setTimeout(syncFromSource,80);
+    });
+    // keep float text in sync when main engine rebuilds prompt
+    const obsTargets=['prompt','pixPrompt','nijiPrompt'];
+    obsTargets.forEach(id=>{
+      const el=$(id);
+      if(!el) return;
+      el.addEventListener('input',()=>{if(isDetail()&&$('promptFloatDock')?.classList.contains('is-open'))syncFromSource()});
+    });
+    // after roll/render
+    const _render = window.render;
+    // patch via MutationObserver on prompt value changes is heavy; hook periodic when open
+    setInterval(()=>{
+      if(!isDetail()) return;
+      if(!$('promptFloatDock')?.classList.contains('is-open')) return;
+      const src=sourceMap()[tab];
+      const ta=$('promptFloatText');
+      if(src&&ta&&document.activeElement!==ta&&ta.value!==(src.value||'')) ta.value=src.value||'';
+    },800);
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',bind,{once:true});
+  else bind();
+  // reopen state
+  try{
+    if(localStorage.getItem('promptFloatOpenV1')==='1'){
+      document.addEventListener('DOMContentLoaded',()=>{if(isDetail())setOpen(true)},{once:true});
+    }
+  }catch(_){}
+  document.addEventListener('click',(e)=>{
+    if(e.target?.id==='promptFloatToggle'||e.target?.closest?.('#promptFloatToggle')){
+      try{localStorage.setItem('promptFloatOpenV1',$('promptFloatDock')?.classList.contains('is-open')?'1':'0')}catch(_){}
+    }
+  });
 })();
 </script>
 
