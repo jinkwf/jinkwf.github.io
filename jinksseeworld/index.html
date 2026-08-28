@@ -88,6 +88,36 @@ body.has-nsfw-banner{padding-top:58px}
 }
 
 
+
+/* ===== Help panel (short PE guide) ===== */
+#helpPanelFab{
+  position:fixed;left:14px;bottom:14px;z-index:9100;
+  height:44px;padding:0 14px;border-radius:999px;border:1px solid rgba(166,140,255,.4);
+  background:rgba(28,24,38,.94);color:#efeaff;font-size:12px;font-weight:900;cursor:pointer;
+  box-shadow:0 10px 28px rgba(0,0,0,.35);
+}
+body[data-ui-mode="simple"] #helpPanelFab{bottom:86px}
+#helpPanelOverlay{
+  display:none;position:fixed;inset:0;z-index:9600;background:rgba(6,5,10,.72);
+  align-items:center;justify-content:center;padding:16px;
+}
+#helpPanelOverlay.open{display:flex}
+#helpPanelBox{
+  width:min(520px,100%);max-height:min(84vh,720px);overflow:auto;
+  border-radius:18px;border:1px solid rgba(166,140,255,.35);
+  background:linear-gradient(165deg,#1a1624,#120f18);padding:18px 16px 14px;
+  box-shadow:0 24px 60px rgba(0,0,0,.5);color:#d9d2e4;font-size:12px;line-height:1.55;
+}
+#helpPanelBox h2{margin:0 0 8px;font-size:16px;color:#fff}
+#helpPanelBox h3{margin:14px 0 6px;font-size:12px;color:#cbbfff;letter-spacing:.02em}
+#helpPanelBox ul{margin:0;padding-left:18px}
+#helpPanelBox li{margin:4px 0}
+#helpPanelBox .help-foot{margin-top:12px;font-size:11px;color:#8e8797}
+#helpPanelClose{
+  width:100%;height:42px;margin-top:12px;border:0;border-radius:12px;
+  background:linear-gradient(135deg,#7864d8,#a370dc);color:#fff;font-weight:900;cursor:pointer;
+}
+
 /* ===== Update refresh popup ===== */
 .update-gate{
   position:fixed;inset:0;z-index:10050;
@@ -928,8 +958,8 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
    - 새 항목은 배열 맨 위에 추가하세요.
 ========================================================= */
 /* 빌드 ID가 바뀌면 사용자에게 새로고침 팝업을 띄웁니다. 배포 시 이 값만 올리면 됩니다. */
-const APP_BUILD_ID = '5.5.20260828-category-align';
-const APP_BUILD_LABEL = 'v5.5 · 카테고리-태그 정합 점검';
+const APP_BUILD_ID = '5.5.20260828-help-panel';
+const APP_BUILD_LABEL = 'v5.5 · 도움말 패널';
 const UPDATE_NOTES = [
   { date:'08.28', text:'0 : v5.5 GUIDEVERSE 좌우 분할 · 상위 패널은 열기/닫기만 담당하고 GUIDE / ESPER를 정확히 50:50 두 박스로 분리했습니다. 각 박스 안에 개별 임의 생성·초기화를 유지하고 VISUAL DIRECTION은 하단 전체폭으로 분리했습니다.' },
   { date:'08.28', text:'2 : v5.4 GitHub 업로드 최종 정리 · 버전 표기를 전 구역에서 통일하고, 출력 폴딩 상태 저장·에스퍼 속성별 능력 이펙트 자동 정합성·가이드버스 시각 연출 보강을 추가했습니다.' },
@@ -8477,6 +8507,71 @@ if(document.body.classList.contains('access-locked')){
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot,{once:true});
   else boot();
+})();
+</script>
+
+
+<button type="button" id="helpPanelFab" title="도움말">❓ 도움말</button>
+<div id="helpPanelOverlay" role="dialog" aria-modal="true" aria-labelledby="helpPanelTitle">
+  <div id="helpPanelBox">
+    <h2 id="helpPanelTitle">생성기 도움말 · 짧게</h2>
+    <p>랜덤은 <b>제안</b>이고, 고른 설정은 <b>규칙</b>입니다. 아래 순서로 프롬프트가 맞춰집니다.</p>
+
+    <h3>1. 우선순위</h3>
+    <ul>
+      <li>MODE → 카테고리/종족 → 빠른효과 → 인원·역할·체위 → 수위 → 랜덤 슬롯</li>
+      <li>위에 있는 항목이 아래 슬롯 결과보다 우선합니다.</li>
+    </ul>
+
+    <h3>2. 빠른효과 / 흔적 태그</h3>
+    <ul>
+      <li><b>누드</b> 체크 → 의상 슬롯 태그 제외</li>
+      <li><b>행위·체위</b> 체크 → 행동·자세 슬롯 태그 제외</li>
+      <li>프롬프트 팝업(📋) 안에서 켜고 복사하면 됩니다.</li>
+    </ul>
+
+    <h3>3. 카테고리 정합</h3>
+    <ul>
+      <li>예: 인외·슬라임 → 슬라임 계열 고정, 촉수/수인 섞임 차단</li>
+      <li>오피스 ↔ 판타지·인외 이질 태그 자동 정리</li>
+    </ul>
+
+    <h3>4. 한 장 이미지</h3>
+    <ul>
+      <li>분할·만화 칸·콜라주 계열은 막고, single image 쪽으로 맞춥니다.</li>
+    </ul>
+
+    <h3>5. 출력</h3>
+    <ul>
+      <li><b>Novel</b> 태그 · <b>Pix</b> 문단 · <b>Niji</b> 문장 — 같은 의미, 다른 형식</li>
+      <li>생성·복사 시 중복/충돌 태그를 한 번 더 정리합니다.</li>
+    </ul>
+
+    <h3>6. 모드</h3>
+    <ul>
+      <li><b>간편</b> — 뽑고 복사 (하단·팝업)</li>
+      <li><b>상세</b> — 역할/테마/슬롯까지 직접 제어</li>
+    </ul>
+
+    <p class="help-foot">태그가 이상하면: 카테고리 확인 → 빠른효과 확인 → 해당 슬롯만 재추첨 → 다시 생성</p>
+    <button type="button" id="helpPanelClose">닫기</button>
+  </div>
+</div>
+
+
+<script id="helpPanelScript">
+(()=>{
+  const open=()=>{
+    const o=document.getElementById('helpPanelOverlay');
+    if(o){o.classList.add('open');document.getElementById('helpPanelClose')?.focus()}
+  };
+  const close=()=>document.getElementById('helpPanelOverlay')?.classList.remove('open');
+  document.getElementById('helpPanelFab')?.addEventListener('click',open);
+  document.getElementById('helpPanelClose')?.addEventListener('click',close);
+  document.getElementById('helpPanelOverlay')?.addEventListener('click',(e)=>{
+    if(e.target?.id==='helpPanelOverlay') close();
+  });
+  document.addEventListener('keydown',(e)=>{if(e.key==='Escape')close()});
 })();
 </script>
 
