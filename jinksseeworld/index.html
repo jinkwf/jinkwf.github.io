@@ -87,6 +87,48 @@ body.has-nsfw-banner{padding-top:58px}
   body.has-nsfw-banner{padding-top:68px}
 }
 
+
+/* ===== Update refresh popup ===== */
+.update-gate{
+  position:fixed;inset:0;z-index:10050;
+  background:rgba(8,6,12,.88);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+}
+.update-gate.hidden{display:none!important}
+.update-box{
+  width:min(420px,100%);
+  background:linear-gradient(160deg,#1c1724,#14101a);
+  border:1px solid rgba(166,140,255,.4);
+  border-radius:22px;
+  padding:28px 24px 22px;
+  box-shadow:0 30px 80px rgba(0,0,0,.55);
+  text-align:center;
+}
+.update-box .update-icon{font-size:40px;margin-bottom:10px}
+.update-box h2{margin:0 0 10px;font-size:22px;color:#fff;letter-spacing:-.03em}
+.update-box p{margin:0 0 14px;font-size:14px;line-height:1.65;color:#c8bfcf}
+.update-box .update-ver{
+  display:inline-flex;align-items:center;gap:6px;
+  margin:0 0 16px;padding:6px 12px;border-radius:999px;
+  border:1px solid rgba(166,140,255,.35);
+  background:rgba(166,140,255,.12);
+  color:#d8ceff;font-size:12px;font-weight:900;
+}
+.update-box .update-actions{display:flex;flex-direction:column;gap:8px}
+.update-box .update-btn{
+  height:48px;border:0;border-radius:14px;font-size:15px;font-weight:900;cursor:pointer;
+}
+.update-box .update-btn.primary{
+  background:linear-gradient(135deg,#9d7aff,#7657ff);color:#fff;
+  box-shadow:0 10px 24px rgba(109,83,255,.3);
+}
+.update-box .update-btn.ghost{
+  background:transparent;border:1px solid rgba(255,255,255,.14);color:#aaa3b4;
+}
+.update-box .update-note{margin-top:12px;font-size:11px;color:#7e7787;line-height:1.5}
+
 .age-gate{
   position:fixed;inset:0;z-index:10000;
   background:rgba(8,6,12,.92);
@@ -342,8 +384,193 @@ body[data-ui-mode="detail"] .slot-detail-picker{display:block}
 .simple-collapsible-panel{display:block!important}.simple-collapsible-panel .simple-collapsible-body[hidden]{display:none!important}.simple-collapsible-headbtn{margin-left:auto;height:32px;padding:0 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel3);color:#e4dff0;font-size:10px;font-weight:900;cursor:pointer}.simple-collapsible-headbtn:hover{filter:brightness(1.08)}.simple-collapsible-panel.open .simple-collapsible-headbtn{border-color:rgba(240,201,120,.42);background:rgba(240,201,120,.1);color:#f3d991}
 .advanced-field-highlight{outline:2px solid rgba(240,201,120,.55)!important;box-shadow:0 0 0 4px rgba(240,201,120,.08);border-radius:12px;transition:box-shadow .25s ease, outline-color .25s ease}
 @media(max-width:720px){.subsetting-search-row{grid-template-columns:1fr}.subsetting-search-row button{width:100%}}
-body[data-ui-mode="simple"] [data-ui-advanced="1"]{display:block}
 body[data-ui-mode="simple"] .hero .chips{display:none!important}
+
+/* ===== UI UX · 간편=신규/모바일 · 상세=헤비 ===== */
+#simpleStickyDock{
+  display:none;
+  position:fixed;left:0;right:0;bottom:0;z-index:9000;
+  padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));
+  background:linear-gradient(180deg,rgba(14,12,18,0),rgba(14,12,18,.92) 28%,rgba(14,12,18,.98));
+  pointer-events:none;
+}
+#simpleStickyDock .dock-inner{
+  pointer-events:auto;
+  width:min(1220px,calc(100% - 16px));
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  padding:10px;
+  border:1px solid rgba(166,140,255,.28);
+  border-radius:18px;
+  background:rgba(23,20,29,.94);
+  box-shadow:0 12px 40px rgba(0,0,0,.45);
+  backdrop-filter:blur(12px);
+}
+#simpleStickyDock .dock-btn{
+  height:48px;border:0;border-radius:14px;font-size:14px;font-weight:900;cursor:pointer;
+}
+#simpleStickyDock .dock-roll{
+  background:linear-gradient(135deg,#745fd4,#9d70dd 48%,#cf7eaf);color:#fff;
+  box-shadow:0 8px 20px rgba(126,95,215,.28);
+}
+#simpleStickyDock .dock-copy{
+  background:linear-gradient(135deg,#7864d8,#a370dc);color:#fff;
+}
+#simpleStickyDock .dock-meta{
+  grid-column:1/-1;display:flex;justify-content:space-between;gap:8px;align-items:center;
+  font-size:10px;color:#9f96ae;padding:0 2px;
+}
+#simpleStickyDock .dock-meta b{color:#e8e0ff}
+body[data-ui-mode="simple"] #simpleStickyDock{display:block}
+body[data-ui-mode="simple"] .page{padding-bottom:110px}
+
+/* 간편: 핵심 패널만 */
+body[data-ui-mode="simple"] #themeTropePanel,
+body[data-ui-mode="simple"] #subSettingHub,
+body[data-ui-mode="simple"] #userCharacterPanel,
+body[data-ui-mode="simple"] #characterAppearancePanel,
+body[data-ui-mode="simple"] #directorPanel,
+body[data-ui-mode="simple"] #characterSlotPanel,
+body[data-ui-mode="simple"] #characterPresetPanel,
+body[data-ui-mode="simple"] #randomControlPanel,
+body[data-ui-mode="simple"] #guideverseAbilityPanel,
+body[data-ui-mode="simple"] #negativePromptPanel,
+body[data-ui-mode="simple"] #pixPromptPanel,
+body[data-ui-mode="simple"] #nijiPromptPanel,
+body[data-ui-mode="simple"] .guestbook-panel,
+body[data-ui-mode="simple"] #analyticsPing,
+body[data-ui-mode="simple"] [data-ui-advanced="1"]{
+  display:none!important;
+}
+body[data-ui-mode="simple"] #basicTagsPanel .desc{display:none}
+body[data-ui-mode="simple"] #basicTagsPanel .options{grid-template-columns:1fr 1fr}
+body[data-ui-mode="simple"] #basicTagsPanel .opt:not(.simple-keep){display:none!important}
+body[data-ui-mode="simple"] #sceneCategoryPanel .check-row{display:none!important}
+body[data-ui-mode="simple"] #sceneCategoryPanel .desc{display:none}
+body[data-ui-mode="simple"] #contentModePanel .desc{display:none}
+body[data-ui-mode="simple"] .hero p{display:none}
+body[data-ui-mode="simple"] #novelPromptPanel{margin-bottom:8px}
+body[data-ui-mode="simple"] #rollAll{display:none!important}
+body[data-ui-mode="simple"] #slotPanel .desc{font-size:10px}
+body[data-ui-mode="simple"] .workflow-mode-hint{font-size:10px}
+
+/* 상세: 기존 밀도 유지 + 고급 표시 */
+body[data-ui-mode="detail"] [data-ui-advanced="1"]{display:block}
+body[data-ui-mode="detail"] #simpleStickyDock{display:none!important}
+body[data-ui-mode="detail"] #rollAll{display:block}
+
+/* ===== DETAIL 2-COLUMN + RESULT STICKY ===== */
+.result-status-badges{
+  display:none;
+  flex-wrap:wrap;gap:6px;
+  margin:0 0 10px;
+}
+.result-status-badges:not(:empty){display:flex}
+.result-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:5px 9px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.04);
+  color:#ddd6e5;font-size:10px;font-weight:850;
+}
+.result-badge.primary{border-color:rgba(166,140,255,.4);background:rgba(166,140,255,.12);color:#e8e0ff}
+.result-badge.warn{border-color:rgba(240,201,120,.4);background:rgba(240,201,120,.12);color:#f3d991}
+.result-badge.hot{border-color:rgba(230,148,196,.4);background:rgba(230,148,196,.12);color:#ffd0e8}
+
+@media (min-width:1100px){
+  body[data-ui-mode="detail"] .page{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    column-gap:16px;
+    align-items:start;
+  }
+  body[data-ui-mode="detail"] .page > .hero,
+  body[data-ui-mode="detail"] .page > #workflowModePanel,
+  body[data-ui-mode="detail"] .page > #currentSetupBar,
+  body[data-ui-mode="detail"] .page > #simpleStickyDock{
+    grid-column:1 / -1;
+  }
+  body[data-ui-mode="detail"] .page > #contentModePanel,
+  body[data-ui-mode="detail"] .page > #sceneCategoryPanel,
+  body[data-ui-mode="detail"] .page > #themeTropePanel,
+  body[data-ui-mode="detail"] .page > #subSettingHub,
+  body[data-ui-mode="detail"] .page > #basicTagsPanel,
+  body[data-ui-mode="detail"] .page > #userCharacterPanel,
+  body[data-ui-mode="detail"] .page > #characterAppearancePanel,
+  body[data-ui-mode="detail"] .page > #directorPanel,
+  body[data-ui-mode="detail"] .page > #characterSlotPanel,
+  body[data-ui-mode="detail"] .page > #rollAll,
+  body[data-ui-mode="detail"] .page > #randomControlPanel,
+  body[data-ui-mode="detail"] .page > #guideverseAbilityPanel,
+  body[data-ui-mode="detail"] .page > #characterPresetPanel{
+    grid-column:1;
+  }
+  body[data-ui-mode="detail"] .page > #resultsColumn{
+    grid-column:2;
+    grid-row:2 / span 40;
+    align-self:start;
+  }
+  body[data-ui-mode="detail"] .results-sticky-inner{
+    position:sticky;
+    top:12px;
+    max-height:calc(100vh - 24px);
+    overflow:auto;
+    padding-right:4px;
+    scrollbar-gutter:stable;
+  }
+  body[data-ui-mode="detail"] .page > #guestbookSection,
+  body[data-ui-mode="detail"] .page > footer{
+    grid-column:1 / -1;
+  }
+  body[data-ui-mode="detail"] #slotPanel .cards{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+/* 간편: 슬롯 핵심 6 + 더보기 */
+body[data-ui-mode="simple"] #cards .card[data-slot-core="0"]{display:none!important}
+body[data-ui-mode="simple"].simple-show-all-slots #cards .card[data-slot-core="0"]{display:block!important}
+#simpleSlotsToggleRow{
+  display:none;
+  margin:8px 0 4px;
+}
+body[data-ui-mode="simple"] #simpleSlotsToggleRow{display:block}
+#simpleSlotsToggle{
+  width:100%;height:40px;
+  border:1px dashed rgba(166,140,255,.35);
+  border-radius:12px;
+  background:rgba(166,140,255,.08);
+  color:#d8ceff;font-size:11px;font-weight:900;cursor:pointer;
+}
+body[data-ui-mode="simple"] .hero{
+  padding:18px 18px 16px;
+}
+body[data-ui-mode="simple"] .hero h1{
+  font-size:clamp(22px,5vw,32px);
+}
+body[data-ui-mode="simple"] .usage-counter{
+  transform:scale(.92);
+  transform-origin:top right;
+}
+body[data-ui-mode="simple"] #novelPromptPanel .collapse-desc{display:none}
+
+@media (max-width:1099px){
+  body[data-ui-mode="detail"] .page{display:block}
+  body[data-ui-mode="detail"] .results-sticky-inner{
+    position:static;max-height:none;overflow:visible;
+  }
+}
+
+
+@media(max-width:720px){
+  body[data-ui-mode="simple"] #basicTagsPanel .options{grid-template-columns:1fr}
+  body[data-ui-mode="simple"] .scene-three-grid{grid-template-columns:1fr}
+  #simpleStickyDock .dock-inner{grid-template-columns:1fr 1fr;width:calc(100% - 12px)}
+  #simpleStickyDock .dock-btn{height:46px;font-size:13px}
+}
+
 
 body[data-ui-mode="simple"] #basicTagsPanel .simple-core-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 body[data-ui-mode="simple"] #basicTagsPanel .simple-fixed-grid{grid-template-columns:1fr}
@@ -371,6 +598,21 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
 @media(max-width:720px){.slot-source{font-size:8px;margin-top:5px}}
 </style>
 <body class="access-locked" data-ui-mode="simple">
+
+<div class="update-gate hidden" id="updateGate" role="dialog" aria-modal="true" aria-labelledby="updateGateTitle" aria-hidden="true">
+  <div class="update-box">
+    <div class="update-icon">✨</div>
+    <h2 id="updateGateTitle">업데이트가 있습니다</h2>
+    <p>새 버전이 배포되었습니다.<br>정상 반영을 위해 페이지를 <strong style="color:#e8e0ff">새로고침</strong> 해주세요.</p>
+    <div class="update-ver" id="updateGateVersion">v5.5</div>
+    <div class="update-actions">
+      <button type="button" class="update-btn primary" id="updateRefreshBtn">새로고침 하기</button>
+      <button type="button" class="update-btn ghost" id="updateLaterBtn">나중에 (이번만 닫기)</button>
+    </div>
+    <div class="update-note">캐시 때문에 옛 화면이 보일 수 있습니다. 문제가 있으면 강력 새로고침(Ctrl+Shift+R)을 사용하세요.</div>
+  </div>
+</div>
+
 <!-- NSFW 상단 고정 경고 배너 -->
 <div class="nsfw-banner" id="nsfwBanner">
   <strong>⚠️ 18금 · NSFW 전용 사이트</strong>
@@ -384,6 +626,9 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
    - 형식: 날짜 - 내용
    - 새 항목은 배열 맨 위에 추가하세요.
 ========================================================= */
+/* 빌드 ID가 바뀌면 사용자에게 새로고침 팝업을 띄웁니다. 배포 시 이 값만 올리면 됩니다. */
+const APP_BUILD_ID = '5.5.20260828-layout';
+const APP_BUILD_LABEL = 'v5.5 · UI 레이아웃 개편';
 const UPDATE_NOTES = [
   { date:'08.28', text:'0 : v5.5 GUIDEVERSE 좌우 분할 · 상위 패널은 열기/닫기만 담당하고 GUIDE / ESPER를 정확히 50:50 두 박스로 분리했습니다. 각 박스 안에 개별 임의 생성·초기화를 유지하고 VISUAL DIRECTION은 하단 전체폭으로 분리했습니다.' },
   { date:'08.28', text:'2 : v5.4 GitHub 업로드 최종 정리 · 버전 표기를 전 구역에서 통일하고, 출력 폴딩 상태 저장·에스퍼 속성별 능력 이펙트 자동 정합성·가이드버스 시각 연출 보강을 추가했습니다.' },
@@ -436,6 +681,72 @@ function renderAdminUpdateNote(){
 }
 renderAdminUpdateNote();
 </script>
+
+<script id="appUpdateGate">
+(function(){
+  const STORAGE_KEY = 'nsfw_asset_gacha_build_id_v1';
+  const DISMISS_KEY = 'nsfw_asset_gacha_build_dismiss_v1';
+  function getBuildId(){
+    try{ return (typeof APP_BUILD_ID === 'string' && APP_BUILD_ID) || 'unknown'; }
+    catch(_){ return 'unknown'; }
+  }
+  function getBuildLabel(){
+    try{ return (typeof APP_BUILD_LABEL === 'string' && APP_BUILD_LABEL) || getBuildId(); }
+    catch(_){ return getBuildId(); }
+  }
+  function showGate(){
+    const gate = document.getElementById('updateGate');
+    const ver = document.getElementById('updateGateVersion');
+    if(!gate) return;
+    if(ver) ver.textContent = getBuildLabel();
+    gate.classList.remove('hidden');
+    gate.setAttribute('aria-hidden','false');
+  }
+  function hideGate(){
+    const gate = document.getElementById('updateGate');
+    if(!gate) return;
+    gate.classList.add('hidden');
+    gate.setAttribute('aria-hidden','true');
+  }
+  function markSeen(){
+    try{ localStorage.setItem(STORAGE_KEY, getBuildId()); }catch(_){}
+  }
+  function check(){
+    const build = getBuildId();
+    let prev = null;
+    try{ prev = localStorage.getItem(STORAGE_KEY); }catch(_){}
+    // 최초 방문: 팝업 없이 현재 빌드만 저장
+    if(!prev){
+      markSeen();
+      return;
+    }
+    if(prev === build) return;
+    // 빌드가 바뀜 → 팝업
+    showGate();
+  }
+  function hardReload(){
+    markSeen();
+    try{
+      const url = new URL(location.href);
+      url.searchParams.set('_v', getBuildId());
+      location.replace(url.toString());
+    }catch(_){
+      location.reload();
+    }
+  }
+  function bind(){
+    document.getElementById('updateRefreshBtn')?.addEventListener('click', hardReload);
+    document.getElementById('updateLaterBtn')?.addEventListener('click', ()=>{
+      // 이번 세션만 닫기 — 다음 방문 때 다시 안내
+      hideGate();
+    });
+    check();
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind, {once:true});
+  else bind();
+})();
+</script>
+
 
 <!-- 성인 인증 + 개인 접속 코드 인증 -->
 <div class="age-gate" id="ageGate">
@@ -638,9 +949,9 @@ renderAdminUpdateNote();
 <section class="panel" id="contentModePanel"><div class="head"><div><h2 class="title">00 · MODE</h2><p class="desc">먼저 콘텐츠 모드를 선택합니다. 선택한 모드에 따라 아래 SCENE 분류와 NSFW 전용 기능이 자동으로 전환됩니다.</p></div></div><div class="mode-choice-card"><div class="mode-choice-label">콘텐츠 모드</div><div class="mode-choice-buttons" id="contentModeSwitch"><button type="button" class="mode-choice-btn" id="modePillSfw" data-content-mode="sfw">SFW</button><button type="button" class="mode-choice-btn" id="modePillNsfw" data-content-mode="nsfw">NSFW</button></div><div class="mode-first-meta" id="contentModeHint">SFW / NSFW를 먼저 선택하면 아래 분류가 현재 모드에 맞게 자동 전환됩니다.</div><input type="radio" name="contentMode" value="sfw" checked hidden><input type="radio" name="contentMode" value="nsfw" hidden><input type="checkbox" id="nsfwMode" hidden></div></section>
 <section class="panel" id="sceneCategoryPanel"><div class="head"><div><h2 class="title">01 · SCENE</h2><p class="desc">현재 MODE를 기준으로 대분류 → 중분류 → 소분류 순서로 장면을 선택합니다.</p></div></div><div class="select-grid category-hierarchy-grid scene-three-grid"><div class="field"><label>대분류 · 장르</label><select id="genre"><option value="modern">현대물</option><option value="fantasy">판타지물</option><option value="guideverse">가이드버스</option><option value="period">시대물</option><option value="sf">SF / 사이버펑크</option><option value="apocalypse">아포칼립스 / 재난</option></select></div><div class="field"><label>중분류 · 테마</label><select id="middleCategory"></select></div><div class="field"><label>소분류 · 장면</label><select id="category"></select></div></div><div class="check-row" data-ui-advanced="1"><label class="check"><input type="checkbox" id="randomCategory"> 주사위를 돌릴 때마다 소분류도 랜덤</label><label class="check"><input type="checkbox" id="avoidSame" checked> 직전 결과와 같은 태그 최대한 피하기</label></div></section>
 <section class="panel theme-trope-panel" id="themeTropePanel"><div class="head"><div><h2 class="title">01A · THEME / TROPE</h2><p class="desc">장면의 장소 분류와 별개로 작품의 장르·톤, 캐릭터 타입, 관계/소재, 세계관/직업, BL 역할을 복수 선택합니다. 선택한 항목은 NovelAI에는 태그, PixAI에는 정리된 테마 태그, NijiJourney에는 자연어 콘셉트 설명으로 반영됩니다.</p></div></div><div class="theme-toolbar"><div class="theme-selected-summary" id="themeSelectedSummary"><b>0개 선택</b> · 필요한 테마만 골라 조합하세요.</div><button type="button" class="theme-clear" id="clearThemeTrope">선택 초기화</button></div><div class="theme-groups" id="themeTropeGroups"></div></section>
-<section class="current-setup-bar" id="currentSetupBar" aria-live="polite"><div class="current-setup-label">현재 설정</div><div class="current-setup-chips" id="currentSetupChips"></div><button type="button" class="current-setup-detail" id="openDetailedFromSummary">상세 모드</button></section>
+<section class="current-setup-bar" id="currentSetupBar" aria-live="polite"><div class="current-setup-label">현재 설정</div><div class="current-setup-chips" id="currentSetupChips"></div><button type="button" class="current-setup-detail" id="openDetailedFromSummary">상세로 전환</button></section>
 <section class="subsetting-hub" id="subSettingHub"><div class="head"><div><h2 class="title">01B · 하위 카테고리</h2><p class="desc">기본 화면은 가볍게 두고, 필요한 항목만 눌러 펼쳐 세부 설정을 조절합니다. 슬롯 잠금·개별 재추첨은 그대로 사용하고, 아래 검색으로 원하는 설정 구역을 빠르게 찾을 수 있습니다.</p></div></div><div class="subsetting-search-row"><input id="advancedSettingSearch" type="search" placeholder="예: POV, 표정, 소품, 의상, 관계, 캐릭터"><button type="button" id="clearAdvancedSettingSearch">검색 초기화</button></div><div class="subsetting-chip-row" id="advancedQuickLinks"><button type="button" class="subsetting-chip" data-advanced-target="scene">SCENE 옵션</button><button type="button" class="subsetting-chip" data-advanced-target="quality">품질 / 스타일</button><button type="button" class="subsetting-chip" data-advanced-target="pov">POV</button><button type="button" class="subsetting-chip" data-advanced-target="relation">관계 / 장면</button><button type="button" class="subsetting-chip" data-advanced-target="expression">표정</button><button type="button" class="subsetting-chip" data-advanced-target="outfit">의상</button><button type="button" class="subsetting-chip" data-advanced-target="prop">소품</button><button type="button" class="subsetting-chip" data-advanced-target="character">캐릭터 외형</button><button type="button" class="subsetting-chip" data-advanced-target="slots">A/B/C 슬롯</button><button type="button" class="subsetting-chip" data-advanced-target="preset">캐릭터 프리셋</button><button type="button" class="subsetting-chip" data-advanced-target="random">랜덤 제어</button><button type="button" class="subsetting-chip" data-advanced-target="guideverse">가이드버스 능력</button></div><div class="subsetting-meta" id="advancedSearchMeta">버튼을 누르면 해당 설정 구역으로 이동하고 자동으로 펼쳐집니다.</div></section>
-<section class="panel" id="basicTagsPanel"><div class="head"><div><h2 class="title">02 · 기본 태그</h2><p class="desc">1인·2인·3인을 선택할 수 있습니다. 2인/3인 선택 시 구도·자세·시선·행동 풀이 인원수에 맞게 자동 전환됩니다. POV MODE를 켜면 현재 인원수에 맞는 1인칭 시점 풀이 적용되고, POV 강도(약하게/강하게)를 조절할 수 있고, NSFW OFF에서는 일반 POV, NSFW ON에서는 키스·밀착·벽·침대·무릎·구강 근접 등 성인용 POV 타입까지 확장됩니다. 여기에 관계/상호작용 프리셋, 장면 프리셋, 충돌 방지 기능까지 더해 더 자연스러운 조합을 자동으로 만듭니다. 고정 외형 태그는 ‘항상 추가할 태그’에 넣어두면 유지됩니다.</p></div></div><div class="options simple-core-grid"><div class="opt"><label>CHARACTER</label><select id="gender">
+<section class="panel" id="basicTagsPanel"><div class="head"><div><h2 class="title">02 · 기본 태그</h2><p class="desc">1인·2인·3인을 선택할 수 있습니다. 2인/3인 선택 시 구도·자세·시선·행동 풀이 인원수에 맞게 자동 전환됩니다. POV MODE를 켜면 현재 인원수에 맞는 1인칭 시점 풀이 적용되고, POV 강도(약하게/강하게)를 조절할 수 있고, NSFW OFF에서는 일반 POV, NSFW ON에서는 키스·밀착·벽·침대·무릎·구강 근접 등 성인용 POV 타입까지 확장됩니다. 여기에 관계/상호작용 프리셋, 장면 프리셋, 충돌 방지 기능까지 더해 더 자연스러운 조합을 자동으로 만듭니다. 고정 외형 태그는 ‘항상 추가할 태그’에 넣어두면 유지됩니다.</p></div></div><div class="options simple-core-grid"><div class="opt simple-keep"><label>CHARACTER</label><select id="gender">
 <option value="">캐릭터 미지정</option>
 <optgroup label="1인">
   <option value="1boy">1boy · 남성 1인</option>
@@ -657,7 +968,7 @@ renderAdminUpdateNote();
   <option value="2boys, 1girl">2boys + 1girl · 혼성 3인</option>
   <option value="1boy, 2girls">1boy + 2girls · 혼성 3인</option>
 </optgroup>
-</select><div class="character-mode-hint" id="characterModeHint">👤 1인 모드 · 기존 랜덤 풀</div></div><div class="opt intensity-opt"><label>수위 (INTENSITY)</label><select id="intensity">
+</select><div class="character-mode-hint" id="characterModeHint">👤 1인 모드 · 기존 랜덤 풀</div></div><div class="opt intensity-opt simple-keep"><label>수위 (INTENSITY)</label><select id="intensity">
 <option value="light">가벼운 · Soft</option>
 <option value="dense" selected>농밀한 · Dense</option>
 <option value="vulgar">천박한 · Vulgar</option>
@@ -676,7 +987,7 @@ renderAdminUpdateNote();
 <section class="panel" id="characterSlotPanel" data-ui-advanced="1"><div class="head"><div><h2 class="title">02B · CHARACTER A / B / C</h2><p class="desc">캐릭터별로 공/수 역할과 전용 태그를 분리해서 입력합니다. 2인/3인일 때는 위치·행동을 드롭다운으로 고르고, 필요하면 직접입력으로 세부 보정할 수 있습니다.</p></div><div class="mini-tools"><button class="small-btn char-slot-reset" id="resetCharacterSlots">🧹 초기화</button></div></div><div class="char-separate-grid"><div class="char-separate-item" id="charABox"><div class="char-slot-head"><label>CHARACTER A</label></div><div class="char-slot-meta"><div class="char-role-wrap"><label>역할</label><select id="charARole"><option value="">미지정</option><option value="gong">공</option><option value="su">수</option><option value="reverse">리버스</option><option value="neutral">무관</option><option value="multi_gong_one_su">다공일수</option><option value="one_gong_multi_su">일공다수</option></select></div><div class="char-tag-wrap"><label>전용 태그</label><input id="charATags" type="text" placeholder="예: black hair, white shirt"></div></div><div class="char-slot-detail-grid"><div class="char-hybrid-stack"><div><label>위치 프리셋</label><select id="charAPositionPreset"><option value="">미지정</option><option value="left side">왼쪽</option><option value="right side">오른쪽</option><option value="center">중앙</option><option value="foreground">전경</option><option value="background">후경</option><option value="front left">전경 왼쪽</option><option value="front right">전경 오른쪽</option><option value="back left">후방 왼쪽</option><option value="back right">후방 오른쪽</option><option value="standing behind">뒤쪽</option><option value="seated beside">옆자리</option><option value="kneeling in front">앞에서 무릎</option><option value="at the table">테이블 쪽</option><option value="across the table">테이블 맞은편</option><option value="by the kitchen island">아일랜드 식탁 쪽</option><option value="near the sofa">소파 근처</option><option value="on the sofa">소파 위</option><option value="beside the sofa">소파 옆</option><option value="on the bed">침대 위</option><option value="at the edge of the bed">침대 끝</option><option value="on the floor">바닥</option><option value="by the wall">벽 쪽</option><option value="near the door">문가</option><option value="near the window">창가 쪽</option><option value="by the bookshelf">책장 앞</option><option value="at the bar counter">바 카운터</option><option value="at the restaurant booth">레스토랑 부스석</option><option value="by the sink">싱크대 앞</option><option value="behind the chair">의자 뒤</option></select></div><div class="char-hybrid-direct"><label>위치 직접입력</label><input id="charAPosition" type="text" placeholder="예: left side, foreground"></div><div class="char-hybrid-note">프리셋으로 빠르게 고르고, 직접입력으로 세부 보정할 수 있습니다.</div></div><div class="char-hybrid-stack"><div><label>행동 프리셋</label><select id="charAActionPreset"><option value="">미지정</option><option value="standing">서 있기</option><option value="sitting">앉아 있기</option><option value="walking">걷기</option><option value="leaning against the wall">벽에 기대기</option><option value="looking at viewer">정면 보기</option><option value="looking away">시선 돌리기</option><option value="looking down">아래 보기</option><option value="looking at character A">A 보기</option><option value="looking at character B">B 보기</option><option value="looking at character C">C 보기</option><option value="reaching out">손 뻗기</option><option value="holding a cup">컵 들기</option><option value="holding a plate">접시 들기</option><option value="holding a book">책 들기</option><option value="holding a phone">휴대폰 보기</option><option value="eating">식사하기</option><option value="offering a bite">한입 건네기</option><option value="drinking">마시기</option><option value="reading">읽기</option><option value="writing">적기</option><option value="typing on laptop">노트북 타이핑</option><option value="cooking">요리하기</option><option value="cutting food">음식 자르기</option><option value="plating food">음식 담기</option><option value="leaning in">다가가기</option><option value="embracing">끌어안기</option><option value="hugging from behind">뒤에서 끌어안기</option><option value="holding hands">손잡기</option><option value="touching shoulder">어깨 만지기</option><option value="touching cheek">뺨 만지기</option><option value="whispering">귓속말하기</option><option value="talking">말하기</option><option value="smiling softly">부드럽게 웃기</option><option value="watching quietly">조용히 지켜보기</option><option value="resting chin on hand">턱 괴기</option><option value="crossing arms">팔짱 끼기</option></select></div><div class="char-hybrid-direct"><label>행동 직접입력</label><input id="charAAction" type="text" placeholder="예: reaching out, eating"></div><div class="char-hybrid-note">행동도 프리셋으로 고른 뒤 직접입력으로 추가 보정할 수 있습니다.</div></div></div><div class="char-slot-tip">다인일 때 권장 · 둘 다 비워두면 ROLE LAYOUT 기준 자동 위치만 적용됩니다.</div></div><div class="char-separate-item" id="charBBox"><div class="char-slot-head"><label>CHARACTER B</label></div><div class="char-slot-meta"><div class="char-role-wrap"><label>역할</label><select id="charBRole"><option value="">미지정</option><option value="gong">공</option><option value="su">수</option><option value="reverse">리버스</option><option value="neutral">무관</option><option value="multi_gong_one_su">다공일수</option><option value="one_gong_multi_su">일공다수</option></select></div><div class="char-tag-wrap"><label>전용 태그</label><input id="charBTags" type="text" placeholder="2인 이상에서 사용"></div></div><div class="char-slot-detail-grid"><div class="char-hybrid-stack"><div><label>위치 프리셋</label><select id="charBPositionPreset"><option value="">미지정</option><option value="left side">왼쪽</option><option value="right side">오른쪽</option><option value="center">중앙</option><option value="foreground">전경</option><option value="background">후경</option><option value="front left">전경 왼쪽</option><option value="front right">전경 오른쪽</option><option value="back left">후방 왼쪽</option><option value="back right">후방 오른쪽</option><option value="standing behind">뒤쪽</option><option value="seated beside">옆자리</option><option value="kneeling in front">앞에서 무릎</option><option value="at the table">테이블 쪽</option><option value="across the table">테이블 맞은편</option><option value="by the kitchen island">아일랜드 식탁 쪽</option><option value="near the sofa">소파 근처</option><option value="on the sofa">소파 위</option><option value="beside the sofa">소파 옆</option><option value="on the bed">침대 위</option><option value="at the edge of the bed">침대 끝</option><option value="on the floor">바닥</option><option value="by the wall">벽 쪽</option><option value="near the door">문가</option><option value="near the window">창가 쪽</option><option value="by the bookshelf">책장 앞</option><option value="at the bar counter">바 카운터</option><option value="at the restaurant booth">레스토랑 부스석</option><option value="by the sink">싱크대 앞</option><option value="behind the chair">의자 뒤</option></select></div><div class="char-hybrid-direct"><label>위치 직접입력</label><input id="charBPosition" type="text" placeholder="예: right side, background"></div><div class="char-hybrid-note">프리셋으로 빠르게 고르고, 직접입력으로 세부 보정할 수 있습니다.</div></div><div class="char-hybrid-stack"><div><label>행동 프리셋</label><select id="charBActionPreset"><option value="">미지정</option><option value="standing">서 있기</option><option value="sitting">앉아 있기</option><option value="walking">걷기</option><option value="leaning against the wall">벽에 기대기</option><option value="looking at viewer">정면 보기</option><option value="looking away">시선 돌리기</option><option value="looking down">아래 보기</option><option value="looking at character A">A 보기</option><option value="looking at character B">B 보기</option><option value="looking at character C">C 보기</option><option value="reaching out">손 뻗기</option><option value="holding a cup">컵 들기</option><option value="holding a plate">접시 들기</option><option value="holding a book">책 들기</option><option value="holding a phone">휴대폰 보기</option><option value="eating">식사하기</option><option value="offering a bite">한입 건네기</option><option value="drinking">마시기</option><option value="reading">읽기</option><option value="writing">적기</option><option value="typing on laptop">노트북 타이핑</option><option value="cooking">요리하기</option><option value="cutting food">음식 자르기</option><option value="plating food">음식 담기</option><option value="leaning in">다가가기</option><option value="embracing">끌어안기</option><option value="hugging from behind">뒤에서 끌어안기</option><option value="holding hands">손잡기</option><option value="touching shoulder">어깨 만지기</option><option value="touching cheek">뺨 만지기</option><option value="whispering">귓속말하기</option><option value="talking">말하기</option><option value="smiling softly">부드럽게 웃기</option><option value="watching quietly">조용히 지켜보기</option><option value="resting chin on hand">턱 괴기</option><option value="crossing arms">팔짱 끼기</option></select></div><div class="char-hybrid-direct"><label>행동 직접입력</label><input id="charBAction" type="text" placeholder="예: looking at A, holding a cup"></div><div class="char-hybrid-note">A와 다르게 지정하면 역할 분리가 더 또렷해집니다.</div></div></div><div class="char-slot-tip">다인일 때 권장 · B의 시선/행동을 따로 지정하면 충돌을 줄일 수 있습니다.</div></div><div class="char-separate-item" id="charCBox"><div class="char-slot-head"><label>CHARACTER C</label></div><div class="char-slot-meta"><div class="char-role-wrap"><label>역할</label><select id="charCRole"><option value="">미지정</option><option value="gong">공</option><option value="su">수</option><option value="reverse">리버스</option><option value="neutral">무관</option><option value="multi_gong_one_su">다공일수</option><option value="one_gong_multi_su">일공다수</option></select></div><div class="char-tag-wrap"><label>전용 태그</label><input id="charCTags" type="text" placeholder="3인에서 사용"></div></div><div class="char-slot-detail-grid"><div class="char-hybrid-stack"><div><label>위치 프리셋</label><select id="charCPositionPreset"><option value="">미지정</option><option value="left side">왼쪽</option><option value="right side">오른쪽</option><option value="center">중앙</option><option value="foreground">전경</option><option value="background">후경</option><option value="front left">전경 왼쪽</option><option value="front right">전경 오른쪽</option><option value="back left">후방 왼쪽</option><option value="back right">후방 오른쪽</option><option value="standing behind">뒤쪽</option><option value="seated beside">옆자리</option><option value="kneeling in front">앞에서 무릎</option><option value="at the table">테이블 쪽</option><option value="across the table">테이블 맞은편</option><option value="by the kitchen island">아일랜드 식탁 쪽</option><option value="near the sofa">소파 근처</option><option value="on the sofa">소파 위</option><option value="beside the sofa">소파 옆</option><option value="on the bed">침대 위</option><option value="at the edge of the bed">침대 끝</option><option value="on the floor">바닥</option><option value="by the wall">벽 쪽</option><option value="near the door">문가</option><option value="near the window">창가 쪽</option><option value="by the bookshelf">책장 앞</option><option value="at the bar counter">바 카운터</option><option value="at the restaurant booth">레스토랑 부스석</option><option value="by the sink">싱크대 앞</option><option value="behind the chair">의자 뒤</option></select></div><div class="char-hybrid-direct"><label>위치 직접입력</label><input id="charCPosition" type="text" placeholder="예: center, back right"></div><div class="char-hybrid-note">프리셋으로 빠르게 고르고, 직접입력으로 세부 보정할 수 있습니다.</div></div><div class="char-hybrid-stack"><div><label>행동 프리셋</label><select id="charCActionPreset"><option value="">미지정</option><option value="standing">서 있기</option><option value="sitting">앉아 있기</option><option value="walking">걷기</option><option value="leaning against the wall">벽에 기대기</option><option value="looking at viewer">정면 보기</option><option value="looking away">시선 돌리기</option><option value="looking down">아래 보기</option><option value="looking at character A">A 보기</option><option value="looking at character B">B 보기</option><option value="looking at character C">C 보기</option><option value="reaching out">손 뻗기</option><option value="holding a cup">컵 들기</option><option value="holding a plate">접시 들기</option><option value="holding a book">책 들기</option><option value="holding a phone">휴대폰 보기</option><option value="eating">식사하기</option><option value="offering a bite">한입 건네기</option><option value="drinking">마시기</option><option value="reading">읽기</option><option value="writing">적기</option><option value="typing on laptop">노트북 타이핑</option><option value="cooking">요리하기</option><option value="cutting food">음식 자르기</option><option value="plating food">음식 담기</option><option value="leaning in">다가가기</option><option value="embracing">끌어안기</option><option value="hugging from behind">뒤에서 끌어안기</option><option value="holding hands">손잡기</option><option value="touching shoulder">어깨 만지기</option><option value="touching cheek">뺨 만지기</option><option value="whispering">귓속말하기</option><option value="talking">말하기</option><option value="smiling softly">부드럽게 웃기</option><option value="watching quietly">조용히 지켜보기</option><option value="resting chin on hand">턱 괴기</option><option value="crossing arms">팔짱 끼기</option></select></div><div class="char-hybrid-direct"><label>행동 직접입력</label><input id="charCAction" type="text" placeholder="예: watching quietly, touching shoulder"></div><div class="char-hybrid-note">3인에서는 관찰자/개입자 행동을 따로 지정하면 좋습니다.</div></div></div><div class="char-slot-tip">3인에서 권장 · 관찰자 / 개입자 / 보조 행동처럼 따로 지정하면 오류를 줄일 수 있습니다.</div></div></div></section>
 <details class="panel collapsible-panel" id="characterPresetPanel" data-ui-advanced="1"><summary><div class="collapse-title-wrap"><h2 class="collapse-title">02C · 캐릭터 프리셋 저장소</h2><p class="collapse-desc">캐릭터 · 커스텀 태그 · AI 스타일 · {{user}} · 1~10 고정 슬롯</p></div><div style="display:flex;align-items:center;gap:10px;flex:0 0 auto"><span class="preset-count" id="charPresetCount">0 / 10</span><span class="collapse-arrow">⌄</span></div></summary><div class="collapse-body"><div class="preset-box"><div class="preset-save-scope"><span class="scope-chip">👤 <b>CHAR A/B/C</b></span><span class="scope-chip">🏷 <b>커스텀 태그</b></span><span class="scope-chip">🎨 <b>AI 스타일</b></span><span class="scope-chip">🙈 <b>{{user}}</b> 활성 시 포함</span></div><div class="preset-topline preset-topline-3"><div><label class="tiny-label">프리셋 이름</label><input id="charPresetName" type="text" maxlength="40" placeholder="예: 올리버 기본형 / 다크 로맨스 세팅"></div><div><label class="tiny-label">컬러 라벨</label><select id="charPresetLabel"><option value="violet">🟣 보라</option><option value="blue">🔵 파랑</option><option value="cyan">🩵 하늘</option><option value="green">🟢 초록</option><option value="yellow">🟡 노랑</option><option value="orange">🟠 주황</option><option value="red">🔴 빨강</option><option value="pink">🩷 핑크</option><option value="gray">⚪ 회색</option></select></div><div><label class="tiny-label">장면 묶음</label><select id="charPresetSceneGroup"><option value="general">🌐 범용 / 기본</option><option value="daily">🏠 일상 / 생활</option><option value="dining">🍽 식사 / 카페</option><option value="bedroom">🛏 침실 / 휴식</option><option value="date">💞 데이트 / 로맨틱</option><option value="tension">⚡ 대치 / 긴장</option><option value="work">💼 업무 / 학교</option><option value="fantasy">✨ 판타지 / 특수</option><option value="night">🌃 심야 / 술자리</option></select></div><div><label class="tiny-label">저장된 프리셋</label><select id="charPresetSelect"><option value="">저장된 프리셋 선택</option></select></div></div><div class="preset-manage-row"><div class="preset-search-wrap"><label class="tiny-label">프리셋 검색</label><input id="charPresetSearch" type="search" placeholder="이름 · 캐릭터 태그 · 커스텀 태그 · 스타일 검색"></div><div><label class="tiny-label">정렬</label><select id="charPresetSort"><option value="updated_desc">최근 수정순</option><option value="created_desc">최근 생성순</option><option value="name_asc">이름 A→Z</option><option value="name_desc">이름 Z→A</option><option value="label">컬러 라벨순</option></select></div><div><label class="tiny-label">장면 묶음 필터</label><select id="charPresetSceneFilter"><option value="all">전체</option><option value="general">🌐 범용 / 기본</option><option value="daily">🏠 일상 / 생활</option><option value="dining">🍽 식사 / 카페</option><option value="bedroom">🛏 침실 / 휴식</option><option value="date">💞 데이트 / 로맨틱</option><option value="tension">⚡ 대치 / 긴장</option><option value="work">💼 업무 / 학교</option><option value="fantasy">✨ 판타지 / 특수</option><option value="night">🌃 심야 / 술자리</option></select></div><button type="button" class="tool preset-clear-search" id="clearPresetSearch">✕ 검색 초기화</button></div><div class="preset-result-meta" id="charPresetResultMeta">전체 프리셋 표시 중</div><div class="preset-slot-toolbar"><div><label class="tiny-label">저장 위치</label><select id="charPresetSlot"><option value="1">1번 슬롯</option><option value="2">2번 슬롯</option><option value="3">3번 슬롯</option><option value="4">4번 슬롯</option><option value="5">5번 슬롯</option><option value="6">6번 슬롯</option><option value="7">7번 슬롯</option><option value="8">8번 슬롯</option><option value="9">9번 슬롯</option><option value="10">10번 슬롯</option></select><div class="slot-select-hint" id="charPresetSlotHint">원하는 번호를 고른 뒤 저장하세요. 빈 슬롯을 남겨두어도 됩니다.</div></div><div><label class="tiny-label">1~10 고정 슬롯</label><div class="preset-mini-note">아래 목록은 항상 1→10 순서입니다. 정렬은 위의 빠른 선택 드롭다운에만 적용됩니다.</div></div></div><div class="preset-actions"><button type="button" class="tool primary" id="saveCharPreset">💾 현재 설정 저장 / 덮어쓰기</button><button type="button" class="tool subtle" id="loadCharPreset">📥 프리셋 불러오기</button><button type="button" class="tool subtle" id="deleteCharPreset">🗑 프리셋 삭제</button><button type="button" class="tool subtle" id="exportCharPresets">📤 JSON 내보내기</button><button type="button" class="tool subtle" id="importCharPresets">📥 JSON 가져오기</button></div><div class="preset-slot-list" id="charPresetSlotList"></div><div class="preset-preview-wrap"><div class="preset-preview-card" id="charPresetPreviewCard"><div class="preset-preview-head"><label class="tiny-label">선택된 프리셋 미리보기</label><span class="preset-label-badge" id="charPresetLabelBadge">🟣 보라</span></div><div class="preset-preview" id="charPresetPreview">저장된 프리셋을 선택하면 여기에 포함된 설정이 요약 표시됩니다.</div><div class="preset-mini-note">CHARACTER A/B/C 태그, 역할, 커스텀 태그, {{user}}, 스타일 설정이 함께 보여집니다.</div></div><div class="preset-preview-card"><label class="tiny-label">UX 안내</label><div class="preset-preview" id="charPresetScopeSummary">• 검색은 프리셋 이름뿐 아니라 캐릭터/커스텀 태그와 AI 스타일도 찾습니다.&#10;• 컬러 라벨로 캐릭터·장르·용도별로 빠르게 구분할 수 있습니다.&#10;• JSON 내보내기/가져오기 시 라벨과 생성·수정 시각도 함께 보존됩니다.</div><div class="preset-mini-note">추천 흐름: 설정 완료 → 이름/라벨 지정 → 저장 → 검색/정렬로 관리</div></div></div><div class="preset-subhint" id="charPresetHint">로컬 저장 전용 · 최대 10개 · 같은 브라우저에서만 보입니다.</div><input id="importCharPresetsFile" class="hidden-file" type="file" accept="application/json,.json"></div></div></details>
 <button class="roll" id="rollAll">🎲 주사위 돌리기<span>잠금된 슬롯은 유지 · 꺼진 슬롯은 프롬프트에서 제외</span></button>
-<section class="panel" id="randomControlPanel" data-ui-advanced="1"><div class="head"><div><h2 class="title">02D · 장면 목적 / 랜덤 제어</h2><p class="desc">장면 목적 프리셋, 랜덤 강도, 세트 락을 한 곳에서 직접 관리합니다. THEME / TROPE와 현재 카테고리에 맞춰 배경·의상·표정·행동이 더 일관되게 조합됩니다.</p></div><div class="mini-tools"><button type="button" class="small-btn" id="resetRandomControl">🧹 초기화</button><button type="button" class="small-btn panel-apply-toggle" id="toggleRandomControlApply" aria-pressed="false">열기 · 적용</button></div></div><div class="panel-disabled-note">현재 닫힘 · 장면 목적 / 랜덤 강도 / 세트 락 설정은 적용되지 않습니다.</div><div class="panel-apply-body" id="randomControlBody"><div class="options utility-grid"><div class="opt"><label>장면 목적 프리셋</label><select id="purposePreset"><option value="none">미사용</option><option value="daily">일상</option><option value="romantic">로맨틱</option><option value="tension">긴장</option><option value="action">액션</option><option value="emotion">감정씬</option><option value="rest">휴식</option><option value="before_event">사건 직전</option><option value="after_event">사건 직후</option><option value="poster">포스터형</option><option value="snapshot">스냅샷형</option></select><div class="character-mode-hint" id="purposePresetHint">🎯 장면의 목적에 맞춰 표정·행동·구도·배경 가중치를 조정합니다.</div></div><div class="opt"><label>랜덤 강도</label><select id="randomStrength"><option value="safe">안전</option><option value="balanced" selected>균형</option><option value="bold">과감</option></select><div class="character-mode-hint" id="randomStrengthHint">🎲 안전은 안정적, 과감은 희귀 조합의 등장률을 높입니다.</div></div><div class="opt"><label>세트 락</label><div class="setlock-grid"><button type="button" class="setlock-btn" id="setLockMood">🌆 분위기 세트</button><button type="button" class="setlock-btn" id="setLockActing">🎭 연기 세트</button><button type="button" class="setlock-btn" id="setLockStyle">👕 스타일링 세트</button></div><div class="character-mode-hint">분위기 = 배경·계절·날씨·조명·무드 / 연기 = 행동·표정·자세·시선·구도 / 스타일링 = 의상·소품</div></div></div><div class="setlock-status" id="setLockStatus">세트 락 미사용 · 개별 슬롯 잠금은 03 · 랜덤 슬롯에서 계속 사용할 수 있습니다.</div></div></section><section class="panel" id="guideverseAbilityPanel" data-ui-advanced="1"><div class="head"><div><h2 class="title">02E · GUIDEVERSE 능력 시스템</h2><p class="desc">가이드버스 전용 세부 설정입니다. 이 상위 패널은 전체 열기/닫기만 담당합니다. 왼쪽 GUIDE와 오른쪽 ESPER를 각각 독립 설정하며, 각 박스에서 따로 임의 생성·초기화할 수 있습니다. 시각 연출은 하단 VISUAL DIRECTION에서 조정합니다.</p></div><div class="mini-tools"><button type="button" class="small-btn panel-apply-toggle" id="toggleGuideverseAbilityApply" aria-pressed="false">열기 · 적용</button></div></div><div class="panel-disabled-note">현재 닫힘 · 가이드 능력 / 에스퍼 능력 / 가이딩 시각 연출 설정은 프롬프트와 저장값에 적용되지 않습니다.</div><div class="panel-apply-body" id="guideverseAbilityBody"><div class="guideverse-panel-note"><span class="guideverse-badge">GUIDEVERSE ONLY</span> 장르가 가이드버스로 설정되면 기본적으로 가이딩 파장과 능력 이펙트가 보이도록 보정되며, 아래 VISUAL DIRECTION으로 더 세밀하게 조정할 수 있습니다.</div><div class="guideverse-ability-grid"><div class="guideverse-ability-col guide-side"><div class="guideverse-ability-head"><h3>🧭 GUIDE ABILITY</h3><div class="guideverse-col-actions"><button type="button" class="small-btn" id="rollGuideAbility">🎲 GUIDE 임의 생성</button><button type="button" class="small-btn" id="resetGuideAbility">🧹 GUIDE 초기화</button></div></div><div class="guideverse-ability-fields"><div class="opt"><label>가이드 등급</label><select id="guideRank"></select></div><div class="opt"><label>가이딩 방식</label><select id="guideMethod"></select></div><div class="opt"><label>접촉 부위 / 매개</label><select id="guideMedium"></select></div><div class="opt"><label>가이드 특성</label><select id="guideSpecialty"></select></div><div class="opt"><label>특수 능력</label><select id="guideSpecialAbility"></select></div><div class="opt"><label>가이딩 범위</label><select id="guideRange"></select></div><div class="opt"><label>적합도 / 동조율</label><select id="guideMatchRate"></select></div><div class="opt"><label>부작용 / 대가</label><select id="guideSideEffect"></select></div><div class="opt"><label>과부하 징후</label><select id="guideOverload"></select></div><div class="opt"><label>가이딩 장면</label><select id="guidingScene"></select></div></div><div class="mini-note">예: 접촉형 / 손목 접촉 / 폭주 억제 특화 / 잔류 감정 유입 / 응급 가이딩</div></div><div class="guideverse-ability-col esper-side"><div class="guideverse-ability-head"><h3>⚡ ESPER ABILITY</h3><div class="guideverse-col-actions"><button type="button" class="small-btn" id="rollEsperAbility">🎲 ESPER 임의 생성</button><button type="button" class="small-btn" id="resetEsperAbility">🧹 ESPER 초기화</button></div></div><div class="guideverse-ability-fields"><div class="opt"><label>에스퍼 등급</label><select id="esperRank"></select></div><div class="opt"><label>능력 계열</label><select id="esperClass"></select></div><div class="opt"><label>주 능력</label><select id="esperPower"></select></div><div class="opt"><label>전투 / 운용 특화</label><select id="esperSpecialty"></select></div><div class="opt"><label>제어 방식</label><select id="esperControl"></select></div><div class="opt"><label>능력 발현 모습</label><select id="esperManifestation"></select></div><div class="opt"><label>리스크 / 약점</label><select id="esperRisk"></select></div><div class="opt"><label>폭주 양상</label><select id="esperOverload"></select></div><div class="opt"><label>현재 상태</label><select id="esperState"></select></div></div><div class="mini-note">예: 전기 / 고출력 폭발형 / 공중에 번개가 튀는 발현 / 스트레스에 따라 폭주</div></div><div class="guideverse-ability-col guideverse-visual-wide"><div class="guideverse-ability-head"><h3>🎞️ VISUAL DIRECTION</h3><div class="guideverse-col-actions"><button type="button" class="small-btn" id="rollGuideVisual">🎲 VISUAL 임의 생성</button><button type="button" class="small-btn" id="resetGuideVisual">🧹 VISUAL 초기화</button></div></div><div class="guideverse-ability-fields"><div class="opt"><label>GUIDING VISUAL</label><select id="guidingVisual"></select></div><div class="opt"><label>GUIDING COLOR / TONE</label><select id="guidingColorTone"></select></div><div class="opt"><label>VISUAL FOCUS</label><select id="guidingFocus"></select></div><div class="opt"><label>ESPER POWER VISUAL INTENSITY</label><select id="esperVisualIntensity"></select></div></div><div class="mini-note">예: 반투명 파동 / 청록빛 / 가이드와 에스퍼 동시 강조 / 폭주 직전 연출</div></div></div><div class="guideverse-ability-status" id="guideverseAbilityStatus">가이드버스 능력 패널 OFF · 열기 · 적용을 누르면 GUIDE / ESPER / VISUAL 세부 설정을 프롬프트에 반영합니다.</div></div></section><section class="panel" id="slotPanel"><div class="head"><div><h2 class="title">03 · 랜덤 슬롯</h2><p class="desc">↻ 재추첨 · 🔓/🔒 잠금 · ◉/○ 사용 여부</p></div><div class="mini-tools"><button class="small-btn" id="lockAll">🔒 전체 잠금</button><button class="small-btn" id="unlockAll">🔓 전체 해제</button><button class="small-btn" id="enableAll">◉ 전체 사용</button></div></div><div id="cards" class="cards"></div><div id="stats" class="stats"></div></section>
+<section class="panel" id="randomControlPanel" data-ui-advanced="1"><div class="head"><div><h2 class="title">02D · 장면 목적 / 랜덤 제어</h2><p class="desc">장면 목적 프리셋, 랜덤 강도, 세트 락을 한 곳에서 직접 관리합니다. THEME / TROPE와 현재 카테고리에 맞춰 배경·의상·표정·행동이 더 일관되게 조합됩니다.</p></div><div class="mini-tools"><button type="button" class="small-btn" id="resetRandomControl">🧹 초기화</button><button type="button" class="small-btn panel-apply-toggle" id="toggleRandomControlApply" aria-pressed="false">열기 · 적용</button></div></div><div class="panel-disabled-note">현재 닫힘 · 장면 목적 / 랜덤 강도 / 세트 락 설정은 적용되지 않습니다.</div><div class="panel-apply-body" id="randomControlBody"><div class="options utility-grid"><div class="opt"><label>장면 목적 프리셋</label><select id="purposePreset"><option value="none">미사용</option><option value="daily">일상</option><option value="romantic">로맨틱</option><option value="tension">긴장</option><option value="action">액션</option><option value="emotion">감정씬</option><option value="rest">휴식</option><option value="before_event">사건 직전</option><option value="after_event">사건 직후</option><option value="poster">포스터형</option><option value="snapshot">스냅샷형</option></select><div class="character-mode-hint" id="purposePresetHint">🎯 장면의 목적에 맞춰 표정·행동·구도·배경 가중치를 조정합니다.</div></div><div class="opt"><label>랜덤 강도</label><select id="randomStrength"><option value="safe">안전</option><option value="balanced" selected>균형</option><option value="bold">과감</option></select><div class="character-mode-hint" id="randomStrengthHint">🎲 안전은 안정적, 과감은 희귀 조합의 등장률을 높입니다.</div></div><div class="opt"><label>세트 락</label><div class="setlock-grid"><button type="button" class="setlock-btn" id="setLockMood">🌆 분위기 세트</button><button type="button" class="setlock-btn" id="setLockActing">🎭 연기 세트</button><button type="button" class="setlock-btn" id="setLockStyle">👕 스타일링 세트</button></div><div class="character-mode-hint">분위기 = 배경·계절·날씨·조명·무드 / 연기 = 행동·표정·자세·시선·구도 / 스타일링 = 의상·소품</div></div></div><div class="setlock-status" id="setLockStatus">세트 락 미사용 · 개별 슬롯 잠금은 03 · 랜덤 슬롯에서 계속 사용할 수 있습니다.</div></div></section><section class="panel" id="guideverseAbilityPanel" data-ui-advanced="1"><div class="head"><div><h2 class="title">02E · GUIDEVERSE 능력 시스템</h2><p class="desc">가이드버스 전용 세부 설정입니다. 이 상위 패널은 전체 열기/닫기만 담당합니다. 왼쪽 GUIDE와 오른쪽 ESPER를 각각 독립 설정하며, 각 박스에서 따로 임의 생성·초기화할 수 있습니다. 시각 연출은 하단 VISUAL DIRECTION에서 조정합니다.</p></div><div class="mini-tools"><button type="button" class="small-btn panel-apply-toggle" id="toggleGuideverseAbilityApply" aria-pressed="false">열기 · 적용</button></div></div><div class="panel-disabled-note">현재 닫힘 · 가이드 능력 / 에스퍼 능력 / 가이딩 시각 연출 설정은 프롬프트와 저장값에 적용되지 않습니다.</div><div class="panel-apply-body" id="guideverseAbilityBody"><div class="guideverse-panel-note"><span class="guideverse-badge">GUIDEVERSE ONLY</span> 장르가 가이드버스로 설정되면 기본적으로 가이딩 파장과 능력 이펙트가 보이도록 보정되며, 아래 VISUAL DIRECTION으로 더 세밀하게 조정할 수 있습니다.</div><div class="guideverse-ability-grid"><div class="guideverse-ability-col guide-side"><div class="guideverse-ability-head"><h3>🧭 GUIDE ABILITY</h3><div class="guideverse-col-actions"><button type="button" class="small-btn" id="rollGuideAbility">🎲 GUIDE 임의 생성</button><button type="button" class="small-btn" id="resetGuideAbility">🧹 GUIDE 초기화</button></div></div><div class="guideverse-ability-fields"><div class="opt"><label>가이드 등급</label><select id="guideRank"></select></div><div class="opt"><label>가이딩 방식</label><select id="guideMethod"></select></div><div class="opt"><label>접촉 부위 / 매개</label><select id="guideMedium"></select></div><div class="opt"><label>가이드 특성</label><select id="guideSpecialty"></select></div><div class="opt"><label>특수 능력</label><select id="guideSpecialAbility"></select></div><div class="opt"><label>가이딩 범위</label><select id="guideRange"></select></div><div class="opt"><label>적합도 / 동조율</label><select id="guideMatchRate"></select></div><div class="opt"><label>부작용 / 대가</label><select id="guideSideEffect"></select></div><div class="opt"><label>과부하 징후</label><select id="guideOverload"></select></div><div class="opt"><label>가이딩 장면</label><select id="guidingScene"></select></div></div><div class="mini-note">예: 접촉형 / 손목 접촉 / 폭주 억제 특화 / 잔류 감정 유입 / 응급 가이딩</div></div><div class="guideverse-ability-col esper-side"><div class="guideverse-ability-head"><h3>⚡ ESPER ABILITY</h3><div class="guideverse-col-actions"><button type="button" class="small-btn" id="rollEsperAbility">🎲 ESPER 임의 생성</button><button type="button" class="small-btn" id="resetEsperAbility">🧹 ESPER 초기화</button></div></div><div class="guideverse-ability-fields"><div class="opt"><label>에스퍼 등급</label><select id="esperRank"></select></div><div class="opt"><label>능력 계열</label><select id="esperClass"></select></div><div class="opt"><label>주 능력</label><select id="esperPower"></select></div><div class="opt"><label>전투 / 운용 특화</label><select id="esperSpecialty"></select></div><div class="opt"><label>제어 방식</label><select id="esperControl"></select></div><div class="opt"><label>능력 발현 모습</label><select id="esperManifestation"></select></div><div class="opt"><label>리스크 / 약점</label><select id="esperRisk"></select></div><div class="opt"><label>폭주 양상</label><select id="esperOverload"></select></div><div class="opt"><label>현재 상태</label><select id="esperState"></select></div></div><div class="mini-note">예: 전기 / 고출력 폭발형 / 공중에 번개가 튀는 발현 / 스트레스에 따라 폭주</div></div><div class="guideverse-ability-col guideverse-visual-wide"><div class="guideverse-ability-head"><h3>🎞️ VISUAL DIRECTION</h3><div class="guideverse-col-actions"><button type="button" class="small-btn" id="rollGuideVisual">🎲 VISUAL 임의 생성</button><button type="button" class="small-btn" id="resetGuideVisual">🧹 VISUAL 초기화</button></div></div><div class="guideverse-ability-fields"><div class="opt"><label>GUIDING VISUAL</label><select id="guidingVisual"></select></div><div class="opt"><label>GUIDING COLOR / TONE</label><select id="guidingColorTone"></select></div><div class="opt"><label>VISUAL FOCUS</label><select id="guidingFocus"></select></div><div class="opt"><label>ESPER POWER VISUAL INTENSITY</label><select id="esperVisualIntensity"></select></div></div><div class="mini-note">예: 반투명 파동 / 청록빛 / 가이드와 에스퍼 동시 강조 / 폭주 직전 연출</div></div></div><div class="guideverse-ability-status" id="guideverseAbilityStatus">가이드버스 능력 패널 OFF · 열기 · 적용을 누르면 GUIDE / ESPER / VISUAL 세부 설정을 프롬프트에 반영합니다.</div></div></section><div class="results-column" id="resultsColumn"><div class="results-sticky-inner" id="resultsStickyInner"><div class="result-status-badges" id="resultStatusBadges" aria-live="polite"></div><section class="panel" id="slotPanel"><div class="result-status-badges" id="simpleResultBadges" aria-live="polite"></div><div class="head"><div><h2 class="title">03 · 랜덤 슬롯</h2><p class="desc">↻ 재추첨 · 🔓/🔒 잠금 · ◉/○ 사용 여부</p></div><div class="mini-tools"><button class="small-btn" id="lockAll">🔒 전체 잠금</button><button class="small-btn" id="unlockAll">🔓 전체 해제</button><button class="small-btn" id="enableAll">◉ 전체 사용</button></div></div><div id="cards" class="cards"></div><div id="stats" class="stats"></div></section>
 <details class="panel collapsible-panel prompt-output-panel" id="novelPromptPanel" open><summary><div class="collapse-title-wrap"><h2 class="collapse-title">04 · NovelAI Prompt</h2><p class="collapse-desc">생성된 영어 태그는 직접 수정할 수 있습니다. 아래 효과 버튼을 눌러 즉시 추가할 수 있으며, {{user}} 캐릭터 태그는 프롬프트 맨 아래에 한 문단 띄워 별도로 배치됩니다.</p></div><span class="collapse-arrow">⌄</span></summary><div class="collapse-body"><details class="prompt-quickbox" id="quickEffectsDetails"><summary><span class="prompt-quicksummary-main">⚡ 빠른 효과 / 흔적 태그 <span class="prompt-quickcount" id="quickEffectCount">0</span></span><span class="quick-summary-actions recommend-triple"><button type="button" class="quick-recommend-btn" id="recommendNatural">✨ 자연스럽게</button><button type="button" class="quick-recommend-btn" id="recommendStronger">🔥 더 강하게</button><button type="button" class="quick-recommend-btn" id="recommendCinematic">🎬 연출 강화</button><button type="button" class="quick-recommend-btn quick-reset-btn" id="resetQuickEffects">🧹 초기화</button></span></summary><div class="prompt-quickbody"><div id="promptQuickTags">
 <div class="prompt-quickgroup"><div class="prompt-quickgroup-title">삽입 · 체위</div><div class="prompt-quicktags">
 <label class="mini-prompt-check"><input type="checkbox" data-special-tag="sex">섹스</label>
@@ -766,6 +1077,7 @@ renderAdminUpdateNote();
 <details class="panel collapsible-panel" id="summaryDetails"><summary><div class="collapse-title-wrap"><h2 class="collapse-title">현재 한글 조합</h2></div><span class="collapse-arrow">⌄</span></summary><div class="collapse-body"><div id="summary" class="summary"></div></div></details>
 <details class="panel collapsible-panel" id="savedDetails"><summary><div class="collapse-title-wrap"><h2 class="collapse-title">저장된 조합</h2><p class="collapse-desc">즐겨찾기와 최근 10회 결과는 이 브라우저에 저장됩니다.</p></div><span class="collapse-arrow">⌄</span></summary><div class="collapse-body"><div class="saved-grid"><div><div class="tiny-label">⭐ 즐겨찾기</div><div id="favorites" class="list"></div></div><div><div class="tiny-label">🕘 최근 기록</div><div id="history" class="list"></div></div></div></div></details>
 
+</div></div>
 <section class="panel guestbook-panel" id="guestbookSection">
   <div class="head">
     <div>
@@ -4642,7 +4954,7 @@ if(new URLSearchParams(location.search).get('analytics-debug')==='1'){
   console.info('[Asset Gacha Analytics] debug mode. Run analyticsDebugTest() in console.');
 }
 
-function createCards(){cards.innerHTML='';Object.entries(SLOTS).forEach(([k,t])=>{const el=document.createElement('article');el.className='card';el.id='card-'+k;el.innerHTML=`<div class="card-top"><div class="card-title">${t}</div><div class="card-actions"><button class="icon" data-toggle="${k}" title="프롬프트 사용/제외">◉</button><button class="icon" data-reroll="${k}" title="이 항목만 재추첨">↻</button><button class="icon" data-lock="${k}" title="잠금">🔓</button></div></div><div class="ko" id="ko-${k}">-</div><div class="en" id="en-${k}">-</div><div class="slot-source" id="source-${k}"></div><div class="lock-note">🔒 이 결과는 고정되어 있습니다.</div><details class="slot-detail-picker" data-slot-picker="${k}"><summary><span>직접 선택 · 등록 후보</span><span>⌄</span></summary><div class="slot-picker-body"><input class="slot-picker-search" data-slot-search="${k}" type="search" placeholder="${t} 후보 검색"><div class="slot-picker-list" data-slot-list="${k}"><div class="slot-picker-empty">등록 후보를 불러오는 중...</div></div><select class="slot-picker-select" data-slot-select="${k}" size="6"></select><div class="slot-picker-meta" data-slot-meta="${k}">상세 모드에서 현재 장면에 등록된 후보를 직접 선택할 수 있습니다.</div></div></details>`;cards.appendChild(el)})}
+function createCards(){cards.innerHTML='';const CORE_SLOTS=new Set(['background','outfit','expression','action','pose','mood']);Object.entries(SLOTS).forEach(([k,t])=>{const el=document.createElement('article');el.className='card';el.id='card-'+k;el.dataset.slotKey=k;el.dataset.slotCore=CORE_SLOTS.has(k)?'1':'0';el.innerHTML=`<div class="card-top"><div class="card-title">${t}</div><div class="card-actions"><button class="icon" data-toggle="${k}" title="프롬프트 사용/제외">◉</button><button class="icon" data-reroll="${k}" title="이 항목만 재추첨">↻</button><button class="icon" data-lock="${k}" title="잠금">🔓</button></div></div><div class="ko" id="ko-${k}">-</div><div class="en" id="en-${k}">-</div><div class="slot-source" id="source-${k}"></div><div class="lock-note">🔒 이 결과는 고정되어 있습니다.</div><details class="slot-detail-picker" data-slot-picker="${k}"><summary><span>직접 선택 · 등록 후보</span><span>⌄</span></summary><div class="slot-picker-body"><input class="slot-picker-search" data-slot-search="${k}" type="search" placeholder="${t} 후보 검색"><div class="slot-picker-list" data-slot-list="${k}"><div class="slot-picker-empty">등록 후보를 불러오는 중...</div></div><select class="slot-picker-select" data-slot-select="${k}" size="6"></select><div class="slot-picker-meta" data-slot-meta="${k}">상세 모드에서 현재 장면에 등록된 후보를 직접 선택할 수 있습니다.</div></div></details>`;cards.appendChild(el)})}
 function loadCategories(keep=false){
   const oldCategory=category.value;
   const oldMiddle=middleCategoryValue();
@@ -5971,7 +6283,45 @@ window.__assetSlotPickerBridge={
 };
 
 
-function render(){Object.keys(SLOTS).forEach(k=>{const v=state.selected[k];$('ko-'+k).textContent=v?.ko||'-';$('en-'+k).textContent=v?.en||'(태그 없음)';const src=$('source-'+k);if(src){src.textContent=slotSourceLabel(k,v);src.className='slot-source '+(k==='prop'||k==='expression'||k==='outfit'?'match':'auto')}renderCardState(k)});buildPrompt();buildSummary();buildStats();updateSemanticModeHints();if(typeof updateQuickRecommendations==='function')updateQuickRecommendations();if(typeof updatePromptDiagnostics==='function')updatePromptDiagnostics();if(typeof updateDirectorState==='function')updateDirectorState();if(typeof refreshSetLockUI==='function')refreshSetLockUI();}
+
+function updateResultStatusBadges(){
+  const hosts=[document.getElementById('resultStatusBadges'),document.getElementById('simpleResultBadges')].filter(Boolean);
+  if(!hosts.length) return;
+  const mk=(text,cls)=>{const s=document.createElement('span');s.className='result-badge'+(cls?' '+cls:'');s.textContent=text;return s};
+  const fill=(host)=>{
+    host.innerHTML='';
+    try{
+      const nsfw=typeof isNsfwGenre==='function'&&isNsfwGenre();
+      host.appendChild(mk(nsfw?'NSFW':'SFW','primary'));
+      const g=document.getElementById('gender');
+      if(g?.selectedOptions?.[0]) host.appendChild(mk((g.selectedOptions[0].textContent||'').split('·')[0].trim()||'인원'));
+      if(nsfw){
+        const inten=document.getElementById('intensity');
+        if(inten?.selectedOptions?.[0]) host.appendChild(mk((inten.selectedOptions[0].textContent||'').split('·')[0].trim(),'hot'));
+      }
+      if(typeof characterCount==='function'&&characterCount()>=2){
+        ['A','B','C'].forEach((letter,i)=>{
+          if(i>=characterCount())return;
+          const role=document.getElementById('char'+letter+'Role');
+          const rv=role?.value;
+          if(rv){
+            const label=(role.selectedOptions?.[0]?.textContent||rv).trim();
+            host.appendChild(mk(letter+':'+label,'warn'));
+          }
+        });
+        if(typeof currentSexPositionKey==='function'){
+          const pk=currentSexPositionKey();
+          const label=(typeof SEX_POSITION_RULES!=='undefined'&&SEX_POSITION_RULES[pk]?.label)||pk;
+          if(pk) host.appendChild(mk('체위 '+label,'hot'));
+        }
+      }
+    }catch(err){console.warn('badge',err)}
+  };
+  hosts.forEach(fill);
+}
+
+function render(){try{updateResultStatusBadges()}catch(_){}
+Object.keys(SLOTS).forEach(k=>{const v=state.selected[k];$('ko-'+k).textContent=v?.ko||'-';$('en-'+k).textContent=v?.en||'(태그 없음)';const src=$('source-'+k);if(src){src.textContent=slotSourceLabel(k,v);src.className='slot-source '+(k==='prop'||k==='expression'||k==='outfit'?'match':'auto')}renderCardState(k)});buildPrompt();buildSummary();buildStats();updateSemanticModeHints();if(typeof updateQuickRecommendations==='function')updateQuickRecommendations();if(typeof updatePromptDiagnostics==='function')updatePromptDiagnostics();if(typeof updateDirectorState==='function')updateDirectorState();if(typeof refreshSetLockUI==='function')refreshSetLockUI();}
 function cleanPieces(a){const seen=new Set();return a.map(x=>x?.trim()).filter(Boolean).filter(x=>{const key=x.toLowerCase();if(seen.has(key))return false;seen.add(key);return true})}
 function splitPromptTokens(text){return String(text||'').split(/\n+/).flatMap(line=>line.split(',')).map(v=>v.trim()).filter(Boolean)}
 function isCharacterAppearanceToken(token){
@@ -6740,15 +7090,32 @@ if(document.body.classList.contains('access-locked')){
   function setUiMode(mode,{save=true}={}){
     mode=mode==='detail'?'detail':'simple';document.body.dataset.uiMode=mode;
     qa('[data-ui-mode-btn]').forEach(btn=>{const active=btn.dataset.uiModeBtn===mode;btn.classList.toggle('active',active);btn.setAttribute('aria-pressed',active?'true':'false')});
-    const hint=$('workflowModeHint');if(hint)hint.textContent=mode==='simple'?'간편 · 랜덤 슬롯을 돌리고 잠금 / ON·OFF / 개별 재추첨만 빠르게 사용합니다.':'상세 · 간편 기능 + 등록된 슬롯 후보 직접 선택 / 고급 설정을 사용합니다.';
-    const roll=$('rollAll');if(roll){if(!roll.dataset.fullHtml)roll.dataset.fullHtml=roll.innerHTML;roll.innerHTML=mode==='simple'?'🎲 랜덤 생성<span>잠금 유지 · 슬롯별 재추첨 가능</span>':roll.dataset.fullHtml}
+    const hint=$('workflowModeHint');
+    if(hint)hint.textContent=mode==='simple'
+      ?'간편 · 신규/모바일용 · 모드→장면→인원→생성→복사'
+      :'상세 · 헤비용 · 역할/체위/테마/슬롯 직접 제어';
+    const roll=$('rollAll');
+    if(roll){
+      if(!roll.dataset.fullHtml)roll.dataset.fullHtml=roll.innerHTML;
+      roll.innerHTML=mode==='simple'?'🎲 랜덤 생성<span>하단 바로도 실행</span>':roll.dataset.fullHtml;
+    }
     if(save){try{localStorage.setItem(UI_KEY,mode)}catch(_){}}
     updateCurrentSetupBar();
+    updateDockSetupMeta();
     if(mode==='detail'){
       setTimeout(()=>window.__assetSlotPickerBridge?.refreshAll?.(),0);
       setTimeout(()=>window.__assetSlotPickerBridge?.refreshAll?.(),90);
       setTimeout(()=>window.__assetSlotPickerBridge?.prewarm?.(),140);
     }
+  }
+  function updateDockSetupMeta(){
+    const el=$('dockSetupMeta');if(!el)return;
+    const mode=isNsfw()?'NSFW':'SFW';
+    const gender=optText('gender')||'인원 미지정';
+    const intensity=isNsfw()?(optText('intensity')||''):'';
+    const genre=optText('genre')||'';
+    const bits=[mode,genre,gender,intensity].filter(Boolean);
+    el.innerHTML='<b>'+bits.slice(0,3).join(' · ')+'</b>'+(bits.length>3?' · '+bits.slice(3).join(' · '):'');
   }
 
   function hiddenAdvancedActive(){
@@ -6780,6 +7147,8 @@ if(document.body.classList.contains('access-locked')){
   }
   function updateCurrentSetupBar(){
     const host=$('currentSetupChips');if(!host)return;host.innerHTML='';const simple=document.body.dataset.uiMode==='simple';
+    try{updateDockSetupMeta()}catch(_){}
+
     const mode=isNsfw()?'NSFW':'SFW';host.appendChild(chip(mode,'primary'));
     const path=[],genreText=optText('genre');if(genreText)path.push(genreText);if(value('middleCategory')&&value('middleCategory')!=='__all'){const t=optText('middleCategory');if(t)path.push(t)}if(value('category')&&value('category')!=='__all'){const t=optText('category');if(t)path.push(t)}if(path.length)host.appendChild(chip(path.join(' › '),'primary'));
     const themes=themeLabels();if(themes.length){const limit=simple?1:2,shown=themes.slice(0,limit).join(' · ');host.appendChild(chip(`THEME ${shown}${themes.length>limit?` +${themes.length-limit}`:''}`))}
@@ -7112,6 +7481,20 @@ if(document.body.classList.contains('access-locked')){
     markAdvancedControls();
     qa('[data-ui-mode-btn]').forEach(btn=>btn.addEventListener('click',()=>setUiMode(btn.dataset.uiModeBtn)));
     $('openDetailedFromSummary')?.addEventListener('click',()=>{setUiMode('detail');$('slotPanel')?.scrollIntoView({behavior:'smooth',block:'start'})});
+    $('dockRollAll')?.addEventListener('click',()=>{$('rollAll')?.click()});
+    $('simpleSlotsToggle')?.addEventListener('click',()=>{
+      document.body.classList.toggle('simple-show-all-slots');
+      const on=document.body.classList.contains('simple-show-all-slots');
+      const btn=$('simpleSlotsToggle');
+      if(btn) btn.textContent=on?'슬롯 접기 · 핵심만 보기':'슬롯 더보기 · 계절/날씨/구도/조명/시선/소품';
+    });
+
+    $('dockCopyPrompt')?.addEventListener('click',()=>{
+      const t=$('prompt')?.value||'';
+      if(!t){window.show?.('⚠️ 먼저 랜덤 생성해주세요.');return;}
+      if(typeof copyText==='function')copyText(t,'✅ NovelAI 태그를 복사했습니다.');
+      else navigator.clipboard?.writeText(t);
+    });
     document.addEventListener('change',e=>{if(e.target.closest('#genre,#middleCategory,#category,#nsfwMode,#intensity,#gender,#scenePreset,#relationPreset,#purposePreset,#propCategoryMode,#expressionCategoryMode,#outfitMode'))window.__assetSlotPickerBridge?.invalidate?.();setTimeout(updateCurrentSetupBar,0)},true);
     document.addEventListener('input',()=>setTimeout(updateCurrentSetupBar,0),true);
     document.addEventListener('click',e=>{
@@ -7138,4 +7521,34 @@ if(document.body.classList.contains('access-locked')){
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
+
+<div id="simpleStickyDock" aria-label="간편 모드 빠른 실행">
+  <div class="dock-inner">
+    <div class="dock-meta"><span>간편 · 뽑고 복사</span><span id="dockSetupMeta"><b>설정 요약</b></span></div>
+    <button type="button" class="dock-btn dock-roll" id="dockRollAll">🎲 랜덤 생성</button>
+    <button type="button" class="dock-btn dock-copy" id="dockCopyPrompt">📋 NovelAI 복사</button>
+  </div>
+</div>
+
+
+<script id="detailPanelOpenLimit">
+(()=>{
+  const MAX_OPEN=3;
+  const SELECTOR='body[data-ui-mode="detail"] .page > section.panel details, body[data-ui-mode="detail"] #settingsColumn details, body[data-ui-mode="detail"] details.collapsible-panel, body[data-ui-mode="detail"] details.theme-group, body[data-ui-mode="detail"] details.preset-slot-card';
+  document.addEventListener('toggle', (e)=>{
+    const d=e.target;
+    if(!(d instanceof HTMLDetailsElement) || !d.open) return;
+    if(document.body.dataset.uiMode!=='detail') return;
+    if(!d.closest('.page')) return;
+    // ignore slot pickers inside cards
+    if(d.matches('[data-slot-picker]')) return;
+    const open=[...document.querySelectorAll('body[data-ui-mode="detail"] .page details[open]')].filter(x=>!x.matches('[data-slot-picker]') && x!==d);
+    while(open.length>=MAX_OPEN){
+      const first=open.shift();
+      if(first) first.open=false;
+    }
+  }, true);
+})();
+</script>
+
 </body></html>
