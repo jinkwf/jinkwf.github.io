@@ -958,7 +958,7 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
 <div class="update-icon">✨</div>
 <h2 id="updateGateTitle">업데이트가 있습니다</h2>
 <p>새 버전이 배포되었습니다.<br/>정상 반영을 위해 페이지를 <strong style="color:#e8e0ff">새로고침</strong> 해주세요.</p>
-<div class="update-ver" id="updateGateVersion">v3.3</div>
+<div class="update-ver" id="updateGateVersion">v3.4</div>
 <div class="update-actions">
 <button class="update-btn primary" id="updateRefreshBtn" type="button">새로고침 하기</button>
 <button class="update-btn ghost" id="updateLaterBtn" type="button">나중에 (이번만 닫기)</button>
@@ -980,9 +980,10 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
    - 새 항목은 배열 맨 위에 추가하세요.
 ========================================================= */
 /* 빌드 ID가 바뀌면 성인/접속코드 인증보다 먼저 새로고침 팝업을 띄웁니다. 매 배포 시 반드시 이 값을 새 고유값으로 변경하세요. */
-const APP_BUILD_ID='20260902-v3.3-character-tag-classifier';
-const APP_BUILD_LABEL = 'v3.3 · Character Tag Classifier';
+const APP_BUILD_ID='20260902-v3.4-prompt-compression';
+const APP_BUILD_LABEL = 'v3.4 · Prompt Compression';
 const UPDATE_NOTES = [
+  { date:'09.02', text:'14 : v3.4 프롬프트 자동 압축 · 원본 CHARACTER 입력은 보존하면서 출력 시 나이·체형·헤어·눈·표정 동의어를 압축하고, 모든 캐릭터에 동일한 의상은 공통 태그로 1회만 출력하도록 개선했습니다.' },
   { date:'09.02', text:'14 : v3.3 캐릭터 태그 자동 분류 · A/B/C 입력값은 원본 그대로 보존하고 출력 시 appearance / action / relation으로 자동 분류합니다. 다인물 공통부에는 장면 태그만 남기고 행동·표정·시선·포즈·소품·의상은 개별 캐릭터 블록으로 재배치해 캐릭터 혼합을 줄였습니다.' },
   { date:'09.02', text:'13 : v3.2 다인물 재조합 출력 · 입력칸은 원본 데이터로 유지하고, 2인 이상 프롬프트 출력은 공통 장면/개별 캐릭터/분리 보정 순서로 자동 재조합되도록 개선했습니다.' },
   { date:'09.02', text:'13 : v3.1 다인 캐릭터 분리 강화 · 2~3인 프롬프트를 한 줄 흐름 안에서 character A/B/C 블록으로 직접 분리하고, 각 블록에 외형·위치·행동·시선을 함께 묶어 캐릭터 혼합을 줄였습니다. 다인 구분 태그는 마지막에 배치합니다.' },
@@ -1269,7 +1270,7 @@ renderAdminUpdateNote();
 })();
 </script>
 <div class="page">
-<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v3.3</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v3.3</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며, 상세 설정과 빠른효과/흔적 태그로 장면 강도를 조절할 수 있습니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
+<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v3.4</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v3.4</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며, 상세 설정과 빠른효과/흔적 태그로 장면 강도를 조절할 수 있습니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
 <section aria-label="사용 모드 선택" class="workflow-mode-panel" id="workflowModePanel"><div class="workflow-mode-copy"><div class="workflow-mode-title">사용 모드</div><div class="workflow-mode-hint" id="workflowModeHint">간편은 랜덤 슬롯 중심 · 상세은 슬롯 직접 선택과 세부 설정까지 제공합니다.</div></div><div aria-label="간편 또는 상세 모드" class="workflow-mode-switch" role="group"><button aria-pressed="true" class="workflow-mode-btn active" data-ui-mode-btn="simple" type="button">간편</button><button aria-pressed="false" class="workflow-mode-btn" data-ui-mode-btn="detail" type="button">상세</button></div></section>
 <section class="panel" id="contentModePanel"><div class="head"><div><h2 class="title">00 · MODE</h2><p class="desc">먼저 콘텐츠 모드를 선택합니다. 선택한 모드에 따라 아래 SCENE 분류와 NSFW 전용 기능이 자동으로 전환됩니다.</p></div></div><div class="mode-choice-card"><div class="mode-choice-label">콘텐츠 모드</div><div class="mode-choice-buttons" id="contentModeSwitch"><button class="mode-choice-btn" data-content-mode="sfw" id="modePillSfw" type="button">SFW</button><button class="mode-choice-btn" data-content-mode="nsfw" id="modePillNsfw" type="button">NSFW</button></div><div class="mode-first-meta" id="contentModeHint">SFW / NSFW를 먼저 선택하면 아래 분류가 현재 모드에 맞게 자동 전환됩니다.</div><input checked="" hidden="" name="contentMode" type="radio" value="sfw"/><input hidden="" name="contentMode" type="radio" value="nsfw"/><input hidden="" id="nsfwMode" type="checkbox"/></div></section>
 <section class="panel" id="sceneCategoryPanel"><div class="head"><div><h2 class="title">01 · SCENE</h2><p class="desc">현재 MODE를 기준으로 대분류 → 중분류 → 소분류 순서로 장면을 선택합니다.</p></div></div><div class="select-grid category-hierarchy-grid scene-three-grid"><div class="field"><label>대분류 · 장르</label><select id="genre"><option value="modern">현대물</option><option value="fantasy">판타지물</option><option value="guideverse">가이드버스</option><option value="period">시대물</option><option value="sf">SF / 사이버펑크</option><option value="apocalypse">아포칼립스 / 재난</option></select></div><div class="field"><label>중분류 · 테마</label><select id="middleCategory"></select></div><div class="field"><label>소분류 · 장면</label><select id="category"></select></div></div><div class="check-row" data-ui-advanced="1"><label class="check"><input id="randomCategory" type="checkbox"/> 주사위를 돌릴 때마다 소분류도 랜덤</label><label class="check"><input checked="" id="avoidSame" type="checkbox"/> 직전 결과와 같은 태그 최대한 피하기</label></div></section>
@@ -1386,7 +1387,7 @@ function __bootAssetGachaAfterAuth(){
   if(window.__assetGachaBooted)return;
   window.__assetGachaBooted=true;
 
-const APP_VERSION='3.3-CHARACTER-TAG-CLASSIFIER';
+const APP_VERSION='3.4-PROMPT-COMPRESSION';
 const E=(ko,en,meta=null)=>meta?({ko,en,_meta:meta}):({ko,en});
 /* ===== INTENSITY (수위) ===== */
 function intensityValue(){const el=$('intensity');return el?el.value:'dense'}
@@ -4760,6 +4761,117 @@ function relationWordForPair(tokens){
   return'';
 }
 
+
+/* ===== v3.4 · PROMPT COMPRESSION =====
+   원본 입력은 보존하고 출력 직전에 중복 의미를 압축한다. */
+function tokenCore(t){return String(t||'').replace(/^\s*[0-9.]+::/,'').replace(/::\s*$/,'').trim().toLowerCase()}
+function firstMatchingToken(tokens,rx){return (tokens||[]).find(t=>rx.test(tokenCore(t)))||''}
+function compactCharacterAppearanceTokens(tokens){
+  let arr=dedupePromptTokens(tokens||[]);
+  const cores=()=>arr.map(tokenCore);
+  const removeRx=rx=>{arr=arr.filter(t=>!rx.test(tokenCore(t)))};
+  const hasRx=rx=>cores().some(t=>rx.test(t));
+  const addUnique=t=>{if(t&&!arr.some(x=>tokenCore(x)===tokenCore(t)))arr.push(t)};
+
+  // 나이: 정확한 연령이 있으면 teenage/middle school 계열 반복 제거
+  const age=firstMatchingToken(arr,/\b\d{1,2}[- ]year[- ]old (?:boy|girl)\b/);
+  if(age) removeRx(/^(young )?teenage (?:boy|girl)$|^middle school student$|^young (?:boy|girl)$/);
+
+  // 체형: 더 구체적인 표현 우선
+  if(hasRx(/\bslightly underweight\b/)) removeRx(/^(slender boy|slim build|slender build|slender limbs|delicate frame)$/);
+  else if(hasRx(/\bskinny\b/)) removeRx(/^(slender boy|slim build|slender build|slender limbs|delicate frame)$/);
+  else if(hasRx(/\bslim build\b/)) removeRx(/^(slender boy|slender build)$/);
+  if(hasRx(/^small stature$/)) removeRx(/^(small frame|short male)$/);
+
+  // 흑발/짧은 머리: 동의어를 한 덩어리로 압축
+  const hasBlack=hasRx(/^(black hair|jet black hair|straight black hair)$/);
+  const hasShort=hasRx(/^short hair$/);
+  const hasStraight=hasRx(/^straight black hair$/);
+  if(hasBlack&&hasShort){
+    removeRx(/^(black hair|jet black hair|straight black hair|short hair)$/);
+    addUnique(hasStraight?'short straight black hair':'short black hair');
+  }else if(hasRx(/^jet black hair$/)) removeRx(/^black hair$/);
+
+  // messy 계열은 가중치 태그를 우선 보존하고 유사 표현 정리
+  const weightedMessy=arr.find(t=>/::.*messy .*hair.*::/i.test(t));
+  if(weightedMessy){
+    arr=arr.filter(t=>t===weightedMessy||!/(tousled hair|disheveled hair|stray hair|soft layered hair|skyblue hair|sky blue hair)/i.test(tokenCore(t)));
+  }
+
+  // 앞머리는 핵심 1~2개만
+  if(hasRx(/^straight bangs$/)) removeRx(/^(blunt bangs|neat bangs|eyebrow-length bangs|symmetrical bangs)$/);
+  if(hasRx(/^messy bangs$/)) removeRx(/^(uneven bangs|stray hair)$/);
+
+  // 이색안: 좌/우 눈 지정이 있으면 색상/광택 반복 제거
+  if(hasRx(/^heterochromia$/)){
+    const left=firstMatchingToken(arr,/^left eye /), right=firstMatchingToken(arr,/^right eye /);
+    if(left&&right){
+      const keep=new Set([tokenCore(left),tokenCore(right),'heterochromia']);
+      arr=arr.filter(t=>{
+        const c=tokenCore(t);
+        if(keep.has(c))return true;
+        return !/(^(black|silver|violet|purple) eye$|iris$|luminous .*eye$|clear .*iris$|contrasting eyes$)/i.test(c);
+      });
+    }
+  }
+  const weightedEyes=arr.find(t=>/::.*eyes.*::/i.test(t));
+  if(weightedEyes){
+    arr=arr.filter(t=>t===weightedEyes||!(/^(dark eyes|black eyes|large eyes|glossy eyes)$/i.test(tokenCore(t))));
+  }
+
+  // 얼굴/피부 반복
+  if(hasRx(/^youthful face$/)) removeRx(/^(delicate facial features|neat appearance)$/);
+  if(hasRx(/^pale skin$/)) removeRx(/^fair skin$/);
+  return dedupePromptTokens(arr);
+}
+function compactCharacterActionTokens(tokens){
+  let arr=dedupePromptTokens(tokens||[]);
+  const has=rx=>arr.some(t=>rx.test(tokenCore(t)));
+  const remove=rx=>{arr=arr.filter(t=>!rx.test(tokenCore(t)))};
+  if(has(/^calm face$/)||has(/^calm expression$/)){
+    remove(/^(calm face|composed expression|quiet expression)$/);
+    arr.push('calm expression');
+  }
+  if(has(/^mischievous face$/)||has(/^mischievous expression$/)){
+    remove(/^(mischievous face|mischievous expression|cheeky expression|playful expression)$/);
+    arr.push('mischievous expression');
+  }
+  if(has(/^watery eyes$/)) remove(/^(tearful eyes|glossy eyes)$/);
+  else if(has(/^tearful eyes$/)) remove(/^glossy eyes$/);
+  if(has(/^annoyed expression$/)&&has(/^sullen face$/)) remove(/^annoyed expression$/);
+  return dedupePromptTokens(arr);
+}
+function compactRelationTokens(tokens){
+  let arr=dedupePromptTokens(tokens||[]);
+  const s=arr.map(tokenCore);
+  if(s.some(x=>/\btwin/.test(x))) arr=arr.filter(t=>!/^(same height|similar build|same build)$/i.test(tokenCore(t)));
+  return dedupePromptTokens(arr);
+}
+function sharedCharacterOutfitTokens(){
+  const n=characterCount(); if(n<2)return[];
+  const letters=['A','B','C'].slice(0,n);
+  const lists=letters.map(l=>compactCharacterAppearanceTokens(characterInputClass(l).appearance).filter(t=>CHARACTER_OUTFIT_RX.test(t)));
+  if(lists.some(x=>!x.length))return[];
+  const first=lists[0];
+  return first.filter(t=>lists.slice(1).every(list=>list.some(x=>tokenCore(x)===tokenCore(t))));
+}
+function compactGlobalPromptTokens(tokens){
+  let arr=dedupePromptTokens(tokens||[]);
+  const has=rx=>arr.some(t=>rx.test(tokenCore(t)));
+  const remove=rx=>{arr=arr.filter(t=>!rx.test(tokenCore(t)))};
+  // single-image 지시는 한 번만. 분할 방지는 Negative Prompt가 담당.
+  if(has(/^single image$/)) remove(/^(single panel|one scene|unified scene|full frame composition|cohesive single shot)$/);
+  // 품질 태그 압축
+  if(has(/^masterpiece$/)&&has(/^best quality$/)) remove(/^(amazing quality|high quality|very aesthetic)$/);
+  // 인원 중복
+  if(has(/^3boys$/)) remove(/^(3people|three people|three people clearly visible.*|three distinct role positions)$/);
+  if(has(/^2boys$/)) remove(/^(2people|two people|two people clearly visible.*|clear two-person role separation)$/);
+  if(has(/^3girls$/)) remove(/^(3people|three people|three people clearly visible.*|three distinct role positions)$/);
+  if(has(/^2girls$/)) remove(/^(2people|two people|two people clearly visible.*|clear two-person role separation)$/);
+  // full body가 있으면 all visible 계열 축소
+  if(has(/^full body$/)) remove(/^(all visible|all characters visible|three people clearly visible.*|two people clearly visible.*)$/);
+  return dedupePromptTokens(arr);
+}
 function multiCharacterSeparationTail(){
   const n=characterCount();
   if(n<2)return[];
@@ -4788,8 +4900,8 @@ function multiCharacterSeparationTail(){
   out.push('distinct poses','separate silhouettes','clear limb ownership');
   if(new Set(distinctExpressions).size>=2)out.push('distinct expressions');
   if(new Set(distinctOutfits).size>=2)out.push('distinct outfits');
-  if(n>=3)out.push('no merged bodies','no overlapping faces');
-  return dedupePromptTokens(out);
+  if(n>=3)out.push('no merged bodies');
+  return compactRelationTokens(out);
 }
 
 function characterSpecificInlineBlocks(){
@@ -4857,6 +4969,7 @@ function characterSpecificInlineBlocks(){
     return g;
   };
   const entries={};
+  const sharedOutfits=new Set(sharedCharacterOutfitTokens().map(tokenCore));
   letters.forEach((letter,i)=>{
     const classified=characterInputClass(letter);
     const pairRole=characterRoleTags(letter);
@@ -4865,7 +4978,9 @@ function characterSpecificInlineBlocks(){
     const position=combineText($(`char${letter}PositionPreset`)?.value||'', $(`char${letter}Position`)?.value||'', autoRole);
     const controlAction=combineText(_charQ.suppressAction?'':$(`char${letter}ActionPreset`)?.value||'', _charQ.suppressAction?'':$(`char${letter}Action`)?.value||'', _charQ.suppressAction?'':roleAwareCharacterAction(letter));
     const forcedPieces=_charQ.suppressAction?[]:roleForcedPromptPieces(letter);
-    entries[letter]={classified,position,pairRole,roleExtra,forcedPieces,appearance:[...classified.appearance],actionInput:[...classified.action],controlAction};
+    const compactAppearance=compactCharacterAppearanceTokens(classified.appearance).filter(t=>!sharedOutfits.has(tokenCore(t)));
+    const compactActions=compactCharacterActionTokens(classified.action);
+    entries[letter]={classified,position,pairRole,roleExtra,forcedPieces,appearance:compactAppearance,actionInput:compactActions,controlAction};
   });
   const everyoneHasOutfit=letters.every(l=>hasCharacterOutfitTokens(entries[l].classified));
   if(globalOutfit&&!everyoneHasOutfit)letters.filter(l=>!hasCharacterOutfitTokens(entries[l].classified)).forEach(l=>entries[l].appearance.push(globalOutfit));
@@ -7399,7 +7514,9 @@ function buildPrompt(){
   const singleBits=singleImagePositiveTags().join(', ');
   const mergedMain=cleanPieces([singleBits,rawMain]).join(', ');
   const optimized=optimizePromptText(mergedMain);
-  const sceneMain=stripCrossSpeciesTokens(stripSplitCompositionTokens(optimized.text));
+  const sharedOutfits=n>=2?sharedCharacterOutfitTokens():[];
+  const sceneTokens=compactGlobalPromptTokens(splitPromptTokens(stripCrossSpeciesTokens(stripSplitCompositionTokens(optimized.text))));
+  const sceneMain=dedupePromptTokens([...sceneTokens,...sharedOutfits]).join(', ');
   const characterBlocks=n>=2?characterSpecificInlineBlocks():characterSpecificParagraphs();
   const separation=n>=2?multiCharacterSeparationTail():[];
   const guideBlocks=guideverseAbilityParagraphs();
