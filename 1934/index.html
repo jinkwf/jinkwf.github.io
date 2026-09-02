@@ -445,6 +445,126 @@
       .t-item:before{left:57px}
       main{padding-inline:14px}
     }
+  
+    .living-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:16px;
+    }
+    .living-card{
+      background:var(--panel);
+      border:1px solid var(--line);
+      padding:22px;
+      min-height:170px;
+    }
+    .living-card h3{
+      margin:0 0 10px;
+      font-size:1.05rem;
+      color:var(--gold);
+    }
+    .living-card p,.living-card li{
+      color:#c4bdb3;
+      font-size:.92rem;
+    }
+    .living-card ul{
+      margin:10px 0 0;
+      padding-left:1.15rem;
+    }
+    .economy{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:10px;
+    }
+    .money-card{
+      border:1px solid var(--line);
+      background:var(--panel);
+      padding:18px;
+      min-height:180px;
+    }
+    .money-card b{display:block;margin-bottom:8px}
+    .money-card span{display:block;color:var(--muted);font-size:.84rem}
+    .money-card.blue{border-top:3px solid var(--blue)}
+    .money-card.red{border-top:3px solid var(--red)}
+    .money-card.green{border-top:3px solid var(--green)}
+    .money-card.blackgold{border-top:3px solid var(--blackgold)}
+    .money-card.white{border-top:3px solid var(--white)}
+
+    .districts{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+    }
+    .district{
+      background:var(--panel);
+      border:1px solid var(--line);
+      padding:20px;
+    }
+    .district h3{margin:0 0 5px}
+    .district .owner{
+      color:var(--gold);
+      font-size:.8rem;
+      letter-spacing:.08em;
+    }
+    .district p{color:#beb7ad;font-size:.9rem}
+
+    .rumor-list,.event-list{
+      display:grid;
+      gap:12px;
+    }
+    .rumor,.event-row{
+      border:1px solid var(--line);
+      background:var(--panel);
+      padding:18px 20px;
+    }
+    .rumor b,.event-row b{display:block;margin-bottom:5px}
+    .rumor em{
+      font-style:normal;
+      font-size:.76rem;
+      color:#8f887e;
+    }
+    .event-row{
+      display:grid;
+      grid-template-columns:110px 1fr;
+      gap:18px;
+    }
+    .event-row .date{
+      color:var(--gold);
+      font-weight:700;
+      font-size:.85rem;
+    }
+
+    .routine-table{
+      width:100%;
+      border-collapse:collapse;
+      background:var(--panel);
+      border:1px solid var(--line);
+    }
+    .routine-table th,.routine-table td{
+      border-bottom:1px solid var(--line);
+      padding:14px 16px;
+      text-align:left;
+      vertical-align:top;
+    }
+    .routine-table th{
+      color:var(--gold);
+      font-size:.82rem;
+      letter-spacing:.08em;
+      background:#0d0d0f;
+    }
+    .routine-table td{
+      color:#c4bdb3;
+      font-size:.9rem;
+    }
+
+    @media(max-width:900px){
+      .living-grid,.economy,.districts{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:620px){
+      .living-grid,.economy,.districts{grid-template-columns:1fr}
+      .event-row{grid-template-columns:1fr;gap:6px}
+      .routine-table{display:block;overflow-x:auto;white-space:nowrap}
+    }
+
   </style>
 </head>
 <body>
@@ -477,6 +597,12 @@
     <a href="#green">녹등회</a>
     <a href="#blackgold">순무국</a>
     <a href="#white">백사회</a>
+    <a href="#daily">도시의 하루</a>
+    <a href="#economy">돈의 흐름</a>
+    <a href="#districts">주요 구역</a>
+    <a href="#citizens">시민의 시선</a>
+    <a href="#rumors">소문</a>
+    <a href="#events">최근 사건</a>
     <a href="#relations">세력관계</a>
     <a href="#philosophy">철학대립</a>
   </nav>
@@ -895,6 +1021,101 @@
       </div>
     </article>
   </section>
+
+  
+  <section id="daily">
+    <div class="section-head">
+      <div><div class="eyebrow">A DAY IN SHANGHAI</div><h2>도시의 하루</h2></div>
+      <p>상하이의 권력은 회의실이 아니라 인쇄기, 무대, 부두, 검문소가 실제로 움직이는 시간표 속에서 드러난다.</p>
+    </div>
+    <table class="routine-table">
+      <thead><tr><th>시간</th><th>청방</th><th>홍련회</th><th>녹등회</th><th>순무국</th><th>백사회</th></tr></thead>
+      <tbody>
+        <tr><td>04:00–07:00</td><td>《해명일보》 인쇄와 새벽 배포가 시작된다. 식자공·교열원·배달원이 가장 바쁜 시간.</td><td>홍월궁 영업 마감. 취객 정리, 장부 정리, 밤새 들은 이야기 분류.</td><td>야간 밀수선 입항, 수산물과 화물 하역, 세관 교대시간을 노린 반입.</td><td>야간 검문 보고서 취합, 유치장 인계, 새벽 순찰 교대.</td><td>밤새 수집된 보고가 백색 봉투와 암호문으로 분산 전달된다.</td></tr>
+        <tr><td>08:00–12:00</td><td>편집회의, 관청·법원·은행 출입, 광고주 접촉.</td><td>대부분 휴식. 의상수선공·청소인력·회계 담당만 움직인다.</td><td>정식 화물과 창고 업무가 시작된다. 하역노동자 조합과 거래.</td><td>민원, 영장, 통행증, 체포영장 발부. 관료적 얼굴이 가장 강한 시간.</td><td>은행·회사·관청 내부의 협력자들이 평범한 직장인처럼 움직인다.</td></tr>
+        <tr><td>13:00–18:00</td><td>기자 취재, 정치인과의 비공식 차담, 기사 거래와 삭제 협상.</td><td>공연 리허설, 악단 연습, 분장, VIP 예약 확인, 주류와 약물 재고 점검.</td><td>육상 운송, 인력거·트럭·창고 이동. 암시장 주문이 본격적으로 모인다.</td><td>취조, 압수수색, 업소 단속 준비, 특별수사과 잠입 보고.</td><td>대상 포섭과 인사청탁, 투자계약, 후원금 형태의 자금 이동.</td></tr>
+        <tr><td>19:00–01:00</td><td>고위층 만찬·사교회에서 정보 수집. 다음 날 1면의 방향이 정해진다.</td><td>홍월궁 개장. 공연·도박·접객·비공식 협상과 비밀거래의 절정.</td><td>야시장과 암시장 활성화, 밀항 준비, 고급 밀수품 배달.</td><td>유흥가 순찰과 검문. 단속과 뒷거래가 동시에 벌어진다.</td><td>다른 네 조직의 충돌을 유도하는 정보가 이 시간대 가장 많이 흘러나간다.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="economy">
+    <div class="section-head">
+      <div><div class="eyebrow">FOLLOW THE MONEY</div><h2>돈의 흐름</h2></div>
+      <p>누가 누구에게 돈을 주는지가 곧 실제 권력관계다. 공식 사업과 비공식 수익은 항상 얽혀 있다.</p>
+    </div>
+    <div class="economy">
+      <div class="money-card blue"><b>청방</b><span>신문 구독료 · 광고비 · 출판권 · 기사 무마비 · 정치 후원금 · 기업 홍보계약</span></div>
+      <div class="money-card red"><b>홍련회</b><span>입장료 · 주류 · VIP룸 · 도박 수익 · 아편 · 공연 수익 · 비공식 접대비</span></div>
+      <div class="money-card green"><b>녹등회</b><span>하역비 · 창고료 · 운송료 · 통행세 · 밀수 수수료 · 밀항비 · 암시장 중개료</span></div>
+      <div class="money-card blackgold"><b>순무국</b><span>공식 예산 · 벌금 · 압수품 처분 · 비공식 뇌물 · 단속 묵인 대가</span></div>
+      <div class="money-card white"><b>백사회</b><span>은행 투자 · 차명회사 · 외국 자본 · 정치 후원금 · 부실기업 인수 · 내부자 거래</span></div>
+    </div>
+  </section>
+
+  <section id="districts">
+    <div class="section-head">
+      <div><div class="eyebrow">DISTRICTS</div><h2>주요 구역과 지배력</h2></div>
+      <p>상하이 전체가 한 세력의 영토인 곳은 없다. 거리 하나를 건너는 것만으로도 적용되는 규칙과 보호자가 달라진다.</p>
+    </div>
+    <div class="districts">
+      <div class="district"><div class="owner">靑幇 영향권</div><h3>해명로 언론가</h3><p>신문사, 인쇄소, 출판사, 전신사 밀집. 새벽에는 배달소년과 인쇄 노동자가 거리를 채우고, 낮에는 기자와 변호사, 관청 심부름꾼이 오간다.</p></div>
+      <div class="district"><div class="owner">紅蓮會 영향권</div><h3>홍월가</h3><p>카바레, 무도장, 고급 살롱, 찻집, 도박장이 이어지는 밤의 거리. 낮에는 놀랄 만큼 조용하고 밤이 되면 전혀 다른 도시처럼 변한다.</p></div>
+      <div class="district"><div class="owner">綠燈會 영향권</div><h3>동항 제7부두</h3><p>창고, 하역장, 선창가 술집, 야시장, 밀수선 정박지가 모여 있다. 낯선 얼굴이 오래 서 있으면 누군가 반드시 이유를 묻는다.</p></div>
+      <div class="district"><div class="owner">巡務局 강세</div><h3>중앙 행정구</h3><p>순무국 본청, 법원, 행정청, 기록보관소가 모인 구역. 통행증과 허가증이 없으면 가장 피곤해지는 곳.</p></div>
+      <div class="district"><div class="owner">혼합 영향권</div><h3>서양식 상업가</h3><p>호텔, 은행, 백화점, 외국 상사가 밀집. 통역가, 운전기사, 전화교환원, 은행원이 중요한 정보 전달자가 된다.</p></div>
+      <div class="district"><div class="owner">사실상 무주지</div><h3>남문 빈민가</h3><p>하층 노동자, 난민, 노점상, 잡역부가 모여 사는 구역. 공권력이 약하고 세 조직의 말단 세력이 동시에 활동한다.</p></div>
+    </div>
+  </section>
+
+  <section id="citizens">
+    <div class="section-head">
+      <div><div class="eyebrow">THE PEOPLE</div><h2>시민의 시선</h2></div>
+      <p>조직이 스스로를 어떻게 정의하는가보다, 평범한 시민이 그들을 어떻게 이용하고 두려워하는지가 도시를 더 현실적으로 만든다.</p>
+    </div>
+    <div class="living-grid">
+      <div class="living-card"><h3>청방을 보는 시선</h3><p>“무섭긴 해도 아침 신문은 본다.”</p><ul><li>상인들은 광고 때문에 청방과 관계를 맺는다.</li><li>정치인과 교사는 기사 한 줄을 두려워한다.</li><li>서민은 청방을 멀게 느끼지만 신문이 정하는 여론에는 영향을 받는다.</li></ul></div>
+      <div class="living-card"><h3>홍련회를 보는 시선</h3><p>“타락했다고 욕하면서도 다들 한 번은 가보고 싶어 한다.”</p><ul><li>젊은이에게는 화려한 꿈의 공간.</li><li>보수층에게는 도덕적 타락의 상징.</li><li>예술가와 공연자에게는 드물게 신분과 성별에 덜 얽매이는 피난처.</li></ul></div>
+      <div class="living-card"><h3>녹등회를 보는 시선</h3><p>“범죄자들이지만, 우리 동네 애가 굶으면 저쪽이 먼저 쌀을 준다.”</p><ul><li>부두 노동자와 빈민층의 지지가 강하다.</li><li>상인은 물건을 들여오기 위해 녹등회와 거래한다.</li><li>중산층은 거칠고 위험한 조직으로 경계한다.</li></ul></div>
+      <div class="living-card"><h3>순무국을 보는 시선</h3><p>“도둑보다 경찰이 더 귀찮을 때가 있다.”</p><ul><li>신고가 필요할 때는 찾지만 검문소는 피하고 싶어 한다.</li><li>정직한 경찰도 있으나 뇌물과 권력 남용에 대한 불신이 깊다.</li><li>계층에 따라 법이 다르게 적용된다는 불만이 존재한다.</li></ul></div>
+      <div class="living-card"><h3>백사회를 보는 시선</h3><p>“그런 조직이 정말 있긴 한가?”</p><ul><li>대다수 시민은 존재 자체를 모른다.</li><li>실패한 사업가나 좌천된 관료 사이에서 ‘새 질서’에 대한 소문만 돈다.</li><li>백사회의 흔적은 사람보다 계약서, 인사이동, 투자금에서 먼저 발견된다.</li></ul></div>
+      <div class="living-card"><h3>일상 속 작은 거래</h3><ul><li>순경에게 은화 몇 닢을 쥐여주면 짐 검사가 빨라진다.</li><li>기자는 기사 한 문장을 빼주는 대가로 식사와 정보를 받는다.</li><li>홍월궁은 단속 전날 술병과 장부 일부를 다른 창고로 옮긴다.</li><li>부두 노동자는 녹등회 표식이 붙은 화물은 괜히 열어보지 않는다.</li></ul></div>
+    </div>
+  </section>
+
+  <section id="rumors">
+    <div class="section-head">
+      <div><div class="eyebrow">RUMORS & WHISPERS</div><h2>도시에 떠도는 소문</h2></div>
+      <p>아래 소문은 사실일 수도, 절반만 맞을 수도, 누군가 의도적으로 흘린 거짓일 수도 있다.</p>
+    </div>
+    <div class="rumor-list">
+      <div class="rumor"><b>“해명일보에는 아직 태어나지도 않은 사람의 부고가 준비되어 있다.”</b><em>출처: 인쇄소 노동자들</em></div>
+      <div class="rumor"><b>“홍월궁 지하에는 VIP 손님들이 남긴 이름 없는 방이 있다.”</b><em>출처: 택시기사·악사</em></div>
+      <div class="rumor"><b>“제7부두 3번 창고 아래로 강까지 이어지는 오래된 배수로가 있다.”</b><em>출처: 하역꾼</em></div>
+      <div class="rumor"><b>“순무국 증거보관실에서 사라진 물건은 암시장에 다시 나타난다.”</b><em>출처: 야시장 상인</em></div>
+      <div class="rumor"><b>“백색 봉투를 두 번 받은 사람은 세 번째 편지를 보기 전에 승진하거나 죽는다.”</b><em>출처: 관료가</em></div>
+      <div class="rumor"><b>“청방과 홍련회가 서로 적인 척하지만 가장 오래된 비밀은 공동 보관한다.”</b><em>출처: 정체불명</em></div>
+      <div class="rumor"><b>“녹등회는 돈을 받아도 어린아이를 싣는 배는 띄우지 않는다.”</b><em>출처: 남문 빈민가</em></div>
+      <div class="rumor"><b>“순무국 강경파 명단 일부가 이미 백사회 손에 넘어갔다.”</b><em>출처: 정치권</em></div>
+    </div>
+  </section>
+
+  <section id="events">
+    <div class="section-head">
+      <div><div class="eyebrow">1934 INCIDENT LOG</div><h2>최근 사건 기록</h2></div>
+      <p>세계가 정지된 설정집처럼 보이지 않도록, 현재진행형 사건들이 도시의 균형을 계속 흔든다.</p>
+    </div>
+    <div class="event-list">
+      <div class="event-row"><div class="date">1934.01.12</div><div><b>해명일보 인쇄소 화재</b>원인불명 화재로 야간 인쇄동 일부 소실. 청방은 사고라 발표했지만 내부에서는 방화 가능성을 의심한다.</div></div>
+      <div class="event-row"><div class="date">1934.02.03</div><div><b>제7부두 하역 파업</b>임금 체불 문제로 노동자 800여 명이 작업을 멈췄다. 녹등회가 사용자와 협상에 개입하며 영향력을 확대했다.</div></div>
+      <div class="event-row"><div class="date">1934.03.21</div><div><b>홍월궁 객실 사망사건</b>외국계 무역상 한 명이 VIP실에서 사망. 순무국은 과음사로 종결했지만 사건 기록 일부가 누락됐다.</div></div>
+      <div class="event-row"><div class="date">1934.04.09</div><div><b>대규모 통행증 단속</b>순무국 강경파 주도로 야간 검문 강화. 녹등회의 밀항과 홍련회의 야간 영업이 동시에 타격을 받았다.</div></div>
+      <div class="event-row"><div class="date">1934.05.17</div><div><b>은행 연쇄 부도</b>중소 상사 세 곳과 민간은행 한 곳이 연쇄적으로 무너졌다. 배후에서 백색 자금이 움직였다는 소문이 돈다.</div></div>
+      <div class="event-row"><div class="date">1934.06.01</div><div><b>신문 검열 초안 유출</b>순무국 내부 문서가 청방 측에 넘어가면서 언론가 전체가 술렁였다. 누가 문서를 흘렸는지는 밝혀지지 않았다.</div></div>
+      <div class="event-row"><div class="date">1934.06.17</div><div><b>홍월록 실종</b>홍련회의 비밀장부 《홍월록》이 사라지며 다섯 세력의 균형이 본격적으로 무너지기 시작한다.</div></div>
+    </div>
+  </section>
+
 
   <section id="relations">
     <div class="section-head">
