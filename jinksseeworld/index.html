@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1.0" name="viewport"/>
 <meta content="#0e0c12" name="theme-color"/>
-<title>NSFW 에셋 랜덤 프롬프트 생성기.v3.0</title>
+<title>NSFW 에셋 랜덤 프롬프트 생성기.v3.1</title>
 <style>
 :root{--bg:#0e0c12;--panel:#17141d;--panel2:#201c28;--panel3:#292333;--line:rgba(255,255,255,.09);--text:#f7f3fa;--sub:#aaa3b4;--accent:#a68cff;--pink:#e694c4;--gold:#f0c978;--green:#9fdfb6;--red:#ff9aa5;--shadow:0 20px 60px rgba(0,0,0,.35)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 8% 0,rgba(166,140,255,.13),transparent 27%),radial-gradient(circle at 100% 15%,rgba(230,148,196,.08),transparent 27%),var(--bg);color:var(--text);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif}button,select,input,textarea{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}.page{width:min(1220px,calc(100% - 28px));margin:auto;padding:28px 0 70px}.hero,.panel{border:1px solid var(--line);background:rgba(23,20,29,.96);box-shadow:var(--shadow)}.hero{position:relative;overflow:hidden;border-radius:26px;padding:31px;margin-bottom:17px}.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-100px;top:-135px;background:rgba(166,140,255,.12);filter:blur(12px);pointer-events:none}.eyebrow{font-size:11px;font-weight:900;letter-spacing:.2em;color:var(--accent)}
 .eyebrow-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
@@ -958,7 +958,7 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
 <div class="update-icon">✨</div>
 <h2 id="updateGateTitle">업데이트가 있습니다</h2>
 <p>새 버전이 배포되었습니다.<br/>정상 반영을 위해 페이지를 <strong style="color:#e8e0ff">새로고침</strong> 해주세요.</p>
-<div class="update-ver" id="updateGateVersion">v3.0</div>
+<div class="update-ver" id="updateGateVersion">v3.1</div>
 <div class="update-actions">
 <button class="update-btn primary" id="updateRefreshBtn" type="button">새로고침 하기</button>
 <button class="update-btn ghost" id="updateLaterBtn" type="button">나중에 (이번만 닫기)</button>
@@ -980,9 +980,10 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
    - 새 항목은 배열 맨 위에 추가하세요.
 ========================================================= */
 /* 빌드 ID가 바뀌면 성인/접속코드 인증보다 먼저 새로고침 팝업을 띄웁니다. 매 배포 시 반드시 이 값을 새 고유값으로 변경하세요. */
-const APP_BUILD_ID='20260830-v3.0-quick-recommend-restore';
-const APP_BUILD_LABEL = 'v2.8 · Quick Tags Spec Match';
+const APP_BUILD_ID='20260902-v3.1-multi-character-flat-blocks';
+const APP_BUILD_LABEL = 'v3.1 · Multi Character Flat Blocks';
 const UPDATE_NOTES = [
+  { date:'09.02', text:'13 : v3.1 다인 캐릭터 분리 강화 · 2~3인 프롬프트를 한 줄 흐름 안에서 character A/B/C 블록으로 직접 분리하고, 각 블록에 외형·위치·행동·시선을 함께 묶어 캐릭터 혼합을 줄였습니다. 다인 구분 태그는 마지막에 배치합니다.' },
   { date:'08.30', text:'12 : v3.0 빠른태그 추천/리셋 복구 · 플로팅 빠른 효과 / 흔적 태그 패널에도 자연스럽게·더 강하게·연출 강화·초기화 버튼을 다시 추가하고 기존 추천 로직과 동일하게 연결했습니다.' },
   { date:'08.30', text:'11 : v2.8 빠른태그 명세 일치 · 표정→키스/애무→삽입·체위→오럴·자위·토이→BDSM 순으로 재배치하고, 첨부 문서의 한글/영문 태그를 1:1로 맞췄습니다. 빠른 효과 / 흔적 태그 자체에도 왼쪽 전체화면 확장 버튼을 추가했습니다.' },
   { date:'08.30', text:'10 : v2.7 빠른태그 확장 · 키스/애무와 NSFW 표정 그룹을 추가하고 빠른효과 내부 그룹을 기본 접힘 폴딩으로 변경했습니다. 플로팅 프롬프트에는 왼쪽 확장 화살표를 추가해 전체화면에 가깝게 넓힐 수 있습니다.' },
@@ -1266,7 +1267,7 @@ renderAdminUpdateNote();
 })();
 </script>
 <div class="page">
-<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v3.0</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v3.0</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며, 상세 설정과 빠른효과/흔적 태그로 장면 강도를 조절할 수 있습니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
+<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v3.1</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v3.0</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며, 상세 설정과 빠른효과/흔적 태그로 장면 강도를 조절할 수 있습니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
 <section aria-label="사용 모드 선택" class="workflow-mode-panel" id="workflowModePanel"><div class="workflow-mode-copy"><div class="workflow-mode-title">사용 모드</div><div class="workflow-mode-hint" id="workflowModeHint">간편은 랜덤 슬롯 중심 · 상세은 슬롯 직접 선택과 세부 설정까지 제공합니다.</div></div><div aria-label="간편 또는 상세 모드" class="workflow-mode-switch" role="group"><button aria-pressed="true" class="workflow-mode-btn active" data-ui-mode-btn="simple" type="button">간편</button><button aria-pressed="false" class="workflow-mode-btn" data-ui-mode-btn="detail" type="button">상세</button></div></section>
 <section class="panel" id="contentModePanel"><div class="head"><div><h2 class="title">00 · MODE</h2><p class="desc">먼저 콘텐츠 모드를 선택합니다. 선택한 모드에 따라 아래 SCENE 분류와 NSFW 전용 기능이 자동으로 전환됩니다.</p></div></div><div class="mode-choice-card"><div class="mode-choice-label">콘텐츠 모드</div><div class="mode-choice-buttons" id="contentModeSwitch"><button class="mode-choice-btn" data-content-mode="sfw" id="modePillSfw" type="button">SFW</button><button class="mode-choice-btn" data-content-mode="nsfw" id="modePillNsfw" type="button">NSFW</button></div><div class="mode-first-meta" id="contentModeHint">SFW / NSFW를 먼저 선택하면 아래 분류가 현재 모드에 맞게 자동 전환됩니다.</div><input checked="" hidden="" name="contentMode" type="radio" value="sfw"/><input hidden="" name="contentMode" type="radio" value="nsfw"/><input hidden="" id="nsfwMode" type="checkbox"/></div></section>
 <section class="panel" id="sceneCategoryPanel"><div class="head"><div><h2 class="title">01 · SCENE</h2><p class="desc">현재 MODE를 기준으로 대분류 → 중분류 → 소분류 순서로 장면을 선택합니다.</p></div></div><div class="select-grid category-hierarchy-grid scene-three-grid"><div class="field"><label>대분류 · 장르</label><select id="genre"><option value="modern">현대물</option><option value="fantasy">판타지물</option><option value="guideverse">가이드버스</option><option value="period">시대물</option><option value="sf">SF / 사이버펑크</option><option value="apocalypse">아포칼립스 / 재난</option></select></div><div class="field"><label>중분류 · 테마</label><select id="middleCategory"></select></div><div class="field"><label>소분류 · 장면</label><select id="category"></select></div></div><div class="check-row" data-ui-advanced="1"><label class="check"><input id="randomCategory" type="checkbox"/> 주사위를 돌릴 때마다 소분류도 랜덤</label><label class="check"><input checked="" id="avoidSame" type="checkbox"/> 직전 결과와 같은 태그 최대한 피하기</label></div></section>
@@ -1383,7 +1384,7 @@ function __bootAssetGachaAfterAuth(){
   if(window.__assetGachaBooted)return;
   window.__assetGachaBooted=true;
 
-const APP_VERSION='2.8-QUICK-TAGS-SPEC-MATCH';
+const APP_VERSION='3.1-MULTI-CHARACTER-FLAT-BLOCKS';
 const E=(ko,en,meta=null)=>meta?({ko,en,_meta:meta}):({ko,en});
 /* ===== INTENSITY (수위) ===== */
 function intensityValue(){const el=$('intensity');return el?el.value:'dense'}
@@ -4717,19 +4718,35 @@ function strongerTwoPersonCommonTags(){
 }
 function hasSpecifiedCharacter(){return Boolean($('gender')?.value)}
 // 캐릭터 미지정: 성별/캐릭터별 외형(CHARACTER A/B/C)만 제외. 의상·행동·표정·포즈·배경 등 장면 슬롯은 유지.
-function characterSpecificParagraphs(){
+function multiCharacterSeparationTail(){
+  const n=characterCount();
+  if(n===2)return [
+    'character A and character B clearly separated',
+    'distinct poses','distinct expressions','distinct outfits',
+    'separate silhouettes','clear limb ownership'
+  ];
+  if(n>=3)return [
+    'character A, character B, and character C clearly separated',
+    'distinct poses','distinct expressions','distinct outfits',
+    'separate silhouettes','clear limb ownership','no merged bodies','no overlapping faces'
+  ];
+  return [];
+}
+function characterSpecificInlineBlocks(){
   if(!hasSpecifiedCharacter())return[];
-  const n=characterCount(),out=[],genders=characterGenderRoles();
+  const n=characterCount(),genders=characterGenderRoles();
   const letters=['A','B','C'].slice(0,n);
   const _charQ=quickSlotOverrides();
   const combine=(...parts)=>[...new Set(parts.map(v=>String(v||'').trim()).filter(Boolean))].join(', ');
   const globalAction=(!_charQ.suppressAction&&state.active?.action&&state.selected?.action?.en)?String(state.selected.action.en).trim():'';
   const globalGaze=(state.active?.gaze&&state.selected?.gaze?.en)?String(state.selected.gaze.en).trim():'';
 
-  const actionWithTarget=(seed,target)=>{
+  const targetAction=(seed,target)=>{
     const s=String(seed||'').trim();
     if(!s)return'';
     if(/character\s+[ABC]|viewer/i.test(s))return s;
+    if(/sharing snacks|sharing food/i.test(s))return `sharing food with ${target}`;
+    if(/opening snack bag/i.test(s))return `opening snack bag for ${target}`;
     if(/offering a bite|offering food|feeding/i.test(s))return `${s} to ${target}`;
     if(/kiss/i.test(s))return `kissing ${target}`;
     if(/holding hands/i.test(s))return `holding hands with ${target}`;
@@ -4741,11 +4758,11 @@ function characterSpecificParagraphs(){
     if(/talking/i.test(s))return `talking with ${target}`;
     if(/leaning in/i.test(s))return `leaning toward ${target}`;
     if(/looking at/i.test(s))return s;
-    return `${s}, interacting with ${target}`;
+    return s;
   };
   const reciprocal=(sourceSeed,sourceLetter)=>{
     const s=String(sourceSeed||'').trim();
-    if(/offering a bite|offering food|feeding/i.test(s))return `receiving food from character ${sourceLetter}, looking at character ${sourceLetter}`;
+    if(/sharing snacks|sharing food|opening snack bag|offering a bite|offering food|feeding/i.test(s))return `receiving food from character ${sourceLetter}, looking at character ${sourceLetter}`;
     if(/kiss/i.test(s))return `kissing character ${sourceLetter} back`;
     if(/holding hands/i.test(s))return `holding hands with character ${sourceLetter}`;
     if(/hugging from behind/i.test(s))return `being hugged from behind by character ${sourceLetter}`;
@@ -4754,7 +4771,7 @@ function characterSpecificParagraphs(){
     if(/touching cheek/i.test(s))return `reacting to character ${sourceLetter}'s touch on cheek`;
     if(/whispering/i.test(s))return `listening to character ${sourceLetter}, looking at character ${sourceLetter}`;
     if(/talking/i.test(s))return `responding to character ${sourceLetter}`;
-    return `responding to character ${sourceLetter}, maintaining physical connection with character ${sourceLetter}`;
+    return `responding to character ${sourceLetter}`;
   };
   const gazeFor=(letter)=>{
     if(!globalGaze)return'';
@@ -4762,6 +4779,7 @@ function characterSpecificParagraphs(){
       const other=letter==='A'?'B':'A';
       return `avoiding character ${other}'s gaze`;
     }
+    if(n===3&&/avoiding each other'?s gaze|avoiding gaze/i.test(globalGaze))return 'looking away from the others';
     return globalGaze;
   };
 
@@ -4773,44 +4791,42 @@ function characterSpecificParagraphs(){
     const autoRole=_charQ.suppressPose?'':rolePositionForCharacter(i);
     const position=_charQ.suppressPose?'':combine($(`char${letter}PositionPreset`)?.value||'', $(`char${letter}Position`)?.value||'', autoRole);
     const explicitAction=_charQ.suppressAction?'':combine($(`char${letter}ActionPreset`)?.value||'', $(`char${letter}Action`)?.value||'', roleAwareCharacterAction(letter));
-    const actionSeed=explicitAction||globalAction;
     const forcedPieces=_charQ.suppressAction?[]:roleForcedPromptPieces(letter);
-    const appearance=applyExcludedTokens([genders[i],pairRole,...roleExtra,...forcedPieces,position,...splitPromptTokens(manual)]);
-    entries[letter]={appearance:dedupePromptTokens(appearance),actionSeed};
+    const base=applyExcludedTokens([position,genders[i],pairRole,...roleExtra,...forcedPieces,...splitPromptTokens(manual)]);
+    entries[letter]={base:dedupePromptTokens(base),explicitAction,actionSeed:explicitAction||globalAction};
   });
 
   const actions={};
   if(n===2){
-    const aSeed=entries.A.actionSeed;
-    const bSeed=entries.B.actionSeed;
-    actions.A=actionWithTarget(aSeed,'character B');
-    actions.B=actionWithTarget(bSeed,'character A');
-    if(!actions.A&&actions.B)actions.A=reciprocal(bSeed,'B');
-    if(!actions.B&&actions.A)actions.B=reciprocal(aSeed,'A');
-    if(aSeed&&bSeed===aSeed){
-      actions.A=actionWithTarget(aSeed,'character B');
-      actions.B=reciprocal(aSeed,'A');
-    }
-    if(!actions.A)actions.A='interacting closely with character B';
-    if(!actions.B)actions.B='responding to character A, maintaining eye contact with character A';
+    const aSeed=entries.A.actionSeed,bSeed=entries.B.actionSeed;
+    actions.A=targetAction(aSeed,'character B');
+    actions.B=targetAction(bSeed,'character A');
+    if(!entries.B.explicitAction&&aSeed)actions.B=reciprocal(aSeed,'A');
+    if(!entries.A.explicitAction&&bSeed&&!actions.A)actions.A=reciprocal(bSeed,'B');
+    if(!actions.A)actions.A='interacting with character B';
+    if(!actions.B)actions.B='responding to character A';
   }else if(n===3){
-    const targets={A:'character B and character C',B:'character A',C:'character A'};
-    letters.forEach(letter=>{actions[letter]=actionWithTarget(entries[letter].actionSeed,targets[letter])||`responding to ${targets[letter]}`;});
-  }else{
-    actions.A=entries.A.actionSeed||globalAction||'';
-  }
+    const aSeed=entries.A.actionSeed,bSeed=entries.B.actionSeed,cSeed=entries.C.actionSeed;
+    actions.A=targetAction(aSeed,'character B');
+    actions.B=entries.B.explicitAction?targetAction(bSeed,'character A'):(aSeed?reciprocal(aSeed,'A'):targetAction(bSeed,'character A'));
+    if(entries.C.explicitAction)actions.C=targetAction(cSeed,'character A and character B');
+    else if(/sharing snacks|sharing food|opening snack bag|offering a bite|offering food|feeding/i.test(aSeed||globalAction))actions.C='holding food, watching character A and character B';
+    else actions.C=targetAction(cSeed,'character A and character B')||'watching character A and character B';
+    if(!actions.A)actions.A='interacting with character B';
+    if(!actions.B)actions.B='responding to character A';
+  }else actions.A=entries.A.actionSeed||'';
 
-  if(n>=2){
-    const common=typeof strongerTwoPersonCommonTags==='function'?strongerTwoPersonCommonTags():[];
-    if(common.length)out.push(`common tags :\n${common.join(', ')}`);
-  }
-  letters.forEach(letter=>{
-    if(entries[letter].appearance.length)out.push(`character ${letter} tags : ${entries[letter].appearance.join(', ')}`);
-    const actionBits=dedupePromptTokens(applyExcludedTokens([...splitPromptTokens(actions[letter]),...splitPromptTokens(gazeFor(letter))]));
-    if(actionBits.length)out.push(`character ${letter} : ${actionBits.join(', ')}`);
+  return letters.map(letter=>{
+    const bits=dedupePromptTokens(applyExcludedTokens([
+      ...entries[letter].base,
+      ...splitPromptTokens(actions[letter]),
+      ...splitPromptTokens(gazeFor(letter))
+    ]));
+    return `character ${letter}: ${bits.join(', ')}`;
   });
-  return out;
 }
+// Backward compatibility for code paths that still request paragraphs.
+function characterSpecificParagraphs(){return characterSpecificInlineBlocks();}
 
 const CATEGORY_POV_DIRECTOR={office:'wall',elevator:'wall',copyroom:'wall',breakroom:'bodyclose',car:'lowangle',stairwell:'lowangle',park:'bodyclose',rooftop:'bodyclose',alley:'wall',balcony:'bodyclose',ritual:'topdown',demon:'lowangle',cathedral:'kneeling',throne:'lowangle',library:'bodyclose',garden:'bodyclose',restraint:'kneeling',training:'lowangle',cell:'wall',cage:'kneeling',interrogation:'lowangle',guiding:'bodyclose',aftermath:'bededge',emergency:'topdown',isolation:'bodyclose',observation:'topdown',recovery:'bededge',nightshift:'bodyclose',dorm:'bededge',period_bed:'bededge',period_training:'kneeling',period_ritual:'topdown',period_throne:'lowangle',inhuman_furry:'bodyclose',inhuman_objecthead:'lowangle'};
 function selectedPovType(){return $('povType')?.value||'auto'}
@@ -7288,31 +7304,39 @@ function buildPrompt(){
   const nsfwBase=isNsfwGenre()?['nsfw','explicit','uncensored']:[];
   const speciesTags=(typeof categoryLockPromptTags==='function'?categoryLockPromptTags():categorySpeciesPromptTags());
   const userTags=activeUserCharacterText();
-  let a=applyExcludedTokens([$('quality').value,$('gender').value,$('style').value,artStyleTag(),...aiPresetPromptTags('novel'),...detailBoosterTags('novel'),...themeNovelTags(),...guideverseCoreVisualPromptTags(),...nsfwBase,...speciesTags,...specialPromptTags(),...multiAxisPromptTags(),...povPromptTags(),...presetPromptTags(),...relationNsfwPromptTags(),...roleLayoutTags(),...rolePairDynamicsTags(),customTagsForPrompt(),...multiDistinctPromptTags()]);
+  const n=characterCount();
+  let a=applyExcludedTokens([$('quality').value,$('gender').value,$('style').value,artStyleTag(),...aiPresetPromptTags('novel'),...detailBoosterTags('novel'),...themeNovelTags(),...guideverseCoreVisualPromptTags(),...nsfwBase,...speciesTags,...specialPromptTags(),...multiAxisPromptTags(),...povPromptTags(),...presetPromptTags(),...relationNsfwPromptTags(),...roleLayoutTags(),customTagsForPrompt(),...multiDistinctPromptTags()]);
   promptSlotKeys().forEach(k=>{
-    if(!state.active[k]||!state.selected[k]?.en) return;
-    if(shouldSkipSlotForQuick(k)){
-      return; // 빠른효과/흔적태그가 우선 → 충돌 슬롯 태그 삭제
-    }
+    if(!state.active[k]||!state.selected[k]?.en)return;
+    if(shouldSkipSlotForQuick(k))return;
     if(k==='outfit'){
-      // 캐릭터 미지정이어도 의상은 장면 요소로 유지한다.
-      // 미지정 시 제외되는 것은 성별/캐릭터별 외형 블록뿐이다.
-      // 부분 노출(topless/bottomless)은 filterOutfitPrompt가 처리
       const filteredOutfit=filterOutfitPrompt(state.selected[k].en);
-      if(filteredOutfit&&!tokenMatchesExcluded(filteredOutfit)) a.push(filteredOutfit);
+      if(filteredOutfit&&!tokenMatchesExcluded(filteredOutfit))a.push(filteredOutfit);
       return;
     }
-    if(!tokenMatchesExcluded(state.selected[k].en)) a.push(state.selected[k].en);
+    if(!tokenMatchesExcluded(state.selected[k].en))a.push(state.selected[k].en);
   });
   const rawMain=cleanPieces(applyExcludedTokens(a)).join(', ');
   const singleBits=singleImagePositiveTags().join(', ');
-  const mergedMain=cleanPieces([singleBits, rawMain]).join(', ');
+  const mergedMain=cleanPieces([singleBits,rawMain]).join(', ');
   const optimized=optimizePromptText(mergedMain);
-  const cleanedMain=stripCrossSpeciesTokens(stripSplitCompositionTokens(optimized.text));
-  lastPromptDiagnostics={duplicates:optimized.removed,dominated:optimized.conflicts,poseConflicts:optimized.conflicts,multi:characterCount()>=2,outfit:outfitExposureMode()!=='none',categoryFit:'높음',singleImage:true};
-  const paragraphs=[cleanedMain,...characterSpecificParagraphs(),...guideverseAbilityParagraphs()];
-  if(userTags)paragraphs.push(userTags);
-  prompt.value=paragraphs.filter(Boolean).map(stripSplitCompositionTokens).filter(Boolean).join('\n\n');
+  const sceneMain=stripCrossSpeciesTokens(stripSplitCompositionTokens(optimized.text));
+  const characterBlocks=n>=2?characterSpecificInlineBlocks():characterSpecificParagraphs();
+  const separation=n>=2?multiCharacterSeparationTail():[];
+  const guideBlocks=guideverseAbilityParagraphs();
+  lastPromptDiagnostics={duplicates:optimized.removed,dominated:optimized.conflicts,poseConflicts:optimized.conflicts,multi:n>=2,outfit:outfitExposureMode()!=='none',categoryFit:'높음',singleImage:true};
+
+  if(n>=2){
+    const flatParts=[sceneMain,...characterBlocks,...separation,...guideBlocks].filter(Boolean);
+    let result=flatParts.join(', ');
+    result=result.replace(/\s*,\s*,+/g,', ').replace(/\s+/g,' ').trim();
+    if(userTags)result+=`\n\n${userTags}`;
+    prompt.value=result;
+  }else{
+    const paragraphs=[sceneMain,...characterBlocks,...guideBlocks];
+    if(userTags)paragraphs.push(userTags);
+    prompt.value=paragraphs.filter(Boolean).map(stripSplitCompositionTokens).filter(Boolean).join('\n\n');
+  }
   updateNegativePrompt();
   buildAllToolPrompts();
   updatePromptDiagnostics();
