@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b0b0c" />
+  <title>1934 上海 — 五權構圖</title>
+  <style>
+    :root{
+      --bg:#0a0a0b;
+      --panel:#111114;
+      --panel-2:#17171b;
+      --text:#eee9df;
+      --muted:#aaa49b;
+      --line:#2a292f;
+      --gold:#c6a15b;
+      --blue:#3f74b8;
+      --red:#b84348;
+      --green:#4c8d67;
+      --blackgold:#b99857;
+      --white:#ddd9cf;
+      --shadow:0 18px 45px rgba(0,0,0,.35);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(198,161,91,.08), transparent 30%),
+        linear-gradient(180deg,#080809 0%,#0d0d10 100%);
+      color:var(--text);
+      font-family:"Noto Serif KR","Nanum Myeongjo","Apple SD Gothic Neo","Malgun Gothic",serif;
+      line-height:1.85;
+      letter-spacing:-.01em;
+    }
+
+    a{color:inherit;text-decoration:none}
+    button{font:inherit}
+
+    .film{
+      position:fixed;inset:0;pointer-events:none;z-index:999;
+      opacity:.11;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+      mix-blend-mode:soft-light;
+    }
+
+    .hero{
+      min-height:88vh;
+      display:grid;
+      place-items:center;
+      padding:80px 24px 48px;
+      position:relative;
+      overflow:hidden;
+      border-bottom:1px solid var(--line);
+    }
+
+    .hero:before,.hero:after{
+      content:"";
+      position:absolute;
+      width:420px;height:420px;border:1px solid rgba(198,161,91,.16);
+      transform:rotate(45deg);
+    }
+    .hero:before{left:-250px;top:110px}
+    .hero:after{right:-250px;bottom:-110px}
+
+    .hero-inner{
+      width:min(980px,100%);
+      text-align:center;
+      position:relative;
+      z-index:2;
+    }
+
+    .eyebrow{
+      color:var(--gold);
+      font-size:.78rem;
+      letter-spacing:.32em;
+      text-transform:uppercase;
+      margin-bottom:20px;
+    }
+
+    h1{
+      margin:0;
+      font-size:clamp(3rem,8vw,7rem);
+      line-height:.95;
+      font-weight:700;
+      letter-spacing:-.05em;
+    }
+
+    .hanja{
+      display:block;
+      margin-top:12px;
+      font-size:clamp(1.2rem,2.6vw,2rem);
+      color:var(--gold);
+      letter-spacing:.38em;
+      font-weight:500;
+    }
+
+    .hero-copy{
+      max-width:760px;
+      margin:34px auto 0;
+      color:#c9c4bb;
+      font-size:clamp(1rem,2vw,1.16rem);
+    }
+
+    .five-words{
+      margin:38px auto 0;
+      display:flex;flex-wrap:wrap;justify-content:center;gap:10px;
+    }
+    .five-words span{
+      border:1px solid var(--line);
+      padding:9px 13px;
+      background:rgba(255,255,255,.02);
+      font-size:.83rem;
+    }
+
+    .nav-wrap{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter:blur(16px);
+      background:rgba(8,8,9,.82);
+      border-bottom:1px solid var(--line);
+    }
+    .nav{
+      width:min(1180px,100%);
+      margin:auto;
+      display:flex;
+      gap:8px;
+      padding:10px 14px;
+      overflow-x:auto;
+      scrollbar-width:none;
+    }
+    .nav::-webkit-scrollbar{display:none}
+    .nav a{
+      flex:0 0 auto;
+      padding:8px 12px;
+      color:#bdb6aa;
+      font-size:.86rem;
+      border:1px solid transparent;
+      border-radius:999px;
+    }
+    .nav a:hover{border-color:#3a3731;color:#fff}
+
+    main{
+      width:min(1180px,100%);
+      margin:auto;
+      padding:66px 22px 120px;
+    }
+
+    .intro{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:26px;
+      margin-bottom:70px;
+    }
+
+    .card{
+      background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.012));
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+    }
+
+    .intro .card{padding:30px}
+    .intro h2,.section-head h2{
+      margin:0 0 10px;
+      font-size:clamp(1.65rem,4vw,2.6rem);
+      letter-spacing:-.035em;
+    }
+    .intro p{color:#c2bcb2;margin:0}
+
+    .thesis{
+      display:grid;gap:8px;
+      align-content:center;
+    }
+    .thesis div{
+      padding:13px 16px;
+      border-left:3px solid var(--gold);
+      background:#0d0d0f;
+    }
+    .thesis strong{color:#fff}
+
+    .section-head{
+      display:flex;justify-content:space-between;gap:20px;align-items:flex-end;
+      margin:80px 0 26px;
+      padding-bottom:18px;
+      border-bottom:1px solid var(--line);
+    }
+    .section-head p{margin:0;color:var(--muted);max-width:560px;font-size:.92rem}
+
+    .factions{
+      display:grid;
+      gap:34px;
+    }
+
+    .faction{
+      --accent:var(--gold);
+      background:var(--panel);
+      border:1px solid var(--line);
+      position:relative;
+      overflow:hidden;
+      box-shadow:var(--shadow);
+    }
+    .faction:before{
+      content:"";
+      position:absolute;left:0;top:0;bottom:0;width:5px;
+      background:var(--accent);
+    }
+    .faction.blue{--accent:var(--blue)}
+    .faction.red{--accent:var(--red)}
+    .faction.green{--accent:var(--green)}
+    .faction.blackgold{--accent:var(--blackgold)}
+    .faction.white{--accent:var(--white)}
+
+    .faction-top{
+      padding:32px 34px 24px 40px;
+      border-bottom:1px solid var(--line);
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:18px;
+      align-items:start;
+    }
+    .faction-kicker{
+      color:var(--accent);
+      font-size:.78rem;
+      letter-spacing:.24em;
+      margin-bottom:8px;
+    }
+    .faction h3{
+      margin:0;
+      font-size:clamp(2rem,5vw,3.4rem);
+      line-height:1;
+      letter-spacing:-.05em;
+    }
+    .faction h3 small{
+      display:block;
+      font-size:.9rem;
+      color:var(--muted);
+      letter-spacing:.16em;
+      margin-top:10px;
+      font-weight:500;
+    }
+    .sigil{
+      width:68px;height:68px;border-radius:50%;
+      border:1px solid color-mix(in srgb,var(--accent) 70%,#222);
+      display:grid;place-items:center;
+      color:var(--accent);
+      font-size:1.55rem;
+      background:#0d0d0f;
+    }
+
+    .meta-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      border-bottom:1px solid var(--line);
+    }
+    .meta{
+      padding:18px 20px;
+      border-right:1px solid var(--line);
+      min-height:92px;
+    }
+    .meta:last-child{border-right:0}
+    .meta span{display:block;color:var(--muted);font-size:.72rem;letter-spacing:.12em;margin-bottom:5px}
+    .meta strong{font-size:.94rem}
+
+    .faction-body{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:0;
+    }
+    .pane{
+      padding:28px 34px 32px 40px;
+      border-right:1px solid var(--line);
+      border-bottom:1px solid var(--line);
+    }
+    .pane:nth-child(even){border-right:0}
+    .pane.full{grid-column:1/-1;border-right:0}
+    .pane h4{
+      margin:0 0 13px;
+      font-size:1rem;
+      color:var(--accent);
+      letter-spacing:.08em;
+    }
+    .pane p{margin:0 0 12px;color:#c8c2b9}
+    .quote{
+      border-left:3px solid var(--accent);
+      padding:14px 18px;
+      margin:16px 0;
+      background:#0c0c0e;
+      font-weight:700;
+      color:#f3eee4;
+    }
+    .doctrine{
+      display:grid;gap:7px;
+      margin-top:12px;
+    }
+    .doctrine div{
+      padding:9px 12px;
+      background:#0c0c0e;
+      border:1px solid #202025;
+      color:#cfc9bf;
+    }
+
+    .goal-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+    }
+    .goal{
+      background:#0d0d0f;
+      border:1px solid #232329;
+      padding:16px;
+    }
+    .goal b{display:block;color:var(--accent);margin-bottom:7px}
+    .goal p{font-size:.9rem}
+
+    .timeline{
+      position:relative;
+      margin-top:10px;
+    }
+    .timeline:before{
+      content:"";
+      position:absolute;left:77px;top:0;bottom:0;width:1px;background:#2b2a2f;
+    }
+    .t-item{
+      display:grid;
+      grid-template-columns:64px 1fr;
+      gap:30px;
+      padding:12px 0;
+      position:relative;
+    }
+    .t-item:before{
+      content:"";
+      position:absolute;left:73px;top:22px;
+      width:9px;height:9px;border-radius:50%;
+      background:var(--accent);
+      box-shadow:0 0 0 4px #111114;
+    }
+    .year{color:var(--accent);font-weight:700;font-size:.84rem;padding-top:2px}
+    .event b{display:block;margin-bottom:2px}
+    .event span{color:var(--muted);font-size:.88rem}
+
+    .orgchart{
+      display:grid;
+      gap:10px;
+      margin-top:8px;
+    }
+    .org-node{
+      padding:13px 15px;
+      border:1px solid #29282d;
+      background:#0c0c0e;
+    }
+    .org-node b{color:var(--accent)}
+    .org-branch{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+      gap:10px;
+    }
+    .arrow{
+      text-align:center;color:#6d685f;line-height:1;
+    }
+
+    .relations{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:14px;
+    }
+    .relation{
+      background:var(--panel);
+      border:1px solid var(--line);
+      padding:20px;
+    }
+    .relation b{display:block;margin-bottom:5px}
+    .relation span{color:var(--gold);font-size:.82rem}
+    .relation p{color:#bbb4aa;margin:9px 0 0;font-size:.92rem}
+
+    .philosophy{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:10px;
+    }
+    .ph{
+      min-height:190px;
+      padding:20px;
+      border:1px solid var(--line);
+      background:var(--panel);
+      display:flex;flex-direction:column;justify-content:space-between;
+    }
+    .ph.blue{border-top:3px solid var(--blue)}
+    .ph.red{border-top:3px solid var(--red)}
+    .ph.green{border-top:3px solid var(--green)}
+    .ph.blackgold{border-top:3px solid var(--blackgold)}
+    .ph.white{border-top:3px solid var(--white)}
+    .ph strong{font-size:1.1rem}
+    .ph em{font-style:normal;color:#c8c0b5;font-size:.88rem}
+
+    .finale{
+      margin-top:80px;
+      text-align:center;
+      border:1px solid #38342c;
+      padding:54px 28px;
+      background:
+        linear-gradient(180deg,rgba(198,161,91,.05),transparent),
+        #0d0d0f;
+    }
+    .finale h2{font-size:clamp(1.8rem,5vw,3.6rem);margin:0 0 20px}
+    .finale p{max-width:760px;margin:0 auto;color:#c8c1b6}
+    .finale .ledger{color:var(--gold);font-size:1.15rem;margin:28px 0 10px}
+
+    footer{
+      padding:28px 22px 50px;
+      text-align:center;
+      color:#777269;
+      font-size:.78rem;
+    }
+
+    .top-btn{
+      position:fixed;right:18px;bottom:18px;z-index:60;
+      width:42px;height:42px;border-radius:50%;
+      border:1px solid #3b382f;background:#111114;color:var(--gold);
+      cursor:pointer;display:none;
+    }
+    .top-btn.show{display:block}
+
+    @media(max-width:900px){
+      .intro{grid-template-columns:1fr}
+      .meta-grid{grid-template-columns:1fr 1fr}
+      .meta:nth-child(2){border-right:0}
+      .meta:nth-child(-n+2){border-bottom:1px solid var(--line)}
+      .faction-body{grid-template-columns:1fr}
+      .pane,.pane:nth-child(even){border-right:0}
+      .goal-grid{grid-template-columns:1fr}
+      .relations{grid-template-columns:1fr}
+      .philosophy{grid-template-columns:1fr 1fr}
+    }
+
+    @media(max-width:620px){
+      .hero{min-height:78vh;padding-top:56px}
+      .faction-top{padding:26px 22px 20px 28px}
+      .meta-grid{grid-template-columns:1fr}
+      .meta{border-right:0;border-bottom:1px solid var(--line)!important}
+      .meta:last-child{border-bottom:0!important}
+      .pane{padding:24px 22px 27px 28px}
+      .philosophy{grid-template-columns:1fr}
+      .timeline:before{left:61px}
+      .t-item{grid-template-columns:48px 1fr;gap:26px}
+      .t-item:before{left:57px}
+      main{padding-inline:14px}
+    }
+  </style>
+</head>
+<body>
+<div class="film"></div>
+
+<header class="hero" id="top">
+  <div class="hero-inner">
+    <div class="eyebrow">Shanghai · 1934 · Alternate Noir World</div>
+    <h1>1934 上海<span class="hanja">五權構圖</span></h1>
+    <p class="hero-copy">
+      하나의 정부가 아니라 다섯 개의 권력이 도시를 움직인다.
+      기록, 욕망, 길, 법, 그리고 완전한 질서.
+      상하이는 서로 다른 정의가 서로의 목을 겨누며 유지되는 도시다.
+    </p>
+    <div class="five-words">
+      <span>靑幇 · 기록</span>
+      <span>紅蓮會 · 욕망</span>
+      <span>綠燈會 · 길</span>
+      <span>巡務局 · 법</span>
+      <span>白蛇會 · 통제</span>
+    </div>
+  </div>
+</header>
+
+<div class="nav-wrap">
+  <nav class="nav">
+    <a href="#overview">개요</a>
+    <a href="#blue">청방</a>
+    <a href="#red">홍련회</a>
+    <a href="#green">녹등회</a>
+    <a href="#blackgold">순무국</a>
+    <a href="#white">백사회</a>
+    <a href="#relations">세력관계</a>
+    <a href="#philosophy">철학대립</a>
+  </nav>
+</div>
+
+<main>
+  <section class="intro" id="overview">
+    <div class="card">
+      <h2>도시는 하나가 아니다</h2>
+      <p>
+        행정구역과 조계, 외국 자본, 경찰, 범죄조직, 언론사가 서로 다른 법과 이해관계 아래 얽혀 있다.
+        이 틈에서 성장한 다섯 세력은 선과 악으로 구분되지 않는다.
+        각 조직은 상하이를 유지하는 방법에 대해 서로 다른 답을 가지고 있다.
+      </p>
+    </div>
+    <div class="card thesis">
+      <div><strong>청방</strong>은 도시의 기억을 가진다.</div>
+      <div><strong>홍련회</strong>는 도시의 욕망을 가진다.</div>
+      <div><strong>녹등회</strong>는 도시의 혈관을 가진다.</div>
+      <div><strong>순무국</strong>은 도시의 뼈를 가진다.</div>
+      <div><strong>백사회</strong>는 그 모든 것을 삼키려는 독이다.</div>
+    </div>
+  </section>
+
+  <section class="factions">
+
+    <article class="faction blue" id="blue">
+      <div class="faction-top">
+        <div>
+          <div class="faction-kicker">BLUE · RECORD</div>
+          <h3>청방 靑幇<small>기록하는 자가 도시의 기억을 지배한다</small></h3>
+        </div>
+        <div class="sigil">靑</div>
+      </div>
+      <div class="meta-grid">
+        <div class="meta"><span>대표색</span><strong>BLUE</strong></div>
+        <div class="meta"><span>상징</span><strong>청색 인장 · 만년필 · 신문 · 봉인서신</strong></div>
+        <div class="meta"><span>표면 조직</span><strong>언론 · 출판 · 인쇄 기업집단</strong></div>
+        <div class="meta"><span>핵심 자산</span><strong>정보 · 기록 · 평판 · 정치 영향력</strong></div>
+      </div>
+      <div class="faction-body">
+        <div class="pane">
+          <h4>조직의 정의</h4>
+          <p>청방은 스스로를 범죄조직이 아니라 도시의 기록자이자 기억을 관리하는 자들이라 정의한다.</p>
+          <p>상하이에서 무엇이 실제로 벌어졌는가보다, 사람들이 그것을 어떻게 기억하게 되는지가 더 중요하다고 본다.</p>
+          <div class="quote">「기록된 것이 진실이 된다」</div>
+        </div>
+        <div class="pane">
+          <h4>핵심 교리</h4>
+          <div class="doctrine">
+            <div>첫째. 정보는 돈보다 오래 남는다.</div>
+            <div>둘째. 알고도 말하지 않는 것이 가장 강력한 협박이다.</div>
+            <div>셋째. 모든 사실을 공개하는 것은 정의가 아니라 무책임이다.</div>
+            <div>넷째. 도시에 반드시 필요한 거짓말도 존재한다.</div>
+          </div>
+        </div>
+        <div class="pane full">
+          <h4>목적</h4>
+          <div class="goal-grid">
+            <div class="goal"><b>표면적 목적</b><p>언론·출판망 유지, 정치·경제 정보 제공, 문맹 퇴치, 대중교육, 문화계 후원.</p></div>
+            <div class="goal"><b>실제 목적</b><p>권력자 정보 축적, 정·재계 영향력 유지, 적대 인물의 신뢰 제거, 사건 해석권 독점.</p></div>
+            <div class="goal"><b>궁극적 목적</b><p>정권이 누구에게 넘어가더라도 청방의 정보망 없이는 도시를 운영할 수 없게 만드는 것.</p></div>
+          </div>
+        </div>
+        <div class="pane">
+          <h4>연혁</h4>
+          <div class="timeline">
+            <div class="t-item"><div class="year">1898</div><div class="event"><b>청문회 靑文會</b><span>인쇄업자·서기관·통역가들의 상조회. 청방의 전신.</span></div></div>
+            <div class="t-item"><div class="year">1906</div><div class="event"><b>정보 거래 시작</b><span>기자·세관 직원·법원 서기 유입. 정보조직으로 변화.</span></div></div>
+            <div class="t-item"><div class="year">1912</div><div class="event"><b>청방 창설</b><span>“정부는 바뀌지만 기록은 남는다.”</span></div></div>
+            <div class="t-item"><div class="year">1918</div><div class="event"><b>《해명일보》 창간</b><span>청방의 가장 중요한 합법 자산.</span></div></div>
+            <div class="t-item"><div class="year">1921–26</div><div class="event"><b>언론망 확장</b><span>출판사·인쇄소·전신사·광고회사 인수.</span></div></div>
+            <div class="t-item"><div class="year">1927</div><div class="event"><b>청색 장부 사건</b><span>고위 관리 비리 기록 유출. 이후 중요 정보 분산 보관 원칙 확립.</span></div></div>
+            <div class="t-item"><div class="year">1931</div><div class="event"><b>삼신문 통합</b><span>경쟁 신문사 세 곳 흡수.</span></div></div>
+            <div class="t-item"><div class="year">1934</div><div class="event"><b>현재</b><span>정치인·경찰·은행가조차 청방이 자신에 대해 무엇을 아는지 모른다.</span></div></div>
+          </div>
+        </div>
+        <div class="pane">
+          <h4>조직도</h4>
+          <div class="orgchart">
+            <div class="org-node"><b>방주 幇主</b> · 최고 책임자</div>
+            <div class="arrow">↓</div>
+            <div class="org-branch">
+              <div class="org-node"><b>정필 政筆</b><br>정치·관료·외교</div>
+              <div class="org-node"><b>상필 商筆</b><br>재계·은행·무역</div>
+              <div class="org-node"><b>암필 暗筆</b><br>범죄·협박·비공식 정보</div>
+            </div>
+            <div class="arrow">↓</div>
+            <div class="org-node"><b>편집원</b> · 신문·출판 실무</div>
+            <div class="org-node"><b>문객 文客</b> · 기자·작가·변호사·교수·통역가</div>
+            <div class="org-node"><b>묵선 墨線</b> · 도시 곳곳의 비밀 정보원</div>
+          </div>
+        </div>
+        <div class="pane">
+          <h4>조직 운영</h4>
+          <p>충성보다 유용성을 중시한다. 가장 무거운 배신은 정보 유출이다.</p>
+          <p>청방의 최중형은 살인이 아니라 <b>삭제</b>다. 해고 기록, 거래 기록, 신분증명, 학력, 추천서를 하나씩 지워 사회적 존재 자체를 없앤다.</p>
+        </div>
+        <div class="pane">
+          <h4>약점</h4>
+          <p>정보가 없으면 움직이지 못한다. 예측 불가능한 인간과 충동적인 사건에 약하며, 내부 배신이 발생하면 가진 비밀이 많을수록 피해가 커진다.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="faction red" id="red">
+      <div class="faction-top">
+        <div>
+          <div class="faction-kicker">RED · DESIRE</div>
+          <h3>홍련회 紅蓮會<small>욕망에는 신분이 없다</small></h3>
+        </div>
+        <div class="sigil">紅</div>
+      </div>
+      <div class="meta-grid">
+        <div class="meta"><span>대표색</span><strong>RED</strong></div>
+        <div class="meta"><span>상징</span><strong>붉은 연꽃 · 향수 · 술잔 · 무대 커튼</strong></div>
+        <div class="meta"><span>표면 조직</span><strong>유흥 · 공연 · 접객 산업</strong></div>
+        <div class="meta"><span>핵심 자산</span><strong>욕망 · 비밀 · 인간관계</strong></div>
+      </div>
+      <div class="faction-body">
+        <div class="pane">
+          <h4>조직의 정의</h4>
+          <p>홍련회는 인간의 욕망을 죄로 보지 않는다. 오히려 욕망을 숨기기 때문에 인간이 더 잔인해진다고 믿는다.</p>
+          <p>돈, 술, 아편, 사랑, 성, 명예, 관심. 모든 인간은 무엇인가를 원한다.</p>
+          <div class="quote">「욕망에는 신분이 없다」</div>
+        </div>
+        <div class="pane">
+          <h4>핵심 교리</h4>
+          <div class="doctrine">
+            <div>첫째. 욕망을 부끄러워하지 않는다.</div>
+            <div>둘째. 손님이 스스로 털어놓은 비밀은 훔친 것이 아니다.</div>
+            <div>셋째. 즐거움을 제공한 사람을 함부로 모욕하지 않는다.</div>
+            <div>넷째. 무대 위의 이름도 진짜 이름이다.</div>
+          </div>
+        </div>
+        <div class="pane full">
+          <h4>목적</h4>
+          <div class="goal-grid">
+            <div class="goal"><b>표면적 목적</b><p>공연·음악·유흥산업 운영, 예술가와 무희 후원, 상하이 밤문화 유지.</p></div>
+            <div class="goal"><b>실제 목적</b><p>권력자의 사생활과 비밀 확보, 인맥 구축, 정치·재계·외국인 사이의 비공식 협상 중개.</p></div>
+            <div class="goal"><b>궁극적 목적</b><p>누구도 자신의 욕망을 숨기기 위해 홍련회를 적으로 만들 수 없는 도시.</p></div>
+          </div>
+        </div>
+        <div class="pane">
+          <h4>연혁</h4>
+          <div class="timeline">
+            <div class="t-item"><div class="year">1909</div><div class="event"><b>홍화루 개업</b><span>여성 가희와 전직 기생들이 공동 운영한 작은 찻집.</span></div></div>
+            <div class="t-item"><div class="year">1914</div><div class="event"><b>홍련회 결성</b><span>공연자·접객인의 상호보호조합에서 출발.</span></div></div>
+            <div class="t-item"><div class="year">1919</div><div class="event"><b>첫 번째 붉은 규율</b><span>조직원 보호 규칙 제정, 무장 인력 보유.</span></div></div>
+            <div class="t-item"><div class="year">1923</div><div class="event"><b>아편 사업 진출</b><span>재정적 기반 급성장.</span></div></div>
+            <div class="t-item"><div class="year">1926</div><div class="event"><b>홍월궁 개관</b><span>상하이 최대 규모 카바레.</span></div></div>
+            <div class="t-item"><div class="year">1929</div><div class="event"><b>백화숙청</b><span>강제 인신매매를 하던 내부 간부 제거. 이후 공식 금지.</span></div></div>
+            <div class="t-item"><div class="year">1934</div><div class="event"><b>현재</b><span>상하이 고위층의 대표적 밤의 사교장으로 자리 잡는다.</span></div></div>
+          </div>
+        </div>
+        <div class="pane">
+          <h4>조직도</h4>
+          <div class="orgchart">
+            <div class="org-node"><b>회주 會主</b> · 최고 책임자</div>
+            <div class="arrow">↓</div>
+            <div class="org-branch">
+              <div class="org-node"><b>금화 金花</b><br>재정·도박</div>
+              <div class="org-node"><b>향화 香花</b><br>아편·주류</div>
+              <div class="org-node"><b>무화 舞花</b><br>카바레·공연</div>
+              <div class="org-node"><b>암화 暗花</b><br>정보·협박</div>
+            </div>
+            <div class="arrow">↓</div>
+            <div class="org-node"><b>홍패 紅牌</b> · 각 업소 책임자</div>
+            <div class="org-node"><b>연객 蓮客</b> · 가수·배우·무희·접객원·딜러</div>
+            <div class="org-node"><b>향사 香使</b> · 정보 연락책</div>
+          </div>
+        </div>
+        <div class="pane">
+          <h4>내부 문화</h4>
+          <p>다섯 조직 가운데 성별과 출신에 가장 관대하다. 무대 이름과 본명을 동등하게 취급한다.</p>
+          <div class="quote">욕망을 파는 것과 사람을 파는 것은 다르다.</div>
+        </div>
+        <div class="pane">
+          <h4>약점</h4>
+          <p>향락업과 고위층 고객 의존도가 높다. 대규모 단속과 스캔들에 취약하며, 조직원 사이의 유대가 강해 인질과 협박에 흔들릴 수 있다.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="faction green" id="green">
+      <div class="faction-top">
+        <div>
+          <div class="faction-kicker">GREEN · ROUTE</div>
+          <h3>녹등회 綠燈會<small>길은 누구의 것도 아니다</small></h3>
+        </div>
+        <div class="sigil">綠</div>
+      </div>
+      <div class="meta-grid">
+        <div class="meta"><span>대표색</span><strong>GREEN</strong></div>
+        <div class="meta"><span>상징</span><strong>녹색 항구등 · 밧줄 · 화물표 · 열쇠</strong></div>
+        <div class="meta"><span>표면 조직</span><strong>항만 · 운송 · 창고업</strong></div>
+        <div class="meta"><span>핵심 자산</span><strong>길 · 사람 · 물류</strong></div>
+      </div>
+      <div class="faction-body">
+        <div class="pane">
+          <h4>조직의 정의</h4>
+          <p>녹등회의 철학은 단순하다. 돈도, 사람도, 무기도, 정보도 움직인다. 그리고 모든 움직임에는 길이 필요하다.</p>
+          <div class="quote">「세상에서 움직이지 않는 것은 죽은 것뿐이다」</div>
+        </div>
+        <div class="pane">
+          <h4>핵심 교리</h4>
+          <div class="doctrine">
+            <div>첫째. 운반을 맡았으면 목적지까지 책임진다.</div>
+            <div>둘째. 화물의 내용을 함부로 묻지 않는다.</div>
+            <div>셋째. 의뢰인을 팔지 않는다.</div>
+            <div>넷째. 길을 막은 자는 길에서 제거한다.</div>
+          </div>
+        </div>
+        <div class="pane full">
+          <h4>목적</h4>
+          <div class="goal-grid">
+            <div class="goal"><b>표면적 목적</b><p>항만 노동자 보호, 창고·운송·선박 사업.</p></div>
+            <div class="goal"><b>실제 목적</b><p>밀수 자금과 물류망 장악, 암시장 통제, 밀항·신분세탁 사업.</p></div>
+            <div class="goal"><b>궁극적 목적</b><p>어떤 정부도 녹등회의 길을 완전히 닫을 수 없는 도시.</p></div>
+          </div>
+        </div>
+        <div class="pane">
+          <h4>연혁</h4>
+          <div class="timeline">
+            <div class="t-item"><div class="year">1896</div><div class="event"><b>부두노동계 조직</b><span>임금 체불에 대응하기 위한 상조회.</span></div></div>
+            <div class="t-item"><div class="year">1903</div><div class="event"><b>녹등의 시작</b><span>야간 안전창고 표식을 녹색 등으로 사용.</span></div></div>
+            <div class="t-item"><div class="year">1911</div><div class="event"><b>녹등회 공식 창설</b><span>항구 치안 붕괴 속 자체 경비대 보유.</span></div></div>
+            <div class="t-item"><div class="year">1916</div><div class="event"><b>첫 밀수선 운항</b><span>담배·술 밀수에서 시작.</span></div></div>
+            <div class="t-item"><div class="year">1922</div><div class="event"><b>암시장 통합</b><span>소규모 밀수조직 흡수.</span></div></div>
+            <div class="t-item"><div class="year">1928</div><div class="event"><b>칠부두 전쟁</b><span>동항 제7부두 장악.</span></div></div>
+            <div class="t-item"><div class="year">1932</div><div class="event"><b>대피선 사건</b><span>수천 명의 민간인을 비공식 선박으로 피신시켜 노동자층 지지 확보.</span></div></div>
+          </div>
+        </div>
+        <div class="pane">
+          <h4>조직도</h4>
+          <div class="orgchart">
+            <div class="org-node"><b>등주 燈主</b> · 최고 책임자</div>
+            <div class="arrow">↓</div>
+            <div class="org-branch">
+              <div class="org-node"><b>수로 水路</b><br>선박·밀항·해상밀수</div>
+              <div class="org-node"><b>육로 陸路</b><br>차량·인력거·육상운송</div>
+              <div class="org-node"><b>암로 暗路</b><br>암시장·은신처·신분세탁</div>
+            </div>
+            <div class="arrow">↓</div>
+            <div class="org-node"><b>창주 倉主</b> · 창고 책임자</div>
+            <div class="org-node"><b>선두 船頭</b> · 선박·선원 관리</div>
+            <div class="org-node"><b>등꾼</b> · 하역 노동자·운반책·연락책</div>
+          </div>
+        </div>
+        <div class="pane">
+          <h4>내부 규율</h4>
+          <p>운송 중 의뢰인을 배신하는 행위를 최중죄로 본다. 어린이 매매와 강제 인신매매는 오랜 금기로 금지한다.</p>
+          <p>다만 총기, 아편, 도난품, 위조화폐 등 대부분의 밀수품에는 느슨한 도덕 기준을 적용한다.</p>
+        </div>
+        <div class="pane">
+          <h4>약점</h4>
+          <p>분권적 구조로 인해 중앙통제가 약하다. 장기 항구 봉쇄와 대규모 검문에 가장 직접적인 피해를 입는다.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="faction blackgold" id="blackgold">
+      <div class="faction-top">
+        <div>
+          <div class="faction-kicker">BLACK / GOLD · LAW</div>
+          <h3>순무국 巡務局<small>도시는 법 아래 하나다</small></h3>
+        </div>
+        <div class="sigil">法</div>
+      </div>
+      <div class="meta-grid">
+        <div class="meta"><span>대표색</span><strong>BLACK / GOLD</strong></div>
+        <div class="meta"><span>상징</span><strong>황동 배지 · 검은 제복 · 붉은 관인 · 사건철</strong></div>
+        <div class="meta"><span>성격</span><strong>공식 공권력</strong></div>
+        <div class="meta"><span>핵심 자산</span><strong>법 · 체포권 · 기록 · 국가폭력</strong></div>
+      </div>
+      <div class="faction-body">
+        <div class="pane">
+          <h4>조직의 정의</h4>
+          <p>순무국은 자신을 다른 세력과 같은 선상에 놓지 않는다. 사적인 힘이 아니라 공적인 폭력을 행사할 권리를 가진 기관이라 믿는다.</p>
+          <div class="quote">법이 도시를 지키는가, 도시를 지키기 위해 법을 어겨도 되는가.</div>
+        </div>
+        <div class="pane">
+          <h4>공식 이념</h4>
+          <p><b>「도시는 법 아래 하나다」</b></p>
+          <p>개인의 신분과 소속에 관계없이 동일한 법을 적용한다는 원칙. 그러나 실제 상하이에서는 여러 권력과 사법권이 교차해 이상과 현실 사이의 균열이 크다.</p>
+        </div>
+        <div class="pane full">
+          <h4>목적</h4>
+          <div class="goal-grid">
+            <div class="goal"><b>공식 목적</b><p>치안 유지, 범죄 수사, 공공질서 보호.</p></div>
+            <div class="goal"><b>현실적 목적</b><p>범죄를 완전히 없애기보다 통제 가능한 수준으로 유지하고 세력 균형을 관리.</p></div>
+            <div class="goal"><b>강경파의 목적</b><p>청방·홍련회·녹등회를 해체하고 순무국이 유일한 질서가 되는 것.</p></div>
+          </div>
+        </div>
+        <div class="pane">
+          <h4>연혁</h4>
+          <div class="timeline">
+            <div class="t-item"><div class="year">1905</div><div class="event"><b>도시 순찰대 창설</b><span>각 구역 소규모 치안조직.</span></div></div>
+            <div class="t-item"><div class="year">1913</div><div class="event"><b>순무국 설립</b><span>수사권·체포권을 가진 정식 기관.</span></div></div>
+            <div class="t-item"><div class="year">1919</div><div class="event"><b>형사과 설치</b><span>조직범죄 전문 수사 시작.</span></div></div>
+            <div class="t-item"><div class="year">1924</div><div class="event"><b>특별수사과 설치</b><span>정치범·밀수·대형범죄 담당.</span></div></div>
+            <div class="t-item"><div class="year">1927</div><div class="event"><b>대숙청</b><span>대규모 체포 작전, 강경파 성장.</span></div></div>
+            <div class="t-item"><div class="year">1930</div><div class="event"><b>삼방협정</b><span>청방·홍련회·녹등회와 비공식 충돌 제한 협정.</span></div></div>
+            <div class="t-item"><div class="year">1934</div><div class="event"><b>현재</b><span>현실파와 강경파가 팽팽하게 대립한다.</span></div></div>
+          </div>
+        </div>
+        <div class="pane">
+          <h4>조직도</h4>
+          <div class="orgchart">
+            <div class="org-node"><b>국장 局長</b> · 최고 책임자</div>
+            <div class="arrow">↓</div>
+            <div class="org-node"><b>차장</b> · 행정·현장 지휘</div>
+            <div class="arrow">↓</div>
+            <div class="org-branch">
+              <div class="org-node"><b>형사과</b><br>살인·강도·일반범죄</div>
+              <div class="org-node"><b>특별수사과</b><br>조직범죄·정치·잠입</div>
+              <div class="org-node"><b>순찰과</b><br>거리 치안·검문</div>
+              <div class="org-node"><b>감찰과</b><br>내부 비리</div>
+              <div class="org-node"><b>문서과</b><br>통행증·영장·수사기록</div>
+              <div class="org-node"><b>유치과</b><br>구금시설 관리</div>
+            </div>
+          </div>
+        </div>
+        <div class="pane">
+          <h4>내부 파벌</h4>
+          <div class="doctrine">
+            <div><b>현실파</b> — 범죄는 없앨 수 없다. 관리해야 한다.</div>
+            <div><b>강경파</b> — 법 밖의 권력은 존재해서는 안 된다.</div>
+            <div><b>중립 관료파</b> — 승진과 생존이 우선이다.</div>
+          </div>
+        </div>
+        <div class="pane full">
+          <h4>약점</h4>
+          <p>가장 큰 약점은 부패보다 <b>분열</b>이다. 누가 범죄조직의 첩자인지, 누가 백사회 협력자인지, 누가 진짜 강경파인지 분간하기 어렵다. 국가의 권력을 가진 만큼 내부 붕괴 시 가장 위험한 조직이 된다.</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="faction white" id="white">
+      <div class="faction-top">
+        <div>
+          <div class="faction-kicker">WHITE · CONTROL</div>
+          <h3>백사회 白蛇會<small>혼란은 자유가 아니라 낭비다</small></h3>
+        </div>
+        <div class="sigil">蛇</div>
+      </div>
+      <div class="meta-grid">
+        <div class="meta"><span>대표색</span><strong>WHITE</strong></div>
+        <div class="meta"><span>상징</span><strong>흰 뱀 · 백색 봉투 · 은제 반지 · 비늘 문양</strong></div>
+        <div class="meta"><span>표면 조직</span><strong>없음</strong></div>
+        <div class="meta"><span>핵심 자산</span><strong>침투 · 자본 · 정치 · 공포</strong></div>
+      </div>
+      <div class="faction-body">
+        <div class="pane">
+          <h4>조직의 정의</h4>
+          <p>백사회는 공동체가 아니다. 조직원조차 서로의 얼굴을 모르는 경우가 많다.</p>
+          <div class="quote">그들에게 조직은 공동체가 아니다. 계획이다.</div>
+        </div>
+        <div class="pane">
+          <h4>핵심 교리</h4>
+          <div class="doctrine">
+            <div>첫째. 권력은 하나여야 한다.</div>
+            <div>둘째. 개인의 자유보다 질서가 우선한다.</div>
+            <div>셋째. 통제할 수 없는 세력은 제거한다.</div>
+            <div>넷째. 혼란은 새로운 질서를 만드는 가장 좋은 도구다.</div>
+          </div>
+        </div>
+        <div class="pane full">
+          <h4>목적</h4>
+          <div class="goal-grid">
+            <div class="goal"><b>단기 목표</b><p>청방·홍련회·녹등회·순무국 사이의 신뢰 파괴와 내부 협력자 침투.</p></div>
+            <div class="goal"><b>중기 목표</b><p>네 조직의 전쟁 유도, 지도부 제거, 자금과 정보망 흡수.</p></div>
+            <div class="goal"><b>최종 목표</b><p>언론·치안·항구·유흥·금융을 하나의 비밀 권력 아래 통합.</p></div>
+          </div>
+        </div>
+        <div class="pane">
+          <h4>연혁</h4>
+          <div class="timeline">
+            <div class="t-item"><div class="year">1920</div><div class="event"><b>백사계 창설</b><span>군인·금융가·관료의 비밀 사교모임.</span></div></div>
+            <div class="t-item"><div class="year">1924</div><div class="event"><b>백사회로 개칭</b><span>정치적 비밀결사로 변모.</span></div></div>
+            <div class="t-item"><div class="year">1927</div><div class="event"><b>첫 번째 침투</b><span>청방과 순무국 내부 협력자 확보.</span></div></div>
+            <div class="t-item"><div class="year">1929</div><div class="event"><b>백색 자금</b><span>외국 금융가·기업을 통한 비밀자금 확보.</span></div></div>
+            <div class="t-item"><div class="year">1931</div><div class="event"><b>무명계획</b><span>실명·전체 조직도 폐기, 점조직화.</span></div></div>
+            <div class="t-item"><div class="year">1932</div><div class="event"><b>사방계획 四方計劃</b><span>네 세력을 서로 충돌시키는 장기계획.</span></div></div>
+            <div class="t-item"><div class="year">1934</div><div class="event"><b>홍월계획</b><span>《홍월록》을 이용한 사방계획 실행.</span></div></div>
+          </div>
+        </div>
+        <div class="pane">
+          <h4>조직도</h4>
+          <div class="orgchart">
+            <div class="org-node"><b>백주 白主</b> · 존재 여부조차 불명확한 최고지도자</div>
+            <div class="arrow">↓</div>
+            <div class="org-branch">
+              <div class="org-node"><b>청린 靑鱗</b><br>언론·교육·정보기관</div>
+              <div class="org-node"><b>적린 赤鱗</b><br>유흥·사교·범죄세계</div>
+              <div class="org-node"><b>녹린 綠鱗</b><br>항만·군수·물류망</div>
+              <div class="org-node"><b>흑린 黑鱗</b><br>경찰·군·행정부</div>
+            </div>
+            <div class="arrow">↓</div>
+            <div class="org-node"><b>백자 白子</b> · 각 조직 내부의 잠입 협력자</div>
+          </div>
+        </div>
+        <div class="pane">
+          <h4>모집 방식</h4>
+          <p>야심 있는 관료, 승진에서 밀린 경찰, 후계자가 되지 못한 간부, 몰락한 귀족, 빚진 사업가처럼 <b>권력에서 배제된 사람의 불만</b>을 파고든다.</p>
+          <div class="quote">“당신이 실패한 것이 아니다. 현재의 질서가 잘못된 것이다.”</div>
+        </div>
+        <div class="pane">
+          <h4>내부 규율</h4>
+          <p>가족도 의리도 없다. 임무가 끝난 조직원은 버릴 수 있고, 잡힌 조직원은 구출하지 않는다. 정보가 새면 조직망 전체를 폐기한다.</p>
+        </div>
+        <div class="pane">
+          <h4>약점</h4>
+          <p>조직원들이 서로를 모른다는 점은 강점이자 약점이다. 명령체계가 끊기면 자율판단이 어렵고, 공동체 문화가 없어 공포와 이해관계가 사라지면 충성도 함께 사라진다.</p>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section id="relations">
+    <div class="section-head">
+      <div><div class="eyebrow">POWER RELATIONS</div><h2>세력 간 현재 관계 — 1934</h2></div>
+      <p>이들은 서로를 필요로 하면서도 동시에 서로의 존재를 가장 두려워한다.</p>
+    </div>
+    <div class="relations">
+      <div class="relation"><b>청방 ↔ 홍련회</b><span>공생 / 견제</span><p>홍련회가 비밀을 얻고 청방이 그것을 활용한다. 서로 필요한 만큼 서로의 정보량을 경계한다.</p></div>
+      <div class="relation"><b>청방 ↔ 녹등회</b><span>불신 / 거래</span><p>청방은 녹등회를 거친 세력으로, 녹등회는 청방을 피 묻히지 않는 위선자로 본다. 그러나 거래는 끊이지 않는다.</p></div>
+      <div class="relation"><b>홍련회 ↔ 녹등회</b><span>경제적 동맹</span><p>홍련회의 술, 아편, 사치품 상당수가 녹등회의 길을 통해 들어온다.</p></div>
+      <div class="relation"><b>순무국 ↔ 청방</b><span>정보 교환 / 정치적 긴장</span><p>수사에는 청방 정보가 필요하지만, 순무국은 청방의 여론조작 능력을 가장 경계한다.</p></div>
+      <div class="relation"><b>순무국 ↔ 홍련회</b><span>단속 / 접대 / 공생</span><p>낮에는 단속하고 밤에는 같은 테이블에 앉는다. 가장 위선적인 관계.</p></div>
+      <div class="relation"><b>순무국 ↔ 녹등회</b><span>추격 / 묵인</span><p>밀수선을 잡는 경찰과 그 경찰에게 돈을 건네는 녹등회가 동시에 존재한다.</p></div>
+      <div class="relation" style="grid-column:1/-1"><b>백사회 ↔ 전 세력</b><span>침투 / 분열 / 제거</span><p>백사회는 공개적으로 싸우지 않는다. 서로에게 거짓과 진실을 반쯤 섞어 흘리고, 네 조직이 서로를 죽일 때까지 기다린다.</p></div>
+    </div>
+  </section>
+
+  <section id="philosophy">
+    <div class="section-head">
+      <div><div class="eyebrow">FIVE IDEOLOGIES</div><h2>다섯 조직의 근본적인 대립</h2></div>
+      <p>사업 영역보다 더 깊은 충돌은 ‘도시를 어떻게 유지해야 하는가’에 대한 철학 차이다.</p>
+    </div>
+    <div class="philosophy">
+      <div class="ph blue"><strong>청방</strong><em>“사람은 자신이 아는 세계 안에서 살아간다. 그러니 정보를 관리해야 한다.”</em></div>
+      <div class="ph red"><strong>홍련회</strong><em>“사람을 움직이는 것은 법이 아니라 욕망이다. 욕망을 이해해야 한다.”</em></div>
+      <div class="ph green"><strong>녹등회</strong><em>“도시는 결국 먹고 움직여야 살아간다. 길을 가진 자가 도시를 살린다.”</em></div>
+      <div class="ph blackgold"><strong>순무국</strong><em>“사적인 권력은 언젠가 폭력이 된다. 결국 법이 통제해야 한다.”</em></div>
+      <div class="ph white"><strong>백사회</strong><em>“다섯 손이 도시 하나를 잡으려 하니 혼란이 생긴다. 손은 하나면 된다.”</em></div>
+    </div>
+  </section>
+
+  <section class="finale">
+    <div class="eyebrow">THE RED MOON LEDGER</div>
+    <h2>그리고 1934년, 균형이 깨진다.</h2>
+    <p>
+      오랜 시간 유지되던 네 세력의 균형에 처음으로 균열이 생긴다.
+      누군가가 너무 많은 비밀을 한곳에 모아두었기 때문이다.
+    </p>
+    <div class="ledger">《홍월록 紅月錄》</div>
+    <p>
+      장부 한 권이 사라진 순간, 상하이에서 가장 위험한 것은 총도 아편도 돈도 아니게 된다.
+      <br><br><strong>누가 누구를 믿느냐.</strong>
+      <br>그것이 도시 전체의 운명을 결정하게 된다.
+    </p>
+  </section>
+</main>
+
+<footer>
+  1934 上海 — 五權構圖 · Fictional Alternate-History Worldbuilding Page
+</footer>
+
+<button class="top-btn" id="topBtn" aria-label="맨 위로">↑</button>
+
+<script>
+  const topBtn = document.getElementById('topBtn');
+  window.addEventListener('scroll', () => {
+    topBtn.classList.toggle('show', window.scrollY > 700);
+  });
+  topBtn.addEventListener('click', () => {
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  const navLinks = [...document.querySelectorAll('.nav a')];
+  const sections = navLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        navLinks.forEach(a => a.style.color = '');
+        const target = navLinks.find(a => a.getAttribute('href') === '#' + entry.target.id);
+        if(target) target.style.color = '#f3eee4';
+      }
+    });
+  }, {rootMargin:'-45% 0px -50% 0px', threshold:0});
+
+  sections.forEach(section => observer.observe(section));
+</script>
+</body>
+</html>
