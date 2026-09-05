@@ -787,6 +787,26 @@ body{
   .volume-box input{width:100%}
 }
 
+
+/* ===== PC lock layout refinement ===== */
+@media (min-width:761px){
+  .lock-screen{
+    justify-content:flex-start !important;
+    padding-top:64px !important;
+    padding-bottom:34px !important;
+    gap:28px;
+  }
+  .lock-top{
+    margin-bottom:6px;
+  }
+  .lock-device{
+    margin-top:6px;
+  }
+  .swipe-zone{
+    margin-top:8px;
+  }
+}
+
 </style>
 </head>
 
@@ -1009,7 +1029,7 @@ body{
         </div>
       </div>
 
-      <audio id="centerAudio" preload="metadata" src="https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/Trio/Goodnight%2C%20Little%20Star.mp3"></audio>
+      <audio id="centerAudio" preload="metadata" src="https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/Trio/Goodnight%2C%20Little%20Star.mp3" autoplay></audio>
     </section>
 
     <section class="panel gallery">
@@ -1508,6 +1528,7 @@ function setSwipe(px){
   if(max>0 && x/max>.82) unlockDevice();
 }
 function unlockDevice(){
+  if(centerAudio && centerAudio.paused){ centerAudio.muted=false; centerAudio.play().catch(()=>{}); }
   dragging=false;
   swipeTrack.classList.remove('dragging');
   lockScreen.classList.add('unlocked');
@@ -1595,6 +1616,51 @@ musicVolume?.addEventListener('input',()=>{
   centerAudio.volume=Number(musicVolume.value);
 });
 centerAudio.volume=0.7;
+
+
+// ===== Autoplay on site entry =====
+let autoplaySucceeded = false;
+
+async function tryAutoplay(){
+  if(!centerAudio) return;
+  try{
+    centerAudio.muted = false;
+    centerAudio.volume = Number(musicVolume?.value ?? 0.7);
+    await centerAudio.play();
+    autoplaySucceeded = true;
+  }catch(err){
+    autoplaySucceeded = false;
+    console.warn('Audible autoplay blocked by browser. Will retry on first interaction.', err);
+  }
+}
+
+// Try immediately after DOM is ready
+window.addEventListener('DOMContentLoaded',()=>{
+  setTimeout(tryAutoplay, 120);
+});
+
+// Retry as soon as the browser receives any user gesture.
+// Once playback begins, listeners remove themselves.
+async function retryAutoplayOnGesture(){
+  if(autoplaySucceeded || !centerAudio?.paused) {
+    cleanupAutoplayRetry();
+    return;
+  }
+  try{
+    centerAudio.muted = false;
+    await centerAudio.play();
+    autoplaySucceeded = true;
+    cleanupAutoplayRetry();
+  }catch(e){}
+}
+function cleanupAutoplayRetry(){
+  ['pointerdown','touchstart','keydown','click'].forEach(ev=>{
+    window.removeEventListener(ev,retryAutoplayOnGesture,true);
+  });
+}
+['pointerdown','touchstart','keydown','click'].forEach(ev=>{
+  window.addEventListener(ev,retryAutoplayOnGesture,true);
+});
 
 </script>
 
