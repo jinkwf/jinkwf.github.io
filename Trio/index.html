@@ -900,11 +900,49 @@ body{
     min-height:52px !important;
   }
 }
-/* ===== PC 스와이프 바 위치 올리기 ===== */
-@media (min-width:761px){
-  .swipe-zone{
-    transform:translateY(-100px) !important;
-    margin-top:0 !important;
+/* ===== 잠금화면 위치 재정렬 ===== */
+
+/* PC */
+@media (min-width: 761px) {
+  .lock-screen {
+    justify-content: center !important;
+    gap: 22px !important;
+    padding: 32px 22px 70px !important;
+  }
+
+  .lock-top {
+    margin: 0 !important;
+  }
+
+  .lock-device {
+    margin: 0 !important;
+  }
+
+  .swipe-zone {
+    margin: 0 !important;
+    transform: none !important;
+  }
+}
+
+/* 모바일 */
+@media (max-width: 760px) {
+  .lock-screen {
+    justify-content: center !important;
+    gap: 20px !important;
+    padding: 24px 18px 80px !important;
+  }
+
+  .lock-top {
+    margin: 0 !important;
+  }
+
+  .lock-device {
+    margin: 0 !important;
+  }
+
+  .swipe-zone {
+    margin: 0 !important;
+    transform: none !important;
   }
 }
 </style>
