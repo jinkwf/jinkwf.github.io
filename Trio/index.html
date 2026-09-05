@@ -1,1 +1,670 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Esper Care Center — 90 Days</title>
+<style>
+:root{
+  --bg:#f4f6f8;
+  --panel:#ffffff;
+  --text:#22252a;
+  --muted:#747b86;
+  --line:#dfe4ea;
+  --dabi:#8fc9ff;
+  --eunwoo:#f2f2f2;
+  --eunho:#c8a7ff;
+  --accent:#39424e;
+  --danger:#e97474;
+  --good:#6bb98a;
+  --shadow:0 14px 34px rgba(31,39,51,.08);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter, Pretendard, "Noto Sans KR", system-ui, sans-serif;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(143,201,255,.16), transparent 24%),
+    radial-gradient(circle at 90% 0%, rgba(200,167,255,.14), transparent 24%),
+    var(--bg);
+  color:var(--text);
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.shell{
+  width:min(1180px, calc(100% - 28px));
+  margin:22px auto 48px;
+}
+.topbar{
+  display:flex; gap:14px; align-items:stretch; flex-wrap:wrap;
+  margin-bottom:14px;
+}
+.hero,.datebox{
+  background:rgba(255,255,255,.92);
+  border:1px solid var(--line);
+  border-radius:20px;
+  box-shadow:var(--shadow);
+}
+.hero{
+  flex:1 1 560px;
+  padding:22px 24px;
+  display:flex; justify-content:space-between; gap:18px; align-items:center;
+}
+.hero h1{margin:0 0 8px;font-size:clamp(24px,4vw,38px)}
+.hero p{margin:0;color:var(--muted);line-height:1.6}
+.count{
+  min-width:128px; text-align:center;
+  border-left:1px dashed var(--line); padding-left:18px;
+}
+.count strong{display:block;font-size:42px;line-height:1}
+.count span{font-size:12px;color:var(--muted)}
+.datebox{
+  flex:0 1 290px;padding:18px;
+}
+.datebox label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+.datebox input{width:100%;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#fff}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  gap:14px;
+}
+.panel{
+  background:rgba(255,255,255,.95);
+  border:1px solid var(--line);
+  border-radius:20px;
+  box-shadow:var(--shadow);
+}
+.characters{grid-column:span 8;padding:18px}
+.commands{grid-column:span 4;padding:18px}
+.log{grid-column:span 7;padding:18px}
+.output{grid-column:span 5;padding:18px}
+.panel h2{font-size:16px;margin:0 0 14px}
+.cards{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:12px;
+}
+.card{
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:14px;
+  min-width:0;
+}
+.card.dabi{background:linear-gradient(180deg,rgba(143,201,255,.16),#fff 42%)}
+.card.eunwoo{background:linear-gradient(180deg,rgba(240,240,240,.65),#fff 42%)}
+.card.eunho{background:linear-gradient(180deg,rgba(200,167,255,.16),#fff 42%)}
+.name{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}
+.name strong{font-size:17px}
+.badge{font-size:11px;border:1px solid var(--line);padding:4px 7px;border-radius:999px;background:#fff}
+.stat{margin:9px 0}
+.statline{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px;color:var(--muted)}
+.bar{height:7px;border-radius:999px;background:#edf0f3;overflow:hidden}
+.fill{height:100%;border-radius:inherit;background:var(--accent)}
+.meta{
+  margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);
+  display:grid;gap:6px;font-size:12px;
+}
+.meta span{color:var(--muted)}
+.command-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.cmd{
+  border:1px solid var(--line);
+  background:#fff;
+  border-radius:13px;
+  padding:12px 10px;
+  text-align:left;
+  transition:.15s ease;
+}
+.cmd:hover{transform:translateY(-1px);border-color:#bfc7d1}
+.cmd b{display:block;font-size:13px;margin-bottom:4px}
+.cmd small{color:var(--muted)}
+.cmd.primary{grid-column:1/-1;background:#252b33;color:#fff;border-color:#252b33}
+.cmd.primary small{color:#cbd0d6}
+.loglist{display:grid;gap:9px}
+.logitem{
+  display:grid;grid-template-columns:76px 1fr;gap:10px;
+  padding:11px 12px;border:1px solid var(--line);border-radius:13px;background:#fff;
+}
+.logitem time{font-size:11px;color:var(--muted)}
+.logitem p{margin:0;font-size:13px;line-height:1.5}
+.outputbox{
+  min-height:330px;
+  background:#20252c;
+  color:#e9edf1;
+  border-radius:16px;
+  padding:16px;
+  white-space:pre-wrap;
+  line-height:1.55;
+  font-family:"SFMono-Regular",Consolas,monospace;
+  font-size:12px;
+}
+.actions{
+  display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;
+}
+.smallbtn{
+  border:1px solid var(--line);background:#fff;border-radius:11px;padding:9px 11px;font-size:12px
+}
+.footer-note{
+  margin-top:14px;color:var(--muted);font-size:12px;text-align:center
+}
+.kicker{font-size:11px;letter-spacing:.12em;color:var(--muted);font-weight:700}
+@media(max-width:900px){
+  .characters,.commands,.log,.output{grid-column:1/-1}
+}
+@media(max-width:650px){
+  .cards{grid-template-columns:1fr}
+  .hero{align-items:flex-start}
+  .count{border-left:0;border-top:1px dashed var(--line);padding:14px 0 0;min-width:100%}
+  .hero{flex-wrap:wrap}
+}
 
+.gallery{grid-column:1/-1;padding:18px}
+.gallery-head{
+  display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap;margin-bottom:14px
+}
+.gallery-head p{margin:0;color:var(--muted);font-size:12px}
+.gallery-grid{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px
+}
+.gallery-card{
+  position:relative;border:1px solid var(--line);border-radius:16px;overflow:hidden;
+  background:#fff;padding:0;text-align:left;min-width:0
+}
+.gallery-card img{
+  width:100%;aspect-ratio:16/10;object-fit:cover;display:block;background:#eef1f4
+}
+.gallery-info{padding:11px 12px 12px}
+.gallery-info b{display:block;font-size:13px;margin-bottom:4px}
+.gallery-info span{font-size:11px;color:var(--muted)}
+.gallery-card::after{
+  content:"↗";position:absolute;right:10px;top:10px;width:28px;height:28px;border-radius:999px;
+  display:grid;place-items:center;background:rgba(255,255,255,.88);border:1px solid rgba(0,0,0,.08);
+  font-size:12px;color:#333
+}
+.lightbox{
+  position:fixed;inset:0;background:rgba(15,18,23,.84);display:none;align-items:center;justify-content:center;
+  padding:24px;z-index:9999
+}
+.lightbox.open{display:flex}
+.lightbox-inner{
+  width:min(1100px,96vw);max-height:92vh;background:#11161c;border:1px solid rgba(255,255,255,.15);
+  border-radius:18px;overflow:hidden;display:grid;grid-template-rows:minmax(0,1fr) auto
+}
+.lightbox-stage{position:relative;min-height:260px;display:grid;place-items:center;background:#0b0f14}
+.lightbox-stage img{max-width:100%;max-height:78vh;display:block;object-fit:contain}
+.lightbox-bar{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;color:#f0f3f6
+}
+.lightbox-bar small{color:#aeb6c0}
+.lb-actions{display:flex;gap:8px}
+.lb-btn{
+  width:42px;height:42px;border-radius:12px;border:1px solid rgba(255,255,255,.18);
+  background:#20262e;color:#fff
+}
+.lb-close{
+  position:absolute;right:12px;top:12px;z-index:2
+}
+@media(max-width:820px){.gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:540px){.gallery-grid{grid-template-columns:1fr}}
+
+
+/* --- dreamy glass layer --- */
+body{
+  cursor:none;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(143,201,255,.24), transparent 25%),
+    radial-gradient(circle at 92% 3%, rgba(200,167,255,.22), transparent 26%),
+    radial-gradient(circle at 50% 110%, rgba(255,226,132,.10), transparent 36%),
+    linear-gradient(180deg,#eef4f9 0%,#f7f8fb 46%,#eef2f7 100%);
+}
+.panel,.hero,.datebox{
+  background:linear-gradient(135deg,rgba(255,255,255,.72),rgba(255,255,255,.48));
+  border:1px solid rgba(255,255,255,.82);
+  box-shadow:
+    0 18px 45px rgba(36,47,61,.09),
+    0 0 26px rgba(143,201,255,.10),
+    inset 0 1px 0 rgba(255,255,255,.95);
+  -webkit-backdrop-filter:blur(18px) saturate(135%);
+  backdrop-filter:blur(18px) saturate(135%);
+}
+.card,.gallery-card,.cmd,.logitem{
+  box-shadow:0 8px 20px rgba(35,44,58,.055),0 0 0 rgba(143,201,255,0);
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease,filter .18s ease;
+}
+.card:hover,.gallery-card:hover,.cmd:hover{
+  border-color:rgba(143,201,255,.72);
+  box-shadow:0 12px 28px rgba(35,44,58,.085),0 0 22px rgba(143,201,255,.20),0 0 34px rgba(200,167,255,.11);
+}
+.hero h1,.panel h2{
+  text-shadow:0 0 18px rgba(143,201,255,.13);
+}
+.count strong{
+  text-shadow:0 0 20px rgba(143,201,255,.26),0 0 34px rgba(200,167,255,.14);
+}
+.outputbox{
+  border:1px solid rgba(143,201,255,.16);
+  box-shadow:inset 0 0 28px rgba(143,201,255,.035),0 0 22px rgba(143,201,255,.08);
+}
+/* tiny glass sheen */
+.panel,.hero,.datebox,.gallery-card{position:relative;overflow:hidden}
+.panel::before,.hero::before,.datebox::before{
+  content:"";position:absolute;inset:0 auto auto 0;width:46%;height:42%;pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.34),rgba(255,255,255,0));
+  border-radius:inherit;
+}
+/* floating duck layer */
+.duck-layer{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.duck{position:absolute;font-size:20px;opacity:.30;filter:drop-shadow(0 0 8px rgba(255,222,97,.35));animation:duckFloat var(--dur) ease-in-out infinite alternate;animation-delay:var(--delay)}
+@keyframes duckFloat{
+  from{transform:translate3d(0,10px,0) rotate(-5deg)}
+  to{transform:translate3d(var(--drift),-28px,0) rotate(7deg)}
+}
+.shell{position:relative;z-index:1}
+/* sparkly custom cursor */
+.spark-cursor{position:fixed;left:0;top:0;width:18px;height:18px;pointer-events:none;z-index:10001;transform:translate(-50%,-50%);display:none}
+.spark-cursor::before{content:"✦";position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:16px;text-shadow:0 0 5px #fff,0 0 10px rgba(143,201,255,.95),0 0 18px rgba(200,167,255,.78)}
+.cursor-star{position:fixed;pointer-events:none;z-index:10000;color:#fff;text-shadow:0 0 7px rgba(143,201,255,.9),0 0 12px rgba(200,167,255,.65);animation:starPop .62s ease-out forwards}
+@keyframes starPop{0%{opacity:.95;transform:translate(-50%,-50%) scale(.7) rotate(0)}100%{opacity:0;transform:translate(calc(-50% + var(--sx)),calc(-50% + var(--sy))) scale(.08) rotate(95deg)}}
+@media (hover:hover) and (pointer:fine){.spark-cursor{display:block}button,a,input,select{cursor:none}}
+@media (hover:none),(pointer:coarse){body,button,a,input,select{cursor:auto}.spark-cursor{display:none!important}}
+@media (prefers-reduced-motion:reduce){.duck{animation:none}.cursor-star{display:none}.card,.gallery-card,.cmd{transition:none}}
+
+</style>
+</head>
+<body>
+<div class="duck-layer" aria-hidden="true">
+  <span class="duck" style="left:4%;top:14%;--dur:8s;--delay:-1s;--drift:18px">🐥</span>
+  <span class="duck" style="left:15%;top:72%;--dur:10s;--delay:-5s;--drift:-14px">🐤</span>
+  <span class="duck" style="left:31%;top:9%;--dur:9s;--delay:-3s;--drift:22px">🐥</span>
+  <span class="duck" style="left:48%;top:84%;--dur:11s;--delay:-7s;--drift:-20px">🐤</span>
+  <span class="duck" style="left:67%;top:18%;--dur:8.5s;--delay:-4s;--drift:16px">🐥</span>
+  <span class="duck" style="left:82%;top:68%;--dur:10.5s;--delay:-2s;--drift:-16px">🐤</span>
+  <span class="duck" style="left:94%;top:30%;--dur:9.5s;--delay:-6s;--drift:12px">🐥</span>
+</div>
+<div class="spark-cursor" id="sparkCursor" aria-hidden="true"></div>
+
+<div class="shell">
+  <div class="topbar">
+    <section class="hero">
+      <div>
+        <div class="kicker">MINOR ESPER SHARED-LIVING PROGRAM</div>
+        <h1>90일 공동생활 관찰실</h1>
+        <p>세 명의 S급 미성년 에스퍼가 능력 제어와 일상 복귀를 배우는 동안, 전담 가이드가 기록하는 생활 보조 대시보드.</p>
+      </div>
+      <div class="count">
+        <strong id="dCount">D-90</strong>
+        <span>종료평가까지</span>
+      </div>
+    </section>
+    <aside class="datebox">
+      <label for="storyDate">작중 날짜</label>
+      <input id="storyDate" type="date" value="2051-08-30" />
+      <label for="dayIndex" style="margin-top:10px">경과 일수</label>
+      <input id="dayIndex" type="number" min="0" max="90" value="0" />
+    </aside>
+  </div>
+
+  <div class="grid">
+    <section class="panel characters">
+      <h2>👦 오늘의 세 아이</h2>
+      <div class="cards">
+        <article class="card dabi">
+          <div class="name"><strong>💙 연다비</strong><span class="badge">염력 · S급</span></div>
+          <div class="stat"><div class="statline"><span>신뢰도</span><b>18</b></div><div class="bar"><div class="fill" style="width:18%;background:var(--dabi)"></div></div></div>
+          <div class="stat"><div class="statline"><span>정서안정</span><b>42</b></div><div class="bar"><div class="fill" style="width:42%;background:var(--dabi)"></div></div></div>
+          <div class="stat"><div class="statline"><span>폭주위험</span><b>31%</b></div><div class="bar"><div class="fill" style="width:31%;background:var(--danger)"></div></div></div>
+          <div class="meta"><div><span>현재:</span> 창가 근처</div><div><span>기분:</span> 귀찮음 + 경계</div><div><span>최근:</span> 쌍둥이 거짓말 1회 폭로</div></div>
+        </article>
+
+        <article class="card eunwoo">
+          <div class="name"><strong>🤍 하은우</strong><span class="badge">거울복사 · S급</span></div>
+          <div class="stat"><div class="statline"><span>책임감</span><b>36</b></div><div class="bar"><div class="fill" style="width:36%;background:#c8ccd2"></div></div></div>
+          <div class="stat"><div class="statline"><span>능력통제</span><b>58</b></div><div class="bar"><div class="fill" style="width:58%;background:#aeb5be"></div></div></div>
+          <div class="stat"><div class="statline"><span>폭주위험</span><b>14%</b></div><div class="bar"><div class="fill" style="width:14%;background:var(--danger)"></div></div></div>
+          <div class="meta"><div><span>현재:</span> 거실 소파</div><div><span>기분:</span> 태연한 척 신남</div><div><span>최근:</span> 복제 탁자 3개 생성</div></div>
+        </article>
+
+        <article class="card eunho">
+          <div class="name"><strong>💜 하은호</strong><span class="badge">거울파괴 · S급</span></div>
+          <div class="stat"><div class="statline"><span>멈출시점</span><b>29</b></div><div class="bar"><div class="fill" style="width:29%;background:var(--eunho)"></div></div></div>
+          <div class="stat"><div class="statline"><span>능력통제</span><b>51</b></div><div class="bar"><div class="fill" style="width:51%;background:var(--eunho)"></div></div></div>
+          <div class="stat"><div class="statline"><span>폭주위험</span><b>16%</b></div><div class="bar"><div class="fill" style="width:16%;background:var(--danger)"></div></div></div>
+          <div class="meta"><div><span>현재:</span> 간식장 앞</div><div><span>기분:</span> 들뜸</div><div><span>최근:</span> 과자 봉지 은닉 시도</div></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel commands">
+      <h2>⌨️ 센터 명령어</h2>
+      <div class="command-grid">
+        <button class="cmd primary" data-cmd="what"><b>🎮 !뭐하지</b><small>현재 흐름에 맞는 다음 행동 추천</small></button>
+        <button class="cmd" data-cmd="status"><b>📊 !상태창</b><small>세 아이 상태</small></button>
+        <button class="cmd" data-cmd="journal"><b>📔 !육아일지</b><small>오늘의 성장기록</small></button>
+        <button class="cmd" data-cmd="ability"><b>✨ !능력개화</b><small>에스퍼 자질 분석</small></button>
+        <button class="cmd" data-cmd="complaint"><b>🛠️ !민원</b><small>생활관리 민원서</small></button>
+        <button class="cmd" data-cmd="culprit"><b>🔎 !범인</b><small>최근 사고 추리</small></button>
+        <button class="cmd" data-cmd="community"><b>🌐 !커뮤</b><small>센터 내부 게시판</small></button>
+      </div>
+    </section>
+
+    <section class="panel log">
+      <h2>🗓️ 오늘의 생활 로그</h2>
+      <div class="loglist" id="logList">
+        <div class="logitem"><time>08:10</time><p>은호가 양말 한 짝을 못 찾아 은우 가방까지 뒤짐. 은우는 자기 것이 아니라며 억울해함.</p></div>
+        <div class="logitem"><time>12:40</time><p>다비가 점심시간 소음을 피해 창가 자리로 이동. 은호가 따라갔다가 한 번 밀려남.</p></div>
+        <div class="logitem"><time>14:05</time><p>거실에서 복제 탁자와 깨진 손거울 발견. 관련자 3명 모두 서로 다른 진술 중.</p></div>
+      </div>
+      <div class="actions">
+        <button class="smallbtn" id="addLog">+ 작은 사건 추가</button>
+        <button class="smallbtn" id="clearLog">로그 초기화</button>
+      </div>
+    </section>
+
+    <section class="panel output">
+      <h2>🖥️ 출력</h2>
+      <div class="outputbox" id="outputBox">명령어를 선택하면 이곳에 센터 기록이 표시됩니다.
+
+추천: 🎮 !뭐하지</div>
+      <div class="actions">
+        <button class="smallbtn" id="randomMood">오늘 기분 섞기</button>
+        <button class="smallbtn" id="nextDay">다음 날로</button>
+      </div>
+    </section>
+
+    <section class="panel gallery">
+      <div class="gallery-head">
+        <div>
+          <h2 style="margin-bottom:5px">🖼️ 생활 기록 갤러리</h2>
+          <p>공동생활 중 남은 장면 기록 · 클릭하면 크게 볼 수 있어요.</p>
+        </div>
+        <span class="badge">6 ARCHIVES</span>
+      </div>
+      <div class="gallery-grid">
+        
+        <button class="gallery-card" type="button" data-gallery-src="https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/Trio/%EC%9D%80%EC%9A%B0%EC%9D%80%ED%98%B8_%EB%93%B1%EA%B5%90%EC%A4%80%EB%B9%84.png" data-gallery-title="등교 준비" data-gallery-sub="은우·은호">
+          <img src="https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/Trio/%EC%9D%80%EC%9A%B0%EC%9D%80%ED%98%B8_%EB%93%B1%EA%B5%90%EC%A4%80%EB%B9%84.png" alt="등교 준비" loading="lazy">
+          <span class="gallery-info"><b>등교 준비</b><span>은우·은호</span></span>
+        </button>
+        <button class="gallery-card" type="button" data-gallery-src="https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/Trio/%EC%9D%80%EC%9A%B0%EC%9D%80%ED%98%B8%EB%8B%A4%EB%B9%84_%20%EB%82%AE%2C%20%EC%9E%A5%EB%82%9C%2C%EC%82%AC%EA%B3%A0.png" data-gallery-title="장난치는 모습" data-gallery-sub="다비·은우·은호">
+          <img src="https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/Trio/%EC%9D%80%EC%9A%B0%EC%9D%80%ED%98%B8%EB%8B%A4%EB%B9%84_%20%EB%82%AE%2C%20%EC%9E%A5%EB%82%9C%2C%EC%82%AC%EA%B3%A0.png" alt="장난치는 모습" loading="lazy">
+          <span class="gallery-info"><b>장난치는 모습</b><span>다비·은우·은호</span></span>
+        </button>
+        <button class="gallery-card" type="button" data-gallery-src="https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/Trio/%EC%9D%80%EC%9A%B0%EC%9D%80%ED%98%B8%EB%8B%A4%EB%B9%84_%20%EC%88%99%EC%86%8C%2C%20%EA%B8%B0%EB%8B%A4%EB%A6%BC.png" data-gallery-title="숙소에서 기다리는 모습" data-gallery-sub="다비·은우·은호">
+          <img src="https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/Trio/%EC%9D%80%EC%9A%B0%EC%9D%80%ED%98%B8%EB%8B%A4%EB%B9%84_%20%EC%88%99%EC%86%8C%2C%20%EA%B8%B0%EB%8B%A4%EB%A6%BC.png" alt="숙소에서 기다리는 모습" loading="lazy">
+          <span class="gallery-info"><b>숙소에서 기다리는 모습</b><span>다비·은우·은호</span></span>
+        </button>
+        <button class="gallery-card" type="button" data-gallery-src="https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/Trio/%EC%9D%80%EC%9A%B0%EC%9D%80%ED%98%B8%EB%8B%A4%EB%B9%84_%20%ED%95%99%EA%B5%90%2C%EB%B3%B5%EB%8F%84.png" data-gallery-title="학교 복도" data-gallery-sub="다비·은우·은호">
+          <img src="https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/Trio/%EC%9D%80%EC%9A%B0%EC%9D%80%ED%98%B8%EB%8B%A4%EB%B9%84_%20%ED%95%99%EA%B5%90%2C%EB%B3%B5%EB%8F%84.png" alt="학교 복도" loading="lazy">
+          <span class="gallery-info"><b>학교 복도</b><span>다비·은우·은호</span></span>
+        </button>
+        <button class="gallery-card" type="button" data-gallery-src="https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/Trio/%EC%9D%80%EC%9A%B0%EC%9D%80%ED%98%B8%EB%8B%A4%EB%B9%84_%EA%B2%8C%EC%9D%B4%ED%8A%B8%2C%20%ED%9B%88%EB%A0%A8.png" data-gallery-title="게이트 훈련" data-gallery-sub="다비·은우·은호">
+          <img src="https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/Trio/%EC%9D%80%EC%9A%B0%EC%9D%80%ED%98%B8%EB%8B%A4%EB%B9%84_%EA%B2%8C%EC%9D%B4%ED%8A%B8%2C%20%ED%9B%88%EB%A0%A8.png" alt="게이트 훈련" loading="lazy">
+          <span class="gallery-info"><b>게이트 훈련</b><span>다비·은우·은호</span></span>
+        </button>
+        <button class="gallery-card" type="button" data-gallery-src="https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/Trio/%EC%9D%80%EC%9A%B0%EC%9D%80%ED%98%B8%EB%8B%A4%EB%B9%84_%EC%88%99%EB%A9%B4%20%282%29.png" data-gallery-title="숙면하는 모습" data-gallery-sub="다비·은우·은호">
+          <img src="https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/Trio/%EC%9D%80%EC%9A%B0%EC%9D%80%ED%98%B8%EB%8B%A4%EB%B9%84_%EC%88%99%EB%A9%B4%20%282%29.png" alt="숙면하는 모습" loading="lazy">
+          <span class="gallery-info"><b>숙면하는 모습</b><span>다비·은우·은호</span></span>
+        </button>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="footer-note">센터 내부용 · 미성년 에스퍼 공동생활 프로그램</div>
+</div>
+
+
+<div class="lightbox" id="galleryLightbox" aria-hidden="true">
+  <div class="lightbox-inner" role="dialog" aria-modal="true" aria-label="갤러리 이미지 확대">
+    <div class="lightbox-stage">
+      <button class="lb-btn lb-close" id="lbClose" type="button" aria-label="닫기">✕</button>
+      <img id="lbImage" src="" alt="">
+    </div>
+    <div class="lightbox-bar">
+      <div><b id="lbTitle">장면</b><br><small id="lbSub"></small></div>
+      <div class="lb-actions">
+        <button class="lb-btn" id="lbPrev" type="button" aria-label="이전 이미지">←</button>
+        <button class="lb-btn" id="lbNext" type="button" aria-label="다음 이미지">→</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const output = document.getElementById('outputBox');
+const dayIndex = document.getElementById('dayIndex');
+const dCount = document.getElementById('dCount');
+const storyDate = document.getElementById('storyDate');
+const logList = document.getElementById('logList');
+
+function clampDay(v){ return Math.max(0, Math.min(90, Number(v)||0)); }
+function updateD(){
+  const n = clampDay(dayIndex.value);
+  dayIndex.value = n;
+  dCount.textContent = 'D-' + (90 - n);
+}
+dayIndex.addEventListener('input', updateD);
+
+function formatDate(d){
+  const y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,'0'), da=String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${da}`;
+}
+document.getElementById('nextDay').addEventListener('click',()=>{
+  const n = clampDay(Number(dayIndex.value)+1);
+  dayIndex.value = n; updateD();
+  const [y,m,d] = storyDate.value.split('-').map(Number);
+  const dt = new Date(y,m-1,d); dt.setDate(dt.getDate()+1);
+  storyDate.value = formatDate(dt);
+  output.textContent = `[DAY UPDATE]\\n작중 날짜가 하루 경과했습니다.\\n현재: D-${90-n}\\n\\n전날의 미해결 사건은 필요한 범위에서 다음 날 생활에 반영됩니다.`;
+});
+
+const templates = {
+  what: `🎮 다음 행동 추천
+
+① 거실 사고 흔적을 그대로 둔 채 셋의 설명부터 각각 들어본다.
+② 오늘 오후 훈련 전, 복제·파괴 능력 사용 규칙을 짧게 다시 확인한다.
+③ 사건을 바로 추궁하지 않고 간식이나 휴식 시간을 주며 셋의 자연스러운 반응을 지켜본다.
+
+※ 추천은 예시이며 원하는 행동을 자유롭게 선택할 수 있음.`,
+  status: `╭─ 세 아이 현재 상태 ─╮
+💙 연다비
+🩺건강: 정상 / 🔋피로: 28 / ⚠️폭주: 31%
+🤝신뢰: 18 / 🫧정서안정: 42
+💭현재정서: 귀찮음과 경계가 섞여 있음.
+🍬현재욕구: 조용한 공간
+📌특이사항: 소음이 길어지면 염력 흔들림 증가
+
+🤍 하은우
+🩺건강: 정상 / 🔋피로: 21 / ⚠️폭주: 14%
+🧭책임감: 36 / ✨능력통제: 58
+💭현재정서: 사고가 들킬까 신경 쓰이지만 태연한 척함.
+🍬현재욕구: 관심을 잃지 않기
+
+💜 하은호
+🩺건강: 정상 / 🔋피로: 24 / ⚠️폭주: 16%
+🧭멈출시점: 29 / ✨능력통제: 51
+💭현재정서: 들뜸과 억울함이 빠르게 오감.
+🍬현재욕구: 간식 + 놀기
+╰────────────────╯`,
+  journal: `📔 오늘의 성장 기록
+
+🩵 연다비
+📝 관찰내용: 시끄러운 상황에서도 바로 방을 떠나지 않고 거실에 남아 있었음.
+📈 변화지표: 신뢰도 +1
+🌱 새로보인변화: 쌍둥이의 장난을 완전히 무시하지 않고 반응함.
+
+🤍 하은우
+📝 관찰내용: 거울 복제 장난 후 책임을 은호에게 넘기려다 바로 들킴.
+📈 변화지표: 책임감 변화 없음
+🌱 새로보인변화: 변명이 막히면 말이 많아지는 패턴 확인.
+
+💜 하은호
+📝 관찰내용: 파괴 후 바로 도망가지 않고 현장에 남음.
+📈 변화지표: 능력통제 +1
+🌱 새로보인변화: 사고 직후 상대 반응을 확인하는 시간이 조금 길어짐.`,
+  ability: `✨ 에스퍼 자질 분석
+
+💙 연다비
+⚡현재자질: 정밀 염동 유지력 양호
+🔗가이딩동기화: 관찰 단계
+⚠️특이사항: 소음·폐쇄감에서 출력 흔들림
+🌱개화징후: 다중 물체 제어 안정화 가능성
+
+🤍 하은우
+⚡현재자질: 다중 거울 복제 속도 상승
+🔗가이딩동기화: 안정적
+⚠️특이사항: 장난 목적 사용 빈도 높음
+🌱개화징후: 복제 크기·위치 정밀도 상승 가능성
+
+💜 하은호
+⚡현재자질: 근거리 파괴 집중도 우수
+🔗가이딩동기화: 안정적
+⚠️특이사항: 흥분 시 연속 사용
+🌱개화징후: 파괴 범위 선택성 향상 가능성`,
+  complaint: `╭─ 🛠️ 센터 생활관리 민원서 ─╮
+📅 날짜: ${storyDate.value}
+🕒 시간: 14:20
+📂 항목: 생활동 기물 파손
+👦 관련아이: 하은우 / 하은호
+💸 피해금액: 128,000원
+📝 민원내용: 복제 탁자 3개와 손거울 파손으로 통행 불편 및 청소 요청.
+🙋 민원자: 생활동 청소 담당자
+🧑‍💼 민원담당자: 생활관리팀 오지현
+⚠️ 주의사항: 능력 사용 전 주변 안전 확인
+💭 민원자속마음: "또 얘들이구나."
+📎 담당자속마음: "이번엔 누가 먼저였을까."
+╰────────────────╯`,
+  culprit: `╭─ 🔎 범인추적 ─╮
+📂사건: 생활동 거실 거울 파손
+🧩증거: CCTV 일부 / 복제 흔적 / 파편 분포
+
+💙다비 15% / 현장 체류, 염력 흔적 일부
+🤍은우 72% / 복제 거울 생성 흔적, "몇 개만 만들었다" 주장
+💜은호 84% / 파괴 흔적 일치, "형이 먼저 만들었다" 주장
+
+🗯️각자의주장:
+다비: "나 안 했어."
+은우: "깨라고는 안 했거든요."
+은호: "형이 계속 만들었어요!"
+
+🎯최유력: 하은호
+❓미해결: 최초 제안자가 누구였는지 확인 필요
+╰────────────────╯`,
+  community: `[🌐 센터 내부 게시판]
+
+제목: [목격] 생활동 3층 오늘도 조용할 생각 없는 듯
+작성자: 퇴근하고싶다
+
+내용:
+14시쯤 거실 지나가는데 똑같은 탁자가 세 개 있었음.
+그 옆에 파란머리 애가 표정 썩어있고 쌍둥이는 서로 탓하는 중.
+새 전담 가이드 배정됐다던데 진짜 고생 시작인 듯.
+
+댓글(8)
+ㄴ 거울싫어함: 탁자 세 개면 은우인가
+ㄴ 오늘도야근: 깨졌으면 은호도 있음
+ㄴ 급식2팀: 다비는 왜 항상 현장에 있냐ㅋㅋ
+ㄴ 야간반: 안 끼려고 해도 결국 끼더라
+ㄴ 센터개미: 전담 가이드 첫날이면 도망갈 법한데
+ㄴ 7층창가: 추측 ㄴㄴ 아직 첫날임
+ㄴ 복도청소: 파편만 제발 치워줘
+ㄴ 익명427: 내일 민원 올라온다에 한 표`
+};
+
+document.querySelectorAll('[data-cmd]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const key = btn.dataset.cmd;
+    output.textContent = templates[key].replace('${storyDate.value}', storyDate.value);
+  });
+});
+
+const smallEvents = [
+  "은호가 냉장고 문을 너무 오래 열어두다 생활지도사에게 걸림.",
+  "은우가 숙제를 다 했다고 주장했지만 마지막 장이 비어 있음.",
+  "다비가 소파 끝자리에 앉아 있다가 아무 말 없이 세 번째 과자를 집어감.",
+  "쌍둥이가 서로 옷을 바꿔 입고 누구인지 맞혀보라며 버팀.",
+  "훈련실 거울 한 장이 예상보다 크게 복제되어 통로를 막음."
+];
+document.getElementById('addLog').addEventListener('click',()=>{
+  const idx = Math.floor(Math.random()*smallEvents.length);
+  const div = document.createElement('div');
+  div.className='logitem';
+  div.innerHTML = `<time>추가</time><p>${smallEvents[idx]}</p>`;
+  logList.appendChild(div);
+});
+document.getElementById('clearLog').addEventListener('click',()=>{ logList.innerHTML=''; });
+
+const moods = [
+  ["귀찮음","태연한 척 신남","간식 생각뿐"],
+  ["조용함","억울함","들뜸"],
+  ["경계","칭찬받고 싶음","심심함"],
+  ["무심한 척 신경씀","장난칠 궁리","게임하고 싶음"]
+];
+document.getElementById('randomMood').addEventListener('click',()=>{
+  const m = moods[Math.floor(Math.random()*moods.length)];
+  const cards = document.querySelectorAll('.card .meta');
+  cards[0].children[1].innerHTML = `<span>기분:</span> ${m[0]}`;
+  cards[1].children[1].innerHTML = `<span>기분:</span> ${m[1]}`;
+  cards[2].children[1].innerHTML = `<span>기분:</span> ${m[2]}`;
+  output.textContent = `오늘 기분이 갱신되었습니다.\\n💙 다비: ${m[0]}\\n🤍 은우: ${m[1]}\\n💜 은호: ${m[2]}`;
+});
+
+updateD();
+
+const galleryCards = [...document.querySelectorAll('.gallery-card')];
+const galleryLightbox = document.getElementById('galleryLightbox');
+const lbImage = document.getElementById('lbImage');
+const lbTitle = document.getElementById('lbTitle');
+const lbSub = document.getElementById('lbSub');
+let galleryIndex = 0;
+
+function showGallery(index){
+  if(!galleryCards.length) return;
+  galleryIndex = (index + galleryCards.length) % galleryCards.length;
+  const card = galleryCards[galleryIndex];
+  lbImage.src = card.dataset.gallerySrc;
+  lbImage.alt = card.dataset.galleryTitle;
+  lbTitle.textContent = card.dataset.galleryTitle;
+  lbSub.textContent = card.dataset.gallerySub;
+  galleryLightbox.classList.add('open');
+  galleryLightbox.setAttribute('aria-hidden','false');
+}
+function closeGallery(){
+  galleryLightbox.classList.remove('open');
+  galleryLightbox.setAttribute('aria-hidden','true');
+}
+galleryCards.forEach((card,i)=>card.addEventListener('click',()=>showGallery(i)));
+document.getElementById('lbClose').addEventListener('click',closeGallery);
+document.getElementById('lbPrev').addEventListener('click',()=>showGallery(galleryIndex-1));
+document.getElementById('lbNext').addEventListener('click',()=>showGallery(galleryIndex+1));
+galleryLightbox.addEventListener('click',(e)=>{ if(e.target===galleryLightbox) closeGallery(); });
+document.addEventListener('keydown',(e)=>{
+  if(!galleryLightbox.classList.contains('open')) return;
+  if(e.key==='Escape') closeGallery();
+  if(e.key==='ArrowLeft') showGallery(galleryIndex-1);
+  if(e.key==='ArrowRight') showGallery(galleryIndex+1);
+});
+
+
+// dreamy spark cursor
+const sparkCursor = document.getElementById('sparkCursor');
+let lastSpark = 0;
+window.addEventListener('pointermove',(e)=>{
+  if(!sparkCursor || !matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+  sparkCursor.style.left = e.clientX+'px';
+  sparkCursor.style.top = e.clientY+'px';
+  const now = performance.now();
+  if(now-lastSpark > 55){
+    lastSpark = now;
+    const s=document.createElement('span');
+    s.className='cursor-star';
+    s.textContent=Math.random()>.5?'✦':'·';
+    s.style.left=e.clientX+'px'; s.style.top=e.clientY+'px';
+    s.style.fontSize=(8+Math.random()*7)+'px';
+    s.style.setProperty('--sx',((Math.random()-.5)*26)+'px');
+    s.style.setProperty('--sy',((Math.random()-.5)*28+8)+'px');
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),700);
+  }
+});
+
+</script>
+</body>
+</html>
