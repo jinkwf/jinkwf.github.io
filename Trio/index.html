@@ -266,9 +266,596 @@ body{
 @media (hover:none),(pointer:coarse){body,button,a,input,select{cursor:auto}.spark-cursor{display:none!important}}
 @media (prefers-reduced-motion:reduce){.duck{animation:none}.cursor-star{display:none}.card,.gallery-card,.cmd{transition:none}}
 
+
+/* ===== Interactive Talk / mobile refinement ===== */
+.output h2{display:flex;align-items:center;gap:8px}
+.output h2::before{content:"💬"}
+.talk-wrap{
+  border:1px solid rgba(255,255,255,.28);
+  background:linear-gradient(180deg,rgba(197,222,238,.82),rgba(224,235,243,.9));
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55);
+}
+.talk-head{
+  padding:11px 14px;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:rgba(255,255,255,.44);
+  border-bottom:1px solid rgba(120,140,160,.16);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+}
+.talk-head b{font-size:13px}
+.talk-head small{font-size:10px;color:var(--muted)}
+.chatbox{
+  height:420px;
+  overflow-y:auto;
+  padding:14px 12px 18px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  scroll-behavior:smooth;
+}
+.msg-row{
+  display:flex;
+  align-items:flex-end;
+  gap:8px;
+  width:100%;
+}
+.msg-row.user{justify-content:flex-end}
+.avatar{
+  flex:0 0 34px;
+  width:34px;height:34px;
+  border-radius:50%;
+  display:grid;place-items:center;
+  background:rgba(255,255,255,.82);
+  border:1px solid rgba(0,0,0,.06);
+  box-shadow:0 4px 12px rgba(0,0,0,.06);
+  font-size:17px;
+}
+.msg-col{max-width:min(78%,480px)}
+.msg-name{font-size:10px;color:#5e6975;margin:0 0 4px 3px}
+.bubble{
+  position:relative;
+  border-radius:15px;
+  padding:10px 12px;
+  line-height:1.5;
+  font-size:13px;
+  word-break:keep-all;
+  overflow-wrap:anywhere;
+  box-shadow:0 3px 10px rgba(38,48,59,.06);
+}
+.msg-row:not(.user) .bubble{
+  background:#fff;
+  color:#23272c;
+  border-top-left-radius:5px;
+}
+.msg-row.user .bubble{
+  background:#ffe65d;
+  color:#242424;
+  border-top-right-radius:5px;
+}
+.msg-time{
+  font-size:9px;color:#7f8994;margin:0 4px 2px;white-space:nowrap
+}
+.talk-compose{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:8px;
+  padding:10px;
+  background:rgba(255,255,255,.76);
+  border-top:1px solid rgba(120,140,160,.14);
+}
+.talk-compose textarea{
+  width:100%;
+  resize:none;
+  min-height:42px;
+  max-height:110px;
+  border:1px solid rgba(95,110,125,.16);
+  border-radius:13px;
+  padding:10px 12px;
+  outline:none;
+  background:#fff;
+  color:var(--text);
+}
+.talk-compose textarea:focus{border-color:rgba(120,160,210,.55);box-shadow:0 0 0 3px rgba(143,201,255,.12)}
+.send-btn{
+  border:0;
+  border-radius:12px;
+  padding:0 16px;
+  background:#ffe65d;
+  color:#282828;
+  font-weight:800;
+  min-width:68px;
+}
+.command-replies{
+  display:grid;gap:7px;margin-top:10px
+}
+.gallery-card img{
+  width:100% !important;
+  aspect-ratio:1/1 !important;
+  object-fit:contain !important;
+  object-position:center !important;
+  padding:6px;
+  background:rgba(249,250,252,.92);
+}
+.gallery-grid{align-items:stretch}
+.gallery-card{height:100%}
+.gallery-info{background:rgba(255,255,255,.8)}
+.datebox .sync-note{
+  display:block;margin-top:8px;font-size:10px;color:var(--muted);line-height:1.4
+}
+@media(max-width:900px){
+  .chatbox{height:390px}
+}
+@media(max-width:650px){
+  .shell{width:min(100% - 16px,1180px);margin-top:10px}
+  .panel,.hero,.datebox{border-radius:16px}
+  .characters,.commands,.log,.output,.gallery{padding:13px}
+  .command-grid{grid-template-columns:1fr 1fr}
+  .cmd{padding:10px 9px}
+  .cmd b{font-size:12px}
+  .cmd small{font-size:10px}
+  .chatbox{height:52vh;min-height:330px;padding:12px 9px}
+  .msg-col{max-width:82%}
+  .bubble{font-size:12.5px}
+  .talk-compose{grid-template-columns:1fr auto;padding:8px}
+  .talk-compose textarea{font-size:16px} /* iOS zoom prevention */
+  .gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:8px}
+  .gallery-info{padding:9px}
+  .gallery-info b{font-size:12px}
+  .gallery-info span{font-size:10px}
+}
+@media(max-width:420px){
+  .command-grid{grid-template-columns:1fr}
+  .gallery-grid{grid-template-columns:1fr 1fr !important}
+  .hero h1{font-size:24px}
+  .chatbox{height:55vh}
+}
+
+
+/* ===== DEVICE SHELL ===== */
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  padding:24px 0 48px;
+  background:
+    radial-gradient(circle at 12% 4%, rgba(143,201,255,.22), transparent 26%),
+    radial-gradient(circle at 88% 0%, rgba(200,167,255,.22), transparent 28%),
+    linear-gradient(180deg,#dfe7ef 0%,#eef3f7 48%,#dce4ec 100%) !important;
+}
+.device{
+  width:min(1260px, calc(100% - 24px));
+  border-radius:38px;
+  padding:14px;
+  background:linear-gradient(145deg,#171b21,#292f37 58%,#111419);
+  box-shadow:
+    0 28px 70px rgba(15,20,28,.30),
+    0 0 0 1px rgba(255,255,255,.08) inset,
+    0 0 30px rgba(143,201,255,.10);
+  position:relative;
+  z-index:2;
+}
+.device::before{
+  content:"";
+  position:absolute;
+  top:7px; left:50%;
+  transform:translateX(-50%);
+  width:72px; height:5px;
+  border-radius:99px;
+  background:#0a0d11;
+  box-shadow:0 1px 0 rgba(255,255,255,.05);
+}
+.device-screen{
+  overflow:hidden;
+  border-radius:28px;
+  background:
+    linear-gradient(180deg,rgba(248,251,254,.92),rgba(238,244,249,.94));
+  border:1px solid rgba(255,255,255,.18);
+  min-height:780px;
+  position:relative;
+}
+.device-status{
+  height:38px;
+  padding:0 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  font-size:11px;
+  color:#59636f;
+  background:rgba(255,255,255,.58);
+  border-bottom:1px solid rgba(95,110,125,.10);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+}
+.device-status .left,
+.device-status .right{
+  display:flex;align-items:center;gap:9px
+}
+.status-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:#70d998;
+  box-shadow:0 0 10px rgba(112,217,152,.8)
+}
+.device-appbar{
+  padding:10px 16px 8px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  background:rgba(255,255,255,.34);
+  border-bottom:1px solid rgba(95,110,125,.08);
+}
+.device-brand{
+  display:flex;align-items:center;gap:10px;min-width:0
+}
+.device-logo{
+  width:34px;height:34px;border-radius:11px;
+  display:grid;place-items:center;
+  background:linear-gradient(135deg,rgba(143,201,255,.45),rgba(200,167,255,.45));
+  box-shadow:0 0 18px rgba(143,201,255,.22);
+  font-size:17px;
+}
+.device-brand b{font-size:13px}
+.device-brand small{display:block;color:var(--muted);font-size:9px;margin-top:2px}
+.device-tabs{
+  display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end
+}
+.device-tab{
+  border:1px solid rgba(80,95,110,.10);
+  background:rgba(255,255,255,.56);
+  padding:7px 10px;
+  border-radius:10px;
+  font-size:10px;
+  color:#5f6975;
+}
+.device-tab.active{
+  background:#20262d;
+  color:#fff;
+  box-shadow:0 0 14px rgba(143,201,255,.16);
+}
+.shell{
+  width:auto !important;
+  margin:0 !important;
+  padding:16px 16px 92px;
+}
+.device-dock{
+  position:absolute;
+  left:50%; bottom:14px;
+  transform:translateX(-50%);
+  display:flex;
+  gap:8px;
+  padding:8px 10px;
+  border-radius:18px;
+  background:rgba(24,29,36,.82);
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow:0 12px 26px rgba(0,0,0,.20),0 0 18px rgba(143,201,255,.10);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  z-index:20;
+}
+.dock-btn{
+  width:42px;height:42px;border-radius:13px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.06);
+  color:#fff;
+  display:grid;place-items:center;
+  font-size:17px;
+}
+.dock-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 16px rgba(143,201,255,.20)
+}
+.device-home{
+  position:absolute;
+  bottom:5px;left:50%;transform:translateX(-50%);
+  width:92px;height:4px;border-radius:99px;background:rgba(255,255,255,.42);
+  z-index:21;
+}
+.hero,.datebox,.panel{
+  border-radius:18px !important;
+}
+.hero{
+  border-top-left-radius:22px !important;
+}
+@media(max-width:760px){
+  body{padding:0;background:#11161c !important}
+  .device{
+    width:100%;
+    padding:0;
+    border-radius:0;
+    box-shadow:none;
+    background:#11161c;
+  }
+  .device::before{display:none}
+  .device-screen{
+    border-radius:0;
+    min-height:100vh;
+    border:0;
+  }
+  .device-status{height:34px;padding:0 12px}
+  .device-appbar{
+    padding:9px 11px;
+    align-items:flex-start;
+  }
+  .device-tabs{display:none}
+  .shell{padding:10px 9px 86px}
+  .device-dock{
+    position:fixed;
+    bottom:10px;
+    width:calc(100% - 28px);
+    justify-content:space-around;
+    padding:7px 8px;
+  }
+  .dock-btn{width:44px;height:44px}
+  .device-home{display:none}
+}
+
+
+/* ===== Official device identity / sync / lock ===== */
+.device-idline{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  margin-top:5px;font-size:9px;color:#7b8792
+}
+.device-serial{
+  padding:3px 7px;border-radius:999px;
+  background:rgba(30,36,43,.06);
+  border:1px solid rgba(50,60,70,.08);
+  letter-spacing:.08em
+}
+.sync-pack{display:flex;align-items:center;gap:6px}
+.sync-led{
+  width:8px;height:8px;border-radius:50%;
+  box-shadow:0 0 10px currentColor;
+  animation:syncPulse 1.9s ease-in-out infinite;
+}
+.sync-led.dabi{color:#79c6ff;background:#79c6ff}
+.sync-led.eunwoo{color:#d9dde3;background:#f4f5f7}
+.sync-led.eunho{color:#b891ff;background:#b891ff}
+@keyframes syncPulse{0%,100%{opacity:.55;transform:scale(.9)}50%{opacity:1;transform:scale(1.15)}}
+.sync-text{font-size:9px;color:#697480}
+
+.lock-screen{
+  position:absolute;inset:0;z-index:9998;
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+  padding:58px 22px 32px;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(143,201,255,.30), transparent 28%),
+    radial-gradient(circle at 70% 16%, rgba(200,167,255,.25), transparent 30%),
+    linear-gradient(180deg,rgba(18,24,31,.92),rgba(10,14,19,.97));
+  color:#fff;
+  transition:opacity .38s ease, visibility .38s ease, transform .38s ease;
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+}
+.lock-screen.unlocked{
+  opacity:0;visibility:hidden;pointer-events:none;transform:scale(1.015)
+}
+.lock-top{text-align:center}
+.lock-kicker{font-size:10px;letter-spacing:.18em;color:#aeb8c4}
+.lock-time{font-size:clamp(54px,10vw,94px);font-weight:300;letter-spacing:-.05em;line-height:1;margin-top:8px}
+.lock-date{margin-top:8px;color:#c5ced8;font-size:13px}
+.lock-device{
+  text-align:center;padding:14px 18px;border-radius:18px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);
+  box-shadow:0 0 24px rgba(143,201,255,.08)
+}
+.lock-device b{display:block;font-size:14px;letter-spacing:.08em}
+.lock-device small{color:#9eabb8}
+.lock-sync{
+  display:flex;justify-content:center;align-items:center;gap:10px;margin-top:12px
+}
+.swipe-zone{
+  width:min(420px,88vw);
+  user-select:none;touch-action:none
+}
+.swipe-label{text-align:center;font-size:11px;color:#b9c3cd;margin-bottom:10px}
+.swipe-track{
+  position:relative;height:58px;border-radius:999px;padding:5px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.10);
+  overflow:hidden;box-shadow:inset 0 0 18px rgba(0,0,0,.16)
+}
+.swipe-fill{
+  position:absolute;left:0;top:0;bottom:0;width:0;
+  background:linear-gradient(90deg,rgba(143,201,255,.18),rgba(200,167,255,.20));
+  pointer-events:none
+}
+.swipe-thumb{
+  position:absolute;left:5px;top:5px;width:48px;height:48px;border-radius:50%;
+  background:linear-gradient(145deg,#fdfefe,#dce6ef);
+  color:#1d242c;display:grid;place-items:center;font-size:20px;
+  box-shadow:0 5px 16px rgba(0,0,0,.22),0 0 18px rgba(143,201,255,.18);
+  transition:transform .16s ease
+}
+.swipe-track.dragging .swipe-thumb{transition:none}
+.swipe-hint{
+  position:absolute;inset:0;display:grid;place-items:center;
+  font-size:11px;letter-spacing:.08em;color:rgba(255,255,255,.58);pointer-events:none
+}
+.device-lock-btn{
+  border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.06);
+  color:#fff;border-radius:9px;padding:5px 8px;font-size:10px
+}
+@media(max-width:760px){
+  .lock-screen{position:fixed}
+  .lock-time{font-size:68px}
+}
+
+
+/* ===== MUSIC PLAYER ===== */
+.music-panel{
+  grid-column:1/-1;
+  padding:18px;
+}
+.music-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+}
+.music-head p{
+  margin:4px 0 0;
+  font-size:12px;
+  color:var(--muted);
+}
+.music-player{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:14px;
+  align-items:center;
+  padding:14px;
+  border-radius:18px;
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.72),rgba(255,255,255,.44));
+  border:1px solid rgba(255,255,255,.80);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.92),
+    0 10px 26px rgba(35,44,58,.07),
+    0 0 22px rgba(143,201,255,.10);
+}
+.album-orb{
+  width:62px;height:62px;border-radius:18px;
+  display:grid;place-items:center;
+  font-size:28px;
+  background:
+    radial-gradient(circle at 30% 30%,rgba(255,255,255,.95),transparent 28%),
+    linear-gradient(135deg,rgba(143,201,255,.76),rgba(200,167,255,.70));
+  box-shadow:0 0 22px rgba(143,201,255,.20);
+}
+.track-info{min-width:0}
+.track-title{
+  border:0;background:transparent;padding:0;
+  font-weight:800;font-size:15px;color:var(--text);
+  text-align:left;
+}
+.track-title:hover{
+  text-shadow:0 0 12px rgba(143,201,255,.38)
+}
+.track-sub{
+  font-size:11px;color:var(--muted);margin-top:4px
+}
+.progress-wrap{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:8px;align-items:center;
+  margin-top:10px;
+}
+.progress-wrap span{
+  font-size:10px;color:var(--muted);min-width:30px
+}
+.music-range{
+  width:100%;
+  accent-color:#8fc9ff;
+}
+.music-controls{
+  display:flex;align-items:center;gap:8px
+}
+.music-btn{
+  width:44px;height:44px;border-radius:14px;
+  border:1px solid rgba(70,85,100,.12);
+  background:#20262d;color:#fff;
+  display:grid;place-items:center;
+  font-size:17px;
+  box-shadow:0 0 16px rgba(143,201,255,.12);
+}
+.volume-box{
+  display:flex;align-items:center;gap:6px;
+  min-width:130px
+}
+.volume-box input{width:86px}
+.playing-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:#70d998;box-shadow:0 0 10px rgba(112,217,152,.75);
+  opacity:.25
+}
+.playing-dot.on{opacity:1;animation:syncPulse 1.3s ease-in-out infinite}
+@media(max-width:650px){
+  .music-panel{padding:13px}
+  .music-player{
+    grid-template-columns:auto 1fr;
+  }
+  .music-controls{
+    grid-column:1/-1;
+    justify-content:space-between;
+  }
+  .volume-box{min-width:0;flex:1}
+  .volume-box input{width:100%}
+}
+
 </style>
 </head>
+
 <body>
+<div class="device">
+  <div class="device-screen">
+
+    <div class="lock-screen" id="lockScreen" aria-label="device lock screen">
+      <div class="lock-top">
+        <div class="lock-kicker">CENTRAL ESPER MANAGEMENT CENTER</div>
+        <div class="lock-time" id="lockTime">21:00</div>
+        <div class="lock-date" id="lockDate">2051년 08월 30일</div>
+      </div>
+
+      <div class="lock-device">
+        <b>G-LINK T03 · TRIAD</b>
+        <small>Guide-issued secure terminal · GL-T03-014</small>
+        <div class="lock-sync">
+          <span class="sync-led dabi"></span>
+          <span class="sync-led eunwoo"></span>
+          <span class="sync-led eunho"></span>
+          <span style="font-size:10px;color:#b8c3ce">3 ESPERS SYNCED</span>
+        </div>
+      </div>
+
+      <div class="swipe-zone">
+        <div class="swipe-label">GUIDE AUTHORIZATION REQUIRED</div>
+        <div class="swipe-track" id="swipeTrack">
+          <div class="swipe-fill" id="swipeFill"></div>
+          <div class="swipe-hint">밀어서 잠금 해제</div>
+          <div class="swipe-thumb" id="swipeThumb">›</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="device-status">
+      <div class="left">
+        <span class="status-dot"></span>
+        <b>CENTER LINK</b>
+        <span>SECURE</span>
+      </div>
+      <div class="right">
+        <span>📡 ONLINE</span>
+        <span>🔋 94%</span><button class="device-lock-btn" id="deviceLockBtn" type="button">🔒 LOCK</button>
+      </div>
+    </div>
+    <div class="device-appbar">
+      <div class="device-brand">
+        <div class="device-logo">✦</div>
+        <div>
+          <b>G-LINK T03 · TRIAD</b>
+          <small>CENTER-ISSUED GUIDE TERMINAL</small>
+          <div class="device-idline">
+            <span class="device-serial">DEVICE ID · GL-T03-014</span>
+            <span class="sync-pack" title="세 에스퍼 실시간 동기화">
+              <i class="sync-led dabi"></i><i class="sync-led eunwoo"></i><i class="sync-led eunho"></i>
+              <span class="sync-text">3/3 SYNC</span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="device-tabs">
+        <button class="device-tab active" type="button">HOME</button>
+        <button class="device-tab" type="button">STATUS</button>
+        <button class="device-tab" type="button">TALK</button>
+        <button class="device-tab" type="button">ARCHIVE</button>
+      </div>
+    </div>
+
 <div class="duck-layer" aria-hidden="true">
   <span class="duck" style="left:4%;top:14%;--dur:8s;--delay:-1s;--drift:18px">🐥</span>
   <span class="duck" style="left:15%;top:72%;--dur:10s;--delay:-5s;--drift:-14px">🐤</span>
@@ -285,7 +872,7 @@ body{
     <section class="hero">
       <div>
         <div class="kicker">MINOR ESPER SHARED-LIVING PROGRAM</div>
-        <h1>90일 공동생활 관찰실</h1>
+        <h1>90일 공동생활 관찰 디바이스</h1>
         <p>세 명의 S급 미성년 에스퍼가 능력 제어와 일상 복귀를 배우는 동안, 전담 가이드가 기록하는 생활 보조 대시보드.</p>
       </div>
       <div class="count">
@@ -297,7 +884,7 @@ body{
       <label for="storyDate">작중 날짜</label>
       <input id="storyDate" type="date" value="2051-08-30" />
       <label for="dayIndex" style="margin-top:10px">경과 일수</label>
-      <input id="dayIndex" type="number" min="0" max="90" value="0" />
+      <input id="dayIndex" type="number" min="0" max="90" value="0" readonly /><span class="sync-note">작중 날짜를 바꾸면 시작일 기준 경과일수와 D-Day가 자동 반영됩니다.</span>
     </aside>
   </div>
 
@@ -334,7 +921,7 @@ body{
     <section class="panel commands">
       <h2>⌨️ 센터 명령어</h2>
       <div class="command-grid">
-        <button class="cmd primary" data-cmd="what"><b>🎮 !뭐하지</b><small>현재 흐름에 맞는 다음 행동 추천</small></button>
+        
         <button class="cmd" data-cmd="status"><b>📊 !상태창</b><small>세 아이 상태</small></button>
         <button class="cmd" data-cmd="journal"><b>📔 !육아일지</b><small>오늘의 성장기록</small></button>
         <button class="cmd" data-cmd="ability"><b>✨ !능력개화</b><small>에스퍼 자질 분석</small></button>
@@ -358,14 +945,71 @@ body{
     </section>
 
     <section class="panel output">
-      <h2>🖥️ 출력</h2>
-      <div class="outputbox" id="outputBox">명령어를 선택하면 이곳에 센터 기록이 표시됩니다.
+      <h2>Talk</h2>
+      
+<div class="talk-wrap">
+  <div class="talk-head">
+    <div><b>세 아이와의 Talk</b><br><small>명령어를 누르거나 직접 메시지를 남겨보세요.</small></div>
+    <span class="badge">ONLINE</span>
+  </div>
+  <div class="chatbox" id="chatBox">
+    <div class="msg-row">
+      <div class="avatar">💙</div>
+      <div class="msg-col"><div class="msg-name">연다비</div><div class="bubble">…뭐. 할 말 있으면 해.</div></div>
+      <span class="msg-time">now</span>
+    </div>
+    <div class="msg-row">
+      <div class="avatar">🤍</div>
+      <div class="msg-col"><div class="msg-name">하은우</div><div class="bubble">가이드님, 저 오늘은 진짜 아무것도 안 했어요.</div></div>
+      <span class="msg-time">now</span>
+    </div>
+    <div class="msg-row">
+      <div class="avatar">💜</div>
+      <div class="msg-col"><div class="msg-name">하은호</div><div class="bubble">가이드님! 나 배고파요!</div></div>
+      <span class="msg-time">now</span>
+    </div>
+  </div>
+  <div class="talk-compose">
+    <textarea id="userTalk" rows="1" placeholder="아이들에게 톡 남기기…"></textarea>
+    <button class="send-btn" id="sendTalk" type="button">전송</button>
+  </div>
+</div>
+    </section>
 
-추천: 🎮 !뭐하지</div>
-      <div class="actions">
-        <button class="smallbtn" id="randomMood">오늘 기분 섞기</button>
-        <button class="smallbtn" id="nextDay">다음 날로</button>
+
+    <section class="panel music-panel">
+      <div class="music-head">
+        <div>
+          <h2 style="margin-bottom:0">🎵 Center Playlist</h2>
+          <p>공동생활 기록용 재생목록</p>
+        </div>
+        <span class="badge">1 TRACK</span>
       </div>
+
+      <div class="music-player">
+        <div class="album-orb">🌙</div>
+
+        <div class="track-info">
+          <button class="track-title" id="trackTitle" type="button">Goodnight, Little Star</button>
+          <div class="track-sub">Trio · bedtime archive</div>
+          <div class="progress-wrap">
+            <span id="musicCurrent">0:00</span>
+            <input class="music-range" id="musicSeek" type="range" min="0" max="100" value="0" step="0.1">
+            <span id="musicDuration">0:00</span>
+          </div>
+        </div>
+
+        <div class="music-controls">
+          <button class="music-btn" id="musicPlay" type="button" aria-label="재생">▶</button>
+          <span class="playing-dot" id="playingDot"></span>
+          <div class="volume-box">
+            <span>🔊</span>
+            <input id="musicVolume" type="range" min="0" max="1" value="0.7" step="0.01">
+          </div>
+        </div>
+      </div>
+
+      <audio id="centerAudio" preload="metadata" src="https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/Trio/Goodnight%2C%20Little%20Star.mp3"></audio>
     </section>
 
     <section class="panel gallery">
@@ -428,41 +1072,35 @@ body{
 </div>
 
 <script>
-const output = document.getElementById('outputBox');
 const dayIndex = document.getElementById('dayIndex');
 const dCount = document.getElementById('dCount');
 const storyDate = document.getElementById('storyDate');
 const logList = document.getElementById('logList');
 
+const programStart = new Date(2051,7,30); // 2051-08-30
 function clampDay(v){ return Math.max(0, Math.min(90, Number(v)||0)); }
+function dateOnly(d){ return new Date(d.getFullYear(),d.getMonth(),d.getDate()); }
+function syncFromDate(){
+  if(!storyDate.value) return;
+  const [y,m,d] = storyDate.value.split('-').map(Number);
+  const selected = new Date(y,m-1,d);
+  const diff = Math.round((dateOnly(selected)-dateOnly(programStart))/86400000);
+  const n = clampDay(diff);
+  dayIndex.value = n;
+  dCount.textContent = 'D-' + (90-n);
+}
 function updateD(){
   const n = clampDay(dayIndex.value);
   dayIndex.value = n;
-  dCount.textContent = 'D-' + (90 - n);
+  dCount.textContent = 'D-' + (90-n);
 }
-dayIndex.addEventListener('input', updateD);
-
+storyDate.addEventListener('change', syncFromDate);
+storyDate.addEventListener('input', syncFromDate);
 function formatDate(d){
   const y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,'0'), da=String(d.getDate()).padStart(2,'0');
   return `${y}-${m}-${da}`;
 }
-document.getElementById('nextDay').addEventListener('click',()=>{
-  const n = clampDay(Number(dayIndex.value)+1);
-  dayIndex.value = n; updateD();
-  const [y,m,d] = storyDate.value.split('-').map(Number);
-  const dt = new Date(y,m-1,d); dt.setDate(dt.getDate()+1);
-  storyDate.value = formatDate(dt);
-  output.textContent = `[DAY UPDATE]\\n작중 날짜가 하루 경과했습니다.\\n현재: D-${90-n}\\n\\n전날의 미해결 사건은 필요한 범위에서 다음 날 생활에 반영됩니다.`;
-});
-
 const templates = {
-  what: `🎮 다음 행동 추천
-
-① 거실 사고 흔적을 그대로 둔 채 셋의 설명부터 각각 들어본다.
-② 오늘 오후 훈련 전, 복제·파괴 능력 사용 규칙을 짧게 다시 확인한다.
-③ 사건을 바로 추궁하지 않고 간식이나 휴식 시간을 주며 셋의 자연스러운 반응을 지켜본다.
-
-※ 추천은 예시이며 원하는 행동을 자유롭게 선택할 수 있음.`,
   status: `╭─ 세 아이 현재 상태 ─╮
 💙 연다비
 🩺건강: 정상 / 🔋피로: 28 / ⚠️폭주: 31%
@@ -568,13 +1206,6 @@ const templates = {
 ㄴ 익명427: 내일 민원 올라온다에 한 표`
 };
 
-document.querySelectorAll('[data-cmd]').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const key = btn.dataset.cmd;
-    output.textContent = templates[key].replace('${storyDate.value}', storyDate.value);
-  });
-});
-
 const smallEvents = [
   "은호가 냉장고 문을 너무 오래 열어두다 생활지도사에게 걸림.",
   "은우가 숙제를 다 했다고 주장했지만 마지막 장이 비어 있음.",
@@ -597,16 +1228,199 @@ const moods = [
   ["경계","칭찬받고 싶음","심심함"],
   ["무심한 척 신경씀","장난칠 궁리","게임하고 싶음"]
 ];
-document.getElementById('randomMood').addEventListener('click',()=>{
-  const m = moods[Math.floor(Math.random()*moods.length)];
-  const cards = document.querySelectorAll('.card .meta');
-  cards[0].children[1].innerHTML = `<span>기분:</span> ${m[0]}`;
-  cards[1].children[1].innerHTML = `<span>기분:</span> ${m[1]}`;
-  cards[2].children[1].innerHTML = `<span>기분:</span> ${m[2]}`;
-  output.textContent = `오늘 기분이 갱신되었습니다.\\n💙 다비: ${m[0]}\\n🤍 은우: ${m[1]}\\n💜 은호: ${m[2]}`;
+
+const chatBox = document.getElementById('chatBox');
+const userTalk = document.getElementById('userTalk');
+const sendTalk = document.getElementById('sendTalk');
+
+const kids = {
+  dabi:{name:'연다비',emoji:'💙'},
+  eunwoo:{name:'하은우',emoji:'🤍'},
+  eunho:{name:'하은호',emoji:'💜'}
+};
+
+const commandLines = {
+  status:{
+    dabi:["또 수치로 보게? …마음대로 해.","폭주위험도만 보지 마. 나 멀쩡해.","됐어. 상태 괜찮다고."],
+    eunwoo:["저 수치 꽤 괜찮죠? 은호보다 높죠?","잠깐, 책임감은 왜 저것밖에 안 돼요?","가이드님, 저 상태는 정상이에요. 아주 정상."],
+    eunho:["내 것도 보여줘요! 제일 좋은 거 뭐예요?","폭주위험 낮죠? 그럼 놀아도 되죠?","형보다 내가 더 멀쩡할걸요!"]
+  },
+  journal:{
+    dabi:["그런 것까지 적어? …이상한 건 쓰지 마.","오늘 별일 없었잖아. 굳이 기록해?","내가 먼저 한 건 아니니까 그렇게 써."],
+    eunwoo:["오늘 잘한 것도 꼭 써주세요. 사고만 쓰면 편파예요.","은호가 먼저 한 것도 기록에 남는 거죠?","가이드님, 제목은 좀 멋있게 써주시면 안 돼요?"],
+    eunho:["내 것도 길게 써줘요! 오늘 나 진짜 많이 했는데!","형이 시킨 것도 꼭 적어야 돼요!","나 오늘 잘한 거 있었죠? 있었잖아요!"]
+  },
+  ability:{
+    dabi:["…아직 멀었어. 그런 표정 하지 마.","개화니 뭐니, 일단 안 터지면 된 거 아냐?","다음 훈련은 좀 조용한 데서 해."],
+    eunwoo:["복제 더 정교해졌죠? 저도 느꼈어요.","히든 특성 같은 거 진짜 있는 거예요? 좀 궁금한데.","은호 것보다 제 쪽이 활용도 높지 않아요?"],
+    eunho:["새 기술 생긴 거예요?! 지금 해봐도 돼요?","파괴 범위 줄이는 거, 나 꽤 잘했죠?","훈련 또 해요! 이번엔 진짜 안 깨먹을게요!"]
+  },
+  complaint:{
+    dabi:["…왜 나까지 같이 불러. 난 안 했어.","또 쟤들이야? 이번엔 진짜 난 빼.","민원서 접어서 은호 머리에 얹어도 돼?"],
+    eunwoo:["잠깐만요. 이건 표현이 좀 과장됐는데요?","제가 직접 깬 건 아닌데 왜 제 이름도 있어요?","가이드님, 일단 은호 말부터 들어보시면 다 나와요."],
+    eunho:["왜 또 나예요?! 형도 같이 했잖아!","십이만 팔천 원이요?! 그게 그렇게 비싸요?!","가이드님, 진짜 조금만 깨졌어요. 진짜로!"]
+  },
+  culprit:{
+    dabi:["뻔한데. 그래도 난 말 안 해.","나 쳐다보지 마. 내 흔적 아니거든.","둘 중 하나겠지. 아니면 둘 다."],
+    eunwoo:["증거부터 봐야죠. 느낌으로 범인 정하면 안 돼요.","은호가 바로 저를 팔았다고요? 역시.","잠깐, 최초 제안자랑 실제로 깬 사람은 다른 문제죠."],
+    eunho:["형이 먼저 하자고 했어요! …아, 아직 묻지도 않았어요?","나 아니에요! 아니, 조금은 맞는데 전부는 아니에요!","CCTV 돌려봐요! 형 표정부터 수상할걸요!"]
+  },
+  community:{
+    dabi:["익명이라고 다 말해도 되는 줄 아나 봐.","…왜 내 얘기도 있어.","저 사람들 진짜 할 일 없나."],
+    eunwoo:["잠깐, '탁자 세 개면 은우'는 너무 정확한데요?","누가 썼는지 조금 궁금하긴 하네요.","가이드님 첫날부터 고생이라니. 저희가 그렇게 심해요?"],
+    eunho:["댓글 봐요! 나 유명한가 봐!","왜 다 내가 깼다고 생각해요?!","복도청소님한테는… 미안하다고 해야 하나?"]
+  }
+};
+
+
+const intentReplies = {
+  greeting:{
+    dabi:["…왔네.","응. 봤어.","왜 이렇게 반갑게 인사해."],
+    eunwoo:["가이드님, 안녕하세요. 오늘은 제가 먼저 봤어요.","왔어요? 저희 방금 얘기하고 있었는데.","안녕하세요. 오늘 일정부터 볼까요?"],
+    eunho:["가이드님 왔다! 안녕하세요!","왔어요?! 나 기다렸어요!","안녕하세요! 오늘 뭐 해요?"]
+  },
+  food:{
+    dabi:["난 아무거나. 너무 단 건 말고.","간식이면… 초코 말고 다른 거.","배 안 고픈데. …조금은."],
+    eunwoo:["은호한테 먼저 물어보면 전부 간식으로 결정돼요.","저는 괜찮아요. 근데 과자는 하나만 더.","가이드님, 메뉴 정할 때 제 의견도 들어주세요."],
+    eunho:["간식이요?! 뭐 먹어요?!","나 배고파요! 진짜 많이!","치킨! 아니 떡볶이! 아니 둘 다!"]
+  },
+  school:{
+    dabi:["학교는 그냥… 시끄러웠어.","별일 없었어. 체육시간만 좀 귀찮았고.","숙제 얘기는 하지 마."],
+    eunwoo:["오늘은 진짜 별일 없었어요. 은호가 뛰다가 걸린 것 빼고요.","과제는 했어요. 거의 다요.","저 발표 잘했는데요? 가이드님한테 말하려고 했어요."],
+    eunho:["학교 재밌었어요! 근데 형이 또 나만 팔았어!","체육시간 완전 재밌었어요!","숙제는… 지금 꼭 물어봐야 돼요?"]
+  },
+  sleep:{
+    dabi:["졸리긴 해. 아직 잘 건 아니고.","…불은 너무 밝게 하지 마.","먼저 자도 돼. 난 좀 있다 잘게."],
+    eunwoo:["저 안 졸려요. …하품한 건 그냥 하품이고요.","은호부터 재우면 저도 잘게요.","내일 일찍 일어나야 하니까 이제 자야 하긴 해요."],
+    eunho:["나 안 졸려요! …조금만 졸려요.","같이 불 끄면 바로 잘 수 있어요!","잘 자라고 해줘요! 그럼 잘게요!"]
+  },
+  training:{
+    dabi:["훈련이면 조용한 데서 해.","게이트 훈련은… 준비하고 가면 돼.","오늘은 출력 조절부터 할래."],
+    eunwoo:["복제 제한부터 정하고 시작하면 돼요. 이번엔 진짜 안 늘릴게요.","게이트 훈련이면 제가 먼저 구조 봐도 돼요?","이번엔 은호가 깨기 전에 제가 표시해둘게요."],
+    eunho:["훈련?! 지금 가요!","게이트요? 나 준비됐어요!","이번엔 멈추라고 하면 진짜 멈출게요! 아마도!"]
+  },
+  accident:{
+    dabi:["난 안 건드렸어. 일단 그건 알아둬.","또 거울이야? …둘 불러.","이번엔 진짜 내 탓 아니야."],
+    eunwoo:["우선 누가 먼저 시작했는지부터 구분해야죠.","제가 만든 건 맞는데, 깨진 건 제 책임만은 아니에요.","가이드님, 설명할 기회는 주셔야죠."],
+    eunho:["형이 먼저 했어요!","내가 깬 건 맞는데 일부러 그런 건 아니에요!","조금만 깨졌어요! 진짜 조금!"]
+  },
+  wellbeing:{
+    dabi:["괜찮아. 진짜로.","…조금 피곤한 것뿐이야.","신경 쓰지 마. 필요하면 말할게."],
+    eunwoo:["저는 괜찮아요. 상태도 안정적이고요.","괜찮아요. 은호부터 보셔도 돼요. …아니, 저도 봐도 되고.","조금 피곤하지만 문제없어요."],
+    eunho:["나 괜찮아요! 완전 멀쩡해요!","조금 아까 놀랐는데 이제 괜찮아요.","가이드님 보면 더 괜찮아지는 것 같아요!"]
+  },
+  praise:{
+    dabi:["…뭘 그런 걸로 칭찬해.","알았어. 들었으니까 그만.","…다음에도 그렇게 하면 되잖아."],
+    eunwoo:["그렇죠? 저도 잘했다고 생각했어요.","가이드님이 그렇게 말하면 좀 기분 좋긴 하네요.","은호 들었지? 저 잘했대."],
+    eunho:["진짜요?! 나 잘했어요?!","한 번만 더 말해줘요!","봤지 형! 나 칭찬받았다!"]
+  },
+  scold:{
+    dabi:["…알았어. 다음엔 안 해.","내가 잘못한 건 인정할게. 근데 다 내 탓은 아니야.","됐어. 혼날 건 혼날게."],
+    eunwoo:["네… 알겠어요. 근데 상황 설명은 하고 혼나면 안 돼요?","다음엔 먼저 허락받을게요. 진짜로요.","은호도 같이 들었죠? 저만 혼나는 거 아니죠?"],
+    eunho:["알겠어요… 진짜 다음엔 안 그럴게요.","미안해요. 근데 형도 같이 했어요.","나 반성 중이에요. 진짜예요."]
+  },
+  affection:{
+    dabi:["…갑자기 왜 그래.","그런 말 아무렇지도 않게 하지 마.","…나도 싫진 않아."],
+    eunwoo:["저희 좋아해요? 셋 다요?","그럼 오늘은 제가 제일 말 잘 들은 걸로 해주세요.","그 말, 은호한테 먼저 하지 마세요."],
+    eunho:["나도 좋아해요! 엄청!","진짜요?! 나도요!","그럼 안아— 아니, 손만 잡아도 돼요?"]
+  },
+  where:{
+    dabi:["나 방 근처. 왜.","창가 쪽에 있어.","여기 있어. 찾지 마."],
+    eunwoo:["거실이에요. 은호는 또 돌아다니고 있고요.","저는 숙소에 있어요. 왜요?","가이드님 찾았어요? 저 여기요."],
+    eunho:["나 여기요! 숙소!","가이드님 어디예요? 내가 갈래!","나 거실에 있어요! 금방 갈게요!"]
+  },
+  default:{
+    dabi:["…그래서?","응. 듣고 있어.","그 말은 알겠는데, 조금 더 설명해봐."],
+    eunwoo:["그건 무슨 뜻인지 알 것 같아요. 그래서 어떻게 할까요?","가이드님, 그럼 저희가 뭘 하면 돼요?","잠깐만요. 그 얘기면 제가 먼저 말해도 돼요?"],
+    eunho:["응! 그래서요?","나도 알아듣게 한 번만 더 말해줘요!","오, 그럼 지금 해보면 안 돼요?"]
+  }
+};
+
+function detectTarget(text){
+  if(/다비/.test(text)) return ['dabi'];
+  if(/은우/.test(text)) return ['eunwoo'];
+  if(/은호/.test(text)) return ['eunho'];
+  if(/쌍둥|둘이/.test(text)) return ['eunwoo','eunho'];
+  return null;
+}
+function detectIntent(text){
+  const t=text.toLowerCase();
+  const rules=[
+    ['greeting',/(안녕|좋은\s*아침|좋은\s*밤|왔어|왔니|하이|hello)/],
+    ['food',/(밥|먹|간식|배고|과자|치킨|떡볶|저녁|점심|아침)/],
+    ['school',/(학교|수업|숙제|과제|선생|등교|하교|시험)/],
+    ['sleep',/(자자|잘\s*자|졸려|잠|숙면|불\s*끄|취침)/],
+    ['training',/(훈련|게이트|능력|연습|복사|파괴|염력)/],
+    ['accident',/(사고|깨|거울|망가|부쉈|민원|범인|누가\s*했)/],
+    ['wellbeing',/(괜찮|아파|피곤|상태|다쳤|힘들|불안)/],
+    ['praise',/(잘했|대단|멋지|기특|칭찬|잘\s*했)/],
+    ['scold',/(혼나|혼낼|하지\s*마|안\s*돼|잘못|반성|사과)/],
+    ['affection',/(좋아해|사랑해|보고\s*싶|귀여워|소중)/],
+    ['where',/(어디|뭐\s*해|뭐해|찾고|여기\s*와)/]
+  ];
+  for(const [intent,re] of rules) if(re.test(t)) return intent;
+  return 'default';
+}
+function nowTime(){
+  const d=new Date();
+  return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+}
+function addChat(kind, text, who){
+  const row=document.createElement('div');
+  row.className='msg-row'+(kind==='user'?' user':'');
+  if(kind==='user'){
+    row.innerHTML=`<span class="msg-time">${nowTime()}</span><div class="msg-col"><div class="bubble"></div></div>`;
+    row.querySelector('.bubble').textContent=text;
+  }else{
+    const k=kids[who];
+    row.innerHTML=`<div class="avatar">${k.emoji}</div><div class="msg-col"><div class="msg-name">${k.name}</div><div class="bubble"></div></div><span class="msg-time">${nowTime()}</span>`;
+    row.querySelector('.bubble').textContent=text;
+  }
+  chatBox.appendChild(row);
+  chatBox.scrollTop=chatBox.scrollHeight;
+}
+function rand(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+document.querySelectorAll('[data-cmd]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const key=btn.dataset.cmd;
+    addChat('user', btn.querySelector('b')?.textContent || '!명령어');
+    const order=['dabi','eunwoo','eunho'];
+    order.forEach((who,i)=>{
+      setTimeout(()=>addChat('kid',rand(commandLines[key][who]),who),120*i);
+    });
+  });
 });
 
-updateD();
+function sendUserMessage(){
+  const text=userTalk.value.trim();
+  if(!text) return;
+  addChat('user',text);
+  userTalk.value='';
+
+  const intent=detectIntent(text);
+  const explicitTargets=detectTarget(text);
+  let order=explicitTargets || ['dabi','eunwoo','eunho'].sort(()=>Math.random()-.5);
+  let replyCount=explicitTargets ? explicitTargets.length : (Math.random()<.42 ? 2 : 3);
+
+  order.slice(0,replyCount).forEach((who,i)=>{
+    const pool=(intentReplies[intent] && intentReplies[intent][who]) || intentReplies.default[who];
+    setTimeout(()=>addChat('kid',rand(pool),who),220*(i+1));
+  });
+}
+sendTalk.addEventListener('click',sendUserMessage);
+userTalk.addEventListener('keydown',(e)=>{
+  if(e.key==='Enter' && !e.shiftKey){
+    e.preventDefault();
+    sendUserMessage();
+  }
+});
+userTalk.addEventListener('input',()=>{
+  userTalk.style.height='auto';
+  userTalk.style.height=Math.min(userTalk.scrollHeight,110)+'px';
+});
+
+syncFromDate();
 
 const galleryCards = [...document.querySelectorAll('.gallery-card')];
 const galleryLightbox = document.getElementById('galleryLightbox');
@@ -665,6 +1479,134 @@ window.addEventListener('pointermove',(e)=>{
   }
 });
 
+
+// ===== Device lock / swipe unlock =====
+const lockScreen=document.getElementById('lockScreen');
+const swipeTrack=document.getElementById('swipeTrack');
+const swipeThumb=document.getElementById('swipeThumb');
+const swipeFill=document.getElementById('swipeFill');
+const lockTime=document.getElementById('lockTime');
+const lockDate=document.getElementById('lockDate');
+const deviceLockBtn=document.getElementById('deviceLockBtn');
+let dragging=false,startX=0,currentX=0;
+
+function updateLockClock(){
+  const now=new Date();
+  lockTime.textContent=`${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  const days=['일','월','화','수','목','금','토'];
+  lockDate.textContent=`${now.getFullYear()}년 ${String(now.getMonth()+1).padStart(2,'0')}월 ${String(now.getDate()).padStart(2,'0')}일 ${days[now.getDay()]}요일`;
+}
+updateLockClock();
+setInterval(updateLockClock,30000);
+
+function setSwipe(px){
+  const max=Math.max(0,swipeTrack.clientWidth-58);
+  const x=Math.max(0,Math.min(max,px));
+  currentX=x;
+  swipeThumb.style.transform=`translateX(${x}px)`;
+  swipeFill.style.width=(x+53)+'px';
+  if(max>0 && x/max>.82) unlockDevice();
+}
+function unlockDevice(){
+  dragging=false;
+  swipeTrack.classList.remove('dragging');
+  lockScreen.classList.add('unlocked');
+  setTimeout(()=>setSwipe(0),420);
+}
+function lockDevice(){
+  lockScreen.classList.remove('unlocked');
+  setSwipe(0);
+}
+swipeThumb.addEventListener('pointerdown',e=>{
+  dragging=true;startX=e.clientX-currentX;
+  swipeTrack.classList.add('dragging');
+  swipeThumb.setPointerCapture?.(e.pointerId);
+});
+window.addEventListener('pointermove',e=>{
+  if(dragging) setSwipe(e.clientX-startX);
+});
+window.addEventListener('pointerup',()=>{
+  if(!dragging)return;
+  dragging=false;swipeTrack.classList.remove('dragging');
+  const max=Math.max(0,swipeTrack.clientWidth-58);
+  if(!max || currentX/max<=.82) setSwipe(0);
+});
+swipeTrack.addEventListener('click',e=>{
+  if(e.target===swipeThumb)return;
+  const r=swipeTrack.getBoundingClientRect();
+  setSwipe(e.clientX-r.left-24);
+});
+deviceLockBtn?.addEventListener('click',lockDevice);
+
+
+// ===== Center Playlist =====
+const centerAudio=document.getElementById('centerAudio');
+const musicPlay=document.getElementById('musicPlay');
+const trackTitle=document.getElementById('trackTitle');
+const musicSeek=document.getElementById('musicSeek');
+const musicCurrent=document.getElementById('musicCurrent');
+const musicDuration=document.getElementById('musicDuration');
+const musicVolume=document.getElementById('musicVolume');
+const playingDot=document.getElementById('playingDot');
+
+function fmtTime(sec){
+  if(!isFinite(sec)) return '0:00';
+  const m=Math.floor(sec/60);
+  const s=Math.floor(sec%60);
+  return `${m}:${String(s).padStart(2,'0')}`;
+}
+async function playTrack(){
+  try{
+    await centerAudio.play();
+  }catch(err){
+    console.warn('Audio playback was blocked or failed:',err);
+  }
+}
+function toggleTrack(){
+  if(centerAudio.paused) playTrack();
+  else centerAudio.pause();
+}
+trackTitle?.addEventListener('click',playTrack);
+musicPlay?.addEventListener('click',toggleTrack);
+
+centerAudio?.addEventListener('play',()=>{
+  musicPlay.textContent='❚❚';
+  playingDot.classList.add('on');
+});
+centerAudio?.addEventListener('pause',()=>{
+  musicPlay.textContent='▶';
+  playingDot.classList.remove('on');
+});
+centerAudio?.addEventListener('loadedmetadata',()=>{
+  musicDuration.textContent=fmtTime(centerAudio.duration);
+});
+centerAudio?.addEventListener('timeupdate',()=>{
+  musicCurrent.textContent=fmtTime(centerAudio.currentTime);
+  if(centerAudio.duration){
+    musicSeek.value=(centerAudio.currentTime/centerAudio.duration)*100;
+  }
+});
+musicSeek?.addEventListener('input',()=>{
+  if(centerAudio.duration){
+    centerAudio.currentTime=(Number(musicSeek.value)/100)*centerAudio.duration;
+  }
+});
+musicVolume?.addEventListener('input',()=>{
+  centerAudio.volume=Number(musicVolume.value);
+});
+centerAudio.volume=0.7;
+
 </script>
+
+    <div class="device-dock" aria-label="device dock">
+      <button class="dock-btn" type="button" title="Home">⌂</button>
+      <button class="dock-btn" type="button" title="Status">📊</button>
+      <button class="dock-btn" type="button" title="Talk">💬</button>
+      <button class="dock-btn" type="button" title="Gallery">🖼️</button>
+      <button class="dock-btn" type="button" title="Center">✦</button>
+    </div>
+    <div class="device-home"></div>
+  </div>
+</div>
 </body>
 </html>
