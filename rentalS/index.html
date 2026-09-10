@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#100b10" />
+  <meta name="theme-color" content="#08090b" />
   <title>SRS | 스토커 대여 서비스 센터</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root{
       --bg:#0c0a0d;
@@ -88,7 +88,7 @@
       transform:translateY(-4px);
     }
     .intro-copy-wrap{position:relative;z-index:3;padding-top:250px}
-    .intro-copy{min-height:84px;font-size:clamp(33px,4.1vw,43px);font-weight:900;letter-spacing:-.03em;line-height:1.2}
+    .intro-copy{min-height:100px;font-size:clamp(33px,4.1vw,43px);font-weight:900;letter-spacing:-.03em;line-height:1.2;white-space:pre-line}
     .typing-cursor{display:inline-block;margin-left:4px;color:var(--soft-neon);animation:blink 1s step-end infinite}
     .intro-sub{margin-top:12px;color:#d7c6d2;font-size:18px}
     .intro-skip{
@@ -205,7 +205,7 @@
       z-index:2;user-select:none;-webkit-user-select:none;touch-action:none;cursor:grab;
     }
     .sticky-note.dragging{animation:none!important;cursor:grabbing;transform:rotate(0deg)!important;box-shadow:0 18px 38px rgba(0,0,0,.42),0 0 14px rgba(255,42,167,.35)!important;filter:brightness(1.04);z-index:1700!important}
-    .sticky-note.dragged{position:fixed!important;right:auto!important;bottom:auto!important;z-index:1600!important;margin:0!important;will-change:left,top;touch-action:none}
+    .sticky-note.dragged{position:absolute!important;right:auto!important;bottom:auto!important;z-index:20!important;margin:0!important;will-change:left,top;touch-action:none}
     .sticky-note.one{top:22px;left:26px}
     .sticky-note.two{top:24px;right:26px;background:repeating-linear-gradient(2deg,rgba(120,55,78,.045) 0 1px,transparent 1px 5px),linear-gradient(145deg,#ffc4d8,#f6a8c3);transform:rotate(3deg);animation:noteShakeAlt 3.4s ease-in-out infinite}
     @keyframes noteShake{
@@ -260,20 +260,44 @@
     .chip{border:1px solid rgba(255,255,255,.12);background:#19151a;color:#d8cfd5;border-radius:999px;padding:10px 14px;font-weight:800;cursor:pointer;transition:.22s}
     .chip.active,.chip:hover{background:var(--hot);color:#fff;border-color:transparent;box-shadow:0 0 18px rgba(255,47,137,.3)}
 
-    .agent-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-    .agent-card{position:relative;background:repeating-linear-gradient(2deg,rgba(109,74,47,.025) 0 1px,transparent 1px 5px),linear-gradient(180deg,#f8ede0,#e8d2bd);color:#17131a;border-radius:20px;border:1px solid rgba(132,92,64,.22);box-shadow:0 15px 38px rgba(0,0,0,.30)}
-    .agent-visual{height:180px;background:
-      radial-gradient(circle at 50% 38%,#ffe6ee 0 28%,transparent 29%),
-      linear-gradient(160deg,#ffd0df,#efb6ca 45%,#d797b0);position:relative}
-    .head{position:absolute;width:78px;height:88px;border-radius:46% 46% 43% 43%;background:#f5d7ca;left:50%;top:32px;transform:translateX(-50%);border:3px solid rgba(0,0,0,.1)}
-    .hair{position:absolute;width:96px;height:70px;border-radius:50% 50% 36% 36%;background:#17151b;left:50%;top:20px;transform:translateX(-50%);clip-path:polygon(0 0,100% 0,100% 72%,86% 55%,72% 75%,56% 45%,44% 70%,28% 44%,15% 67%,0 80%)}
-    .body-shape{position:absolute;width:120px;height:84px;border-radius:55px 55px 12px 12px;background:#1a1820;left:50%;bottom:-6px;transform:translateX(-50%)}
-    .agent-badge{position:absolute;left:12px;top:12px;background:#120f13;color:#ff86b7;padding:6px 9px;border-radius:999px;font-size:11px;font-weight:900;z-index:2}
-    .agent-body{padding:17px}
-    .agent-body h3{margin:0 0 6px;font-size:18px}
-    .agent-body p{margin:0;color:#645b62;font-size:13px;min-height:42px}
-    .tagrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
-    .tag{font-size:11px;padding:5px 8px;background:#fff;border:1px solid #d8cbd2;border-radius:999px}
+    .agent-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+    .agent-card{position:relative;background:repeating-linear-gradient(2deg,rgba(109,74,47,.025) 0 1px,transparent 1px 5px),linear-gradient(180deg,#f8ede0,#e8d2bd);color:#17131a;border-radius:20px;border:1px solid rgba(132,92,64,.22);box-shadow:0 15px 38px rgba(0,0,0,.30);cursor:pointer;overflow:hidden;min-width:0}
+    .agent-card:focus-visible{outline:3px solid var(--soft-neon);outline-offset:4px}
+    .agent-visual{position:relative;aspect-ratio:4/5;max-height:258px;overflow:hidden;background:#241c24}
+    .agent-photo{width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform .38s ease,filter .3s ease;background:#241c24}
+    .agent-card:hover .agent-photo{transform:scale(1.035);filter:saturate(1.04) brightness(1.03)}
+    .agent-photo-fallback{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(160deg,#ffd0df,#7b5269);color:#fff;font-weight:900;font-size:24px;z-index:-1}
+    .agent-badge{position:absolute;left:10px;top:10px;background:rgba(18,15,19,.92);color:#ff9dcc;padding:6px 9px;border-radius:999px;font-size:10px;font-weight:900;z-index:2;box-shadow:0 8px 20px rgba(0,0,0,.24)}
+    .agent-body{padding:16px 15px 15px}
+    .agent-body h3{margin:0;font-size:18px}
+    .agent-meta{margin-top:2px;color:#8a777f;font-size:10px;font-weight:700;line-height:1.4}
+    .agent-quote{margin:10px 0 0;color:#4b3c44;font-size:12px;line-height:1.55;font-weight:800;word-break:keep-all}
+    .agent-summary{margin:8px 0 0;color:#6a5d64;font-size:11px;line-height:1.55;min-height:51px}
+    .agent-more{margin-top:11px;display:flex;align-items:center;justify-content:space-between;gap:8px;color:#b51f5c;font-size:10px;font-weight:900}
+    .tagrow{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+    .tag{font-size:9px;padding:4px 7px;background:#fff;border:1px solid #d8cbd2;border-radius:999px}
+
+    .agent-modal{position:fixed;inset:0;background:rgba(0,0,0,.76);display:none;align-items:center;justify-content:center;z-index:1450;padding:20px}
+    .agent-modal.open{display:flex}
+    .agent-modal-card{width:min(920px,100%);max-height:90vh;overflow:auto;background:linear-gradient(180deg,#fff6ec,#ead5c0);color:#17131a;border-radius:28px;box-shadow:0 28px 90px rgba(0,0,0,.62),0 0 32px rgba(255,42,167,.16);border:1px solid rgba(255,87,179,.24)}
+    .agent-modal-hero{display:grid;grid-template-columns:260px 1fr;gap:26px;padding:26px;border-bottom:1px dashed rgba(104,72,84,.28)}
+    .agent-modal-photo-wrap{border-radius:20px;overflow:hidden;aspect-ratio:4/5;background:#221a22;box-shadow:0 14px 30px rgba(0,0,0,.18)}
+    .agent-modal-photo{width:100%;height:100%;object-fit:cover;object-position:center top}
+    .agent-modal-copy{min-width:0;align-self:center}
+    .agent-modal-topline{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+    .agent-modal-copy h3{font-size:34px;line-height:1;margin:8px 0 7px;letter-spacing:-.045em}
+    .agent-modal-meta{color:#7d6d75;font-size:12px;font-weight:800}
+    .agent-modal-quote{margin:18px 0 14px;padding:13px 15px;border-radius:14px;background:#1a151a;color:#ffb2d6;font-size:14px;font-weight:900;line-height:1.6}
+    .agent-modal-profile{font-size:13px;line-height:1.8;color:#51464d;white-space:pre-line}
+    .agent-relations{padding:24px 26px 28px}
+    .agent-relations h4{margin:0 0 13px;font-size:18px}
+    .relation-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .relation-item{padding:14px;border-radius:15px;background:rgba(255,255,255,.58);border:1px solid rgba(122,84,98,.16)}
+    .relation-target{font-size:11px;color:#aa275d;font-weight:900}
+    .relation-item strong{display:block;margin:3px 0 5px;font-size:13px}
+    .relation-item p{margin:0;color:#675a61;font-size:11px;line-height:1.65}
+    .agent-modal-close{width:40px;height:40px;flex:none;border:0;border-radius:50%;background:#1b171b;color:#fff;font-size:16px;cursor:pointer}
+
 
     .split{display:grid;grid-template-columns:1fr 1fr;gap:18px}
     .use-box,.principles{padding:26px}
@@ -294,10 +318,11 @@
 
     .missions{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
     .mission{background:#171319;border:1px solid rgba(255,255,255,.08);border-radius:18px;overflow:hidden}
-    .mission-art{height:150px;background:
-      linear-gradient(135deg,rgba(255,47,137,.18),rgba(255,255,255,.02)),
-      repeating-linear-gradient(90deg,transparent 0 22px,rgba(255,255,255,.025) 22px 23px),#262029;position:relative}
-    .mission-art:after{content:"SRS";position:absolute;inset:0;display:grid;place-items:center;color:#ff6da8;font-weight:1000;font-size:36px;text-shadow:0 0 20px rgba(255,62,165,.65)}
+    .mission-art{height:150px;position:relative;overflow:hidden;display:grid;place-items:center;background:radial-gradient(circle at 70% 22%,rgba(255,61,169,.25),transparent 26%),linear-gradient(145deg,#352530,#171319 65%);isolation:isolate}
+    .mission-art:before{content:"";position:absolute;inset:12px;border:1px solid rgba(255,255,255,.10);border-radius:12px;box-shadow:inset 0 0 28px rgba(255,42,167,.05)}
+    .mission-art:after{content:attr(data-label);position:absolute;left:14px;bottom:11px;color:#ff9ec9;font-weight:900;font-size:9px;letter-spacing:.08em;text-shadow:0 0 12px rgba(255,42,167,.45)}
+    .mission-icon{position:relative;z-index:1;font-size:48px;filter:drop-shadow(0 8px 14px rgba(0,0,0,.38));transform:rotate(-4deg)}
+    .mission:nth-child(even) .mission-icon{transform:rotate(4deg)}
     .mission-body{padding:16px}
     .mission-body strong{display:block;margin-bottom:5px;transition:text-shadow .25s ease}
     .mission:hover .mission-body strong{text-shadow:0 0 10px rgba(255,42,167,.65)}
@@ -888,6 +913,420 @@
       .intro-copy{font-size:23px}
     }
 
+    @media (max-width:768px){
+      .agent-photo{object-position:center top}
+      .agent-card{grid-template-columns:112px minmax(0,1fr)}
+      .agent-visual{height:100%;min-height:172px;aspect-ratio:auto;max-height:none;border-radius:18px 0 0 18px}
+      .agent-body{padding:13px 12px}
+      .agent-meta{font-size:9px}
+      .agent-quote{font-size:11px;margin-top:7px}
+      .agent-summary{font-size:10px;min-height:0;margin-top:6px}
+      .agent-more{font-size:9px;margin-top:8px}
+      .agent-modal{padding:8px;align-items:flex-end}
+      .agent-modal-card{max-height:92dvh;border-radius:22px 22px 12px 12px}
+      .agent-modal-hero{grid-template-columns:96px 1fr;gap:14px;padding:16px}
+      .agent-modal-photo-wrap{border-radius:14px;align-self:start}
+      .agent-modal-copy h3{font-size:26px;margin-top:7px}
+      .agent-modal-meta{font-size:10px}
+      .agent-modal-quote{font-size:11px;margin:12px 0 10px;padding:10px 11px}
+      .agent-modal-profile{font-size:11px;line-height:1.7}
+      .agent-modal-close{width:34px;height:34px}
+      .agent-relations{padding:16px}
+      .agent-relations h4{font-size:16px}
+      .relation-grid{grid-template-columns:1fr}
+      .relation-item{padding:12px}
+      .mission-icon{font-size:36px}
+    }
+    @media (max-width:430px){
+      .agent-card{grid-template-columns:100px minmax(0,1fr)}
+      .agent-visual{min-height:166px}
+      .agent-summary{display:none}
+      .agent-modal-hero{grid-template-columns:82px 1fr;gap:11px;padding:13px}
+      .agent-modal-copy h3{font-size:23px}
+      .agent-modal-profile{grid-column:1/-1}
+    }
+
+
+
+    /* ===== 2026 SRS Professional Visual Refresh ===== */
+    :root{
+      --bg:#07080a;
+      --bg-soft:#0d0f13;
+      --panel:#111319;
+      --paper:#111319;
+      --beige:#15171d;
+      --ink:#f7f7fa;
+      --muted:#999ca7;
+      --pink:#ff3d88;
+      --hot:#ff244f;
+      --neon:#ff2e6f;
+      --soft-neon:#ff6ca7;
+      --neon-core:#fff5f8;
+      --neon-glow:rgba(255,46,111,.42);
+      --line:#292c34;
+      --white:#ffffff;
+      --shadow:0 22px 70px rgba(0,0,0,.46);
+      --radius:22px;
+      --surface:#101217;
+      --surface-2:#15171d;
+      --surface-3:#1a1c23;
+      --border:rgba(255,255,255,.09);
+      --border-hot:rgba(255,46,111,.34);
+    }
+
+    html{background:#07080a}
+    body{
+      font-family:"Inter","Noto Sans KR",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:#f5f5f7;
+      background:
+        linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px),
+        radial-gradient(circle at 14% -8%,rgba(255,36,79,.18),transparent 30%),
+        radial-gradient(circle at 92% 18%,rgba(255,46,111,.10),transparent 28%),
+        linear-gradient(180deg,#090a0d 0%,#060709 100%);
+      background-size:44px 44px,44px 44px,auto,auto,auto;
+    }
+
+    ::selection{background:rgba(255,46,111,.34);color:#fff}
+    .noise{opacity:.025}
+    .container{width:min(1240px,calc(100% - 48px))}
+
+    .intro-screen{
+      background:
+        radial-gradient(circle at 50% 34%,rgba(255,36,79,.20),transparent 25%),
+        radial-gradient(circle at 50% 50%,rgba(255,46,111,.08),transparent 40%),
+        #07080a;
+    }
+    .intro-heart-wrap{filter:drop-shadow(0 0 18px rgba(255,36,79,.48))}
+    .intro-heart-shape{color:#ff365f;text-shadow:0 0 12px rgba(255,36,79,.85),0 0 46px rgba(255,46,111,.32)}
+    .intro-logo{letter-spacing:.12em;text-shadow:0 0 24px rgba(255,46,111,.42)}
+    .intro-copy{font-weight:800;letter-spacing:-.045em}
+    .intro-sub{text-transform:uppercase;letter-spacing:.18em;font-size:12px;color:#8c8f99}
+    .intro-skip{background:#111319;border:1px solid rgba(255,255,255,.11);font-size:13px;letter-spacing:.02em}
+    .intro-skip.ready:hover{border-color:rgba(255,46,111,.58);box-shadow:0 0 0 4px rgba(255,46,111,.08),0 16px 36px rgba(0,0,0,.38)}
+
+    .nav{
+      background:rgba(8,9,12,.84);
+      border-bottom:1px solid rgba(255,255,255,.07);
+      box-shadow:0 14px 32px rgba(0,0,0,.22);
+    }
+    .nav-inner{height:72px}
+    .brand{letter-spacing:.04em}
+    .brand-mark{
+      width:38px;height:38px;border-radius:11px;
+      background:linear-gradient(145deg,#ff234e,#cc123b);
+      box-shadow:0 0 0 1px rgba(255,255,255,.08),0 10px 24px rgba(255,36,79,.20);
+    }
+    .brand small{color:#777b86;font-weight:600;letter-spacing:.13em}
+    .nav-links{gap:28px;color:#9b9ea8;font-size:13px;font-weight:600}
+    .nav-links a:hover{color:#fff}
+    .nav-links a::after{height:1px;background:linear-gradient(90deg,#ff244f,#ff4f9a);box-shadow:none}
+    .btn{border-radius:10px;font-size:13px;font-weight:700;letter-spacing:-.01em}
+    .btn-primary{background:linear-gradient(135deg,#f51f4a,#ff3f83);box-shadow:0 10px 26px rgba(255,36,79,.18)}
+    .btn-ghost{background:#121419;border:1px solid rgba(255,255,255,.09);color:#ececf0}
+    .btn:hover{transform:translateY(-1px);box-shadow:0 12px 30px rgba(0,0,0,.34),0 0 0 1px rgba(255,46,111,.25)}
+    .mobile-menu{background:rgba(8,9,12,.98);border-top:1px solid rgba(255,255,255,.07)}
+
+    section{padding:42px 0}
+    .hero{padding:56px 0 28px}
+    .hero-grid{gap:18px}
+    .hero-copy{
+      min-height:540px;padding:58px;
+      color:#f7f7fa;
+      background:
+        linear-gradient(120deg,rgba(255,36,79,.07),transparent 32%),
+        linear-gradient(180deg,#12141a 0%,#0c0e12 100%);
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:0 24px 70px rgba(0,0,0,.40);
+    }
+    .hero-copy::before{background:radial-gradient(circle,rgba(255,36,79,.20),transparent 68%)}
+    .eyebrow{
+      background:rgba(255,36,79,.09);color:#ff7595;border:1px solid rgba(255,36,79,.22);
+      font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+    }
+    h1{color:#f7f7fa;font-weight:850;letter-spacing:-.065em}
+    h1 span{
+      color:#ff365f;
+      background:linear-gradient(90deg,#ff244f,#ff5a9a);
+      -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    }
+    .hero-desc{color:#afb2bc;line-height:1.85;font-size:16px}
+    .hero-note{border-color:rgba(255,255,255,.08);color:#737681}
+
+    .hero-visual{
+      background:
+        linear-gradient(180deg,rgba(255,36,79,.05),transparent 28%),
+        radial-gradient(circle at 50% 52%,rgba(255,46,111,.12),transparent 34%),
+        #0b0d11;
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:0 24px 70px rgba(0,0,0,.46);
+    }
+    .hero-visual::after{
+      content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
+      background:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+      background-size:28px 28px;mask-image:linear-gradient(to bottom,transparent 0,#000 28%,#000 100%);
+    }
+    .awning{height:4px;left:12%;right:12%;top:20%;border-radius:999px;background:linear-gradient(90deg,transparent,#ff244f 20%,#ff4a91 80%,transparent);box-shadow:0 0 22px rgba(255,36,79,.44)}
+    .storefront{position:relative;z-index:1;height:54%;border:1px solid rgba(255,255,255,.10);background:rgba(5,6,8,.80);box-shadow:inset 0 0 0 1px rgba(255,46,111,.06),0 20px 50px rgba(0,0,0,.32)}
+    .neon-sign{font-weight:900;letter-spacing:.08em;color:#fff;text-shadow:0 0 6px #fff,0 0 20px #ff244f,0 0 44px rgba(255,36,79,.58)}
+    .neon-sub{color:#ff6f98;letter-spacing:.22em;text-shadow:0 0 20px rgba(255,36,79,.42)}
+    .mascot{background:#0b0d11;border:1px solid #2a2d34;box-shadow:0 16px 42px rgba(0,0,0,.42)}
+    .mascot-logo{color:#ff345f;letter-spacing:.1em}
+
+    .sticky-note{
+      width:168px;padding:14px 15px 13px;border-radius:10px;
+      color:#ececf2;background:rgba(18,20,26,.92);
+      border:1px solid rgba(255,66,127,.28);
+      box-shadow:0 15px 36px rgba(0,0,0,.38),inset 3px 0 0 #ff2d64;
+      font-family:"Inter","Noto Sans KR",sans-serif;font-size:13px;font-weight:650;line-height:1.55;
+      backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    }
+    .sticky-note.two{background:rgba(18,20,26,.94);border-color:rgba(255,66,127,.28)}
+    .sticky-note::before{content:"SRS NOTE";display:block;margin-bottom:7px;color:#ff648c;font-size:8px;font-weight:900;letter-spacing:.18em}
+    .sticky-note.two::before{content:"24H SERVICE"}
+    .sticky-note.dragging{box-shadow:0 20px 46px rgba(0,0,0,.5),0 0 0 1px rgba(255,46,111,.5)!important}
+
+    .section-title{margin-bottom:22px}
+    .section-title h2{color:#f6f6f8;font-size:30px;font-weight:800;letter-spacing:-.045em}
+    .section-title h2::after{width:36px;height:2px;background:linear-gradient(90deg,#ff244f,#ff4f98);box-shadow:0 0 12px rgba(255,46,111,.30)}
+    .section-title p{color:#777b86;font-size:13px}
+
+    .paper,
+    .reviews-shell,
+    .contact-card{
+      color:#f4f4f7;
+      background:linear-gradient(180deg,#121419,#0e1014);
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:0 20px 60px rgba(0,0,0,.34);
+    }
+    .hover-glow:hover{
+      transform:translateY(-2px);
+      border-color:rgba(255,46,111,.28)!important;
+      box-shadow:0 24px 64px rgba(0,0,0,.42),0 0 0 1px rgba(255,46,111,.10);
+      filter:none;
+    }
+
+    .overview{gap:10px;padding:18px}
+    .step{background:#15171c;border:1px solid rgba(255,255,255,.07);text-align:left;padding:18px;border-radius:14px}
+    .step-icon{width:38px;height:38px;margin:0 0 14px;background:rgba(255,36,79,.10);border:1px solid rgba(255,36,79,.16);font-size:17px}
+    .step strong{color:#f2f2f5;font-size:13px}
+    .step small{color:#777b84;font-size:11px}
+
+    .filters{gap:7px;margin-bottom:20px}
+    .chip{background:#101216;border:1px solid rgba(255,255,255,.08);color:#8f929d;padding:9px 13px;font-size:11px;font-weight:700}
+    .chip.active,.chip:hover{background:rgba(255,36,79,.12);color:#ff7899;border-color:rgba(255,36,79,.32);box-shadow:none}
+
+    .agent-grid{gap:12px}
+    .agent-card{background:#0f1115;color:#f4f4f7;border:1px solid rgba(255,255,255,.08);border-radius:18px;box-shadow:0 16px 42px rgba(0,0,0,.32)}
+    .agent-card:hover{border-color:rgba(255,46,111,.30)!important}
+    .agent-visual{background:#090a0d;border-bottom:1px solid rgba(255,255,255,.07)}
+    .agent-photo{filter:saturate(.90) contrast(1.02)}
+    .agent-card:hover .agent-photo{filter:saturate(1) contrast(1.03) brightness(1.02)}
+    .agent-photo-fallback{background:linear-gradient(160deg,#171920,#090a0d);color:#ff557d}
+    .agent-badge{background:rgba(7,8,10,.86);color:#ff7294;border:1px solid rgba(255,46,111,.24);backdrop-filter:blur(10px);box-shadow:none}
+    .agent-body{padding:16px}
+    .agent-body h3{color:#fff;font-size:17px;font-weight:800}
+    .agent-meta{color:#777b85}
+    .agent-quote{color:#d9d9de;font-weight:650}
+    .agent-summary{color:#8b8e98}
+    .tag{background:#17191f;border:1px solid rgba(255,255,255,.07);color:#9fa2ab}
+    .agent-more{color:#ff678d}
+
+    .use-box,.principles{padding:24px}
+    .use-list{gap:9px}
+    .use-item{background:#15171c;border:1px solid rgba(255,255,255,.07);color:#e9e9ed}
+    .use-item small{color:#777b85}
+    .check{background:rgba(255,36,79,.10);color:#ff557d;border:1px solid rgba(255,36,79,.16)}
+    .warning{background:linear-gradient(180deg,rgba(61,12,25,.50),rgba(22,12,16,.92));color:#d7cbd0;border:1px solid rgba(255,52,94,.25);box-shadow:0 20px 60px rgba(0,0,0,.34)}
+    .warning h2,.warning .section-title h2{color:#ff5479!important}
+
+    .pricing{gap:12px}
+    .price-card{padding:25px;border-radius:18px}
+    .price-card.popular{outline:1px solid rgba(255,46,111,.54);box-shadow:0 22px 60px rgba(255,36,79,.08),0 24px 60px rgba(0,0,0,.38)}
+    .price-label{background:#15171d!important;color:#ff7899!important;border:1px solid rgba(255,46,111,.22)!important;letter-spacing:.08em}
+    .price{color:#fff}
+    .price span{color:#777b85}
+    .features{color:#a5a8b1}
+    .features li:before{color:#ff436e}
+    .price-card .btn-ghost{color:#f0f0f3!important;background:#17191f!important;border-color:rgba(255,255,255,.08)!important}
+    .ribbon{background:linear-gradient(90deg,#f51f4a,#ff3f83)}
+
+    .missions{gap:12px}
+    .mission{background:#0f1115;border:1px solid rgba(255,255,255,.08);border-radius:18px}
+    .mission-art{
+      height:178px;
+      background:
+        linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px),
+        radial-gradient(circle at 75% 20%,rgba(255,36,79,.18),transparent 28%),
+        linear-gradient(145deg,#15171d,#090a0d);
+      background-size:22px 22px,22px 22px,auto,auto;
+    }
+    .mission-art:before{inset:14px;border-color:rgba(255,255,255,.07)}
+    .mission-art:after{left:16px;bottom:13px;color:#ff668b;font-size:8px;letter-spacing:.16em}
+    .mission-symbol{position:relative;z-index:2;width:64px;height:64px;border-radius:18px;display:grid;place-items:center;border:1px solid rgba(255,46,111,.24);background:rgba(255,36,79,.06);color:#ff5c82;font-size:24px;font-weight:700;box-shadow:0 18px 34px rgba(0,0,0,.26)}
+    .mission-body strong{color:#f4f4f6;font-size:13px}
+    .mission-body span{color:#777b85;font-size:11px;line-height:1.65}
+
+    .principle{background:#15171c;border:1px solid rgba(255,255,255,.07);color:#ededf0;text-align:left}
+    .principle-icon{font-size:22px}
+    .principle small{color:#777b85}
+
+    .room{background:linear-gradient(145deg,#111319,#090a0d);border:1px solid rgba(255,255,255,.08)}
+    .room:before{background:rgba(255,255,255,.07);box-shadow:0 54px 0 rgba(255,255,255,.035),0 108px 0 rgba(255,255,255,.03)}
+    .room-neon{color:#fff;text-shadow:0 0 10px rgba(255,255,255,.45),0 0 28px rgba(255,36,79,.64);letter-spacing:.08em}
+    .room-caption{color:#737681;font-size:10px;letter-spacing:.12em}
+    .contact-card h3{color:#fff}
+    .contact-meta{color:#8f929c}
+
+    .reviews-shell{padding:28px}
+    .review-overview{border-color:rgba(255,255,255,.08)}
+    .rating-main{background:#15171c;border:1px solid rgba(255,255,255,.07)}
+    .rating-score{color:#fff}
+    .rating-stars{color:#ff486f;text-shadow:none}
+    .rating-count,.rating-row{color:#777b85}
+    .rating-track{background:#23262d}
+    .rating-fill{background:linear-gradient(90deg,#ff244f,#ff4f98);box-shadow:none}
+    .review-chip{background:#15171c;color:#92959f;border:1px solid rgba(255,255,255,.07)}
+    .review-chip.active,.review-chip:hover{background:rgba(255,36,79,.10);color:#ff7899;border-color:rgba(255,36,79,.28);box-shadow:none}
+    .review-write{background:linear-gradient(135deg,#f51f4a,#ff3f83);box-shadow:0 10px 24px rgba(255,36,79,.15)}
+    .review-card{background:#15171c;border:1px solid rgba(255,255,255,.07);box-shadow:none}
+    .review-card:hover{box-shadow:0 14px 36px rgba(0,0,0,.25),0 0 0 1px rgba(255,46,111,.10)}
+    .review-avatar{background:#0d0f13;color:#ff6e91;border-color:rgba(255,46,111,.20)}
+    .review-user strong{color:#f3f3f5}
+    .review-meta,.review-foot{color:#777b85}
+    .verified{background:rgba(255,36,79,.09);color:#ff7899}
+    .review-stars{color:#ff486f}
+    .review-text{color:#b0b2ba}
+    .review-tag{background:#0f1115;color:#8f929b;border-color:rgba(255,255,255,.07)}
+    .helpful{background:#0f1115;color:#8f929b;border-color:rgba(255,255,255,.07)}
+    .helpful:hover,.helpful.liked{background:rgba(255,36,79,.08);border-color:rgba(255,46,111,.28);color:#ff7899}
+    .review-compose{background:#111319;border-color:rgba(255,255,255,.08)}
+    .review-compose input,.review-compose select,.review-compose textarea,
+    .field input,.field select,.field textarea{background:#0d0f13;color:#f1f1f4;border:1px solid rgba(255,255,255,.09)}
+    .review-compose input:focus,.review-compose select:focus,.review-compose textarea:focus,
+    .field input:focus,.field select:focus,.field textarea:focus{border-color:rgba(255,46,111,.50);box-shadow:0 0 0 3px rgba(255,46,111,.08)}
+
+    .modal{background:rgba(0,0,0,.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+    .modal-card{background:#111319;color:#f5f5f7;border:1px solid rgba(255,255,255,.09);box-shadow:0 28px 90px rgba(0,0,0,.62)}
+    .field label{color:#c6c8cf}
+    .form-note{color:#8f929c;background:#15171c;border-color:rgba(255,255,255,.07)}
+    .close{background:#1b1d23;border:1px solid rgba(255,255,255,.07)}
+
+    .agent-modal{background:rgba(0,0,0,.80);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+    .agent-modal-card{background:#0f1115;color:#f4f4f7;border:1px solid rgba(255,255,255,.09);box-shadow:0 30px 100px rgba(0,0,0,.68),0 0 0 1px rgba(255,46,111,.07)}
+    .agent-modal-hero{border-color:rgba(255,255,255,.07)}
+    .agent-modal-photo-wrap{background:#090a0d}
+    .agent-modal-copy h3{color:#fff}
+    .agent-modal-meta{color:#8a8d96}
+    .agent-modal-quote{background:#17191f;color:#ff7b9c;border:1px solid rgba(255,46,111,.14)}
+    .agent-modal-profile{color:#b2b4bc}
+    .agent-relations h4{color:#fff}
+    .relation-item{background:#15171c;border:1px solid rgba(255,255,255,.07)}
+    .relation-target{color:#ff6a8f}
+    .relation-item strong{color:#efeff2}
+    .relation-item p{color:#90939c}
+    .agent-modal-close{background:#1a1c22;border:1px solid rgba(255,255,255,.08)}
+
+    footer{color:#686b74}
+    .footer-inner{border-color:rgba(255,255,255,.07)}
+
+    /* ===== LP Playlist ===== */
+    .srs-player-shell{
+      position:fixed;top:88px;right:22px;z-index:86;
+      display:flex;align-items:flex-start;justify-content:flex-end;gap:10px;
+      opacity:1;transform:translateY(0);transition:opacity .35s ease,transform .35s ease;
+    }
+    body.intro-lock .srs-player-shell{opacity:0;pointer-events:none;transform:translateY(-8px)}
+    .srs-lp-toggle{
+      width:70px;height:70px;flex:none;border:1px solid rgba(255,255,255,.10);border-radius:50%;padding:0;cursor:pointer;
+      background:transparent;box-shadow:0 14px 32px rgba(0,0,0,.38),0 0 0 1px rgba(255,46,111,.06);
+      position:relative;display:grid;place-items:center;
+    }
+    .srs-lp{
+      width:64px;height:64px;border-radius:50%;position:relative;
+      background:
+        radial-gradient(circle,#07080a 0 7%,#ff375e 7.5% 14%,#0a0b0e 14.5% 19%,transparent 19.5%),
+        repeating-radial-gradient(circle,#17191f 0 1px,#08090b 2px 4px);
+      border:1px solid #242730;box-shadow:inset 0 0 0 1px rgba(255,255,255,.04),0 0 22px rgba(255,36,79,.14);
+    }
+    .srs-lp::after{content:"SRS";position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:7px;font-weight:900;letter-spacing:.08em}
+    .srs-player-shell.playing .srs-lp{animation:srsSpin 4.8s linear infinite}
+    @keyframes srsSpin{to{transform:rotate(360deg)}}
+    .srs-player-led{position:absolute;right:2px;top:4px;width:9px;height:9px;border-radius:50%;background:#4a4d55;border:2px solid #090a0d}
+    .srs-player-shell.playing .srs-player-led{background:#ff315d;box-shadow:0 0 10px rgba(255,49,93,.85)}
+
+    .srs-player-panel{
+      width:0;max-height:0;overflow:hidden;opacity:0;pointer-events:none;
+      background:rgba(12,14,18,.96);border:1px solid rgba(255,255,255,.09);border-radius:18px;
+      box-shadow:0 24px 70px rgba(0,0,0,.50);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+      transition:width .28s ease,max-height .32s ease,opacity .18s ease;
+    }
+    .srs-player-shell.open .srs-player-panel{width:332px;max-height:510px;opacity:1;pointer-events:auto}
+    .srs-player-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 16px 12px;border-bottom:1px solid rgba(255,255,255,.07)}
+    .srs-player-head-copy{min-width:0}
+    .srs-player-kicker{font-size:8px;font-weight:800;color:#ff668b;letter-spacing:.18em;text-transform:uppercase}
+    .srs-now-title{margin-top:3px;font-size:12px;font-weight:800;color:#f4f4f6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .srs-now-artist{font-size:9px;color:#777b85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .srs-player-controls{display:flex;align-items:center;gap:6px}
+    .srs-player-btn{width:31px;height:31px;border-radius:9px;border:1px solid rgba(255,255,255,.08);background:#17191f;color:#ececf0;display:grid;place-items:center;cursor:pointer;font-size:12px}
+    .srs-player-btn.main{background:linear-gradient(135deg,#f51f4a,#ff3f83);border-color:transparent}
+    .srs-player-btn:hover{border-color:rgba(255,46,111,.30)}
+    .srs-track-list{padding:7px;display:grid;gap:3px;max-height:330px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#3c2730 transparent}
+    .srs-track{width:100%;border:0;background:transparent;color:#bfc1c8;border-radius:11px;padding:8px;display:grid;grid-template-columns:34px minmax(0,1fr) 22px;gap:9px;align-items:center;text-align:left;cursor:pointer}
+    .srs-track:hover{background:rgba(255,255,255,.035)}
+    .srs-track.active{background:rgba(255,36,79,.08);color:#fff}
+    .srs-track-cover{width:34px;height:34px;border-radius:8px;object-fit:cover;background:#1b1d23}
+    .srs-track-copy{min-width:0}
+    .srs-track-title{display:block;font-size:10px;font-weight:750;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .srs-track-artist{display:block;margin-top:2px;font-size:8px;color:#747883;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .srs-track.active .srs-track-artist{color:#b38a97}
+    .srs-track-no{font-size:8px;color:#5e616a;text-align:right}
+    .srs-player-foot{display:flex;align-items:center;gap:8px;padding:10px 14px 12px;border-top:1px solid rgba(255,255,255,.06)}
+    .srs-volume-icon{font-size:10px;color:#737681}
+    .srs-volume{width:100%;accent-color:#ff315d}
+    .srs-player-note{padding:0 14px 12px;color:#5f626b;font-size:8px;line-height:1.5}
+    #srsYoutubePlayerWrap{position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden;pointer-events:none}
+
+    @media(max-width:1180px){
+      .agent-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+    }
+    @media(max-width:860px){
+      .container{width:calc(100% - 32px)}
+      .agent-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .srs-player-shell{top:74px;right:12px}
+      .srs-lp-toggle{width:60px;height:60px}
+      .srs-lp{width:54px;height:54px}
+      .srs-player-shell.open .srs-player-panel{width:min(320px,calc(100vw - 92px))}
+    }
+    @media(max-width:768px){
+      section{padding:32px 0}
+      .hero{padding:18px 0 18px}
+      .hero-copy{padding:30px 24px;background:linear-gradient(180deg,#111319,#0c0e12)}
+      .hero-desc{font-size:14px}
+      .sticky-note{width:118px!important;font-size:10px!important;line-height:1.45!important;padding:10px 10px 9px!important}
+      .sticky-note::before{font-size:6px;margin-bottom:5px}
+      .agent-grid{grid-template-columns:1fr}
+      .agent-card{grid-template-columns:112px minmax(0,1fr);display:grid}
+      .agent-body{background:#0f1115}
+      .overview{grid-template-columns:1fr 1fr}
+      .overview .step:last-child{grid-column:1/-1}
+      .mission-art{height:140px}
+      .reviews-shell{padding:20px 15px}
+      .srs-player-shell{top:70px;right:10px}
+      .srs-player-shell.open{left:10px;right:10px;align-items:flex-start;flex-direction:row-reverse}
+      .srs-player-shell.open .srs-player-panel{width:calc(100vw - 90px);max-height:62vh}
+      .srs-track-list{max-height:38vh}
+    }
+    @media(max-width:430px){
+      .container{width:calc(100% - 24px)}
+      .hero-copy{padding:26px 19px}
+      .overview{grid-template-columns:1fr}
+      .overview .step:last-child{grid-column:auto}
+      .agent-card{grid-template-columns:100px minmax(0,1fr)}
+      .srs-player-shell.open .srs-player-panel{width:calc(100vw - 82px)}
+    }
+
   </style>
 </head>
 <body class="intro-lock">
@@ -917,7 +1356,7 @@
         <span>SRS <small>STALKER RENTAL SERVICE</small></span>
       </a>
       <div class="nav-links">
-        <a href="#service">서비스</a>
+        <a href="#service">맞춤 서비스</a>
         <a href="#catalog">대여 서비스</a>
         <a href="#price">요금제</a>
         <a href="#rules">운영 원칙</a>
@@ -932,7 +1371,7 @@
     </div>
     <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
       <div class="container mobile-menu-inner">
-        <a href="#service">서비스 오버뷰</a>
+        <a href="#service">SRS 맞춤 서비스</a>
         <a href="#catalog">대여 가능한 서비스</a>
         <a href="#price">서비스 이용 요금제</a>
         <a href="#rules">우리의 원칙</a>
@@ -942,6 +1381,39 @@
       </div>
     </div>
   </nav>
+
+  <!-- SRS LP PLAYLIST -->
+  <aside class="srs-player-shell" id="srsPlayerShell" aria-label="SRS 플레이리스트">
+    <div class="srs-player-panel" id="srsPlayerPanel" aria-hidden="true">
+      <div class="srs-player-head">
+        <div class="srs-player-head-copy">
+          <div class="srs-player-kicker">SRS NIGHT SHIFT · PLAYLIST</div>
+          <div class="srs-now-title" id="srsNowTitle">Stalker</div>
+          <div class="srs-now-artist" id="srsNowArtist">Badflower</div>
+        </div>
+        <div class="srs-player-controls">
+          <button class="srs-player-btn" id="srsPrevTrack" type="button" aria-label="이전 곡">◀</button>
+          <button class="srs-player-btn main" id="srsPlayPause" type="button" aria-label="재생/일시정지">Ⅱ</button>
+          <button class="srs-player-btn" id="srsNextTrack" type="button" aria-label="다음 곡">▶</button>
+        </div>
+      </div>
+      <div class="srs-track-list" id="srsTrackList">
+        <button class="srs-track active" type="button" data-track-index="0"><img class="srs-track-cover" src="https://i.ytimg.com/vi/B0ipHVGxFlM/hqdefault.jpg" alt=""><span class="srs-track-copy"><span class="srs-track-title">Stalker</span><span class="srs-track-artist">Badflower</span></span><span class="srs-track-no">01</span></button>
+        <button class="srs-track" type="button" data-track-index="1"><img class="srs-track-cover" src="https://i.ytimg.com/vi/Q3B17TmEvoY/hqdefault.jpg" alt=""><span class="srs-track-copy"><span class="srs-track-title">Stalker's Tango</span><span class="srs-track-artist">Autoheart</span></span><span class="srs-track-no">02</span></button>
+        <button class="srs-track" type="button" data-track-index="2"><img class="srs-track-cover" src="https://i.ytimg.com/vi/OMOGaugKpzs/hqdefault.jpg" alt=""><span class="srs-track-copy"><span class="srs-track-title">Every Breath You Take</span><span class="srs-track-artist">The Police</span></span><span class="srs-track-no">03</span></button>
+        <button class="srs-track" type="button" data-track-index="3"><img class="srs-track-cover" src="https://i.ytimg.com/vi/nyuo9-OjNNg/hqdefault.jpg" alt=""><span class="srs-track-copy"><span class="srs-track-title">I Wanna Be Yours</span><span class="srs-track-artist">Arctic Monkeys</span></span><span class="srs-track-no">04</span></button>
+        <button class="srs-track" type="button" data-track-index="4"><img class="srs-track-cover" src="https://i.ytimg.com/vi/xRzbLQ_WKPs/hqdefault.jpg" alt=""><span class="srs-track-copy"><span class="srs-track-title">Dark Red</span><span class="srs-track-artist">Steve Lacy</span></span><span class="srs-track-no">05</span></button>
+        <button class="srs-track" type="button" data-track-index="5"><img class="srs-track-cover" src="https://i.ytimg.com/vi/19EoUJViqdM/hqdefault.jpg" alt=""><span class="srs-track-copy"><span class="srs-track-title">stalker</span><span class="srs-track-artist">Stevie Howie</span></span><span class="srs-track-no">06</span></button>
+      </div>
+      <div class="srs-player-foot"><span class="srs-volume-icon">VOL</span><input class="srs-volume" id="srsVolume" type="range" min="0" max="100" value="42" aria-label="음량"></div>
+      <div class="srs-player-note">브라우저가 자동재생을 제한할 경우, 입장 버튼 클릭과 동시에 재생됩니다.</div>
+    </div>
+    <button class="srs-lp-toggle" id="srsLpToggle" type="button" aria-label="플레이리스트 열기" aria-expanded="false">
+      <span class="srs-lp" aria-hidden="true"></span><span class="srs-player-led" aria-hidden="true"></span>
+    </button>
+  </aside>
+  <div id="srsYoutubePlayerWrap"><div id="srsYoutubePlayer"></div></div>
+
 
   <main id="top">
     <section class="hero">
@@ -975,7 +1447,7 @@
     <section id="service">
       <div class="container">
         <div class="section-title" data-reveal>
-          <div><h2>서비스 오버뷰</h2><p>상담부터 파견, 종료 후 피드백까지 한 번에.</p></div>
+          <div><h2>SRS 맞춤 서비스</h2><p>상담부터 파견, 종료 후 피드백까지 한 번에.</p></div>
         </div>
         <div class="paper overview hover-glow" data-reveal>
           <div class="step hover-glow"><div class="step-icon">👥</div><strong>고객 상담</strong><small>상황·취향·금지선 정리</small></div>
@@ -990,24 +1462,92 @@
     <section id="catalog">
       <div class="container">
         <div class="section-title" data-reveal>
-          <div><h2>대여 가능한 서비스</h2><p>일부 예시입니다. 상담 시 취향에 맞게 세부 조정 가능합니다.</p></div>
+          <div><h2>대여 가능한 스토커</h2><p>SRS 등록 요원의 전문 분야와 성향을 확인하고 상세 프로필에서 관계도까지 열람할 수 있습니다.</p></div>
         </div>
         <div class="filters" data-reveal>
           <button class="chip active" data-filter="all">전체</button>
+          <button class="chip" data-filter="field">현장형</button>
           <button class="chip" data-filter="clingy">집착형</button>
-          <button class="chip" data-filter="cute">귀여움</button>
           <button class="chip" data-filter="smart">지능형</button>
-          <button class="chip" data-filter="quiet">조용한 타입</button>
+          <button class="chip" data-filter="care">생활밀착</button>
+          <button class="chip" data-filter="chaos">개차반형</button>
         </div>
         <div class="agent-grid">
-          <article class="agent-card hover-glow" data-type="clingy smart" data-reveal><div class="agent-visual"><span class="agent-badge">집착 공공형</span><div class="hair"></div><div class="head"></div><div class="body-shape"></div></div><div class="agent-body"><h3>집착 공공형</h3><p>하루 종일 당신의 동선을 기억해두는 과몰입형.</p><div class="tagrow"><span class="tag">고집</span><span class="tag">잔소리</span><span class="tag">과보호</span></div></div></article>
-          <article class="agent-card hover-glow" data-type="quiet smart" data-reveal><div class="agent-visual"><span class="agent-badge">츤데레 냉미남형</span><div class="hair"></div><div class="head"></div><div class="body-shape"></div></div><div class="agent-body"><h3>츤데레 냉미남형</h3><p>무심한 척하지만 챙길 건 끝까지 챙기는 타입.</p><div class="tagrow"><span class="tag">무심</span><span class="tag">관찰</span><span class="tag">은근다정</span></div></div></article>
-          <article class="agent-card hover-glow" data-type="quiet" data-reveal><div class="agent-visual"><span class="agent-badge">조용 관찰형</span><div class="hair"></div><div class="head"></div><div class="body-shape"></div></div><div class="agent-body"><h3>조용 관찰형</h3><p>눈을 마주친 순간조차 기록해둘 것 같은 정적 타입.</p><div class="tagrow"><span class="tag">낮은 말수</span><span class="tag">정확함</span><span class="tag">거리 유지</span></div></div></article>
-          <article class="agent-card hover-glow" data-type="cute" data-reveal><div class="agent-visual"><span class="agent-badge">귀여운 강아지형</span><div class="hair"></div><div class="head"></div><div class="body-shape"></div></div><div class="agent-body"><h3>귀여운 강아지형</h3><p>당신을 보면 꼬리라도 흔들 것 같은 친근 밀착형.</p><div class="tagrow"><span class="tag">대형견</span><span class="tag">애교</span><span class="tag">충성</span></div></div></article>
-          <article class="agent-card hover-glow" data-type="smart" data-reveal><div class="agent-visual"><span class="agent-badge">지능형 해커 타입</span><div class="hair"></div><div class="head"></div><div class="body-shape"></div></div><div class="agent-body"><h3>지능형 해커 타입</h3><p>정보 수집을 잘하는 척 연기하는 브레인 캐릭터.</p><div class="tagrow"><span class="tag">분석가</span><span class="tag">브레인</span><span class="tag">계획형</span></div></div></article>
-          <article class="agent-card hover-glow" data-type="clingy cute" data-reveal><div class="agent-visual"><span class="agent-badge">스포츠 집착형</span><div class="hair"></div><div class="head"></div><div class="body-shape"></div></div><div class="agent-body"><h3>스포츠 집착형</h3><p>체력만큼 추진력도 넘치는 직진형 스토커 캐릭터.</p><div class="tagrow"><span class="tag">직진</span><span class="tag">활동적</span><span class="tag">열정</span></div></div></article>
-          <article class="agent-card hover-glow" data-type="quiet clingy" data-reveal><div class="agent-visual"><span class="agent-badge">금수저 스토커</span><div class="hair"></div><div class="head"></div><div class="body-shape"></div></div><div class="agent-body"><h3>금수저 스토커</h3><p>말보다 먼저 선물과 이벤트가 도착하는 타입.</p><div class="tagrow"><span class="tag">재력</span><span class="tag">품위</span><span class="tag">집요함</span></div></div></article>
-          <article class="agent-card hover-glow" data-type="clingy" data-reveal><div class="agent-visual" style="background:radial-gradient(circle at 50% 38%,#ffe8ea 0 28%,transparent 29%),linear-gradient(160deg,#f7c0c8,#c84d6f 70%)"><span class="agent-badge">미친 사랑꾼형</span><div class="hair" style="background:#7a1831"></div><div class="head"></div><div class="body-shape"></div></div><div class="agent-body"><h3>미친 사랑꾼형</h3><p>당신밖에 모르는 극단적 헌신형 캐릭터.</p><div class="tagrow"><span class="tag">올인</span><span class="tag">과몰입</span><span class="tag">헌신</span></div></div></article>
+          <article class="agent-card hover-glow" data-type="field quiet" data-agent="baek" data-reveal tabindex="0" role="button" aria-label="백기태 상세 프로필 보기">
+            <div class="agent-visual">
+              <div class="agent-photo-fallback" aria-hidden="true">백기태</div>
+              <img class="agent-photo" src="https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/rentalS/1.png" alt="백기태 캐릭터 이미지" loading="lazy" decoding="async" onerror="this.style.opacity='0'">
+              <span class="agent-badge">현장 베테랑</span>
+            </div>
+            <div class="agent-body">
+              <h3>백기태</h3>
+              <div class="agent-meta">46세 · 187cm · SRS 현장 1팀 반장</div>
+              <p class="agent-quote">“아이고, 봤어? 고개 돌려. 아저씨 담배 피우잖아.”</p>
+              <p class="agent-summary">천연덕스럽고 수더분한 현장 베테랑. 민원 누적 1위, 재지정률도 1위.</p>
+              <div class="tagrow"><span class="tag">현장형</span><span class="tag">능글</span><span class="tag">연륜</span></div>
+              <div class="agent-more"><span>프로필 · 관계도</span><span>자세히 보기 →</span></div>
+            </div>
+          </article>
+          <article class="agent-card hover-glow" data-type="clingy quiet" data-agent="do" data-reveal tabindex="0" role="button" aria-label="도이원 상세 프로필 보기">
+            <div class="agent-visual">
+              <div class="agent-photo-fallback" aria-hidden="true">도이원</div>
+              <img class="agent-photo" src="https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/rentalS/2.png" alt="도이원 캐릭터 이미지" loading="lazy" decoding="async" onerror="this.style.opacity='0'">
+              <span class="agent-badge">고강도 집착형</span>
+            </div>
+            <div class="agent-body">
+              <h3>도이원</h3>
+              <div class="agent-meta">23세 · 180cm · 집착광공형 전문 스토커</div>
+              <p class="agent-quote">“말 안 해도 압니다. 오늘은 평소보다 늦으셨네요.”</p>
+              <p class="agent-summary">과묵하고 무표정한 고강도 관찰형. 기다리는 건 잘하지만 포기하는 건 못한다.</p>
+              <div class="tagrow"><span class="tag">과묵</span><span class="tag">집착</span><span class="tag">관찰</span></div>
+              <div class="agent-more"><span>프로필 · 관계도</span><span>자세히 보기 →</span></div>
+            </div>
+          </article>
+          <article class="agent-card hover-glow" data-type="smart field" data-agent="cha" data-reveal tabindex="0" role="button" aria-label="차해온 상세 프로필 보기">
+            <div class="agent-visual">
+              <div class="agent-photo-fallback" aria-hidden="true">차해온</div>
+              <img class="agent-photo" src="https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/rentalS/3.png" alt="차해온 캐릭터 이미지" loading="lazy" decoding="async" onerror="this.style.opacity='0'">
+              <span class="agent-badge">지능형 해커</span>
+            </div>
+            <div class="agent-body">
+              <h3>차해온</h3>
+              <div class="agent-meta">27세 · 187cm/84kg · 지능형 해커 스토커</div>
+              <p class="agent-quote">“말 안 하셔도 돼요. 표정이 먼저 알려주던데요?”</p>
+              <p class="agent-summary">온화하고 능글맞은 분석가. 웃으면서 상대의 패턴을 읽는 지능형 스토커.</p>
+              <div class="tagrow"><span class="tag">분석</span><span class="tag">능글</span><span class="tag">정보전</span></div>
+              <div class="agent-more"><span>프로필 · 관계도</span><span>자세히 보기 →</span></div>
+            </div>
+          </article>
+          <article class="agent-card hover-glow" data-type="care field" data-agent="moon" data-reveal tabindex="0" role="button" aria-label="문석우 상세 프로필 보기">
+            <div class="agent-visual">
+              <div class="agent-photo-fallback" aria-hidden="true">문석우</div>
+              <img class="agent-photo" src="https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/rentalS/%EB%AC%B8%EC%84%9D%EC%9A%B0%20%EB%A9%94%EC%9D%B8%20%EC%97%90%EC%85%8B.png" alt="문석우 캐릭터 이미지" loading="lazy" decoding="async" onerror="this.style.opacity='0'">
+              <span class="agent-badge">생활밀착 에이스</span>
+            </div>
+            <div class="agent-body">
+              <h3>문석우</h3>
+              <div class="agent-meta">29세 · 193cm · 고객만족도/재계약률 에이스</div>
+              <p class="agent-quote">“늦어도 돼요. 난 원래 먼저 와서 기다리는 편이라.”</p>
+              <p class="agent-summary">잘 웃고 붙임성 좋은 대형견형. 약속·책임·꾸준함으로 신뢰를 쌓는 생활밀착 에이스.</p>
+              <div class="tagrow"><span class="tag">대형견</span><span class="tag">책임감</span><span class="tag">생활밀착</span></div>
+              <div class="agent-more"><span>프로필 · 관계도</span><span>자세히 보기 →</span></div>
+            </div>
+          </article>
+          <article class="agent-card hover-glow" data-type="chaos clingy" data-agent="ryu" data-reveal tabindex="0" role="button" aria-label="류해일 상세 프로필 보기">
+            <div class="agent-visual">
+              <div class="agent-photo-fallback" aria-hidden="true">류해일</div>
+              <img class="agent-photo" src="https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/rentalS/5.png" alt="류해일 캐릭터 이미지" loading="lazy" decoding="async" onerror="this.style.opacity='0'">
+              <span class="agent-badge">금수저 개차반형</span>
+            </div>
+            <div class="agent-body">
+              <h3>류해일</h3>
+              <div class="agent-meta">29세 · 188cm · 금수저 개차반형 스토커</div>
+              <p class="agent-quote">“스토커 맞는데. 그래서? 이제 와서 놀라?”</p>
+              <p class="agent-summary">돈과 인맥을 거리낌 없이 쓰는 대놓고 밀착형. 능글맞고 뻔뻔하며 반응 구경을 즐긴다.</p>
+              <div class="tagrow"><span class="tag">금수저</span><span class="tag">뻔뻔</span><span class="tag">대놓고밀착</span></div>
+              <div class="agent-more"><span>프로필 · 관계도</span><span>자세히 보기 →</span></div>
+            </div>
+          </article>
         </div>
       </div>
     </section>
@@ -1078,12 +1618,12 @@
 
     <section>
       <div class="container">
-        <div class="section-title" data-reveal><div><h2>스토커 파견 예시</h2><p>당신의 이야기는, 우리 스토커의 하루가 됩니다.</p></div></div>
+        <div class="section-title" data-reveal><div><h2>스토커 파견 예시</h2><p>실제 이미지 적용 시 CCTV·관찰 기록처럼 과장되지 않은 시네마틱 컷을 권장합니다.</p></div></div>
         <div class="missions">
-          <div class="mission hover-glow" data-reveal><div class="mission-art"></div><div class="mission-body"><strong>출근길에 몰래 따라가기</strong><span>낯익은 듯 낯선 시선 연출</span></div></div>
-          <div class="mission hover-glow" data-reveal><div class="mission-art"></div><div class="mission-body"><strong>SNS 실시간 감시</strong><span>피드·스토리 반응 콘셉트</span></div></div>
-          <div class="mission hover-glow" data-reveal><div class="mission-art"></div><div class="mission-body"><strong>우연을 가장한 만남</strong><span>카페·서점·퇴근길 이벤트</span></div></div>
-          <div class="mission hover-glow" data-reveal><div class="mission-art"></div><div class="mission-body"><strong>특별한 날 이벤트 준비</strong><span>기념일 맞춤 시나리오</span></div></div>
+          <div class="mission hover-glow" data-reveal><div class="mission-art" data-label="COMMUTE / TAILING"><span class="mission-symbol" aria-hidden="true">↗</span></div><div class="mission-body"><strong>출근길에 몰래 따라가기</strong><span>횡단보도·골목·멀리 선 실루엣 중심의 시네마틱 컷</span></div></div>
+          <div class="mission hover-glow" data-reveal><div class="mission-art" data-label="SOCIAL / MONITOR"><span class="mission-symbol" aria-hidden="true">▣</span></div><div class="mission-body"><strong>SNS 실시간 감시</strong><span>어두운 방 속 휴대폰 화면·알림창·타임스탬프 중심</span></div></div>
+          <div class="mission hover-glow" data-reveal><div class="mission-art" data-label="ENCOUNTER / CAFE"><span class="mission-symbol" aria-hidden="true">◎</span></div><div class="mission-body"><strong>우연을 가장한 만남</strong><span>카페 창가 너머 시선이 교차하는 장면 중심</span></div></div>
+          <div class="mission hover-glow" data-reveal><div class="mission-art" data-label="SPECIAL / EVENT"><span class="mission-symbol" aria-hidden="true">◇</span></div><div class="mission-body"><strong>특별한 날 이벤트 준비</strong><span>문 앞 선물·봉투·꽃과 그림자 연출 중심</span></div></div>
         </div>
       </div>
     </section>
@@ -1106,7 +1646,7 @@
       <div class="container">
         <div class="section-title" data-reveal><div><h2>센터 내부 살짝 공개</h2><p>365일, 24시간 관리 중.</p></div></div>
         <div class="center-preview">
-          <div class="room hover-glow" data-reveal><div class="room-neon">SRS ♡</div><div class="room-caption">CONTROL ROOM · 24H</div></div>
+          <div class="room hover-glow" data-reveal aria-label="센터 내부 이미지 준비 중"><div class="room-neon" style="font-size:clamp(34px,5vw,58px)">COMING SOON</div><div class="room-caption">SRS CENTER · INTERNAL PREVIEW</div></div>
           <div class="contact-card hover-glow" data-reveal>
             <div>
               <span class="eyebrow">STALKER RENTAL SERVICE CENTER</span>
@@ -1255,6 +1795,26 @@
   </aside>
 
 
+  <div class="agent-modal" id="agentModal" aria-hidden="true">
+    <div class="agent-modal-card" role="dialog" aria-modal="true" aria-labelledby="agentModalName">
+      <div class="agent-modal-hero">
+        <div class="agent-modal-photo-wrap"><img class="agent-modal-photo" id="agentModalPhoto" alt=""></div>
+        <div class="agent-modal-copy">
+          <div class="agent-modal-topline">
+            <div><span class="eyebrow" id="agentModalBadge"></span><h3 id="agentModalName"></h3><div class="agent-modal-meta" id="agentModalMeta"></div></div>
+            <button class="agent-modal-close" id="closeAgentModal" type="button" aria-label="상세 프로필 닫기">✕</button>
+          </div>
+          <div class="agent-modal-quote" id="agentModalQuote"></div>
+          <div class="agent-modal-profile" id="agentModalProfile"></div>
+        </div>
+      </div>
+      <div class="agent-relations">
+        <h4 id="agentRelationTitle">SRS 5인 관계도</h4>
+        <div class="relation-grid" id="agentRelationGrid"></div>
+      </div>
+    </div>
+  </div>
+
   <div class="modal" id="applyModal" aria-hidden="true">
     <div class="modal-card hover-glow">
       <div class="modal-top">
@@ -1305,7 +1865,7 @@
     document.querySelectorAll('[data-plan]').forEach(btn=>btn.addEventListener('click',()=>openModal(btn.dataset.plan)));
     document.getElementById('closeModal').addEventListener('click',closeModal);
     modal.addEventListener('click',e=>{ if(e.target===modal) closeModal(); });
-    document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+    document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeAgentModal?.(); closeModal(); } });
 
     document.querySelectorAll('[data-scroll]').forEach(btn=>btn.addEventListener('click',()=>{
       document.querySelector(btn.dataset.scroll)?.scrollIntoView({behavior:'smooth'});
@@ -1322,6 +1882,63 @@
         });
       });
     });
+
+
+
+    const agentData = {"baek":{"name":"백기태","meta":"46세 · 187cm · SRS 현장 1팀 반장","badge":"현장 베테랑","image":"https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/rentalS/1.png","quote":"“아이고, 봤어? 고개 돌려. 아저씨 담배 피우잖아.”","profile":"백기태｜46세｜187cm｜SRS 현장 1팀 반장 겸 야간 민원 담당. 구릿빛 피부, 흑발 꽁지머리와 은회색 눈, 오른쪽 눈썹의 은색 바벨, 입술 중앙에서 오른쪽 입꼬리까지 이어진 봉합흔이 특징인 미남 아저씨. 숨을 실력은 충분하지만 휴게시간엔 굳이 숨지 않아 미행 중에도 태연히 담배를 피운다. 천연덕스럽고 수더분하며, 능청·능글과 걸쭉한 입담에 현장 연륜이 배어 있다. 센터 민원 누적 1위지만 재지정률도 1위인 문제 직원. {{user}}에게 초기 호감·보호·질투·특별취급은 없으며 센터 배정에 따라 철저히 업무로 접근한다. 민원을 넣으면 본인이 직접 전화를 받아 접수한다.","relations":[{"target":"류해일","title":"돈 안 통하는 사고뭉치","text":"돈과 집안으로 밀어붙이는 꼴을 한심해하면서도 현장에서 보여주는 배짱과 순발력은 인정한다. 사고 치면 가장 먼저 잡지만 뒤처리까지는 해준다."},{"target":"차해온","title":"머리 좋은 귀신","text":"자기가 감으로 알아낸 걸 이미 데이터로 뽑아놓는 후배. 지나치게 많이 아는 점은 꺼림칙하지만 정보 판단만큼은 상당히 신뢰한다."},{"target":"도이원","title":"선 넘기 전에 끊어야 할 막내","text":"집착의 깊이와 위험성을 정확히 안다. 달래거나 보호하지 않고, 필요하면 반장 권한으로 업무 자체를 끊어버린다."},{"target":"문석우","title":"가장 믿고 맡기는 후배","text":"잔소리할 필요 없이 알아서 움직이는 현장형. 네 사람 중 가장 마음 편하게 등을 맡길 수 있어 어려운 일일수록 먼저 찾는다."}]},"do":{"name":"도이원","meta":"23세 · 180cm · 집착광공형 전문 스토커","badge":"고강도 집착형","image":"https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/rentalS/2.png","quote":"“말 안 해도 압니다. 오늘은 평소보다 늦으셨네요.”","profile":"도이원｜23세｜SRS 소속 집착광공형 전문 스토커. 180cm, 창백한 피부와 흑발, 피곤하고 음침한 눈매의 미남. 과묵하고 무표정하며 반응이 적고, 타인에겐 존댓말과 단답만 사용한다. 질투심·독점욕·통제욕이 강하고 관찰력과 기억력이 뛰어나다. 고강도 집착·생활밀착 관찰에 특화되어 동선, 귀가 시간, SNS, 주변 인물, 습관과 일정을 세세하게 파악한다. 화날수록 더 조용해지고 말보다 행동으로 드러낸다. 가치관은 말보다 행동, 관계는 오래 지켜내는 것으로 증명된다고 생각한다. 기다리는 건 잘하지만 포기하는 건 못하고, 한번 자기 사람이라 여긴 상대는 쉽게 놓지 않는다.","relations":[{"target":"백기태","title":"말을 들을 이유가 있는 사람","text":"좋아해서 따르는 게 아니라 판단을 신뢰한다. 쓸데없는 간섭을 하지 않는다는 걸 알기에 기태가 정말 멈추라고 할 때는 멈춘다."},{"target":"류해일","title":"시끄럽고 귀찮은 인간","text":"가능하면 상대하고 싶지 않다. 문제는 해일이 그걸 너무 잘 알아서 더욱 끈질기게 말을 건다는 것. 가끔 진심으로 짜증 난다."},{"target":"차해온","title":"너무 많이 아는 형","text":"자신이 말하지 않은 것까지 알아차리는 게 불편하다. 경계하지만 해온이 알아낸 정보를 함부로 이용하지 않는다는 사실도 알고 있다."},{"target":"문석우","title":"거절할 이유 없는 사람","text":"챙겨주는 게 귀찮긴 하지만 통제하거나 캐묻지 않아 내버려둔다. 석우가 놓고 간 음식이나 물건은 말없이 전부 사용한다."}]},"cha":{"name":"차해온","meta":"27세 · 187cm/84kg · 지능형 해커 스토커","badge":"지능형 해커","image":"https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/rentalS/3.png","quote":"“말 안 하셔도 돼요. 표정이 먼저 알려주던데요?”","profile":"차해온｜27세｜남성｜187cm·84kg｜프리랜서 보안엔지니어·SRS 지능형 해커 스토커｜INFJ·5w6. 회백색 머리, 짙은 에메랄드 녹안, 선이 뚜렷한 부드러운 냉미남형의 탄탄한 체격. 온화·사교적·여유롭고 능글맞으며 농담과 은근한 플러팅을 즐긴다. 타인의 선과 사생활을 존중하고 자기관리가 철저하다. 관찰력·기억력·정보 분석 능력이 탁월하며 상대의 말투·표정·습관·행동 변화를 세세하게 기억한다. 관심 대상일수록 업무와 무관한 정보까지 기억하고, 감정보다 관찰과 분석을 우선하며 속내를 잘 드러내지 않는다. 해킹 실력을 과시하지 않고 예상 밖의 상황에도 태연하게 미소 짓지만, 가끔 지나치게 정확한 말로 묘한 위화감을 준다.","relations":[{"target":"백기태","title":"데이터 밖에서도 정답 맞히는 사람","text":"논리적으로 설명하기 힘든 현장 감각을 흥미롭게 여긴다. 기태의 경험에서 나온 판단은 자신의 분석만큼 신뢰한다."},{"target":"류해일","title":"관찰할수록 재미있는 변수","text":"충동적으로 보이지만 의외로 일정한 행동 원칙이 있는 인간. 서로 상대를 읽고 있다는 사실까지 알면서 웃으며 모르는 척한다."},{"target":"도이원","title":"흥미롭지만 조심해야 할 막내","text":"말보다 행동 변화가 큰 이원을 쉽게 읽는다. 무엇을 숨기는지 알아도 굳이 폭로하지 않아 이원에게는 가장 불편한 형이다."},{"target":"문석우","title":"가장 편한 실행 파트너","text":"정보를 주면 불필요한 질문 없이 정확하게 움직인다. 서로의 전문 영역을 침범하지 않아 업무 궁합이 매우 좋다."}]},"moon":{"name":"문석우","meta":"29세 · 193cm · 고객만족도/재계약률 에이스","badge":"생활밀착 에이스","image":"https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/rentalS/%EB%AC%B8%EC%84%9D%EC%9A%B0%20%EB%A9%94%EC%9D%B8%20%EC%97%90%EC%85%8B.png","quote":"“늦어도 돼요. 난 원래 먼저 와서 기다리는 편이라.”","profile":"문석우｜29세｜SRS 소속 전문 스토커｜193cm. 고객만족도와 재계약률이 높은 에이스. 큰 체격과 위압적인 인상과 달리 잘 웃고 붙임성이 좋으며 사람 챙기는 데 익숙한 대형견 같은 남자. 약속보다 일찍 와 기다리고 취향과 생활패턴을 기억하며, 필요하면 말없이 곁을 지킬 줄 안다. 연애는 서툴고 질투하면 더 웃으며 들러붙는다. 아메리카노·산책·드라이브·한식을 선호하고, 질투 유발이나 약속을 가볍게 여기는 태도를 싫어한다. 말보다 행동, 꾸준함, 약속과 책임을 중시한다. 좋아하는 상대도 통제하지 않고 기다리며 명확한 거절은 받아들인다.","relations":[{"target":"백기태","title":"가장 믿는 선배","text":"현장에서 판단을 맡겨도 되는 사람. 기태가 남겠다고 하면 이유부터 묻기보다 자기도 필요한 일을 찾아 남는 편이다."},{"target":"류해일","title":"손 많이 가는 동갑","text":"사고 칠 때마다 짜증 나지만 결국 데리러 간다. 해일의 가벼운 태도 뒤에 있는 책임지는 방식까지 알아서 완전히 미워하지 못한다."},{"target":"차해온","title":"같이 일하기 편한 사람","text":"해온이 판단하고 자신이 실행하는 역할 분담이 자연스럽다. 머리 쓰는 건 맡기되 해온이 자기 몸 관리 안 하는 순간에는 직접 챙긴다."},{"target":"도이원","title":"밥부터 먹여야 하는 막내","text":"말 없는 걸 억지로 고치려 하지 않는다. 밥 안 먹으면 음식 놓고, 비 오면 우산 놓고 간다. 거절하면 물러나고 필요하면 다시 온다."}]},"ryu":{"name":"류해일","meta":"29세 · 188cm · 금수저 개차반형 스토커","badge":"금수저 개차반형","image":"https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/rentalS/5.png","quote":"“스토커 맞는데. 그래서? 이제 와서 놀라?”","profile":"류해일｜29세｜188cm｜SRS 금수저 개차반형 스토커｜세림그룹 회장가 막내, 세림호텔앤리조트 전략기획 상무. 샴페인빛 금발, 짙은 흑안. 목폴라·슬랙스·롱코트를 즐겨 입는다. #능글 #뻔뻔 #천박 #개차반. 여자·술·담배·유흥으로 평판이 화려하고 본인도 이를 부정하지 않는다. 숨어들기보다 고급 차량 미행, 생활 동선·SNS 관찰 등 대놓고 밀착하는 타입이다. 돈과 인맥을 거리낌 없이 활용하고, 들켜도 태연히 스토커임을 인정한다. 평소 비꼼·짧은 욕설·천박한 농담으로 상대를 약 올리며 반응을 즐긴다. 정말 화나면 웃음이 사라지고 말수가 줄어든다.","relations":[{"target":"백기태","title":"돈으로 안 넘어오는 아저씨","text":"직급도 집안도 안 먹히는 게 재수 없으면서 재미있다. 시비를 자주 걸지만 실력만큼은 확실하게 인정하는 몇 안 되는 사람."},{"target":"차해온","title":"재수 없게 다 아는 놈","text":"서로 웃으면서 상대 패를 캐는 정보전 상대. 좀처럼 당황하지 않는 해온의 표정을 무너뜨리는 걸 은근한 놀이처럼 여긴다."},{"target":"도이원","title":"긁는 맛 있는 막내","text":"무표정과 침묵을 깨보려고 시도 때도 없이 건드린다. 이원이 아주 미세하게라도 반응하면 귀신같이 알아채고 더 신난다."},{"target":"문석우","title":"결국 찾게 되는 동갑","text":"성격부터 생활까지 정반대라 놀려먹기 좋다. 허구한 날 친구 타령하며 귀찮게 굴지만 진짜 문제가 생기면 가장 먼저 석우를 찾는다."}]}};
+    const agentModal = document.getElementById('agentModal');
+    const agentModalPhoto = document.getElementById('agentModalPhoto');
+    const agentModalBadge = document.getElementById('agentModalBadge');
+    const agentModalName = document.getElementById('agentModalName');
+    const agentModalMeta = document.getElementById('agentModalMeta');
+    const agentModalQuote = document.getElementById('agentModalQuote');
+    const agentModalProfile = document.getElementById('agentModalProfile');
+    const agentRelationTitle = document.getElementById('agentRelationTitle');
+    const agentRelationGrid = document.getElementById('agentRelationGrid');
+
+    function openAgentModal(agentId){
+      const a = agentData[agentId];
+      if(!a) return;
+      agentModalPhoto.src = a.image;
+      agentModalPhoto.alt = `${a.name} 캐릭터 이미지`;
+      agentModalBadge.textContent = a.badge;
+      agentModalName.textContent = a.name;
+      agentModalMeta.textContent = a.meta;
+      agentModalQuote.textContent = a.quote;
+      agentModalProfile.textContent = a.profile;
+      agentRelationTitle.textContent = `${a.name} → SRS 4인 관계`;
+      agentRelationGrid.innerHTML = '';
+      a.relations.forEach(rel=>{
+        const item = document.createElement('div');
+        item.className = 'relation-item';
+        const target = document.createElement('div');
+        target.className = 'relation-target';
+        target.textContent = `→ ${rel.target}`;
+        const title = document.createElement('strong');
+        title.textContent = rel.title;
+        const body = document.createElement('p');
+        body.textContent = rel.text;
+        item.append(target,title,body);
+        agentRelationGrid.appendChild(item);
+      });
+      agentModal.classList.add('open');
+      agentModal.setAttribute('aria-hidden','false');
+      document.body.style.overflow='hidden';
+    }
+    function closeAgentModal(){
+      agentModal.classList.remove('open');
+      agentModal.setAttribute('aria-hidden','true');
+      if(!modal.classList.contains('open')) document.body.style.overflow='';
+      if(document.body.classList.contains('intro-lock')) document.body.style.overflow='hidden';
+    }
+    document.querySelectorAll('[data-agent]').forEach(card=>{
+      card.addEventListener('click',()=>openAgentModal(card.dataset.agent));
+      card.addEventListener('keydown',e=>{
+        if(e.key==='Enter' || e.key===' '){ e.preventDefault(); openAgentModal(card.dataset.agent); }
+      });
+    });
+    document.getElementById('closeAgentModal').addEventListener('click',closeAgentModal);
+    agentModal.addEventListener('click',e=>{ if(e.target===agentModal) closeAgentModal(); });
 
     document.getElementById('applyForm').addEventListener('submit',e=>{
       e.preventDefault();
@@ -1353,48 +1970,47 @@
     });
     window.addEventListener('resize',()=>{if(window.innerWidth > 860) closeMobileMenu();});
 
-    // 쪽지 드래그: 잡는 순간 body 최상위의 fixed 레이어로 이동시켜
-    // 원래 카드의 overflow 영역을 완전히 벗어나 어디든 끌어낼 수 있게 합니다.
+    // 쪽지 드래그: SRS 24 HOURS · OPEN이 있는 오른쪽 네모 박스(.hero-visual) 내부에서만 이동합니다.
     document.querySelectorAll('[data-draggable-note]').forEach(note=>{
+      const boundary = note.closest('.hero-visual');
       let dragging = false;
       let pointerId = null;
       let offsetX = 0;
       let offsetY = 0;
 
       const moveNote = (clientX, clientY) => {
-        const w = note.offsetWidth || 120;
-        const h = note.offsetHeight || 90;
+        if(!boundary) return;
+        const box = boundary.getBoundingClientRect();
+        const noteRect = note.getBoundingClientRect();
+        const w = noteRect.width || note.offsetWidth || 120;
+        const h = noteRect.height || note.offsetHeight || 90;
         const margin = 6;
-        const left = Math.max(margin, Math.min(window.innerWidth - w - margin, clientX - offsetX));
-        const top = Math.max(margin, Math.min(window.innerHeight - h - margin, clientY - offsetY));
-        note.style.left = left + 'px';
-        note.style.top = top + 'px';
+        const rawLeft = clientX - box.left - offsetX;
+        const rawTop = clientY - box.top - offsetY;
+        const maxLeft = Math.max(margin, box.width - w - margin);
+        const maxTop = Math.max(margin, box.height - h - margin);
+        note.style.left = Math.max(margin, Math.min(maxLeft, rawLeft)) + 'px';
+        note.style.top = Math.max(margin, Math.min(maxTop, rawTop)) + 'px';
       };
 
       note.addEventListener('pointerdown', e=>{
         if(e.pointerType === 'mouse' && e.button !== 0) return;
-        const rect = note.getBoundingClientRect();
+        const noteRect = note.getBoundingClientRect();
+        const box = boundary?.getBoundingClientRect();
+        if(!box) return;
         pointerId = e.pointerId;
         dragging = true;
-        offsetX = e.clientX - rect.left;
-        offsetY = e.clientY - rect.top;
-
-        // 카드 안에 있던 쪽지를 body 직속 자식으로 빼내면 부모의 overflow:hidden에 잘리지 않습니다.
-        if(note.parentElement !== document.body){
-          document.body.appendChild(note);
-        }
-
+        offsetX = e.clientX - noteRect.left;
+        offsetY = e.clientY - noteRect.top;
         note.classList.add('dragged','dragging');
-        note.style.width = rect.width + 'px';
-        note.style.height = rect.height + 'px';
-        note.style.left = rect.left + 'px';
-        note.style.top = rect.top + 'px';
+        note.style.width = noteRect.width + 'px';
+        note.style.height = noteRect.height + 'px';
+        note.style.left = (noteRect.left - box.left) + 'px';
+        note.style.top = (noteRect.top - box.top) + 'px';
         note.style.right = 'auto';
         note.style.bottom = 'auto';
-
-        // 첫 프레임부터 손가락/마우스 위치를 정확히 따라오게 합니다.
         moveNote(e.clientX, e.clientY);
-        try{ note.setPointerCapture?.(e.pointerId); }catch(_){}
+        try{ note.setPointerCapture?.(e.pointerId); }catch(_){ }
         e.preventDefault();
       });
 
@@ -1409,25 +2025,28 @@
         if(e && e.pointerId !== undefined && e.pointerId !== pointerId) return;
         dragging = false;
         note.classList.remove('dragging');
-        try{ note.releasePointerCapture?.(pointerId); }catch(_){}
+        try{ note.releasePointerCapture?.(pointerId); }catch(_){ }
         pointerId = null;
       };
-
       document.addEventListener('pointerup', endDrag);
       document.addEventListener('pointercancel', endDrag);
     });
 
-    // 화면 회전/리사이즈 후 드래그한 쪽지가 모바일 화면 밖으로 나가지 않게 재정렬합니다.
-    window.addEventListener('resize',()=>{
-      document.querySelectorAll('.sticky-note.dragged').forEach(note=>{
+    // 화면 회전/리사이즈 후에도 쪽지가 박스 밖으로 빠져나가지 않게 다시 보정합니다.
+    function clampStickyNotes(){
+      document.querySelectorAll('.hero-visual .sticky-note.dragged').forEach(note=>{
+        const boundary = note.closest('.hero-visual');
+        if(!boundary) return;
+        const box = boundary.getBoundingClientRect();
         const rect = note.getBoundingClientRect();
         const margin = 6;
-        const left = Math.max(margin, Math.min(window.innerWidth - rect.width - margin, rect.left));
-        const top = Math.max(margin, Math.min(window.innerHeight - rect.height - margin, rect.top));
-        note.style.left = left + 'px';
-        note.style.top = top + 'px';
+        const currentLeft = parseFloat(note.style.left) || 0;
+        const currentTop = parseFloat(note.style.top) || 0;
+        note.style.left = Math.max(margin, Math.min(box.width - rect.width - margin, currentLeft)) + 'px';
+        note.style.top = Math.max(margin, Math.min(box.height - rect.height - margin, currentTop)) + 'px';
       });
-    });
+    }
+    window.addEventListener('resize', clampStickyNotes);
 
     // 리뷰 카테고리 필터
     const reviewChips = document.querySelectorAll('[data-review-filter]');
@@ -1530,7 +2149,7 @@
       document.body.style.overflow='';
     }
 
-    const introMessage = '어서오세요. SRS 서비스입니다.';
+    const introMessage = '안녕하세요.\nSRS 서비스입니다.';
     let idx = 0;
     function typeIntro(){
       if(idx < introMessage.length){
@@ -1719,6 +2338,116 @@
         el.addEventListener('mouseleave', ()=>cursorHeart.classList.remove('hovering'));
       });
     }
+
+
+    // ===== SRS LP PLAYLIST / YouTube IFrame API =====
+    const srsTracks = [
+      {title:'Stalker',artist:'Badflower',videoId:'B0ipHVGxFlM'},
+      {title:"Stalker's Tango",artist:'Autoheart',videoId:'Q3B17TmEvoY'},
+      {title:'Every Breath You Take',artist:'The Police',videoId:'OMOGaugKpzs'},
+      {title:'I Wanna Be Yours',artist:'Arctic Monkeys',videoId:'nyuo9-OjNNg'},
+      {title:'Dark Red',artist:'Steve Lacy',videoId:'xRzbLQ_WKPs'},
+      {title:'stalker',artist:'Stevie Howie',videoId:'19EoUJViqdM'}
+    ];
+    const srsPlayerShell = document.getElementById('srsPlayerShell');
+    const srsPlayerPanel = document.getElementById('srsPlayerPanel');
+    const srsLpToggle = document.getElementById('srsLpToggle');
+    const srsPlayPause = document.getElementById('srsPlayPause');
+    const srsPrevTrack = document.getElementById('srsPrevTrack');
+    const srsNextTrack = document.getElementById('srsNextTrack');
+    const srsVolume = document.getElementById('srsVolume');
+    const srsNowTitle = document.getElementById('srsNowTitle');
+    const srsNowArtist = document.getElementById('srsNowArtist');
+    const srsTrackButtons = [...document.querySelectorAll('[data-track-index]')];
+    let srsYTPlayer = null;
+    let srsTrackIndex = 0;
+    let srsPlayerReady = false;
+    let srsShouldPlay = true;
+
+    function srsSetTrackUI(index){
+      srsTrackIndex = (index + srsTracks.length) % srsTracks.length;
+      const track = srsTracks[srsTrackIndex];
+      srsNowTitle.textContent = track.title;
+      srsNowArtist.textContent = track.artist;
+      srsTrackButtons.forEach((btn,i)=>btn.classList.toggle('active',i===srsTrackIndex));
+    }
+
+    function srsSetPlayingUI(isPlaying){
+      srsPlayerShell.classList.toggle('playing',isPlaying);
+      srsPlayPause.textContent = isPlaying ? 'Ⅱ' : '▶';
+      srsPlayPause.setAttribute('aria-label',isPlaying ? '일시정지' : '재생');
+    }
+
+    function srsLoadTrack(index, autoplay=true){
+      srsSetTrackUI(index);
+      srsShouldPlay = autoplay;
+      if(!srsPlayerReady || !srsYTPlayer) return;
+      const id = srsTracks[srsTrackIndex].videoId;
+      if(autoplay) srsYTPlayer.loadVideoById(id);
+      else srsYTPlayer.cueVideoById(id);
+    }
+
+    function srsTryPlay(){
+      srsShouldPlay = true;
+      if(srsPlayerReady && srsYTPlayer){
+        try{srsYTPlayer.playVideo();}catch(_){ }
+      }
+    }
+
+    window.onYouTubeIframeAPIReady = function(){
+      srsYTPlayer = new YT.Player('srsYoutubePlayer',{
+        width:'1',height:'1',videoId:srsTracks[0].videoId,
+        playerVars:{autoplay:0,controls:0,disablekb:1,fs:0,playsinline:1,rel:0,modestbranding:1,origin:location.origin},
+        events:{
+          onReady:(event)=>{
+            srsPlayerReady = true;
+            event.target.setVolume(Number(srsVolume.value));
+            // 페이지 로드 즉시 재생을 먼저 시도합니다. 차단되면 입장 버튼에서 다시 시도합니다.
+            if(srsShouldPlay) srsTryPlay();
+          },
+          onStateChange:(event)=>{
+            if(event.data===YT.PlayerState.PLAYING) srsSetPlayingUI(true);
+            if(event.data===YT.PlayerState.PAUSED || event.data===YT.PlayerState.CUED) srsSetPlayingUI(false);
+            if(event.data===YT.PlayerState.ENDED) srsLoadTrack(srsTrackIndex+1,true);
+          },
+          onError:()=>srsLoadTrack(srsTrackIndex+1,true)
+        }
+      });
+    };
+
+    (function loadSrsYoutubeApi(){
+      if(window.YT && window.YT.Player){window.onYouTubeIframeAPIReady();return;}
+      if(document.querySelector('script[data-srs-youtube-api]')) return;
+      const tag=document.createElement('script');
+      tag.src='https://www.youtube.com/iframe_api';
+      tag.async=true;
+      tag.dataset.srsYoutubeApi='true';
+      document.head.appendChild(tag);
+    })();
+
+    srsLpToggle.addEventListener('click',()=>{
+      const open=srsPlayerShell.classList.toggle('open');
+      srsLpToggle.setAttribute('aria-expanded',String(open));
+      srsLpToggle.setAttribute('aria-label',open?'플레이리스트 닫기':'플레이리스트 열기');
+      srsPlayerPanel.setAttribute('aria-hidden',String(!open));
+    });
+    srsPlayPause.addEventListener('click',()=>{
+      if(!srsPlayerReady || !srsYTPlayer){srsTryPlay();return;}
+      const state=srsYTPlayer.getPlayerState();
+      if(state===YT.PlayerState.PLAYING){srsShouldPlay=false;srsYTPlayer.pauseVideo();}
+      else{srsTryPlay();}
+    });
+    srsPrevTrack.addEventListener('click',()=>srsLoadTrack(srsTrackIndex-1,true));
+    srsNextTrack.addEventListener('click',()=>srsLoadTrack(srsTrackIndex+1,true));
+    srsTrackButtons.forEach(btn=>btn.addEventListener('click',()=>srsLoadTrack(Number(btn.dataset.trackIndex),true)));
+    srsVolume.addEventListener('input',()=>{if(srsPlayerReady&&srsYTPlayer)srsYTPlayer.setVolume(Number(srsVolume.value));});
+
+    // 브라우저가 소리 자동재생을 막는 경우에도 첫 사용자 제스처인 입장 버튼에서 즉시 재생합니다.
+    skipIntro.addEventListener('pointerdown',srsTryPlay,{passive:true});
+    skipIntro.addEventListener('click',srsTryPlay);
+    // 데스크톱/모바일 모두 첫 상호작용에서 한 번 더 잠금 해제를 시도합니다.
+    document.addEventListener('pointerdown',function srsUnlockAudio(){srsTryPlay();document.removeEventListener('pointerdown',srsUnlockAudio,true);},true);
+
   </script>
 </body>
 </html>
