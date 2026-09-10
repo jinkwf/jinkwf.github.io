@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1.0" name="viewport"/>
 <meta content="#0e0c12" name="theme-color"/>
-<title>NSFW 에셋 랜덤 프롬프트 생성기.v3.8.2</title>
+<title>NSFW 에셋 랜덤 프롬프트 생성기.v3.9</title>
 <style>
 :root{--bg:#0e0c12;--panel:#17141d;--panel2:#201c28;--panel3:#292333;--line:rgba(255,255,255,.09);--text:#f7f3fa;--sub:#aaa3b4;--accent:#a68cff;--pink:#e694c4;--gold:#f0c978;--green:#9fdfb6;--red:#ff9aa5;--shadow:0 20px 60px rgba(0,0,0,.35)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 8% 0,rgba(166,140,255,.13),transparent 27%),radial-gradient(circle at 100% 15%,rgba(230,148,196,.08),transparent 27%),var(--bg);color:var(--text);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif}button,select,input,textarea{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}.page{width:min(1220px,calc(100% - 28px));margin:auto;padding:28px 0 70px}.hero,.panel{border:1px solid var(--line);background:rgba(23,20,29,.96);box-shadow:var(--shadow)}.hero{position:relative;overflow:hidden;border-radius:26px;padding:31px;margin-bottom:17px}.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-100px;top:-135px;background:rgba(166,140,255,.12);filter:blur(12px);pointer-events:none}.eyebrow{font-size:11px;font-weight:900;letter-spacing:.2em;color:var(--accent)}
 .eyebrow-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
@@ -404,6 +404,48 @@ button,.small-btn,.tool,.guestbook-send,.age-btn,.quick-recommend-btn,.user-char
 #guideverseAbilityPanel .esper-side select{border-color:rgba(201,137,255,.20);background:#1b1022}
 #guideverseAbilityPanel .esper-side .small-btn{border-color:rgba(201,137,255,.28);background:rgba(111,61,150,.16);color:#f1e1ff}
 </style>
+
+<style id="colorModeStyles">
+:root{color-scheme:dark}
+.theme-mode-toggle{display:inline-flex;align-items:center;justify-content:center;gap:5px;min-height:27px;padding:4px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.055);color:#ddd6e6;font-size:9px;font-weight:950;letter-spacing:.03em;cursor:pointer;transition:.16s ease}
+.theme-mode-toggle:hover{filter:brightness(1.13);transform:translateY(-1px)}
+html[data-color-mode="light"]{color-scheme:light}
+html[data-color-mode="light"] body{--bg:#f5f2f7;--panel:#ffffff;--panel2:#f5f1f8;--panel3:#ece7f1;--line:rgba(45,31,54,.13);--text:#241d2a;--sub:#6f6576;--accent:#7056c8;--pink:#b75f94;--gold:#98731d;--green:#34794e;--red:#b84c5b;--shadow:0 18px 52px rgba(50,36,60,.10);background:radial-gradient(circle at 8% 0,rgba(112,86,200,.10),transparent 27%),radial-gradient(circle at 100% 15%,rgba(183,95,148,.07),transparent 27%),var(--bg);color:var(--text)}
+html[data-color-mode="light"] .hero,html[data-color-mode="light"] .panel{background:rgba(255,255,255,.97)}
+html[data-color-mode="light"] .hero:after{background:rgba(112,86,200,.09)}
+html[data-color-mode="light"] .chip,html[data-color-mode="light"] .check,html[data-color-mode="light"] .opt,html[data-color-mode="light"] .card,html[data-color-mode="light"] .list-item,html[data-color-mode="light"] .director-card,html[data-color-mode="light"] .char-separate-item,html[data-color-mode="light"] .theme-group,html[data-color-mode="light"] .theme-chip,html[data-color-mode="light"] .preset-preview-card,html[data-color-mode="light"] .preset-slot-card{background:#f8f5fa;color:var(--text)}
+html[data-color-mode="light"] select,html[data-color-mode="light"] input[type=text],html[data-color-mode="light"] input[type=search],html[data-color-mode="light"] textarea,html[data-color-mode="light"] .opt select{background:#fff;color:#241d2a;border-color:rgba(45,31,54,.14)}
+html[data-color-mode="light"] select option{background:#fff!important;color:#171219!important}
+html[data-color-mode="light"] .prompt,html[data-color-mode="light"] .summary,html[data-color-mode="light"] .diagnostic-panel,html[data-color-mode="light"] .guide-uniform-preview,html[data-color-mode="light"] .guide-detail-preview{background:#fbf9fc;color:#2b2331}
+html[data-color-mode="light"] .tool,html[data-color-mode="light"] .small-btn,html[data-color-mode="light"] .icon,html[data-color-mode="light"] .setlock-btn{background:#eee9f2;color:#302638;border-color:rgba(45,31,54,.13)}
+html[data-color-mode="light"] .tool.primary{color:#fff;background:linear-gradient(135deg,#7961d2,#9b6dce)}
+html[data-color-mode="light"] .en,html[data-color-mode="light"] .desc,html[data-color-mode="light"] .character-mode-hint,html[data-color-mode="light"] .match-hint,html[data-color-mode="light"] .stats{color:#746a7c}
+html[data-color-mode="light"] .theme-mode-toggle{background:#2c2532;color:#fff;border-color:#2c2532}
+html[data-color-mode="light"] .usage-counter{background:rgba(255,255,255,.78);border-color:rgba(45,31,54,.12);box-shadow:0 9px 28px rgba(50,36,60,.09)}
+html[data-color-mode="light"] .usage-label{color:#84798d}html[data-color-mode="light"] .usage-value{color:#251e2b}
+html[data-color-mode="light"] .nsfw-banner{background:linear-gradient(90deg,#fff0f3,#fde4ea 45%,#fff0f3);border-bottom-color:rgba(170,63,84,.22);color:#873a4b;box-shadow:0 4px 18px rgba(80,40,50,.08)}
+html[data-color-mode="light"] .nsfw-banner strong{color:#a83f55}html[data-color-mode="light"] .nsfw-banner .banner-sub{color:#8f5964}
+html[data-color-mode="light"] .age-gate,html[data-color-mode="light"] .update-gate{background:rgba(245,242,247,.94)}
+html[data-color-mode="light"] .age-box,html[data-color-mode="light"] .update-box{background:linear-gradient(160deg,#fff,#f6f1f8);border-color:rgba(112,86,200,.25);box-shadow:0 28px 70px rgba(48,35,57,.16)}
+html[data-color-mode="light"] .age-box h2,html[data-color-mode="light"] .update-box h2{color:#251e2b}
+html[data-color-mode="light"] .age-box p,html[data-color-mode="light"] .update-box p,html[data-color-mode="light"] .age-check{color:#665b6e}
+html[data-color-mode="light"] .age-box .age-warn{background:#fff1f4;border-color:rgba(184,76,91,.20);color:#8e3d4b}
+html[data-color-mode="light"] .access-code-input{background:#fff;color:#241d2a;border-color:rgba(112,86,200,.28)}
+html[data-color-mode="light"] .access-auth-status{background:#f7f4f9;color:#6c6273;border-color:rgba(45,31,54,.10)}
+html[data-color-mode="light"] .update-box .update-btn.ghost{color:#665d6d;border-color:rgba(45,31,54,.15)}
+html[data-color-mode="light"] .update-note-strip details{background:#fff7d9;border-color:rgba(157,118,28,.30)}
+html[data-color-mode="light"] .update-note-strip summary,html[data-color-mode="light"] .update-note-strip .update-note-body,html[data-color-mode="light"] .update-note-strip .update-note-body li{color:#493a15;text-shadow:none}
+html[data-color-mode="light"] #guideverseAbilityPanel .guide-side{background:linear-gradient(180deg,rgba(91,187,255,.12),#fff)!important}
+html[data-color-mode="light"] #guideverseAbilityPanel .esper-side{background:linear-gradient(180deg,rgba(201,137,255,.12),#fff)!important}
+html[data-color-mode="light"] #guideverseAbilityPanel .guide-side .opt,html[data-color-mode="light"] #guideverseAbilityPanel .esper-side .opt{background:rgba(255,255,255,.72)}
+html[data-color-mode="light"] .guide-uniform-box,html[data-color-mode="light"] .guide-detail-box{background:linear-gradient(180deg,rgba(112,86,200,.055),rgba(255,255,255,.80))}
+html[data-color-mode="light"] .prompt-quickbox,html[data-color-mode="light"] .user-character-panel,html[data-color-mode="light"] .preset-box{background:#faf7fb}
+html[data-color-mode="light"] #promptFloatDock,html[data-color-mode="light"] #promptFloatPanel,html[data-color-mode="light"] #simpleStickyDock{--float-bg:#ffffff;background:#fff;color:#241d2a;border-color:rgba(45,31,54,.14);box-shadow:0 18px 48px rgba(50,36,60,.16)}
+html[data-color-mode="light"] #promptFloatText{background:#fbf9fc!important;color:#241d2a!important}
+@media(max-width:720px){.theme-mode-toggle{min-height:25px;padding:4px 8px}}
+</style>
+<script id="themeEarlyInit">(()=>{try{const v=localStorage.getItem('assetGachaColorModeV1');document.documentElement.dataset.colorMode=v==='light'?'light':'dark'}catch(_){document.documentElement.dataset.colorMode='dark'}})();</script>
+
 </head>
 <style id="accessControlStyle">
 body.access-locked{overflow:hidden!important}
@@ -997,7 +1039,7 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
 <div class="update-icon">✨</div>
 <h2 id="updateGateTitle">업데이트가 있습니다</h2>
 <p>새 버전이 배포되었습니다.<br/>정상 반영을 위해 페이지를 <strong style="color:#e8e0ff">새로고침</strong> 해주세요.</p>
-<div class="update-ver" id="updateGateVersion">v3.8.2</div>
+<div class="update-ver" id="updateGateVersion">v3.9</div>
 <div class="update-actions">
 <button class="update-btn primary" id="updateRefreshBtn" type="button">새로고침 하기</button>
 <button class="update-btn ghost" id="updateLaterBtn" type="button">나중에 (이번만 닫기)</button>
@@ -1020,9 +1062,9 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
 ========================================================= */
 /* 빌드 ID가 바뀌면 성인/접속코드 인증보다 먼저 새로고침 팝업을 띄웁니다. 매 배포 시 반드시 이 값을 새 고유값으로 변경하세요. */
 const APP_META=Object.freeze({
-  version:'3.8.2',
-  buildId:'20260910-v3.8.2-stability',
-  label:'v3.8.2 · Stability & Guideverse Coherence',
+  version:'3.9',
+  buildId:'20260910-v3.9-everyday-clothing-theme-engine',
+  label:'v3.9 · Everyday Clothing Detail + Black/White Theme',
   date:'2026-09-10'
 });
 const APP_BUILD_ID=APP_META.buildId;
@@ -1035,6 +1077,7 @@ function syncAppMetaUI(){
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',syncAppMetaUI,{once:true});else syncAppMetaUI();
 const UPDATE_NOTES = [
+  { date:'09.10', text:'v3.9 일상복 디테일 + 테마 모드 · 티셔츠/셔츠/가디건/후드티/니트/청바지/슬랙스/스커트를 색상·핏·재질·길이·워싱·패턴·스타일링 속성으로 분해한 디테일 조합 모드를 추가했습니다. 계절·성별·속성 충돌 방지와 컬러 팔레트 정합성을 적용하고, 상세 검색은 신규 속성까지 전체 등록 풀에서 확인하도록 확장했습니다. 블랙/화이트 UI 모드 전환과 저장 기능도 추가했습니다.' },
   { date:'09.10', text:'v3.8.2 안정화 · 버전 메타 단일화, 업데이트 팝업 세션 처리, 가이드버스 의상/포즈 충돌 방지, 포즈-행동-소품 연동, 저장 스키마 마이그레이션, 입력/플로팅 프롬프트 성능 개선, 중복 POV 함수 정리, 자체진단 도구를 추가했습니다.' },
   { date:'09.10', text:'v3.8 가이드버스 의상·포즈 디테일 확장 · GUIDEVERSE 제복 선택기와 함께 의상 디테일 50종 / 포즈 디테일 50종을 추가하고, 자동·직접 지정·미사용, 카테고리 제한 랜덤, 메인 주사위 연동, 저장/불러오기 및 요약 반영을 적용했습니다.' },
   { date:'09.03', text:'14 : v3.6 다인 캐릭터 식별 유지 · A/B/C 입력에서 서로 다른 고유 외형·눈·헤어·의상·표정 앵커를 자동 추출하고 각 캐릭터 블록 앞에 identity anchor로 반복해 속성 전이를 줄였습니다.' },
@@ -1305,7 +1348,7 @@ renderAdminUpdateNote();
 })();
 </script>
 <div class="page">
-<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v3.8.2</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v3.8.2</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며, 상세 설정과 빠른효과/흔적 태그로 장면 강도를 조절할 수 있습니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
+<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v3.9</span><button class="theme-mode-toggle" id="themeModeToggle" type="button" aria-label="블랙/화이트 모드 전환">☀ WHITE</button></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v3.9</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며, 상세 설정과 빠른효과/흔적 태그로 장면 강도를 조절할 수 있습니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
 <section aria-label="사용 모드 선택" class="workflow-mode-panel" id="workflowModePanel"><div class="workflow-mode-copy"><div class="workflow-mode-title">사용 모드</div><div class="workflow-mode-hint" id="workflowModeHint">간편은 랜덤 슬롯 중심 · 상세은 슬롯 직접 선택과 세부 설정까지 제공합니다.</div></div><div aria-label="간편 또는 상세 모드" class="workflow-mode-switch" role="group"><button aria-pressed="true" class="workflow-mode-btn active" data-ui-mode-btn="simple" type="button">간편</button><button aria-pressed="false" class="workflow-mode-btn" data-ui-mode-btn="detail" type="button">상세</button></div></section>
 <section class="panel" id="contentModePanel"><div class="head"><div><h2 class="title">00 · MODE</h2><p class="desc">먼저 콘텐츠 모드를 선택합니다. 선택한 모드에 따라 아래 SCENE 분류와 NSFW 전용 기능이 자동으로 전환됩니다.</p></div></div><div class="mode-choice-card"><div class="mode-choice-label">콘텐츠 모드</div><div class="mode-choice-buttons" id="contentModeSwitch"><button class="mode-choice-btn" data-content-mode="sfw" id="modePillSfw" type="button">SFW</button><button class="mode-choice-btn" data-content-mode="nsfw" id="modePillNsfw" type="button">NSFW</button></div><div class="mode-first-meta" id="contentModeHint">SFW / NSFW를 먼저 선택하면 아래 분류가 현재 모드에 맞게 자동 전환됩니다.</div><input checked="" hidden="" name="contentMode" type="radio" value="sfw"/><input hidden="" name="contentMode" type="radio" value="nsfw"/><input hidden="" id="nsfwMode" type="checkbox"/></div></section>
 <section class="panel" id="sceneCategoryPanel"><div class="head"><div><h2 class="title">01 · SCENE</h2><p class="desc">현재 MODE를 기준으로 대분류 → 중분류 → 소분류 순서로 장면을 선택합니다.</p></div></div><div class="select-grid category-hierarchy-grid scene-three-grid"><div class="field"><label>대분류 · 장르</label><select id="genre"><option value="modern">현대물</option><option value="fantasy">판타지물</option><option value="guideverse">가이드버스</option><option value="period">시대물</option><option value="sf">SF / 사이버펑크</option><option value="apocalypse">아포칼립스 / 재난</option></select></div><div class="field"><label>중분류 · 테마</label><select id="middleCategory"></select></div><div class="field"><label>소분류 · 장면</label><select id="category"></select></div></div><div class="check-row" data-ui-advanced="1"><label class="check"><input id="randomCategory" type="checkbox"/> 주사위를 돌릴 때마다 소분류도 랜덤</label><label class="check"><input checked="" id="avoidSame" type="checkbox"/> 직전 결과와 같은 태그 최대한 피하기</label></div></section>
@@ -1317,7 +1360,8 @@ renderAdminUpdateNote();
 <div class="advanced-basic-wrap" data-ui-advanced="1"><div class="advanced-settings-head"><b>ADVANCED SETTINGS</b> · 품질/스타일, POV, 관계, 장면 프리셋, 소품·표정·의상 방식, 충돌 방지를 직접 조절합니다.</div><div class="options advanced-options"><div class="opt"><label>QUALITY</label><select id="quality"><option value="masterpiece, best quality, amazing quality, very aesthetic, highly detailed">기본 고품질</option><option value="masterpiece, best quality, highly detailed, cinematic composition">시네마틱</option><option value="">사용 안 함</option></select></div><div class="opt"><label>STYLE</label><select id="style"><option value="">미지정</option><option value="anime style">Anime</option><option value="illustration">Illustration</option><option value="semi-realistic">Semi-realistic</option></select></div><div class="opt"><label>AI STYLE PRESET</label><select id="aiStylePreset"><option value="none">미지정</option><optgroup label="Clean / Base"><option value="clean">클린 애니</option><option value="clean_plus">클린 애니+</option><option value="manhwa">웹툰 / 만화풍</option><option value="gamecg">게임 CG</option></optgroup><optgroup label="Mood / Tone"><option value="soft_romance">소프트 로맨스</option><option value="dark_romance">다크 로맨스</option><option value="cinematic">시네마틱</option><option value="dreamy">몽환적</option><option value="fantasy">판타지</option><option value="noir">누아르</option></optgroup><optgroup label="Look / Finish"><option value="editorial">에디토리얼</option><option value="idol">아이돌 / 화보</option><option value="painterly">페인터리</option><option value="pastel">파스텔</option><option value="retro">레트로 애니</option><option value="shoujo">소녀만화 감성</option></optgroup></select><div class="character-mode-hint" id="aiStylePresetHint">🎨 AI별로 어울리는 스타일 표현을 자동 보강합니다. NovelAI / PixAI / NijiJourney에 맞게 다르게 번역됩니다.</div><div class="style-preset-meta" id="aiStylePresetMeta">현재 프리셋: 기본 동작</div></div><div class="opt"><label>화풍 / RENDER STYLE</label><select id="artStyle"><option value="">미지정</option><option value="cel shading">셀 채색</option><option value="watercolor illustration">수채화풍</option><option value="manga screentone">망가 스크린톤</option><option value="retro anime aesthetic">레트로 애니풍</option><option value="soft pastel painting">소프트 파스텔</option><option value="game cg">게임 CG풍</option><option value="ink line art">잉크 라인아트</option><option value="storybook illustration">동화 삽화풍</option></select></div><div class="opt"><label>프롬프트 강도</label><div class="range-wrap"><div class="range-inline"><input id="promptDetail" max="3" min="1" step="1" type="range" value="2"/><span class="range-badge" id="promptDetailBadge">보통</span></div><div class="character-mode-hint" id="promptDetailHint">✍️ 간결함 ↔ 상세함을 조절합니다.</div></div></div><div class="opt"><label>POV MODE</label><select id="povMode"><option value="off">사용 안 함</option><option value="on">사용 · 현재 인원수 연동</option></select></div><div class="opt"><label>POV 강도</label><select id="povStrength"><option value="subtle">약하게</option><option value="strong">강하게</option></select></div><div class="opt"><label>POV 타입</label><select id="povType"><option value="auto">자동</option><option value="talk">대화형 POV</option><option value="hand">손잡기 POV</option><option value="prekiss">키스 직전 POV</option></select><div class="character-mode-hint" id="povModeHint">📷 일반 시점 모드 · NSFW ON 시 성인용 POV 확장</div></div><div class="opt"><label>관계 / 상호작용</label><select id="relationPreset"><option value="none">미사용</option><option value="friend">친구 / 절친</option><option value="coworker">동료 / 같은 편</option><option value="rival">라이벌</option><option value="lover">연인 / 썸</option><option value="firsttime">첫 관계 / 조심스러운 친밀감</option><option value="longterm">오래된 연인 / 익숙한 친밀감</option><option value="obsession">집착 / 소유욕</option><option value="hatebond">혐관 / 앙숙</option><option value="salvation">구원 서사</option><option value="unrequited">짝사랑</option><option value="contract">계약 / 정략</option><option value="mentor">멘토 / 사제</option><option value="childhood">소꿉친구</option><option value="exlovers">전 연인 / 미련</option><option value="firstmeet">첫 만남</option><option value="reunion">재회</option><option value="guardian">보호 / 호위</option><option value="masterservant">주종 / 상하관계</option><option value="enemy">적대 / 대치</option><option value="teammate">전우 / 파티원</option></select><div class="character-mode-hint" id="relationHint">🤝 2인/3인에서 상호작용 가중치 적용</div></div><div class="opt"><label>장면 프리셋</label><select id="scenePreset"></select><div class="character-mode-hint" id="scenePresetHint">🎬 장르에 맞는 상황 프리셋을 적용합니다.</div></div>
 <div class="opt"><label>소품 카테고리</label><select id="propCategoryMode"><option selected="" value="auto">자동 매칭</option><option value="all">전체 랜덤</option><option value="fashion">패션</option><option value="season">계절</option><option value="occupation">직업</option><option value="shooting">촬영</option><option value="fantasy">판타지</option><option value="medical">의료</option></select><div class="match-hint" id="propCategoryHint">🧳 자동 · 장면/날씨/장르를 보고 소품군을 선택</div></div>
 <div class="opt"><label>표정 카테고리</label><select id="expressionCategoryMode"><option selected="" value="auto">자동 매칭</option><option value="neutral">무표정 / 차분</option><option value="smile">웃음 / 미소</option><option value="tears">눈물 / 울음</option><option value="fluster">당황 / 난감</option><option value="surprise">놀람 / 경악</option><option value="anger">분노 / 짜증</option><option value="sadness">슬픔 / 쓸쓸함</option><option value="shy">수줍음 / 부끄러움</option><option value="tired">피로 / 졸림</option><option value="tense">긴장 / 불안</option><option value="pleasure">황홀 / 쾌락</option></select><div class="match-hint" id="expressionCategoryHint">🙂 자동 · 행동과 분위기에 맞춰 표정군을 선택</div></div>
-<div class="opt"><label>의상 생성 방식</label><select id="outfitMode"><option selected="" value="complete">완성 의상 랜덤</option><option value="layered">레이어 조합</option></select><div class="match-hint" id="outfitModeHint">👔 완성 의상 · 기존 장면별 의상 풀 사용</div></div>
+<div class="opt"><label>의상 생성 방식</label><select id="outfitMode"><option selected="" value="complete">완성 의상 랜덤</option><option value="layered">레이어 조합</option><option value="detailed">디테일 조합 · 색상/재질/핏</option></select><div class="match-hint" id="outfitModeHint">👔 완성 의상 · 기존 장면별 의상 풀 사용</div></div>
+<div class="opt" id="outfitPaletteBox"><label>디테일 컬러 조합</label><select id="outfitPaletteMode"><option value="auto">자동 조화</option><option value="free">자유 랜덤</option><option value="monochrome">모노크롬</option><option value="warmNeutral">웜 뉴트럴</option><option value="coolNeutral">쿨 뉴트럴</option><option value="soft">소프트 컬러</option></select><div class="match-hint" id="outfitPaletteHint">🎨 디테일 조합에서 상·하의 색감을 자연스럽게 맞춥니다.</div></div>
 <div class="opt"><label>충돌 방지</label><label class="check inline-check"><input checked="" id="smartConflict" type="checkbox"/> Scene Coherence 2.0 자동 정합성</label><div class="character-mode-hint" id="smartConflictHint">🧩 Scene Coherence 2.0 ON · Hard Block + Soft Affinity로 장면 전체 정합성을 맞춥니다.</div></div></div><div class="custom-grid"><div><label class="tiny-label">기본 네거티브 태그</label><input id="negativeBase" type="text" value="lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, jpeg artifacts, signature, watermark, username, blurry"/></div></div><div class="user-character-wrap"><button aria-controls="userCharacterPanel" aria-expanded="false" class="user-character-toggle" id="userCharacterToggle" type="button"><span>🙈 {{user}} 캐릭터 태그</span><span class="user-character-state" id="userCharacterState">OFF · 열기</span></button><div class="user-character-panel" hidden="" id="userCharacterPanel"><div class="custom-grid"><div><label class="tiny-label">{{user}} 성별 타입</label><select id="userGenderMode"><option selected="" value="random">랜덤</option><option value="male">남성형</option><option value="female">여성형</option><option value="androgynous">중성형</option></select></div><div><label class="tiny-label">{{user}} 체형 타입</label><select id="userBodyMode"><option selected="" value="random">랜덤</option><option value="slim">슬림</option><option value="average">보통</option><option value="curvy">굴곡짐</option><option value="athletic">탄탄함</option><option value="lean_muscular">잔근육</option><option value="soft">말랑함</option></select></div></div><div class="user-tag-tools"><input id="userCharacterTags" placeholder="버튼을 누르면 {{user}} 캐릭터 태그가 자동 생성됩니다." readonly="" type="text"/><button class="tool" id="generateUserCharacter" type="button">🙈 {{user}}캐릭터 임의생성</button><button class="tool" id="copyUserCharacter" type="button">📋 {{user}}태그 복사</button></div><div class="user-tag-preview empty" id="userCharacterHint">앞머리가 눈을 완전히 가리는 설정은 고정 · 성별/체형/색상은 선택값 또는 랜덤으로 생성</div></div></div></div></section>
 <section class="panel" data-ui-advanced="1" id="characterAppearancePanel"><div class="head"><div><h2 class="title">02A · CHARACTER 외형 / 역할 배치</h2><p class="desc">CHARACTER 인원·역할 배치, A/B/C 개별 태그·위치·행동, {{user}} 외형 자동생성·복사, 제외 태그를 한곳에서 관리합니다. 02A를 닫으면 이 캐릭터 설정 전체가 함께 접힙니다.</p></div><div class="mini-tools"><button aria-label="CHARACTER 외형 / 역할 배치 초기화" class="small-btn" id="resetCharacterAppearance" title="CHARACTER 외형 / 역할 배치 초기화" type="button">🧹 초기화</button><button aria-pressed="false" class="small-btn panel-apply-toggle" id="toggleCharacterAppearanceApply" type="button">열기 · 적용</button></div></div><div class="panel-disabled-note">현재 닫힘 · 이 패널의 역할 배치 / {{user}} / 제외 태그는 프롬프트와 랜덤 엔진에 적용되지 않습니다.</div><div class="panel-apply-body" id="characterAppearanceBody"><div class="options" id="characterAppearanceOptions"><div class="opt simple-keep" id="characterCountControl"><label>CHARACTER</label><select id="gender">
 <option value="">캐릭터 미지정</option>
@@ -1836,7 +1880,10 @@ const EXPRESSION_CATEGORY_RULES={
 };
 function propCategoryValue(){const v=$('propCategoryMode')?.value||'auto';return PROP_CATEGORY_LABELS[v]?v:'auto'}
 function expressionCategoryValue(){const v=$('expressionCategoryMode')?.value||'auto';return EXPRESSION_CATEGORY_LABELS[v]?v:'auto'}
-function outfitModeValue(){return $('outfitMode')?.value==='layered'?'layered':'complete'}
+function outfitModeValue(){const v=$('outfitMode')?.value||'complete';return ['complete','layered','detailed'].includes(v)?v:'complete'}
+function outfitModeShortLabel(){return outfitModeValue()==='detailed'?'DETAILED':outfitModeValue()==='layered'?'LAYERED':'COMPLETE'}
+function outfitModeKoLabel(){return outfitModeValue()==='detailed'?'디테일 조합':outfitModeValue()==='layered'?'레이어 조합':'완성 의상'}
+function outfitPaletteModeValue(){const v=$('outfitPaletteMode')?.value||'auto';return ['auto','free','monochrome','warmNeutral','coolNeutral','soft'].includes(v)?v:'auto'}
 function itemText(item){return `${item?.ko||''} ${item?.en||''}`.toLowerCase()}
 function sameAssetItem(a,b){return !!a&&!!b&&(String(a.en||'').toLowerCase()===String(b.en||'').toLowerCase()||String(a.ko||'')===String(b.ko||''))}
 function expressionCategoryForItem(item){
@@ -2029,6 +2076,139 @@ function applyPropCategoryMode(pool){
   const mode=propCategoryValue();if(mode==='auto'||mode==='all')return pool;
   const filtered=pool.filter(x=>!x?.en||propCategoryForItem(x)===mode);return filtered.length?filtered:[E('소품 없음',''),...(PROP_CATEGORY_POOLS[mode]||[])]
 }
+/* ===== v3.9 · EVERYDAY CLOTHING DETAIL ENGINE ===== */
+const EVERYDAY_CLOTHING_DETAIL_ASSETS={
+  tshirt:{label:'티셔츠',slot:'top',
+    color:P(`화이트 티셔츠|white t-shirt;블랙 티셔츠|black t-shirt;그레이 티셔츠|gray t-shirt;네이비 티셔츠|navy t-shirt;베이지 티셔츠|beige t-shirt;브라운 티셔츠|brown t-shirt;파스텔 블루 티셔츠|pastel blue t-shirt;파스텔 핑크 티셔츠|pastel pink t-shirt`),
+    fit:P(`슬림핏 티셔츠|slim-fit t-shirt;레귤러핏 티셔츠|regular-fit t-shirt;릴랙스핏 티셔츠|relaxed-fit t-shirt;오버사이즈 티셔츠|oversized t-shirt;크롭 티셔츠|cropped t-shirt`),
+    neckline:P(`크루넥 티셔츠|crew neck;브이넥 티셔츠|v-neck;스쿱넥 티셔츠|scoop neck;헨리넥 티셔츠|henley neckline;하이넥 티셔츠|high-neck t-shirt`),
+    sleeve:P(`반팔 티셔츠|short sleeves;긴팔 티셔츠|long sleeves;롤업 소매 티셔츠|rolled-up sleeves;캡 슬리브 티셔츠|cap sleeves`),
+    material:P(`코튼 티셔츠|cotton t-shirt;저지 티셔츠|soft jersey t-shirt;립드 니트 티셔츠|ribbed knit t-shirt;소프트 패브릭 티셔츠|soft fabric t-shirt`),
+    detail:P(`무지 티셔츠|plain t-shirt;스트라이프 티셔츠|striped t-shirt;그래픽 티셔츠|graphic t-shirt;작은 로고 티셔츠|small logo accent t-shirt;포켓 티셔츠|pocket t-shirt;얇고 살짝 비치는 티셔츠|slightly sheer thin t-shirt`)},
+  shirt:{label:'셔츠',slot:'top',
+    color:P(`화이트 셔츠|white shirt;블랙 셔츠|black shirt;스카이블루 셔츠|sky blue shirt;베이지 셔츠|beige shirt;그레이 셔츠|gray shirt;올리브 셔츠|olive shirt`),
+    fit:P(`슬림핏 셔츠|slim-fit shirt;레귤러핏 셔츠|regular-fit shirt;루즈핏 셔츠|loose-fit shirt;오버사이즈 셔츠|oversized shirt;크롭 셔츠|cropped shirt`),
+    sleeve:P(`긴소매 셔츠|long-sleeve shirt;반소매 셔츠|short-sleeve shirt;롤업 소매 셔츠|rolled-up sleeve shirt;버튼 커프스 셔츠|button-cuff shirt`),
+    fabric:P(`코튼 셔츠|cotton shirt;린넨 셔츠|linen shirt;실크 셔츠|silk shirt;옥스퍼드 셔츠|oxford shirt`),
+    pattern:P(`무지 셔츠|plain shirt;스트라이프 셔츠|striped shirt;잔체크 셔츠|small check shirt;핀스트라이프 셔츠|pinstripe shirt;깅엄 체크 셔츠|gingham check shirt`),
+    styling:P(`오픈 칼라 셔츠|open-collar shirt;단추 한두 개 푼 셔츠|shirt with a few buttons undone;넣어 입은 셔츠|tucked-in shirt;빼 입은 셔츠|untucked shirt;레이어드 셔츠|layered shirt styling`)},
+  cardigan:{label:'가디건',slot:'outer',
+    color:P(`크림 가디건|cream cardigan;베이지 가디건|beige cardigan;그레이 가디건|gray cardigan;네이비 가디건|navy cardigan;블랙 가디건|black cardigan;브릭 브라운 가디건|brick brown cardigan;더스티 핑크 가디건|dusty pink cardigan;세이지 그린 가디건|sage green cardigan`),
+    material:P(`니트 가디건|knit cardigan;립드 가디건|ribbed cardigan;울 가디건|wool cardigan;코튼 가디건|cotton cardigan;캐시미어 가디건|cashmere cardigan;부클 가디건|boucle cardigan`),
+    length:P(`크롭 가디건|cropped cardigan;허리 길이 가디건|waist-length cardigan;힙 길이 가디건|hip-length cardigan;롱 가디건|long cardigan`),
+    fit:P(`슬림핏 가디건|fitted cardigan;레귤러핏 가디건|regular-fit cardigan;릴랙스핏 가디건|relaxed-fit cardigan;오버사이즈 가디건|oversized cardigan`),
+    knit:P(`파인 니트 가디건|fine knit texture;립 조직 가디건|ribbed knit texture;케이블 니트 가디건|cable knit cardigan;플러피 니트 가디건|soft fluffy knit cardigan;청키 니트 가디건|chunky knit cardigan`),
+    styling:P(`버튼업 가디건|button-up cardigan;오픈 프런트 가디건|open-front cardigan;딥 브이넥 가디건|deep v-neck cardigan;어깨에 걸친 가디건|cardigan draped over shoulders;일부만 잠근 가디건|partially buttoned cardigan`)},
+  hoodie:{label:'후드티',slot:'top',
+    color:P(`화이트 후드티|white hoodie;블랙 후드티|black hoodie;그레이 후드티|gray hoodie;네이비 후드티|navy hoodie;올리브 후드티|olive hoodie;와인 후드티|wine red hoodie`),
+    fit:P(`슬림핏 후드티|slim-fit hoodie;레귤러핏 후드티|regular-fit hoodie;루즈핏 후드티|loose-fit hoodie;오버사이즈 후드티|oversized hoodie`),
+    fabric:P(`코튼 후드티|cotton hoodie;플리스 안감 후드티|fleece-lined hoodie;헤비웨이트 후드티|heavyweight hoodie;워시드 후드티|washed hoodie fabric`),
+    detail:P(`무지 후드티|plain hoodie;지퍼 후드집업|zip-up hoodie;풀오버 후드티|pullover hoodie;캥거루 포켓 후드티|hoodie with kangaroo pocket;드로스트링 후드티|drawstring hoodie;백프린트 후드티|hoodie with back print`),
+    styling:P(`후드를 쓴 상태|hood up;후드를 내린 상태|hood down;레이어드 후드티|layered hoodie styling;소매를 살짝 걷은 후드티|slightly rolled sleeves hoodie`)},
+  knit:{label:'니트',slot:'top',
+    color:P(`아이보리 니트|ivory knit sweater;베이지 니트|beige knit sweater;그레이 니트|gray knit sweater;네이비 니트|navy knit sweater;브라운 니트|brown knit sweater;버건디 니트|burgundy knit sweater`),
+    fit:P(`슬림핏 니트|slim-fit knit sweater;레귤러핏 니트|regular-fit knit sweater;릴랙스핏 니트|relaxed-fit knit sweater;오버사이즈 니트|oversized knit sweater;크롭 니트|cropped knit sweater`),
+    neckline:P(`크루넥 니트|crew-neck knit sweater;브이넥 니트|v-neck knit sweater;터틀넥 니트|turtleneck sweater;모크넥 니트|mock-neck sweater;보트넥 니트|boat-neck sweater`),
+    texture:P(`파인 니트|fine knit sweater;립드 니트|ribbed knit sweater;케이블 니트|cable knit sweater;청키 니트|chunky knit sweater;플러피 니트|soft fluffy knit sweater`),
+    detail:P(`무지 니트|plain knit sweater;스트라이프 니트|striped knit sweater;드롭숄더 니트|drop-shoulder knit sweater;밑단 시보리 니트|ribbed hem knit sweater`)},
+  jeans:{label:'청바지',slot:'bottom',
+    wash:P(`연청 청바지|light blue jeans;중청 청바지|medium wash jeans;진청 청바지|dark wash jeans;흑청 청바지|black jeans;페이디드 블루 청바지|faded blue jeans;애시드 워시 청바지|acid wash jeans;빈티지 워시 청바지|vintage wash jeans`),
+    fit:P(`스키니 진|skinny jeans;슬림 진|slim jeans;스트레이트 진|straight-leg jeans;와이드 진|wide-leg jeans;배기 진|baggy jeans;부츠컷 진|bootcut jeans;플레어 진|flare jeans`),
+    rise:P(`하이웨이스트 청바지|high-waisted jeans;미드라이즈 청바지|mid-rise jeans;로우라이즈 청바지|low-rise jeans;하이라이즈 데님|high-rise denim pants`),
+    length:P(`크롭 진|cropped jeans;발목 길이 진|ankle-length jeans;풀렝스 진|full-length jeans;신발 위로 쌓이는 진|slightly stacked jeans`),
+    detail:P(`클린 데님|clean denim;찢어진 청바지|ripped jeans;디스트로이드 진|distressed jeans;프레이드 헴 진|frayed hem jeans;패치워크 데님|patched jeans;절개 포인트 데님|panel detail jeans`)},
+  slacks:{label:'슬랙스',slot:'bottom',
+    color:P(`블랙 슬랙스|black slacks;차콜 슬랙스|charcoal slacks;그레이 슬랙스|gray slacks;네이비 슬랙스|navy slacks;베이지 슬랙스|beige slacks;브라운 슬랙스|brown slacks`),
+    fit:P(`슬림핏 슬랙스|slim-fit slacks;테이퍼드 슬랙스|tapered slacks;스트레이트 슬랙스|straight-leg slacks;와이드 슬랙스|wide-leg slacks;루즈 슬랙스|loose-fit slacks;플리츠 슬랙스|pleated slacks`),
+    rise:P(`하이웨이스트 슬랙스|high-waisted slacks;미드라이즈 슬랙스|mid-rise slacks;로우라이즈 슬랙스|low-rise slacks`),
+    length:P(`발목 길이 슬랙스|ankle-length slacks;풀렝스 슬랙스|full-length slacks;크롭 슬랙스|cropped slacks;길게 드레이프되는 슬랙스|long draping slacks`),
+    fabric:P(`울 블렌드 슬랙스|wool-blend slacks;라이트 폴리 슬랙스|light polyester slacks;소프트 드레이프 슬랙스|soft draping slacks fabric;린넨 블렌드 슬랙스|linen-blend slacks`),
+    detail:P(`클린 테일러드 슬랙스|clean tailored slacks;센터 프레스 슬랙스|center-crease slacks;벨트 루프 포인트 슬랙스|belt-loop detail slacks;더블 턱 슬랙스|double-pleat slacks;미니멀 링클프리 슬랙스|minimal wrinkle-free slacks`)},
+  skirt:{label:'스커트',slot:'bottom',
+    color:P(`블랙 스커트|black skirt;그레이 스커트|gray skirt;네이비 스커트|navy skirt;베이지 스커트|beige skirt;브라운 스커트|brown skirt;아이보리 스커트|ivory skirt`),
+    silhouette:P(`플리츠 스커트|pleated skirt;A라인 스커트|a-line skirt;펜슬 스커트|pencil skirt;플레어 스커트|flared skirt;랩 스커트|wrap skirt;슬릿 스커트|slit skirt;데님 스커트|denim skirt`),
+    length:P(`미니스커트|mini skirt;쇼트 스커트|short skirt;무릎 길이 스커트|knee-length skirt;미디 스커트|midi skirt;롱 스커트|long skirt`),
+    fabric:P(`코튼 스커트|cotton skirt;니트 스커트|knit skirt;데님 원단 스커트|denim fabric skirt;새틴 스커트|satin skirt`),
+    detail:P(`하이웨이스트 스커트|high-waisted skirt;벨트 포인트 스커트|belted skirt;프론트 버튼 스커트|front-button skirt;프레이드 헴 스커트|frayed hem skirt;레이어드 스커트|layered skirt;잔체크 스커트|small check patterned skirt`)}
+};
+const EVERYDAY_CLOTHING_GROUP_LABELS={color:'색상',wash:'워싱 / 색감',fit:'핏',neckline:'넥라인',sleeve:'소매',material:'재질',fabric:'원단',pattern:'패턴',styling:'스타일링',length:'길이',knit:'짜임',texture:'짜임',rise:'밑위',detail:'디테일',silhouette:'실루엣'};
+const EVERYDAY_OUTFIT_COMBOS={
+  spring:[['tshirt','cardigan','jeans'],['shirt','cardigan','slacks'],['knit','jeans'],['shirt','jeans'],['tshirt','cardigan','skirt'],['shirt','skirt']],
+  summer:[['tshirt','jeans'],['shirt','jeans'],['tshirt','skirt'],['shirt','skirt'],['tshirt','slacks'],['shirt','slacks']],
+  autumn:[['tshirt','cardigan','jeans'],['shirt','cardigan','slacks'],['knit','jeans'],['hoodie','jeans'],['knit','skirt'],['shirt','cardigan','skirt']],
+  winter:[['knit','slacks'],['knit','jeans'],['hoodie','jeans'],['shirt','cardigan','slacks'],['knit','skirt'],['tshirt','cardigan','jeans']],
+  neutral:[['tshirt','cardigan','jeans'],['shirt','slacks'],['knit','jeans'],['hoodie','jeans'],['shirt','cardigan','slacks'],['tshirt','skirt'],['shirt','skirt'],['knit','slacks']]
+};
+const EVERYDAY_COLOR_PALETTES={
+  monochrome:['white','black','gray','charcoal','navy','ivory'],
+  warmNeutral:['white','cream','beige','brown','brick','ivory'],
+  coolNeutral:['white','black','gray','charcoal','navy','sky blue','pastel blue'],
+  soft:['white','cream','beige','ivory','pastel blue','pastel pink','dusty pink','sage green']
+};
+const EVERYDAY_GROUP_PRIORITY={
+  tshirt:['color','fit','material','neckline','sleeve','detail'],shirt:['color','fit','fabric','styling','sleeve','pattern'],
+  cardigan:['color','material','fit','length','knit','styling'],hoodie:['color','fit','fabric','detail','styling'],
+  knit:['color','fit','texture','neckline','detail'],jeans:['wash','fit','rise','length','detail'],
+  slacks:['color','fit','fabric','rise','length','detail'],skirt:['color','silhouette','length','fabric','detail']
+};
+function everydayAllDetailItems(){
+  const out=[];Object.entries(EVERYDAY_CLOTHING_DETAIL_ASSETS).forEach(([family,cfg])=>Object.entries(cfg).forEach(([group,pool])=>{if(Array.isArray(pool))pool.forEach(item=>out.push({...item,_meta:mergeMeta(item._meta,{kind:'outfitDetail',clothingFamily:family,attributeGroup:group,layer:cfg.slot}),_source:`일상복 디테일 풀 · ${cfg.label} / ${EVERYDAY_CLOTHING_GROUP_LABELS[group]||group}`}))}));return out
+}
+Object.entries(EVERYDAY_CLOTHING_DETAIL_ASSETS).forEach(([family,cfg])=>Object.entries(cfg).forEach(([group,pool])=>{if(Array.isArray(pool))registerPoolMeta(pool,{kind:'outfitDetail',clothingFamily:family,attributeGroup:group,layer:cfg.slot})}));
+function everydayColorKey(item){const t=itemText(item);const pairs=[['pastel blue',/pastel blue|파스텔 블루/],['pastel pink',/pastel pink|파스텔 핑크/],['dusty pink',/dusty pink|더스티 핑크/],['sage green',/sage green|세이지 그린/],['sky blue',/sky blue|스카이블루/],['charcoal',/charcoal|차콜/],['cream',/cream|크림/],['ivory',/ivory|아이보리/],['beige',/beige|베이지/],['brick',/brick|브릭/],['brown',/brown|브라운/],['navy',/navy|네이비/],['black',/black|블랙|흑청/],['gray',/gray|grey|그레이/],['white',/white|화이트/]];return pairs.find(([,rx])=>rx.test(t))?.[0]||''}
+function everydayAutoPalette(){
+  const forced=outfitPaletteModeValue();if(forced!=='auto')return forced;
+  const s=seasonKey();const strength=randomStrengthValue();
+  if(strength==='safe')return rand(['monochrome',s==='autumn'||s==='winter'?'warmNeutral':'coolNeutral']);
+  if(strength==='bold')return rand(['soft','warmNeutral','coolNeutral','free']);
+  if(s==='autumn')return rand(['warmNeutral','monochrome','soft']);if(s==='winter')return rand(['monochrome','coolNeutral','warmNeutral']);if(s==='spring')return rand(['soft','warmNeutral','coolNeutral']);return rand(['coolNeutral','soft','free'])
+}
+function everydaySeasonCompatible(family,group,item){
+  const s=seasonKey(),t=itemText(item);
+  if(s==='summer'&&/(wool|cashmere|chunky|fleece|heavyweight|turtleneck|울 |울 가디건|캐시미어|청키|플리스|헤비웨이트|터틀넥)/i.test(t))return false;
+  if(s==='summer'&&group==='sleeve'&&/(long-sleeve|긴소매|긴팔)/i.test(t))return false;
+  if(s==='summer'&&family==='cardigan'&&group==='length'&&/(long cardigan|롱 가디건)/i.test(t))return false;
+  if(s==='winter'&&/(linen|slightly sheer|cap sleeves|short-sleeve|반소매|반팔|캡 슬리브|얇고 살짝 비치는|린넨)/i.test(t))return false;
+  if(s==='spring'&&/(fleece-lined|heavyweight|플리스 안감|헤비웨이트)/i.test(t))return false;
+  return true
+}
+function everydayAttributePool(family,group,palette,picked={}){
+  const raw=[...(EVERYDAY_CLOTHING_DETAIL_ASSETS[family]?.[group]||[])];let pool=raw.filter(x=>everydaySeasonCompatible(family,group,x));if(!pool.length)pool=raw;
+  if(group==='color'&&palette&&palette!=='free'){const allowed=new Set(EVERYDAY_COLOR_PALETTES[palette]||[]),hit=pool.filter(x=>allowed.has(everydayColorKey(x)));if(hit.length)pool=hit}
+  if(family==='jeans'&&group==='wash'&&palette==='monochrome'){const hit=pool.filter(x=>/(black jeans|dark wash jeans|흑청|진청)/i.test(itemText(x)));if(hit.length)pool=hit}
+  if(family==='jeans'&&group==='wash'&&palette==='coolNeutral'){const hit=pool.filter(x=>/(light blue|medium wash|dark wash|black jeans|연청|중청|진청|흑청)/i.test(itemText(x)));if(hit.length)pool=hit}
+  if(family==='shirt'&&group==='styling'&&/cropped shirt|크롭 셔츠/i.test(itemText(picked.fit))){pool=pool.filter(x=>!/tucked-in shirt|넣어 입은 셔츠/i.test(itemText(x)))}
+  if(family==='tshirt'&&group==='detail'&&/ribbed knit|립드 니트/i.test(itemText(picked.material))){const hit=pool.filter(x=>!/graphic t-shirt|그래픽 티셔츠/i.test(itemText(x)));if(hit.length)pool=hit}
+  if(family==='cardigan'&&group==='knit'){
+    const mat=itemText(picked.material);
+    if(/boucle|부클/i.test(mat))return [];
+    if(/ribbed cardigan|립드 가디건/i.test(mat)){const hit=pool.filter(x=>/ribbed knit|립 조직/i.test(itemText(x)));if(hit.length)pool=hit}
+    if(/cashmere|캐시미어/i.test(mat)){const hit=pool.filter(x=>/fine knit|파인 니트/i.test(itemText(x)));if(hit.length)pool=hit}
+  }
+  if(family==='skirt'&&group==='fabric'&&/denim skirt|데님 스커트/i.test(itemText(picked.silhouette))){const hit=pool.filter(x=>/denim fabric|데님 원단/i.test(itemText(x)));if(hit.length)pool=hit}
+  return pool
+}
+function everydayDetailGroupLimit(){const l=typeof promptDetailLevel==='function'?promptDetailLevel():2;return l<=1?3:l>=3?99:4}
+function everydayGarmentItem(family,palette){
+  const cfg=EVERYDAY_CLOTHING_DETAIL_ASSETS[family];if(!cfg)return null;const picked={},out=[];const groups=(EVERYDAY_GROUP_PRIORITY[family]||[]).slice(0,everydayDetailGroupLimit());
+  for(const group of groups){const pool=everydayAttributePool(family,group,palette,picked);if(!pool.length)continue;const item=rand(pool);picked[group]=item;out.push(item)}
+  if(!out.length)return null;return{family,label:cfg.label,slot:cfg.slot,picked,ko:out.map(x=>x.ko).join(', '),en:out.map(x=>x.en).join(', ')}
+}
+function everydayComboCandidates(){
+  const s=seasonKey(),base=[...(EVERYDAY_OUTFIT_COMBOS[s]||EVERYDAY_OUTFIT_COMBOS.neutral)];const g=String($('gender')?.value||'');const boysOnly=/boy/.test(g)&&!/girl/.test(g),mixed=/boy/.test(g)&&/girl/.test(g);
+  const filtered=(boysOnly||mixed)?base.filter(c=>!c.includes('skirt')):base;return filtered.length?filtered:base
+}
+function everydayDetailedSpecialFallback(){const c=currentContextFlags();return !!(c.medical||c.battle||c.formal||c.party||c.royal||c.fantasyLike)}
+function detailedOutfitItem(){
+  if(everydayDetailedSpecialFallback()){const item=layeredOutfitItem();return item?{...item,_meta:mergeMeta(item._meta,{mode:'detailed-fallback'}),_source:`디테일 조합 · 특수 장면 안전 폴백 · ${outfitLayerKey()}`} : item}
+  const palette=everydayAutoPalette(),combo=rand(everydayComboCandidates()),garments=combo.map(f=>everydayGarmentItem(f,palette)).filter(Boolean);if(!garments.length)return null;
+  const key=seasonKey(),layerCfg=OUTFIT_LAYER_POOLS[key]||OUTFIT_LAYER_POOLS.neutral;const extras=[];
+  if(layerCfg?.shoes?.length)extras.push(rand(layerCfg.shoes));if(layerCfg?.accessory?.length&&promptDetailLevel()>=2)extras.push(rand(layerCfg.accessory));
+  const ko=[...garments.map(g=>`${g.label}: ${g.ko}`),...extras.map(x=>x.ko)].join(' + '),en=[...garments.map(g=>g.en),...extras.map(x=>x.en)].join(', ');
+  return {...E(ko,en),_meta:{kind:'outfit',mode:'detailed',outfitContext:'everyday',palette,garments:combo,seasons:key==='neutral'?[]:[key]},_source:`디테일 조합 · ${combo.map(f=>EVERYDAY_CLOTHING_DETAIL_ASSETS[f].label).join(' + ')} · ${palette}`}
+}
+function everydayDetailPoolCount(){return Object.values(EVERYDAY_CLOTHING_DETAIL_ASSETS).reduce((sum,cfg)=>sum+Object.entries(cfg).filter(([k,v])=>Array.isArray(v)).reduce((s,[,v])=>s+v.length,0),0)}
+
 const OUTFIT_LAYER_POOLS={
   spring:{top:P(`산뜻한 셔츠|crisp shirt;얇은 니트|light knit sweater;오픈칼라 셔츠|open-collar shirt`),bottom:P(`테일러드 슬랙스|tailored slacks;스트레이트 데님|straight-leg denim`),outer:P(`트렌치코트|trench coat;가벼운 카디건|light cardigan;코튼 재킷|cotton jacket`),shoes:P(`로퍼|loafers;깔끔한 스니커즈|clean sneakers`),accessory:P(`손목시계|wristwatch;얇은 스카프|light scarf`)},
   summer:{top:P(`반팔 오픈칼라 셔츠|short-sleeve open-collar shirt;가벼운 티셔츠|lightweight t-shirt;민소매 니트 톱|sleeveless knit top`),bottom:P(`가벼운 슬랙스|lightweight slacks;와이드 데님|wide-leg denim;테일러드 쇼츠|tailored shorts`),outer:P(`얇은 오버셔츠|light overshirt;여름용 카디건|summer cardigan;가벼운 바람막이|light windbreaker`),shoes:P(`로우탑 스니커즈|low-top sneakers;로퍼|loafers`),accessory:P(`선글라스|sunglasses;얇은 손목시계|minimal wristwatch`)},
@@ -2071,7 +2251,7 @@ function slotSourceLabel(type,item){
   if(item._source)return`↳ ${item._source}`;
   if(type==='prop'){const cat=propCategoryForItem(item),pt=propTypeForItem(item);const mode=propCategoryValue();return`↳ ${PROP_CATEGORY_LABELS[cat]||'기본'} · ${PROP_TYPE_LABELS[pt]||pt}${mode==='auto'?' · 자동 매칭':''}`}
   if(type==='expression'){const key=expressionCategoryForItem(item);return`↳ ${EXPRESSION_CATEGORY_LABELS[key]||'표정'}${expressionCategoryValue()==='auto'?' · 행동 연동':''}`}
-  if(type==='outfit'){return`↳ ${outfitModeValue()==='layered'?'레이어 조합':'장면/계절 매칭'} · ${seasonKey()==='neutral'?'계절 무관':seasonKey()}`}
+  if(type==='outfit'){return`↳ ${outfitModeValue()==='detailed'?'디테일 조합':outfitModeValue()==='layered'?'레이어 조합':'장면/계절 매칭'} · ${seasonKey()==='neutral'?'계절 무관':seasonKey()}`}
   if((scenePool(type)||[]).some(x=>sameAssetItem(x,item)))return'↳ 장면 프리셋 연동';
   if((relationPool(type)||[]).some(x=>sameAssetItem(x,item)))return'↳ 관계 프리셋 연동';
   if((specific(type)||[]).some(x=>sameAssetItem(x,item)))return'↳ 장르/장소 전용 풀';return'↳ 공통 랜덤 풀'
@@ -2377,7 +2557,8 @@ function enforceSemanticQuality(){
 function updateSemanticModeHints(){
   const p=$('propCategoryHint');if(p){const mode=propCategoryValue();p.textContent=mode==='auto'?`🧳 자동 · 현재 우선군: ${matchedPropCategoryKeys().map(k=>PROP_CATEGORY_LABELS[k]).join(' / ')||'패션'}`:`🧳 ${PROP_CATEGORY_LABELS[mode]} 모드`;p.classList.toggle('on',mode!=='auto')}
   const e=$('expressionCategoryHint');if(e){const mode=expressionCategoryValue();e.textContent=mode==='auto'?`🙂 자동 · 행동/분위기에 맞춰 표정 선택`:`🙂 ${EXPRESSION_CATEGORY_LABELS[mode]} 표정만 우선`;e.classList.toggle('on',mode!=='auto')}
-  const o=$('outfitModeHint');if(o){o.textContent=outfitModeValue()==='layered'?`👔 레이어 조합 · 상의 + 하의 + 아우터 + 신발 + 액세서리`:`👔 완성 의상 · 기존 장면별 의상 풀 + 계절 보정`;o.classList.toggle('on',outfitModeValue()==='layered')}
+  const o=$('outfitModeHint');if(o){const mode=outfitModeValue();o.textContent=mode==='detailed'?`👔 디테일 조합 · 옷 종류마다 색상 / 핏 / 재질 / 길이 / 워싱을 속성별 조합`:mode==='layered'?`👔 레이어 조합 · 상의 + 하의 + 아우터 + 신발 + 액세서리`:`👔 완성 의상 · 기존 장면별 의상 풀 + 계절 보정`;o.classList.toggle('on',mode!=='complete')}
+  const pal=$('outfitPaletteHint'),palSel=$('outfitPaletteMode');if(palSel)palSel.disabled=outfitModeValue()!=='detailed';if(pal){const labels={auto:'자동 조화',free:'자유 랜덤',monochrome:'모노크롬',warmNeutral:'웜 뉴트럴',coolNeutral:'쿨 뉴트럴',soft:'소프트 컬러'};pal.textContent=outfitModeValue()==='detailed'?`🎨 ${labels[outfitPaletteModeValue()]||'자동 조화'} · 상·하의 컬러 정합성 적용`:`🎨 디테일 조합 모드에서 사용`;pal.classList.toggle('on',outfitModeValue()==='detailed')}
 }
 
 function propContextText(){
@@ -5927,7 +6108,7 @@ function updatePromptDiagnostics(){
     [q.propLink===false?'warn':'ok',q.propLink===true?'소품↔행동 ✓':q.propLink===false?'소품↔행동 △':'소품 연동 선택'],
     [q.expOk?'ok':'warn',q.expOk?'표정↔행동 ✓':'표정↔행동 재조정'],
     [q.peopleOk?'ok':'warn',q.peopleOk?`${characterCount()}인 구도 ✓`:`${characterCount()}인 구도 재조정`],
-    [outfitExposureMode()!=='none'?'warn':'ok',outfitExposureMode()!=='none'?`의상-노출 보정 ${outfitStatusLabel()}`:`의상 ${outfitModeValue()==='layered'?'레이어':'완성'} ✓`],
+    [outfitExposureMode()!=='none'?'warn':'ok',outfitExposureMode()!=='none'?`의상-노출 보정 ${outfitStatusLabel()}`:`의상 ${outfitModeValue()==='detailed'?'디테일':outfitModeValue()==='layered'?'레이어':'완성'} ✓`],
     [isPovMode()?'warn':'ok',`POV ${povDirectorLabel()}`]
   ];
   el.innerHTML=chips.map(([c,t])=>`<span class="diagnostic-chip ${c}">${t}</span>`).join('')
@@ -5935,8 +6116,8 @@ function updatePromptDiagnostics(){
 
 const $=id=>document.getElementById(id);const genre=$('genre'),category=$('category'),cards=$('cards'),prompt=$('prompt'),summary=$('summary'),stats=$('stats'),status=$('status'),negative=$('negative'),pixPrompt=$('pixPrompt'),nijiPrompt=$('nijiPrompt');
 const LS={fav:'nai_asset_favorites_v3',hist:'nai_asset_history_v3',neg:'nai_asset_negative_v3',settings:'nai_asset_settings_v3',charPresets:'nai_asset_character_presets_v1'};
-const SETTINGS_SCHEMA_VERSION=4;
-const SNAPSHOT_SCHEMA_VERSION=2;
+const SETTINGS_SCHEMA_VERSION=5;
+const SNAPSHOT_SCHEMA_VERSION=3;
 function isPlainRecord(v){return !!v&&typeof v==='object'&&!Array.isArray(v)}
 function migrateGuideUniformState(v){
   const s=isPlainRecord(v)?{...v}:{};
@@ -5958,11 +6139,13 @@ function migrateGuideDetailState(v){
 function migrateSettings(raw){
   const s=isPlainRecord(raw)?{...raw}:{};const from=Number(s.settingsSchema||0);
   if(from<4){s.guideverseUniform=migrateGuideUniformState(s.guideverseUniform);s.guideverseDetails=migrateGuideDetailState(s.guideverseDetails)}
+  if(from<5){if(!['complete','layered','detailed'].includes(s.outfitMode))s.outfitMode='complete';if(!['auto','free','monochrome','warmNeutral','coolNeutral','soft'].includes(s.outfitPaletteMode))s.outfitPaletteMode='auto'}
   s.settingsSchema=SETTINGS_SCHEMA_VERSION;s.appVersion=APP_VERSION;return s;
 }
 function migrateSnapshot(raw){
   const s=isPlainRecord(raw)?{...raw}:{};const from=Number(s.snapshotSchema||0);
   if(from<2){s.guideverseUniform=migrateGuideUniformState(s.guideverseUniform);s.guideverseDetails=migrateGuideDetailState(s.guideverseDetails)}
+  if(from<3){if(!['complete','layered','detailed'].includes(s.outfitMode))s.outfitMode='complete';if(!['auto','free','monochrome','warmNeutral','coolNeutral','soft'].includes(s.outfitPaletteMode))s.outfitPaletteMode='auto'}
   s.snapshotSchema=SNAPSHOT_SCHEMA_VERSION;s.appVersion=s.appVersion||APP_VERSION;return s;
 }
 /* Public aggregate usage counter
@@ -6353,7 +6536,7 @@ if(new URLSearchParams(location.search).get('analytics-debug')==='1'){
   console.info('[Asset Gacha Analytics] debug mode. Run analyticsDebugTest() in console.');
 }
 
-function createCards(){cards.innerHTML='';const CORE_SLOTS=new Set(['background','outfit','expression','action','pose','mood']);Object.entries(SLOTS).forEach(([k,t])=>{const el=document.createElement('article');el.className='card';el.id='card-'+k;el.dataset.slotKey=k;el.dataset.slotCore=CORE_SLOTS.has(k)?'1':'0';el.innerHTML=`<div class="card-top"><div class="card-title">${t}</div><div class="card-actions"><button class="icon" data-toggle="${k}" title="프롬프트 사용/제외">◉</button><button class="icon" data-reroll="${k}" title="이 항목만 재추첨">↻</button><button class="icon" data-lock="${k}" title="잠금">🔓</button></div></div><div class="ko" id="ko-${k}">-</div><div class="en" id="en-${k}">-</div><div class="slot-source" id="source-${k}"></div><div class="lock-note">🔒 이 결과는 고정되어 있습니다.</div><details class="slot-detail-picker" data-slot-picker="${k}"><summary><span>직접 선택 · 등록 후보</span><span>⌄</span></summary><div class="slot-picker-body"><input class="slot-picker-search" data-slot-search="${k}" type="search" placeholder="${t} 후보 검색"><div class="slot-picker-list" data-slot-list="${k}"><div class="slot-picker-empty">등록 후보를 불러오는 중...</div></div><select class="slot-picker-select" data-slot-select="${k}" size="6"></select><div class="slot-picker-meta" data-slot-meta="${k}">상세 모드에서 현재 장면에 등록된 후보를 직접 선택할 수 있습니다.</div></div></details>`;cards.appendChild(el)})}
+function createCards(){cards.innerHTML='';const CORE_SLOTS=new Set(['background','outfit','expression','action','pose','mood']);Object.entries(SLOTS).forEach(([k,t])=>{const el=document.createElement('article');el.className='card';el.id='card-'+k;el.dataset.slotKey=k;el.dataset.slotCore=CORE_SLOTS.has(k)?'1':'0';el.innerHTML=`<div class="card-top"><div class="card-title">${t}</div><div class="card-actions"><button class="icon" data-toggle="${k}" title="프롬프트 사용/제외">◉</button><button class="icon" data-reroll="${k}" title="이 항목만 재추첨">↻</button><button class="icon" data-lock="${k}" title="잠금">🔓</button></div></div><div class="ko" id="ko-${k}">-</div><div class="en" id="en-${k}">-</div><div class="slot-source" id="source-${k}"></div><div class="lock-note">🔒 이 결과는 고정되어 있습니다.</div><details class="slot-detail-picker" data-slot-picker="${k}"><summary><span>직접 선택 · 등록 후보</span><span>⌄</span></summary><div class="slot-picker-body"><input class="slot-picker-search" data-slot-search="${k}" type="search" placeholder="${t} 전체 등록 풀 검색"><div class="slot-picker-list" data-slot-list="${k}"><div class="slot-picker-empty">등록 후보를 불러오는 중...</div></div><select class="slot-picker-select" data-slot-select="${k}" size="6"></select><div class="slot-picker-meta" data-slot-meta="${k}">상세 모드에서 현재 장면에 등록된 후보를 직접 선택할 수 있습니다.</div></div></details>`;cards.appendChild(el)})}
 function loadCategories(keep=false){
   const oldCategory=category.value;
   const oldMiddle=middleCategoryValue();
@@ -7740,6 +7923,13 @@ function applyCategoryMatchFilter(base,type){
 }
 function uniqueCount(type){return uniq(poolFor(type)).length}
 function choose(type){
+  if(type==='outfit'&&outfitModeValue()==='detailed'){
+    for(let attempt=0;attempt<12;attempt++){
+      const item=detailedOutfitItem();
+      if(!item)continue;
+      if(!tokenMatchesExcluded(item?.en)&&!tokenMatchesExcluded(item?.ko)&&(!conflictPreventionOn()||!conflictsWithContext(type,item)))return item;
+    }
+  }
   if(type==='outfit'&&outfitModeValue()==='layered'){
     for(let attempt=0;attempt<8;attempt++){
       const item=layeredOutfitItem();
@@ -7797,6 +7987,8 @@ function buildGlobalSlotPickerBase(type){
       if(typeof COMMON_PROP_POOL!=='undefined')bucket.push(...COMMON_PROP_POOL);
       if(typeof PROP_CATEGORY_POOLS!=='undefined')Object.values(PROP_CATEGORY_POOLS||{}).forEach(v=>bucket.push(...(v||[])));
     }
+    if(type==='outfit'&&typeof everydayAllDetailItems==='function')bucket.push(...everydayAllDetailItems());
+    if(type==='outfit'&&typeof GUIDE_OUTFIT_POOLS!=='undefined')Object.values(GUIDE_OUTFIT_POOLS||{}).forEach(v=>bucket.push(...(v||[])));
     if(typeof NSFW_COMMON!=='undefined'&&NSFW_COMMON?.[type])Object.values(NSFW_COMMON[type]||{}).forEach(v=>bucket.push(...(v||[])));
     if(typeof DB!=='undefined')collectGlobalSlotItems(DB,type,bucket);
   }catch(err){console.error('[Slot Picker] global candidate build failed',type,err)}
@@ -7818,7 +8010,8 @@ function slotPickerContextKey(type){
     String(purposePresetValue?.()||'none'),
     String($('propCategoryMode')?.value||''),
     String($('expressionCategoryMode')?.value||''),
-    String($('outfitMode')?.value||'')
+    String($('outfitMode')?.value||''),
+    String($('outfitPaletteMode')?.value||'auto')
   ];
   return parts.join('|');
 }
@@ -8394,7 +8587,7 @@ function buildStats(){
   const relInfo=characterCount()===1?'RELATION OFF':(relationPresetValue()==='none'?'RELATION NONE':`RELATION ${relationPresetValue().toUpperCase()}`);
   const sceneInfo=scenePresetValue()==='none'?'SCENE NONE':`SCENE ${sceneResolvedKey().toUpperCase()}`;
   const gvInfo=genre.value==='guideverse'?` · GV-SYSTEM ${guideversePanelEnabled()?'ON':'OFF'}`:'';
-  stats.textContent=`현재 사용 가능한 고유 랜덤 풀 · ${count} · 카테고리 ${Object.keys(activeCategoryLibrary()).length}종 · ${n}인 모드 · ${povInfo} · ${relInfo} · ${sceneInfo} · PROP ${PROP_CATEGORY_LABELS[propCategoryValue()]} · EXP ${EXPRESSION_CATEGORY_LABELS[expressionCategoryValue()]} · OUTFIT ${outfitModeValue()==='layered'?'LAYERED':'COMPLETE'} · ${conflictPreventionOn()?'SMART-CONFLICT 2.0 ON':'SMART-CONFLICT OFF'}${gvInfo} · SEMANTIC-MATCH 3.0`
+  stats.textContent=`현재 사용 가능한 고유 랜덤 풀 · ${count} · 카테고리 ${Object.keys(activeCategoryLibrary()).length}종 · ${n}인 모드 · ${povInfo} · ${relInfo} · ${sceneInfo} · PROP ${PROP_CATEGORY_LABELS[propCategoryValue()]} · EXP ${EXPRESSION_CATEGORY_LABELS[expressionCategoryValue()]} · OUTFIT ${outfitModeShortLabel()} · ${conflictPreventionOn()?'SMART-CONFLICT 2.0 ON':'SMART-CONFLICT OFF'}${gvInfo} · SEMANTIC-MATCH 3.0`
 }
 function runSelfDiagnostic(){
   const rows=[];const add=(name,status,detail)=>rows.push({name,status,detail:String(detail??'')});
@@ -8403,12 +8596,14 @@ function runSelfDiagnostic(){
   const uiVersionOk=document.title.includes(APP_META.version)&&[...document.querySelectorAll('.version-badge')].every(el=>el.textContent.includes(APP_META.version));
   add('버전 UI 동기화',uiVersionOk?'ok':'warn',document.title);
   // Required DOM and duplicate IDs
-  const required=['genre','category','rollAll','prompt','updateGate','guideverseAbilityPanel','guideUniformBox','guideDetailBox','cards'];
+  const required=['genre','category','rollAll','prompt','updateGate','guideverseAbilityPanel','guideUniformBox','guideDetailBox','cards','themeModeToggle','outfitPaletteMode'];
   const missing=required.filter(id=>!document.getElementById(id));add('필수 DOM',missing.length?'fail':'ok',missing.length?`누락: ${missing.join(', ')}`:`${required.length}개 정상`);
   const counts=new Map();document.querySelectorAll('[id]').forEach(el=>counts.set(el.id,(counts.get(el.id)||0)+1));const dup=[...counts].filter(([,n])=>n>1).map(([id,n])=>`${id}×${n}`);add('중복 HTML ID',dup.length?'fail':'ok',dup.length?dup.join(', '):'없음');
   // Guideverse asset counts / compatible pools
   const outfitCount=Object.values(GUIDEVERSE_OUTFIT_DETAIL_ASSETS).flat().length,poseCount=Object.values(GUIDEVERSE_POSE_DETAIL_ASSETS).flat().length;
   add('GUIDEVERSE 50/50',outfitCount===50&&poseCount===50?'ok':'fail',`의상 ${outfitCount} · 포즈 ${poseCount}`);
+  const everydayCount=everydayDetailPoolCount();add('일상복 디테일 풀',everydayCount===226?'ok':'warn',`${everydayCount}개 속성 · 8개 의상군`);
+  add('BLACK / WHITE 테마',document.getElementById('themeModeToggle')?'ok':'fail',`현재 ${document.documentElement.dataset.colorMode||'dark'} 모드`);
   const autoOutfit=guideDetailPool('outfit',{compatibleOnly:true,auto:true}).length,autoPose=guideDetailPool('pose',{compatibleOnly:true,auto:true}).length;
   add('충돌방지 후보 풀',autoOutfit&&autoPose?'ok':'fail',`의상 ${autoOutfit} · 포즈 ${autoPose} · ${guideSceneFamily()}`);
   add('포즈 연동 맵',Object.keys(GUIDE_POSE_LINKS).length>=10?'ok':'warn',`${Object.keys(GUIDE_POSE_LINKS).length}개 포즈에 행동/소품 연동`);
@@ -8433,10 +8628,10 @@ function runSelfDiagnostic(){
 
 async function copyText(text,msg){try{await navigator.clipboard.writeText(text)}catch{const t=document.createElement('textarea');t.value=text;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove()}show(msg)}
 function show(msg){status.textContent=msg;status.classList.add('show');clearTimeout(window.__st);window.__st=setTimeout(()=>status.classList.remove('show'),1700)}
-function snap(){return{snapshotSchema:SNAPSHOT_SCHEMA_VERSION,appVersion:APP_VERSION,time:Date.now(),genre:genre.value,middleCategory:middleCategoryValue(),category:category.value,gender:$('gender')?.value||'',quality:$('quality')?.value||'',style:$('style')?.value||'',aiStylePreset:$('aiStylePreset')?.value||'none',artStyle:$('artStyle')?.value||'',promptDetail:$('promptDetail')?.value||'2',intensity:$('intensity')?.value||'dense',povMode:$('povMode')?.value||'off',povStrength:$('povStrength')?.value||'subtle',povType:$('povType')?.value||'auto',relationPreset:relationPresetValue(),scenePreset:scenePresetValue(),purposePreset:purposePresetValue(),randomStrength:randomStrengthValue(),sceneResolvedKey:state.sceneResolvedKey,smartConflict:conflictPreventionOn(),director:{enabled:directorEnabled(),axisExposure:$('axisExposure')?.value,axisContact:$('axisContact')?.value,axisMarks:$('axisMarks')?.value,axisMotion:$('axisMotion')?.value,axisExpression:$('axisExpression')?.value,axisWardrobe:$('axisWardrobe')?.value,roleLayout:$('roleLayout')?.value},characters:{charARole:$('charARole')?.value||'',charATags:$('charATags')?.value||'',charAPositionPreset:$('charAPositionPreset')?.value||'',charAPosition:$('charAPosition')?.value||'',charAActionPreset:$('charAActionPreset')?.value||'',charAAction:$('charAAction')?.value||'',charBRole:$('charBRole')?.value||'',charBTags:$('charBTags')?.value||'',charBPositionPreset:$('charBPositionPreset')?.value||'',charBPosition:$('charBPosition')?.value||'',charBActionPreset:$('charBActionPreset')?.value||'',charBAction:$('charBAction')?.value||'',charCRole:$('charCRole')?.value||'',charCTags:$('charCTags')?.value||'',charCPositionPreset:$('charCPositionPreset')?.value||'',charCPosition:$('charCPosition')?.value||'',charCActionPreset:$('charCActionPreset')?.value||'',charCAction:$('charCAction')?.value||''},selected:JSON.parse(JSON.stringify(state.selected)),active:{...state.active},prompt:prompt.value,pixPrompt:pixPrompt?.value||'',nijiPrompt:nijiPrompt?.value||'',summary:summary.textContent,guideverseAbilities:getGuideverseAbilityState(),guideverseUniform:guideUniformState(),guideverseDetails:guideDetailState()}}
+function snap(){return{snapshotSchema:SNAPSHOT_SCHEMA_VERSION,appVersion:APP_VERSION,time:Date.now(),genre:genre.value,middleCategory:middleCategoryValue(),category:category.value,gender:$('gender')?.value||'',quality:$('quality')?.value||'',style:$('style')?.value||'',aiStylePreset:$('aiStylePreset')?.value||'none',artStyle:$('artStyle')?.value||'',promptDetail:$('promptDetail')?.value||'2',intensity:$('intensity')?.value||'dense',povMode:$('povMode')?.value||'off',povStrength:$('povStrength')?.value||'subtle',povType:$('povType')?.value||'auto',relationPreset:relationPresetValue(),scenePreset:scenePresetValue(),purposePreset:purposePresetValue(),randomStrength:randomStrengthValue(),outfitMode:outfitModeValue(),outfitPaletteMode:outfitPaletteModeValue(),sceneResolvedKey:state.sceneResolvedKey,smartConflict:conflictPreventionOn(),director:{enabled:directorEnabled(),axisExposure:$('axisExposure')?.value,axisContact:$('axisContact')?.value,axisMarks:$('axisMarks')?.value,axisMotion:$('axisMotion')?.value,axisExpression:$('axisExpression')?.value,axisWardrobe:$('axisWardrobe')?.value,roleLayout:$('roleLayout')?.value},characters:{charARole:$('charARole')?.value||'',charATags:$('charATags')?.value||'',charAPositionPreset:$('charAPositionPreset')?.value||'',charAPosition:$('charAPosition')?.value||'',charAActionPreset:$('charAActionPreset')?.value||'',charAAction:$('charAAction')?.value||'',charBRole:$('charBRole')?.value||'',charBTags:$('charBTags')?.value||'',charBPositionPreset:$('charBPositionPreset')?.value||'',charBPosition:$('charBPosition')?.value||'',charBActionPreset:$('charBActionPreset')?.value||'',charBAction:$('charBAction')?.value||'',charCRole:$('charCRole')?.value||'',charCTags:$('charCTags')?.value||'',charCPositionPreset:$('charCPositionPreset')?.value||'',charCPosition:$('charCPosition')?.value||'',charCActionPreset:$('charCActionPreset')?.value||'',charCAction:$('charCAction')?.value||''},selected:JSON.parse(JSON.stringify(state.selected)),active:{...state.active},prompt:prompt.value,pixPrompt:pixPrompt?.value||'',nijiPrompt:nijiPrompt?.value||'',summary:summary.textContent,guideverseAbilities:getGuideverseAbilityState(),guideverseUniform:guideUniformState(),guideverseDetails:guideDetailState()}}
 function addHistory(){let a=safeJSON(LS.hist,[]);a.unshift(snap());a=a.slice(0,10);storageSet(LS.hist,JSON.stringify(a));renderSaved()}
 function addFavorite(source='novel'){let a=safeJSON(LS.fav,[]);const s=snap();s.id=Date.now()+Math.random();s.savedFrom=source;a.unshift(s);a=a.slice(0,50);storageSet(LS.fav,JSON.stringify(a));renderSaved();const label=source==='pix'?'PixAI':source==='niji'?'NijiJourney':'NovelAI';show(`⭐ ${label} 현재 조합을 저장했습니다.`);trackAnalytics('favorite')}
-function loadSnap(s){s=migrateSnapshot(s);genre.value=s.genre;loadCategories(false);const inferred=s.middleCategory&&[...$('middleCategory').options].some(o=>o.value===s.middleCategory)?s.middleCategory:inferMiddleCategory(s.category);$('middleCategory').value=inferred;loadSmallCategories(false,s.category);if([...category.options].some(o=>o.value===s.category))category.value=s.category;populateScenePresetOptions(false);if(s.gender!==undefined&&$('gender'))$('gender').value=s.gender;if(s.quality!==undefined&&$('quality'))$('quality').value=s.quality;if(s.style!==undefined&&$('style'))$('style').value=s.style;if(s.aiStylePreset!==undefined&&$('aiStylePreset'))$('aiStylePreset').value=s.aiStylePreset;if(s.artStyle!==undefined&&$('artStyle'))$('artStyle').value=s.artStyle;if(s.promptDetail!==undefined&&$('promptDetail'))$('promptDetail').value=s.promptDetail;if(s.intensity!==undefined&&$('intensity'))$('intensity').value=s.intensity;if(s.povMode!==undefined&&$('povMode'))$('povMode').value=s.povMode;if(s.povStrength!==undefined&&$('povStrength'))$('povStrength').value=s.povStrength;updatePovTypeOptions(s.povType||'auto');if(s.relationPreset&&[...$('relationPreset').options].some(o=>o.value===s.relationPreset))$('relationPreset').value=s.relationPreset;if(s.scenePreset&&[...$('scenePreset').options].some(o=>o.value===s.scenePreset))$('scenePreset').value=s.scenePreset;if(s.purposePreset&&$('purposePreset'))$('purposePreset').value=s.purposePreset;if(s.randomStrength&&$('randomStrength'))$('randomStrength').value=s.randomStrength;state.sceneResolvedKey=s.sceneResolvedKey||'';if(typeof s.smartConflict==='boolean')$('smartConflict').checked=s.smartConflict;if(s.director){if(s.director.enabled!==undefined)setDirectorEnabled(s.director.enabled,{silent:true});Object.entries(s.director).forEach(([k,v])=>{if($(k)&&v!==undefined)$(k).value=v});}if(s.characters)Object.entries(s.characters).forEach(([k,v])=>{if($(k)&&v!==undefined)$(k).value=v});if(s.guideverseAbilities)applyGuideverseAbilityState(s.guideverseAbilities);if(s.guideverseUniform)applyGuideUniformState(s.guideverseUniform);if(s.guideverseDetails)applyGuideDetailState(s.guideverseDetails);else ensureGuideDetails(false);updatePromptDetailUI();updateIntensityMode();updateDirectorState();updateCharacterSpecificUI();Object.keys(SLOTS).forEach(k=>{state.selected[k]=s.selected?.[k]||null;state.active[k]=s.active?.[k]??true;state.locked[k]=false});updateRelationHint();updateScenePresetHint();updateSmartConflictHint();render();window.scrollTo({top:$('cards').getBoundingClientRect().top+scrollY-20,behavior:'smooth'})}
+function loadSnap(s){s=migrateSnapshot(s);genre.value=s.genre;loadCategories(false);const inferred=s.middleCategory&&[...$('middleCategory').options].some(o=>o.value===s.middleCategory)?s.middleCategory:inferMiddleCategory(s.category);$('middleCategory').value=inferred;loadSmallCategories(false,s.category);if([...category.options].some(o=>o.value===s.category))category.value=s.category;populateScenePresetOptions(false);if(s.gender!==undefined&&$('gender'))$('gender').value=s.gender;if(s.quality!==undefined&&$('quality'))$('quality').value=s.quality;if(s.style!==undefined&&$('style'))$('style').value=s.style;if(s.aiStylePreset!==undefined&&$('aiStylePreset'))$('aiStylePreset').value=s.aiStylePreset;if(s.artStyle!==undefined&&$('artStyle'))$('artStyle').value=s.artStyle;if(s.promptDetail!==undefined&&$('promptDetail'))$('promptDetail').value=s.promptDetail;if(s.intensity!==undefined&&$('intensity'))$('intensity').value=s.intensity;if(s.povMode!==undefined&&$('povMode'))$('povMode').value=s.povMode;if(s.povStrength!==undefined&&$('povStrength'))$('povStrength').value=s.povStrength;updatePovTypeOptions(s.povType||'auto');if(s.relationPreset&&[...$('relationPreset').options].some(o=>o.value===s.relationPreset))$('relationPreset').value=s.relationPreset;if(s.scenePreset&&[...$('scenePreset').options].some(o=>o.value===s.scenePreset))$('scenePreset').value=s.scenePreset;if(s.purposePreset&&$('purposePreset'))$('purposePreset').value=s.purposePreset;if(s.randomStrength&&$('randomStrength'))$('randomStrength').value=s.randomStrength;if(s.outfitMode&&$('outfitMode'))$('outfitMode').value=s.outfitMode;if(s.outfitPaletteMode&&$('outfitPaletteMode'))$('outfitPaletteMode').value=s.outfitPaletteMode;state.sceneResolvedKey=s.sceneResolvedKey||'';if(typeof s.smartConflict==='boolean')$('smartConflict').checked=s.smartConflict;if(s.director){if(s.director.enabled!==undefined)setDirectorEnabled(s.director.enabled,{silent:true});Object.entries(s.director).forEach(([k,v])=>{if($(k)&&v!==undefined)$(k).value=v});}if(s.characters)Object.entries(s.characters).forEach(([k,v])=>{if($(k)&&v!==undefined)$(k).value=v});if(s.guideverseAbilities)applyGuideverseAbilityState(s.guideverseAbilities);if(s.guideverseUniform)applyGuideUniformState(s.guideverseUniform);if(s.guideverseDetails)applyGuideDetailState(s.guideverseDetails);else ensureGuideDetails(false);updatePromptDetailUI();updateIntensityMode();updateDirectorState();updateCharacterSpecificUI();Object.keys(SLOTS).forEach(k=>{state.selected[k]=s.selected?.[k]||null;state.active[k]=s.active?.[k]??true;state.locked[k]=false});updateRelationHint();updateScenePresetHint();updateSmartConflictHint();updateSemanticModeHints();render();window.scrollTo({top:$('cards').getBoundingClientRect().top+scrollY-20,behavior:'smooth'})}
 function deleteFav(id){let a=safeJSON(LS.fav,[]).filter(x=>x.id!==id);storageSet(LS.fav,JSON.stringify(a));renderSaved()}
 function itemHTML(s,i,isFav){const g=DB[s.genre]?.label||s.genre;const c=(s.nsfw?NSFW_CATEGORY_BY_GENRE[s.genre]?.[s.category]?.label:null)||DB[s.genre]?.categories?.[s.category]?.label||(s.category==='__all'?'카테고리 전체 랜덤':s.category);const source=s.savedFrom||'novel';const sourceLabel=source==='pix'?'PixAI':source==='niji'?'NijiJourney':'NovelAI';const shown=source==='pix'?(s.pixPrompt||s.prompt||''):source==='niji'?(s.nijiPrompt||s.prompt||''):(s.prompt||'');return `<div class="list-item"><div class="list-title">${g} · ${c} · ${sourceLabel}</div><div class="list-text">${shown.replace(/</g,'&lt;')}</div><div class="list-tools"><button data-load="${isFav?'f':'h'}:${i}">불러오기</button>${isFav?`<button data-del="${s.id}">삭제</button>`:''}</div></div>`}
 function renderSaved(){const f=safeJSON(LS.fav,[]),h=safeJSON(LS.hist,[]);$('favorites').innerHTML=f.length?f.map((x,i)=>itemHTML(x,i,true)).join(''):'<div class="empty">저장된 조합이 없습니다.</div>';$('history').innerHTML=h.length?h.map((x,i)=>itemHTML(x,i,false)).join(''):'<div class="empty">최근 기록이 없습니다.</div>'}
@@ -8452,7 +8647,7 @@ function saveSettings(){
     scenePreset:$('scenePreset').value,
     purposePreset:$('purposePreset')?.value||'none',
     randomStrength:$('randomStrength')?.value||'balanced',
-    propCategoryMode:propCategoryValue(),expressionCategoryMode:expressionCategoryValue(),outfitMode:outfitModeValue(),
+    propCategoryMode:propCategoryValue(),expressionCategoryMode:expressionCategoryValue(),outfitMode:outfitModeValue(),outfitPaletteMode:outfitPaletteModeValue(),
     smartConflict:$('smartConflict').checked,
     nsfwMode:$('nsfwMode')?.checked===true,
     quality:$('quality').value,
@@ -8494,6 +8689,7 @@ function loadSettings(){
   if(s.propCategoryMode!==undefined&&$('propCategoryMode'))$('propCategoryMode').value=s.propCategoryMode;
   if(s.expressionCategoryMode!==undefined&&$('expressionCategoryMode'))$('expressionCategoryMode').value=s.expressionCategoryMode;
   if(s.outfitMode!==undefined&&$('outfitMode'))$('outfitMode').value=s.outfitMode;
+  if(s.outfitPaletteMode!==undefined&&$('outfitPaletteMode'))$('outfitPaletteMode').value=s.outfitPaletteMode;
   if(s.smartConflict!==undefined)$('smartConflict').checked=s.smartConflict;
   if(s.nsfwMode!==undefined&&$('nsfwMode'))$('nsfwMode').checked=s.nsfwMode;
   updatePovTypeOptions(s.povType||'auto');
@@ -8530,7 +8726,7 @@ function loadSettings(){
 cards.addEventListener('click',e=>{const a=e.target.closest('[data-lock],[data-reroll],[data-toggle]');if(!a)return;if(a.dataset.lock)toggleLock(a.dataset.lock);if(a.dataset.toggle)toggleActive(a.dataset.toggle);if(a.dataset.reroll){const key=a.dataset.reroll;rollSlot(key,true);if(key==='prop'){['action','pose','composition'].forEach(k=>{if(!state.locked[k])rollSlot(k,true)})}if(key==='expression'&&!state.locked.action&&expressionCategoryValue()!=='auto')rollSlot('action',true);enforceSmartConflicts();enforceSemanticQuality();render();addHistory()}});
 $('rollAll').onclick=()=>{rollAll(true);trackAnalytics('roll')};genre.onchange=()=>{loadCategories(false);recoverCategorySelectors();populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();updateIntensityMode();updateQuickRecommendations();updateDirectorState();updateGuideverseAbilityPanelVisibility();updateGuideverseAbilityHint();updateGuideUniformUI();ensureGuideDetails(false);render();buildPrompt();buildSummary();buildStats();saveSettings()};$('middleCategory')?.addEventListener('change',()=>{loadSmallCategories(false);updateIntensityMode();updateQuickRecommendations();rollAll(false);buildPrompt();buildSummary();saveSettings()});category.onchange=()=>{updateIntensityMode();updateQuickRecommendations();rollAll(false);buildPrompt();buildSummary();saveSettings()};$('nsfwMode').addEventListener('change',()=>{syncContentModeUI();syncThemeModeAvailability();updateIntensityMode();loadCategories(false);recoverCategorySelectors();populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();updateQuickRecommendations();updateDirectorState();render();buildPrompt();buildSummary();saveSettings();show(`🔞 콘텐츠 모드 ${isNsfwGenre()?'NSFW':'SFW'}`);});
 $('lockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=true);render();saveSettings()};$('unlockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=false);render();saveSettings()};$('enableAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.active[k]=true);render();buildPrompt();buildSummary();saveSettings()};$('disableAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.active[k]=false);render();buildPrompt();buildSummary();saveSettings();show('○ 모든 랜덤 슬롯을 미사용으로 설정했습니다.')};
-['quality','style','aiStylePreset','artStyle','customTags','randomCategory','avoidSame','smartConflict','intensity','userGenderMode','userBodyMode','propCategoryMode','expressionCategoryMode','outfitMode'].forEach(id=>{
+['quality','style','aiStylePreset','artStyle','customTags','randomCategory','avoidSame','smartConflict','intensity','userGenderMode','userBodyMode','propCategoryMode','expressionCategoryMode','outfitMode','outfitPaletteMode'].forEach(id=>{
   const el=$(id);
   if(!el) return;
   el.addEventListener('change',()=>{
@@ -8553,7 +8749,10 @@ $('lockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=true);re
       ['action','expression'].forEach(k=>{if(!state.locked[k]){state.selected[k]=choose(k);flash(k)}});enforceSmartConflicts();enforceSemanticQuality();render();show('🙂 표정 카테고리와 행동을 다시 맞췄습니다.');
     }
     if(id==='outfitMode'){
-      if(!state.locked.outfit){state.selected.outfit=choose('outfit');flash('outfit')}enforceSmartConflicts();enforceSemanticQuality();render();show(`👔 의상 방식을 ${outfitModeValue()==='layered'?'레이어 조합':'완성 의상'}으로 변경했습니다.`);
+      if(!state.locked.outfit){state.selected.outfit=choose('outfit');flash('outfit')}enforceSmartConflicts();enforceSemanticQuality();updateSemanticModeHints();invalidateSlotPickerCache();render();show(`👔 의상 방식을 ${outfitModeKoLabel()}으로 변경했습니다.`);
+    }
+    if(id==='outfitPaletteMode'){
+      updateSemanticModeHints();invalidateSlotPickerCache();if(outfitModeValue()==='detailed'&&!state.locked.outfit){state.selected.outfit=choose('outfit');flash('outfit');enforceSmartConflicts();enforceSemanticQuality();render();}show('🎨 의상 컬러 조합을 갱신했습니다.');
     }
     buildPrompt();
     saveSettings();
@@ -8878,7 +9077,7 @@ if(document.body.classList.contains('access-locked')){
   const isNsfw=()=>Boolean($('nsfwMode')?.checked);
 
   function markAdvancedControls(){
-    const ids=['quality','style','aiStylePreset','artStyle','promptDetail','povMode','povStrength','povType','relationPreset','scenePreset','propCategoryMode','expressionCategoryMode','outfitMode','smartConflict'];
+    const ids=['quality','style','aiStylePreset','artStyle','promptDetail','povMode','povStrength','povType','relationPreset','scenePreset','propCategoryMode','expressionCategoryMode','outfitMode','outfitPaletteMode','smartConflict'];
     ids.forEach(id=>$(id)?.closest('.opt')?.setAttribute('data-ui-advanced','1'));
     $('negativeBase')?.closest('div')?.setAttribute('data-ui-advanced','1');
     const panel=$('basicTagsPanel');if(panel)q('.user-character-wrap',panel)?.setAttribute('data-ui-advanced','1');
@@ -8926,7 +9125,7 @@ if(document.body.classList.contains('access-locked')){
     const checks=[
       value('style'), value('artStyle'), value('excludeTags'),
       value('charATags'),value('charAPositionPreset'),value('charAPosition'),value('charAActionPreset'),value('charAAction'),value('charBTags'),value('charBPositionPreset'),value('charBPosition'),value('charBActionPreset'),value('charBAction'),value('charCTags'),value('charCPositionPreset'),value('charCPosition'),value('charCActionPreset'),value('charCAction'),
-      value('propCategoryMode')!=='auto'?'prop':'',value('expressionCategoryMode')!=='auto'?'expression':'',value('outfitMode')==='layered'?'layered':''
+      value('propCategoryMode')!=='auto'?'prop':'',value('expressionCategoryMode')!=='auto'?'expression':'',value('outfitMode')==='detailed'?'detailed':value('outfitMode')==='layered'?'layered':''
     ];
     if(checks.some(v=>String(v||'').trim()))return true;
     if(value('aiStylePreset')&&value('aiStylePreset')!=='none')return true;
@@ -8964,7 +9163,7 @@ if(document.body.classList.contains('access-locked')){
     if(value('povMode')==='on')host.appendChild(chip(`POV · ${optText('povStrength')||'사용'}`));
     if(value('propCategoryMode')&&value('propCategoryMode')!=='auto')host.appendChild(chip(`소품 · ${optText('propCategoryMode')}`));
     if(value('expressionCategoryMode')&&value('expressionCategoryMode')!=='auto')host.appendChild(chip(`표정 · ${optText('expressionCategoryMode')}`));
-    if(value('outfitMode')==='layered')host.appendChild(chip('의상 · 레이어 조합'));
+    if(value('outfitMode')==='detailed')host.appendChild(chip('의상 · 디테일 조합'));else if(value('outfitMode')==='layered')host.appendChild(chip('의상 · 레이어 조합'));
   }
 
 
@@ -9000,7 +9199,7 @@ if(document.body.classList.contains('access-locked')){
     pov:{target:'#basicSubcategoryBox',focus:'#povMode',keywords:'pov 시점 perspective point of view'},
     relation:{target:'#basicSubcategoryBox',focus:'#relationPreset',keywords:'relation scene preset 관계 장면 프리셋'},
     expression:{target:'#basicSubcategoryBox',focus:'#expressionCategoryMode',keywords:'expression 표정 웃음 눈물 당황 놀람'},
-    outfit:{target:'#basicSubcategoryBox',focus:'#outfitMode',keywords:'outfit 의상 layered layer 레이어'},
+    outfit:{target:'#basicSubcategoryBox',focus:'#outfitMode',keywords:'outfit 의상 layered layer 레이어 detailed detail 디테일 색상 재질 핏 가디건 티셔츠 셔츠 후드티 니트 청바지 슬랙스 스커트 워싱 팔레트'},
     prop:{target:'#basicSubcategoryBox',focus:'#propCategoryMode',keywords:'prop 소품 패션 계절 직업 촬영 판타지 의료'},
     character:{target:'#characterAppearancePanel',keywords:'character 캐릭터 외형 user appearance exclude'},
     slots:{target:'#characterSlotPanel',keywords:'slot character a b c 슬롯 공 수 role'},
@@ -9304,7 +9503,7 @@ if(document.body.classList.contains('access-locked')){
     $('dockCopyPrompt')?.addEventListener('click',()=>dockCopy('prompt','NovelAI'));
     $('dockCopyPix')?.addEventListener('click',()=>dockCopy('pixPrompt','PixAI'));
     $('dockCopyNiji')?.addEventListener('click',()=>dockCopy('nijiPrompt','NijiJourney'));
-    document.addEventListener('change',e=>{if(e.target.closest('#genre,#middleCategory,#category,#nsfwMode,#intensity,#gender,#scenePreset,#relationPreset,#purposePreset,#propCategoryMode,#expressionCategoryMode,#outfitMode'))window.__assetSlotPickerBridge?.invalidate?.();setTimeout(updateCurrentSetupBar,0)},true);
+    document.addEventListener('change',e=>{if(e.target.closest('#genre,#middleCategory,#category,#nsfwMode,#intensity,#gender,#scenePreset,#relationPreset,#purposePreset,#propCategoryMode,#expressionCategoryMode,#outfitMode,#outfitPaletteMode'))window.__assetSlotPickerBridge?.invalidate?.();setTimeout(updateCurrentSetupBar,0)},true);
     document.addEventListener('input',()=>setTimeout(updateCurrentSetupBar,0),true);
     document.addEventListener('click',e=>{
       if(e.target.closest('#rollAll,[data-theme-key],#clearThemeTrope,[data-content-mode],#setLockMood,#setLockActing,#setLockStyle'))setTimeout(updateCurrentSetupBar,30);
@@ -9871,6 +10070,19 @@ body.quick-tags-modal-open{overflow:hidden!important}
   }
   function boot(){bindQuickTagsFullscreen()}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
+})();
+</script>
+
+
+<script id="themeModeController">
+(()=>{
+  const KEY='assetGachaColorModeV1';
+  const current=()=>document.documentElement.dataset.colorMode==='light'?'light':'dark';
+  function updateButton(){const b=document.getElementById('themeModeToggle');if(!b)return;const light=current()==='light';b.textContent=light?'🌙 BLACK':'☀ WHITE';b.title=light?'블랙 모드로 변경':'화이트 모드로 변경';b.setAttribute('aria-pressed',light?'true':'false')}
+  function apply(mode,{save=true}={}){const next=mode==='light'?'light':'dark';document.documentElement.dataset.colorMode=next;if(save)try{localStorage.setItem(KEY,next)}catch(_){}updateButton();window.dispatchEvent(new CustomEvent('asset-theme-changed',{detail:{mode:next}}))}
+  function toggle(){apply(current()==='light'?'dark':'light')}
+  function bind(){document.getElementById('themeModeToggle')?.addEventListener('click',toggle);updateButton();window.__assetThemeMode={apply,toggle,current};}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind,{once:true});else bind();
 })();
 </script>
 
