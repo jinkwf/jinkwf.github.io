@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1.0" name="viewport"/>
 <meta content="#0e0c12" name="theme-color"/>
-<title>NSFW 에셋 랜덤 프롬프트 생성기.v3.7</title>
+<title>NSFW 에셋 랜덤 프롬프트 생성기.v3.8</title>
 <style>
 :root{--bg:#0e0c12;--panel:#17141d;--panel2:#201c28;--panel3:#292333;--line:rgba(255,255,255,.09);--text:#f7f3fa;--sub:#aaa3b4;--accent:#a68cff;--pink:#e694c4;--gold:#f0c978;--green:#9fdfb6;--red:#ff9aa5;--shadow:0 20px 60px rgba(0,0,0,.35)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 8% 0,rgba(166,140,255,.13),transparent 27%),radial-gradient(circle at 100% 15%,rgba(230,148,196,.08),transparent 27%),var(--bg);color:var(--text);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif}button,select,input,textarea{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}.page{width:min(1220px,calc(100% - 28px));margin:auto;padding:28px 0 70px}.hero,.panel{border:1px solid var(--line);background:rgba(23,20,29,.96);box-shadow:var(--shadow)}.hero{position:relative;overflow:hidden;border-radius:26px;padding:31px;margin-bottom:17px}.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-100px;top:-135px;background:rgba(166,140,255,.12);filter:blur(12px);pointer-events:none}.eyebrow{font-size:11px;font-weight:900;letter-spacing:.2em;color:var(--accent)}
 .eyebrow-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
@@ -354,6 +354,24 @@ button,.small-btn,.tool,.guestbook-send,.age-btn,.quick-recommend-btn,.user-char
 .guide-uniform-box.disabled{opacity:.58}
 @media(max-width:900px){.guide-uniform-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.guide-uniform-head{flex-direction:column}.guide-uniform-grid{grid-template-columns:1fr}.guide-uniform-actions{width:100%}.guide-uniform-actions .small-btn{flex:1}}
+
+/* ===== v3.8 · GUIDEVERSE OUTFIT / POSE DETAIL EXPANSION ===== */
+.guide-detail-box{margin-top:12px;padding:13px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(12,10,18,.34)}
+.guide-detail-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px}
+.guide-detail-title{font-size:11px;font-weight:950;color:#eee7fa}
+.guide-detail-desc{margin-top:4px;color:#9f97aa;font-size:9.5px;line-height:1.5}
+.guide-detail-actions{display:flex;gap:6px;flex-wrap:wrap}
+.guide-detail-columns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.guide-detail-column{min-width:0;padding:11px;border:1px solid rgba(255,255,255,.07);border-radius:12px;background:rgba(255,255,255,.025)}
+.guide-detail-column-title{font-size:10px;font-weight:950;color:#ddd5eb;margin-bottom:8px}
+.guide-detail-grid{display:grid;grid-template-columns:.72fr .88fr 1.4fr;gap:7px}
+.guide-detail-preview{margin-top:8px;padding:8px 10px;border:1px dashed rgba(255,255,255,.10);border-radius:10px;background:#100e15}
+.guide-detail-preview-ko{font-size:10px;font-weight:900;color:#e2dbea}
+.guide-detail-preview-en{margin-top:4px;color:#9991a4;font-family:Consolas,monospace;font-size:9px;line-height:1.45;overflow-wrap:anywhere}
+.guide-detail-meta{margin-top:6px;color:#81798c;font-size:8.8px;line-height:1.45}
+.guide-detail-column.off{opacity:.46}
+@media(max-width:980px){.guide-detail-columns{grid-template-columns:1fr}.guide-detail-grid{grid-template-columns:1fr 1fr 1.3fr}}
+@media(max-width:620px){.guide-detail-head{flex-direction:column}.guide-detail-actions{width:100%}.guide-detail-actions .small-btn{flex:1}.guide-detail-grid{grid-template-columns:1fr}}
 
 </style>
 
@@ -1288,7 +1306,7 @@ renderAdminUpdateNote();
 })();
 </script>
 <div class="page">
-<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v3.7</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v3.7</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며, 상세 설정과 빠른효과/흔적 태그로 장면 강도를 조절할 수 있습니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
+<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v3.8</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v3.8</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며, 상세 설정과 빠른효과/흔적 태그로 장면 강도를 조절할 수 있습니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
 <section aria-label="사용 모드 선택" class="workflow-mode-panel" id="workflowModePanel"><div class="workflow-mode-copy"><div class="workflow-mode-title">사용 모드</div><div class="workflow-mode-hint" id="workflowModeHint">간편은 랜덤 슬롯 중심 · 상세은 슬롯 직접 선택과 세부 설정까지 제공합니다.</div></div><div aria-label="간편 또는 상세 모드" class="workflow-mode-switch" role="group"><button aria-pressed="true" class="workflow-mode-btn active" data-ui-mode-btn="simple" type="button">간편</button><button aria-pressed="false" class="workflow-mode-btn" data-ui-mode-btn="detail" type="button">상세</button></div></section>
 <section class="panel" id="contentModePanel"><div class="head"><div><h2 class="title">00 · MODE</h2><p class="desc">먼저 콘텐츠 모드를 선택합니다. 선택한 모드에 따라 아래 SCENE 분류와 NSFW 전용 기능이 자동으로 전환됩니다.</p></div></div><div class="mode-choice-card"><div class="mode-choice-label">콘텐츠 모드</div><div class="mode-choice-buttons" id="contentModeSwitch"><button class="mode-choice-btn" data-content-mode="sfw" id="modePillSfw" type="button">SFW</button><button class="mode-choice-btn" data-content-mode="nsfw" id="modePillNsfw" type="button">NSFW</button></div><div class="mode-first-meta" id="contentModeHint">SFW / NSFW를 먼저 선택하면 아래 분류가 현재 모드에 맞게 자동 전환됩니다.</div><input checked="" hidden="" name="contentMode" type="radio" value="sfw"/><input hidden="" name="contentMode" type="radio" value="nsfw"/><input hidden="" id="nsfwMode" type="checkbox"/></div></section>
 <section class="panel" id="sceneCategoryPanel"><div class="head"><div><h2 class="title">01 · SCENE</h2><p class="desc">현재 MODE를 기준으로 대분류 → 중분류 → 소분류 순서로 장면을 선택합니다.</p></div></div><div class="select-grid category-hierarchy-grid scene-three-grid"><div class="field"><label>대분류 · 장르</label><select id="genre"><option value="modern">현대물</option><option value="fantasy">판타지물</option><option value="guideverse">가이드버스</option><option value="period">시대물</option><option value="sf">SF / 사이버펑크</option><option value="apocalypse">아포칼립스 / 재난</option></select></div><div class="field"><label>중분류 · 테마</label><select id="middleCategory"></select></div><div class="field"><label>소분류 · 장면</label><select id="category"></select></div></div><div class="check-row" data-ui-advanced="1"><label class="check"><input id="randomCategory" type="checkbox"/> 주사위를 돌릴 때마다 소분류도 랜덤</label><label class="check"><input checked="" id="avoidSame" type="checkbox"/> 직전 결과와 같은 태그 최대한 피하기</label></div></section>
@@ -1353,6 +1371,74 @@ renderAdminUpdateNote();
     <div class="guide-uniform-preview-en" id="guideUniformPreviewEn">GUIDEVERSE 의상 풀에서 현재 장면에 맞는 의상을 자동 선택합니다.</div>
   </div>
   <div class="guide-uniform-status" id="guideUniformStatus">AUTO · 기존 장면별 의상 랜덤 유지</div>
+
+<div class="guide-detail-box" id="guideDetailBox">
+  <div class="guide-detail-head">
+    <div>
+      <div class="guide-detail-title">🧩 OUTFIT / POSE DETAIL</div>
+      <div class="guide-detail-desc">가이드버스 전용 의상 디테일 50종과 포즈 50종을 추가 적용합니다. 자동은 주사위마다 재선택되며, 직접 지정은 선택값을 유지합니다.</div>
+    </div>
+    <div class="guide-detail-actions">
+      <button class="small-btn" id="rollGuideDetails" type="button">🎲 디테일 임의 생성</button>
+      <button class="small-btn" id="resetGuideDetails" type="button">🧹 디테일 초기화</button>
+    </div>
+  </div>
+
+  <div class="guide-detail-columns">
+    <div class="guide-detail-column" id="guideOutfitDetailColumn">
+      <div class="guide-detail-column-title">👔 의상 디테일 · 50종</div>
+      <div class="guide-detail-grid">
+        <div class="opt"><label>적용</label><select id="guideOutfitDetailMode">
+          <option value="auto">자동</option>
+          <option value="custom">직접 지정</option>
+          <option value="off">미사용</option>
+        </select></div>
+        <div class="opt"><label>카테고리</label><select id="guideOutfitDetailCategory">
+          <option value="all">전체</option>
+          <option value="wearState">착장 상태</option>
+          <option value="inner">이너</option>
+          <option value="outer">아우터</option>
+          <option value="bottom">하의</option>
+          <option value="insignia">휘장 / 계급장</option>
+          <option value="equipment">장비 / 부착물</option>
+          <option value="damage">손상 / 피로 상태</option>
+        </select></div>
+        <div class="opt"><label>세부 태그</label><select id="guideOutfitDetailItem"></select></div>
+      </div>
+      <div class="guide-detail-preview">
+        <div class="guide-detail-preview-ko" id="guideOutfitDetailPreviewKo">-</div>
+        <div class="guide-detail-preview-en" id="guideOutfitDetailPreviewEn">-</div>
+      </div>
+      <div class="guide-detail-meta" id="guideOutfitDetailMeta">AUTO · 주사위와 함께 랜덤 선택</div>
+    </div>
+
+    <div class="guide-detail-column" id="guidePoseDetailColumn">
+      <div class="guide-detail-column-title">🧍 포즈 디테일 · 50종</div>
+      <div class="guide-detail-grid">
+        <div class="opt"><label>적용</label><select id="guidePoseDetailMode">
+          <option value="auto">자동</option>
+          <option value="custom">직접 지정</option>
+          <option value="off">미사용</option>
+        </select></div>
+        <div class="opt"><label>카테고리</label><select id="guidePoseDetailCategory">
+          <option value="all">전체</option>
+          <option value="basic">기본 자세</option>
+          <option value="guiding">가이딩</option>
+          <option value="combat">전투 / 폭주</option>
+          <option value="medical">의료 / 검사</option>
+          <option value="command">지휘 / 브리핑</option>
+          <option value="relationship">관계 / 거리감</option>
+        </select></div>
+        <div class="opt"><label>세부 태그</label><select id="guidePoseDetailItem"></select></div>
+      </div>
+      <div class="guide-detail-preview">
+        <div class="guide-detail-preview-ko" id="guidePoseDetailPreviewKo">-</div>
+        <div class="guide-detail-preview-en" id="guidePoseDetailPreviewEn">-</div>
+      </div>
+      <div class="guide-detail-meta" id="guidePoseDetailMeta">AUTO · 주사위와 함께 랜덤 선택</div>
+    </div>
+  </div>
+</div>
 </div><div class="guideverse-ability-grid"><div class="guideverse-ability-col guide-side"><div class="guideverse-ability-head"><h3>🧭 GUIDE ABILITY</h3><div class="guideverse-col-actions"><button class="small-btn" id="rollGuideAbility" type="button">🎲 GUIDE 임의 생성</button><button class="small-btn" id="resetGuideAbility" type="button">🧹 GUIDE 초기화</button></div></div><div class="guideverse-ability-fields"><div class="opt"><label>가이드 등급</label><select id="guideRank"></select></div><div class="opt"><label>가이딩 방식</label><select id="guideMethod"></select></div><div class="opt"><label>접촉 부위 / 매개</label><select id="guideMedium"></select></div><div class="opt"><label>가이드 특성</label><select id="guideSpecialty"></select></div><div class="opt"><label>특수 능력</label><select id="guideSpecialAbility"></select></div><div class="opt"><label>가이딩 범위</label><select id="guideRange"></select></div><div class="opt"><label>적합도 / 동조율</label><select id="guideMatchRate"></select></div><div class="opt"><label>부작용 / 대가</label><select id="guideSideEffect"></select></div><div class="opt"><label>과부하 징후</label><select id="guideOverload"></select></div><div class="opt"><label>가이딩 장면</label><select id="guidingScene"></select></div></div><div class="mini-note">예: 접촉형 / 손목 접촉 / 폭주 억제 특화 / 잔류 감정 유입 / 응급 가이딩</div></div><div class="guideverse-ability-col esper-side"><div class="guideverse-ability-head"><h3>⚡ ESPER ABILITY</h3><div class="guideverse-col-actions"><button class="small-btn" id="rollEsperAbility" type="button">🎲 ESPER 임의 생성</button><button class="small-btn" id="resetEsperAbility" type="button">🧹 ESPER 초기화</button></div></div><div class="guideverse-ability-fields"><div class="opt"><label>에스퍼 등급</label><select id="esperRank"></select></div><div class="opt"><label>능력 계열</label><select id="esperClass"></select></div><div class="opt"><label>주 능력</label><select id="esperPower"></select></div><div class="opt"><label>전투 / 운용 특화</label><select id="esperSpecialty"></select></div><div class="opt"><label>제어 방식</label><select id="esperControl"></select></div><div class="opt"><label>능력 발현 모습</label><select id="esperManifestation"></select></div><div class="opt"><label>리스크 / 약점</label><select id="esperRisk"></select></div><div class="opt"><label>폭주 양상</label><select id="esperOverload"></select></div><div class="opt"><label>현재 상태</label><select id="esperState"></select></div></div><div class="mini-note">예: 전기 / 고출력 폭발형 / 공중에 번개가 튀는 발현 / 스트레스에 따라 폭주</div></div><div class="guideverse-ability-col guideverse-visual-wide"><div class="guideverse-ability-head"><h3>🎞️ VISUAL DIRECTION</h3><div class="guideverse-col-actions"><button class="small-btn" id="rollGuideVisual" type="button">🎲 VISUAL 임의 생성</button><button class="small-btn" id="resetGuideVisual" type="button">🧹 VISUAL 초기화</button></div></div><div class="guideverse-ability-fields"><div class="opt"><label>GUIDING VISUAL</label><select id="guidingVisual"></select></div><div class="opt"><label>GUIDING COLOR / TONE</label><select id="guidingColorTone"></select></div><div class="opt"><label>VISUAL FOCUS</label><select id="guidingFocus"></select></div><div class="opt"><label>ESPER POWER VISUAL INTENSITY</label><select id="esperVisualIntensity"></select></div></div><div class="mini-note">예: 반투명 파동 / 청록빛 / 가이드와 에스퍼 동시 강조 / 폭주 직전 연출</div></div></div><div class="guideverse-ability-status" id="guideverseAbilityStatus">가이드버스 능력 패널 OFF · 열기 · 적용을 누르면 GUIDE / ESPER / VISUAL 세부 설정을 프롬프트에 반영합니다.</div></div></section><div class="results-column" id="resultsColumn"><div class="results-sticky-inner" id="resultsStickyInner"><div aria-live="polite" class="result-status-badges" id="resultStatusBadges"></div><section class="panel" id="slotPanel"><div aria-live="polite" class="result-status-badges" id="simpleResultBadges"></div><div class="head"><div><h2 class="title">03 · 랜덤 슬롯</h2><p class="desc">↻ 재추첨 · 🔓/🔒 잠금 · ◉/○ 사용 여부 · 전체 잠금/해제/사용/미사용</p></div><div class="mini-tools"><button class="small-btn" id="lockAll">🔒 전체 잠금</button><button class="small-btn" id="unlockAll">🔓 전체 해제</button><button class="small-btn" id="enableAll">◉ 전체 사용</button><button class="small-btn" id="disableAll">○ 전체 미사용</button></div></div><div class="cards" id="cards"></div><div class="stats" id="stats"></div></section>
 <details class="panel collapsible-panel prompt-output-panel" id="novelPromptPanel" open=""><summary><div class="collapse-title-wrap"><h2 class="collapse-title">04 · NovelAI Prompt</h2><p class="collapse-desc">생성된 영어 태그는 직접 수정할 수 있습니다. 아래 효과 버튼을 눌러 즉시 추가할 수 있으며, {{user}} 캐릭터 태그는 프롬프트 맨 아래에 한 문단 띄워 별도로 배치됩니다.</p></div><span class="collapse-arrow">⌄</span></summary><div class="collapse-body"><details class="prompt-quickbox" id="quickEffectsDetails"><summary><button id="quickEffectsExpand" class="quick-effects-expand" type="button" title="빠른 태그 전체화면으로 확장" aria-pressed="false">◀</button><span class="prompt-quicksummary-main">⚡ 빠른 효과 / 흔적 태그 <span class="prompt-quickcount" id="quickEffectCount">0</span></span><span class="quick-summary-actions recommend-triple"><button class="quick-recommend-btn" id="recommendNatural" type="button">✨ 자연스럽게</button><button class="quick-recommend-btn" id="recommendStronger" type="button">🔥 더 강하게</button><button class="quick-recommend-btn" id="recommendCinematic" type="button">🎬 연출 강화</button><button class="quick-recommend-btn quick-reset-btn" id="resetQuickEffects" type="button">🧹 초기화</button></span></summary><div class="prompt-quickbody"><div id="promptQuickTags"><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">표정 (NSFW)</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="sweet smile" type="checkbox"/>달콤한 미소</label><label class="mini-prompt-check"><input data-special-tag="embarrassed expression" type="checkbox"/>부끄러운 표정</label><label class="mini-prompt-check"><input data-special-tag="blushing" type="checkbox"/>얼굴을 붉힘</label><label class="mini-prompt-check"><input data-special-tag="half-closed eyes" type="checkbox"/>눈을 반쯤 감음</label><label class="mini-prompt-check"><input data-special-tag="narrowed eyes" type="checkbox"/>눈을 가늘게 뜸</label><label class="mini-prompt-check"><input data-special-tag="ecstatic expression" type="checkbox"/>황홀한 표정</label><label class="mini-prompt-check"><input data-special-tag="pleasured expression" type="checkbox"/>쾌락에 빠진 표정</label><label class="mini-prompt-check"><input data-special-tag="panting" type="checkbox"/>헐떡이는 표정</label><label class="mini-prompt-check"><input data-special-tag="slightly open mouth" type="checkbox"/>입을 살짝 벌림</label><label class="mini-prompt-check"><input data-special-tag="tongue slightly out" type="checkbox"/>혀를 살짝 내밈</label><label class="mini-prompt-check"><input data-special-tag="drooling" type="checkbox"/>침을 흘림</label><label class="mini-prompt-check"><input data-special-tag="teary eyes" type="checkbox"/>눈물을 글썽임</label><label class="mini-prompt-check"><input data-special-tag="crying" type="checkbox"/>눈물을 흘림</label><label class="mini-prompt-check"><input data-special-tag="cute pleading face" type="checkbox"/>애교 섞인 표정</label><label class="mini-prompt-check"><input data-special-tag="desperate expression" type="checkbox"/>간절한 표정</label><label class="mini-prompt-check"><input data-special-tag="seductive gaze" type="checkbox"/>도발적인 시선</label><label class="mini-prompt-check"><input data-special-tag="looking up" type="checkbox"/>위를 올려다봄</label><label class="mini-prompt-check"><input data-special-tag="looking down" type="checkbox"/>아래를 내려다봄</label><label class="mini-prompt-check"><input data-special-tag="closed eyes in pleasure" type="checkbox"/>눈을 감고 느끼는 표정</label><label class="mini-prompt-check"><input data-special-tag="biting teeth" type="checkbox"/>이빨을 깨묾</label><label class="mini-prompt-check"><input data-special-tag="biting lip" type="checkbox"/>입술을 깨묾</label><label class="mini-prompt-check"><input data-special-tag="panting smile" type="checkbox"/>헐떡이며 미소</label><label class="mini-prompt-check"><input data-special-tag="about to orgasm face" type="checkbox"/>절정 직전 표정</label><label class="mini-prompt-check"><input data-special-tag="orgasm face" type="checkbox"/>절정 표정</label><label class="mini-prompt-check"><input data-special-tag="ahegao" type="checkbox"/>ahegao</label><label class="mini-prompt-check"><input data-special-tag="long tongue out" type="checkbox"/>혀를 길게 내밈</label><label class="mini-prompt-check"><input data-special-tag="heavy drooling" type="checkbox"/>침을 질질 흘림</label><label class="mini-prompt-check"><input data-special-tag="heart-shaped pupils" type="checkbox"/>눈이 하트로 변함</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">키스 / 애무</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="lips touching" type="checkbox"/>입술 맞대기</label><label class="mini-prompt-check"><input data-special-tag="gentle kiss" type="checkbox"/>가벼운 키스</label><label class="mini-prompt-check"><input data-special-tag="kiss" type="checkbox"/>키스</label><label class="mini-prompt-check"><input data-special-tag="tongue kiss" type="checkbox"/>혀가 섞이는 키스</label><label class="mini-prompt-check"><input data-special-tag="deep kiss" type="checkbox"/>딥키스</label><label class="mini-prompt-check"><input data-special-tag="french kiss" type="checkbox"/>프랑스식 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing eyelid" type="checkbox"/>눈에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="forehead kiss" type="checkbox"/>이마 키스</label><label class="mini-prompt-check"><input data-special-tag="cheek kiss" type="checkbox"/>볼 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing ear" type="checkbox"/>귀에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing neck" type="checkbox"/>목에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing collarbone" type="checkbox"/>쇄골 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing chest" type="checkbox"/>가슴에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing waist" type="checkbox"/>허리에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing stomach" type="checkbox"/>배에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing thigh" type="checkbox"/>허벅지에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing leg" type="checkbox"/>다리에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing foot" type="checkbox"/>발에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="hand kiss" type="checkbox"/>손등 키스</label><label class="mini-prompt-check"><input data-special-tag="finger sucking" type="checkbox"/>손가락 빨기</label><label class="mini-prompt-check"><input data-special-tag="kissing nape" type="checkbox"/>목덜미 키스</label><label class="mini-prompt-check"><input data-special-tag="biting earlobe" type="checkbox"/>귓볼 깨물기</label><label class="mini-prompt-check"><input data-special-tag="kissing shoulder" type="checkbox"/>어깨 키스</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">삽입 · 체위</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="sex" type="checkbox"/>섹스</label><label class="mini-prompt-check"><input data-special-tag="doggy style" type="checkbox"/>후배위</label><label class="mini-prompt-check"><input data-special-tag="cowgirl" type="checkbox"/>카우걸</label><label class="mini-prompt-check"><input data-special-tag="reverse cowgirl" type="checkbox"/>리버스 카우걸</label><label class="mini-prompt-check"><input data-special-tag="missionary" type="checkbox"/>정상위</label><label class="mini-prompt-check"><input data-special-tag="mating press" type="checkbox"/>메이팅프레스</label><label class="mini-prompt-check"><input data-special-tag="standing sex" type="checkbox"/>입위</label><label class="mini-prompt-check"><input data-special-tag="against wall" type="checkbox"/>벽에 밀착</label><label class="mini-prompt-check"><input data-special-tag="deep penetration" type="checkbox"/>깊은삽입</label><label class="mini-prompt-check"><input data-special-tag="vaginal penetration" type="checkbox"/>질내삽입</label><label class="mini-prompt-check"><input data-special-tag="anal" type="checkbox"/>애널</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">오럴 · 자위 · 토이</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="oral" type="checkbox"/>오럴</label><label class="mini-prompt-check"><input data-special-tag="fellatio" type="checkbox"/>펠라치오</label><label class="mini-prompt-check"><input data-special-tag="cunnilingus" type="checkbox"/>커닐링구스</label><label class="mini-prompt-check"><input data-special-tag="deepthroat" type="checkbox"/>딥스로트</label><label class="mini-prompt-check"><input data-special-tag="irrumatio" type="checkbox"/>이라마치오</label><label class="mini-prompt-check"><input data-special-tag="masturbation" type="checkbox"/>자위</label><label class="mini-prompt-check"><input data-special-tag="female masturbation" type="checkbox"/>여성자위</label><label class="mini-prompt-check"><input data-special-tag="male masturbation" type="checkbox"/>남성자위</label><label class="mini-prompt-check"><input data-special-tag="mutual masturbation" type="checkbox"/>상호자위</label><label class="mini-prompt-check"><input data-special-tag="vibrator" type="checkbox"/>바이브레이터</label><label class="mini-prompt-check"><input data-special-tag="remote vibrator" type="checkbox"/>리모컨바이브</label><label class="mini-prompt-check"><input data-special-tag="dildo" type="checkbox"/>딜도</label><label class="mini-prompt-check"><input data-special-tag="anal beads" type="checkbox"/>애널비즈</label><label class="mini-prompt-check"><input data-special-tag="butt plug" type="checkbox"/>버트플러그</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">BDSM · 구속 / 도구</div><div class="prompt-quicktags">
 <label class="mini-prompt-check"><input data-special-tag="bondage" type="checkbox"/>구속</label>
@@ -3892,6 +3978,293 @@ function resetGuideUniform(){
   if($('guideUniformGender'))$('guideUniformGender').value='female';
   if($('guideUniformColor'))$('guideUniformColor').value='white';
   updateGuideUniformUI();buildPrompt();buildSummary();buildStats();saveSettings();show('🧹 가이드버스 제복을 자동 모드로 초기화했습니다.');
+}
+
+
+/* ===== v3.8 · GUIDEVERSE DETAIL ASSET POOLS · 50 OUTFIT + 50 POSE ===== */
+const GUIDEVERSE_OUTFIT_DETAIL_ASSETS={
+  wearState:[
+    E('단정히 착용한 제복','neatly worn uniform'),
+    E('재킷만 벗은 상태','jacket removed'),
+    E('어깨에 걸친 재킷','jacket draped over shoulders'),
+    E('느슨해진 넥타이','loosened necktie'),
+    E('윗단추를 푼 셔츠','unbuttoned collar shirt'),
+    E('소매를 걷어 올린 셔츠','rolled-up sleeves'),
+    E('살짝 흐트러진 제복','slightly disheveled uniform'),
+    E('가이딩 후 흐트러진 복장','after-guiding disheveled uniform'),
+    E('장시간 근무로 구겨진 셔츠','wrinkled shirt from long duty'),
+    E('반쯤 벗겨진 전투 재킷','half-removed tactical jacket')
+  ],
+  inner:[
+    E('검은 터틀넥','black turtleneck'),
+    E('타이트 터틀넥','tight turtleneck'),
+    E('흰 드레스 셔츠','white dress shirt'),
+    E('검은 드레스 셔츠','black dress shirt'),
+    E('하이넥 이너','high-neck inner shirt'),
+    E('압박형 이너웨어','compression innerwear'),
+    E('민소매 하이넥 이너','sleeveless high-neck inner top'),
+    E('얇은 니트 이너','fine knit inner shirt')
+  ],
+  outer:[
+    E('핏 잡힌 제복 재킷','fitted uniform jacket'),
+    E('더블브레스티드 제복 재킷','double-breasted uniform jacket'),
+    E('롱 커맨드 코트','long command coat'),
+    E('화이트 연구 코트','white research coat'),
+    E('네이비 메디컬 코트','navy medical coat'),
+    E('전술 재킷','tactical jacket'),
+    E('숏 전술 재킷','cropped tactical jacket'),
+    E('테일 코트 예복','long tail ceremonial coat')
+  ],
+  bottom:[
+    E('슬림 슬랙스','slim slacks'),
+    E('스트레이트 팬츠','straight trousers'),
+    E('펜슬 스커트','pencil skirt'),
+    E('플리츠 스커트','pleated skirt'),
+    E('전술 카고 팬츠','tactical cargo pants')
+  ],
+  insignia:[
+    E('견장','epaulettes'),
+    E('숄더 보드','shoulder boards'),
+    E('숄더 스트랩','shoulder straps'),
+    E('계급 인장','rank insignia'),
+    E('센터 배지','center badge'),
+    E('이름표','name tag'),
+    E('완장','armband'),
+    E('브로치','brooch')
+  ],
+  equipment:[
+    E('허리 벨트','waist belt'),
+    E('유틸리티 벨트','utility belt'),
+    E('체스트 하네스','chest harness'),
+    E('억제 스트랩','restraint straps'),
+    E('억제 장치','suppression device'),
+    E('의료 파우치','medical pouch')
+  ],
+  damage:[
+    E('찢어진 소매','torn sleeves'),
+    E('먼지가 묻은 코트','dusty coat'),
+    E('피가 튄 제복','bloodstained uniform'),
+    E('팔 붕대','bandaged arms'),
+    E('젖은 원단','wet fabric')
+  ]
+};
+
+const GUIDEVERSE_POSE_DETAIL_ASSETS={
+  basic:[
+    E('차렷 자세','standing straight'),
+    E('편하게 선 자세','standing at ease'),
+    E('팔짱을 낀 자세','arms crossed'),
+    E('뒤로 손을 모은 자세','hands behind back'),
+    E('한 손을 주머니에 넣은 자세','one hand in pocket'),
+    E('벽에 기대 선 자세','leaning against wall'),
+    E('바르게 앉은 자세','sitting upright'),
+    E('한쪽 무릎을 꿇은 자세','kneeling on one knee')
+  ],
+  guiding:[
+    E('상대의 손목을 잡고 있는 자세',"holding another person's wrist"),
+    E('두 손으로 상대의 손을 감싸는 자세',"holding another person's hand with both hands"),
+    E('상대의 어깨를 받쳐주는 자세',"supporting another person's shoulders"),
+    E('이마에 손을 대 상태를 확인하는 자세','touching forehead gently'),
+    E('손을 뻗어 가이딩하는 자세','guiding with outstretched hand'),
+    E('손목 모니터를 확인하는 자세','checking wrist monitor'),
+    E('침대 가장자리에 가까이 앉은 자세','sitting close on edge of bed'),
+    E('가슴께에 손을 대 안정화하는 자세','placing hand over chest to stabilize'),
+    E('상대를 일으켜 세우는 자세','helping someone sit up'),
+    E('가이딩을 위해 가까이 몸을 기울인 자세','leaning in for guidance')
+  ],
+  combat:[
+    E('전투 태세','combat stance'),
+    E('손에 에너지를 모으는 자세','energy gathering around hand'),
+    E('전방을 겨누는 자세','aiming weapon forward'),
+    E('장비를 점검하는 자세','checking tactical equipment'),
+    E('무전기를 든 자세','holding radio'),
+    E('벽을 짚고 버티는 자세','bracing against wall'),
+    E('머리를 감싸쥔 자세','clutching head'),
+    E('거칠게 숨을 고르는 자세','catching breath roughly'),
+    E('잔해를 수색하는 자세','searching through debris'),
+    E('상대를 보호하듯 앞을 막아서는 자세','standing protectively in front')
+  ],
+  medical:[
+    E('의무 기록을 읽는 자세','reading medical chart'),
+    E('링거 라인을 확인하는 자세','checking IV line'),
+    E('장갑을 끼는 자세','putting on gloves'),
+    E('청진기를 들고 있는 자세','holding stethoscope'),
+    E('태블릿에 기록하는 자세','taking notes on tablet'),
+    E('환자 상태를 확인하는 자세','checking patient condition'),
+    E('모니터 수치를 조정하는 자세','adjusting monitor settings'),
+    E('응급 키트를 준비하는 자세','preparing emergency kit')
+  ],
+  command:[
+    E('대형 화면을 가리키는 자세','pointing at large display'),
+    E('명령을 내리는 자세','giving orders'),
+    E('브리핑 서류를 넘기는 자세','flipping briefing documents'),
+    E('회의 테이블 앞에 선 자세','standing at conference table'),
+    E('턱을 괴고 상황을 보는 자세','resting chin on hand'),
+    E('여러 모니터를 주시하는 자세','watching multiple monitors'),
+    E('전술 지도를 검토하는 자세','reviewing tactical map')
+  ],
+  relationship:[
+    E('마주 선 자세','standing face-to-face'),
+    E('나란히 선 자세','standing side by side'),
+    E('손이 닿을 거리의 자세',"within arm's reach"),
+    E('부상당한 동료를 부축하는 자세','supporting injured teammate'),
+    E('뒤에서 받쳐 가이딩하는 자세','guiding from behind'),
+    E('껴안을 듯 가까워진 자세','about to embrace'),
+    E('완전히 밀착한 자세','body close')
+  ]
+};
+
+const GUIDEVERSE_DETAIL_CATEGORY_META={
+  outfit:{
+    wearState:'착장 상태',inner:'이너',outer:'아우터',bottom:'하의',
+    insignia:'휘장 / 계급장',equipment:'장비 / 부착물',damage:'손상 / 피로 상태'
+  },
+  pose:{
+    basic:'기본 자세',guiding:'가이딩',combat:'전투 / 폭주',
+    medical:'의료 / 검사',command:'지휘 / 브리핑',relationship:'관계 / 거리감'
+  }
+};
+
+const GUIDE_DETAIL_IDS=[
+  'guideOutfitDetailMode','guideOutfitDetailCategory','guideOutfitDetailItem',
+  'guidePoseDetailMode','guidePoseDetailCategory','guidePoseDetailItem'
+];
+const guideDetailSelected={outfit:null,pose:null};
+
+function guideDetailPool(type){
+  const data=type==='outfit'?GUIDEVERSE_OUTFIT_DETAIL_ASSETS:GUIDEVERSE_POSE_DETAIL_ASSETS;
+  const category=$(type==='outfit'?'guideOutfitDetailCategory':'guidePoseDetailCategory')?.value||'all';
+  if(category!=='all')return (data[category]||[]).map((item,index)=>({...item,_detailCategory:category,_detailIndex:index}));
+  return Object.entries(data).flatMap(([key,pool])=>pool.map((item,index)=>({...item,_detailCategory:key,_detailIndex:index})));
+}
+function guideDetailMode(type){return $(type==='outfit'?'guideOutfitDetailMode':'guidePoseDetailMode')?.value||'auto'}
+function guideDetailItemSelect(type){return $(type==='outfit'?'guideOutfitDetailItem':'guidePoseDetailItem')}
+function guideDetailCategorySelect(type){return $(type==='outfit'?'guideOutfitDetailCategory':'guidePoseDetailCategory')}
+function populateGuideDetailItems(type,preserve=true){
+  const sel=guideDetailItemSelect(type);if(!sel)return;
+  const previous=preserve?sel.value:'';
+  const pool=guideDetailPool(type);
+  sel.innerHTML='';
+  pool.forEach((item,index)=>{
+    const opt=document.createElement('option');
+    opt.value=String(index);
+    const meta=GUIDEVERSE_DETAIL_CATEGORY_META[type]?.[item._detailCategory]||item._detailCategory;
+    opt.textContent=`${meta} · ${item.ko}`;
+    sel.appendChild(opt);
+  });
+  if(previous&&[...sel.options].some(o=>o.value===previous))sel.value=previous;
+  else if(sel.options.length)sel.value='0';
+}
+function customGuideDetail(type){
+  const pool=guideDetailPool(type),sel=guideDetailItemSelect(type);
+  const index=Math.max(0,Math.min(pool.length-1,Number(sel?.value||0)));
+  return pool[index]||null;
+}
+function currentGuideDetail(type){
+  if(genre.value!=='guideverse'||guideDetailMode(type)==='off')return null;
+  return guideDetailMode(type)==='custom'?customGuideDetail(type):guideDetailSelected[type];
+}
+function rerollGuideDetail(type,{force=false}={}){
+  const mode=guideDetailMode(type);
+  if(mode==='off'){guideDetailSelected[type]=null;return null}
+  const pool=guideDetailPool(type);
+  if(!pool.length){guideDetailSelected[type]=null;return null}
+  if(mode==='custom'&&!force){guideDetailSelected[type]=customGuideDetail(type);return guideDetailSelected[type]}
+  let next=rand(pool);
+  if(pool.length>1&&guideDetailSelected[type]){
+    for(let i=0;i<12&&next.en===guideDetailSelected[type].en;i++)next=rand(pool);
+  }
+  guideDetailSelected[type]=next;
+  if(mode==='custom'){
+    const idx=pool.findIndex(x=>x.en===next.en&&x.ko===next.ko);
+    const sel=guideDetailItemSelect(type);if(sel&&idx>=0)sel.value=String(idx);
+  }
+  return next;
+}
+function ensureGuideDetails(forceAuto=false){
+  ['outfit','pose'].forEach(type=>{
+    const mode=guideDetailMode(type);
+    if(mode==='off'){guideDetailSelected[type]=null;return}
+    if(mode==='custom'){guideDetailSelected[type]=customGuideDetail(type);return}
+    if(forceAuto||!guideDetailSelected[type]||!guideDetailPool(type).some(x=>x.en===guideDetailSelected[type]?.en))rerollGuideDetail(type,{force:true});
+  });
+  updateGuideDetailUI();
+}
+function guideDetailPromptTags(){
+  if(genre.value!=='guideverse')return[];
+  return ['outfit','pose'].map(type=>currentGuideDetail(type)?.en||'').filter(Boolean);
+}
+function guideDetailState(){
+  return{
+    guideOutfitDetailMode:$('guideOutfitDetailMode')?.value||'auto',
+    guideOutfitDetailCategory:$('guideOutfitDetailCategory')?.value||'all',
+    guideOutfitDetailItem:$('guideOutfitDetailItem')?.value||'0',
+    guidePoseDetailMode:$('guidePoseDetailMode')?.value||'auto',
+    guidePoseDetailCategory:$('guidePoseDetailCategory')?.value||'all',
+    guidePoseDetailItem:$('guidePoseDetailItem')?.value||'0',
+    selectedOutfit:guideDetailSelected.outfit?{ko:guideDetailSelected.outfit.ko,en:guideDetailSelected.outfit.en,_detailCategory:guideDetailSelected.outfit._detailCategory}:null,
+    selectedPose:guideDetailSelected.pose?{ko:guideDetailSelected.pose.ko,en:guideDetailSelected.pose.en,_detailCategory:guideDetailSelected.pose._detailCategory}:null
+  }
+}
+function applyGuideDetailState(s={}){
+  ['guideOutfitDetailMode','guideOutfitDetailCategory','guidePoseDetailMode','guidePoseDetailCategory'].forEach(id=>{if($(id)&&s[id]!==undefined)$(id).value=s[id]});
+  populateGuideDetailItems('outfit',false);populateGuideDetailItems('pose',false);
+  if($('guideOutfitDetailItem')&&s.guideOutfitDetailItem!==undefined)$('guideOutfitDetailItem').value=String(s.guideOutfitDetailItem);
+  if($('guidePoseDetailItem')&&s.guidePoseDetailItem!==undefined)$('guidePoseDetailItem').value=String(s.guidePoseDetailItem);
+  guideDetailSelected.outfit=s.selectedOutfit||null;
+  guideDetailSelected.pose=s.selectedPose||null;
+  ensureGuideDetails(false);
+}
+function updateGuideDetailColumn(type){
+  const mode=guideDetailMode(type),category=guideDetailCategorySelect(type),item=guideDetailItemSelect(type);
+  if(category)category.disabled=mode==='off';
+  if(item)item.disabled=mode!=='custom';
+  const column=$(type==='outfit'?'guideOutfitDetailColumn':'guidePoseDetailColumn');
+  column?.classList.toggle('off',mode==='off');
+  const current=currentGuideDetail(type);
+  const ko=$(type==='outfit'?'guideOutfitDetailPreviewKo':'guidePoseDetailPreviewKo');
+  const en=$(type==='outfit'?'guideOutfitDetailPreviewEn':'guidePoseDetailPreviewEn');
+  const meta=$(type==='outfit'?'guideOutfitDetailMeta':'guidePoseDetailMeta');
+  if(mode==='off'){
+    if(ko)ko.textContent='미사용';if(en)en.textContent='프롬프트에 추가하지 않습니다.';
+    if(meta)meta.textContent='OFF';
+    return;
+  }
+  if(ko)ko.textContent=current?.ko||'선택 대기';
+  if(en)en.textContent=current?.en||'-';
+  const catLabel=current?GUIDEVERSE_DETAIL_CATEGORY_META[type]?.[current._detailCategory]||'전체':'전체';
+  if(meta)meta.textContent=`${mode==='auto'?'AUTO · 주사위와 함께 랜덤 선택':'CUSTOM · 선택값 고정'} · ${catLabel}`;
+}
+function updateGuideDetailUI(){updateGuideDetailColumn('outfit');updateGuideDetailColumn('pose')}
+function onGuideDetailModeChange(type){
+  populateGuideDetailItems(type,true);
+  if(guideDetailMode(type)==='auto')rerollGuideDetail(type,{force:true});
+  else if(guideDetailMode(type)==='custom')guideDetailSelected[type]=customGuideDetail(type);
+  else guideDetailSelected[type]=null;
+  updateGuideDetailUI();buildPrompt();buildSummary();buildStats();saveSettings();
+}
+function onGuideDetailCategoryChange(type){
+  populateGuideDetailItems(type,false);
+  if(guideDetailMode(type)==='auto')rerollGuideDetail(type,{force:true});
+  else if(guideDetailMode(type)==='custom')guideDetailSelected[type]=customGuideDetail(type);
+  updateGuideDetailUI();buildPrompt();buildSummary();buildStats();saveSettings();
+}
+function onGuideDetailItemChange(type){
+  if(guideDetailMode(type)==='custom')guideDetailSelected[type]=customGuideDetail(type);
+  updateGuideDetailUI();buildPrompt();buildSummary();buildStats();saveSettings();
+}
+function randomizeGuideDetails(){
+  ['outfit','pose'].forEach(type=>{if(guideDetailMode(type)!=='off')rerollGuideDetail(type,{force:true})});
+  updateGuideDetailUI();buildPrompt();buildSummary();buildStats();saveSettings();show('🧩 가이드버스 의상 / 포즈 디테일을 임의 생성했습니다.');
+}
+function resetGuideDetails(){
+  if($('guideOutfitDetailMode'))$('guideOutfitDetailMode').value='auto';
+  if($('guideOutfitDetailCategory'))$('guideOutfitDetailCategory').value='all';
+  if($('guidePoseDetailMode'))$('guidePoseDetailMode').value='auto';
+  if($('guidePoseDetailCategory'))$('guidePoseDetailCategory').value='all';
+  populateGuideDetailItems('outfit',false);populateGuideDetailItems('pose',false);
+  rerollGuideDetail('outfit',{force:true});rerollGuideDetail('pose',{force:true});
+  updateGuideDetailUI();buildPrompt();buildSummary();buildStats();saveSettings();show('🧹 가이드버스 의상 / 포즈 디테일을 자동 모드로 초기화했습니다.');
 }
 
 const GUIDE_OUTFIT_META={combat:{outfitContext:'battle'},centerMedical:{outfitContext:'medical'},casual:{outfitContext:'casual'},formal:{outfitContext:'formal'},undercover:{outfitContext:'undercover'},guideDress:{outfitContext:'guideDress'},esperDress:{outfitContext:'esperDress'},sGuide:{outfitContext:'guideDress'},controlEsper:{outfitContext:'restraint'},medicalTeam:{outfitContext:'medical'},command:{outfitContext:'formal'},fieldOps:{outfitContext:'battle'}};
@@ -7261,7 +7634,7 @@ function choose(type){
 function flash(type){const c=$('card-'+type);c.classList.remove('flash');void c.offsetWidth;c.classList.add('flash')}
 function rollSlot(type,force=false){if(state.locked[type]&&!force)return;state.selected[type]=choose(type);flash(type)}
 function randomizeCategory(){const opts=[...category.options].filter(o=>o.value!=='__all');if(opts.length)category.value=rand(opts).value}
-function rollAll(record=true){if($('randomCategory').checked)randomizeCategory();if(scenePresetValue()==='auto')resolveScenePreset(true);prepareSceneCoherenceRoll();SCENE_COHERENCE_ROLL_ORDER.forEach(k=>rollSlot(k));enforceSmartConflicts();enforceSemanticQuality();render();if(record)addHistory()}
+function rollAll(record=true){if($('randomCategory').checked)randomizeCategory();if(scenePresetValue()==='auto')resolveScenePreset(true);prepareSceneCoherenceRoll();SCENE_COHERENCE_ROLL_ORDER.forEach(k=>rollSlot(k));if(genre.value==='guideverse')ensureGuideDetails(true);enforceSmartConflicts();enforceSemanticQuality();render();if(record)addHistory()}
 function toggleLock(k){state.locked[k]=!state.locked[k];renderCardState(k)}
 function toggleActive(k){state.active[k]=!state.active[k];renderCardState(k);buildPrompt();buildSummary()}
 function renderCardState(k){const c=$('card-'+k),lb=document.querySelector(`[data-lock="${k}"]`),tb=document.querySelector(`[data-toggle="${k}"]`);c.classList.toggle('locked',state.locked[k]);c.classList.toggle('off',!state.active[k]);lb.classList.toggle('active',state.locked[k]);lb.textContent=state.locked[k]?'🔒':'🔓';tb.textContent=state.active[k]?'◉':'○';tb.classList.toggle('active',state.active[k])}
@@ -7815,11 +8188,12 @@ function buildPrompt(){
   const userTags=activeUserCharacterText();
   const n=characterCount();
   const multiSceneKeys=new Set(['composition','background','weather','season','lighting','mood']);
-  let a=applyExcludedTokens([$('quality').value,$('gender').value,$('style').value,artStyleTag(),...aiPresetPromptTags('novel'),...detailBoosterTags('novel'),...themeNovelTags(),...guideverseCoreVisualPromptTags(),...guideUniformPromptTags(),...nsfwBase,...speciesTags,...specialPromptTags(),...multiAxisPromptTags(),...povPromptTags(),...presetPromptTags(),...relationNsfwPromptTags(),...roleLayoutTags(),customTagsForPrompt()]);
+  let a=applyExcludedTokens([$('quality').value,$('gender').value,$('style').value,artStyleTag(),...aiPresetPromptTags('novel'),...detailBoosterTags('novel'),...themeNovelTags(),...guideverseCoreVisualPromptTags(),...guideUniformPromptTags(),...guideDetailPromptTags(),...nsfwBase,...speciesTags,...specialPromptTags(),...multiAxisPromptTags(),...povPromptTags(),...presetPromptTags(),...relationNsfwPromptTags(),...roleLayoutTags(),customTagsForPrompt()]);
   promptSlotKeys().forEach(k=>{
     if(!state.active[k]||!state.selected[k]?.en)return;
     if(shouldSkipSlotForQuick(k))return;
     if(n>=2&&!multiSceneKeys.has(k))return;
+    if(k==='pose'&&genre.value==='guideverse'&&currentGuideDetail('pose'))return;
     if(k==='outfit'){
       if(genre.value==='guideverse'&&guideUniformMode()==='custom')return;
       const filteredOutfit=filterOutfitPrompt(state.selected[k].en);
@@ -7873,7 +8247,10 @@ function buildSummary(){
   const charBlock=['A','B','C'].map(letter=>{const hybrid=(preset,manual)=>[preset,manual].filter(Boolean).join(' + ');const role=($(`char${letter}Role`)?.selectedOptions?.[0]?.textContent||'').replace('미지정','').trim();const pos=hybrid($(`char${letter}PositionPreset`)?.value||'', $(`char${letter}Position`)?.value?.trim()||'');const act=hybrid($(`char${letter}ActionPreset`)?.value||'', $(`char${letter}Action`)?.value?.trim()||'');const parts=[role,pos,act].filter(Boolean);return parts.length?`CHAR ${letter} · ${parts.join(' / ')}`:''}).filter(Boolean).join('\n');
   const uniformPreset=selectedGuideUniform();
   const uniformLine=genre.value==='guideverse'?(guideUniformMode()==='custom'?(uniformPreset?.ko||'직접 지정'):(guideUniformMode()==='off'?'미사용':'자동 랜덤')):'-';
-  const guideLines=genre.value==='guideverse'?['','GUIDEVERSE SYSTEM',guideversePanelEnabled()?'ON · 적용 중':'OFF · 미적용','','GUIDEVERSE UNIFORM',uniformLine,'','GUIDE ABILITY',guideverseGuideSummaryText(),'','ESPER ABILITY',guideverseEsperSummaryText(),'','VISUAL DIRECTION',guideverseVisualSummaryText()]:[];
+  const guideOutfitDetail=currentGuideDetail('outfit'),guidePoseDetail=currentGuideDetail('pose');
+  const guideOutfitDetailLine=genre.value==='guideverse'?(guideDetailMode('outfit')==='off'?'미사용':(guideOutfitDetail?.ko||'자동 선택 대기')):'-';
+  const guidePoseDetailLine=genre.value==='guideverse'?(guideDetailMode('pose')==='off'?'미사용':(guidePoseDetail?.ko||'자동 선택 대기')):'-';
+  const guideLines=genre.value==='guideverse'?['','GUIDEVERSE SYSTEM',guideversePanelEnabled()?'ON · 적용 중':'OFF · 미적용','','GUIDEVERSE UNIFORM',uniformLine,'','OUTFIT DETAIL',guideOutfitDetailLine,'','POSE DETAIL',guidePoseDetailLine,'','GUIDE ABILITY',guideverseGuideSummaryText(),'','ESPER ABILITY',guideverseEsperSummaryText(),'','VISUAL DIRECTION',guideverseVisualSummaryText()]:[];
   const head=['CHARACTER',$('gender').value?($('gender').selectedOptions[0]?.textContent||'미지정'):'캐릭터 미지정','','PURPOSE PRESET',purposeLine,'','RANDOM STRENGTH',randomLine,'','POV MODE',isPovMode()?`사용 · ${povStrength()==='strong'?'강하게':'약하게'} · ${povDirectorLabel()}`:'사용 안 함','','RELATION',relationLine,'','ROLE LAYOUT',roleLine,'','SCENE PRESET',sceneLine,'','SMART CONFLICT',conflictLine,'','NSFW BASE',nsfwLine,'','SCENE THEME',themeLine,'','SPECIAL TAGS',specialLine,'','OUTFIT STATUS',outfitLine,'','{{user}} MODE',userModeLine,'','{{user}} TAGS',userLine,...guideLines].join('\n');
   summary.textContent=head+(charBlock?'\n\n'+charBlock:'')+'\n\n'+Object.entries(SLOTS).map(([k,t])=>`${state.active[k]?'●':'○'} ${t}\n${state.selected[k]?.ko||'-'}${state.locked[k]?'  🔒':''}`).join('\n\n')
 }
@@ -7888,10 +8265,10 @@ function buildStats(){
 }
 async function copyText(text,msg){try{await navigator.clipboard.writeText(text)}catch{const t=document.createElement('textarea');t.value=text;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove()}show(msg)}
 function show(msg){status.textContent=msg;status.classList.add('show');clearTimeout(window.__st);window.__st=setTimeout(()=>status.classList.remove('show'),1700)}
-function snap(){return{time:Date.now(),genre:genre.value,middleCategory:middleCategoryValue(),category:category.value,gender:$('gender')?.value||'',quality:$('quality')?.value||'',style:$('style')?.value||'',aiStylePreset:$('aiStylePreset')?.value||'none',artStyle:$('artStyle')?.value||'',promptDetail:$('promptDetail')?.value||'2',intensity:$('intensity')?.value||'dense',povMode:$('povMode')?.value||'off',povStrength:$('povStrength')?.value||'subtle',povType:$('povType')?.value||'auto',relationPreset:relationPresetValue(),scenePreset:scenePresetValue(),purposePreset:purposePresetValue(),randomStrength:randomStrengthValue(),sceneResolvedKey:state.sceneResolvedKey,smartConflict:conflictPreventionOn(),director:{enabled:directorEnabled(),axisExposure:$('axisExposure')?.value,axisContact:$('axisContact')?.value,axisMarks:$('axisMarks')?.value,axisMotion:$('axisMotion')?.value,axisExpression:$('axisExpression')?.value,axisWardrobe:$('axisWardrobe')?.value,roleLayout:$('roleLayout')?.value},characters:{charARole:$('charARole')?.value||'',charATags:$('charATags')?.value||'',charAPositionPreset:$('charAPositionPreset')?.value||'',charAPosition:$('charAPosition')?.value||'',charAActionPreset:$('charAActionPreset')?.value||'',charAAction:$('charAAction')?.value||'',charBRole:$('charBRole')?.value||'',charBTags:$('charBTags')?.value||'',charBPositionPreset:$('charBPositionPreset')?.value||'',charBPosition:$('charBPosition')?.value||'',charBActionPreset:$('charBActionPreset')?.value||'',charBAction:$('charBAction')?.value||'',charCRole:$('charCRole')?.value||'',charCTags:$('charCTags')?.value||'',charCPositionPreset:$('charCPositionPreset')?.value||'',charCPosition:$('charCPosition')?.value||'',charCActionPreset:$('charCActionPreset')?.value||'',charCAction:$('charCAction')?.value||''},selected:JSON.parse(JSON.stringify(state.selected)),active:{...state.active},prompt:prompt.value,pixPrompt:pixPrompt?.value||'',nijiPrompt:nijiPrompt?.value||'',summary:summary.textContent,guideverseAbilities:getGuideverseAbilityState(),guideverseUniform:guideUniformState()}}
+function snap(){return{time:Date.now(),genre:genre.value,middleCategory:middleCategoryValue(),category:category.value,gender:$('gender')?.value||'',quality:$('quality')?.value||'',style:$('style')?.value||'',aiStylePreset:$('aiStylePreset')?.value||'none',artStyle:$('artStyle')?.value||'',promptDetail:$('promptDetail')?.value||'2',intensity:$('intensity')?.value||'dense',povMode:$('povMode')?.value||'off',povStrength:$('povStrength')?.value||'subtle',povType:$('povType')?.value||'auto',relationPreset:relationPresetValue(),scenePreset:scenePresetValue(),purposePreset:purposePresetValue(),randomStrength:randomStrengthValue(),sceneResolvedKey:state.sceneResolvedKey,smartConflict:conflictPreventionOn(),director:{enabled:directorEnabled(),axisExposure:$('axisExposure')?.value,axisContact:$('axisContact')?.value,axisMarks:$('axisMarks')?.value,axisMotion:$('axisMotion')?.value,axisExpression:$('axisExpression')?.value,axisWardrobe:$('axisWardrobe')?.value,roleLayout:$('roleLayout')?.value},characters:{charARole:$('charARole')?.value||'',charATags:$('charATags')?.value||'',charAPositionPreset:$('charAPositionPreset')?.value||'',charAPosition:$('charAPosition')?.value||'',charAActionPreset:$('charAActionPreset')?.value||'',charAAction:$('charAAction')?.value||'',charBRole:$('charBRole')?.value||'',charBTags:$('charBTags')?.value||'',charBPositionPreset:$('charBPositionPreset')?.value||'',charBPosition:$('charBPosition')?.value||'',charBActionPreset:$('charBActionPreset')?.value||'',charBAction:$('charBAction')?.value||'',charCRole:$('charCRole')?.value||'',charCTags:$('charCTags')?.value||'',charCPositionPreset:$('charCPositionPreset')?.value||'',charCPosition:$('charCPosition')?.value||'',charCActionPreset:$('charCActionPreset')?.value||'',charCAction:$('charCAction')?.value||''},selected:JSON.parse(JSON.stringify(state.selected)),active:{...state.active},prompt:prompt.value,pixPrompt:pixPrompt?.value||'',nijiPrompt:nijiPrompt?.value||'',summary:summary.textContent,guideverseAbilities:getGuideverseAbilityState(),guideverseUniform:guideUniformState(),guideverseDetails:guideDetailState()}}
 function addHistory(){let a=safeJSON(LS.hist,[]);a.unshift(snap());a=a.slice(0,10);storageSet(LS.hist,JSON.stringify(a));renderSaved()}
 function addFavorite(source='novel'){let a=safeJSON(LS.fav,[]);const s=snap();s.id=Date.now()+Math.random();s.savedFrom=source;a.unshift(s);a=a.slice(0,50);storageSet(LS.fav,JSON.stringify(a));renderSaved();const label=source==='pix'?'PixAI':source==='niji'?'NijiJourney':'NovelAI';show(`⭐ ${label} 현재 조합을 저장했습니다.`);trackAnalytics('favorite')}
-function loadSnap(s){genre.value=s.genre;loadCategories(false);const inferred=s.middleCategory&&[...$('middleCategory').options].some(o=>o.value===s.middleCategory)?s.middleCategory:inferMiddleCategory(s.category);$('middleCategory').value=inferred;loadSmallCategories(false,s.category);if([...category.options].some(o=>o.value===s.category))category.value=s.category;populateScenePresetOptions(false);if(s.gender!==undefined&&$('gender'))$('gender').value=s.gender;if(s.quality!==undefined&&$('quality'))$('quality').value=s.quality;if(s.style!==undefined&&$('style'))$('style').value=s.style;if(s.aiStylePreset!==undefined&&$('aiStylePreset'))$('aiStylePreset').value=s.aiStylePreset;if(s.artStyle!==undefined&&$('artStyle'))$('artStyle').value=s.artStyle;if(s.promptDetail!==undefined&&$('promptDetail'))$('promptDetail').value=s.promptDetail;if(s.intensity!==undefined&&$('intensity'))$('intensity').value=s.intensity;if(s.povMode!==undefined&&$('povMode'))$('povMode').value=s.povMode;if(s.povStrength!==undefined&&$('povStrength'))$('povStrength').value=s.povStrength;updatePovTypeOptions(s.povType||'auto');if(s.relationPreset&&[...$('relationPreset').options].some(o=>o.value===s.relationPreset))$('relationPreset').value=s.relationPreset;if(s.scenePreset&&[...$('scenePreset').options].some(o=>o.value===s.scenePreset))$('scenePreset').value=s.scenePreset;if(s.purposePreset&&$('purposePreset'))$('purposePreset').value=s.purposePreset;if(s.randomStrength&&$('randomStrength'))$('randomStrength').value=s.randomStrength;state.sceneResolvedKey=s.sceneResolvedKey||'';if(typeof s.smartConflict==='boolean')$('smartConflict').checked=s.smartConflict;if(s.director){if(s.director.enabled!==undefined)setDirectorEnabled(s.director.enabled,{silent:true});Object.entries(s.director).forEach(([k,v])=>{if($(k)&&v!==undefined)$(k).value=v});}if(s.characters)Object.entries(s.characters).forEach(([k,v])=>{if($(k)&&v!==undefined)$(k).value=v});if(s.guideverseAbilities)applyGuideverseAbilityState(s.guideverseAbilities);if(s.guideverseUniform)applyGuideUniformState(s.guideverseUniform);updatePromptDetailUI();updateIntensityMode();updateDirectorState();updateCharacterSpecificUI();Object.keys(SLOTS).forEach(k=>{state.selected[k]=s.selected?.[k]||null;state.active[k]=s.active?.[k]??true;state.locked[k]=false});updateRelationHint();updateScenePresetHint();updateSmartConflictHint();render();window.scrollTo({top:$('cards').getBoundingClientRect().top+scrollY-20,behavior:'smooth'})}
+function loadSnap(s){genre.value=s.genre;loadCategories(false);const inferred=s.middleCategory&&[...$('middleCategory').options].some(o=>o.value===s.middleCategory)?s.middleCategory:inferMiddleCategory(s.category);$('middleCategory').value=inferred;loadSmallCategories(false,s.category);if([...category.options].some(o=>o.value===s.category))category.value=s.category;populateScenePresetOptions(false);if(s.gender!==undefined&&$('gender'))$('gender').value=s.gender;if(s.quality!==undefined&&$('quality'))$('quality').value=s.quality;if(s.style!==undefined&&$('style'))$('style').value=s.style;if(s.aiStylePreset!==undefined&&$('aiStylePreset'))$('aiStylePreset').value=s.aiStylePreset;if(s.artStyle!==undefined&&$('artStyle'))$('artStyle').value=s.artStyle;if(s.promptDetail!==undefined&&$('promptDetail'))$('promptDetail').value=s.promptDetail;if(s.intensity!==undefined&&$('intensity'))$('intensity').value=s.intensity;if(s.povMode!==undefined&&$('povMode'))$('povMode').value=s.povMode;if(s.povStrength!==undefined&&$('povStrength'))$('povStrength').value=s.povStrength;updatePovTypeOptions(s.povType||'auto');if(s.relationPreset&&[...$('relationPreset').options].some(o=>o.value===s.relationPreset))$('relationPreset').value=s.relationPreset;if(s.scenePreset&&[...$('scenePreset').options].some(o=>o.value===s.scenePreset))$('scenePreset').value=s.scenePreset;if(s.purposePreset&&$('purposePreset'))$('purposePreset').value=s.purposePreset;if(s.randomStrength&&$('randomStrength'))$('randomStrength').value=s.randomStrength;state.sceneResolvedKey=s.sceneResolvedKey||'';if(typeof s.smartConflict==='boolean')$('smartConflict').checked=s.smartConflict;if(s.director){if(s.director.enabled!==undefined)setDirectorEnabled(s.director.enabled,{silent:true});Object.entries(s.director).forEach(([k,v])=>{if($(k)&&v!==undefined)$(k).value=v});}if(s.characters)Object.entries(s.characters).forEach(([k,v])=>{if($(k)&&v!==undefined)$(k).value=v});if(s.guideverseAbilities)applyGuideverseAbilityState(s.guideverseAbilities);if(s.guideverseUniform)applyGuideUniformState(s.guideverseUniform);if(s.guideverseDetails)applyGuideDetailState(s.guideverseDetails);else ensureGuideDetails(false);updatePromptDetailUI();updateIntensityMode();updateDirectorState();updateCharacterSpecificUI();Object.keys(SLOTS).forEach(k=>{state.selected[k]=s.selected?.[k]||null;state.active[k]=s.active?.[k]??true;state.locked[k]=false});updateRelationHint();updateScenePresetHint();updateSmartConflictHint();render();window.scrollTo({top:$('cards').getBoundingClientRect().top+scrollY-20,behavior:'smooth'})}
 function deleteFav(id){let a=safeJSON(LS.fav,[]).filter(x=>x.id!==id);storageSet(LS.fav,JSON.stringify(a));renderSaved()}
 function itemHTML(s,i,isFav){const g=DB[s.genre]?.label||s.genre;const c=(s.nsfw?NSFW_CATEGORY_BY_GENRE[s.genre]?.[s.category]?.label:null)||DB[s.genre]?.categories?.[s.category]?.label||(s.category==='__all'?'카테고리 전체 랜덤':s.category);const source=s.savedFrom||'novel';const sourceLabel=source==='pix'?'PixAI':source==='niji'?'NijiJourney':'NovelAI';const shown=source==='pix'?(s.pixPrompt||s.prompt||''):source==='niji'?(s.nijiPrompt||s.prompt||''):(s.prompt||'');return `<div class="list-item"><div class="list-title">${g} · ${c} · ${sourceLabel}</div><div class="list-text">${shown.replace(/</g,'&lt;')}</div><div class="list-tools"><button data-load="${isFav?'f':'h'}:${i}">불러오기</button>${isFav?`<button data-del="${s.id}">삭제</button>`:''}</div></div>`}
 function renderSaved(){const f=safeJSON(LS.fav,[]),h=safeJSON(LS.hist,[]);$('favorites').innerHTML=f.length?f.map((x,i)=>itemHTML(x,i,true)).join(''):'<div class="empty">저장된 조합이 없습니다.</div>';$('history').innerHTML=h.length?h.map((x,i)=>itemHTML(x,i,false)).join(''):'<div class="empty">최근 기록이 없습니다.</div>'}
@@ -7928,7 +8305,8 @@ function saveSettings(){
     randomCategory:$('randomCategory').checked,
     avoidSame:$('avoidSame').checked,
     guideverseAbilities:getGuideverseAbilityState(),
-    guideverseUniform:guideUniformState()
+    guideverseUniform:guideUniformState(),
+    guideverseDetails:guideDetailState()
   }))
 }
 function loadSettings(){
@@ -7962,6 +8340,7 @@ function loadSettings(){
   if(s.userCharacter!==undefined&&$('userCharacterTags'))$('userCharacterTags').value=s.userCharacter;
   if(s.guideverseAbilities)applyGuideverseAbilityState(s.guideverseAbilities);
   if(s.guideverseUniform)applyGuideUniformState(s.guideverseUniform);else updateGuideUniformUI();
+  if(s.guideverseDetails)applyGuideDetailState(s.guideverseDetails);else ensureGuideDetails(false);
   setUserCharacterEnabled(s.userCharacterEnabled===true,{silent:true});
   if(s.custom!==undefined)$('customTags').value=s.custom;
   if(s.excludeTags!==undefined&&$('excludeTags'))$('excludeTags').value=s.excludeTags;
@@ -7974,10 +8353,10 @@ function loadSettings(){
   const n=storageGet(LS.neg);
   if(n)$('negativeBase').value=n;
   updateNegativePrompt();
-  updateDirectorState();updateCharacterSpecificUI();updatePurposeHint();updateRandomStrengthHint();updateSemanticModeHints();updateGuideverseAbilityPanelVisibility();updateGuideverseAbilityHint();updateGuideUniformUI();refreshSetLockUI();updatePromptDiagnostics();
+  updateDirectorState();updateCharacterSpecificUI();updatePurposeHint();updateRandomStrengthHint();updateSemanticModeHints();updateGuideverseAbilityPanelVisibility();updateGuideverseAbilityHint();updateGuideUniformUI();populateGuideDetailItems('outfit',true);populateGuideDetailItems('pose',true);ensureGuideDetails(false);refreshSetLockUI();updatePromptDiagnostics();
 }
 cards.addEventListener('click',e=>{const a=e.target.closest('[data-lock],[data-reroll],[data-toggle]');if(!a)return;if(a.dataset.lock)toggleLock(a.dataset.lock);if(a.dataset.toggle)toggleActive(a.dataset.toggle);if(a.dataset.reroll){const key=a.dataset.reroll;rollSlot(key,true);if(key==='prop'){['action','pose','composition'].forEach(k=>{if(!state.locked[k])rollSlot(k,true)})}if(key==='expression'&&!state.locked.action&&expressionCategoryValue()!=='auto')rollSlot('action',true);enforceSmartConflicts();enforceSemanticQuality();render();addHistory()}});
-$('rollAll').onclick=()=>{rollAll(true);trackAnalytics('roll')};genre.onchange=()=>{loadCategories(false);recoverCategorySelectors();populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();updateIntensityMode();updateQuickRecommendations();updateDirectorState();updateGuideverseAbilityPanelVisibility();updateGuideverseAbilityHint();updateGuideUniformUI();render();buildPrompt();buildSummary();buildStats();saveSettings()};$('middleCategory')?.addEventListener('change',()=>{loadSmallCategories(false);updateIntensityMode();updateQuickRecommendations();rollAll(false);buildPrompt();buildSummary();saveSettings()});category.onchange=()=>{updateIntensityMode();updateQuickRecommendations();rollAll(false);buildPrompt();buildSummary();saveSettings()};$('nsfwMode').addEventListener('change',()=>{syncContentModeUI();syncThemeModeAvailability();updateIntensityMode();loadCategories(false);recoverCategorySelectors();populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();updateQuickRecommendations();updateDirectorState();render();buildPrompt();buildSummary();saveSettings();show(`🔞 콘텐츠 모드 ${isNsfwGenre()?'NSFW':'SFW'}`);});
+$('rollAll').onclick=()=>{rollAll(true);trackAnalytics('roll')};genre.onchange=()=>{loadCategories(false);recoverCategorySelectors();populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();updateIntensityMode();updateQuickRecommendations();updateDirectorState();updateGuideverseAbilityPanelVisibility();updateGuideverseAbilityHint();updateGuideUniformUI();ensureGuideDetails(false);render();buildPrompt();buildSummary();buildStats();saveSettings()};$('middleCategory')?.addEventListener('change',()=>{loadSmallCategories(false);updateIntensityMode();updateQuickRecommendations();rollAll(false);buildPrompt();buildSummary();saveSettings()});category.onchange=()=>{updateIntensityMode();updateQuickRecommendations();rollAll(false);buildPrompt();buildSummary();saveSettings()};$('nsfwMode').addEventListener('change',()=>{syncContentModeUI();syncThemeModeAvailability();updateIntensityMode();loadCategories(false);recoverCategorySelectors();populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();updateQuickRecommendations();updateDirectorState();render();buildPrompt();buildSummary();saveSettings();show(`🔞 콘텐츠 모드 ${isNsfwGenre()?'NSFW':'SFW'}`);});
 $('lockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=true);render();saveSettings()};$('unlockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=false);render();saveSettings()};$('enableAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.active[k]=true);render();buildPrompt();buildSummary();saveSettings()};$('disableAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.active[k]=false);render();buildPrompt();buildSummary();saveSettings();show('○ 모든 랜덤 슬롯을 미사용으로 설정했습니다.')};
 ['quality','style','aiStylePreset','artStyle','customTags','randomCategory','avoidSame','smartConflict','intensity','userGenderMode','userBodyMode','propCategoryMode','expressionCategoryMode','outfitMode'].forEach(id=>{
   const el=$(id);
@@ -8013,6 +8392,14 @@ GUIDEVERSE_ABILITY_FIELD_IDS.forEach(id=>$(id)?.addEventListener('change',()=>{u
 GUIDE_UNIFORM_IDS.forEach(id=>$(id)?.addEventListener('change',()=>{updateGuideUniformUI();buildPrompt();buildSummary();buildStats();saveSettings()}));
 if($('rollGuideUniform'))$('rollGuideUniform').onclick=randomizeGuideUniform;
 if($('resetGuideUniform'))$('resetGuideUniform').onclick=resetGuideUniform;
+$('guideOutfitDetailMode')?.addEventListener('change',()=>onGuideDetailModeChange('outfit'));
+$('guideOutfitDetailCategory')?.addEventListener('change',()=>onGuideDetailCategoryChange('outfit'));
+$('guideOutfitDetailItem')?.addEventListener('change',()=>onGuideDetailItemChange('outfit'));
+$('guidePoseDetailMode')?.addEventListener('change',()=>onGuideDetailModeChange('pose'));
+$('guidePoseDetailCategory')?.addEventListener('change',()=>onGuideDetailCategoryChange('pose'));
+$('guidePoseDetailItem')?.addEventListener('change',()=>onGuideDetailItemChange('pose'));
+if($('rollGuideDetails'))$('rollGuideDetails').onclick=randomizeGuideDetails;
+if($('resetGuideDetails'))$('resetGuideDetails').onclick=resetGuideDetails;
 if($('promptDetail')){['input','change'].forEach(evt=>$('promptDetail').addEventListener(evt,()=>{updatePromptDetailUI();buildPrompt();saveSettings()}));}
 
 function rerollPovRelated(message){
@@ -9314,5 +9701,7 @@ body.quick-tags-modal-open{overflow:hidden!important}
 </script>
 
 </body></html>
+
+```
 
 ```
