@@ -992,7 +992,7 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
 <div class="update-icon">✨</div>
 <h2 id="updateGateTitle">업데이트가 있습니다</h2>
 <p>새 버전이 배포되었습니다.<br/>정상 반영을 위해 페이지를 <strong style="color:#e8e0ff">새로고침</strong> 해주세요.</p>
-<div class="update-ver" id="updateGateVersion">v3.6</div>
+<div class="update-ver" id="updateGateVersion">v3.8</div>
 <div class="update-actions">
 <button class="update-btn primary" id="updateRefreshBtn" type="button">새로고침 하기</button>
 <button class="update-btn ghost" id="updateLaterBtn" type="button">나중에 (이번만 닫기)</button>
@@ -1014,9 +1014,10 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
    - 새 항목은 배열 맨 위에 추가하세요.
 ========================================================= */
 /* 빌드 ID가 바뀌면 성인/접속코드 인증보다 먼저 새로고침 팝업을 띄웁니다. 매 배포 시 반드시 이 값을 새 고유값으로 변경하세요. */
-const APP_BUILD_ID='20260903-v3.6-multi-character-identity-anchors';
-const APP_BUILD_LABEL = 'v3.6 · Multi Character Identity Anchors';
+const APP_BUILD_ID='20260910-v3.8-guideverse-outfit-pose-detail-expansion';
+const APP_BUILD_LABEL = 'v3.8 · GUIDEVERSE Outfit / Pose Detail Expansion';
 const UPDATE_NOTES = [
+  { date:'09.10', text:'v3.8 가이드버스 의상·포즈 디테일 확장 · GUIDEVERSE 제복 선택기와 함께 의상 디테일 50종 / 포즈 디테일 50종을 추가하고, 자동·직접 지정·미사용, 카테고리 제한 랜덤, 메인 주사위 연동, 저장/불러오기 및 요약 반영을 적용했습니다.' },
   { date:'09.03', text:'14 : v3.6 다인 캐릭터 식별 유지 · A/B/C 입력에서 서로 다른 고유 외형·눈·헤어·의상·표정 앵커를 자동 추출하고 각 캐릭터 블록 앞에 identity anchor로 반복해 속성 전이를 줄였습니다.' },
   { date:'09.03', text:'15 : v3.5 분리 유지형 압축 · 공통부에는 장면 정보만 남기고, 동일 의상도 CHARACTER A/B/C 각각에 반복 유지합니다. 외형 압축은 각 캐릭터 내부에서만 수행해 나이·체형·헤어·눈·피부·의상·표정·행동·시선의 귀속성을 보존합니다.' },
   { date:'09.02', text:'14 : v3.4 프롬프트 자동 압축 · 원본 CHARACTER 입력은 보존하면서 출력 시 나이·체형·헤어·눈·표정 동의어를 압축하고, 모든 캐릭터에 동일한 의상은 공통 태그로 1회만 출력하도록 개선했습니다.' },
