@@ -1525,6 +1525,45 @@
       .agent-visual{padding:6px;}
     }
 
+  
+
+    /* ===== Premium 인기 배지 정리 ===== */
+    .price-card{overflow:hidden;}
+    .price-card .ribbon{
+      position:absolute;
+      top:18px;
+      right:18px;
+      z-index:4;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:max-content;
+      min-width:48px;
+      height:auto;
+      padding:7px 12px;
+      margin:0;
+      transform:none;
+      border-radius:999px;
+      background:rgba(255,36,79,.12);
+      border:1px solid rgba(255,71,120,.38);
+      color:#ff7899;
+      box-shadow:0 8px 24px rgba(0,0,0,.20), inset 0 0 18px rgba(255,46,111,.05);
+      font-size:11px;
+      font-weight:800;
+      line-height:1;
+      letter-spacing:.04em;
+      white-space:nowrap;
+    }
+    @media(max-width:640px){
+      .price-card .ribbon{
+        top:14px;
+        right:14px;
+        min-width:44px;
+        padding:6px 10px;
+        font-size:10px;
+      }
+    }
+
   </style>
 </head>
 <body class="intro-lock">
