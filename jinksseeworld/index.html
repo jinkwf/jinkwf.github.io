@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1.0" name="viewport"/>
 <meta content="#0e0c12" name="theme-color"/>
-<title>NSFW 에셋 랜덤 프롬프트 생성기.v3.9.5</title>
+<title>NSFW 에셋 랜덤 프롬프트 생성기.v3.9.6</title>
 <style>
 :root{--bg:#0e0c12;--panel:#17141d;--panel2:#201c28;--panel3:#292333;--line:rgba(255,255,255,.09);--text:#f7f3fa;--sub:#aaa3b4;--accent:#a68cff;--pink:#e694c4;--gold:#f0c978;--green:#9fdfb6;--red:#ff9aa5;--shadow:0 20px 60px rgba(0,0,0,.35)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 8% 0,rgba(166,140,255,.13),transparent 27%),radial-gradient(circle at 100% 15%,rgba(230,148,196,.08),transparent 27%),var(--bg);color:var(--text);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif}button,select,input,textarea{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}.page{width:min(1220px,calc(100% - 28px));margin:auto;padding:28px 0 70px}.hero,.panel{border:1px solid var(--line);background:rgba(23,20,29,.96);box-shadow:var(--shadow)}.hero{position:relative;overflow:hidden;border-radius:26px;padding:31px;margin-bottom:17px}.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-100px;top:-135px;background:rgba(166,140,255,.12);filter:blur(12px);pointer-events:none}.eyebrow{font-size:11px;font-weight:900;letter-spacing:.2em;color:var(--accent)}
 .eyebrow-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
@@ -374,6 +374,24 @@ button,.small-btn,.tool,.guestbook-send,.age-btn,.quick-recommend-btn,.user-char
 @media(max-width:620px){.guide-detail-head{flex-direction:column}.guide-detail-actions{width:100%}.guide-detail-actions .small-btn{flex:1}.guide-detail-grid{grid-template-columns:1fr}}
 
 
+/* ===== v3.9.6 · GUIDEVERSE LOCAL FOLD SECTIONS ===== */
+.guide-fold-section{overflow:hidden}
+.guide-fold-section>summary{list-style:none;cursor:pointer;user-select:none;-webkit-user-select:none}
+.guide-fold-section>summary::-webkit-details-marker{display:none}
+.guide-fold-summary{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin:-2px -2px 0;padding:2px;border-radius:10px}
+.guide-fold-summary:hover{background:rgba(255,255,255,.025)}
+.guide-fold-summary-main{min-width:0;flex:1}
+.guide-fold-arrow{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;width:28px;height:28px;border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.04);color:var(--sub);font-size:14px;font-weight:900;transition:transform .16s ease,background .16s ease}
+.guide-fold-section[open]>.guide-fold-summary .guide-fold-arrow{transform:rotate(180deg)}
+.guide-fold-body{padding-top:11px}
+.guide-fold-section:not([open])>.guide-fold-summary{margin-bottom:0}
+.guide-fold-section:not([open]) .guide-uniform-desc,.guide-fold-section:not([open]) .guide-detail-desc{opacity:.78}
+.guide-uniform-body>.guide-uniform-actions,.guide-detail-body>.guide-detail-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;margin-bottom:10px}
+.guide-detail-body>.guide-detail-actions .small-btn,.guide-uniform-body>.guide-uniform-actions .small-btn{position:relative;z-index:2;pointer-events:auto!important;cursor:pointer}
+.guide-detail-box{margin-top:12px}
+@media(max-width:620px){.guide-fold-summary{gap:8px}.guide-uniform-body>.guide-uniform-actions,.guide-detail-body>.guide-detail-actions{justify-content:stretch}.guide-uniform-body>.guide-uniform-actions .small-btn,.guide-detail-body>.guide-detail-actions .small-btn{flex:1}}
+
+
 /* ===== v3.8.2 · SELF DIAGNOSTIC ===== */
 .diagnostic-title-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .self-diagnostic-report{margin-top:9px;padding:10px;border:1px solid rgba(255,255,255,.08);border-radius:11px;background:#0d0c11;font-size:9.5px;line-height:1.55;color:#bfb8c7}
@@ -446,6 +464,15 @@ html[data-color-mode="light"] #promptFloatText{background:#fbf9fc!important;colo
 </style>
 <script id="themeEarlyInit">(()=>{try{const v=localStorage.getItem('assetGachaColorModeV1');document.documentElement.dataset.colorMode=v==='light'?'light':'dark'}catch(_){document.documentElement.dataset.colorMode='dark'}})();</script>
 
+
+<style id="v396GuideFoldLightFix">
+html[data-color-mode="light"] .guide-fold-summary:hover{background:rgba(46,76,112,.045)}
+html[data-color-mode="light"] .guide-fold-arrow{background:#ffffff;color:#40566c;border-color:rgba(63,93,122,.20)}
+html[data-color-mode="light"] #guideUniformBox.guide-fold-section,
+html[data-color-mode="light"] #guideDetailBox.guide-fold-section{box-shadow:0 8px 22px rgba(52,73,96,.045)}
+html[data-color-mode="light"] .guide-uniform-body>.guide-uniform-actions .small-btn,
+html[data-color-mode="light"] .guide-detail-body>.guide-detail-actions .small-btn{background:#ffffff;color:#26384a;border-color:rgba(56,91,124,.22)}
+</style>
 </head>
 <style id="accessControlStyle">
 body.access-locked{overflow:hidden!important}
@@ -1054,7 +1081,7 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
 <div class="update-icon">✨</div>
 <h2 id="updateGateTitle">업데이트가 있습니다</h2>
 <p>새 버전이 배포되었습니다.<br/>정상 반영을 위해 페이지를 <strong style="color:#e8e0ff">새로고침</strong> 해주세요.</p>
-<div class="update-ver" id="updateGateVersion">v3.9.5</div>
+<div class="update-ver" id="updateGateVersion">v3.9.6</div>
 <div class="update-actions">
 <button class="update-btn primary" id="updateRefreshBtn" type="button">새로고침 하기</button>
 <button class="update-btn ghost" id="updateLaterBtn" type="button">나중에 (이번만 닫기)</button>
@@ -1077,9 +1104,9 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
 ========================================================= */
 /* 빌드 ID가 바뀌면 성인/접속코드 인증보다 먼저 새로고침 팝업을 띄웁니다. 매 배포 시 반드시 이 값을 새 고유값으로 변경하세요. */
 const APP_META=Object.freeze({
-  version:'3.9.5',
-  buildId:'20260911-v3.9.5-guide-esper-light-contrast',
-  label:'v3.9.5 · Guide / Esper Light Contrast Fix',
+  version:'3.9.6',
+  buildId:'20260911-v3.9.6-guide-fold-detail-button-fix',
+  label:'v3.9.6 · Guide Uniform / Detail Fold + Button Fix',
   date:'2026-09-11'
 });
 const APP_BUILD_ID=APP_META.buildId;
@@ -1092,6 +1119,7 @@ function syncAppMetaUI(){
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',syncAppMetaUI,{once:true});else syncAppMetaUI();
 const UPDATE_NOTES = [
+  { date:'09.11', text:'v3.9.6 GUIDEVERSE 제복/디테일 UI 핫픽스 · GUIDEVERSE UNIFORM SELECTOR와 OUTFIT / POSE DETAIL을 서로 독립된 폴딩 섹션으로 분리했습니다. 디테일 임의 생성/초기화 버튼은 전용 클릭 핸들러로 다시 연결하고 버튼 영역을 폴딩 본문으로 이동해 클릭 누락과 접힘 토글 간섭을 방지했습니다. 두 폴딩의 열림 상태는 브라우저에 저장되며 전역 상세 패널 3개 제한에서는 제외됩니다.' },
   { date:'09.11', text:'v3.9.5 GUIDE / ESPER 화이트 모드 대비 보정 · 가이딩 능력과 에스퍼 능력 패널에서 다크모드 전용 select·버튼·제목 색상이 화이트 모드까지 덮어쓰던 문제를 수정했습니다. WHITE 모드에서는 GUIDE는 블루, ESPER는 퍼플을 테두리/포인트에만 사용하고 입력창은 밝은 배경 + 진한 글씨로 통일해 가독성을 높였습니다. VISUAL DIRECTION과 상태 문구도 같은 기준으로 보정했습니다.' },
   { date:'09.11', text:'v3.9.4 화이트 모드 대비 보정 · 02B CHARACTER A/B/C의 제목·라벨·입력창·비활성 카드·안내문 대비를 전면 보정하고, {{user}} 캐릭터 폴딩 영역과 테마/진단/가이드 디테일 등 다크 전용 하드코딩 색상을 화이트 모드에서 별도 재정의했습니다. 입력 placeholder와 보조 문구도 밝은 배경에서 읽기 쉽도록 조정했습니다.' },
   { date:'09.11', text:'v3.9.3 화면 테마 UI 개선 · BLACK / WHITE 모드 선택 버튼을 상단 영웅 영역에서 사용 모드 영역으로 이동하고, 두 모드를 직접 선택하는 버튼형 스위치로 변경했습니다. 모바일에서도 항상 보이도록 레이아웃과 화이트 모드 대비를 보강했습니다.' },
@@ -1368,7 +1396,7 @@ renderAdminUpdateNote();
 })();
 </script>
 <div class="page">
-<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v3.9.5</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v3.9.5</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며, 상세 설정과 빠른효과/흔적 태그로 장면 강도를 조절할 수 있습니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
+<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v3.9.6</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v3.9.6</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며, 상세 설정과 빠른효과/흔적 태그로 장면 강도를 조절할 수 있습니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
 <section aria-label="사용 모드 및 화면 테마 선택" class="workflow-mode-panel" id="workflowModePanel"><div class="workflow-mode-copy"><div class="workflow-mode-title">사용 모드</div><div class="workflow-mode-hint" id="workflowModeHint">간편은 랜덤 슬롯 중심 · 상세은 슬롯 직접 선택과 세부 설정까지 제공합니다.</div></div><div class="workflow-mode-actions"><div class="workflow-control-block"><div class="workflow-control-label">사용 방식</div><div aria-label="간편 또는 상세 모드" class="workflow-mode-switch" role="group"><button aria-pressed="true" class="workflow-mode-btn active" data-ui-mode-btn="simple" type="button">간편</button><button aria-pressed="false" class="workflow-mode-btn" data-ui-mode-btn="detail" type="button">상세</button></div></div><div class="workflow-control-block"><div class="workflow-control-label">화면 테마</div><div aria-label="블랙 또는 화이트 화면 테마" class="workflow-theme-switch" id="themeModeToggle" role="group"><button aria-pressed="true" class="workflow-theme-btn active" data-theme-mode-btn="dark" type="button">🌙 BLACK</button><button aria-pressed="false" class="workflow-theme-btn" data-theme-mode-btn="light" type="button">☀ WHITE</button></div></div></div></section>
 <section class="panel" id="contentModePanel"><div class="head"><div><h2 class="title">00 · MODE</h2><p class="desc">먼저 콘텐츠 모드를 선택합니다. 선택한 모드에 따라 아래 SCENE 분류와 NSFW 전용 기능이 자동으로 전환됩니다.</p></div></div><div class="mode-choice-card"><div class="mode-choice-label">콘텐츠 모드</div><div class="mode-choice-buttons" id="contentModeSwitch"><button class="mode-choice-btn" data-content-mode="sfw" id="modePillSfw" type="button">SFW</button><button class="mode-choice-btn" data-content-mode="nsfw" id="modePillNsfw" type="button">NSFW</button></div><div class="mode-first-meta" id="contentModeHint">SFW / NSFW를 먼저 선택하면 아래 분류가 현재 모드에 맞게 자동 전환됩니다.</div><input checked="" hidden="" name="contentMode" type="radio" value="sfw"/><input hidden="" name="contentMode" type="radio" value="nsfw"/><input hidden="" id="nsfwMode" type="checkbox"/></div></section>
 <section class="panel" id="sceneCategoryPanel"><div class="head"><div><h2 class="title">01 · SCENE</h2><p class="desc">현재 MODE를 기준으로 대분류 → 중분류 → 소분류 순서로 장면을 선택합니다.</p></div></div><div class="select-grid category-hierarchy-grid scene-three-grid"><div class="field"><label>대분류 · 장르</label><select id="genre"><option value="modern">현대물</option><option value="fantasy">판타지물</option><option value="guideverse">가이드버스</option><option value="period">시대물</option><option value="sf">SF / 사이버펑크</option><option value="apocalypse">아포칼립스 / 재난</option></select></div><div class="field"><label>중분류 · 테마</label><select id="middleCategory"></select></div><div class="field"><label>소분류 · 장면</label><select id="category"></select></div></div><div class="check-row" data-ui-advanced="1"><label class="check"><input id="randomCategory" type="checkbox"/> 주사위를 돌릴 때마다 소분류도 랜덤</label><label class="check"><input checked="" id="avoidSame" type="checkbox"/> 직전 결과와 같은 태그 최대한 피하기</label></div></section>
@@ -1396,114 +1424,120 @@ renderAdminUpdateNote();
 • JSON 내보내기/가져오기 시 라벨과 생성·수정 시각도 함께 보존됩니다.</div><div class="preset-mini-note">추천 흐름: 설정 완료 → 이름/라벨 지정 → 저장 → 검색/정렬로 관리</div></div></div><div class="preset-subhint" id="charPresetHint">로컬 저장 전용 · 최대 10개 · 같은 브라우저에서만 보입니다.</div><input accept="application/json,.json" class="hidden-file" id="importCharPresetsFile" type="file"/></div></div></details>
 <button class="roll" id="rollAll">🎲 주사위 돌리기<span>잠금된 슬롯은 유지 · 꺼진 슬롯은 프롬프트에서 제외</span></button>
 <section class="panel" data-ui-advanced="1" id="randomControlPanel"><div class="head"><div><h2 class="title">02D · 장면 목적 / 랜덤 제어</h2><p class="desc">장면 목적 프리셋, 랜덤 강도, 세트 락을 한 곳에서 직접 관리합니다. SCENE THEME와 현재 카테고리에 맞춰 배경·의상·표정·행동이 더 일관되게 조합됩니다.</p></div><div class="mini-tools"><button class="small-btn" id="resetRandomControl" type="button">🧹 초기화</button><button aria-pressed="false" class="small-btn panel-apply-toggle" id="toggleRandomControlApply" type="button">열기 · 적용</button></div></div><div class="panel-disabled-note">현재 닫힘 · 장면 목적 / 랜덤 강도 / 세트 락 설정은 적용되지 않습니다.</div><div class="panel-apply-body" id="randomControlBody"><div class="options utility-grid"><div class="opt"><label>장면 목적 프리셋</label><select id="purposePreset"><option value="none">미사용</option><option value="daily">일상</option><option value="romantic">로맨틱</option><option value="tension">긴장</option><option value="action">액션</option><option value="emotion">감정씬</option><option value="rest">휴식</option><option value="before_event">사건 직전</option><option value="after_event">사건 직후</option><option value="poster">포스터형</option><option value="snapshot">스냅샷형</option></select><div class="character-mode-hint" id="purposePresetHint">🎯 장면의 목적에 맞춰 표정·행동·구도·배경 가중치를 조정합니다.</div></div><div class="opt"><label>랜덤 강도</label><select id="randomStrength"><option value="safe">안전</option><option selected="" value="balanced">균형</option><option value="bold">과감</option></select><div class="character-mode-hint" id="randomStrengthHint">🎲 안전은 안정적, 과감은 희귀 조합의 등장률을 높입니다.</div></div><div class="opt"><label>세트 락</label><div class="setlock-grid"><button class="setlock-btn" id="setLockMood" type="button">🌆 분위기 세트</button><button class="setlock-btn" id="setLockActing" type="button">🎭 연기 세트</button><button class="setlock-btn" id="setLockStyle" type="button">👕 스타일링 세트</button></div><div class="character-mode-hint">분위기 = 배경·계절·날씨·조명·무드 / 연기 = 행동·표정·자세·시선·구도 / 스타일링 = 의상·소품</div></div></div><div class="setlock-status" id="setLockStatus">세트 락 미사용 · 개별 슬롯 잠금은 03 · 랜덤 슬롯에서 계속 사용할 수 있습니다.</div></div></section><section class="panel" data-ui-advanced="1" id="guideverseAbilityPanel"><div class="head"><div><h2 class="title">02E · GUIDEVERSE 능력 시스템</h2><p class="desc">가이드버스 전용 세부 설정입니다. 이 상위 패널은 전체 열기/닫기만 담당합니다. 왼쪽 GUIDE와 오른쪽 ESPER를 각각 독립 설정하며, 각 박스에서 따로 임의 생성·초기화할 수 있습니다. 시각 연출은 하단 VISUAL DIRECTION에서 조정합니다.</p></div><div class="mini-tools"><button aria-pressed="false" class="small-btn panel-apply-toggle" id="toggleGuideverseAbilityApply" type="button">열기 · 적용</button></div></div><div class="panel-disabled-note">현재 닫힘 · 가이드 능력 / 에스퍼 능력 / 가이딩 시각 연출 설정은 프롬프트와 저장값에 적용되지 않습니다.</div><div class="panel-apply-body" id="guideverseAbilityBody"><div class="guideverse-panel-note"><span class="guideverse-badge">GUIDEVERSE ONLY</span> 장르가 가이드버스로 설정되면 기본적으로 가이딩 파장과 능력 이펙트가 보이도록 보정되며, 아래 VISUAL DIRECTION으로 더 세밀하게 조정할 수 있습니다.</div>
-<div class="guide-uniform-box" id="guideUniformBox">
-  <div class="guide-uniform-head">
-    <div>
+<details class="guide-uniform-box guide-fold-section guide-local-fold" id="guideUniformBox" open>
+  <summary class="guide-fold-summary guide-uniform-summary">
+    <div class="guide-fold-summary-main">
       <div class="guide-uniform-title">👔 GUIDEVERSE UNIFORM SELECTOR</div>
       <div class="guide-uniform-desc">직군 × 성별 × 색상을 직접 지정합니다. 직접 지정 시 기존 랜덤 의상 슬롯 대신 선택한 제복을 우선 적용합니다.</div>
     </div>
+    <span class="guide-fold-arrow" aria-hidden="true">⌄</span>
+  </summary>
+  <div class="guide-fold-body guide-uniform-body">
     <div class="guide-uniform-actions">
       <button class="small-btn" id="rollGuideUniform" type="button">🎲 제복 임의 생성</button>
       <button class="small-btn" id="resetGuideUniform" type="button">🧹 제복 초기화</button>
     </div>
+    <div class="guide-uniform-grid">
+      <div class="opt"><label>제복 적용</label><select id="guideUniformMode">
+        <option value="auto">자동 · 기존 의상 랜덤</option>
+        <option value="custom">직접 지정</option>
+        <option value="off">제복 미사용</option>
+      </select></div>
+      <div class="opt"><label>직군</label><select id="guideUniformRole">
+        <option value="sGuide">S급 가이드</option>
+        <option value="controlEsper">통제형 에스퍼</option>
+        <option value="medicalTeam">의료팀</option>
+        <option value="command">지휘부</option>
+        <option value="fieldOps">현장팀</option>
+      </select></div>
+      <div class="opt"><label>성별</label><select id="guideUniformGender">
+        <option value="female">여성형</option>
+        <option value="male">남성형</option>
+      </select></div>
+      <div class="opt"><label>색상</label><select id="guideUniformColor">
+        <option value="white">화이트 제복</option>
+        <option value="black">블랙 제복</option>
+        <option value="navy">네이비 제복</option>
+      </select></div>
+    </div>
+    <div class="guide-uniform-preview" id="guideUniformPreview">
+      <div class="guide-uniform-preview-ko" id="guideUniformPreviewKo">자동 · 기존 의상 랜덤</div>
+      <div class="guide-uniform-preview-en" id="guideUniformPreviewEn">GUIDEVERSE 의상 풀에서 현재 장면에 맞는 의상을 자동 선택합니다.</div>
+    </div>
+    <div class="guide-uniform-status" id="guideUniformStatus">AUTO · 기존 장면별 의상 랜덤 유지</div>
   </div>
-  <div class="guide-uniform-grid">
-    <div class="opt"><label>제복 적용</label><select id="guideUniformMode">
-      <option value="auto">자동 · 기존 의상 랜덤</option>
-      <option value="custom">직접 지정</option>
-      <option value="off">제복 미사용</option>
-    </select></div>
-    <div class="opt"><label>직군</label><select id="guideUniformRole">
-      <option value="sGuide">S급 가이드</option>
-      <option value="controlEsper">통제형 에스퍼</option>
-      <option value="medicalTeam">의료팀</option>
-      <option value="command">지휘부</option>
-      <option value="fieldOps">현장팀</option>
-    </select></div>
-    <div class="opt"><label>성별</label><select id="guideUniformGender">
-      <option value="female">여성형</option>
-      <option value="male">남성형</option>
-    </select></div>
-    <div class="opt"><label>색상</label><select id="guideUniformColor">
-      <option value="white">화이트 제복</option>
-      <option value="black">블랙 제복</option>
-      <option value="navy">네이비 제복</option>
-    </select></div>
-  </div>
-  <div class="guide-uniform-preview" id="guideUniformPreview">
-    <div class="guide-uniform-preview-ko" id="guideUniformPreviewKo">자동 · 기존 의상 랜덤</div>
-    <div class="guide-uniform-preview-en" id="guideUniformPreviewEn">GUIDEVERSE 의상 풀에서 현재 장면에 맞는 의상을 자동 선택합니다.</div>
-  </div>
-  <div class="guide-uniform-status" id="guideUniformStatus">AUTO · 기존 장면별 의상 랜덤 유지</div>
+</details>
 
-<div class="guide-detail-box" id="guideDetailBox">
-  <div class="guide-detail-head">
-    <div>
+<details class="guide-detail-box guide-fold-section guide-local-fold" id="guideDetailBox" open>
+  <summary class="guide-fold-summary guide-detail-summary">
+    <div class="guide-fold-summary-main">
       <div class="guide-detail-title">🧩 OUTFIT / POSE DETAIL</div>
       <div class="guide-detail-desc">가이드버스 전용 의상 디테일 50종과 포즈 50종을 추가 적용합니다. 자동은 주사위마다 재선택되며, 직접 지정은 선택값을 유지합니다.</div>
     </div>
+    <span class="guide-fold-arrow" aria-hidden="true">⌄</span>
+  </summary>
+  <div class="guide-fold-body guide-detail-body">
     <div class="guide-detail-actions">
       <button class="small-btn" id="rollGuideDetails" type="button">🎲 디테일 임의 생성</button>
       <button class="small-btn" id="resetGuideDetails" type="button">🧹 디테일 초기화</button>
     </div>
-  </div>
+    <div class="guide-detail-columns">
+      <div class="guide-detail-column" id="guideOutfitDetailColumn">
+        <div class="guide-detail-column-title">👔 의상 디테일 · 50종</div>
+        <div class="guide-detail-grid">
+          <div class="opt"><label>적용</label><select id="guideOutfitDetailMode">
+            <option value="auto">자동</option>
+            <option value="custom">직접 지정</option>
+            <option value="off">미사용</option>
+          </select></div>
+          <div class="opt"><label>카테고리</label><select id="guideOutfitDetailCategory">
+            <option value="all">전체</option>
+            <option value="wearState">착장 상태</option>
+            <option value="inner">이너</option>
+            <option value="outer">아우터</option>
+            <option value="bottom">하의</option>
+            <option value="insignia">휘장 / 계급장</option>
+            <option value="equipment">장비 / 부착물</option>
+            <option value="damage">손상 / 피로 상태</option>
+          </select></div>
+          <div class="opt"><label>세부 태그</label><select id="guideOutfitDetailItem"></select></div>
+        </div>
+        <div class="guide-detail-preview">
+          <div class="guide-detail-preview-ko" id="guideOutfitDetailPreviewKo">-</div>
+          <div class="guide-detail-preview-en" id="guideOutfitDetailPreviewEn">-</div>
+        </div>
+        <div class="guide-detail-meta" id="guideOutfitDetailMeta">AUTO · 주사위와 함께 랜덤 선택</div>
+      </div>
 
-  <div class="guide-detail-columns">
-    <div class="guide-detail-column" id="guideOutfitDetailColumn">
-      <div class="guide-detail-column-title">👔 의상 디테일 · 50종</div>
-      <div class="guide-detail-grid">
-        <div class="opt"><label>적용</label><select id="guideOutfitDetailMode">
-          <option value="auto">자동</option>
-          <option value="custom">직접 지정</option>
-          <option value="off">미사용</option>
-        </select></div>
-        <div class="opt"><label>카테고리</label><select id="guideOutfitDetailCategory">
-          <option value="all">전체</option>
-          <option value="wearState">착장 상태</option>
-          <option value="inner">이너</option>
-          <option value="outer">아우터</option>
-          <option value="bottom">하의</option>
-          <option value="insignia">휘장 / 계급장</option>
-          <option value="equipment">장비 / 부착물</option>
-          <option value="damage">손상 / 피로 상태</option>
-        </select></div>
-        <div class="opt"><label>세부 태그</label><select id="guideOutfitDetailItem"></select></div>
+      <div class="guide-detail-column" id="guidePoseDetailColumn">
+        <div class="guide-detail-column-title">🧍 포즈 디테일 · 50종</div>
+        <div class="guide-detail-grid">
+          <div class="opt"><label>적용</label><select id="guidePoseDetailMode">
+            <option value="auto">자동</option>
+            <option value="custom">직접 지정</option>
+            <option value="off">미사용</option>
+          </select></div>
+          <div class="opt"><label>카테고리</label><select id="guidePoseDetailCategory">
+            <option value="all">전체</option>
+            <option value="basic">기본 자세</option>
+            <option value="guiding">가이딩</option>
+            <option value="combat">전투 / 폭주</option>
+            <option value="medical">의료 / 검사</option>
+            <option value="command">지휘 / 브리핑</option>
+            <option value="relationship">관계 / 거리감</option>
+          </select></div>
+          <div class="opt"><label>세부 태그</label><select id="guidePoseDetailItem"></select></div>
+        </div>
+        <div class="guide-detail-preview">
+          <div class="guide-detail-preview-ko" id="guidePoseDetailPreviewKo">-</div>
+          <div class="guide-detail-preview-en" id="guidePoseDetailPreviewEn">-</div>
+        </div>
+        <div class="guide-detail-meta" id="guidePoseDetailMeta">AUTO · 주사위와 함께 랜덤 선택</div>
       </div>
-      <div class="guide-detail-preview">
-        <div class="guide-detail-preview-ko" id="guideOutfitDetailPreviewKo">-</div>
-        <div class="guide-detail-preview-en" id="guideOutfitDetailPreviewEn">-</div>
-      </div>
-      <div class="guide-detail-meta" id="guideOutfitDetailMeta">AUTO · 주사위와 함께 랜덤 선택</div>
-    </div>
-
-    <div class="guide-detail-column" id="guidePoseDetailColumn">
-      <div class="guide-detail-column-title">🧍 포즈 디테일 · 50종</div>
-      <div class="guide-detail-grid">
-        <div class="opt"><label>적용</label><select id="guidePoseDetailMode">
-          <option value="auto">자동</option>
-          <option value="custom">직접 지정</option>
-          <option value="off">미사용</option>
-        </select></div>
-        <div class="opt"><label>카테고리</label><select id="guidePoseDetailCategory">
-          <option value="all">전체</option>
-          <option value="basic">기본 자세</option>
-          <option value="guiding">가이딩</option>
-          <option value="combat">전투 / 폭주</option>
-          <option value="medical">의료 / 검사</option>
-          <option value="command">지휘 / 브리핑</option>
-          <option value="relationship">관계 / 거리감</option>
-        </select></div>
-        <div class="opt"><label>세부 태그</label><select id="guidePoseDetailItem"></select></div>
-      </div>
-      <div class="guide-detail-preview">
-        <div class="guide-detail-preview-ko" id="guidePoseDetailPreviewKo">-</div>
-        <div class="guide-detail-preview-en" id="guidePoseDetailPreviewEn">-</div>
-      </div>
-      <div class="guide-detail-meta" id="guidePoseDetailMeta">AUTO · 주사위와 함께 랜덤 선택</div>
     </div>
   </div>
-</div>
-</div><div class="guideverse-ability-grid"><div class="guideverse-ability-col guide-side"><div class="guideverse-ability-head"><h3>🧭 GUIDE ABILITY</h3><div class="guideverse-col-actions"><button class="small-btn" id="rollGuideAbility" type="button">🎲 GUIDE 임의 생성</button><button class="small-btn" id="resetGuideAbility" type="button">🧹 GUIDE 초기화</button></div></div><div class="guideverse-ability-fields"><div class="opt"><label>가이드 등급</label><select id="guideRank"></select></div><div class="opt"><label>가이딩 방식</label><select id="guideMethod"></select></div><div class="opt"><label>접촉 부위 / 매개</label><select id="guideMedium"></select></div><div class="opt"><label>가이드 특성</label><select id="guideSpecialty"></select></div><div class="opt"><label>특수 능력</label><select id="guideSpecialAbility"></select></div><div class="opt"><label>가이딩 범위</label><select id="guideRange"></select></div><div class="opt"><label>적합도 / 동조율</label><select id="guideMatchRate"></select></div><div class="opt"><label>부작용 / 대가</label><select id="guideSideEffect"></select></div><div class="opt"><label>과부하 징후</label><select id="guideOverload"></select></div><div class="opt"><label>가이딩 장면</label><select id="guidingScene"></select></div></div><div class="mini-note">예: 접촉형 / 손목 접촉 / 폭주 억제 특화 / 잔류 감정 유입 / 응급 가이딩</div></div><div class="guideverse-ability-col esper-side"><div class="guideverse-ability-head"><h3>⚡ ESPER ABILITY</h3><div class="guideverse-col-actions"><button class="small-btn" id="rollEsperAbility" type="button">🎲 ESPER 임의 생성</button><button class="small-btn" id="resetEsperAbility" type="button">🧹 ESPER 초기화</button></div></div><div class="guideverse-ability-fields"><div class="opt"><label>에스퍼 등급</label><select id="esperRank"></select></div><div class="opt"><label>능력 계열</label><select id="esperClass"></select></div><div class="opt"><label>주 능력</label><select id="esperPower"></select></div><div class="opt"><label>전투 / 운용 특화</label><select id="esperSpecialty"></select></div><div class="opt"><label>제어 방식</label><select id="esperControl"></select></div><div class="opt"><label>능력 발현 모습</label><select id="esperManifestation"></select></div><div class="opt"><label>리스크 / 약점</label><select id="esperRisk"></select></div><div class="opt"><label>폭주 양상</label><select id="esperOverload"></select></div><div class="opt"><label>현재 상태</label><select id="esperState"></select></div></div><div class="mini-note">예: 전기 / 고출력 폭발형 / 공중에 번개가 튀는 발현 / 스트레스에 따라 폭주</div></div><div class="guideverse-ability-col guideverse-visual-wide"><div class="guideverse-ability-head"><h3>🎞️ VISUAL DIRECTION</h3><div class="guideverse-col-actions"><button class="small-btn" id="rollGuideVisual" type="button">🎲 VISUAL 임의 생성</button><button class="small-btn" id="resetGuideVisual" type="button">🧹 VISUAL 초기화</button></div></div><div class="guideverse-ability-fields"><div class="opt"><label>GUIDING VISUAL</label><select id="guidingVisual"></select></div><div class="opt"><label>GUIDING COLOR / TONE</label><select id="guidingColorTone"></select></div><div class="opt"><label>VISUAL FOCUS</label><select id="guidingFocus"></select></div><div class="opt"><label>ESPER POWER VISUAL INTENSITY</label><select id="esperVisualIntensity"></select></div></div><div class="mini-note">예: 반투명 파동 / 청록빛 / 가이드와 에스퍼 동시 강조 / 폭주 직전 연출</div></div></div><div class="guideverse-ability-status" id="guideverseAbilityStatus">가이드버스 능력 패널 OFF · 열기 · 적용을 누르면 GUIDE / ESPER / VISUAL 세부 설정을 프롬프트에 반영합니다.</div></div></section><div class="results-column" id="resultsColumn"><div class="results-sticky-inner" id="resultsStickyInner"><div aria-live="polite" class="result-status-badges" id="resultStatusBadges"></div><section class="panel" id="slotPanel"><div aria-live="polite" class="result-status-badges" id="simpleResultBadges"></div><div class="head"><div><h2 class="title">03 · 랜덤 슬롯</h2><p class="desc">↻ 재추첨 · 🔓/🔒 잠금 · ◉/○ 사용 여부 · 전체 잠금/해제/사용/미사용</p></div><div class="mini-tools"><button class="small-btn" id="lockAll">🔒 전체 잠금</button><button class="small-btn" id="unlockAll">🔓 전체 해제</button><button class="small-btn" id="enableAll">◉ 전체 사용</button><button class="small-btn" id="disableAll">○ 전체 미사용</button></div></div><div class="cards" id="cards"></div><div class="stats" id="stats"></div></section>
+</details>
+<div class="guideverse-ability-grid"><div class="guideverse-ability-col guide-side"><div class="guideverse-ability-head"><h3>🧭 GUIDE ABILITY</h3><div class="guideverse-col-actions"><button class="small-btn" id="rollGuideAbility" type="button">🎲 GUIDE 임의 생성</button><button class="small-btn" id="resetGuideAbility" type="button">🧹 GUIDE 초기화</button></div></div><div class="guideverse-ability-fields"><div class="opt"><label>가이드 등급</label><select id="guideRank"></select></div><div class="opt"><label>가이딩 방식</label><select id="guideMethod"></select></div><div class="opt"><label>접촉 부위 / 매개</label><select id="guideMedium"></select></div><div class="opt"><label>가이드 특성</label><select id="guideSpecialty"></select></div><div class="opt"><label>특수 능력</label><select id="guideSpecialAbility"></select></div><div class="opt"><label>가이딩 범위</label><select id="guideRange"></select></div><div class="opt"><label>적합도 / 동조율</label><select id="guideMatchRate"></select></div><div class="opt"><label>부작용 / 대가</label><select id="guideSideEffect"></select></div><div class="opt"><label>과부하 징후</label><select id="guideOverload"></select></div><div class="opt"><label>가이딩 장면</label><select id="guidingScene"></select></div></div><div class="mini-note">예: 접촉형 / 손목 접촉 / 폭주 억제 특화 / 잔류 감정 유입 / 응급 가이딩</div></div><div class="guideverse-ability-col esper-side"><div class="guideverse-ability-head"><h3>⚡ ESPER ABILITY</h3><div class="guideverse-col-actions"><button class="small-btn" id="rollEsperAbility" type="button">🎲 ESPER 임의 생성</button><button class="small-btn" id="resetEsperAbility" type="button">🧹 ESPER 초기화</button></div></div><div class="guideverse-ability-fields"><div class="opt"><label>에스퍼 등급</label><select id="esperRank"></select></div><div class="opt"><label>능력 계열</label><select id="esperClass"></select></div><div class="opt"><label>주 능력</label><select id="esperPower"></select></div><div class="opt"><label>전투 / 운용 특화</label><select id="esperSpecialty"></select></div><div class="opt"><label>제어 방식</label><select id="esperControl"></select></div><div class="opt"><label>능력 발현 모습</label><select id="esperManifestation"></select></div><div class="opt"><label>리스크 / 약점</label><select id="esperRisk"></select></div><div class="opt"><label>폭주 양상</label><select id="esperOverload"></select></div><div class="opt"><label>현재 상태</label><select id="esperState"></select></div></div><div class="mini-note">예: 전기 / 고출력 폭발형 / 공중에 번개가 튀는 발현 / 스트레스에 따라 폭주</div></div><div class="guideverse-ability-col guideverse-visual-wide"><div class="guideverse-ability-head"><h3>🎞️ VISUAL DIRECTION</h3><div class="guideverse-col-actions"><button class="small-btn" id="rollGuideVisual" type="button">🎲 VISUAL 임의 생성</button><button class="small-btn" id="resetGuideVisual" type="button">🧹 VISUAL 초기화</button></div></div><div class="guideverse-ability-fields"><div class="opt"><label>GUIDING VISUAL</label><select id="guidingVisual"></select></div><div class="opt"><label>GUIDING COLOR / TONE</label><select id="guidingColorTone"></select></div><div class="opt"><label>VISUAL FOCUS</label><select id="guidingFocus"></select></div><div class="opt"><label>ESPER POWER VISUAL INTENSITY</label><select id="esperVisualIntensity"></select></div></div><div class="mini-note">예: 반투명 파동 / 청록빛 / 가이드와 에스퍼 동시 강조 / 폭주 직전 연출</div></div></div><div class="guideverse-ability-status" id="guideverseAbilityStatus">가이드버스 능력 패널 OFF · 열기 · 적용을 누르면 GUIDE / ESPER / VISUAL 세부 설정을 프롬프트에 반영합니다.</div></div></section><div class="results-column" id="resultsColumn"><div class="results-sticky-inner" id="resultsStickyInner"><div aria-live="polite" class="result-status-badges" id="resultStatusBadges"></div><section class="panel" id="slotPanel"><div aria-live="polite" class="result-status-badges" id="simpleResultBadges"></div><div class="head"><div><h2 class="title">03 · 랜덤 슬롯</h2><p class="desc">↻ 재추첨 · 🔓/🔒 잠금 · ◉/○ 사용 여부 · 전체 잠금/해제/사용/미사용</p></div><div class="mini-tools"><button class="small-btn" id="lockAll">🔒 전체 잠금</button><button class="small-btn" id="unlockAll">🔓 전체 해제</button><button class="small-btn" id="enableAll">◉ 전체 사용</button><button class="small-btn" id="disableAll">○ 전체 미사용</button></div></div><div class="cards" id="cards"></div><div class="stats" id="stats"></div></section>
 <details class="panel collapsible-panel prompt-output-panel" id="novelPromptPanel" open=""><summary><div class="collapse-title-wrap"><h2 class="collapse-title">04 · NovelAI Prompt</h2><p class="collapse-desc">생성된 영어 태그는 직접 수정할 수 있습니다. 아래 효과 버튼을 눌러 즉시 추가할 수 있으며, {{user}} 캐릭터 태그는 프롬프트 맨 아래에 한 문단 띄워 별도로 배치됩니다.</p></div><span class="collapse-arrow">⌄</span></summary><div class="collapse-body"><details class="prompt-quickbox" id="quickEffectsDetails"><summary><button id="quickEffectsExpand" class="quick-effects-expand" type="button" title="빠른 태그 전체화면으로 확장" aria-pressed="false">◀</button><span class="prompt-quicksummary-main">⚡ 빠른 효과 / 흔적 태그 <span class="prompt-quickcount" id="quickEffectCount">0</span></span><span class="quick-summary-actions recommend-triple"><button class="quick-recommend-btn" id="recommendNatural" type="button">✨ 자연스럽게</button><button class="quick-recommend-btn" id="recommendStronger" type="button">🔥 더 강하게</button><button class="quick-recommend-btn" id="recommendCinematic" type="button">🎬 연출 강화</button><button class="quick-recommend-btn quick-reset-btn" id="resetQuickEffects" type="button">🧹 초기화</button></span></summary><div class="prompt-quickbody"><div id="promptQuickTags"><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">표정 (NSFW)</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="sweet smile" type="checkbox"/>달콤한 미소</label><label class="mini-prompt-check"><input data-special-tag="embarrassed expression" type="checkbox"/>부끄러운 표정</label><label class="mini-prompt-check"><input data-special-tag="blushing" type="checkbox"/>얼굴을 붉힘</label><label class="mini-prompt-check"><input data-special-tag="half-closed eyes" type="checkbox"/>눈을 반쯤 감음</label><label class="mini-prompt-check"><input data-special-tag="narrowed eyes" type="checkbox"/>눈을 가늘게 뜸</label><label class="mini-prompt-check"><input data-special-tag="ecstatic expression" type="checkbox"/>황홀한 표정</label><label class="mini-prompt-check"><input data-special-tag="pleasured expression" type="checkbox"/>쾌락에 빠진 표정</label><label class="mini-prompt-check"><input data-special-tag="panting" type="checkbox"/>헐떡이는 표정</label><label class="mini-prompt-check"><input data-special-tag="slightly open mouth" type="checkbox"/>입을 살짝 벌림</label><label class="mini-prompt-check"><input data-special-tag="tongue slightly out" type="checkbox"/>혀를 살짝 내밈</label><label class="mini-prompt-check"><input data-special-tag="drooling" type="checkbox"/>침을 흘림</label><label class="mini-prompt-check"><input data-special-tag="teary eyes" type="checkbox"/>눈물을 글썽임</label><label class="mini-prompt-check"><input data-special-tag="crying" type="checkbox"/>눈물을 흘림</label><label class="mini-prompt-check"><input data-special-tag="cute pleading face" type="checkbox"/>애교 섞인 표정</label><label class="mini-prompt-check"><input data-special-tag="desperate expression" type="checkbox"/>간절한 표정</label><label class="mini-prompt-check"><input data-special-tag="seductive gaze" type="checkbox"/>도발적인 시선</label><label class="mini-prompt-check"><input data-special-tag="looking up" type="checkbox"/>위를 올려다봄</label><label class="mini-prompt-check"><input data-special-tag="looking down" type="checkbox"/>아래를 내려다봄</label><label class="mini-prompt-check"><input data-special-tag="closed eyes in pleasure" type="checkbox"/>눈을 감고 느끼는 표정</label><label class="mini-prompt-check"><input data-special-tag="biting teeth" type="checkbox"/>이빨을 깨묾</label><label class="mini-prompt-check"><input data-special-tag="biting lip" type="checkbox"/>입술을 깨묾</label><label class="mini-prompt-check"><input data-special-tag="panting smile" type="checkbox"/>헐떡이며 미소</label><label class="mini-prompt-check"><input data-special-tag="about to orgasm face" type="checkbox"/>절정 직전 표정</label><label class="mini-prompt-check"><input data-special-tag="orgasm face" type="checkbox"/>절정 표정</label><label class="mini-prompt-check"><input data-special-tag="ahegao" type="checkbox"/>ahegao</label><label class="mini-prompt-check"><input data-special-tag="long tongue out" type="checkbox"/>혀를 길게 내밈</label><label class="mini-prompt-check"><input data-special-tag="heavy drooling" type="checkbox"/>침을 질질 흘림</label><label class="mini-prompt-check"><input data-special-tag="heart-shaped pupils" type="checkbox"/>눈이 하트로 변함</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">키스 / 애무</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="lips touching" type="checkbox"/>입술 맞대기</label><label class="mini-prompt-check"><input data-special-tag="gentle kiss" type="checkbox"/>가벼운 키스</label><label class="mini-prompt-check"><input data-special-tag="kiss" type="checkbox"/>키스</label><label class="mini-prompt-check"><input data-special-tag="tongue kiss" type="checkbox"/>혀가 섞이는 키스</label><label class="mini-prompt-check"><input data-special-tag="deep kiss" type="checkbox"/>딥키스</label><label class="mini-prompt-check"><input data-special-tag="french kiss" type="checkbox"/>프랑스식 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing eyelid" type="checkbox"/>눈에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="forehead kiss" type="checkbox"/>이마 키스</label><label class="mini-prompt-check"><input data-special-tag="cheek kiss" type="checkbox"/>볼 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing ear" type="checkbox"/>귀에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing neck" type="checkbox"/>목에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing collarbone" type="checkbox"/>쇄골 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing chest" type="checkbox"/>가슴에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing waist" type="checkbox"/>허리에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing stomach" type="checkbox"/>배에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing thigh" type="checkbox"/>허벅지에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing leg" type="checkbox"/>다리에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing foot" type="checkbox"/>발에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="hand kiss" type="checkbox"/>손등 키스</label><label class="mini-prompt-check"><input data-special-tag="finger sucking" type="checkbox"/>손가락 빨기</label><label class="mini-prompt-check"><input data-special-tag="kissing nape" type="checkbox"/>목덜미 키스</label><label class="mini-prompt-check"><input data-special-tag="biting earlobe" type="checkbox"/>귓볼 깨물기</label><label class="mini-prompt-check"><input data-special-tag="kissing shoulder" type="checkbox"/>어깨 키스</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">삽입 · 체위</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="sex" type="checkbox"/>섹스</label><label class="mini-prompt-check"><input data-special-tag="doggy style" type="checkbox"/>후배위</label><label class="mini-prompt-check"><input data-special-tag="cowgirl" type="checkbox"/>카우걸</label><label class="mini-prompt-check"><input data-special-tag="reverse cowgirl" type="checkbox"/>리버스 카우걸</label><label class="mini-prompt-check"><input data-special-tag="missionary" type="checkbox"/>정상위</label><label class="mini-prompt-check"><input data-special-tag="mating press" type="checkbox"/>메이팅프레스</label><label class="mini-prompt-check"><input data-special-tag="standing sex" type="checkbox"/>입위</label><label class="mini-prompt-check"><input data-special-tag="against wall" type="checkbox"/>벽에 밀착</label><label class="mini-prompt-check"><input data-special-tag="deep penetration" type="checkbox"/>깊은삽입</label><label class="mini-prompt-check"><input data-special-tag="vaginal penetration" type="checkbox"/>질내삽입</label><label class="mini-prompt-check"><input data-special-tag="anal" type="checkbox"/>애널</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">오럴 · 자위 · 토이</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="oral" type="checkbox"/>오럴</label><label class="mini-prompt-check"><input data-special-tag="fellatio" type="checkbox"/>펠라치오</label><label class="mini-prompt-check"><input data-special-tag="cunnilingus" type="checkbox"/>커닐링구스</label><label class="mini-prompt-check"><input data-special-tag="deepthroat" type="checkbox"/>딥스로트</label><label class="mini-prompt-check"><input data-special-tag="irrumatio" type="checkbox"/>이라마치오</label><label class="mini-prompt-check"><input data-special-tag="masturbation" type="checkbox"/>자위</label><label class="mini-prompt-check"><input data-special-tag="female masturbation" type="checkbox"/>여성자위</label><label class="mini-prompt-check"><input data-special-tag="male masturbation" type="checkbox"/>남성자위</label><label class="mini-prompt-check"><input data-special-tag="mutual masturbation" type="checkbox"/>상호자위</label><label class="mini-prompt-check"><input data-special-tag="vibrator" type="checkbox"/>바이브레이터</label><label class="mini-prompt-check"><input data-special-tag="remote vibrator" type="checkbox"/>리모컨바이브</label><label class="mini-prompt-check"><input data-special-tag="dildo" type="checkbox"/>딜도</label><label class="mini-prompt-check"><input data-special-tag="anal beads" type="checkbox"/>애널비즈</label><label class="mini-prompt-check"><input data-special-tag="butt plug" type="checkbox"/>버트플러그</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">BDSM · 구속 / 도구</div><div class="prompt-quicktags">
 <label class="mini-prompt-check"><input data-special-tag="bondage" type="checkbox"/>구속</label>
 <label class="mini-prompt-check"><input data-special-tag="rope bondage" type="checkbox"/>로프바인딩</label>
@@ -8902,16 +8936,21 @@ $('lockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=true);re
 });
 GUIDEVERSE_ABILITY_FIELD_IDS.forEach(id=>$(id)?.addEventListener('change',()=>{updateGuideverseAbilityHint();buildPrompt();buildSummary();buildStats();saveSettings()}));
 GUIDE_UNIFORM_IDS.forEach(id=>$(id)?.addEventListener('change',()=>{updateGuideUniformUI();updateGuideCasualProfileUI();if(genre.value==='guideverse'&&guideDetailMode('outfit')==='auto')rerollGuideDetail('outfit',{force:true});if(genre.value==='guideverse'&&outfitModeValue()==='detailed'&&!state.locked.outfit){state.selected.outfit=choose('outfit');flash('outfit');}updateGuideDetailUI();buildPrompt();buildSummary();buildStats();saveSettings()}));
-if($('rollGuideUniform'))$('rollGuideUniform').onclick=randomizeGuideUniform;
-if($('resetGuideUniform'))$('resetGuideUniform').onclick=resetGuideUniform;
+function bindGuideActionButton(id,handler){
+  const btn=$(id);if(!btn)return;
+  btn.onclick=null;
+  btn.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();handler()});
+}
+bindGuideActionButton('rollGuideUniform',randomizeGuideUniform);
+bindGuideActionButton('resetGuideUniform',resetGuideUniform);
 $('guideOutfitDetailMode')?.addEventListener('change',()=>onGuideDetailModeChange('outfit'));
 $('guideOutfitDetailCategory')?.addEventListener('change',()=>onGuideDetailCategoryChange('outfit'));
 $('guideOutfitDetailItem')?.addEventListener('change',()=>onGuideDetailItemChange('outfit'));
 $('guidePoseDetailMode')?.addEventListener('change',()=>onGuideDetailModeChange('pose'));
 $('guidePoseDetailCategory')?.addEventListener('change',()=>onGuideDetailCategoryChange('pose'));
 $('guidePoseDetailItem')?.addEventListener('change',()=>onGuideDetailItemChange('pose'));
-if($('rollGuideDetails'))$('rollGuideDetails').onclick=randomizeGuideDetails;
-if($('resetGuideDetails'))$('resetGuideDetails').onclick=resetGuideDetails;
+bindGuideActionButton('rollGuideDetails',randomizeGuideDetails);
+bindGuideActionButton('resetGuideDetails',resetGuideDetails);
 if($('runSelfDiagnostic'))$('runSelfDiagnostic').onclick=runSelfDiagnostic;
 if($('promptDetail')){$('promptDetail').addEventListener('input',()=>{updatePromptDetailUI();buildPrompt();scheduleSaveSettings()});$('promptDetail').addEventListener('change',()=>{updatePromptDetailUI();buildPrompt();saveSettings()});}
 
@@ -9680,7 +9719,7 @@ if(document.body.classList.contains('access-locked')){
   const MAX_OPEN=3;
   const isLocalNestedDetail=(d)=>{
     if(!(d instanceof HTMLDetailsElement))return false;
-    if(d.matches('[data-slot-picker], .preset-slot-card'))return true;
+    if(d.matches('[data-slot-picker], .preset-slot-card, .guide-local-fold'))return true;
     if(d.closest('#charPresetSlotList'))return true;
     return false;
   };
@@ -9699,6 +9738,23 @@ if(document.body.classList.contains('access-locked')){
       if(first)first.open=false;
     }
   },true);
+})();
+</script>
+
+<script id="guideLocalFoldStateV396">
+(()=>{
+  const items=[
+    ['guideUniformBox','guideUniformFoldOpenV1'],
+    ['guideDetailBox','guideDetailFoldOpenV1']
+  ];
+  function bind(){
+    items.forEach(([id,key])=>{
+      const el=document.getElementById(id);if(!(el instanceof HTMLDetailsElement))return;
+      try{const saved=localStorage.getItem(key);if(saved==='0')el.open=false;else if(saved==='1')el.open=true}catch(_){ }
+      el.addEventListener('toggle',()=>{try{localStorage.setItem(key,el.open?'1':'0')}catch(_){}});
+    });
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind,{once:true});else bind();
 })();
 </script>
 <div aria-live="polite" id="promptFloatDock">
