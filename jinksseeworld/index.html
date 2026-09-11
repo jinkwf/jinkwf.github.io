@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1.0" name="viewport"/>
 <meta content="#0e0c12" name="theme-color"/>
-<title>NSFW 에셋 랜덤 프롬프트 생성기.v3.9.4</title>
+<title>NSFW 에셋 랜덤 프롬프트 생성기.v3.9.5</title>
 <style>
 :root{--bg:#0e0c12;--panel:#17141d;--panel2:#201c28;--panel3:#292333;--line:rgba(255,255,255,.09);--text:#f7f3fa;--sub:#aaa3b4;--accent:#a68cff;--pink:#e694c4;--gold:#f0c978;--green:#9fdfb6;--red:#ff9aa5;--shadow:0 20px 60px rgba(0,0,0,.35)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 8% 0,rgba(166,140,255,.13),transparent 27%),radial-gradient(circle at 100% 15%,rgba(230,148,196,.08),transparent 27%),var(--bg);color:var(--text);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif}button,select,input,textarea{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}.page{width:min(1220px,calc(100% - 28px));margin:auto;padding:28px 0 70px}.hero,.panel{border:1px solid var(--line);background:rgba(23,20,29,.96);box-shadow:var(--shadow)}.hero{position:relative;overflow:hidden;border-radius:26px;padding:31px;margin-bottom:17px}.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-100px;top:-135px;background:rgba(166,140,255,.12);filter:blur(12px);pointer-events:none}.eyebrow{font-size:11px;font-weight:900;letter-spacing:.2em;color:var(--accent)}
 .eyebrow-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
@@ -1054,7 +1054,7 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
 <div class="update-icon">✨</div>
 <h2 id="updateGateTitle">업데이트가 있습니다</h2>
 <p>새 버전이 배포되었습니다.<br/>정상 반영을 위해 페이지를 <strong style="color:#e8e0ff">새로고침</strong> 해주세요.</p>
-<div class="update-ver" id="updateGateVersion">v3.9.4</div>
+<div class="update-ver" id="updateGateVersion">v3.9.5</div>
 <div class="update-actions">
 <button class="update-btn primary" id="updateRefreshBtn" type="button">새로고침 하기</button>
 <button class="update-btn ghost" id="updateLaterBtn" type="button">나중에 (이번만 닫기)</button>
@@ -1077,9 +1077,9 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
 ========================================================= */
 /* 빌드 ID가 바뀌면 성인/접속코드 인증보다 먼저 새로고침 팝업을 띄웁니다. 매 배포 시 반드시 이 값을 새 고유값으로 변경하세요. */
 const APP_META=Object.freeze({
-  version:'3.9.4',
-  buildId:'20260911-v3.9.4-light-contrast-fix',
-  label:'v3.9.4 · Light Mode Contrast Fix',
+  version:'3.9.5',
+  buildId:'20260911-v3.9.5-guide-esper-light-contrast',
+  label:'v3.9.5 · Guide / Esper Light Contrast Fix',
   date:'2026-09-11'
 });
 const APP_BUILD_ID=APP_META.buildId;
@@ -1092,6 +1092,7 @@ function syncAppMetaUI(){
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',syncAppMetaUI,{once:true});else syncAppMetaUI();
 const UPDATE_NOTES = [
+  { date:'09.11', text:'v3.9.5 GUIDE / ESPER 화이트 모드 대비 보정 · 가이딩 능력과 에스퍼 능력 패널에서 다크모드 전용 select·버튼·제목 색상이 화이트 모드까지 덮어쓰던 문제를 수정했습니다. WHITE 모드에서는 GUIDE는 블루, ESPER는 퍼플을 테두리/포인트에만 사용하고 입력창은 밝은 배경 + 진한 글씨로 통일해 가독성을 높였습니다. VISUAL DIRECTION과 상태 문구도 같은 기준으로 보정했습니다.' },
   { date:'09.11', text:'v3.9.4 화이트 모드 대비 보정 · 02B CHARACTER A/B/C의 제목·라벨·입력창·비활성 카드·안내문 대비를 전면 보정하고, {{user}} 캐릭터 폴딩 영역과 테마/진단/가이드 디테일 등 다크 전용 하드코딩 색상을 화이트 모드에서 별도 재정의했습니다. 입력 placeholder와 보조 문구도 밝은 배경에서 읽기 쉽도록 조정했습니다.' },
   { date:'09.11', text:'v3.9.3 화면 테마 UI 개선 · BLACK / WHITE 모드 선택 버튼을 상단 영웅 영역에서 사용 모드 영역으로 이동하고, 두 모드를 직접 선택하는 버튼형 스위치로 변경했습니다. 모바일에서도 항상 보이도록 레이아웃과 화이트 모드 대비를 보강했습니다.' },
   { date:'09.11', text:'v3.9.2 프리셋 스크롤 핫픽스 · 캐릭터 프리셋 슬롯을 전역 details 열림 제한에서 제외하고 모바일 스크롤 앵커 튐을 억제해 프리셋 확인 시 화면이 상단으로 이동하는 현상을 수정했습니다.' },
@@ -1367,7 +1368,7 @@ renderAdminUpdateNote();
 })();
 </script>
 <div class="page">
-<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v3.9.4</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v3.9.4</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며, 상세 설정과 빠른효과/흔적 태그로 장면 강도를 조절할 수 있습니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
+<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v3.9.5</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v3.9.5</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며, 상세 설정과 빠른효과/흔적 태그로 장면 강도를 조절할 수 있습니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
 <section aria-label="사용 모드 및 화면 테마 선택" class="workflow-mode-panel" id="workflowModePanel"><div class="workflow-mode-copy"><div class="workflow-mode-title">사용 모드</div><div class="workflow-mode-hint" id="workflowModeHint">간편은 랜덤 슬롯 중심 · 상세은 슬롯 직접 선택과 세부 설정까지 제공합니다.</div></div><div class="workflow-mode-actions"><div class="workflow-control-block"><div class="workflow-control-label">사용 방식</div><div aria-label="간편 또는 상세 모드" class="workflow-mode-switch" role="group"><button aria-pressed="true" class="workflow-mode-btn active" data-ui-mode-btn="simple" type="button">간편</button><button aria-pressed="false" class="workflow-mode-btn" data-ui-mode-btn="detail" type="button">상세</button></div></div><div class="workflow-control-block"><div class="workflow-control-label">화면 테마</div><div aria-label="블랙 또는 화이트 화면 테마" class="workflow-theme-switch" id="themeModeToggle" role="group"><button aria-pressed="true" class="workflow-theme-btn active" data-theme-mode-btn="dark" type="button">🌙 BLACK</button><button aria-pressed="false" class="workflow-theme-btn" data-theme-mode-btn="light" type="button">☀ WHITE</button></div></div></div></section>
 <section class="panel" id="contentModePanel"><div class="head"><div><h2 class="title">00 · MODE</h2><p class="desc">먼저 콘텐츠 모드를 선택합니다. 선택한 모드에 따라 아래 SCENE 분류와 NSFW 전용 기능이 자동으로 전환됩니다.</p></div></div><div class="mode-choice-card"><div class="mode-choice-label">콘텐츠 모드</div><div class="mode-choice-buttons" id="contentModeSwitch"><button class="mode-choice-btn" data-content-mode="sfw" id="modePillSfw" type="button">SFW</button><button class="mode-choice-btn" data-content-mode="nsfw" id="modePillNsfw" type="button">NSFW</button></div><div class="mode-first-meta" id="contentModeHint">SFW / NSFW를 먼저 선택하면 아래 분류가 현재 모드에 맞게 자동 전환됩니다.</div><input checked="" hidden="" name="contentMode" type="radio" value="sfw"/><input hidden="" name="contentMode" type="radio" value="nsfw"/><input hidden="" id="nsfwMode" type="checkbox"/></div></section>
 <section class="panel" id="sceneCategoryPanel"><div class="head"><div><h2 class="title">01 · SCENE</h2><p class="desc">현재 MODE를 기준으로 대분류 → 중분류 → 소분류 순서로 장면을 선택합니다.</p></div></div><div class="select-grid category-hierarchy-grid scene-three-grid"><div class="field"><label>대분류 · 장르</label><select id="genre"><option value="modern">현대물</option><option value="fantasy">판타지물</option><option value="guideverse">가이드버스</option><option value="period">시대물</option><option value="sf">SF / 사이버펑크</option><option value="apocalypse">아포칼립스 / 재난</option></select></div><div class="field"><label>중분류 · 테마</label><select id="middleCategory"></select></div><div class="field"><label>소분류 · 장면</label><select id="category"></select></div></div><div class="check-row" data-ui-advanced="1"><label class="check"><input id="randomCategory" type="checkbox"/> 주사위를 돌릴 때마다 소분류도 랜덤</label><label class="check"><input checked="" id="avoidSame" type="checkbox"/> 직전 결과와 같은 태그 최대한 피하기</label></div></section>
@@ -10445,6 +10446,163 @@ html[data-color-mode="light"] #quickEffectsDetails.quick-tags-fullscreen>summary
 html[data-color-mode="light"] .self-diagnostic-ok{color:#247044!important}
 html[data-color-mode="light"] .self-diagnostic-warn{color:#8b6817!important}
 html[data-color-mode="light"] .self-diagnostic-fail{color:#a53d4d!important}
+
+
+/* ===== v3.9.5 · GUIDE / ESPER LIGHT MODE CONTRAST =====
+   WHITE mode principle: color = accent/border, text = dark neutral, fields = white.
+   This block intentionally comes last because GUIDE/ESPER dark-theme rules use higher specificity. */
+html[data-color-mode="light"] #guideverseAbilityPanel{
+  color:#2b2430!important;
+}
+html[data-color-mode="light"] #guideverseAbilityPanel>.head .title{
+  color:#2d2433!important;
+}
+html[data-color-mode="light"] #guideverseAbilityPanel>.head .desc,
+html[data-color-mode="light"] #guideverseAbilityPanel .guideverse-panel-note{
+  color:#665d6e!important;
+}
+
+/* GUIDE = pale blue surface + dark blue accent */
+html[data-color-mode="light"] #guideverseAbilityPanel .guide-side{
+  background:linear-gradient(180deg,#f2f9fe 0%,#ffffff 48%,#f9fcfe 100%)!important;
+  border-color:#9fcfe9!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.96)!important;
+}
+html[data-color-mode="light"] #guideverseAbilityPanel .guide-side h3{
+  color:#155d86!important;
+  text-shadow:none!important;
+}
+html[data-color-mode="light"] #guideverseAbilityPanel .guide-side .opt{
+  background:#ffffff!important;
+  border-color:#c9e2f1!important;
+  color:#263b48!important;
+}
+html[data-color-mode="light"] #guideverseAbilityPanel .guide-side .opt label{
+  color:#294b60!important;
+}
+html[data-color-mode="light"] #guideverseAbilityPanel .guide-side select,
+html[data-color-mode="light"] #guideverseAbilityPanel .guide-side input{
+  background:#ffffff!important;
+  color:#172a35!important;
+  -webkit-text-fill-color:#172a35!important;
+  border-color:#a9cfe4!important;
+  box-shadow:inset 0 1px 2px rgba(31,74,99,.04)!important;
+}
+html[data-color-mode="light"] #guideverseAbilityPanel .guide-side select:focus,
+html[data-color-mode="light"] #guideverseAbilityPanel .guide-side input:focus{
+  border-color:#4f9dcc!important;
+  box-shadow:0 0 0 3px rgba(79,157,204,.12)!important;
+}
+html[data-color-mode="light"] #guideverseAbilityPanel .guide-side select:disabled{
+  background:#eef4f7!important;
+  color:#5d6d76!important;
+  -webkit-text-fill-color:#5d6d76!important;
+  opacity:1!important;
+}
+html[data-color-mode="light"] #guideverseAbilityPanel .guide-side .small-btn{
+  background:#e4f2fa!important;
+  color:#185779!important;
+  border-color:#a9d2e8!important;
+  text-shadow:none!important;
+}
+html[data-color-mode="light"] #guideverseAbilityPanel .guide-side .small-btn:hover{
+  background:#d7ebf7!important;
+}
+html[data-color-mode="light"] #guideverseAbilityPanel .guide-side .mini-note{
+  color:#4d7389!important;
+}
+
+/* ESPER = pale violet surface + dark violet accent */
+html[data-color-mode="light"] #guideverseAbilityPanel .esper-side{
+  background:linear-gradient(180deg,#faf5fe 0%,#ffffff 48%,#fcf9fe 100%)!important;
+  border-color:#d2b5e7!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.96)!important;
+}
+html[data-color-mode="light"] #guideverseAbilityPanel .esper-side h3{
+  color:#713a91!important;
+  text-shadow:none!important;
+}
+html[data-color-mode="light"] #guideverseAbilityPanel .esper-side .opt{
+  background:#ffffff!important;
+  border-color:#e1cfed!important;
+  color:#3d2d45!important;
+}
+html[data-color-mode="light"] #guideverseAbilityPanel .esper-side .opt label{
+  color:#593a66!important;
+}
+html[data-color-mode="light"] #guideverseAbilityPanel .esper-side select,
+html[data-color-mode="light"] #guideverseAbilityPanel .esper-side input{
+  background:#ffffff!important;
+  color:#2f2035!important;
+  -webkit-text-fill-color:#2f2035!important;
+  border-color:#cdb2df!important;
+  box-shadow:inset 0 1px 2px rgba(93,48,116,.04)!important;
+}
+html[data-color-mode="light"] #guideverseAbilityPanel .esper-side select:focus,
+html[data-color-mode="light"] #guideverseAbilityPanel .esper-side input:focus{
+  border-color:#a36cc3!important;
+  box-shadow:0 0 0 3px rgba(163,108,195,.12)!important;
+}
+html[data-color-mode="light"] #guideverseAbilityPanel .esper-side select:disabled{
+  background:#f4eff6!important;
+  color:#716578!important;
+  -webkit-text-fill-color:#716578!important;
+  opacity:1!important;
+}
+html[data-color-mode="light"] #guideverseAbilityPanel .esper-side .small-btn{
+  background:#f0e5f7!important;
+  color:#683784!important;
+  border-color:#d5bae6!important;
+  text-shadow:none!important;
+}
+html[data-color-mode="light"] #guideverseAbilityPanel .esper-side .small-btn:hover{
+  background:#e8d9f2!important;
+}
+html[data-color-mode="light"] #guideverseAbilityPanel .esper-side .mini-note{
+  color:#785c86!important;
+}
+
+/* VISUAL DIRECTION = neutral violet, same readability rules */
+html[data-color-mode="light"] #guideverseAbilityPanel .guideverse-visual-wide{
+  background:linear-gradient(180deg,#f8f6fc,#ffffff)!important;
+  border-color:#d3cae1!important;
+}
+html[data-color-mode="light"] #guideverseAbilityPanel .guideverse-visual-wide h3{
+  color:#59466f!important;
+  text-shadow:none!important;
+}
+html[data-color-mode="light"] #guideverseAbilityPanel .guideverse-visual-wide .opt{
+  background:#ffffff!important;
+  border-color:#ddd5e7!important;
+}
+html[data-color-mode="light"] #guideverseAbilityPanel .guideverse-visual-wide .opt label{
+  color:#574d60!important;
+}
+html[data-color-mode="light"] #guideverseAbilityPanel .guideverse-visual-wide select{
+  background:#ffffff!important;
+  color:#2d2633!important;
+  -webkit-text-fill-color:#2d2633!important;
+  border-color:#c9bfD5!important;
+}
+html[data-color-mode="light"] #guideverseAbilityPanel .guideverse-visual-wide .small-btn{
+  background:#eeeaf4!important;
+  color:#59476c!important;
+  border-color:#d1c7dc!important;
+}
+html[data-color-mode="light"] #guideverseAbilityPanel .guideverse-visual-wide .mini-note{
+  color:#6e6376!important;
+}
+
+html[data-color-mode="light"] #guideverseAbilityPanel .guideverse-ability-status{
+  background:#faf8fb!important;
+  color:#514758!important;
+  border-color:#ddd5e2!important;
+}
+html[data-color-mode="light"] #guideverseAbilityPanel .guideverse-badge{
+  background:#eee9f8!important;
+  color:#594683!important;
+  border-color:#c9bce0!important;
+}
 </style>
 
 </body></html>
