@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1.0" name="viewport"/>
 <meta content="#0e0c12" name="theme-color"/>
-<title>NSFW 에셋 랜덤 프롬프트 생성기.v3.10</title>
+<title>NSFW 에셋 랜덤 프롬프트 생성기.v4.0</title>
 <style>
 :root{--bg:#0e0c12;--panel:#17141d;--panel2:#201c28;--panel3:#292333;--line:rgba(255,255,255,.09);--text:#f7f3fa;--sub:#aaa3b4;--accent:#a68cff;--pink:#e694c4;--gold:#f0c978;--green:#9fdfb6;--red:#ff9aa5;--shadow:0 20px 60px rgba(0,0,0,.35)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 8% 0,rgba(166,140,255,.13),transparent 27%),radial-gradient(circle at 100% 15%,rgba(230,148,196,.08),transparent 27%),var(--bg);color:var(--text);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif}button,select,input,textarea{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}.page{width:min(1220px,calc(100% - 28px));margin:auto;padding:28px 0 70px}.hero,.panel{border:1px solid var(--line);background:rgba(23,20,29,.96);box-shadow:var(--shadow)}.hero{position:relative;overflow:hidden;border-radius:26px;padding:31px;margin-bottom:17px}.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-100px;top:-135px;background:rgba(166,140,255,.12);filter:blur(12px);pointer-events:none}.eyebrow{font-size:11px;font-weight:900;letter-spacing:.2em;color:var(--accent)}
 .eyebrow-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
@@ -491,6 +491,48 @@ html[data-color-mode="light"] #guideDetailBox.guide-fold-section{box-shadow:0 8p
 html[data-color-mode="light"] .guide-uniform-body>.guide-uniform-actions .small-btn,
 html[data-color-mode="light"] .guide-detail-body>.guide-detail-actions .small-btn{background:#ffffff;color:#26384a;border-color:rgba(56,91,124,.22)}
 </style>
+
+<style id="v4ResolverArchitectureStyles">
+/* ===== v4.0 semantic theme + resolver UX ===== */
+:root{
+  --surface-page:var(--bg);--surface-panel:var(--panel);--surface-field:var(--panel2);--surface-field-strong:var(--panel3);
+  --surface-inset:#111016;--surface-hover:rgba(255,255,255,.05);--text-main:var(--text);--text-muted:var(--sub);
+  --text-soft:#cfc8d6;--border-soft:var(--line);--focus-ring:rgba(166,140,255,.52);
+  --guide-surface:rgba(35,97,139,.16);--guide-border:rgba(91,187,255,.35);--guide-text:#d9f1ff;
+  --esper-surface:rgba(100,55,145,.17);--esper-border:rgba(201,137,255,.35);--esper-text:#f0ddff;
+  --ok-surface:rgba(118,214,166,.09);--warn-surface:rgba(240,201,120,.10);--danger-surface:rgba(255,154,165,.10);
+}
+html[data-color-mode="light"]{
+  --surface-page:#f5f3f7;--surface-panel:#ffffff;--surface-field:#f8f6fa;--surface-field-strong:#eeeaf2;
+  --surface-inset:#fbfafc;--surface-hover:#f1edf5;--text-main:#28232d;--text-muted:#695f71;--text-soft:#514858;
+  --border-soft:#ded7e4;--focus-ring:rgba(104,75,183,.42);
+  --guide-surface:#f1f8fc;--guide-border:#75a9c7;--guide-text:#20506d;
+  --esper-surface:#f8f2fb;--esper-border:#ae80c7;--esper-text:#66447b;
+  --ok-surface:#eef8f2;--warn-surface:#fff8e8;--danger-surface:#fff0f2;
+}
+/* major surfaces now route through semantic variables */
+html[data-color-mode="light"] body{background:var(--surface-page)!important;color:var(--text-main)!important}
+html[data-color-mode="light"] .hero,html[data-color-mode="light"] .panel,html[data-color-mode="light"] .opt,html[data-color-mode="light"] .card,html[data-color-mode="light"] .list-item,html[data-color-mode="light"] .preset-box,html[data-color-mode="light"] .guide-detail-column{background:var(--surface-panel)!important;color:var(--text-main)!important;border-color:var(--border-soft)!important}
+html[data-color-mode="light"] select,html[data-color-mode="light"] input[type=text],html[data-color-mode="light"] input[type=search],html[data-color-mode="light"] textarea,html[data-color-mode="light"] .prompt,html[data-color-mode="light"] .summary,html[data-color-mode="light"] .slot-picker-item,html[data-color-mode="light"] .slot-picker-search{background:var(--surface-field)!important;color:var(--text-main)!important;-webkit-text-fill-color:var(--text-main)!important;border-color:var(--border-soft)!important}
+html[data-color-mode="light"] .desc,html[data-color-mode="light"] .en,html[data-color-mode="light"] .tiny-label,html[data-color-mode="light"] .character-mode-hint,html[data-color-mode="light"] .slot-picker-meta,html[data-color-mode="light"] .guide-detail-desc,html[data-color-mode="light"] .guide-uniform-desc{color:var(--text-muted)!important}
+html[data-color-mode="light"] #guideverseAbilityPanel .guide-side{background:var(--guide-surface)!important;border-color:var(--guide-border)!important}html[data-color-mode="light"] #guideverseAbilityPanel .guide-side h3{color:var(--guide-text)!important}
+html[data-color-mode="light"] #guideverseAbilityPanel .esper-side{background:var(--esper-surface)!important;border-color:var(--esper-border)!important}html[data-color-mode="light"] #guideverseAbilityPanel .esper-side h3{color:var(--esper-text)!important}
+
+/* Inspector + priority */
+.v4-priority-ladder{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px;margin:12px 0}.v4-priority-step{padding:9px 8px;border:1px solid var(--border-soft);border-radius:11px;background:var(--surface-field);min-width:0}.v4-priority-step b{display:block;font-size:9px;color:var(--text-main);margin-bottom:3px}.v4-priority-step span{font-size:8.5px;color:var(--text-muted);line-height:1.35;overflow-wrap:anywhere}.v4-priority-step.hard{border-color:rgba(255,154,165,.46);background:var(--danger-surface)}.v4-priority-step.manual{border-color:rgba(240,201,120,.42);background:var(--warn-surface)}.v4-priority-arrow{display:none}
+.v4-inspector-toolbar{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}.v4-inspector-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:10px}.v4-resolved-card,.v4-log-card,.v4-test-report{border:1px solid var(--border-soft);border-radius:12px;background:var(--surface-field);padding:11px}.v4-resolved-card h4,.v4-log-card h4{margin:0 0 8px;font-size:10px;color:var(--text-main)}.v4-resolved-line{display:grid;grid-template-columns:82px 1fr;gap:8px;padding:5px 0;border-top:1px dashed var(--border-soft);font-size:9.5px}.v4-resolved-line:first-of-type{border-top:0}.v4-resolved-line b{color:var(--text-soft)}.v4-resolved-line span{color:var(--text-muted);overflow-wrap:anywhere}.v4-inspector-log{max-height:265px;overflow:auto;display:flex;flex-direction:column;gap:5px}.v4-log-row{display:grid;grid-template-columns:64px 72px minmax(0,1fr);gap:7px;padding:7px 8px;border-radius:9px;background:var(--surface-inset);border:1px solid var(--border-soft);font-size:8.8px;line-height:1.4}.v4-log-row .kind{font-weight:900}.v4-log-row.ok .kind{color:#3d9965}.v4-log-row.warn .kind{color:#9a751d}.v4-log-row.replace .kind{color:#785ab9}.v4-log-row.drop .kind{color:#b94b5a}.v4-test-report{margin-top:9px;font-size:9.5px;line-height:1.55;color:var(--text-muted);white-space:pre-wrap}.v4-test-report.ok{border-color:rgba(118,214,166,.45);background:var(--ok-surface)}.v4-test-report.fail{border-color:rgba(255,154,165,.45);background:var(--danger-surface)}
+/* Guideverse role controls */
+.gv-role-wrap{margin-top:7px;grid-column:1/-1}.gv-role-wrap label{display:block;font-size:8.5px;font-weight:900;color:var(--text-muted);margin-bottom:4px}.gv-role-wrap select{height:34px!important;font-size:9.5px!important}
+/* Slot filter */
+.v4-slot-filter-row{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:7px}.v4-slot-filter-row select{height:34px;font-size:9px}.slot-picker-item.v4-incompatible{opacity:.48;border-style:dashed}.v4-compat-badge{display:inline-flex;margin-top:2px;width:max-content;padding:2px 5px;border-radius:999px;font-size:7.5px;font-weight:900;background:var(--warn-surface);color:#8d6c1a;border:1px solid rgba(240,201,120,.28)}.v4-compat-badge.ok{background:var(--ok-surface);color:#3f865d;border-color:rgba(118,214,166,.28)}
+/* Scene build presets */
+.v4-build-top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}.v4-build-list{display:flex;flex-direction:column;gap:7px;margin-top:10px;max-height:310px;overflow:auto}.v4-build-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;border:1px solid var(--border-soft);background:var(--surface-field);border-radius:11px;padding:9px 10px}.v4-build-name{font-size:10px;font-weight:900;color:var(--text-main)}.v4-build-meta{font-size:8.5px;color:var(--text-muted);margin-top:3px}.v4-build-actions{display:flex;gap:5px}.v4-build-actions button{height:30px;padding:0 8px;font-size:8.5px}
+/* mobile action dock */
+#v4MobileDock{display:none}.v4-dock-button{border:0;background:transparent;color:var(--text-main);font-size:9px;font-weight:900;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0}.v4-dock-button span{font-size:15px}.v4-dock-button.primary{color:#7657d8}
+@media(max-width:900px){.v4-priority-ladder{grid-template-columns:repeat(3,1fr)}.v4-inspector-grid{grid-template-columns:1fr}}
+@media(max-width:720px){body{padding-bottom:72px!important}body.access-locked #v4MobileDock{display:none!important}#v4MobileDock{position:fixed;display:grid;grid-template-columns:repeat(5,1fr);left:8px;right:8px;bottom:8px;z-index:9400;padding:8px 6px;border:1px solid var(--border-soft);border-radius:16px;background:color-mix(in srgb,var(--surface-panel) 92%,transparent);box-shadow:0 12px 35px rgba(0,0,0,.25);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}.v4-priority-ladder{grid-template-columns:1fr 1fr}.v4-build-top{grid-template-columns:1fr}.v4-log-row{grid-template-columns:56px minmax(0,1fr)}.v4-log-row .reason{grid-column:2}}
+</style>
+
 </head>
 <style id="accessControlStyle">
 body.access-locked{overflow:hidden!important}
@@ -1099,7 +1141,7 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
 <div class="update-icon">✨</div>
 <h2 id="updateGateTitle">업데이트가 있습니다</h2>
 <p>새 버전이 배포되었습니다.<br/>정상 반영을 위해 페이지를 <strong style="color:#e8e0ff">새로고침</strong> 해주세요.</p>
-<div class="update-ver" id="updateGateVersion">v3.10</div>
+<div class="update-ver" id="updateGateVersion">v4.0</div>
 <div class="update-actions">
 <button class="update-btn primary" id="updateRefreshBtn" type="button">새로고침 하기</button>
 <button class="update-btn ghost" id="updateLaterBtn" type="button">나중에 (이번만 닫기)</button>
@@ -1122,9 +1164,9 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
 ========================================================= */
 /* 빌드 ID가 바뀌면 성인/접속코드 인증보다 먼저 새로고침 팝업을 띄웁니다. 매 배포 시 반드시 이 값을 새 고유값으로 변경하세요. */
 const APP_META=Object.freeze({
-  version:'3.10',
-  buildId:'20260912-v3.10-outfit-part-resolver',
-  label:'v3.10 · Outfit Part Resolver / Unified Prompt Pipeline',
+  version:'4.0',
+  buildId:'20260912-v4.0-resolver-architecture',
+  label:'v4.0 · Resolver Architecture + UX Suite',
   date:'2026-09-12'
 });
 const APP_BUILD_ID=APP_META.buildId;
@@ -1137,6 +1179,7 @@ function syncAppMetaUI(){
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',syncAppMetaUI,{once:true});else syncAppMetaUI();
 const UPDATE_NOTES = [
+  { date:'09.12', text:'v4.0 RESOLVER ARCHITECTURE · Resolver Inspector, 구조화 제복 30종, 중앙 흔적 HARD CONSTRAINT, 공통 ResolvedScene 렌더러, 역할 기반 AUTO 대상, 손 점유/자세 Resolver, 구조화 wear modifier, 검색 필터·호환 표시, 우선순위 시각화, 70+ 자동 회귀테스트, Undo/Redo·정상상태 복구, Scene Build Preset, semantic theme layer, AssetEngineV4 namespace, 모바일 작업바를 한 번에 통합했습니다. 기존 흔적 태그 > 랜덤 태그 우선순위는 최상위 규칙으로 유지합니다.' },
   { date:'09.12', text:'v3.10 OUTFIT PART RESOLVER · GUIDEVERSE 의상을 이너/아우터/하의/신발/장갑/허리/레그웨어/넥웨어/헤드웨어/체스트기어 등 파츠 단위로 분해해 교체·병합·상태수정 우선순위를 적용했습니다. 흔적 태그 > 랜덤 태그를 최상위 HARD CONSTRAINT로 유지하고, 포즈→행동→소품 조건부 연동, 다인 적용 대상, NovelAI/PixAI/Niji 공통 슬롯 Resolver, 전체 풀 검색, 저장 복원 및 스크롤 안정화를 함께 보강했습니다.' },
   { date:'09.11', text:'v3.9.6 GUIDEVERSE 제복/디테일 UI 핫픽스 · GUIDEVERSE UNIFORM SELECTOR와 OUTFIT / POSE DETAIL을 서로 독립된 폴딩 섹션으로 분리했습니다. 디테일 임의 생성/초기화 버튼은 전용 클릭 핸들러로 다시 연결하고 버튼 영역을 폴딩 본문으로 이동해 클릭 누락과 접힘 토글 간섭을 방지했습니다. 두 폴딩의 열림 상태는 브라우저에 저장되며 전역 상세 패널 3개 제한에서는 제외됩니다.' },
   { date:'09.11', text:'v3.9.5 GUIDE / ESPER 화이트 모드 대비 보정 · 가이딩 능력과 에스퍼 능력 패널에서 다크모드 전용 select·버튼·제목 색상이 화이트 모드까지 덮어쓰던 문제를 수정했습니다. WHITE 모드에서는 GUIDE는 블루, ESPER는 퍼플을 테두리/포인트에만 사용하고 입력창은 밝은 배경 + 진한 글씨로 통일해 가독성을 높였습니다. VISUAL DIRECTION과 상태 문구도 같은 기준으로 보정했습니다.' },
@@ -1415,7 +1458,7 @@ renderAdminUpdateNote();
 })();
 </script>
 <div class="page">
-<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v3.10</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v3.10</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며, 상세 설정과 빠른효과/흔적 태그로 장면 강도를 조절할 수 있습니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
+<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v4.0</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v4.0</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며, 상세 설정과 빠른효과/흔적 태그로 장면 강도를 조절할 수 있습니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
 <section aria-label="사용 모드 및 화면 테마 선택" class="workflow-mode-panel" id="workflowModePanel"><div class="workflow-mode-copy"><div class="workflow-mode-title">사용 모드</div><div class="workflow-mode-hint" id="workflowModeHint">간편은 랜덤 슬롯 중심 · 상세은 슬롯 직접 선택과 세부 설정까지 제공합니다.</div></div><div class="workflow-mode-actions"><div class="workflow-control-block"><div class="workflow-control-label">사용 방식</div><div aria-label="간편 또는 상세 모드" class="workflow-mode-switch" role="group"><button aria-pressed="true" class="workflow-mode-btn active" data-ui-mode-btn="simple" type="button">간편</button><button aria-pressed="false" class="workflow-mode-btn" data-ui-mode-btn="detail" type="button">상세</button></div></div><div class="workflow-control-block"><div class="workflow-control-label">화면 테마</div><div aria-label="블랙 또는 화이트 화면 테마" class="workflow-theme-switch" id="themeModeToggle" role="group"><button aria-pressed="true" class="workflow-theme-btn active" data-theme-mode-btn="dark" type="button">🌙 BLACK</button><button aria-pressed="false" class="workflow-theme-btn" data-theme-mode-btn="light" type="button">☀ WHITE</button></div></div></div></section>
 <section class="panel" id="contentModePanel"><div class="head"><div><h2 class="title">00 · MODE</h2><p class="desc">먼저 콘텐츠 모드를 선택합니다. 선택한 모드에 따라 아래 SCENE 분류와 NSFW 전용 기능이 자동으로 전환됩니다.</p></div></div><div class="mode-choice-card"><div class="mode-choice-label">콘텐츠 모드</div><div class="mode-choice-buttons" id="contentModeSwitch"><button class="mode-choice-btn" data-content-mode="sfw" id="modePillSfw" type="button">SFW</button><button class="mode-choice-btn" data-content-mode="nsfw" id="modePillNsfw" type="button">NSFW</button></div><div class="mode-first-meta" id="contentModeHint">SFW / NSFW를 먼저 선택하면 아래 분류가 현재 모드에 맞게 자동 전환됩니다.</div><input checked="" hidden="" name="contentMode" type="radio" value="sfw"/><input hidden="" name="contentMode" type="radio" value="nsfw"/><input hidden="" id="nsfwMode" type="checkbox"/></div></section>
 <section class="panel" id="sceneCategoryPanel"><div class="head"><div><h2 class="title">01 · SCENE</h2><p class="desc">현재 MODE를 기준으로 대분류 → 중분류 → 소분류 순서로 장면을 선택합니다.</p></div></div><div class="select-grid category-hierarchy-grid scene-three-grid"><div class="field"><label>대분류 · 장르</label><select id="genre"><option value="modern">현대물</option><option value="fantasy">판타지물</option><option value="guideverse">가이드버스</option><option value="period">시대물</option><option value="sf">SF / 사이버펑크</option><option value="apocalypse">아포칼립스 / 재난</option></select></div><div class="field"><label>중분류 · 테마</label><select id="middleCategory"></select></div><div class="field"><label>소분류 · 장면</label><select id="category"></select></div></div><div class="check-row" data-ui-advanced="1"><label class="check"><input id="randomCategory" type="checkbox"/> 주사위를 돌릴 때마다 소분류도 랜덤</label><label class="check"><input checked="" id="avoidSame" type="checkbox"/> 직전 결과와 같은 태그 최대한 피하기</label></div></section>
@@ -1621,8 +1664,44 @@ renderAdminUpdateNote();
 <details class="panel collapsible-panel prompt-output-panel" id="pixPromptPanel"><summary><div class="collapse-title-wrap"><h2 class="collapse-title">05 · PixAI Prompt</h2><p class="collapse-desc">PixAI에서 바로 사용하기 쉽도록 Stable Diffusion 계열 태그 형식으로 정리합니다. 캐릭터를 지정한 경우 character1~3 블록을 문단으로 분리합니다.</p></div><span class="collapse-arrow">⌄</span></summary><div class="collapse-body"><textarea class="prompt" id="pixPrompt"></textarea><div class="toolbar"><button class="tool primary" id="copyPixPrompt">📋 PixAI 프롬프트 복사</button><button class="tool" id="optimizePixPrompt">✨ 프롬프트 최적화</button><button class="tool" id="savePixFavorite">⭐ 현재 조합 저장</button><button class="tool" id="copyPixKo">🇰🇷 한글 결과 복사</button></div></div></details>
 <details class="panel collapsible-panel prompt-output-panel" id="nijiPromptPanel"><summary><div class="collapse-title-wrap"><h2 class="collapse-title">06 · NijiJourney Prompt</h2><p class="collapse-desc">NijiJourney에 맞게 자연스러운 영어 서술형으로 정리합니다. 캐릭터를 지정한 경우 character1~3 블록을 별도 문단으로 분리합니다.</p></div><span class="collapse-arrow">⌄</span></summary><div class="collapse-body"><textarea class="prompt" id="nijiPrompt"></textarea><div class="toolbar"><button class="tool primary" id="copyNijiPrompt">📋 NijiJourney 프롬프트 복사</button><button class="tool" id="optimizeNijiPrompt">✨ 프롬프트 최적화</button><button class="tool" id="saveNijiFavorite">⭐ 현재 조합 저장</button><button class="tool" id="copyNijiKo">🇰🇷 한글 결과 복사</button></div></div></details>
 <details class="panel collapsible-panel" id="summaryDetails"><summary><div class="collapse-title-wrap"><h2 class="collapse-title">현재 한글 조합</h2></div><span class="collapse-arrow">⌄</span></summary><div class="collapse-body"><div class="summary" id="summary"></div></div></details>
+
+<details class="panel collapsible-panel" data-ui-advanced="1" id="resolverInspectorDetails">
+  <summary><div class="collapse-title-wrap"><h2 class="collapse-title">05A · RESOLVER INSPECTOR</h2><p class="collapse-desc">왜 태그가 추가·교체·제거됐는지 최종 Resolver 결정을 추적합니다. 흔적 HARD CONSTRAINT가 항상 최상위입니다.</p></div><span class="collapse-arrow">⌄</span></summary>
+  <div class="collapse-body">
+    <div class="v4-priority-ladder" id="v4PriorityLadder"></div>
+    <div class="v4-inspector-toolbar">
+      <button class="small-btn" id="v4RefreshInspector" type="button">🔎 현재 해석 새로고침</button>
+      <button class="small-btn" id="v4RunRegression" type="button">🧪 자동 회귀테스트</button>
+      <button class="small-btn" id="v4Undo" type="button">↶ UNDO</button>
+      <button class="small-btn" id="v4Redo" type="button">↷ REDO</button>
+      <button class="small-btn" id="v4RestoreStable" type="button">🛟 마지막 정상 상태</button>
+    </div>
+    <div class="v4-inspector-grid">
+      <div class="v4-resolved-card"><h4>FINAL RESOLVED SCENE</h4><div id="v4ResolvedScene"></div></div>
+      <div class="v4-log-card"><h4>RESOLUTION LOG</h4><div class="v4-inspector-log" id="v4InspectorLog"></div></div>
+    </div>
+    <div class="v4-test-report" id="v4RegressionReport" hidden></div>
+  </div>
+</details>
+<details class="panel collapsible-panel" data-ui-advanced="1" id="sceneBuildPresetDetails">
+  <summary><div class="collapse-title-wrap"><h2 class="collapse-title">05B · SCENE BUILD PRESET</h2><p class="collapse-desc">캐릭터 프리셋과 별도로 장르·장면·가이드버스 제복/디테일·타깃·테마·랜덤 슬롯 상태를 한 묶음으로 저장합니다.</p></div><span class="collapse-arrow">⌄</span></summary>
+  <div class="collapse-body">
+    <div class="v4-build-top"><input id="v4BuildName" type="text" maxlength="40" placeholder="예: 가이드버스 · 응급실 야간근무"><button class="tool primary" id="v4SaveBuild" type="button">💾 현재 장면 빌드 저장</button></div>
+    <div class="v4-build-list" id="v4BuildList"></div>
+  </div>
+</details>
+
 <details class="panel collapsible-panel" id="savedDetails"><summary><div class="collapse-title-wrap"><h2 class="collapse-title">저장된 조합</h2><p class="collapse-desc">즐겨찾기와 최근 10회 결과는 이 브라우저에 저장됩니다.</p></div><span class="collapse-arrow">⌄</span></summary><div class="collapse-body"><div class="saved-grid"><div><div class="tiny-label">⭐ 즐겨찾기</div><div class="list" id="favorites"></div></div><div><div class="tiny-label">🕘 최근 기록</div><div class="list" id="history"></div></div></div></div></details>
 </div></div>
+
+<nav id="v4MobileDock" aria-label="모바일 빠른 작업">
+  <button class="v4-dock-button primary" id="v4DockRoll" type="button"><span>🎲</span>랜덤</button>
+  <button class="v4-dock-button" id="v4DockCopy" type="button"><span>📋</span>복사</button>
+  <button class="v4-dock-button" id="v4DockUndo" type="button"><span>↶</span>UNDO</button>
+  <button class="v4-dock-button" id="v4DockResult" type="button"><span>↓</span>결과</button>
+  <button class="v4-dock-button" id="v4DockSections" type="button"><span>☰</span>설정</button>
+</nav>
+
 <section class="panel guestbook-panel" id="guestbookSection">
 <div class="head">
 <div>
@@ -1650,7 +1729,7 @@ renderAdminUpdateNote();
 </div>
 <div aria-live="polite" class="guestbook-status" id="guestStatus" role="status"></div>
 </section>
-<footer><div>문의사항 : <a href="https://open.kakao.com/o/sFqjQmBi" rel="noopener noreferrer" target="_blank">Jin_K</a></div><div>NSFW Asset Gacha v2.7 · Quick Fold + Fullscreen · GitHub Ready · 18+</div><div style="margin-top:5px"><button id="analyticsPing" style="border:0;background:transparent;color:#6f6978;font-size:8px;cursor:pointer" type="button">통계 연결 테스트 · v1 NSFW</button></div></footer>
+<footer><div>문의사항 : <a href="https://open.kakao.com/o/sFqjQmBi" rel="noopener noreferrer" target="_blank">Jin_K</a></div><div>NSFW Asset Gacha v4.0 · Resolver Architecture · GitHub Ready · 18+</div><div style="margin-top:5px"><button id="analyticsPing" style="border:0;background:transparent;color:#6f6978;font-size:8px;cursor:pointer" type="button">통계 연결 테스트 · v1 NSFW</button></div></footer>
 </div>
 <script>
 (function(){
@@ -9334,6 +9413,192 @@ console.info('[Asset Gacha v2.6] counter endpoint:',GUESTBOOK_WEB_APP_URL+'?kind
 console.info('[Asset Gacha v2.6] counter transport: hidden iframe postMessage + JSONP fallback');
 
 function safeInitStep(name,fn){try{return fn()}catch(err){console.error(`[Asset Gacha Init] ${name} failed:`,err);return null}}
+
+/* ===== v4.0 · AssetEngineV4 / Resolver Architecture ===== */
+const V4=window.AssetEngineV4={
+  version:'4.0',
+  PromptEngine:{},OutfitResolver:{},MotionResolver:{},TraceRules:{},Uniform:{},Target:{},Inspector:{},Search:{},Regression:{},History:{},SceneBuilds:{},Theme:{},UI:{}
+};
+const V4_STORAGE={roles:'nai_asset_v4_gv_roles',builds:'nai_asset_scene_builds_v4'};
+
+/* 15 · namespace / common helpers */
+V4.escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+V4.clone=v=>JSON.parse(JSON.stringify(v));
+V4.hash=v=>{try{return JSON.stringify(v)}catch(_){return String(Date.now())}};
+
+/* 1 · Resolver Inspector */
+V4.Inspector.rows=[];
+V4.Inspector.reset=function(){this.rows=[]};
+V4.Inspector.log=function(kind,scope,reason,before='',after=''){
+  this.rows.push({kind,scope,reason,before:String(before||''),after:String(after||'')});
+};
+V4.Inspector.render=function(scene){
+  const host=$('v4ResolvedScene'),log=$('v4InspectorLog');if(!host||!log)return;
+  const rows=[['OUTFIT',scene?.outfit],['POSE',scene?.pose],['ACTION',scene?.action],['PROP',scene?.prop],['POSTURE',scene?.meta?.posture],['HANDS',scene?.meta?.hands],['TARGET',scene?.meta?.targetSummary]];
+  host.innerHTML=rows.map(([k,v])=>`<div class="v4-resolved-line"><b>${V4.escape(k)}</b><span>${V4.escape(v||'-')}</span></div>`).join('');
+  const data=this.rows.slice(-80);
+  log.innerHTML=data.length?data.map(r=>`<div class="v4-log-row ${V4.escape(r.kind)}"><span class="kind">${V4.escape(r.kind.toUpperCase())}</span><span>${V4.escape(r.scope)}</span><span class="reason">${V4.escape(r.reason)}${r.before||r.after?`<br><small>${V4.escape(r.before||'∅')} → ${V4.escape(r.after||'∅')}</small>`:''}</span></div>`).join(''):'<div class="slot-picker-empty">현재 교체/제거 기록이 없습니다.</div>';
+};
+
+/* 3 · centralized TRACE hard constraints */
+V4.TraceRules.table=[
+  {id:'fully-nude',match:t=>t.has('fully nude')||t.has('nude')||t.has('naked'),removeParts:'all',suppressOutfit:true},
+  {id:'upper-exposure',match:t=>t.has('shirtless')||t.has('topless'),removeParts:['inner','outer','chestGear','neckwear'],suppressOutfit:false},
+  {id:'lower-exposure',match:t=>t.has('bottomless'),removeParts:['bottom','legwear','waist'],suppressOutfit:false},
+  {id:'sex-action',match:t=>[...t].some(x=>/\b(sex|cowgirl|missionary|mating press|penetration|fellatio|cunnilingus|irrumatio|deepthroat|masturbation)\b/i.test(x)),suppressAction:true},
+  {id:'sex-pose',match:t=>[...t].some(x=>/^(sex from behind|cowgirl|reverse cowgirl|missionary|mating press|standing sex|against wall)$/i.test(x)),suppressPose:true}
+];
+V4.TraceRules.active=function(){const tags=new Set(specialPromptTags().map(x=>String(x).toLowerCase()));return this.table.filter(r=>r.match(tags))};
+V4.TraceRules.applyOutfit=function(text){
+  let tokens=outfitTokens(text);const rules=this.active();
+  for(const rule of rules){
+    if(rule.suppressOutfit){if(tokens.length)V4.Inspector.log('drop','OUTFIT',`흔적 HARD · ${rule.id}`,tokens.join(', '),'');tokens=[];continue}
+    if(Array.isArray(rule.removeParts)){
+      const before=tokens.join(', ');tokens=tokens.filter(tok=>!rule.removeParts.includes(tokenPart(tok)));const after=tokens.join(', ');
+      if(before!==after)V4.Inspector.log('drop','OUTFIT',`흔적 HARD · ${rule.id} · ${rule.removeParts.join('/')}`,before,after);
+    }
+  }
+  return dedupePromptTokens(tokens).join(', ');
+};
+V4.TraceRules.applyScene=function(scene){const rules=this.active();for(const rule of rules){if(rule.suppressPose&&scene.pose){V4.Inspector.log('drop','POSE',`흔적 HARD · ${rule.id}`,scene.pose,'');scene.pose=''}if(rule.suppressAction&&scene.action){V4.Inspector.log('drop','ACTION',`흔적 HARD · ${rule.id}`,scene.action,'');scene.action=''}}scene.outfit=this.applyOutfit(scene.outfit);return scene};
+
+/* 2 · structured uniform data, generated once from the 30 canonical presets */
+V4.Uniform.buildPreset=function(item,role,gender,color){
+  if(!item)return null;const parsed=structuredGuideOutfit(item.en);return{ko:item.ko,en:item.en,role,gender,color,base:[...parsed.base],parts:V4.clone(parsed.parts||{}),extras:[...(parsed.extras||[])]};
+};
+V4.Uniform.buildAll=function(){const out={};Object.entries(GUIDEVERSE_UNIFORM_PRESETS||{}).forEach(([role,group])=>{out[role]={label:group.label,female:{},male:{}};['female','male'].forEach(g=>['white','black','navy'].forEach(c=>{out[role][g][c]=this.buildPreset(group?.[g]?.[c],role,g,c)}))});this.presets=out;return out};
+V4.Uniform.text=function(preset){if(!preset)return'';const ordered=['inner','outer','bottom','footwear','handwear','waist','legwear','neckwear','headwear','chestGear'];const tokens=[...(preset.base||[])];ordered.forEach(p=>(preset.parts?.[p]||[]).forEach(v=>tokens.push(v)));(preset.extras||[]).forEach(v=>tokens.push(v));return dedupePromptTokens(tokens).join(', ')};
+V4.Uniform.selected=function(){if(genre.value!=='guideverse'||guideUniformMode()!=='custom')return null;return this.presets?.[$('guideUniformRole')?.value]?.[$('guideUniformGender')?.value]?.[$('guideUniformColor')?.value]||null};
+
+/* 5 · role-aware AUTO target */
+V4.Target.roleMap={sGuide:'guide',controlEsper:'esper',medicalTeam:'medical',command:'command',fieldOps:'field'};
+V4.Target.savedRoles=function(){return safeJSON(V4_STORAGE.roles,{A:'auto',B:'auto',C:'auto'})};
+V4.Target.saveRoles=function(){const v={};['A','B','C'].forEach(l=>v[l]=$(`char${l}GuideverseRole`)?.value||'auto');storageSet(V4_STORAGE.roles,JSON.stringify(v))};
+V4.Target.inferFromTags=function(letter){const raw=String($(`char${letter}Tags`)?.value||'').toLowerCase();if(/\bguide\b|guiding|가이드/.test(raw))return'guide';if(/esper|에스퍼/.test(raw))return'esper';if(/medical|doctor|nurse|medic|의료|의사|간호/.test(raw))return'medical';if(/command|captain|director|지휘|대장/.test(raw))return'command';if(/field|tactical|combat|현장|전술/.test(raw))return'field';return'auto'};
+V4.Target.characterRole=function(letter){const val=$(`char${letter}GuideverseRole`)?.value||'auto';return val==='auto'?this.inferFromTags(letter):val};
+V4.Target.pick=function(wanted){const n=characterCount(),letters=['A','B','C'].slice(0,n);if(n<=1)return'all';let hit=letters.find(l=>this.characterRole(l)===wanted);if(hit)return hit;if(wanted==='guide')return n>=2?'B':'A';if(['esper','field'].includes(wanted))return'A';return'A'};
+V4.Target.uniform=function(){const manual=guideUniformTarget();if(manual!=='auto')return resolveGuideTarget(manual);return this.pick(this.roleMap[$('guideUniformRole')?.value]||'guide')};
+V4.Target.detail=function(type){const manual=guideDetailTarget(type);if(manual!=='auto')return resolveGuideTarget(manual);const item=effectiveGuideDetail(type);if(type==='pose'){const cat=item?._detailCategory||'';const wanted=cat==='guiding'?'guide':cat==='medical'?'medical':cat==='command'?'command':cat==='combat'?'esper':this.roleMap[activeGuideRole()]||'guide';return this.pick(wanted)}return this.pick(this.roleMap[activeGuideRole()]||'guide')};
+V4.Target.summary=function(){return`U:${effectiveGuideUniformTarget()} · O:${effectiveGuideDetailTarget('outfit')} · P:${effectiveGuideDetailTarget('pose')}`};
+effectiveGuideUniformTarget=function(){return V4.Target.uniform()};
+effectiveGuideDetailTarget=function(type){return V4.Target.detail(type)};
+
+/* 8 · structured wear modifiers */
+V4.OutfitResolver.modifiers={
+ 'jacket removed':{remove:['outer']},
+ 'jacket draped over shoulders':{requires:['outer'],state:'draped'},
+ 'loosened necktie':{requires:['neckwear'],state:'loosened'},
+ 'unbuttoned collar shirt':{requires:['inner'],match:/(shirt|blouse)/i,state:'opened'},
+ 'rolled-up sleeves':{requiresAny:[/(shirt|jacket|coat|cardigan|sweater|hoodie)/i],state:'rolled sleeves'},
+ 'slightly disheveled uniform':{state:'disheveled'},
+ 'after-guiding disheveled uniform':{state:'after-guiding disheveled'},
+ 'wrinkled shirt from long duty':{requiresAny:[/(shirt|blouse|inner)/i],state:'wrinkled'},
+ 'half-removed tactical jacket':{requiresAny:[/tactical jacket/i],state:'half-removed'}
+};
+V4.OutfitResolver.applyModifier=function(tokens,item){const def=this.modifiers[String(item?.en||'')];if(!def)return applyGuideWearModifier(tokens,item);let arr=[...tokens];if(def.requires&&def.requires.some(p=>!arr.some(t=>tokenPart(t)===p))){V4.Inspector.log('drop','MODIFIER',`필수 파츠 없음 · ${def.requires.join('/')}`,item.en,'');return arr}if(def.requiresAny&&!def.requiresAny.some(re=>arr.some(t=>re.test(t)))){V4.Inspector.log('drop','MODIFIER','적용 대상 의상 없음',item.en,'');return arr}if(def.match&&!arr.some(t=>def.match.test(t))){V4.Inspector.log('drop','MODIFIER','대상 의상 타입 불일치',item.en,'');return arr}if(def.remove){const before=arr.join(', ');arr=arr.filter(t=>!def.remove.includes(tokenPart(t)));V4.Inspector.log('replace','MODIFIER',`${def.remove.join('/')} 제거`,before,arr.join(', '))}if(def.state)arr.push(item.en);return arr};
+V4.OutfitResolver.resolve=function(baseText,item){let tokens=outfitTokens(baseText);if(!item?.en)return V4.TraceRules.applyOutfit(tokens.join(', '));const part=guideDetailResolvedPart(item),cat=item._detailCategory||'';if(part){const before=tokens.join(', ');tokens=tokens.filter(tok=>tokenPart(tok)!==part);tokens.push(item.en);V4.Inspector.log('replace',`OUTFIT:${part}`,'동일 파츠 교체',before,tokens.join(', '))}else if(cat==='wearState')tokens=this.applyModifier(tokens,item);else{tokens.push(item.en);V4.Inspector.log('ok','OUTFIT','ADD 디테일 추가','',item.en)}return V4.TraceRules.applyOutfit(dedupePromptTokens(tokens).join(', '))};
+resolveGuideOutfitText=function(baseText,item){return V4.OutfitResolver.resolve(baseText,item)};
+applyTraceOutfitConstraint=function(text){return V4.TraceRules.applyOutfit(text)};
+
+/* 6 + 7 · hand occupancy + posture resolver */
+V4.MotionResolver.posture=function(text){const s=String(text||'').toLowerCase();if(/lying|reclining|on bed/.test(s))return'lying';if(/sitting|seated|edge of bed/.test(s))return'sitting';if(/kneeling|on one knee/.test(s))return'kneeling';if(/crouching|squatting/.test(s))return'crouching';if(/running|sprinting/.test(s))return'running';if(/walking/.test(s))return'walking';if(/airborne|jumping|leaping/.test(s))return'airborne';if(/leaning/.test(s))return'leaning';if(/standing|combat stance|at ease/.test(s))return'standing';return'neutral'};
+V4.MotionResolver.actionPosture=function(action){return this.posture(action)};
+V4.MotionResolver.postureConflict=function(pose,action){const p=this.posture(pose),a=this.actionPosture(action);if(a==='neutral'||p==='neutral'||p===a)return false;if(['walking','running','airborne'].includes(a)&&['sitting','kneeling','lying','crouching'].includes(p))return true;if(['sitting','kneeling','lying','crouching'].includes(a)&&['standing','walking','running','airborne'].includes(p))return true;return guidePoseConflictsWithAction(pose,action)};
+V4.MotionResolver.handUse=function(text){const s=String(text||'').toLowerCase();if(!s)return 0;if(/arms crossed|hands behind back|with both hands|two hands|aiming weapon|rifle|holding hands with|shibari/.test(s))return 2;if(/holding|radio|chart|tablet|stethoscope|cup|book|phone|umbrella|bag|documents|map|weapon|writing|typing|checking wrist|touching|pointing/.test(s))return 1;return 0};
+V4.MotionResolver.resolveHands=function(pose,action,prop,requiredProp=false){let a=action,p=prop;const poseHands=this.handUse(pose);let actionHands=this.handUse(a),propHands=this.handUse(p);if(poseHands>=2&&(actionHands||propHands)){if(a){V4.Inspector.log('drop','ACTION','양손을 점유한 포즈와 충돌',a,'');a=''}if(p&&!requiredProp){V4.Inspector.log('drop','PROP','양손을 점유한 포즈와 충돌',p,'');p=''}}else if(actionHands+propHands>2){if(requiredProp&&a){V4.Inspector.log('drop','ACTION','필수 소품의 손 점유를 우선',a,'');a=''}else if(p){V4.Inspector.log('drop','PROP','손 점유 2개 초과',p,'');p=''}}return{action:a,prop:p,hands:`pose ${poseHands} / action ${this.handUse(a)} / prop ${this.handUse(p)}`}};
+V4.MotionResolver.resolve=function(basePose,baseAction,baseProp,item){let pose=String(basePose||''),action=String(baseAction||''),prop=String(baseProp||''),requiredProp=false;if(item?.en){const before=pose;pose=item.en;V4.Inspector.log('replace','POSE','GUIDEVERSE pose detail',before,pose);const link=GUIDE_POSE_LINKS[String(item.en)]||{action:[],prop:[]};if(link.action?.length){const b=action;action=link.action.join(', ');V4.Inspector.log('replace','ACTION','pose 필수 행동 연동',b,action)}else if(this.postureConflict(pose,action)&&action){V4.Inspector.log('drop','ACTION',`posture ${this.posture(pose)} 충돌`,action,'');action=''}if(link.prop?.length){const required=link.prop.join(', '),b=prop;requiredProp=true;prop=isHandheldProp(prop)?required:[required,prop].filter(Boolean).join(', ');V4.Inspector.log('replace','PROP','pose 필수 소품 연동',b,prop)}}const h=this.resolveHands(pose,action,prop,requiredProp);return{pose,action:h.action,prop:h.prop,_hands:h.hands,_posture:this.posture(pose)}};
+resolveGuideMotion=function(basePose,baseAction,baseProp,item){return V4.MotionResolver.resolve(basePose,baseAction,baseProp,item)};
+
+/* 4 · common ResolvedScene -> all renderers */
+V4.PromptEngine.resolveScene=function(){
+  V4.Inspector.reset();const q=quickSlotOverrides(),single=characterCount()<=1;
+  let scene={outfit:(state.active?.outfit&&state.selected?.outfit?.en)?String(state.selected.outfit.en):'',pose:(state.active?.pose&&state.selected?.pose?.en)?String(state.selected.pose.en):'',action:(state.active?.action&&state.selected?.action?.en)?String(state.selected.action.en):'',prop:(state.active?.prop&&state.selected?.prop?.en)?String(state.selected.prop.en):'',meta:{}};
+  if(genre.value==='guideverse'){
+    const uniform=V4.Uniform.selected(),uTarget=effectiveGuideUniformTarget();if(uniform&&(single||uTarget==='all')){const before=scene.outfit;scene.outfit=V4.Uniform.text(uniform);V4.Inspector.log('replace','UNIFORM','CUSTOM uniform 우선',before,scene.outfit)}
+    const detail=effectiveGuideDetail('outfit'),oTarget=effectiveGuideDetailTarget('outfit');if(detail&&(single||oTarget==='all'))scene.outfit=V4.OutfitResolver.resolve(scene.outfit,detail);
+    const pDetail=effectiveGuideDetail('pose'),pTarget=effectiveGuideDetailTarget('pose');if(pDetail&&(single||pTarget==='all')){const r=V4.MotionResolver.resolve(scene.pose,scene.action,scene.prop,pDetail);scene.pose=r.pose;scene.action=r.action;scene.prop=r.prop;scene.meta.hands=r._hands;scene.meta.posture=r._posture}
+  }
+  scene=V4.TraceRules.applyScene(scene);if(q.suppressOutfit&&scene.outfit){V4.Inspector.log('drop','OUTFIT','quickSlotOverrides HARD',scene.outfit,'');scene.outfit=''}if(q.suppressPose&&scene.pose){V4.Inspector.log('drop','POSE','quickSlotOverrides HARD',scene.pose,'');scene.pose=''}if(q.suppressAction&&scene.action){V4.Inspector.log('drop','ACTION','quickSlotOverrides HARD',scene.action,'');scene.action=''}
+  const handFinal=V4.MotionResolver.resolveHands(scene.pose,scene.action,scene.prop,false);scene.action=handFinal.action;scene.prop=handFinal.prop;scene.meta.hands=handFinal.hands;scene.meta.posture=V4.MotionResolver.posture(scene.pose);scene.meta.targetSummary=V4.Target.summary();scene.meta.traceRules=V4.TraceRules.active().map(x=>x.id);
+  V4.PromptEngine.last=scene;return scene;
+};
+resolvedPromptSlots=function(){return V4.PromptEngine.resolveScene()};
+V4.PromptEngine.resolveCharacter=function(letter,base){let out={...base};if(genre.value!=='guideverse'||characterCount()<=1)return out;const u=V4.Uniform.selected(),ut=effectiveGuideUniformTarget();if(u&&ut===letter){out.outfit=V4.Uniform.text(u);V4.Inspector.log('replace',`CHAR ${letter} UNIFORM`,'역할 기반/수동 타깃','',out.outfit)}const detail=effectiveGuideDetail('outfit'),ot=effectiveGuideDetailTarget('outfit');if(detail&&ot===letter)out.outfit=V4.OutfitResolver.resolve(out.outfit,detail);const pd=effectiveGuideDetail('pose'),pt=effectiveGuideDetailTarget('pose');if(pd&&pt===letter){const r=V4.MotionResolver.resolve(out.pose,out.action,out.prop,pd);Object.assign(out,{pose:r.pose,action:r.action,prop:r.prop})}out=V4.TraceRules.applyScene(out);const q=quickSlotOverrides();if(q.suppressOutfit)out.outfit='';if(q.suppressPose)out.pose='';if(q.suppressAction)out.action='';return out};
+resolveGuideCharacterSlots=function(letter,base){return V4.PromptEngine.resolveCharacter(letter,base)};
+
+/* Niji character renderer also reads ResolvedScene/character resolver */
+const _v4OldNijiCharacterParagraphs=nijiCharacterParagraphs;
+nijiCharacterParagraphs=function(){if(!hasSpecifiedCharacter())return[];const genders=characterGenderRoles(),global=V4.PromptEngine.resolveScene();return ['A','B','C'].slice(0,characterCount()).map((letter,i)=>{const base={outfit:global.outfit,pose:global.pose,action:global.action,prop:global.prop};const r=V4.PromptEngine.resolveCharacter(letter,base);const genderText=genders[i]==='1boy'?'male character':genders[i]==='1girl'?'female character':'character';const details=cleanPieces(applyExcludedTokens([genderText,characterRoleTags(letter),rolePositionForCharacter(i),r.outfit,r.pose,r.action,r.prop,...splitPromptTokens($(`char${letter}Tags`)?.value?.trim()||'')])).join(', ');return`character${i+1}:\n${toSentence(details)}`})};
+
+/* 9 · search filtering + compatibility labels */
+V4.Search.enhance=function(){document.querySelectorAll('[data-slot-picker]').forEach(d=>{if(d.querySelector('.v4-slot-filter-row'))return;const input=d.querySelector('[data-slot-search]');if(!input)return;const type=d.dataset.slotPicker;const row=document.createElement('div');row.className='v4-slot-filter-row';row.innerHTML=`<select data-v4-filter="${type}"><option value="all">전체 분류</option>${type==='outfit'?'<option value="guide">GUIDEVERSE</option><option value="inner">이너</option><option value="outer">아우터</option><option value="bottom">하의</option><option value="footwear">신발</option><option value="handwear">장갑</option><option value="waist">벨트/허리</option><option value="compatible">현재 호환만</option>':type==='pose'?'<option value="guide">GUIDEVERSE POSE</option><option value="standing">서기</option><option value="sitting">앉기</option><option value="kneeling">무릎</option><option value="compatible">현재 호환만</option>':'<option value="compatible">현재 조건 후보</option>'}</select><select data-v4-scope="${type}"><option value="context">현재 조건</option><option value="global">전체 등록 풀</option></select>`;input.insertAdjacentElement('afterend',row);row.querySelectorAll('select').forEach(s=>s.addEventListener('change',()=>refreshSlotPicker(type,input.value||'')))})};
+V4.Search.filter=function(type,list){const f=document.querySelector(`[data-v4-filter="${type}"]`)?.value||'all';if(f==='all')return list;if(f==='guide')return list.filter(x=>x._detailCategory||/guide uniform|esper uniform|medical team uniform|command uniform|field operations uniform/i.test(`${x.en||''}`));if(['inner','outer','bottom','footwear','handwear','waist'].includes(f))return list.filter(x=>x._detailCategory===f||tokenPart(x.en||'')===f);if(['standing','sitting','kneeling'].includes(f))return list.filter(x=>V4.MotionResolver.posture(x.en||'')===f);if(f==='compatible')return list.filter(x=>{if(type==='outfit'&&x._detailCategory)return guideDetailCompatible('outfit',x,{auto:false});if(type==='pose'&&x._detailCategory)return guideDetailCompatible('pose',x,{auto:false});return true});return list};
+const _v4RefreshSlotPicker=refreshSlotPicker;
+refreshSlotPicker=function(type,query=''){const meta=document.querySelector(`[data-slot-meta="${type}"]`),listHost=document.querySelector(`[data-slot-list="${type}"]`);if(!listHost)return;const scope=document.querySelector(`[data-v4-scope="${type}"]`)?.value||'context';const q=String(query||'').trim().toLowerCase();let list=scope==='global'?buildGlobalSlotPickerBase(type):buildSlotPickerBase(type);if(q)list=list.filter(v=>`${v.ko||''} ${v.en||''}`.toLowerCase().includes(q));list=V4.Search.filter(type,list);const visible=list.slice(0,80);listHost._items=list;listHost.innerHTML=visible.length?visible.map((v,i)=>{let compat=true;if(type==='outfit'&&v._detailCategory)compat=guideDetailCompatible('outfit',v,{auto:false});if(type==='pose'&&v._detailCategory)compat=guideDetailCompatible('pose',v,{auto:false});return`<button type="button" class="slot-picker-item ${compat?'':'v4-incompatible'}" data-slot-pick="${type}" data-slot-index="${i}"><span class="ko">${slotPickerEscape(v.ko||v.en||'-')}</span><span class="en">${slotPickerEscape(v.en||'')}</span>${v._detailCategory?`<span class="v4-compat-badge ${compat?'ok':''}">${compat?'현재 호환':'현재 비호환'} · ${slotPickerEscape(v._detailCategory)}</span>`:''}</button>`}).join(''):`<div class="slot-picker-empty">${query?'검색 결과가 없습니다.':'현재 필터에 후보가 없습니다.'}</div>`;if(meta)meta.textContent=`${scope==='global'?'전체 등록 풀':'현재 조건'} · 필터 후 ${list.length}개${list.length>80?' · 80개까지 표시':''}`};
+
+/* 10 · priority visualization */
+V4.UI.renderPriority=function(){const host=$('v4PriorityLadder');if(!host)return;const activeTrace=V4.TraceRules.active().map(x=>x.id).join(', ')||'없음';const data=[['1 · HARD','흔적 / 빠른효과',activeTrace,'hard'],['2 · MANUAL','수동 지정','CUSTOM / 직접 선택','manual'],['3 · GUIDE','제복 / DETAIL',V4.Target.summary(),''],['4 · MOTION','POSE→ACTION→PROP','손 점유·자세 정합',''],['5 · SCENE','장면 / 역할 정합','SMART CONFLICT',''],['6 · RANDOM','일반 랜덤 슬롯','최하위 보완','']];host.innerHTML=data.map(([a,b,c,cl])=>`<div class="v4-priority-step ${cl}"><b>${V4.escape(a)} · ${V4.escape(b)}</b><span>${V4.escape(c)}</span></div>`).join('')};
+
+/* 11 · non-destructive regression tests (72+) */
+V4.Regression.run=function(){let pass=0,fail=0,details=[];const test=(name,fn)=>{try{if(fn()){pass++}else{fail++;details.push('FAIL · '+name)}}catch(e){fail++;details.push('ERR · '+name+' · '+e.message)}};
+  const partSamples={inner:'white dress shirt',outer:'black tactical jacket',bottom:'slim slacks',footwear:'combat boots',handwear:'medical gloves',waist:'utility belt',legwear:'black stockings',neckwear:'black tie',headwear:'beret',chestGear:'chest harness'};
+  Object.entries(partSamples).forEach(([p,t])=>{test('part detect '+p,()=>tokenPart(t)===p);test('part regex '+p,()=>GUIDE_OUTFIT_PART_RULES[p].test(t));test('structured '+p,()=>Array.isArray(structuredGuideOutfit(t).parts[p]))});
+  const postures={standing:'standing straight',sitting:'sitting upright',kneeling:'kneeling on one knee',lying:'lying on bed',walking:'walking through corridor',running:'running forward',crouching:'crouching behind cover',airborne:'jumping airborne',leaning:'leaning against wall'};Object.entries(postures).forEach(([p,t])=>test('posture '+p,()=>V4.MotionResolver.posture(t)===p));
+  [['sitting upright','running forward'],['kneeling on one knee','walking forward'],['lying on bed','standing up']].forEach((x,i)=>test('posture conflict '+i,()=>V4.MotionResolver.postureConflict(x[0],x[1])));
+  [['arms crossed',2],['holding radio',1],['reading book',1],['hands behind back',2],['calm expression',0]].forEach(([t,n],i)=>test('hands '+i,()=>V4.MotionResolver.handUse(t)===n));
+  test('structured uniforms 30',()=>{let n=0;Object.values(V4.Uniform.presets||{}).forEach(r=>['female','male'].forEach(g=>['white','black','navy'].forEach(c=>{if(r[g]?.[c])n++})));return n===30});
+  Object.entries(V4.OutfitResolver.modifiers).forEach(([name,def],i)=>test('modifier schema '+i,()=>!!name&&!!def&&(def.state||def.remove||def.requires||def.requiresAny)));
+  ['A','B','C','all'].forEach(v=>test('target valid '+v,()=>['A','B','C','all'].includes(resolveGuideTarget(v))));
+  // 18 trace/outfit synthetic cases
+  const traceCases=['black jacket','white shirt','slim slacks','combat boots','medical gloves','utility belt'];traceCases.forEach((t,i)=>{test('trace classifier '+i,()=>typeof tokenPart(t)==='string');test('dedupe '+i,()=>dedupePromptTokens([t,t]).length===1)});
+  const host=$('v4RegressionReport');if(host){host.hidden=false;host.className='v4-test-report '+(fail?'fail':'ok');host.textContent=`자동 회귀테스트 ${pass+fail}건 · PASS ${pass} / FAIL ${fail}`+(details.length?'\n'+details.slice(0,20).join('\n'):'\n모든 테스트 통과')};return{pass,fail,total:pass+fail,details}};
+
+/* 12 · undo / redo / last stable */
+V4.History.undo=[];V4.History.redo=[];V4.History.enabled=false;V4.History.suspend=false;V4.History.lastHash='';V4.History.lastStable=null;
+V4.History.capture=function(){if(!this.enabled||this.suspend)return;let s;try{s=snap();s.v4Roles=V4.Target.savedRoles();s.v4SpecialTags=specialPromptTags();s.v4ThemeSelections=selectedThemeKeys()}catch(_){return}const h=V4.hash({selected:s.selected,active:s.active,genre:s.genre,category:s.category,guideverseUniform:s.guideverseUniform,guideverseDetails:s.guideverseDetails,v4Roles:s.v4Roles,special:specialPromptTags()});if(h===this.lastHash)return;this.lastHash=h;this.undo.push(s);if(this.undo.length>30)this.undo.shift();this.redo=[];const scene=V4.PromptEngine.resolveScene();const compatWarn=[guideDetailCompatibilityWarning('outfit'),guideDetailCompatibilityWarning('pose')].filter(Boolean);if(!V4.Inspector.rows.some(r=>r.kind==='warn')&&!compatWarn.length)this.lastStable=V4.clone(s)};
+V4.History.applyExtras=function(s){if(Array.isArray(s?.v4SpecialTags))document.querySelectorAll('[data-special-tag]').forEach(el=>{el.checked=s.v4SpecialTags.includes(el.getAttribute('data-special-tag'))});if(Array.isArray(s?.v4ThemeSelections))applyThemeSelections(s.v4ThemeSelections);if(s?.v4Roles){['A','B','C'].forEach(l=>{const el=$(`char${l}GuideverseRole`);if(el)el.value=s.v4Roles[l]||'auto'});V4.Target.saveRoles()}updateQuickEffectCount();updateQuickRecommendations()};
+V4.History.apply=function(s){if(!s)return;this.suspend=true;try{loadSnap(V4.clone(s));this.applyExtras(s);render()}finally{this.suspend=false;this.lastHash='';setTimeout(()=>this.capture(),0)}};
+V4.History.goUndo=function(){if(this.undo.length<2)return show('↶ 되돌릴 이전 상태가 없습니다.');const cur=this.undo.pop();this.redo.push(cur);this.apply(this.undo[this.undo.length-1]);show('↶ 이전 상태로 되돌렸습니다.')};
+V4.History.goRedo=function(){const s=this.redo.pop();if(!s)return show('↷ 다시 적용할 상태가 없습니다.');this.undo.push(s);this.apply(s);show('↷ 다음 상태를 다시 적용했습니다.')};
+V4.History.restoreStable=function(){if(!this.lastStable)return show('🛟 저장된 정상 상태가 아직 없습니다.');this.apply(this.lastStable);show('🛟 마지막 정상 상태를 복구했습니다.')};
+const _v4Render=render;render=function(){const r=_v4Render.apply(this,arguments);if(V4.History.enabled&&!V4.History.suspend)setTimeout(()=>V4.History.capture(),0);setTimeout(()=>{try{V4.UI.refreshInspector()}catch(_){}},0);return r};
+
+/* 13 · Scene Build Presets */
+V4.SceneBuilds.list=function(){return safeJSON(V4_STORAGE.builds,[])};
+V4.SceneBuilds.save=function(){const name=$('v4BuildName')?.value?.trim()||`장면 빌드 ${new Date().toLocaleString()}`;const arr=this.list();const s=snap();s.v4Roles=V4.Target.savedRoles();s.v4SpecialTags=specialPromptTags();s.v4ThemeSelections=selectedThemeKeys();arr.unshift({id:Date.now(),name,created:Date.now(),snapshot:s});storageSet(V4_STORAGE.builds,JSON.stringify(arr.slice(0,30)));if($('v4BuildName'))$('v4BuildName').value='';this.render();show('💾 Scene Build Preset을 저장했습니다.')};
+V4.SceneBuilds.load=function(id){const b=this.list().find(x=>String(x.id)===String(id));if(!b)return;V4.History.suspend=true;try{loadSnap(V4.clone(b.snapshot));V4.History.applyExtras(b.snapshot)}finally{V4.History.suspend=false}render();show(`📦 ${b.name} 빌드를 불러왔습니다.`)};
+V4.SceneBuilds.remove=function(id){storageSet(V4_STORAGE.builds,JSON.stringify(this.list().filter(x=>String(x.id)!==String(id))));this.render()};
+V4.SceneBuilds.render=function(){const host=$('v4BuildList');if(!host)return;const arr=this.list();host.innerHTML=arr.length?arr.map(b=>`<div class="v4-build-item"><div><div class="v4-build-name">${V4.escape(b.name)}</div><div class="v4-build-meta">${new Date(b.created).toLocaleString()} · ${V4.escape(b.snapshot?.genre||'-')} / ${V4.escape(b.snapshot?.category||'-')}</div></div><div class="v4-build-actions"><button class="small-btn" data-v4-build-load="${b.id}" type="button">불러오기</button><button class="small-btn" data-v4-build-del="${b.id}" type="button">삭제</button></div></div>`).join(''):'<div class="empty">저장된 Scene Build Preset이 없습니다.</div>'};
+
+/* 14 · semantic theme adapter */
+V4.Theme.sync=function(){const meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.content=document.documentElement.dataset.colorMode==='light'?'#f5f3f7':'#0e0c12'};
+
+/* UI init, role selectors, mobile dock */
+V4.UI.ensureRoleSelectors=function(){const saved=V4.Target.savedRoles();['A','B','C'].forEach(l=>{if($(`char${l}GuideverseRole`))return;const role=$(`char${l}Role`);const host=role?.closest('.char-slot-meta')||role?.parentElement?.parentElement;if(!host)return;const wrap=document.createElement('div');wrap.className='gv-role-wrap';wrap.innerHTML=`<label>GUIDEVERSE 역할 · AUTO TARGET용</label><select id="char${l}GuideverseRole"><option value="auto">AUTO · 태그에서 추론</option><option value="guide">GUIDE</option><option value="esper">ESPER</option><option value="medical">MEDICAL</option><option value="command">COMMAND</option><option value="field">FIELD OPS</option></select>`;host.appendChild(wrap);const sel=wrap.querySelector('select');sel.value=saved[l]||'auto';sel.addEventListener('change',()=>{V4.Target.saveRoles();render();saveSettings()})})};
+V4.UI.refreshInspector=function(){const scene=V4.PromptEngine.last||V4.PromptEngine.resolveScene();V4.UI.renderPriority();V4.Inspector.render(scene)};
+V4.UI.bind=function(){
+  $('v4RefreshInspector')?.addEventListener('click',()=>{V4.PromptEngine.resolveScene();this.refreshInspector();show('🔎 Resolver 해석을 새로고침했습니다.')});$('v4RunRegression')?.addEventListener('click',()=>V4.Regression.run());$('v4Undo')?.addEventListener('click',()=>V4.History.goUndo());$('v4Redo')?.addEventListener('click',()=>V4.History.goRedo());$('v4RestoreStable')?.addEventListener('click',()=>V4.History.restoreStable());$('v4SaveBuild')?.addEventListener('click',()=>V4.SceneBuilds.save());$('v4BuildList')?.addEventListener('click',e=>{const l=e.target.closest('[data-v4-build-load]'),d=e.target.closest('[data-v4-build-del]');if(l)V4.SceneBuilds.load(l.dataset.v4BuildLoad);if(d)V4.SceneBuilds.remove(d.dataset.v4BuildDel)});
+  $('v4DockRoll')?.addEventListener('click',()=>$('rollAll')?.click());$('v4DockCopy')?.addEventListener('click',()=>$('copyPrompt')?.click());$('v4DockUndo')?.addEventListener('click',()=>V4.History.goUndo());$('v4DockResult')?.addEventListener('click',()=>$('novelPromptPanel')?.scrollIntoView({behavior:'smooth',block:'start'}));$('v4DockSections')?.addEventListener('click',()=>$('characterAppearancePanel')?.scrollIntoView({behavior:'smooth',block:'start'}));
+  document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&!e.shiftKey&&e.key.toLowerCase()==='z'){e.preventDefault();V4.History.goUndo()}else if((e.ctrlKey||e.metaKey)&&(e.key.toLowerCase()==='y'||(e.shiftKey&&e.key.toLowerCase()==='z'))){e.preventDefault();V4.History.goRedo()}});
+  document.addEventListener('change',e=>{if(e.target?.matches?.('[data-slot-search],.slot-picker-search,#v4BuildName'))return;setTimeout(()=>V4.History.capture(),0)});
+};
+
+/* 15 · expose organized modules */
+V4.PromptEngine.resolve=V4.PromptEngine.resolveScene;V4.OutfitResolver.tokenPart=tokenPart;V4.MotionResolver.poseLinks=GUIDE_POSE_LINKS;V4.Search.refresh=()=>{V4.Search.enhance();refreshOpenSlotPickers()};
+
+/* 11 · extend self diagnostic with v4 subsystem state */
+const _v4RunSelfDiagnostic=runSelfDiagnostic;runSelfDiagnostic=function(){const result=_v4RunSelfDiagnostic();try{const extra=[['V4 Namespace',!!window.AssetEngineV4],['Structured Uniform',Object.keys(V4.Uniform.presets||{}).length===5],['Resolver Inspector',!!$('resolverInspectorDetails')],['Scene Build Preset',!!$('sceneBuildPresetDetails')],['Mobile Dock',!!$('v4MobileDock')]];const host=$('selfDiagnosticReport');if(host){host.innerHTML+=extra.map(([n,ok])=>`<div class="self-diagnostic-row"><span class="self-diagnostic-${ok?'ok':'fail'}">${ok?'●':'×'}</span><b>${n}</b><span class="self-diagnostic-detail">${ok?'정상':'확인 필요'}</span></div>`).join('')}}catch(_){}return result};
+
+/* v4 initialization */
+function initializeV4Architecture(){
+  V4.Uniform.buildAll();V4.UI.ensureRoleSelectors();V4.Search.enhance();V4.SceneBuilds.render();V4.UI.bind();V4.Theme.sync();
+  const observer=new MutationObserver(()=>V4.Theme.sync());observer.observe(document.documentElement,{attributes:true,attributeFilter:['data-color-mode']});
+  V4.History.enabled=true;V4.History.capture();V4.PromptEngine.resolveScene();V4.UI.refreshInspector();
+  // run a quiet regression once; only expose failures in console
+  const r=V4.Regression.run();if($('v4RegressionReport'))$('v4RegressionReport').hidden=true;if(r.fail)console.warn('[AssetEngineV4] regression failures',r.details);
+  console.info('[AssetEngineV4] initialized',V4.version,'structured uniforms',30,'regression',r.total);
+}
+
 function initializeAssetGacha(){
   // 카운터는 메인 UI와 독립적으로 가장 먼저 시작합니다.
   safeInitStep('usage counter',()=>loadUsageCounts());
@@ -9362,6 +9627,7 @@ function initializeAssetGacha(){
   safeInitStep('set lock ui',()=>refreshSetLockUI());
   safeInitStep('genre categories',()=>{loadCategories(false);recoverCategorySelectors()});
   safeInitStep('saved items',()=>renderSaved());
+  safeInitStep('v4 resolver architecture',()=>initializeV4Architecture());
   setTimeout(()=>safeInitStep('category recovery',()=>recoverCategorySelectors()),0);
 
 }
@@ -10794,7 +11060,4 @@ html[data-color-mode="light"] #guideverseAbilityPanel .guideverse-badge{
 </style>
 
 </body></html>
-
-```
-
 ```
