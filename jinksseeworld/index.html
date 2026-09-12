@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1.0" name="viewport"/>
 <meta content="#0e0c12" name="theme-color"/>
-<title>NSFW 에셋 랜덤 프롬프트 생성기.v3.9.6</title>
+<title>NSFW 에셋 랜덤 프롬프트 생성기.v3.10</title>
 <style>
 :root{--bg:#0e0c12;--panel:#17141d;--panel2:#201c28;--panel3:#292333;--line:rgba(255,255,255,.09);--text:#f7f3fa;--sub:#aaa3b4;--accent:#a68cff;--pink:#e694c4;--gold:#f0c978;--green:#9fdfb6;--red:#ff9aa5;--shadow:0 20px 60px rgba(0,0,0,.35)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 8% 0,rgba(166,140,255,.13),transparent 27%),radial-gradient(circle at 100% 15%,rgba(230,148,196,.08),transparent 27%),var(--bg);color:var(--text);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif}button,select,input,textarea{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}.page{width:min(1220px,calc(100% - 28px));margin:auto;padding:28px 0 70px}.hero,.panel{border:1px solid var(--line);background:rgba(23,20,29,.96);box-shadow:var(--shadow)}.hero{position:relative;overflow:hidden;border-radius:26px;padding:31px;margin-bottom:17px}.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-100px;top:-135px;background:rgba(166,140,255,.12);filter:blur(12px);pointer-events:none}.eyebrow{font-size:11px;font-weight:900;letter-spacing:.2em;color:var(--accent)}
 .eyebrow-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
@@ -346,7 +346,7 @@ button,.small-btn,.tool,.guestbook-send,.age-btn,.quick-recommend-btn,.user-char
 .guide-uniform-title{font-size:12px;font-weight:950;color:#f2edff}
 .guide-uniform-desc{margin-top:4px;color:var(--sub);font-size:10px;line-height:1.55}
 .guide-uniform-actions{display:flex;gap:6px;flex-wrap:wrap}
-.guide-uniform-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.guide-uniform-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}
 .guide-uniform-preview{margin-top:10px;padding:10px 12px;border:1px dashed rgba(255,255,255,.11);border-radius:12px;background:#111016}
 .guide-uniform-preview-ko{font-size:11px;font-weight:900;color:#e7e0ef}
 .guide-uniform-preview-en{margin-top:5px;color:#a9a1b4;font-family:Consolas,monospace;font-size:9.5px;line-height:1.5;word-break:break-word}
@@ -364,17 +364,17 @@ button,.small-btn,.tool,.guestbook-send,.age-btn,.quick-recommend-btn,.user-char
 .guide-detail-columns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .guide-detail-column{min-width:0;padding:11px;border:1px solid rgba(255,255,255,.07);border-radius:12px;background:rgba(255,255,255,.025)}
 .guide-detail-column-title{font-size:10px;font-weight:950;color:#ddd5eb;margin-bottom:8px}
-.guide-detail-grid{display:grid;grid-template-columns:.72fr .88fr 1.4fr;gap:7px}
+.guide-detail-grid{display:grid;grid-template-columns:.65fr .72fr .9fr 1.35fr;gap:7px}
 .guide-detail-preview{margin-top:8px;padding:8px 10px;border:1px dashed rgba(255,255,255,.10);border-radius:10px;background:#100e15}
 .guide-detail-preview-ko{font-size:10px;font-weight:900;color:#e2dbea}
 .guide-detail-preview-en{margin-top:4px;color:#9991a4;font-family:Consolas,monospace;font-size:9px;line-height:1.45;overflow-wrap:anywhere}
 .guide-detail-meta{margin-top:6px;color:#81798c;font-size:8.8px;line-height:1.45}
 .guide-detail-column.off{opacity:.46}
-@media(max-width:980px){.guide-detail-columns{grid-template-columns:1fr}.guide-detail-grid{grid-template-columns:1fr 1fr 1.3fr}}
+@media(max-width:980px){.guide-detail-columns{grid-template-columns:1fr}.guide-detail-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:620px){.guide-detail-head{flex-direction:column}.guide-detail-actions{width:100%}.guide-detail-actions .small-btn{flex:1}.guide-detail-grid{grid-template-columns:1fr}}
 
 
-/* ===== v3.9.6 · GUIDEVERSE LOCAL FOLD SECTIONS ===== */
+/* ===== v3.9.7 · GUIDEVERSE PRIORITY ENGINE ===== */
 .guide-fold-section{overflow:hidden}
 .guide-fold-section>summary{list-style:none;cursor:pointer;user-select:none;-webkit-user-select:none}
 .guide-fold-section>summary::-webkit-details-marker{display:none}
@@ -396,6 +396,24 @@ button,.small-btn,.tool,.guestbook-send,.age-btn,.quick-recommend-btn,.user-char
 .diagnostic-title-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .self-diagnostic-report{margin-top:9px;padding:10px;border:1px solid rgba(255,255,255,.08);border-radius:11px;background:#0d0c11;font-size:9.5px;line-height:1.55;color:#bfb8c7}
 .self-diagnostic-report[hidden]{display:none!important}.self-diagnostic-summary{font-weight:950;color:#efe9f5;margin-bottom:7px}.self-diagnostic-row{display:grid;grid-template-columns:24px minmax(120px,.7fr) minmax(0,1.3fr);gap:7px;padding:4px 0;border-top:1px dashed rgba(255,255,255,.055)}.self-diagnostic-row:first-of-type{border-top:0}.self-diagnostic-ok{color:#9fdfb6}.self-diagnostic-warn{color:#f0c978}.self-diagnostic-fail{color:#ff9aa5}@media(max-width:620px){.self-diagnostic-row{grid-template-columns:24px 1fr}.self-diagnostic-detail{grid-column:2}}
+
+/* ===== v3.10 · SEMANTIC SURFACE VARIABLES ===== */
+:root{
+  --field-bg:#17131d;--field-text:#f7f3fa;--field-muted:#aaa3b4;--field-border:rgba(255,255,255,.09);
+  --soft-surface:#111016;--soft-surface-2:#17141d;--guide-surface:rgba(10,25,36,.62);--esper-surface:rgba(28,14,39,.62);
+}
+html[data-color-mode="light"]{
+  --field-bg:#ffffff;--field-text:#1f2430;--field-muted:#5f6877;--field-border:rgba(35,47,62,.18);
+  --soft-surface:#f7f9fc;--soft-surface-2:#ffffff;--guide-surface:#f1f8fd;--esper-surface:#f8f2fc;
+}
+html[data-color-mode="light"] .guide-detail-preview,
+html[data-color-mode="light"] .guide-uniform-preview{background:var(--soft-surface)!important;color:var(--field-text)!important}
+html[data-color-mode="light"] #guideverseAbilityPanel .guide-side .opt{background:var(--guide-surface)!important}
+html[data-color-mode="light"] #guideverseAbilityPanel .esper-side .opt{background:var(--esper-surface)!important}
+html[data-color-mode="light"] #guideverseAbilityPanel select,
+html[data-color-mode="light"] .guide-detail-box select,
+html[data-color-mode="light"] .guide-uniform-box select{background:var(--field-bg)!important;color:var(--field-text)!important;border-color:var(--field-border)!important}
+
 </style>
 
 <style id="v25CharacterMergeColors">
@@ -1081,7 +1099,7 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
 <div class="update-icon">✨</div>
 <h2 id="updateGateTitle">업데이트가 있습니다</h2>
 <p>새 버전이 배포되었습니다.<br/>정상 반영을 위해 페이지를 <strong style="color:#e8e0ff">새로고침</strong> 해주세요.</p>
-<div class="update-ver" id="updateGateVersion">v3.9.6</div>
+<div class="update-ver" id="updateGateVersion">v3.10</div>
 <div class="update-actions">
 <button class="update-btn primary" id="updateRefreshBtn" type="button">새로고침 하기</button>
 <button class="update-btn ghost" id="updateLaterBtn" type="button">나중에 (이번만 닫기)</button>
@@ -1104,10 +1122,10 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
 ========================================================= */
 /* 빌드 ID가 바뀌면 성인/접속코드 인증보다 먼저 새로고침 팝업을 띄웁니다. 매 배포 시 반드시 이 값을 새 고유값으로 변경하세요. */
 const APP_META=Object.freeze({
-  version:'3.9.6',
-  buildId:'20260911-v3.9.6-guide-fold-detail-button-fix',
-  label:'v3.9.6 · Guide Uniform / Detail Fold + Button Fix',
-  date:'2026-09-11'
+  version:'3.10',
+  buildId:'20260912-v3.10-outfit-part-resolver',
+  label:'v3.10 · Outfit Part Resolver / Unified Prompt Pipeline',
+  date:'2026-09-12'
 });
 const APP_BUILD_ID=APP_META.buildId;
 const APP_BUILD_LABEL=APP_META.label;
@@ -1119,6 +1137,7 @@ function syncAppMetaUI(){
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',syncAppMetaUI,{once:true});else syncAppMetaUI();
 const UPDATE_NOTES = [
+  { date:'09.12', text:'v3.10 OUTFIT PART RESOLVER · GUIDEVERSE 의상을 이너/아우터/하의/신발/장갑/허리/레그웨어/넥웨어/헤드웨어/체스트기어 등 파츠 단위로 분해해 교체·병합·상태수정 우선순위를 적용했습니다. 흔적 태그 > 랜덤 태그를 최상위 HARD CONSTRAINT로 유지하고, 포즈→행동→소품 조건부 연동, 다인 적용 대상, NovelAI/PixAI/Niji 공통 슬롯 Resolver, 전체 풀 검색, 저장 복원 및 스크롤 안정화를 함께 보강했습니다.' },
   { date:'09.11', text:'v3.9.6 GUIDEVERSE 제복/디테일 UI 핫픽스 · GUIDEVERSE UNIFORM SELECTOR와 OUTFIT / POSE DETAIL을 서로 독립된 폴딩 섹션으로 분리했습니다. 디테일 임의 생성/초기화 버튼은 전용 클릭 핸들러로 다시 연결하고 버튼 영역을 폴딩 본문으로 이동해 클릭 누락과 접힘 토글 간섭을 방지했습니다. 두 폴딩의 열림 상태는 브라우저에 저장되며 전역 상세 패널 3개 제한에서는 제외됩니다.' },
   { date:'09.11', text:'v3.9.5 GUIDE / ESPER 화이트 모드 대비 보정 · 가이딩 능력과 에스퍼 능력 패널에서 다크모드 전용 select·버튼·제목 색상이 화이트 모드까지 덮어쓰던 문제를 수정했습니다. WHITE 모드에서는 GUIDE는 블루, ESPER는 퍼플을 테두리/포인트에만 사용하고 입력창은 밝은 배경 + 진한 글씨로 통일해 가독성을 높였습니다. VISUAL DIRECTION과 상태 문구도 같은 기준으로 보정했습니다.' },
   { date:'09.11', text:'v3.9.4 화이트 모드 대비 보정 · 02B CHARACTER A/B/C의 제목·라벨·입력창·비활성 카드·안내문 대비를 전면 보정하고, {{user}} 캐릭터 폴딩 영역과 테마/진단/가이드 디테일 등 다크 전용 하드코딩 색상을 화이트 모드에서 별도 재정의했습니다. 입력 placeholder와 보조 문구도 밝은 배경에서 읽기 쉽도록 조정했습니다.' },
@@ -1396,7 +1415,7 @@ renderAdminUpdateNote();
 })();
 </script>
 <div class="page">
-<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v3.9.6</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v3.9.6</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며, 상세 설정과 빠른효과/흔적 태그로 장면 강도를 조절할 수 있습니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
+<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v3.10</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v3.10</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며, 상세 설정과 빠른효과/흔적 태그로 장면 강도를 조절할 수 있습니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span></div></section>
 <section aria-label="사용 모드 및 화면 테마 선택" class="workflow-mode-panel" id="workflowModePanel"><div class="workflow-mode-copy"><div class="workflow-mode-title">사용 모드</div><div class="workflow-mode-hint" id="workflowModeHint">간편은 랜덤 슬롯 중심 · 상세은 슬롯 직접 선택과 세부 설정까지 제공합니다.</div></div><div class="workflow-mode-actions"><div class="workflow-control-block"><div class="workflow-control-label">사용 방식</div><div aria-label="간편 또는 상세 모드" class="workflow-mode-switch" role="group"><button aria-pressed="true" class="workflow-mode-btn active" data-ui-mode-btn="simple" type="button">간편</button><button aria-pressed="false" class="workflow-mode-btn" data-ui-mode-btn="detail" type="button">상세</button></div></div><div class="workflow-control-block"><div class="workflow-control-label">화면 테마</div><div aria-label="블랙 또는 화이트 화면 테마" class="workflow-theme-switch" id="themeModeToggle" role="group"><button aria-pressed="true" class="workflow-theme-btn active" data-theme-mode-btn="dark" type="button">🌙 BLACK</button><button aria-pressed="false" class="workflow-theme-btn" data-theme-mode-btn="light" type="button">☀ WHITE</button></div></div></div></section>
 <section class="panel" id="contentModePanel"><div class="head"><div><h2 class="title">00 · MODE</h2><p class="desc">먼저 콘텐츠 모드를 선택합니다. 선택한 모드에 따라 아래 SCENE 분류와 NSFW 전용 기능이 자동으로 전환됩니다.</p></div></div><div class="mode-choice-card"><div class="mode-choice-label">콘텐츠 모드</div><div class="mode-choice-buttons" id="contentModeSwitch"><button class="mode-choice-btn" data-content-mode="sfw" id="modePillSfw" type="button">SFW</button><button class="mode-choice-btn" data-content-mode="nsfw" id="modePillNsfw" type="button">NSFW</button></div><div class="mode-first-meta" id="contentModeHint">SFW / NSFW를 먼저 선택하면 아래 분류가 현재 모드에 맞게 자동 전환됩니다.</div><input checked="" hidden="" name="contentMode" type="radio" value="sfw"/><input hidden="" name="contentMode" type="radio" value="nsfw"/><input hidden="" id="nsfwMode" type="checkbox"/></div></section>
 <section class="panel" id="sceneCategoryPanel"><div class="head"><div><h2 class="title">01 · SCENE</h2><p class="desc">현재 MODE를 기준으로 대분류 → 중분류 → 소분류 순서로 장면을 선택합니다.</p></div></div><div class="select-grid category-hierarchy-grid scene-three-grid"><div class="field"><label>대분류 · 장르</label><select id="genre"><option value="modern">현대물</option><option value="fantasy">판타지물</option><option value="guideverse">가이드버스</option><option value="period">시대물</option><option value="sf">SF / 사이버펑크</option><option value="apocalypse">아포칼립스 / 재난</option></select></div><div class="field"><label>중분류 · 테마</label><select id="middleCategory"></select></div><div class="field"><label>소분류 · 장면</label><select id="category"></select></div></div><div class="check-row" data-ui-advanced="1"><label class="check"><input id="randomCategory" type="checkbox"/> 주사위를 돌릴 때마다 소분류도 랜덤</label><label class="check"><input checked="" id="avoidSame" type="checkbox"/> 직전 결과와 같은 태그 최대한 피하기</label></div></section>
@@ -1459,6 +1478,7 @@ renderAdminUpdateNote();
         <option value="black">블랙 제복</option>
         <option value="navy">네이비 제복</option>
       </select></div>
+      <div class="opt"><label>적용 대상</label><select id="guideUniformTarget"><option value="auto">AUTO</option><option value="A">CHAR A</option><option value="B">CHAR B</option><option value="C">CHAR C</option><option value="all">전체</option></select></div>
     </div>
     <div class="guide-uniform-preview" id="guideUniformPreview">
       <div class="guide-uniform-preview-ko" id="guideUniformPreviewKo">자동 · 기존 의상 랜덤</div>
@@ -1472,7 +1492,7 @@ renderAdminUpdateNote();
   <summary class="guide-fold-summary guide-detail-summary">
     <div class="guide-fold-summary-main">
       <div class="guide-detail-title">🧩 OUTFIT / POSE DETAIL</div>
-      <div class="guide-detail-desc">가이드버스 전용 의상 디테일 50종과 포즈 50종을 추가 적용합니다. 자동은 주사위마다 재선택되며, 직접 지정은 선택값을 유지합니다.</div>
+      <div class="guide-detail-desc">가이드버스 전용 의상 디테일 100종과 포즈 50종을 파츠 단위로 정합 적용합니다. 자동은 주사위마다 재선택되며, 직접 지정은 선택값을 유지합니다.</div>
     </div>
     <span class="guide-fold-arrow" aria-hidden="true">⌄</span>
   </summary>
@@ -1483,19 +1503,27 @@ renderAdminUpdateNote();
     </div>
     <div class="guide-detail-columns">
       <div class="guide-detail-column" id="guideOutfitDetailColumn">
-        <div class="guide-detail-column-title">👔 의상 디테일 · 50종</div>
+        <div class="guide-detail-column-title">👔 의상 디테일 · 100종</div>
         <div class="guide-detail-grid">
           <div class="opt"><label>적용</label><select id="guideOutfitDetailMode">
             <option value="auto">자동</option>
             <option value="custom">직접 지정</option>
             <option value="off">미사용</option>
           </select></div>
+          <div class="opt"><label>적용 대상</label><select id="guideOutfitDetailTarget"><option value="auto">AUTO</option><option value="A">CHAR A</option><option value="B">CHAR B</option><option value="C">CHAR C</option><option value="all">전체</option></select></div>
           <div class="opt"><label>카테고리</label><select id="guideOutfitDetailCategory">
             <option value="all">전체</option>
             <option value="wearState">착장 상태</option>
             <option value="inner">이너</option>
             <option value="outer">아우터</option>
             <option value="bottom">하의</option>
+            <option value="footwear">신발</option>
+            <option value="handwear">장갑 / 손</option>
+            <option value="waist">허리 / 벨트</option>
+            <option value="legwear">레그웨어</option>
+            <option value="neckwear">넥웨어</option>
+            <option value="headwear">헤드웨어</option>
+            <option value="chestGear">체스트 기어</option>
             <option value="insignia">휘장 / 계급장</option>
             <option value="equipment">장비 / 부착물</option>
             <option value="damage">손상 / 피로 상태</option>
@@ -1517,6 +1545,7 @@ renderAdminUpdateNote();
             <option value="custom">직접 지정</option>
             <option value="off">미사용</option>
           </select></div>
+          <div class="opt"><label>적용 대상</label><select id="guidePoseDetailTarget"><option value="auto">AUTO</option><option value="A">CHAR A</option><option value="B">CHAR B</option><option value="C">CHAR C</option><option value="all">전체</option></select></div>
           <div class="opt"><label>카테고리</label><select id="guidePoseDetailCategory">
             <option value="all">전체</option>
             <option value="basic">기본 자세</option>
@@ -4276,13 +4305,13 @@ const GUIDEVERSE_UNIFORM_PRESETS={
       navy:E('현장팀 남성형 네이비 제복',"men's field operations uniform, navy field jacket, black innerwear, shoulder boards, utility belt, tactical cargo pants, combat boots")
     }}
 };
-const GUIDE_UNIFORM_IDS=['guideUniformMode','guideUniformRole','guideUniformGender','guideUniformColor'];
+const GUIDE_UNIFORM_IDS=['guideUniformMode','guideUniformRole','guideUniformGender','guideUniformColor','guideUniformTarget'];
 function guideUniformMode(){return $('guideUniformMode')?.value||'auto'}
 function selectedGuideUniform(){
   if(genre.value!=='guideverse'||guideUniformMode()!=='custom')return null;
   return GUIDEVERSE_UNIFORM_PRESETS?.[$('guideUniformRole')?.value]?.[$('guideUniformGender')?.value]?.[$('guideUniformColor')?.value]||null;
 }
-function guideUniformPromptTags(){const p=selectedGuideUniform();return p?.en?[p.en]:[]}
+function guideUniformPromptTags(){return[]}
 function guideUniformState(){const out={};GUIDE_UNIFORM_IDS.forEach(id=>out[id]=$(id)?.value||'');return out}
 function applyGuideUniformState(obj={}){
   GUIDE_UNIFORM_IDS.forEach(id=>{if($(id)&&obj[id]!==undefined)$(id).value=obj[id]});
@@ -4291,7 +4320,7 @@ function applyGuideUniformState(obj={}){
 function updateGuideUniformUI(){
   const box=$('guideUniformBox'),mode=guideUniformMode();
   const custom=mode==='custom';
-  ['guideUniformRole','guideUniformGender','guideUniformColor'].forEach(id=>{if($(id))$(id).disabled=!custom});
+  ['guideUniformRole','guideUniformGender','guideUniformColor'].forEach(id=>{if($(id))$(id).disabled=!custom});if($('guideUniformTarget')){updateGuideTargetAvailability($('guideUniformTarget'));$('guideUniformTarget').disabled=!custom||characterCount()<=1;}
   box?.classList.toggle('disabled',mode==='off');
   const ko=$('guideUniformPreviewKo'),en=$('guideUniformPreviewEn'),status=$('guideUniformStatus');
   if(mode==='auto'){
@@ -4306,7 +4335,7 @@ function updateGuideUniformUI(){
     const p=selectedGuideUniform();
     if(ko)ko.textContent=p?.ko||'선택 없음';
     if(en)en.textContent=p?.en||'-';
-    if(status)status.textContent='CUSTOM · 랜덤 의상 슬롯 대신 선택 제복을 우선 적용';
+    if(status)status.textContent=`CUSTOM · 선택 제복 우선 적용 · 대상 ${effectiveGuideUniformTarget()}`;
   }
 }
 function randomizeGuideUniform(){
@@ -4315,6 +4344,7 @@ function randomizeGuideUniform(){
   if($('guideUniformRole'))$('guideUniformRole').value=rand(roles);
   if($('guideUniformGender'))$('guideUniformGender').value=rand(genders);
   if($('guideUniformColor'))$('guideUniformColor').value=rand(colors);
+  if($('guideUniformTarget'))$('guideUniformTarget').value='auto';
   updateGuideUniformUI();buildPrompt();buildSummary();buildStats();saveSettings();show('👔 가이드버스 제복을 임의 생성했습니다.');
 }
 function resetGuideUniform(){
@@ -4322,6 +4352,7 @@ function resetGuideUniform(){
   if($('guideUniformRole'))$('guideUniformRole').value='sGuide';
   if($('guideUniformGender'))$('guideUniformGender').value='female';
   if($('guideUniformColor'))$('guideUniformColor').value='white';
+  if($('guideUniformTarget'))$('guideUniformTarget').value='auto';
   updateGuideUniformUI();buildPrompt();buildSummary();buildStats();saveSettings();show('🧹 가이드버스 제복을 자동 모드로 초기화했습니다.');
 }
 
@@ -4391,6 +4422,30 @@ const GUIDEVERSE_OUTFIT_DETAIL_ASSETS={
     E('피가 튄 제복','bloodstained uniform'),
     E('팔 붕대','bandaged arms'),
     E('젖은 원단','wet fabric')
+  ],
+  footwear:[
+    E('전투 부츠','combat boots'),E('광택 부츠','polished boots'),E('포멀 슈즈','formal shoes'),E('글로시 슈즈','glossy shoes'),E('로퍼','loafers'),
+    E('옥스퍼드 슈즈','Oxford shoes'),E('첼시 부츠','Chelsea boots'),E('클린 스니커즈','clean sneakers'),E('낮은 굽 구두','low heels'),E('니하이 부츠','knee-high boots')
+  ],
+  handwear:[
+    E('흰 장갑','white gloves'),E('검은 가죽 장갑','black leather gloves'),E('전술 장갑','tactical gloves'),E('의료 장갑','medical gloves'),
+    E('핑거리스 장갑','fingerless gloves'),E('압박 장갑','compression gloves'),E('보호 건틀릿','protective gauntlets'),E('지휘관용 장갑','command gloves')
+  ],
+  waist:[
+    E('검은 가죽 벨트','black leather belt'),E('은색 버클 벨트','silver buckle belt'),E('와이드 전술 벨트','wide tactical belt'),E('로우 슬렁 유틸리티 벨트','low-slung utility belt'),
+    E('포멀 웨이스트 벨트','formal waist belt'),E('더블 스트랩 벨트','double-strap waist belt'),E('메디컬 장비 벨트','medical equipment belt'),E('커맨드 새시','command sash')
+  ],
+  legwear:[
+    E('검은 스타킹','black stockings'),E('허벅지 스타킹','thigh-high stockings'),E('불투명 타이츠','opaque tights'),E('압박 레깅스','compression leggings'),E('허벅지 스트랩','thigh straps'),E('무릎 보호대','knee guards')
+  ],
+  neckwear:[
+    E('검은 넥타이','black necktie'),E('슬림 블랙 타이','slim black tie'),E('네이비 타이','navy tie'),E('리본 타이','ribbon tie'),E('넥 스카프','neck scarf'),E('센터 ID 랜야드','center ID lanyard')
+  ],
+  headwear:[
+    E('오피서 캡','officer cap'),E('베레모','beret'),E('전술 캡','tactical cap'),E('메디컬 캡','medical cap'),E('통신 헤드셋','communication headset'),E('보호 바이저','protective visor')
+  ],
+  chestGear:[
+    E('전술 체스트 리그','tactical chest rig'),E('억제 체스트 하네스','suppression chest harness'),E('메디컬 체스트 파우치','medical chest pouch'),E('라디오 하네스','radio harness'),E('크로스바디 유틸리티 하네스','cross-body utility harness'),E('의전 체스트 스트랩','ceremonial chest strap')
   ]
 };
 
@@ -4461,7 +4516,7 @@ const GUIDEVERSE_POSE_DETAIL_ASSETS={
 
 const GUIDEVERSE_DETAIL_CATEGORY_META={
   outfit:{
-    wearState:'착장 상태',inner:'이너',outer:'아우터',bottom:'하의',
+    wearState:'착장 상태',inner:'이너',outer:'아우터',bottom:'하의',footwear:'신발',handwear:'장갑 / 손',waist:'허리 / 벨트',legwear:'레그웨어',neckwear:'넥웨어',headwear:'헤드웨어',chestGear:'체스트 기어',
     insignia:'휘장 / 계급장',equipment:'장비 / 부착물',damage:'손상 / 피로 상태'
   },
   pose:{
@@ -4471,8 +4526,8 @@ const GUIDEVERSE_DETAIL_CATEGORY_META={
 };
 
 const GUIDE_DETAIL_IDS=[
-  'guideOutfitDetailMode','guideOutfitDetailCategory','guideOutfitDetailItem',
-  'guidePoseDetailMode','guidePoseDetailCategory','guidePoseDetailItem'
+  'guideOutfitDetailMode','guideOutfitDetailTarget','guideOutfitDetailCategory','guideOutfitDetailItem',
+  'guidePoseDetailMode','guidePoseDetailTarget','guidePoseDetailCategory','guidePoseDetailItem'
 ];
 const guideDetailSelected={outfit:null,pose:null};
 
@@ -4482,7 +4537,6 @@ const GUIDE_PARTNER_REQUIRED_POSES=new Set([
   'standing protectively in front','checking patient condition','standing face-to-face','standing side by side',"within arm's reach",
   'supporting injured teammate','guiding from behind','about to embrace','body close'
 ]);
-const GUIDE_STRUCTURAL_OUTFIT_CATEGORIES=new Set(['inner','outer','bottom']);
 const GUIDE_POSE_LINKS={
   'checking wrist monitor':{action:['checking wrist sensor'],prop:['wrist guiding monitor']},
   'aiming weapon forward':{action:['aiming weapon forward'],prop:['tactical weapon']},
@@ -4532,8 +4586,6 @@ function activeGuideRole(){
 function guideOutfitDetailCompatible(item,{auto=false}={}){
   if(!item)return false;if(!conflictPreventionOn())return true;
   const family=guideSceneFamily(),role=activeGuideRole(),cat=item._detailCategory||'',t=String(item.en||'').toLowerCase();
-  // 완성 제복 위에 이너/아우터/하의를 자동으로 한 겹 더 얹지 않습니다. 직접 지정은 허용합니다.
-  if(auto&&guideUniformMode()!=='off'&&GUIDE_STRUCTURAL_OUTFIT_CATEGORIES.has(cat))return false;
   if(cat==='damage'&&!['battle','medical','guiding'].includes(family))return false;
   if(role==='medicalTeam'&&/tactical|suppression|restraint|combat/.test(t)&&family!=='battle')return false;
   if(role==='command'&&/research coat|medical coat|tactical|compression innerwear|sleeveless/.test(t)&&family!=='battle')return false;
@@ -4557,7 +4609,7 @@ function guideDetailPool(type,{compatibleOnly=false,auto=false}={}){
   const raw=guideDetailRawPool(type);
   if(!compatibleOnly||!conflictPreventionOn())return raw;
   const filtered=raw.filter(item=>guideDetailCompatible(type,item,{auto}));
-  return filtered.length?filtered:raw;
+  return filtered;
 }
 function effectiveGuideDetail(type){
   const item=currentGuideDetail(type);if(!item)return null;
@@ -4575,6 +4627,100 @@ function guidePoseLinkData(){
 }
 function guidePoseLinkedPromptTags(kind){return [...new Set(guidePoseLinkData()[kind]||[])]}
 function guidePoseSupportPromptTags(){const link=guidePoseLinkData();return [...new Set([...(link.action||[]),...(link.prop||[])])]}
+const GUIDE_OUTFIT_REPLACE_PARTS=new Set(['inner','outer','bottom','footwear','handwear','waist','legwear','neckwear','headwear','chestGear']);
+const GUIDE_OUTFIT_ADD_CATEGORIES=new Set(['insignia','equipment','damage']);
+const GUIDE_OUTFIT_MODIFIER_CATEGORIES=new Set(['wearState']);
+const GUIDE_OUTFIT_PART_RULES={
+  inner:/(turtleneck|dress shirt|\bshirt\b|blouse|high-neck inner|innerwear|\btop\b|crop top|t-shirt|\btee\b|sweater|knit sweater|fine knit inner|compression innerwear|scrub top)/i,
+  outer:/(jacket|coat|cardigan|hoodie|vest|cloak|mantle|cape|blazer|research coat|medical coat|uniform coat|command coat|tactical suit|response suit)/i,
+  bottom:/(skirt|slacks|pants|jeans|trousers|shorts|cargo pants|tactical pants|fitted pants)/i,
+  footwear:/(boots?|shoes?|heels?|loafers?|oxford|sneakers?|footwear)/i,
+  handwear:/(gloves?|gauntlets?)/i,
+  waist:/(waist belt|utility belt|leather belt|buckle belt|tactical belt|equipment belt|double-strap belt|command sash)/i,
+  legwear:/(stockings?|thigh-high|tights|leggings|thigh straps|knee guards)/i,
+  neckwear:/(necktie|\btie\b|ribbon tie|neck scarf|lanyard)/i,
+  headwear:/(officer cap|beret|tactical cap|medical cap|headset|visor|headwear)/i,
+  chestGear:/(chest harness|chest rig|suppression harness|chest pouch|radio harness|cross-body utility harness|chest strap|bulletproof vest)/i
+};
+function guideDetailTarget(type){return $(type==='outfit'?'guideOutfitDetailTarget':'guidePoseDetailTarget')?.value||'auto'}
+function resolveGuideTarget(value){const n=characterCount();if(n<=1)return'all';if(value==='all')return'all';const valid=n>=3?['A','B','C']:['A','B'];return valid.includes(value)?value:'A'}
+function updateGuideTargetAvailability(sel){if(!sel)return;const n=characterCount();[...sel.options].forEach(o=>{if(o.value==='B')o.disabled=n<2;if(o.value==='C')o.disabled=n<3});if((sel.value==='B'&&n<2)||(sel.value==='C'&&n<3))sel.value='auto'}
+function effectiveGuideDetailTarget(type){return resolveGuideTarget(guideDetailTarget(type))}
+function guideUniformTarget(){return $('guideUniformTarget')?.value||'auto'}
+function effectiveGuideUniformTarget(){return resolveGuideTarget(guideUniformTarget())}
+function guideTargetApplies(target,letter){const t=resolveGuideTarget(target);return t==='all'||t===letter}
+function guideOutfitDetailCategory(){const item=effectiveGuideDetail('outfit');return String(item?._detailCategory||'')}
+function guideDetailResolvedPart(item){
+  if(!item)return'';const cat=String(item._detailCategory||''),t=String(item.en||'');
+  if(GUIDE_OUTFIT_REPLACE_PARTS.has(cat))return cat;
+  if(cat==='equipment'){
+    for(const [part,re] of Object.entries(GUIDE_OUTFIT_PART_RULES))if(re.test(t))return part;
+  }
+  return'';
+}
+function guideOutfitDetailBehavior(){const item=effectiveGuideDetail('outfit');if(!item)return'none';const part=guideDetailResolvedPart(item);if(part)return`replace:${part}`;const cat=item._detailCategory||'';if(GUIDE_OUTFIT_MODIFIER_CATEGORIES.has(cat))return'modifier';if(GUIDE_OUTFIT_ADD_CATEGORIES.has(cat))return'add';return'add'}
+function outfitTokens(text){return String(text||'').split(',').map(s=>s.trim()).filter(Boolean)}
+function tokenPart(token){for(const [part,re] of Object.entries(GUIDE_OUTFIT_PART_RULES))if(re.test(String(token||'')))return part;return''}
+function structuredGuideOutfit(text){const out={base:[],parts:{},extras:[]};outfitTokens(text).forEach(tok=>{const p=tokenPart(tok);if(p){(out.parts[p]||(out.parts[p]=[])).push(tok)}else out.base.push(tok)});return out}
+function applyGuideWearModifier(tokens,item){
+  const t=String(item?.en||'');let arr=[...tokens];const removePart=part=>{arr=arr.filter(x=>tokenPart(x)!==part)};
+  if(t==='jacket removed')removePart('outer');
+  if(t==='half-removed tactical jacket'&&!arr.some(x=>/tactical jacket/i.test(x)))return arr;
+  if(t==='loosened necktie'&&!arr.some(x=>GUIDE_OUTFIT_PART_RULES.neckwear.test(x)))return arr;
+  if(t==='unbuttoned collar shirt'&&!arr.some(x=>GUIDE_OUTFIT_PART_RULES.inner.test(x)))return arr;
+  if(t==='rolled-up sleeves'&&!arr.some(x=>/(shirt|jacket|coat|cardigan|sweater|hoodie)/i.test(x)))return arr;
+  arr.push(t);return arr;
+}
+function resolveGuideOutfitText(baseText,item){
+  let tokens=outfitTokens(baseText);if(!item?.en)return tokens.join(', ');
+  const part=guideDetailResolvedPart(item),cat=item._detailCategory||'';
+  if(part){tokens=tokens.filter(tok=>tokenPart(tok)!==part);tokens.push(item.en)}
+  else if(cat==='wearState')tokens=applyGuideWearModifier(tokens,item);
+  else tokens.push(item.en);
+  return dedupePromptTokens(tokens).join(', ');
+}
+function applyTraceOutfitConstraint(text){
+  let out=filterOutfitPrompt(text);const mode=outfitExposureMode();if(!out)return'';
+  if(mode==='upper')out=outfitTokens(out).filter(t=>!['inner','outer','chestGear','neckwear'].includes(tokenPart(t))).join(', ');
+  if(mode==='lower')out=outfitTokens(out).filter(t=>!['bottom','legwear'].includes(tokenPart(t))).join(', ');
+  return out;
+}
+function guidePoseOverridesRandomMotion(){return genre.value==='guideverse'&&!!effectiveGuideDetail('pose')}
+function guidePoseConflictsWithAction(pose,action){
+  const p=String(pose||'').toLowerCase(),a=String(action||'').toLowerCase();if(!p||!a)return false;
+  if(/sitting|edge of bed/.test(p)&&/(walking|running|standing|kneeling)/.test(a))return true;
+  if(/kneeling/.test(p)&&/(walking|running|standing|sitting)/.test(a))return true;
+  if(/standing straight|standing at ease|standing face-to-face|standing side by side/.test(p)&&/(sitting|kneeling|lying|running)/.test(a))return true;
+  if(/arms crossed|hands behind back/.test(p)&&/(holding|aiming|typing|writing|putting on|checking .* hand)/.test(a))return true;
+  return false;
+}
+function isHandheldProp(prop){return /(radio|weapon|chart|tablet|stethoscope|kit|cup|book|phone|umbrella|bag|documents|map)/i.test(String(prop||''))}
+function resolveGuideMotion(basePose,baseAction,baseProp,item){
+  let pose=String(basePose||''),action=String(baseAction||''),prop=String(baseProp||'');
+  if(item?.en){pose=item.en;const link=GUIDE_POSE_LINKS[String(item.en)]||{action:[],prop:[]};if(link.action?.length)action=link.action.join(', ');else if(guidePoseConflictsWithAction(pose,action))action='';if(link.prop?.length){const required=link.prop.join(', ');prop=isHandheldProp(prop)?required:[required,prop].filter(Boolean).join(', ')}}
+  return{pose,action,prop};
+}
+function resolvedPromptSlots(){
+  const q=quickSlotOverrides(),single=characterCount()<=1;
+  let outfit=(state.active?.outfit&&state.selected?.outfit?.en)?String(state.selected.outfit.en):'';
+  let pose=(state.active?.pose&&state.selected?.pose?.en)?String(state.selected.pose.en):'';
+  let action=(state.active?.action&&state.selected?.action?.en)?String(state.selected.action.en):'';
+  let prop=(state.active?.prop&&state.selected?.prop?.en)?String(state.selected.prop.en):'';
+  if(genre.value==='guideverse'){
+    const uniform=selectedGuideUniform(),uTarget=effectiveGuideUniformTarget();if(uniform?.en&&(single||uTarget==='all'))outfit=uniform.en;
+    const detail=effectiveGuideDetail('outfit'),oTarget=effectiveGuideDetailTarget('outfit');if(detail&&(single||oTarget==='all'))outfit=resolveGuideOutfitText(outfit,detail);
+    const pDetail=effectiveGuideDetail('pose'),pTarget=effectiveGuideDetailTarget('pose');if(pDetail&&(single||pTarget==='all'))({pose,action,prop}=resolveGuideMotion(pose,action,prop,pDetail));
+  }
+  outfit=applyTraceOutfitConstraint(outfit);if(q.suppressOutfit)outfit='';if(q.suppressPose)pose='';if(q.suppressAction)action='';
+  return{outfit,pose,action,prop};
+}
+function resolveGuideCharacterSlots(letter,base){
+  const out={...base};if(genre.value!=='guideverse'||characterCount()<=1)return out;
+  const uniform=selectedGuideUniform();if(uniform?.en&&guideTargetApplies(guideUniformTarget(),letter)&&effectiveGuideUniformTarget()!=='all')out.outfit=uniform.en;
+  const detail=effectiveGuideDetail('outfit');if(detail&&guideTargetApplies(guideDetailTarget('outfit'),letter)&&effectiveGuideDetailTarget('outfit')!=='all')out.outfit=resolveGuideOutfitText(out.outfit,detail);
+  const pDetail=effectiveGuideDetail('pose');if(pDetail&&guideTargetApplies(guideDetailTarget('pose'),letter)&&effectiveGuideDetailTarget('pose')!=='all')Object.assign(out,resolveGuideMotion(out.pose,out.action,out.prop,pDetail));
+  out.outfit=applyTraceOutfitConstraint(out.outfit);const q=quickSlotOverrides();if(q.suppressOutfit)out.outfit='';if(q.suppressPose)out.pose='';if(q.suppressAction)out.action='';return out;
+}
 function guideDetailMode(type){return $(type==='outfit'?'guideOutfitDetailMode':'guidePoseDetailMode')?.value||'auto'}
 function guideDetailItemSelect(type){return $(type==='outfit'?'guideOutfitDetailItem':'guidePoseDetailItem')}
 function guideDetailCategorySelect(type){return $(type==='outfit'?'guideOutfitDetailCategory':'guidePoseDetailCategory')}
@@ -4628,17 +4774,15 @@ function ensureGuideDetails(forceAuto=false){
   });
   updateGuideDetailUI();
 }
-function guideDetailPromptTags(){
-  if(genre.value!=='guideverse')return[];
-  const primary=['outfit','pose'].map(type=>effectiveGuideDetail(type)?.en||'').filter(Boolean);
-  return [...new Set([...primary,...guidePoseSupportPromptTags()])];
-}
+function guideDetailPromptTags(){return[]}
 function guideDetailState(){
   return{
     guideOutfitDetailMode:$('guideOutfitDetailMode')?.value||'auto',
+    guideOutfitDetailTarget:$('guideOutfitDetailTarget')?.value||'auto',
     guideOutfitDetailCategory:$('guideOutfitDetailCategory')?.value||'all',
     guideOutfitDetailItem:$('guideOutfitDetailItem')?.value||'0',
     guidePoseDetailMode:$('guidePoseDetailMode')?.value||'auto',
+    guidePoseDetailTarget:$('guidePoseDetailTarget')?.value||'auto',
     guidePoseDetailCategory:$('guidePoseDetailCategory')?.value||'all',
     guidePoseDetailItem:$('guidePoseDetailItem')?.value||'0',
     selectedOutfit:guideDetailSelected.outfit?{ko:guideDetailSelected.outfit.ko,en:guideDetailSelected.outfit.en,_detailCategory:guideDetailSelected.outfit._detailCategory}:null,
@@ -4646,7 +4790,7 @@ function guideDetailState(){
   }
 }
 function applyGuideDetailState(s={}){
-  ['guideOutfitDetailMode','guideOutfitDetailCategory','guidePoseDetailMode','guidePoseDetailCategory'].forEach(id=>{if($(id)&&s[id]!==undefined)$(id).value=s[id]});
+  ['guideOutfitDetailMode','guideOutfitDetailTarget','guideOutfitDetailCategory','guidePoseDetailMode','guidePoseDetailTarget','guidePoseDetailCategory'].forEach(id=>{if($(id)&&s[id]!==undefined)$(id).value=s[id]});
   populateGuideDetailItems('outfit',false);populateGuideDetailItems('pose',false);
   if($('guideOutfitDetailItem')&&s.guideOutfitDetailItem!==undefined)$('guideOutfitDetailItem').value=String(s.guideOutfitDetailItem);
   if($('guidePoseDetailItem')&&s.guidePoseDetailItem!==undefined)$('guidePoseDetailItem').value=String(s.guidePoseDetailItem);
@@ -4655,8 +4799,9 @@ function applyGuideDetailState(s={}){
   ensureGuideDetails(false);
 }
 function updateGuideDetailColumn(type){
-  const mode=guideDetailMode(type),category=guideDetailCategorySelect(type),item=guideDetailItemSelect(type);
+  const mode=guideDetailMode(type),category=guideDetailCategorySelect(type),item=guideDetailItemSelect(type),target=$(type==='outfit'?'guideOutfitDetailTarget':'guidePoseDetailTarget');
   if(category)category.disabled=mode==='off';
+  if(target){updateGuideTargetAvailability(target);target.disabled=mode==='off'||characterCount()<=1;}
   if(item)item.disabled=mode!=='custom';
   const column=$(type==='outfit'?'guideOutfitDetailColumn':'guidePoseDetailColumn');
   column?.classList.toggle('off',mode==='off');
@@ -4673,7 +4818,7 @@ function updateGuideDetailColumn(type){
   if(en)en.textContent=current?.en||'-';
   const catLabel=current?GUIDEVERSE_DETAIL_CATEGORY_META[type]?.[current._detailCategory]||'전체':'전체';
   const warning=guideDetailCompatibilityWarning(type);
-  if(meta)meta.textContent=warning?`⚠ ${warning}`:`${mode==='auto'?'AUTO · 주사위와 함께 랜덤 선택':'CUSTOM · 선택값 고정'} · ${catLabel}`;
+  if(meta)meta.textContent=warning?`⚠ ${warning}`:`${mode==='auto'?'AUTO · 주사위와 함께 랜덤 선택':'CUSTOM · 선택값 고정'} · ${catLabel} · 대상 ${effectiveGuideDetailTarget(type)}`;
 }
 function updateGuideDetailUI(){updateGuideDetailColumn('outfit');updateGuideDetailColumn('pose')}
 function onGuideDetailModeChange(type){
@@ -4699,8 +4844,10 @@ function randomizeGuideDetails(){
 }
 function resetGuideDetails(){
   if($('guideOutfitDetailMode'))$('guideOutfitDetailMode').value='auto';
+  if($('guideOutfitDetailTarget'))$('guideOutfitDetailTarget').value='auto';
   if($('guideOutfitDetailCategory'))$('guideOutfitDetailCategory').value='all';
   if($('guidePoseDetailMode'))$('guidePoseDetailMode').value='auto';
+  if($('guidePoseDetailTarget'))$('guidePoseDetailTarget').value='auto';
   if($('guidePoseDetailCategory'))$('guidePoseDetailCategory').value='all';
   populateGuideDetailItems('outfit',false);populateGuideDetailItems('pose',false);
   rerollGuideDetail('outfit',{force:true});rerollGuideDetail('pose',{force:true});
@@ -5968,13 +6115,13 @@ function characterSpecificInlineBlocks(){
   if(!hasSpecifiedCharacter())return[];
   const n=characterCount(),genders=characterGenderRoles();
   const letters=['A','B','C'].slice(0,n);
-  const _charQ=quickSlotOverrides();
-  const globalAction=(!_charQ.suppressAction&&state.active?.action&&state.selected?.action?.en)?String(state.selected.action.en).trim():'';
+  const _charQ=quickSlotOverrides(),resolvedGlobal=resolvedPromptSlots();
+  const globalAction=resolvedGlobal.action||'';
   const globalGaze=(state.active?.gaze&&state.selected?.gaze?.en)?String(state.selected.gaze.en).trim():'';
   const globalExpression=(state.active?.expression&&state.selected?.expression?.en)?String(state.selected.expression.en).trim():'';
-  const globalPose=(!_charQ.suppressPose&&state.active?.pose&&state.selected?.pose?.en)?String(state.selected.pose.en).trim():'';
-  const globalProp=(state.active?.prop&&state.selected?.prop?.en)?String(state.selected.prop.en).trim():'';
-  const globalOutfit=(!_charQ.suppressOutfit&&state.active?.outfit&&state.selected?.outfit?.en)?filterOutfitPrompt(state.selected.outfit.en):'';
+  const globalPose=resolvedGlobal.pose||'';
+  const globalProp=resolvedGlobal.prop||'';
+  const globalOutfit=resolvedGlobal.outfit||'';
   const combineText=(...parts)=>parts.map(v=>String(v||'').trim()).filter(Boolean).join(', ');
   const normalizeTokens=(...parts)=>dedupePromptTokens(applyExcludedTokens(parts.flatMap(v=>splitPromptTokens(v))));
   const targetAction=(seed,target)=>{
@@ -6042,12 +6189,9 @@ function characterSpecificInlineBlocks(){
     const compactActions=compactCharacterActionTokens(classified.action);
     entries[letter]={classified,position,pairRole,roleExtra,forcedPieces,appearance:compactAppearance,actionInput:compactActions,controlAction};
   });
+  const guideCharacterSlots={};letters.forEach(letter=>{guideCharacterSlots[letter]=resolveGuideCharacterSlots(letter,{outfit:globalOutfit,pose:globalPose,action:globalAction,prop:globalProp})});
   // 공통 슬롯에서 나온 의상도 캐릭터별 귀속성을 위해 각 CHARACTER 블록에 직접 넣는다.
-  if(globalOutfit){
-    letters.forEach(letter=>{
-      if(!hasCharacterOutfitTokens(entries[letter].classified))entries[letter].appearance.push(globalOutfit);
-    });
-  }
+  letters.forEach(letter=>{const v=guideCharacterSlots[letter]?.outfit||'';if(v&&!hasCharacterOutfitTokens(entries[letter].classified))entries[letter].appearance.push(v)});
   // 표정/포즈/소품도 공통부에는 두지 않고 개별 캐릭터에 귀속시킨다.
   // 캐릭터 입력에 이미 개별 값이 있으면 그 값을 우선한다.
   if(globalExpression){
@@ -6055,14 +6199,12 @@ function characterSpecificInlineBlocks(){
       if(!hasCharacterExpressionTokens(entries[letter].classified))entries[letter].actionInput.push(globalExpression);
     });
   }
-  if(globalPose){
-    letters.forEach(letter=>{
-      if(!hasCharacterPoseTokens(entries[letter].classified))entries[letter].actionInput.push(globalPose);
-    });
-  }
-  if(globalProp&&!entries.A.actionInput.some(t=>tokenCore(t).includes(tokenCore(globalProp))))entries.A.actionInput.push(`holding ${globalProp}`);
+  letters.forEach(letter=>{const v=guideCharacterSlots[letter]?.pose||'';if(v&&!hasCharacterPoseTokens(entries[letter].classified))entries[letter].actionInput.push(v)});
+  letters.forEach(letter=>{const v=guideCharacterSlots[letter]?.prop||'';if(v&&!entries[letter].actionInput.some(t=>tokenCore(t).includes(tokenCore(v))))entries[letter].actionInput.push(isHandheldProp(v)?`holding ${v}`:v)});
   letters.forEach(letter=>{
-    const combinedAction=combineText(...entries[letter].actionInput,entries[letter].controlAction);
+    const poseTarget=effectiveGuideDetail('pose')&&guideTargetApplies(guideDetailTarget('pose'),letter);
+    const guideAction=poseTarget?(guideCharacterSlots[letter]?.action||''):'';
+    const combinedAction=combineText(...entries[letter].actionInput,guideAction||entries[letter].controlAction);
     entries[letter].explicitAction=combinedAction;
     entries[letter].actionSeed=combinedAction||globalAction;
   });
@@ -6282,8 +6424,8 @@ function updatePromptDiagnostics(){
 
 const $=id=>document.getElementById(id);const genre=$('genre'),category=$('category'),cards=$('cards'),prompt=$('prompt'),summary=$('summary'),stats=$('stats'),status=$('status'),negative=$('negative'),pixPrompt=$('pixPrompt'),nijiPrompt=$('nijiPrompt');
 const LS={fav:'nai_asset_favorites_v3',hist:'nai_asset_history_v3',neg:'nai_asset_negative_v3',settings:'nai_asset_settings_v3',charPresets:'nai_asset_character_presets_v1'};
-const SETTINGS_SCHEMA_VERSION=6;
-const SNAPSHOT_SCHEMA_VERSION=4;
+const SETTINGS_SCHEMA_VERSION=7;
+const SNAPSHOT_SCHEMA_VERSION=5;
 function isPlainRecord(v){return !!v&&typeof v==='object'&&!Array.isArray(v)}
 function migrateGuideUniformState(v){
   const s=isPlainRecord(v)?{...v}:{};
@@ -6292,12 +6434,14 @@ function migrateGuideUniformState(v){
   if(!validRole.has(s.guideUniformRole))s.guideUniformRole='sGuide';
   if(!validGender.has(s.guideUniformGender))s.guideUniformGender='female';
   if(!validColor.has(s.guideUniformColor))s.guideUniformColor='white';
+  if(!['auto','A','B','C','all'].includes(s.guideUniformTarget))s.guideUniformTarget='auto';
   return s;
 }
 function migrateGuideDetailState(v){
   const s=isPlainRecord(v)?{...v}:{};const validMode=new Set(['auto','custom','off']);
   if(!validMode.has(s.guideOutfitDetailMode))s.guideOutfitDetailMode='auto';
   if(!validMode.has(s.guidePoseDetailMode))s.guidePoseDetailMode='auto';
+  if(!['auto','A','B','C','all'].includes(s.guideOutfitDetailTarget))s.guideOutfitDetailTarget='auto';if(!['auto','A','B','C','all'].includes(s.guidePoseDetailTarget))s.guidePoseDetailTarget='auto';
   if(!s.guideOutfitDetailCategory)s.guideOutfitDetailCategory='all';if(!s.guidePoseDetailCategory)s.guidePoseDetailCategory='all';
   if(s.guideOutfitDetailItem===undefined)s.guideOutfitDetailItem='0';if(s.guidePoseDetailItem===undefined)s.guidePoseDetailItem='0';
   return s;
@@ -6307,6 +6451,7 @@ function migrateSettings(raw){
   if(from<4){s.guideverseUniform=migrateGuideUniformState(s.guideverseUniform);s.guideverseDetails=migrateGuideDetailState(s.guideverseDetails)}
   if(from<5){if(!['complete','layered','detailed'].includes(s.outfitMode))s.outfitMode='complete';if(!['auto','free','monochrome','warmNeutral','coolNeutral','soft'].includes(s.outfitPaletteMode))s.outfitPaletteMode='auto'}
   if(from<6){if(!['auto','guide','esper','command','mixed'].includes(s.guideCasualProfile))s.guideCasualProfile='auto'}
+  if(from<7){s.guideverseUniform=migrateGuideUniformState(s.guideverseUniform);s.guideverseDetails=migrateGuideDetailState(s.guideverseDetails)}
   s.settingsSchema=SETTINGS_SCHEMA_VERSION;s.appVersion=APP_VERSION;return s;
 }
 function migrateSnapshot(raw){
@@ -6314,6 +6459,7 @@ function migrateSnapshot(raw){
   if(from<2){s.guideverseUniform=migrateGuideUniformState(s.guideverseUniform);s.guideverseDetails=migrateGuideDetailState(s.guideverseDetails)}
   if(from<3){if(!['complete','layered','detailed'].includes(s.outfitMode))s.outfitMode='complete';if(!['auto','free','monochrome','warmNeutral','coolNeutral','soft'].includes(s.outfitPaletteMode))s.outfitPaletteMode='auto'}
   if(from<4){if(!['auto','guide','esper','command','mixed'].includes(s.guideCasualProfile))s.guideCasualProfile='auto'}
+  if(from<5){s.guideverseUniform=migrateGuideUniformState(s.guideverseUniform);s.guideverseDetails=migrateGuideDetailState(s.guideverseDetails)}
   s.snapshotSchema=SNAPSHOT_SCHEMA_VERSION;s.appVersion=s.appVersion||APP_VERSION;return s;
 }
 /* Public aggregate usage counter
@@ -8157,6 +8303,8 @@ function buildGlobalSlotPickerBase(type){
     }
     if(type==='outfit'&&typeof everydayAllDetailItems==='function')bucket.push(...everydayAllDetailItems());
     if(type==='outfit'&&typeof GUIDE_OUTFIT_POOLS!=='undefined')Object.values(GUIDE_OUTFIT_POOLS||{}).forEach(v=>bucket.push(...(v||[])));
+    if(type==='outfit'&&typeof GUIDEVERSE_OUTFIT_DETAIL_ASSETS!=='undefined')Object.values(GUIDEVERSE_OUTFIT_DETAIL_ASSETS||{}).forEach(v=>bucket.push(...(v||[])));
+    if(type==='pose'&&typeof GUIDEVERSE_POSE_DETAIL_ASSETS!=='undefined')Object.values(GUIDEVERSE_POSE_DETAIL_ASSETS||{}).forEach(v=>bucket.push(...(v||[])));
     if(typeof NSFW_COMMON!=='undefined'&&NSFW_COMMON?.[type])Object.values(NSFW_COMMON[type]||{}).forEach(v=>bucket.push(...(v||[])));
     if(typeof DB!=='undefined')collectGlobalSlotItems(DB,type,bucket);
   }catch(err){console.error('[Slot Picker] global candidate build failed',type,err)}
@@ -8179,7 +8327,7 @@ function slotPickerContextKey(type){
     String($('propCategoryMode')?.value||''),
     String($('expressionCategoryMode')?.value||''),
     String($('outfitMode')?.value||''),
-    String($('outfitPaletteMode')?.value||'auto')
+    String($('outfitPaletteMode')?.value||'auto'),String($('guideUniformTarget')?.value||'auto'),String($('guideOutfitDetailTarget')?.value||'auto'),String($('guidePoseDetailTarget')?.value||'auto')
   ];
   return parts.join('|');
 }
@@ -8454,9 +8602,9 @@ function nijiHumanizeList(items,lastJoin='and'){
 function buildPixPrompt(){
   if(!pixPrompt) return;
   const qualityLine=pixTagLine('quality / render',[$('quality')?.value||'', $('style')?.value||'', artStyleTag(), ...aiPresetPromptTags('pix'), ...detailBoosterTags('pix'), ...singleImagePositiveTags()]);
-  const _qo=quickSlotOverrides(); const subjectLine=pixTagLine('subject / composition',[$('gender')?.value||'', ...multiDistinctPromptTags(), state.selected.composition?.en||'', (_qo.suppressPose?'':(state.selected.pose?.en||'')), state.selected.gaze?.en||'']);
+  const _qo=quickSlotOverrides(),_rs=resolvedPromptSlots(); const subjectLine=pixTagLine('subject / composition',[$('gender')?.value||'', ...multiDistinctPromptTags(), state.selected.composition?.en||'', _rs.pose||'', state.selected.gaze?.en||'']);
   const sceneLine=pixTagLine('scene / atmosphere',[state.selected.background?.en||'', state.selected.weather?.en||'', state.selected.season?.en||'', state.selected.lighting?.en||'', state.selected.mood?.en||'']);
-  const stylingLine=pixTagLine('outfit / action / props',[(_qo.suppressOutfit?'':filterOutfitPrompt(state.selected.outfit?.en||'')), (_qo.suppressAction?'':(state.selected.action?.en||'')), state.selected.expression?.en||'', state.selected.prop?.en||'', customTagsForPrompt()]);
+  const stylingLine=pixTagLine('outfit / action / props',[_rs.outfit||'',_rs.action||'',state.selected.expression?.en||'',_rs.prop||'',...guideverseCoreVisualPromptTags(),customTagsForPrompt()]);
   const themeLine=pixTagLine('scene theme',themePixTags());
   const controlLine=pixTagLine('control / direction',[...povPromptTags(), ...presetPromptTags(), ...relationNsfwPromptTags(), ...roleLayoutTags()]);
   const nsfwLine=isNsfwGenre()?pixTagLine('nsfw / emphasis',['nsfw','explicit','uncensored', ...specialPromptTags(), ...multiAxisPromptTags()]):'';
@@ -8501,9 +8649,9 @@ function buildNijiPrompt(){
   const styleValue=$('style')?.value||'';
   const subject=count===1?'a single character':count===2?'two characters':count===3?'three characters':'the scene';
   const relationPhrase=(count>=2)?nijiRelationPhrase():'';
-  const _nq=quickSlotOverrides(); const mainVisual=nijiHumanizeList([state.selected.composition?.en, _nq.suppressPose?null:state.selected.pose?.en, _nq.suppressAction?null:state.selected.action?.en, state.selected.expression?.en, state.selected.gaze?.en]);
+  const _nq=quickSlotOverrides(),_rs=resolvedPromptSlots(); const mainVisual=nijiHumanizeList([state.selected.composition?.en,_rs.pose||null,_rs.action||null,state.selected.expression?.en,state.selected.gaze?.en]);
   const atmosphere=nijiHumanizeList([state.selected.background?.en,state.selected.season?.en,state.selected.weather?.en,state.selected.lighting?.en,state.selected.mood?.en]);
-  const design=nijiHumanizeList(applyExcludedTokens([_nq.suppressOutfit?null:filterOutfitPrompt(state.selected.outfit?.en||''),state.selected.prop?.en,customTagsForPrompt()]));
+  const design=nijiHumanizeList(applyExcludedTokens([_rs.outfit||null,_rs.prop||null,...guideverseCoreVisualPromptTags(),customTagsForPrompt()]));
   const sceneDirection=nijiHumanizeList(presetPromptTags());
   const povPhrase=nijiPovPhrase();
   const nsfwBits=isNsfwGenre()?nijiHumanizeList(applyExcludedTokens([...specialPromptTags(),...multiAxisPromptTags()])):'';
@@ -8677,23 +8825,15 @@ function buildPrompt(){
   const userTags=activeUserCharacterText();
   const n=characterCount();
   const multiSceneKeys=new Set(['composition','background','weather','season','lighting','mood']);
-  let a=applyExcludedTokens([$('quality').value,$('gender').value,$('style').value,artStyleTag(),...aiPresetPromptTags('novel'),...detailBoosterTags('novel'),...themeNovelTags(),...guideverseCoreVisualPromptTags(),...guideUniformPromptTags(),...guideDetailPromptTags(),...nsfwBase,...speciesTags,...specialPromptTags(),...multiAxisPromptTags(),...povPromptTags(),...presetPromptTags(),...relationNsfwPromptTags(),...roleLayoutTags(),customTagsForPrompt()]);
+  const resolved=resolvedPromptSlots();
+  let a=applyExcludedTokens([$('quality').value,$('gender').value,$('style').value,artStyleTag(),...aiPresetPromptTags('novel'),...detailBoosterTags('novel'),...themeNovelTags(),...guideverseCoreVisualPromptTags(),...nsfwBase,...speciesTags,...specialPromptTags(),...multiAxisPromptTags(),...povPromptTags(),...presetPromptTags(),...relationNsfwPromptTags(),...roleLayoutTags(),customTagsForPrompt()]);
   promptSlotKeys().forEach(k=>{
     if(!state.active[k]||!state.selected[k]?.en)return;
-    if(shouldSkipSlotForQuick(k))return;
     if(n>=2&&!multiSceneKeys.has(k))return;
-    if(genre.value==='guideverse'){
-      if(k==='pose'&&effectiveGuideDetail('pose'))return;
-      if(k==='action'&&guidePoseLinkedPromptTags('action').length)return;
-      if(k==='prop'&&guidePoseLinkedPromptTags('prop').length)return;
-    }
-    if(k==='outfit'){
-      if(genre.value==='guideverse'&&guideUniformMode()==='custom')return;
-      const filteredOutfit=filterOutfitPrompt(state.selected[k].en);
-      if(filteredOutfit&&!tokenMatchesExcluded(filteredOutfit))a.push(filteredOutfit);
-      return;
-    }
-    if(!tokenMatchesExcluded(state.selected[k].en))a.push(state.selected[k].en);
+    const rv=(k==='outfit'||k==='pose'||k==='action'||k==='prop')?resolved[k]:state.selected[k].en;
+    if(!rv)return;
+    if(shouldSkipSlotForQuick(k))return;
+    if(!tokenMatchesExcluded(rv))a.push(rv);
   });
   const rawMain=cleanPieces(applyExcludedTokens(a)).join(', ');
   const singleBits=singleImagePositiveTags().join(', ');
@@ -8706,21 +8846,9 @@ function buildPrompt(){
   const identityLocks=n>=2?identityLockTail():[];
   const guideBlocks=guideverseAbilityParagraphs();
   lastPromptDiagnostics={duplicates:optimized.removed,dominated:optimized.conflicts,poseConflicts:optimized.conflicts,multi:n>=2,outfit:outfitExposureMode()!=='none',categoryFit:'높음',singleImage:true};
-  if(n>=2){
-    const flatParts=[sceneMain,...characterBlocks,...separation,...identityLocks,...guideBlocks].filter(Boolean);
-    let result=flatParts.join(', ');
-    result=result.replace(/\s*,\s*,+/g,', ').replace(/\s+/g,' ').trim();
-    if(userTags)result+='\n\n'+userTags;
-    prompt.value=result;
-  }else{
-    const paragraphs=[sceneMain,...characterBlocks,...guideBlocks];
-    if(userTags)paragraphs.push(userTags);
-    prompt.value=paragraphs.filter(Boolean).map(stripSplitCompositionTokens).filter(Boolean).join('\n\n');
-  }
-  updateNegativePrompt();
-  buildAllToolPrompts();
-  updatePromptDiagnostics();
-  emitPromptUpdated();
+  if(n>=2){const flatParts=[sceneMain,...characterBlocks,...separation,...identityLocks,...guideBlocks].filter(Boolean);let result=flatParts.join(', ');result=result.replace(/\s*,\s*,+/g,', ').replace(/\s+/g,' ').trim();if(userTags)result+='\n\n'+userTags;prompt.value=result}
+  else{const paragraphs=[sceneMain,...characterBlocks,...guideBlocks];if(userTags)paragraphs.push(userTags);prompt.value=paragraphs.filter(Boolean).map(stripSplitCompositionTokens).filter(Boolean).join('\n\n')}
+  updateNegativePrompt();buildAllToolPrompts();updatePromptDiagnostics();emitPromptUpdated();
 }
 
 function buildSummary(){
@@ -8740,10 +8868,11 @@ function buildSummary(){
   const roleLine=characterCount()>=2?roleLayoutValue():'1인 미사용';
   const charBlock=['A','B','C'].map(letter=>{const hybrid=(preset,manual)=>[preset,manual].filter(Boolean).join(' + ');const role=($(`char${letter}Role`)?.selectedOptions?.[0]?.textContent||'').replace('미지정','').trim();const pos=hybrid($(`char${letter}PositionPreset`)?.value||'', $(`char${letter}Position`)?.value?.trim()||'');const act=hybrid($(`char${letter}ActionPreset`)?.value||'', $(`char${letter}Action`)?.value?.trim()||'');const parts=[role,pos,act].filter(Boolean);return parts.length?`CHAR ${letter} · ${parts.join(' / ')}`:''}).filter(Boolean).join('\n');
   const uniformPreset=selectedGuideUniform();
-  const uniformLine=genre.value==='guideverse'?(guideUniformMode()==='custom'?(uniformPreset?.ko||'직접 지정'):(guideUniformMode()==='off'?'미사용':'자동 랜덤')):'-';
+  const uniformLine=genre.value==='guideverse'?(guideUniformMode()==='custom'?`${uniformPreset?.ko||'직접 지정'} · 대상 ${effectiveGuideUniformTarget()}`:(guideUniformMode()==='off'?'미사용':'자동 랜덤')):'-';
   const guideOutfitDetail=currentGuideDetail('outfit'),guidePoseDetail=currentGuideDetail('pose');
-  const guideOutfitDetailLine=genre.value==='guideverse'?(guideDetailMode('outfit')==='off'?'미사용':(guideOutfitDetail?.ko||'자동 선택 대기')):'-';
-  const guidePoseDetailLine=genre.value==='guideverse'?(guideDetailMode('pose')==='off'?'미사용':(guidePoseDetail?.ko||'자동 선택 대기')):'-';
+  const guideOutfitBehaviorLabel=guideOutfitDetailBehavior().startsWith('replace:')?guideOutfitDetailBehavior().toUpperCase():guideOutfitDetailBehavior().toUpperCase();
+  const guideOutfitDetailLine=genre.value==='guideverse'?(guideDetailMode('outfit')==='off'?'미사용':((guideOutfitDetail?.ko||'자동 선택 대기')+(guideOutfitBehaviorLabel?` · ${guideOutfitBehaviorLabel}`:'')+` · 대상 ${effectiveGuideDetailTarget('outfit')}`)):'-';
+  const guidePoseDetailLine=genre.value==='guideverse'?(guideDetailMode('pose')==='off'?'미사용':((guidePoseDetail?.ko||'자동 선택 대기')+(guidePoseOverridesRandomMotion()?' · OVERRIDE':'')+` · 대상 ${effectiveGuideDetailTarget('pose')}`)):'-';
   const guideCasualLine=genre.value==='guideverse'&&outfitModeValue()==='detailed'?`${guideCasualProfileValue()==='auto'?'AUTO · ':''}${guideCasualProfileLabel()}`:'미사용';
   const guideLines=genre.value==='guideverse'?['','GUIDEVERSE SYSTEM',guideversePanelEnabled()?'ON · 적용 중':'OFF · 미적용','','GUIDEVERSE UNIFORM',uniformLine,'','GUIDEVERSE CASUAL',guideCasualLine,'','OUTFIT DETAIL',guideOutfitDetailLine,'','POSE DETAIL',guidePoseDetailLine,'','GUIDE ABILITY',guideverseGuideSummaryText(),'','ESPER ABILITY',guideverseEsperSummaryText(),'','VISUAL DIRECTION',guideverseVisualSummaryText()]:[];
   const head=['CHARACTER',$('gender').value?($('gender').selectedOptions[0]?.textContent||'미지정'):'캐릭터 미지정','','PURPOSE PRESET',purposeLine,'','RANDOM STRENGTH',randomLine,'','POV MODE',isPovMode()?`사용 · ${povStrength()==='strong'?'강하게':'약하게'} · ${povDirectorLabel()}`:'사용 안 함','','RELATION',relationLine,'','ROLE LAYOUT',roleLine,'','SCENE PRESET',sceneLine,'','SMART CONFLICT',conflictLine,'','NSFW BASE',nsfwLine,'','SCENE THEME',themeLine,'','SPECIAL TAGS',specialLine,'','OUTFIT STATUS',outfitLine,'','{{user}} MODE',userModeLine,'','{{user}} TAGS',userLine,...guideLines].join('\n');
@@ -8765,14 +8894,15 @@ function runSelfDiagnostic(){
   const uiVersionOk=document.title.includes(APP_META.version)&&[...document.querySelectorAll('.version-badge')].every(el=>el.textContent.includes(APP_META.version));
   add('버전 UI 동기화',uiVersionOk?'ok':'warn',document.title);
   // Required DOM and duplicate IDs
-  const required=['genre','category','rollAll','prompt','updateGate','guideverseAbilityPanel','guideUniformBox','guideDetailBox','cards','themeModeToggle','outfitPaletteMode','guideCasualProfile'];
+  const required=['genre','category','rollAll','prompt','updateGate','guideverseAbilityPanel','guideUniformBox','guideDetailBox','cards','themeModeToggle','outfitPaletteMode','guideCasualProfile','guideUniformTarget','guideOutfitDetailTarget','guidePoseDetailTarget'];
   const missing=required.filter(id=>!document.getElementById(id));add('필수 DOM',missing.length?'fail':'ok',missing.length?`누락: ${missing.join(', ')}`:`${required.length}개 정상`);
   const counts=new Map();document.querySelectorAll('[id]').forEach(el=>counts.set(el.id,(counts.get(el.id)||0)+1));const dup=[...counts].filter(([,n])=>n>1).map(([id,n])=>`${id}×${n}`);add('중복 HTML ID',dup.length?'fail':'ok',dup.length?dup.join(', '):'없음');
   // Guideverse asset counts / compatible pools
   const outfitCount=Object.values(GUIDEVERSE_OUTFIT_DETAIL_ASSETS).flat().length,poseCount=Object.values(GUIDEVERSE_POSE_DETAIL_ASSETS).flat().length;
-  add('GUIDEVERSE 50/50',outfitCount===50&&poseCount===50?'ok':'fail',`의상 ${outfitCount} · 포즈 ${poseCount}`);
+  add('GUIDEVERSE DETAIL ASSETS',outfitCount===100&&poseCount===50?'ok':'fail',`의상 ${outfitCount} · 포즈 ${poseCount}`);
   const everydayCount=everydayDetailPoolCount();add('일상복 디테일 풀',everydayCount===226?'ok':'warn',`${everydayCount}개 속성 · 8개 의상군`);
   add('GUIDEVERSE 사복 보정',document.getElementById('guideCasualProfile')?'ok':'fail',`현재 ${genre.value==='guideverse'&&outfitModeValue()==='detailed'?guideCasualProfileLabel():'미사용'}`);
+  add('GUIDEVERSE PART RESOLVER','ok',`OUTFIT ${guideOutfitDetailBehavior()||'none'} · U:${effectiveGuideUniformTarget()} O:${effectiveGuideDetailTarget('outfit')} P:${effectiveGuideDetailTarget('pose')} · 흔적>랜덤 HARD`);
   add('프리셋 스크롤 격리',document.getElementById('charPresetSlotList')?'ok':'fail','preset-slot-card 전역 details 제한 제외');
   add('BLACK / WHITE 테마',document.getElementById('themeModeToggle')&&document.querySelectorAll('[data-theme-mode-btn]').length===2?'ok':'fail',`현재 ${document.documentElement.dataset.colorMode||'dark'} 모드 · 버튼 ${document.querySelectorAll('[data-theme-mode-btn]').length}개`);
   const autoOutfit=guideDetailPool('outfit',{compatibleOnly:true,auto:true}).length,autoPose=guideDetailPool('pose',{compatibleOnly:true,auto:true}).length;
@@ -8802,7 +8932,7 @@ function show(msg){status.textContent=msg;status.classList.add('show');clearTime
 function snap(){return{snapshotSchema:SNAPSHOT_SCHEMA_VERSION,appVersion:APP_VERSION,time:Date.now(),genre:genre.value,middleCategory:middleCategoryValue(),category:category.value,gender:$('gender')?.value||'',quality:$('quality')?.value||'',style:$('style')?.value||'',aiStylePreset:$('aiStylePreset')?.value||'none',artStyle:$('artStyle')?.value||'',promptDetail:$('promptDetail')?.value||'2',intensity:$('intensity')?.value||'dense',povMode:$('povMode')?.value||'off',povStrength:$('povStrength')?.value||'subtle',povType:$('povType')?.value||'auto',relationPreset:relationPresetValue(),scenePreset:scenePresetValue(),purposePreset:purposePresetValue(),randomStrength:randomStrengthValue(),outfitMode:outfitModeValue(),outfitPaletteMode:outfitPaletteModeValue(),guideCasualProfile:guideCasualProfileValue(),sceneResolvedKey:state.sceneResolvedKey,smartConflict:conflictPreventionOn(),director:{enabled:directorEnabled(),axisExposure:$('axisExposure')?.value,axisContact:$('axisContact')?.value,axisMarks:$('axisMarks')?.value,axisMotion:$('axisMotion')?.value,axisExpression:$('axisExpression')?.value,axisWardrobe:$('axisWardrobe')?.value,roleLayout:$('roleLayout')?.value},characters:{charARole:$('charARole')?.value||'',charATags:$('charATags')?.value||'',charAPositionPreset:$('charAPositionPreset')?.value||'',charAPosition:$('charAPosition')?.value||'',charAActionPreset:$('charAActionPreset')?.value||'',charAAction:$('charAAction')?.value||'',charBRole:$('charBRole')?.value||'',charBTags:$('charBTags')?.value||'',charBPositionPreset:$('charBPositionPreset')?.value||'',charBPosition:$('charBPosition')?.value||'',charBActionPreset:$('charBActionPreset')?.value||'',charBAction:$('charBAction')?.value||'',charCRole:$('charCRole')?.value||'',charCTags:$('charCTags')?.value||'',charCPositionPreset:$('charCPositionPreset')?.value||'',charCPosition:$('charCPosition')?.value||'',charCActionPreset:$('charCActionPreset')?.value||'',charCAction:$('charCAction')?.value||''},selected:JSON.parse(JSON.stringify(state.selected)),active:{...state.active},prompt:prompt.value,pixPrompt:pixPrompt?.value||'',nijiPrompt:nijiPrompt?.value||'',summary:summary.textContent,guideverseAbilities:getGuideverseAbilityState(),guideverseUniform:guideUniformState(),guideverseDetails:guideDetailState()}}
 function addHistory(){let a=safeJSON(LS.hist,[]);a.unshift(snap());a=a.slice(0,10);storageSet(LS.hist,JSON.stringify(a));renderSaved()}
 function addFavorite(source='novel'){let a=safeJSON(LS.fav,[]);const s=snap();s.id=Date.now()+Math.random();s.savedFrom=source;a.unshift(s);a=a.slice(0,50);storageSet(LS.fav,JSON.stringify(a));renderSaved();const label=source==='pix'?'PixAI':source==='niji'?'NijiJourney':'NovelAI';show(`⭐ ${label} 현재 조합을 저장했습니다.`);trackAnalytics('favorite')}
-function loadSnap(s){s=migrateSnapshot(s);genre.value=s.genre;loadCategories(false);const inferred=s.middleCategory&&[...$('middleCategory').options].some(o=>o.value===s.middleCategory)?s.middleCategory:inferMiddleCategory(s.category);$('middleCategory').value=inferred;loadSmallCategories(false,s.category);if([...category.options].some(o=>o.value===s.category))category.value=s.category;populateScenePresetOptions(false);if(s.gender!==undefined&&$('gender'))$('gender').value=s.gender;if(s.quality!==undefined&&$('quality'))$('quality').value=s.quality;if(s.style!==undefined&&$('style'))$('style').value=s.style;if(s.aiStylePreset!==undefined&&$('aiStylePreset'))$('aiStylePreset').value=s.aiStylePreset;if(s.artStyle!==undefined&&$('artStyle'))$('artStyle').value=s.artStyle;if(s.promptDetail!==undefined&&$('promptDetail'))$('promptDetail').value=s.promptDetail;if(s.intensity!==undefined&&$('intensity'))$('intensity').value=s.intensity;if(s.povMode!==undefined&&$('povMode'))$('povMode').value=s.povMode;if(s.povStrength!==undefined&&$('povStrength'))$('povStrength').value=s.povStrength;updatePovTypeOptions(s.povType||'auto');if(s.relationPreset&&[...$('relationPreset').options].some(o=>o.value===s.relationPreset))$('relationPreset').value=s.relationPreset;if(s.scenePreset&&[...$('scenePreset').options].some(o=>o.value===s.scenePreset))$('scenePreset').value=s.scenePreset;if(s.purposePreset&&$('purposePreset'))$('purposePreset').value=s.purposePreset;if(s.randomStrength&&$('randomStrength'))$('randomStrength').value=s.randomStrength;if(s.outfitMode&&$('outfitMode'))$('outfitMode').value=s.outfitMode;if(s.outfitPaletteMode&&$('outfitPaletteMode'))$('outfitPaletteMode').value=s.outfitPaletteMode;state.sceneResolvedKey=s.sceneResolvedKey||'';if(typeof s.smartConflict==='boolean')$('smartConflict').checked=s.smartConflict;if(s.director){if(s.director.enabled!==undefined)setDirectorEnabled(s.director.enabled,{silent:true});Object.entries(s.director).forEach(([k,v])=>{if($(k)&&v!==undefined)$(k).value=v});}if(s.characters)Object.entries(s.characters).forEach(([k,v])=>{if($(k)&&v!==undefined)$(k).value=v});if(s.guideverseAbilities)applyGuideverseAbilityState(s.guideverseAbilities);if(s.guideverseUniform)applyGuideUniformState(s.guideverseUniform);if(s.guideverseDetails)applyGuideDetailState(s.guideverseDetails);else ensureGuideDetails(false);updatePromptDetailUI();updateIntensityMode();updateDirectorState();updateCharacterSpecificUI();Object.keys(SLOTS).forEach(k=>{state.selected[k]=s.selected?.[k]||null;state.active[k]=s.active?.[k]??true;state.locked[k]=false});updateRelationHint();updateScenePresetHint();updateSmartConflictHint();updateSemanticModeHints();render();window.scrollTo({top:$('cards').getBoundingClientRect().top+scrollY-20,behavior:'smooth'})}
+function loadSnap(s){s=migrateSnapshot(s);genre.value=s.genre;loadCategories(false);const inferred=s.middleCategory&&[...$('middleCategory').options].some(o=>o.value===s.middleCategory)?s.middleCategory:inferMiddleCategory(s.category);$('middleCategory').value=inferred;loadSmallCategories(false,s.category);if([...category.options].some(o=>o.value===s.category))category.value=s.category;populateScenePresetOptions(false);if(s.gender!==undefined&&$('gender'))$('gender').value=s.gender;if(s.quality!==undefined&&$('quality'))$('quality').value=s.quality;if(s.style!==undefined&&$('style'))$('style').value=s.style;if(s.aiStylePreset!==undefined&&$('aiStylePreset'))$('aiStylePreset').value=s.aiStylePreset;if(s.artStyle!==undefined&&$('artStyle'))$('artStyle').value=s.artStyle;if(s.promptDetail!==undefined&&$('promptDetail'))$('promptDetail').value=s.promptDetail;if(s.intensity!==undefined&&$('intensity'))$('intensity').value=s.intensity;if(s.povMode!==undefined&&$('povMode'))$('povMode').value=s.povMode;if(s.povStrength!==undefined&&$('povStrength'))$('povStrength').value=s.povStrength;updatePovTypeOptions(s.povType||'auto');if(s.relationPreset&&[...$('relationPreset').options].some(o=>o.value===s.relationPreset))$('relationPreset').value=s.relationPreset;if(s.scenePreset&&[...$('scenePreset').options].some(o=>o.value===s.scenePreset))$('scenePreset').value=s.scenePreset;if(s.purposePreset&&$('purposePreset'))$('purposePreset').value=s.purposePreset;if(s.randomStrength&&$('randomStrength'))$('randomStrength').value=s.randomStrength;if(s.outfitMode&&$('outfitMode'))$('outfitMode').value=s.outfitMode;if(s.outfitPaletteMode&&$('outfitPaletteMode'))$('outfitPaletteMode').value=s.outfitPaletteMode;if(s.guideCasualProfile&&$('guideCasualProfile'))$('guideCasualProfile').value=s.guideCasualProfile;state.sceneResolvedKey=s.sceneResolvedKey||'';if(typeof s.smartConflict==='boolean')$('smartConflict').checked=s.smartConflict;if(s.director){if(s.director.enabled!==undefined)setDirectorEnabled(s.director.enabled,{silent:true});Object.entries(s.director).forEach(([k,v])=>{if($(k)&&v!==undefined)$(k).value=v});}if(s.characters)Object.entries(s.characters).forEach(([k,v])=>{if($(k)&&v!==undefined)$(k).value=v});if(s.guideverseAbilities)applyGuideverseAbilityState(s.guideverseAbilities);if(s.guideverseUniform)applyGuideUniformState(s.guideverseUniform);if(s.guideverseDetails)applyGuideDetailState(s.guideverseDetails);else ensureGuideDetails(false);updatePromptDetailUI();updateIntensityMode();updateDirectorState();updateCharacterSpecificUI();Object.keys(SLOTS).forEach(k=>{state.selected[k]=s.selected?.[k]||null;state.active[k]=s.active?.[k]??true;state.locked[k]=false});updateRelationHint();updateScenePresetHint();updateSmartConflictHint();updateSemanticModeHints();render();}
 function deleteFav(id){let a=safeJSON(LS.fav,[]).filter(x=>x.id!==id);storageSet(LS.fav,JSON.stringify(a));renderSaved()}
 function itemHTML(s,i,isFav){const g=DB[s.genre]?.label||s.genre;const c=(s.nsfw?NSFW_CATEGORY_BY_GENRE[s.genre]?.[s.category]?.label:null)||DB[s.genre]?.categories?.[s.category]?.label||(s.category==='__all'?'카테고리 전체 랜덤':s.category);const source=s.savedFrom||'novel';const sourceLabel=source==='pix'?'PixAI':source==='niji'?'NijiJourney':'NovelAI';const shown=source==='pix'?(s.pixPrompt||s.prompt||''):source==='niji'?(s.nijiPrompt||s.prompt||''):(s.prompt||'');return `<div class="list-item"><div class="list-title">${g} · ${c} · ${sourceLabel}</div><div class="list-text">${shown.replace(/</g,'&lt;')}</div><div class="list-tools"><button data-load="${isFav?'f':'h'}:${i}">불러오기</button>${isFav?`<button data-del="${s.id}">삭제</button>`:''}</div></div>`}
 function renderSaved(){const f=safeJSON(LS.fav,[]),h=safeJSON(LS.hist,[]);$('favorites').innerHTML=f.length?f.map((x,i)=>itemHTML(x,i,true)).join(''):'<div class="empty">저장된 조합이 없습니다.</div>';$('history').innerHTML=h.length?h.map((x,i)=>itemHTML(x,i,false)).join(''):'<div class="empty">최근 기록이 없습니다.</div>'}
@@ -8944,9 +9074,11 @@ function bindGuideActionButton(id,handler){
 bindGuideActionButton('rollGuideUniform',randomizeGuideUniform);
 bindGuideActionButton('resetGuideUniform',resetGuideUniform);
 $('guideOutfitDetailMode')?.addEventListener('change',()=>onGuideDetailModeChange('outfit'));
+$('guideOutfitDetailTarget')?.addEventListener('change',()=>{updateGuideDetailUI();buildPrompt();buildSummary();buildStats();saveSettings()});
 $('guideOutfitDetailCategory')?.addEventListener('change',()=>onGuideDetailCategoryChange('outfit'));
 $('guideOutfitDetailItem')?.addEventListener('change',()=>onGuideDetailItemChange('outfit'));
 $('guidePoseDetailMode')?.addEventListener('change',()=>onGuideDetailModeChange('pose'));
+$('guidePoseDetailTarget')?.addEventListener('change',()=>{updateGuideDetailUI();buildPrompt();buildSummary();buildStats();saveSettings()});
 $('guidePoseDetailCategory')?.addEventListener('change',()=>onGuideDetailCategoryChange('pose'));
 $('guidePoseDetailItem')?.addEventListener('change',()=>onGuideDetailItemChange('pose'));
 bindGuideActionButton('rollGuideDetails',randomizeGuideDetails);
