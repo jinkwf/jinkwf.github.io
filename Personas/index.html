@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark" />
+  <title>Persona Match Lab</title>
+  <style>
+    :root {
+      --bg: #0b0d12;
+      --panel: #11151d;
+      --panel-2: #151a24;
+      --line: rgba(255,255,255,.10);
+      --line-strong: rgba(255,255,255,.18);
+      --text: #f5f7fb;
+      --muted: #9ca6b6;
+      --soft: #cbd3df;
+      --accent: #a788ff;
+      --accent-2: #6fd8ff;
+      --good: #78e6bb;
+      --warn: #ffbd72;
+      --danger: #ff7f9e;
+      --shadow: 0 22px 70px rgba(0,0,0,.32);
+      --radius: 22px;
+      --radius-sm: 14px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Pretendard, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(167,136,255,.16), transparent 30%),
+        radial-gradient(circle at 88% 8%, rgba(111,216,255,.12), transparent 28%),
+        linear-gradient(180deg, #090b10 0%, #0c1017 100%);
+    }
+
+    button, textarea { font: inherit; }
+    button { color: inherit; }
+
+    .wrap {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 56px 0 80px;
+    }
+
+    .hero {
+      display: grid;
+      gap: 16px;
+      margin-bottom: 26px;
+    }
+
+    .eyebrow {
+      width: fit-content;
+      padding: 7px 11px;
+      border: 1px solid rgba(167,136,255,.30);
+      border-radius: 999px;
+      background: rgba(167,136,255,.08);
+      color: #d8cbff;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .12em;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 6vw, 64px);
+      line-height: .98;
+      letter-spacing: -.045em;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.75;
+    }
+
+    .input-panel {
+      position: relative;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(17,21,29,.86);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .panel-head,
+    .section-head,
+    .card-head,
+    .prompt-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .panel-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--soft);
+    }
+
+    .counter {
+      color: var(--muted);
+      font-size: 12px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 245px;
+      resize: vertical;
+      margin-top: 14px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      outline: none;
+      background: #0c1017;
+      color: var(--text);
+      line-height: 1.72;
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+
+    textarea:focus {
+      border-color: rgba(167,136,255,.7);
+      box-shadow: 0 0 0 4px rgba(167,136,255,.10);
+    }
+
+    textarea::placeholder { color: #697386; }
+
+    .input-footer {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .gender-box {
+      display: grid;
+      gap: 8px;
+    }
+
+    .gender-label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .segmented {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .seg-btn,
+    .ghost-btn,
+    .copy-btn,
+    .tab-btn,
+    .primary-btn {
+      border: 0;
+      cursor: pointer;
+      transition: transform .16s ease, background .16s ease, border-color .16s ease, opacity .16s ease;
+    }
+
+    .seg-btn {
+      padding: 8px 11px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #0d1118;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .seg-btn.active {
+      border-color: rgba(167,136,255,.48);
+      background: rgba(167,136,255,.13);
+      color: #e7dfff;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .ghost-btn,
+    .copy-btn,
+    .tab-btn {
+      padding: 10px 13px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: rgba(255,255,255,.03);
+      color: var(--soft);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .ghost-btn:hover,
+    .copy-btn:hover,
+    .tab-btn:hover,
+    .seg-btn:hover { border-color: var(--line-strong); background: rgba(255,255,255,.06); }
+
+    .primary-btn {
+      padding: 11px 18px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #9d7dff, #6fd8ff);
+      color: #081018;
+      font-size: 13px;
+      font-weight: 950;
+      box-shadow: 0 12px 30px rgba(111,216,255,.13);
+    }
+
+    .primary-btn:hover { transform: translateY(-1px); }
+    .primary-btn:active,
+    .ghost-btn:active,
+    .copy-btn:active,
+    .tab-btn:active,
+    .seg-btn:active { transform: translateY(1px); }
+
+    .notice {
+      display: none;
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,127,158,.25);
+      background: rgba(255,127,158,.07);
+      color: #ffc8d5;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .results { display: none; margin-top: 34px; }
+    .results.show { display: block; }
+
+    .section-head {
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: -.025em;
+    }
+
+    .section-sub {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .analysis-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 16px;
+    }
+
+    .chip {
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.035);
+      color: #cbd3df;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .chip b { color: #efeaff; }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .persona-card {
+      position: relative;
+      min-width: 0;
+      overflow: hidden;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(21,26,36,.96), rgba(14,18,25,.96));
+      box-shadow: 0 12px 42px rgba(0,0,0,.18);
+    }
+
+    .persona-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 2px;
+      opacity: .9;
+    }
+
+    .persona-card[data-kind="match"]::before { background: linear-gradient(90deg, transparent, var(--good), transparent); }
+    .persona-card[data-kind="chaos"]::before { background: linear-gradient(90deg, transparent, var(--danger), transparent); }
+    .persona-card[data-kind="story"]::before { background: linear-gradient(90deg, transparent, var(--accent), transparent); }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      width: fit-content;
+      padding: 6px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .04em;
+    }
+
+    .badge.match { color: #a9f2d7; background: rgba(120,230,187,.09); border: 1px solid rgba(120,230,187,.24); }
+    .badge.chaos { color: #ffc0cf; background: rgba(255,127,158,.09); border: 1px solid rgba(255,127,158,.24); }
+    .badge.story { color: #dacfff; background: rgba(167,136,255,.10); border: 1px solid rgba(167,136,255,.24); }
+
+    .persona-name {
+      margin: 14px 0 4px;
+      font-size: 23px;
+      letter-spacing: -.03em;
+    }
+
+    .persona-meta {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .persona-text {
+      margin: 14px 0 12px;
+      min-height: 138px;
+      color: #d9dfe8;
+      font-size: 13px;
+      line-height: 1.72;
+      white-space: pre-line;
+    }
+
+    .char-count {
+      color: #737e91;
+      font-size: 10px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .card-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+    }
+
+    .prompt-section {
+      margin-top: 34px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(17,21,29,.74);
+    }
+
+    .prompt-note {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .persona-select {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin: 16px 0 14px;
+    }
+
+    .persona-select button {
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: #0d1118;
+      color: var(--muted);
+      padding: 9px 12px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .persona-select button.active {
+      border-color: rgba(111,216,255,.38);
+      background: rgba(111,216,255,.09);
+      color: #cdefff;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .tab-btn.active {
+      border-color: rgba(167,136,255,.42);
+      background: rgba(167,136,255,.12);
+      color: #eee9ff;
+    }
+
+    .prompt-box {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #0b0f15;
+      overflow: hidden;
+    }
+
+    .prompt-head {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    pre {
+      margin: 0;
+      padding: 16px;
+      min-height: 152px;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #e5e9f0;
+      font: 12px/1.72 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    .mini-info {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .mini-info > div {
+      padding: 10px 11px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.55;
+      background: rgba(255,255,255,.025);
+    }
+
+    .mini-info b { display: block; margin-bottom: 2px; color: var(--soft); }
+
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 99;
+      transform: translateY(16px);
+      opacity: 0;
+      pointer-events: none;
+      padding: 11px 14px;
+      border: 1px solid var(--line-strong);
+      border-radius: 12px;
+      background: #171d27;
+      color: #f6f8fb;
+      font-size: 12px;
+      font-weight: 900;
+      box-shadow: var(--shadow);
+      transition: opacity .18s ease, transform .18s ease;
+    }
+
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    footer {
+      margin-top: 22px;
+      text-align: center;
+      color: #667085;
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 900px) {
+      .cards { grid-template-columns: 1fr; }
+      .persona-text { min-height: 0; }
+      .mini-info { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 680px) {
+      .wrap { width: min(100% - 20px, 1180px); padding-top: 30px; }
+      .input-panel, .prompt-section { padding: 14px; border-radius: 18px; }
+      .input-footer { grid-template-columns: 1fr; }
+      .actions { justify-content: stretch; }
+      .actions button { flex: 1; }
+      .panel-head, .section-head { align-items: flex-start; }
+      textarea { min-height: 230px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <div class="eyebrow">PERSONA MATCH LAB</div>
+      <h1>캐릭터를 넣으면,<br>관계가 살아나는 페르소나.</h1>
+      <p>성격·말투·직업·과거·세계관을 한 번에 붙여넣으세요. 입력문에서 확인되는 정보만 우선 분석해 찰떡 / 파국 / 서사형 페르소나 3종과 이미지 생성용 외형 프롬프트를 만듭니다.</p>
+    </section>
+
+    <section class="input-panel">
+      <div class="panel-head">
+        <div class="panel-title">캐릭터 설정 통합 입력</div>
+        <div class="counter"><span id="inputCount">0</span>자</div>
+      </div>
+      <textarea id="characterInput" maxlength="8000" placeholder="예) 29세 남성. 무심하고 감정 표현이 적다. 책임감이 강하고 자기 사람은 끝까지 챙긴다. 질투는 심하지만 티 내지 않으며, 연애에서는 주도권을 잡는 편. 말수가 적고 직설적이다. 소방관이며 과거 연인을 사고로 잃었다."></textarea>
+
+      <div class="input-footer">
+        <div class="gender-box">
+          <div class="gender-label">추천 페르소나 성별 · 이미지 프롬프트에 반영</div>
+          <div class="segmented" id="genderControl">
+            <button class="seg-btn active" data-gender="auto">자동</button>
+            <button class="seg-btn" data-gender="female">여성</button>
+            <button class="seg-btn" data-gender="male">남성</button>
+            <button class="seg-btn" data-gender="neutral">중성</button>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="ghost-btn" id="sampleBtn">예시 넣기</button>
+          <button class="ghost-btn" id="clearBtn">지우기</button>
+          <button class="primary-btn" id="generateBtn">페르소나 추천하기</button>
+        </div>
+      </div>
+      <div class="notice" id="notice"></div>
+    </section>
+
+    <section class="results" id="results">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">추천 페르소나</h2>
+          <div class="section-sub">각 카드 복사용 본문은 300자 이내로 자동 제한됩니다.</div>
+        </div>
+        <button class="ghost-btn" id="rerollBtn">같은 설정으로 다시 추천</button>
+      </div>
+
+      <div class="analysis-strip" id="analysisStrip"></div>
+      <div class="cards" id="cards"></div>
+
+      <section class="prompt-section">
+        <div class="prompt-head" style="padding:0; border:0; align-items:flex-start;">
+          <div>
+            <div class="panel-title" style="font-size:16px; color:var(--text);">외형 프롬프트</div>
+            <p class="prompt-note">선택한 페르소나의 외형만 뽑기 좋도록 구성합니다. NovelAI / PixAI는 태그 중심, NijiJourney는 Niji 7 자연어 중심으로 출력합니다.</p>
+          </div>
+        </div>
+
+        <div class="persona-select" id="personaSelect"></div>
+        <div class="tabs" id="platformTabs">
+          <button class="tab-btn active" data-platform="novelai">NovelAI</button>
+          <button class="tab-btn" data-platform="pixai">PixAI</button>
+          <button class="tab-btn" data-platform="niji">NijiJourney</button>
+        </div>
+
+        <div class="prompt-box">
+          <div class="prompt-head">
+            <span id="promptLabel">NovelAI · 외형 태그</span>
+            <button class="copy-btn" id="copyPromptBtn">프롬프트 복사</button>
+          </div>
+          <pre id="promptText"></pre>
+        </div>
+
+        <div class="mini-info">
+          <div><b>NovelAI</b>태그 순서를 인물 → 외형 → 의상 → 구도 순으로 구성.</div>
+          <div><b>PixAI</b>일반 SDXL/DiT 계열에서 쓰기 쉬운 태그형 프롬프트로 구성.</div>
+          <div><b>NijiJourney</b>자연어 묘사 + <code>--niji 7</code> + 세로 캐릭터 비율을 기본 적용.</div>
+        </div>
+      </section>
+    </section>
+
+    <footer>브라우저에서 단독 동작하는 규칙 기반 버전 · 입력 내용은 외부 서버로 전송하지 않습니다.</footer>
+  </main>
+
+  <div class="toast" id="toast">복사했습니다.</div>
+
+  <script>
+    const $ = (sel) => document.querySelector(sel);
+    const $$ = (sel) => [...document.querySelectorAll(sel)];
+
+    const characterInput = $('#characterInput');
+    const inputCount = $('#inputCount');
+    const notice = $('#notice');
+    const results = $('#results');
+    const cards = $('#cards');
+    const analysisStrip = $('#analysisStrip');
+    const personaSelect = $('#personaSelect');
+    const promptText = $('#promptText');
+    const promptLabel = $('#promptLabel');
+    const toast = $('#toast');
+
+    let selectedGender = 'auto';
+    let selectedPlatform = 'novelai';
+    let selectedPersonaIndex = 0;
+    let currentPersonas = [];
+    let rerollSeed = 0;
+
+    const TRAITS = {
+      detached: { label: '무심·과묵', words: ['무심','과묵','냉정','무뚝뚝','표현이 적','감정표현이 적','말수가 적','덤덤','건조한','차가운'] },
+      possessive: { label: '집착·소유욕', words: ['집착','소유욕','독점','질투','통제','소유','독점욕','구속'] },
+      gentle: { label: '다정·배려', words: ['다정','상냥','배려','온화','친절','스윗','부드럽','자상'] },
+      dominant: { label: '주도·지배', words: ['주도','지배','리드','강압','명령','권위','통솔','우위','카리스마'] },
+      playful: { label: '능글·장난', words: ['능글','장난','플러팅','여유롭','짓궂','농담','능청'] },
+      wounded: { label: '상처·불신', words: ['트라우마','상처','불신','상실','죽음','잃었','배신','회피','죄책감','악몽'] },
+      responsible: { label: '책임·보호', words: ['책임감','성실','보호','헌신','끝까지 챙','의무','책임','신뢰'] },
+      proud: { label: '자존심·까칠', words: ['자존심','오만','까칠','고집','예민','도도','완고','독설'] },
+      impulsive: { label: '자유·충동', words: ['자유분방','즉흥','충동','반항','자유롭','제멋대로','모험적'] },
+      scheming: { label: '계략·계산', words: ['계략','계산적','전략적','교활','책략','조종','치밀','계획적'] },
+      shy: { label: '소심·순진', words: ['소심','순진','낯가림','수줍','내성적','말더듬','어리숙'] },
+      passionate: { label: '직진·열정', words: ['직진','열정','솔직','적극적','돌진','행동파','대담'] }
+    };
+
+    const ARCHETYPES = {
+      sunshine: {
+        title: '직진 햇살형',
+        personality: '밝고 솔직하며 감정 표현이 빠르다. 다정하지만 자기 기준은 분명하다.',
+        feature: '상대의 작은 행동을 애정 신호로 잘 읽고, 답답한 순간에는 먼저 말을 건다.',
+        tags: ['#햇살형','#직진','#외유내강','#감정자각','#쌍방구원'],
+        looks: [
+          { hair:'warm brown shoulder-length hair', hairKo:'따뜻한 갈색 중단발', eyes:'clear hazel eyes', eyesKo:'맑은 헤이즐 눈', body:'slim balanced build', bodyKo:'균형 잡힌 슬림 체형', vibe:'bright gentle expression', vibeKo:'밝고 부드러운 인상', outfit:'cream shirt and light cardigan', outfitKo:'크림 셔츠와 가벼운 카디건' },
+          { hair:'soft chestnut bob cut', hairKo:'부드러운 밤색 보브컷', eyes:'warm brown eyes', eyesKo:'따뜻한 갈색 눈', body:'petite balanced build', bodyKo:'아담하고 균형 잡힌 체형', vibe:'open smile, lively eyes', vibeKo:'생기 있는 눈매와 열린 미소', outfit:'simple knit top and tailored trousers', outfitKo:'심플한 니트와 슬랙스' }
+        ]
+      },
+      ironwall: {
+        title: '철벽 독립형',
+        personality: '독립적이고 현실적이다. 쉽게 휘둘리지 않으며 선을 넘으면 즉시 제동을 건다.',
+        feature: '호의와 통제를 정확히 구분해 상대의 집착이나 능글거림을 그대로 받아치지 않는다.',
+        tags: ['#철벽','#독립적','#현실주의','#밀당','#관계역전'],
+        looks: [
+          { hair:'sleek black bob hair', hairKo:'매끈한 흑발 단발', eyes:'cool gray eyes', eyesKo:'차분한 회색 눈', body:'lean straight build', bodyKo:'마른 직선형 체형', vibe:'calm sharp gaze', vibeKo:'차분하고 날카로운 시선', outfit:'black turtleneck and structured coat', outfitKo:'검은 터틀넥과 구조적인 코트' },
+          { hair:'dark ash layered hair', hairKo:'짙은 애쉬 레이어드 헤어', eyes:'dark brown eyes', eyesKo:'짙은 갈색 눈', body:'tall lean build', bodyKo:'큰 키의 슬림 체형', vibe:'unreadable expression', vibeKo:'속내가 잘 읽히지 않는 인상', outfit:'minimal shirt and long coat', outfitKo:'미니멀 셔츠와 롱코트' }
+        ]
+      },
+      guarded: {
+        title: '경계심 강한 상처형',
+        personality: '차분하고 경계심이 높다. 쉽게 기대지 않지만 한번 신뢰하면 오래 지키는 편이다.',
+        feature: '잘해주는 사람부터 의심해 신뢰가 쌓이는 과정 자체가 관계의 핵심 서사가 된다.',
+        tags: ['#상처캐','#불신','#느린연애','#신뢰형성','#구원서사'],
+        looks: [
+          { hair:'dark brown long hair with loose strands', hairKo:'느슨하게 흐르는 짙은 갈색 장발', eyes:'muted green eyes', eyesKo:'탁한 녹색 눈', body:'slender delicate build', bodyKo:'가늘고 섬세한 체형', vibe:'tired guarded eyes', vibeKo:'피로와 경계가 남은 눈매', outfit:'dark knit and worn jacket', outfitKo:'짙은 니트와 낡은 재킷' },
+          { hair:'messy black medium hair', hairKo:'헝클어진 검은 중단발', eyes:'deep amber eyes', eyesKo:'깊은 호박색 눈', body:'lean narrow-shouldered build', bodyKo:'마른 체형', vibe:'quiet wary expression', vibeKo:'조용하고 경계 어린 표정', outfit:'plain shirt under charcoal jacket', outfitKo:'무채색 재킷 안의 단정한 셔츠' }
+        ]
+      },
+      grounded: {
+        title: '단단한 안정형',
+        personality: '정서적으로 안정적이고 판단이 빠르다. 다정하지만 상대 감정에 끌려다니지는 않는다.',
+        feature: '감정이 격해질수록 차분하게 기준을 세워 관계를 현실적인 방향으로 붙잡는다.',
+        tags: ['#안정형','#단단함','#현실주의','#건강한거리','#장기연애'],
+        looks: [
+          { hair:'neat dark brown short hair', hairKo:'단정한 짙은 갈색 숏헤어', eyes:'soft dark eyes', eyesKo:'차분한 흑갈색 눈', body:'balanced healthy build', bodyKo:'건강하고 균형 잡힌 체형', vibe:'composed reliable expression', vibeKo:'믿음직하고 침착한 인상', outfit:'clean shirt and tailored jacket', outfitKo:'깔끔한 셔츠와 테일러드 재킷' },
+          { hair:'black low ponytail', hairKo:'낮게 묶은 흑발', eyes:'clear brown eyes', eyesKo:'또렷한 갈색 눈', body:'slim athletic build', bodyKo:'슬림한 운동 체형', vibe:'steady warm gaze', vibeKo:'안정감 있는 따뜻한 시선', outfit:'simple blouse and dark slacks', outfitKo:'심플한 블라우스와 짙은 슬랙스' }
+        ]
+      },
+      rebel: {
+        title: '반항 자유형',
+        personality: '자기주장이 강하고 즉흥적이다. 간섭을 싫어하며 하고 싶은 말은 바로 하는 편이다.',
+        feature: '보호와 통제를 구분하지 못하는 상대에게 가장 먼저 반기를 들어 긴장을 만든다.',
+        tags: ['#반항형','#자유분방','#통제와자유','#감정싸움','#질투유발'],
+        looks: [
+          { hair:'short tousled auburn hair', hairKo:'헝클어진 적갈색 숏헤어', eyes:'sharp amber eyes', eyesKo:'날카로운 호박색 눈', body:'lean athletic build', bodyKo:'날렵한 운동 체형', vibe:'defiant half-smile', vibeKo:'도발적인 반웃음', outfit:'cropped jacket over fitted top', outfitKo:'짧은 재킷과 몸에 맞는 이너' },
+          { hair:'messy platinum layered hair', hairKo:'헝클어진 플래티넘 레이어드 헤어', eyes:'blue-gray eyes', eyesKo:'청회색 눈', body:'slim flexible build', bodyKo:'유연한 슬림 체형', vibe:'restless confident gaze', vibeKo:'자유롭고 자신감 있는 눈빛', outfit:'oversized bomber jacket and black pants', outfitKo:'오버핏 봄버와 검은 팬츠' }
+        ]
+      },
+      rival: {
+        title: '냉정 라이벌형',
+        personality: '머리가 빠르고 승부욕이 강하다. 감정보다 성과를 앞세우지만 인정한 사람에게는 공정하다.',
+        feature: '서로 약점을 찌르면서도 실력을 인정하는 경쟁 구도가 감정으로 번지기 쉽다.',
+        tags: ['#라이벌','#혐관','#긴장감','#자존심싸움','#감정역전'],
+        looks: [
+          { hair:'sharp dark navy short hair', hairKo:'짙은 남색 숏헤어', eyes:'cool blue eyes', eyesKo:'차가운 청색 눈', body:'tall lean build', bodyKo:'큰 키의 마른 체형', vibe:'confident analytical gaze', vibeKo:'분석적이고 자신감 있는 시선', outfit:'tailored suit with open collar', outfitKo:'오픈 칼라의 테일러드 수트' },
+          { hair:'glossy black straight hair', hairKo:'윤기 있는 검은 생머리', eyes:'steel gray eyes', eyesKo:'강철빛 회색 눈', body:'slender poised build', bodyKo:'곧고 단정한 체형', vibe:'cool restrained expression', vibeKo:'절제된 냉정한 인상', outfit:'monochrome formal wear', outfitKo:'모노톤 포멀웨어' }
+        ]
+      },
+      perceptive: {
+        title: '눈치 빠른 관찰형',
+        personality: '조용하고 관찰력이 좋다. 감정에 휩쓸리기보다 상대 패턴을 읽고 필요한 순간에 움직인다.',
+        feature: '말하지 않는 애정과 숨기는 불안을 먼저 알아채 무심한 캐릭터와 특히 잘 맞는다.',
+        tags: ['#관찰형','#눈치빠름','#잔잔한연애','#행동파악','#신뢰'],
+        looks: [
+          { hair:'soft black medium hair', hairKo:'부드러운 흑발 중단발', eyes:'deep brown eyes', eyesKo:'깊은 갈색 눈', body:'slim balanced build', bodyKo:'균형 잡힌 슬림 체형', vibe:'quiet attentive eyes', vibeKo:'조용하고 세심한 눈매', outfit:'soft gray shirt and dark vest', outfitKo:'회색 셔츠와 짙은 베스트' },
+          { hair:'dark brown wavy hair', hairKo:'짙은 갈색 웨이브 헤어', eyes:'olive brown eyes', eyesKo:'올리브빛 갈색 눈', body:'lean relaxed build', bodyKo:'편안한 슬림 체형', vibe:'subtle thoughtful expression', vibeKo:'생각이 깊어 보이는 잔잔한 표정', outfit:'soft knit and long trousers', outfitKo:'부드러운 니트와 긴 팬츠' }
+        ]
+      },
+      playful: {
+        title: '능글 맞받아치기형',
+        personality: '눈치가 빠르고 말재주가 좋다. 장난스럽지만 중요한 순간에는 선을 정확히 지킨다.',
+        feature: '상대의 플러팅과 독설을 같은 속도로 받아쳐 대화만으로도 팽팽한 케미를 만든다.',
+        tags: ['#능글','#티키타카','#말싸움','#밀당','#플러팅'],
+        looks: [
+          { hair:'dark brown tousled hair', hairKo:'살짝 헝클어진 짙은 갈색 머리', eyes:'golden brown eyes', eyesKo:'금갈색 눈', body:'lean fit build', bodyKo:'탄탄한 슬림 체형', vibe:'mischievous smile', vibeKo:'장난기 어린 미소', outfit:'open-collar shirt and casual jacket', outfitKo:'오픈 칼라 셔츠와 캐주얼 재킷' },
+          { hair:'soft ash brown layered hair', hairKo:'부드러운 애쉬브라운 레이어드 헤어', eyes:'warm gray eyes', eyesKo:'따뜻한 회색 눈', body:'slender build', bodyKo:'늘씬한 체형', vibe:'amused confident expression', vibeKo:'여유롭고 재미있어 하는 표정', outfit:'relaxed blazer over simple top', outfitKo:'심플한 이너와 여유로운 블레이저' }
+        ]
+      },
+      ambitious: {
+        title: '야망 있는 현실형',
+        personality: '목표가 분명하고 추진력이 강하다. 감정 때문에 자기 삶을 포기하지 않는 타입이다.',
+        feature: '서로의 목표를 존중하면 강한 파트너가 되지만 우선순위가 엇갈리면 큰 갈등이 생긴다.',
+        tags: ['#야망형','#커리어','#대등관계','#현실연애','#우선순위갈등'],
+        looks: [
+          { hair:'sleek dark chestnut hair', hairKo:'윤기 있는 짙은 밤색 머리', eyes:'focused dark brown eyes', eyesKo:'집중력 있는 짙은 갈색 눈', body:'tall poised build', bodyKo:'큰 키의 반듯한 체형', vibe:'self-assured expression', vibeKo:'자기 확신이 느껴지는 인상', outfit:'sharp business casual outfit', outfitKo:'선이 깔끔한 비즈니스 캐주얼' },
+          { hair:'short black side-parted hair', hairKo:'옆가르마의 짧은 흑발', eyes:'dark hazel eyes', eyesKo:'짙은 헤이즐 눈', body:'fit proportional build', bodyKo:'비율 좋은 탄탄한 체형', vibe:'decisive calm gaze', vibeKo:'결단력 있고 차분한 시선', outfit:'minimal suit without tie', outfitKo:'타이 없는 미니멀 수트' }
+        ]
+      },
+      softsteel: {
+        title: '외유내강형',
+        personality: '말투는 부드럽지만 핵심에서는 물러서지 않는다. 배려와 자기주장이 균형 잡힌 편이다.',
+        feature: '강한 상대와 정면충돌하기보다 조용히 기준을 세워 관계의 균형을 되찾는다.',
+        tags: ['#외유내강','#단단함','#배려','#대등관계','#신뢰'],
+        looks: [
+          { hair:'soft brown long layered hair', hairKo:'부드러운 갈색 레이어드 장발', eyes:'gentle gray-brown eyes', eyesKo:'회갈색의 부드러운 눈', body:'slim graceful build', bodyKo:'가늘고 단정한 체형', vibe:'gentle but steady expression', vibeKo:'부드럽지만 흔들리지 않는 인상', outfit:'light blouse and dark tailored pants', outfitKo:'밝은 블라우스와 짙은 테일러드 팬츠' },
+          { hair:'neat black medium hair', hairKo:'단정한 검은 중단발', eyes:'clear dark eyes', eyesKo:'또렷한 검은 눈', body:'balanced build', bodyKo:'균형 잡힌 체형', vibe:'soft reserved smile', vibeKo:'절제된 부드러운 미소', outfit:'clean knit and structured jacket', outfitKo:'깔끔한 니트와 구조적인 재킷' }
+        ]
+      }
+    };
+
+    const NAME_POOLS = {
+      female: ['윤서하','한지우','강채은','정세린','서유진','문해원','차예린','임다온','백수아','신하린','유은재','김소윤'],
+      male: ['윤재하','한도윤','강시온','정태윤','서이준','문지호','차우현','임선우','백현준','신재윤','유시현','김도하'],
+      neutral: ['서하','지안','시온','다온','유진','하람','윤재','은재','해원','지우','재희','수현']
+    };
+
+    const JOBS = {
+      modern: ['출판 편집자','브랜드 디자이너','응급구조사','건축 설계사','다큐 사진가','법률사무원','심리상담센터 코디네이터','연구원','공연기획자','제품기획자'],
+      esper: ['센터 상황관제관','능력연구소 연구원','전담 가이드','현장 의료요원','게이트 분석관','관리청 조사관','장비개발 연구원','구조팀 코디네이터'],
+      fantasy: ['왕립기록관 사서','궁정 약제사','외교관','마도공학 연구원','기사단 행정관','상단 회계관','왕립식물원 연구사','궁정 화가'],
+      historical: ['신문사 교열기자','양장점 재단사','무역회사 통역관','카바레 피아니스트','사진관 기사','은행 사무원','서점 주인','의원 조수'],
+      entertainment: ['A&R 매니저','안무 디렉터','스타일리스트','공연 연출가','음악 프로듀서','콘텐츠 에디터','무대 디자이너','투어 매니저'],
+      scifi: ['식민지 생태연구원','항법 데이터 분석관','우주선 의무관','통신 기술자','자원관리관','기지 보안분석관','테라포밍 연구원','행성 지질학자']
+    };
+
+    const RELATION_LINES = {
+      match: {
+        sunshine: '말 없는 보호자 × 먼저 표현하는 햇살',
+        ironwall: '강한 캐릭터 × 흔들리지 않는 독립형',
+        guarded: '묵묵한 헌신 × 쉽게 믿지 않는 사람',
+        grounded: '감정의 파도 × 중심을 잡는 안정형',
+        rebel: '규칙형 캐릭터 × 자유로운 반항형',
+        rival: '실력자 × 대등한 라이벌',
+        perceptive: '감정을 숨기는 사람 × 먼저 알아채는 사람',
+        playful: '능글한 캐릭터 × 한술 더 뜨는 상대',
+        ambitious: '책임형 캐릭터 × 자기 삶이 분명한 파트너',
+        softsteel: '강한 사람 × 부드럽게 버티는 사람'
+      },
+      chaos: {
+        sunshine: '벽을 세우는 사람 × 계속 두드리는 직진형',
+        ironwall: '집착형 캐릭터 × 통제되지 않는 철벽',
+        guarded: '확신을 요구하는 사람 × 끝까지 의심하는 사람',
+        grounded: '충동적인 캐릭터 × 현실을 들이대는 상대',
+        rebel: '통제하려는 사람 × 통제받지 않는 자유형',
+        rival: '자존심 강한 사람 × 절대 져주지 않는 라이벌',
+        perceptive: '숨기는 사람 × 전부 눈치채는 사람',
+        playful: '독설형 캐릭터 × 웃으며 받아치는 상대',
+        ambitious: '독점하려는 사람 × 목표를 우선하는 파트너',
+        softsteel: '밀어붙이는 사람 × 조용히 거절하는 사람'
+      },
+      story: {
+        sunshine: '상실을 품은 사람 × 다시 일상을 끌어오는 햇살',
+        ironwall: '소유하려는 사람 × 관계의 선을 다시 그리는 상대',
+        guarded: '행동으로 증명하는 사람 × 믿는 법을 잊은 사람',
+        grounded: '불안정한 사람 × 끝까지 기준을 지키는 사람',
+        rebel: '보호를 사랑이라 믿는 사람 × 자유를 포기하지 않는 사람',
+        rival: '오래된 경쟁자 × 가장 정확한 이해자',
+        perceptive: '침묵으로 버티는 사람 × 침묵을 읽는 사람',
+        playful: '감정을 피하는 사람 × 농담 속 진심을 꺼내는 사람',
+        ambitious: '사랑과 목표 사이 × 서로의 선택을 시험받는 관계',
+        softsteel: '강해 보이는 사람 × 약한 순간을 받아주는 상대'
+      }
+    };
+
+    const MAPS = {
+      match: {
+        detached: ['perceptive','sunshine'], possessive: ['grounded','softsteel'], gentle: ['guarded','ambitious'], dominant: ['softsteel','grounded'],
+        playful: ['ironwall','playful'], wounded: ['grounded','sunshine'], responsible: ['sunshine','ambitious'], proud: ['softsteel','perceptive'],
+        impulsive: ['grounded','perceptive'], scheming: ['ironwall','softsteel'], shy: ['sunshine','playful'], passionate: ['grounded','softsteel']
+      },
+      chaos: {
+        detached: ['sunshine','playful'], possessive: ['rebel','ironwall'], gentle: ['guarded','rival'], dominant: ['rebel','ironwall'],
+        playful: ['ironwall','rival'], wounded: ['rebel','ambitious'], responsible: ['rebel','rival'], proud: ['rival','playful'],
+        impulsive: ['grounded','ambitious'], scheming: ['ironwall','rival'], shy: ['playful','ambitious'], passionate: ['ironwall','rival']
+      },
+      story: {
+        detached: ['guarded','perceptive'], possessive: ['rebel','ironwall'], gentle: ['guarded','ambitious'], dominant: ['softsteel','guarded'],
+        playful: ['guarded','perceptive'], wounded: ['sunshine','grounded'], responsible: ['guarded','ambitious'], proud: ['softsteel','rival'],
+        impulsive: ['grounded','guarded'], scheming: ['softsteel','guarded'], shy: ['sunshine','perceptive'], passionate: ['guarded','grounded']
+      }
+    };
+
+    const FALLBACKS = {
+      match: ['perceptive','softsteel','sunshine','grounded'],
+      chaos: ['rebel','rival','ironwall','playful'],
+      story: ['guarded','ambitious','grounded','perceptive']
+    };
+
+    function hashString(str) {
+      let h = 2166136261;
+      for (let i = 0; i < str.length; i++) {
+        h ^= str.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      return Math.abs(h >>> 0);
+    }
+
+    function seededPick(arr, seed) {
+      return arr[Math.abs(seed) % arr.length];
+    }
+
+    function normalize(text) {
+      return text.toLowerCase().replace(/\s+/g, ' ').trim();
+    }
+
+    function analyzeTraits(text) {
+      const n = normalize(text);
+      const scores = {};
+      for (const [key, trait] of Object.entries(TRAITS)) {
+        scores[key] = trait.words.reduce((sum, word) => sum + (n.includes(word.toLowerCase()) ? 1 : 0), 0);
+      }
+      const ranked = Object.entries(scores)
+        .filter(([,score]) => score > 0)
+        .sort((a,b) => b[1] - a[1]);
+      return { scores, ranked };
+    }
+
+    function inferGenre(text) {
+      const n = normalize(text);
+      if (/(에스퍼|가이드|게이트|폭주|매칭률|관리청)/.test(n)) return 'esper';
+      if (/(제국|공작|황제|황태자|기사단|마법|마도|귀족|로판|왕국)/.test(n)) return 'fantasy';
+      if (/(1930|상하이|순무국|청방|홍련회|녹등회|카바레|신문사)/.test(n)) return 'historical';
+      if (/(아이돌|배우|연예인|팬덤|기획사|연습생|가수|콘서트)/.test(n)) return 'entertainment';
+      if (/(우주|행성|식민지|테라포밍|기지|항법|sf|사이파이)/.test(n)) return 'scifi';
+      return 'modern';
+    }
+
+    function inferSourceAge(text) {
+      const patterns = [/(\d{1,2})\s*세/, /(?:age|나이)\s*[:：]?\s*(\d{1,2})/i];
+      for (const pattern of patterns) {
+        const m = text.match(pattern);
+        if (m) {
+          const age = Number(m[1]);
+          if (age >= 1 && age <= 99) return age;
+        }
+      }
+      return null;
+    }
+
+    function inferGenderFromText(text) {
+      const n = normalize(text);
+      if (/(여자 페르소나|여성 페르소나|여페|female persona)/.test(n)) return 'female';
+      if (/(남자 페르소나|남성 페르소나|남페|male persona)/.test(n)) return 'male';
+      if (/(중성 페르소나|논바이너리|androgynous persona)/.test(n)) return 'neutral';
+      return null;
+    }
+
+    function resolvePersonaGender(text, index, seed) {
+      if (selectedGender !== 'auto') return selectedGender;
+      const explicit = inferGenderFromText(text);
+      if (explicit) return explicit;
+      const cycle = ['female','male','neutral'];
+      return cycle[(seed + index) % cycle.length];
+    }
+
+    function chooseArchetype(kind, analysis, used, seed) {
+      const candidates = [];
+      analysis.ranked.slice(0, 4).forEach(([traitKey, score], rankIndex) => {
+        (MAPS[kind][traitKey] || []).forEach((arc, arcIndex) => {
+          candidates.push({ arc, weight: (6 - rankIndex) + score * 2 - arcIndex });
+        });
+      });
+      FALLBACKS[kind].forEach((arc, idx) => candidates.push({ arc, weight: 3 - idx * .2 }));
+      candidates.sort((a,b) => b.weight - a.weight);
+      const unique = [...new Set(candidates.map(c => c.arc))].filter(a => !used.has(a));
+      if (unique.length) {
+        const pickWindow = unique.slice(0, Math.min(3, unique.length));
+        return seededPick(pickWindow, seed + rerollSeed * 11);
+      }
+      return seededPick(FALLBACKS[kind], seed + rerollSeed * 17);
+    }
+
+    function personaAge(sourceAge, kind, seed) {
+      if (sourceAge) {
+        const offsets = kind === 'match' ? [-2,-1,0,1] : kind === 'chaos' ? [-1,0,1,2] : [-3,-1,1,2];
+        return Math.max(14, Math.min(55, sourceAge + seededPick(offsets, seed)));
+      }
+      const bases = kind === 'match' ? [25,26,27,28,29] : kind === 'chaos' ? [24,27,28,30,31] : [26,28,29,30,32];
+      return seededPick(bases, seed);
+    }
+
+    function agePrompt(age) {
+      if (age < 13) return { novel:'child', pix:'child', niji:`${age}-year-old child` };
+      if (age < 18) return { novel:'teenager', pix:'teenager', niji:`${age}-year-old teenager` };
+      return { novel:'adult', pix:'adult', niji:`${age}-year-old adult` };
+    }
+
+    function genderPrompt(gender) {
+      if (gender === 'female') return { novel:'1girl', pix:'1girl', niji:'woman', ko:'여성' };
+      if (gender === 'male') return { novel:'1boy', pix:'1boy', niji:'man', ko:'남성' };
+      return { novel:'1other', pix:'1person, androgynous', niji:'androgynous person', ko:'중성' };
+    }
+
+    function occupationFor(genre, seed) {
+      const pool = JOBS[genre] || JOBS.modern;
+      return seededPick(pool, seed);
+    }
+
+    function appearanceFor(arcKey, seed, genre) {
+      const base = seededPick(ARCHETYPES[arcKey].looks, seed);
+      let outfit = base.outfit;
+      let outfitKo = base.outfitKo;
+      if (genre === 'esper') { outfit = 'futuristic agency uniform, high-neck inner shirt, structured jacket, subtle insignia'; outfitKo = '하이넥 이너와 인장이 달린 미래형 기관 제복'; }
+      if (genre === 'fantasy') { outfit = 'refined fantasy formalwear, layered fabric, subtle embroidery'; outfitKo = '은은한 자수가 들어간 판타지풍 포멀웨어'; }
+      if (genre === 'historical') { outfit = '1930s tailored outfit, period-accurate details'; outfitKo = '1930년대풍 테일러드 복식'; }
+      if (genre === 'entertainment') { outfit = 'stylish contemporary fashion, polished layered outfit'; outfitKo = '세련된 현대식 레이어드 패션'; }
+      if (genre === 'scifi') { outfit = 'clean futuristic utility wear, structured technical jacket'; outfitKo = '구조적인 미래형 유틸리티 웨어'; }
+      return { ...base, outfit, outfitKo };
+    }
+
+    function extractSourceKeywords(text) {
+      const tokens = [];
+      const dictionary = ['무심','다정','집착','질투','소유욕','책임감','보호','능글','까칠','자존심','상처','트라우마','불신','직진','순애','계략','반항','자유분방','헌신','냉정','과묵'];
+      dictionary.forEach(k => { if (text.includes(k)) tokens.push(k); });
+      return tokens.slice(0, 5);
+    }
+
+    function fitTo300(parts) {
+      const must = parts.filter(Boolean);
+      let text = must.join('\n');
+      if (text.length <= 300) return text;
+      // Preserve identity line + core fields; shorten feature/tags last.
+      const shortened = [...must];
+      while (shortened.join('\n').length > 300 && shortened.length > 4) shortened.pop();
+      text = shortened.join('\n');
+      if (text.length > 300) text = text.slice(0, 297).replace(/[\s,·]+$/,'') + '…';
+      return text;
+    }
+
+    function buildPersona(kind, arcKey, index, context, seed) {
+      const arc = ARCHETYPES[arcKey];
+      const gender = resolvePersonaGender(context.text, index, seed);
+      const name = seededPick(NAME_POOLS[gender], seed + index * 19 + rerollSeed * 7);
+      const age = personaAge(context.sourceAge, kind, seed + 3);
+      const job = occupationFor(context.genre, seed + 7);
+      const look = appearanceFor(arcKey, seed + 13, context.genre);
+      const relation = RELATION_LINES[kind][arcKey] || RELATION_LINES[kind].softsteel;
+      const appearanceKo = `${look.hairKo}, ${look.eyesKo}, ${look.bodyKo}, ${look.vibeKo}. ${look.outfitKo}.`;
+      const tags = arc.tags.slice(0,5).join(' ');
+      const body = fitTo300([
+        `${name} | ${age}세 | ${job}`,
+        `성격: ${arc.personality}`,
+        `구도: ${relation}.`,
+        `외형: ${appearanceKo}`,
+        `특징: ${arc.feature}`,
+        tags
+      ]);
+      return { kind, arcKey, arc, gender, name, age, job, look, relation, body, tags, genre: context.genre };
+    }
+
+    function visualPrompts(persona) {
+      const g = genderPrompt(persona.gender);
+      const a = agePrompt(persona.age);
+      const l = persona.look;
+      const commonTags = [l.hair, l.eyes, l.body, l.vibe, l.outfit, 'solo', 'portrait', 'upper body', 'facing viewer', 'clean background', 'detailed face', 'detailed eyes'];
+
+      const novelai = [
+        'masterpiece', 'best quality', 'amazing quality', 'high complexity',
+        g.novel, a.novel,
+        ...commonTags,
+        'anime coloring', 'soft cinematic lighting', 'depthness'
+      ].join(', ');
+
+      const pixai = [
+        'masterpiece', 'best quality', 'highly detailed', 'sharp focus',
+        g.pix, a.pix,
+        l.hair, l.eyes, l.body, l.vibe, l.outfit,
+        'solo', 'anime style', 'anime coloring', 'upper body portrait', 'facing viewer',
+        'soft cinematic lighting', 'clean background', 'detailed eyes', 'intricate details'
+      ].join(', ');
+
+      const niji = `Anime character portrait of a ${a.niji} ${g.niji}, ${l.hair}, ${l.eyes}, ${l.body}, ${l.vibe}, wearing ${l.outfit}. Upper-body composition, facing the viewer, clean background, refined facial features, expressive detailed eyes, elegant linework, polished anime illustration, soft cinematic lighting --niji 7 --ar 2:3 --s 250 --no text watermark signature`;
+
+      return { novelai, pixai, niji };
+    }
+
+    function kindInfo(kind) {
+      if (kind === 'match') return { label:'찰떡', desc:'상호보완 궁합', cls:'match' };
+      if (kind === 'chaos') return { label:'파국', desc:'부딪혀서 맛있는 케미', cls:'chaos' };
+      return { label:'서사', desc:'관계 변화가 큰 타입', cls:'story' };
+    }
+
+    function showNotice(message) {
+      notice.textContent = message;
+      notice.style.display = 'block';
+    }
+
+    function hideNotice() { notice.style.display = 'none'; }
+
+    function renderAnalysis(context) {
+      analysisStrip.innerHTML = '';
+      const chips = [];
+      const traitLabels = context.analysis.ranked.slice(0,5).map(([k]) => TRAITS[k].label);
+      if (traitLabels.length) chips.push(`<span class="chip"><b>감지 성향</b> · ${traitLabels.join(' / ')}</span>`);
+      else chips.push(`<span class="chip"><b>감지 성향</b> · 핵심 키워드 부족 → 범용 매칭</span>`);
+      const genreKo = { modern:'현대', esper:'에스퍼/가이드', fantasy:'판타지', historical:'시대극', entertainment:'연예계', scifi:'SF' }[context.genre];
+      chips.push(`<span class="chip"><b>세계관</b> · ${genreKo}</span>`);
+      chips.push(`<span class="chip"><b>원문 나이</b> · ${context.sourceAge ? context.sourceAge + '세 감지' : '미감지'}</span>`);
+      const explicit = extractSourceKeywords(context.text);
+      if (explicit.length) chips.push(`<span class="chip"><b>명시 키워드</b> · ${explicit.join(' · ')}</span>`);
+      analysisStrip.innerHTML = chips.join('');
+    }
+
+    function renderCards() {
+      cards.innerHTML = currentPersonas.map((p, i) => {
+        const info = kindInfo(p.kind);
+        return `
+          <article class="persona-card" data-kind="${p.kind}">
+            <div class="card-head">
+              <span class="badge ${info.cls}">${info.label} · ${info.desc}</span>
+              <span class="char-count">${p.body.length}/300자</span>
+            </div>
+            <h3 class="persona-name">${p.name}</h3>
+            <div class="persona-meta">${p.age}세 · ${p.job} · ${genderPrompt(p.gender).ko}</div>
+            <div class="persona-text">${escapeHTML(p.body)}</div>
+            <div class="card-actions">
+              <span class="char-count">${p.arc.title}</span>
+              <button class="copy-btn" data-copy-card="${i}">페르소나 복사</button>
+            </div>
+          </article>`;
+      }).join('');
+
+      $$('[data-copy-card]').forEach(btn => {
+        btn.addEventListener('click', () => copyText(currentPersonas[Number(btn.dataset.copyCard)].body));
+      });
+    }
+
+    function renderPersonaSelect() {
+      personaSelect.innerHTML = currentPersonas.map((p,i) => {
+        const info = kindInfo(p.kind);
+        return `<button class="${i === selectedPersonaIndex ? 'active' : ''}" data-persona="${i}">${info.label} · ${p.name}</button>`;
+      }).join('');
+      $$('[data-persona]').forEach(btn => btn.addEventListener('click', () => {
+        selectedPersonaIndex = Number(btn.dataset.persona);
+        renderPersonaSelect();
+        renderPrompt();
+      }));
+    }
+
+    function renderPrompt() {
+      if (!currentPersonas.length) return;
+      const p = currentPersonas[selectedPersonaIndex];
+      const prompts = visualPrompts(p);
+      promptText.textContent = prompts[selectedPlatform];
+      const labels = {
+        novelai: 'NovelAI · 외형 태그',
+        pixai: 'PixAI · 외형 태그',
+        niji: 'NijiJourney · Niji 7 외형 프롬프트'
+      };
+      promptLabel.textContent = labels[selectedPlatform];
+      $$('#platformTabs .tab-btn').forEach(b => b.classList.toggle('active', b.dataset.platform === selectedPlatform));
+    }
+
+    function generate() {
+      hideNotice();
+      const text = characterInput.value.trim();
+      if (text.length < 8) {
+        showNotice('캐릭터 설정을 조금 더 입력해주세요. 성격 키워드가 1~2개만 있어도 추천할 수 있습니다.');
+        return;
+      }
+
+      const seed = hashString(text) + rerollSeed * 101;
+      const analysis = analyzeTraits(text);
+      const context = {
+        text,
+        analysis,
+        genre: inferGenre(text),
+        sourceAge: inferSourceAge(text)
+      };
+
+      const used = new Set();
+      const kinds = ['match','chaos','story'];
+      currentPersonas = kinds.map((kind, index) => {
+        const arcKey = chooseArchetype(kind, analysis, used, seed + index * 97);
+        used.add(arcKey);
+        return buildPersona(kind, arcKey, index, context, seed + index * 131);
+      });
+
+      selectedPersonaIndex = 0;
+      renderAnalysis(context);
+      renderCards();
+      renderPersonaSelect();
+      renderPrompt();
+      results.classList.add('show');
+      setTimeout(() => results.scrollIntoView({ behavior:'smooth', block:'start' }), 60);
+    }
+
+    function escapeHTML(str) {
+      return str.replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
+    }
+
+    async function copyText(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch (e) {
+        const temp = document.createElement('textarea');
+        temp.value = text;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand('copy');
+        temp.remove();
+      }
+      toast.classList.add('show');
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => toast.classList.remove('show'), 1250);
+    }
+
+    characterInput.addEventListener('input', () => {
+      inputCount.textContent = characterInput.value.length;
+      try { localStorage.setItem('personaMatchInput', characterInput.value); } catch(e) {}
+    });
+
+    $('#genderControl').addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-gender]');
+      if (!btn) return;
+      selectedGender = btn.dataset.gender;
+      $$('#genderControl .seg-btn').forEach(b => b.classList.toggle('active', b === btn));
+    });
+
+    $('#generateBtn').addEventListener('click', () => { rerollSeed = 0; generate(); });
+    $('#rerollBtn').addEventListener('click', () => { rerollSeed += 1; generate(); });
+    $('#clearBtn').addEventListener('click', () => {
+      characterInput.value = '';
+      inputCount.textContent = '0';
+      results.classList.remove('show');
+      hideNotice();
+      try { localStorage.removeItem('personaMatchInput'); } catch(e) {}
+      characterInput.focus();
+    });
+
+    $('#sampleBtn').addEventListener('click', () => {
+      characterInput.value = '29세 남성. 무심하고 감정 표현이 적다. 책임감이 강하고 한번 자기 사람이라고 생각하면 끝까지 챙긴다. 질투는 심하지만 티를 내지 않으며 연애에서는 주도권을 잡는 편이다. 말수가 적고 직설적인 말투를 사용한다. 소방관이며 과거 연인을 사고로 잃은 경험이 있어 가까운 사람의 안전에 예민하다.';
+      inputCount.textContent = characterInput.value.length;
+      characterInput.focus();
+    });
+
+    $('#platformTabs').addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-platform]');
+      if (!btn) return;
+      selectedPlatform = btn.dataset.platform;
+      renderPrompt();
+    });
+
+    $('#copyPromptBtn').addEventListener('click', () => copyText(promptText.textContent));
+
+    characterInput.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        rerollSeed = 0;
+        generate();
+      }
+    });
+
+    try {
+      const saved = localStorage.getItem('personaMatchInput');
+      if (saved) {
+        characterInput.value = saved;
+        inputCount.textContent = saved.length;
+      }
+    } catch(e) {}
+  </script>
+</body>
+</html>
