@@ -533,6 +533,15 @@
               <button class="seg-btn" data-category="inhuman">인외</button>
             </div>
           </div>
+          <div class="gender-box">
+            <div class="gender-label">인외 확률 세부 조절 · 자동 모드에서만 혼합 비율로 반영</div>
+            <div class="segmented" id="inhumanRateControl">
+              <button class="seg-btn" data-rate="low">낮음</button>
+              <button class="seg-btn active" data-rate="normal">보통</button>
+              <button class="seg-btn" data-rate="high">높음</button>
+              <button class="seg-btn" data-rate="full">전부 인외</button>
+            </div>
+          </div>
         </div>
         <div class="actions">
           <button class="ghost-btn" id="sampleBtn">예시 넣기</button>
@@ -559,7 +568,7 @@
         <div class="prompt-head" style="padding:0; border:0; align-items:flex-start;">
           <div>
             <div class="panel-title" style="font-size:16px; color:var(--text);">외형 프롬프트</div>
-            <p class="prompt-note">선택한 페르소나의 외형만 뽑기 좋도록 구성합니다. 인간/인외 여부, 특수 동공, 흉터·화상 자국 같은 특이점도 함께 반영합니다. NovelAI / PixAI는 태그 중심, NijiJourney는 Niji 7 자연어 중심으로 출력합니다.</p>
+            <p class="prompt-note">선택한 페르소나의 외형만 뽑기 좋도록 구성합니다. 인간/인외 여부, 특수 동공, 흉터·화상 자국, 털·비늘·촉수·금속 질감 같은 디테일까지 함께 반영합니다. NovelAI / PixAI는 태그 중심, NijiJourney는 Niji 7 자연어 중심으로 출력합니다.</p>
           </div>
         </div>
 
@@ -608,6 +617,7 @@
 
     let selectedGender = 'auto';
     let selectedCategory = 'auto';
+    let selectedInhumanRate = 'normal';
     let selectedPlatform = 'novelai';
     let selectedPersonaIndex = 0;
     let currentPersonas = [];
@@ -659,6 +669,59 @@
       { label:'기계체', shortKo:'기계', descKo:'금속 골격과 관절이 드러나는 기계형 인외', novel:['mechanical body','metal joints','robotic parts'], pix:['mechanical body','metal joints','robotic parts'], niji:'a humanoid machine with exposed metal joints and mechanical parts' },
       { label:'안드로이드', shortKo:'안드로이드', descKo:'인공 피부와 발광 회로를 지닌 안드로이드', novel:['android','synthetic skin','glowing circuit lines'], pix:['android','synthetic skin','glowing circuit lines'], niji:'an android with synthetic skin and subtle glowing circuit lines' }
     ];
+
+    const INHUMAN_RATE_MAP = { low: 0.15, normal: 0.38, high: 0.68, full: 1 };
+
+    const HUMAN_DESIGN_POINTS = [
+      { ko:'앞머리 안쪽의 옅은 탈색 메쉬', en:'subtle bleached inner bangs', niji:'subtle bleached inner bangs' },
+      { ko:'비대칭 이어커프', en:'asymmetrical ear cuff', niji:'an asymmetrical ear cuff' },
+      { ko:'눈꼬리를 살린 길고 얇은 아이라인', en:'sharp elongated eyeliner', niji:'sharp elongated eyeliner' },
+      { ko:'한 손가락에만 낀 실버 반지', en:'a single silver ring', niji:'a single silver ring on one finger' },
+      { ko:'손가락을 감싼 얇은 붕대', en:'thin bandages wrapped around the fingers', niji:'thin bandages wrapped around the fingers' },
+      { ko:'짙은 색 네일과 짧은 손톱', en:'dark polished short nails', niji:'short nails painted in a dark tone' },
+      { ko:'목선이 드러나는 얇은 초커', en:'a slim choker', niji:'a slim choker around the neck' },
+      { ko:'한쪽만 길게 떨어지는 귀걸이', en:'a single long earring', niji:'a single long earring on one side' },
+      { ko:'헤어 끝에만 들어간 포인트 컬러', en:'colored tips in the hair', niji:'hair with colored tips' },
+      { ko:'언더 속눈썹이 강조된 메이크업', en:'defined lower lashes', niji:'defined lower lashes' }
+    ];
+
+    const NONHUMAN_DETAILS = {
+      '수인': [
+        { ko:'귀 끝이 짙게 물든 풍성한 털과 두툼한 꼬리', en:'fluffy ears with dark-tipped fur and a thick tail', niji:'fluffy ears with dark-tipped fur and a thick tail' },
+        { ko:'볼과 목선을 따라 짧게 번진 털결', en:'short fur spreading along the cheeks and neck', niji:'short fur trailing along the cheeks and neck' },
+        { ko:'손끝에 남은 짧은 발톱과 줄무늬 털', en:'short claws and striped fur accents on the hands', niji:'short claws and striped fur accents around the hands' }
+      ],
+      '슬라임': [
+        { ko:'몸 안에 작은 기포와 반짝이는 입자가 떠다님', en:'tiny bubbles and glittering particles suspended inside the body', niji:'tiny bubbles and glittering particles suspended inside the body' },
+        { ko:'젤 표면이 빛을 받아 유리처럼 반사됨', en:'a glossy jelly surface reflecting light like glass', niji:'a glossy jelly surface reflecting light like glass' },
+        { ko:'손끝에서 투명한 점액이 가늘게 늘어짐', en:'translucent slime strands stretching from the fingertips', niji:'translucent slime strands stretching from the fingertips' }
+      ],
+      '동물형 인외': [
+        { ko:'굵은 털결과 짐승형 귀, 뚜렷한 꼬리 실루엣', en:'thick fur texture, beastlike ears, and a clear tail silhouette', niji:'thick fur texture, beastlike ears, and a clear tail silhouette' },
+        { ko:'주둥이선이 옅게 드러나는 반인반수형 얼굴', en:'a faint muzzle line on a semi-anthro face', niji:'a faint muzzle line on a semi-anthro face' },
+        { ko:'팔과 종아리를 따라 짙게 남은 털 무늬', en:'bold fur markings along the arms and calves', niji:'bold fur markings along the arms and calves' }
+      ],
+      '어인': [
+        { ko:'빛에 따라 색이 바뀌는 무지갯빛 비늘', en:'iridescent scales shifting color in the light', niji:'iridescent scales that shift color in the light' },
+        { ko:'귀 뒤와 팔에 투명한 지느러미가 달림', en:'translucent fins along the arms and behind the ears', niji:'translucent fins along the arms and behind the ears' },
+        { ko:'손가락 사이에 옅은 물갈퀴가 연결됨', en:'subtle webbing between the fingers', niji:'subtle webbing between the fingers' }
+      ],
+      '문어형 인외': [
+        { ko:'촉수 끝이 청록빛으로 발광하고 흡반이 도드라짐', en:'tentacle tips glowing teal with visible suction cups', niji:'tentacle tips glowing teal with visible suction cups' },
+        { ko:'머리카락 대신 유연한 촉수가 흘러내림', en:'flexible tentacles flowing like hair', niji:'flexible tentacles flowing like hair' },
+        { ko:'피부에 색이 번지는 문양과 미세한 흡반 자국', en:'chromatic skin patterns and faint sucker marks', niji:'chromatic skin patterns with faint sucker marks' }
+      ],
+      '기계체': [
+        { ko:'브러시드 메탈 외장과 드러난 관절축', en:'brushed metal plating and exposed mechanical joints', niji:'brushed metal plating with exposed mechanical joints' },
+        { ko:'팔과 쇄골에 점멸하는 상태표시등', en:'blinking status lights on the arms and collarbone', niji:'blinking status lights along the arms and collarbone' },
+        { ko:'손가락 끝까지 분절된 정밀 금속 프레임', en:'a precise segmented metal frame down to the fingertips', niji:'a precise segmented metal frame down to the fingertips' }
+      ],
+      '안드로이드': [
+        { ko:'합성 피부 아래로 희미한 회로빛이 비침', en:'faint circuit lights visible beneath synthetic skin', niji:'faint circuit lights glowing beneath synthetic skin' },
+        { ko:'귀 뒤와 목선에 매끈한 패널 이음선', en:'clean panel seams behind the ears and along the neck', niji:'clean panel seams behind the ears and along the neck' },
+        { ko:'홍채 안쪽에 미세한 HUD 광원이 반짝임', en:'a subtle HUD glow within the irises', niji:'a subtle HUD glow within the irises' }
+      ]
+    };
 
     const ARCHETYPES = {
       sunshine: {
@@ -776,6 +839,151 @@
       historical: ['신문사 교열기자','양장점 재단사','무역회사 통역관','카바레 피아니스트','사진관 기사','은행 사무원','서점 주인','의원 조수'],
       entertainment: ['A&R 매니저','안무 디렉터','스타일리스트','공연 연출가','음악 프로듀서','콘텐츠 에디터','무대 디자이너','투어 매니저'],
       scifi: ['식민지 생태연구원','항법 데이터 분석관','우주선 의무관','통신 기술자','자원관리관','기지 보안분석관','테라포밍 연구원','행성 지질학자']
+    };
+
+    const NONHUMAN_JOBS = {
+      modern: ['특수개체 협상관','희귀 생체소재 아티스트','수중 전시관 큐레이터','생체보안 컨설턴트','비인간 공존구역 코디네이터','기계 신체 정비사'],
+      esper: ['특수개체 보호구역 조사관','인외 개체 협력 가이드','촉수형 게이트 환경 분석관','이종 생체반응 연구원','기계개체 정비 분석관','비인간 전담 구조요원'],
+      fantasy: ['마도생물 조율사','왕실 수인 호위관','심해 사원 제사장','룬 기계공','인어 항로 길잡이','마수 표본기록관'],
+      historical: ['항만 잠수 안내인','기계장치 수리공','기담 전문 사진사','해양 표본 상인','서커스 조련사','밀항선 잠수부'],
+      entertainment: ['특수분장 퍼포머','버추얼 안드로이드 아이돌','수중 무대 안무가','무대 기계효과 디자이너','이종모델 스타일리스트','컨셉 퍼포먼스 연출가'],
+      scifi: ['합성신체 메인터넌스 엔지니어','심해 식민구역 항해사','비인간 접촉외교관','생체회로 설계사','기계개체 전술분석관','외계양식 사육연구원']
+    };
+
+    const PROFESSION_CONTEXTS = {
+      rescue: {
+        label: '소방·구조',
+        human: {
+          modern: ['응급구조사','화재조사관','소방안전 강사','재난심리 상담사','구조대 장비관리관','119 상황실 관제요원'],
+          esper: ['게이트 구조요원','현장 의료요원','재난대응 분석관','구조팀 코디네이터','구호물자 관리관'],
+          fantasy: ['구휼기사단 의무관','왕도 방재기사','도시 순찰구조관','재난약제사','성벽 경비구조관'],
+          historical: ['소방조 조사원','항만 구조원','응급구호소 조수','화재감식 보조관','안전감독관'],
+          entertainment: ['공연 안전감독관','무대 재난대응 코디네이터','현장 응급요원','특수효과 안전관리관'],
+          scifi: ['식민지 재난대응관','기지 응급의무관','구조용 드론 관제사','테라포밍 안전요원']
+        },
+        inhuman: {
+          modern: ['특수재난 구조요원','비인간 재난안전 코디네이터','이종 생체구조 분석관','수중 구조 안내인'],
+          esper: ['비인간 전담 구조요원','특수개체 구난 가이드','촉수형 재난환경 분석관','이종 반응 응급요원'],
+          fantasy: ['마수구조 길드 요원','용비늘 방재기사','심해 구조사제','수인 경계구역 순찰관'],
+          historical: ['기계장치 구조공','수중 인명구조사','항만 특수개체 구조원','기담구조반 안내인'],
+          entertainment: ['위험 퍼포먼스 안전요원','수중무대 안전감독관','특수개체 스턴트 코디네이터'],
+          scifi: ['심해 식민구역 구조관','합성신체 응급복구사','비인간 재난대응 파일럿','생체기계 구조엔지니어']
+        }
+      },
+      medical: {
+        label: '의료·치유',
+        human: {
+          modern: ['간호사','임상병리사','물리치료사','심리상담사','병동 코디네이터','의료사회복지사'],
+          esper: ['센터 의료요원','능력부하 전문의','가이딩 안정화 연구원','재활치료사','관리청 의무관'],
+          fantasy: ['궁정 약제사','성당 치유사','왕립의원 조수','연금약 연구사','회복마법 의사'],
+          historical: ['의원 조수','간호 수습생','한약방 조제사','상처 치료사','보건소 서기'],
+          entertainment: ['투어 의무팀 스태프','보컬 컨디션 코치','심리케어 매니저','재활 트레이너'],
+          scifi: ['우주선 의무관','생체재생 연구원','기지 재활코치','유전자 치료사']
+        },
+        inhuman: {
+          modern: ['이종생체 치료사','비인간 재활코디네이터','인공신체 간호전문가','희귀체질 상담사'],
+          esper: ['비인간 치료 가이드','촉수형 생체안정 연구원','이종 회복반응 전문의','합성신체 의무관'],
+          fantasy: ['수인 치유사','마수약제사','심해 치유성직자','룬 재생술사'],
+          historical: ['기계인형 수리치유사','해양 생체치료 조수','희귀종 약재상'],
+          entertainment: ['퍼포먼스 회복 트레이너','합성피부 메이크업 메디컬 아티스트'],
+          scifi: ['합성신체 메디컬 엔지니어','이종 생체재생 연구원','심해개체 치료관','안드로이드 정비의무관']
+        }
+      },
+      investigation: {
+        label: '수사·법률',
+        human: {
+          modern: ['법률사무원','프로파일러','디지털포렌식 분석관','형사 보조수사관','기록분석관','피해자 지원상담사'],
+          esper: ['관리청 조사관','사건기록 분석관','게이트 포렌식 조사원','감찰관','통제구역 심문관'],
+          fantasy: ['왕립기록관 조사관','궁정 감사관','기사단 정보관','마도사건 감식관','재판소 서기'],
+          historical: ['신문사 교열기자','탐정사무소 조수','순무국 기록관','증거관리 서기','항만 단속반 서기'],
+          entertainment: ['연예계 분쟁조정관','저작권 매니저','스캔들 대응실 조사원'],
+          scifi: ['기지 보안분석관','사이버 포렌식 요원','우주항로 감찰관','통신감청 분석관']
+        },
+        inhuman: {
+          modern: ['비인간 공존구역 감찰관','이종범죄 분석관','생체보안 컨설턴트','특수개체 조정관'],
+          esper: ['이종개체 조사관','특수개체 협상감찰관','촉수형 흔적분석관','비인간 포렌식 연구원'],
+          fantasy: ['마수흔적 감식관','수인 경계법 집행관','심해의회 기록관','룬 범죄 추적자'],
+          historical: ['기담사건 조사원','항만 이종밀수 추적관','기계장치 감식사'],
+          entertainment: ['합성아이돌 분쟁조정관','특수개체 계약관리인'],
+          scifi: ['이종접촉 규약감찰관','합성지능 윤리조사관','생체회로 보안감사관','심해 식민구역 추적관']
+        }
+      },
+      security: {
+        label: '경호·군사·보안',
+        human: {
+          modern: ['경호원','보안 컨설턴트','위기대응 매니저','시설보안 팀장','훈련교관','감시관제 요원'],
+          esper: ['전투지원 가이드','관리청 진압요원','센터 경비대장','전술 브리퍼','장비개발 연구원'],
+          fantasy: ['기사단 행정관','왕실 호위기사','성문 경비대 부관','전략참모','궁정 검술교관'],
+          historical: ['경호대 부관','치안보조관','보디가드','항만 경비반장','호송관'],
+          entertainment: ['스타 전담 경호원','콘서트 보안총괄','투어 위기관리관'],
+          scifi: ['기지 방위분석관','우주선 전술관','보안프로토콜 설계사','전술 통신관']
+        },
+        inhuman: {
+          modern: ['비인간 경호요원','이종개체 위기대응관','기계보안 운용관','합성신체 호위관'],
+          esper: ['특수개체 진압요원','비인간 전술 가이드','이종 반응 제압관','촉수형 대응교관'],
+          fantasy: ['수인 호위관','룬 병기감독관','심해수비대 지휘관','마수전술 교관'],
+          historical: ['기계호위관','야간 항만 수비관','기담 경계병'],
+          entertainment: ['특수개체 경호 디렉터','기계무대 안전경호관'],
+          scifi: ['생체기계 전술관','심해 식민지 방위관','안드로이드 경호 프로토콜 관리자']
+        }
+      },
+      research: {
+        label: '연구·과학',
+        human: {
+          modern: ['연구원','데이터 분석가','제품기획자','생태조사원','실험실 코디네이터','기술문서 작성자'],
+          esper: ['능력연구소 연구원','장비개발 연구원','게이트 환경분석관','생체반응 기록원','관리청 실험조정관'],
+          fantasy: ['마도공학 연구원','왕립식물원 연구사','고대문헌 해석가','연금술 조교','마력측정관'],
+          historical: ['사진관 기사','신문사 자료정리원','항만 지도기록관','연구조수','기술 설계 보조관'],
+          entertainment: ['콘텐츠 분석가','트렌드 리서처','무대기술 개발자'],
+          scifi: ['테라포밍 연구원','행성 지질학자','통신 기술자','항법 데이터 분석관','생태연구원']
+        },
+        inhuman: {
+          modern: ['희귀 생체소재 연구원','이종생태 분석가','기계신체 정비연구원','비인간 공존 데이터 연구원'],
+          esper: ['이종 생체반응 연구원','촉수형 게이트 환경 분석관','비인간 능력패턴 기록원','합성개체 조정연구원'],
+          fantasy: ['마수 표본기록관','룬기계공','심해 생태 연구사','수인 유전학자'],
+          historical: ['기담 표본 채록사','해양개체 조사기록원','기계장치 실험기사'],
+          entertainment: ['특수효과 생체디자이너','이종콘셉트 리서처'],
+          scifi: ['생체회로 설계사','외계양식 사육연구원','합성신체 메인터넌스 엔지니어','비인간 접촉외교 연구관']
+        }
+      },
+      creative: {
+        label: '창작·연예',
+        human: {
+          modern: ['브랜드 디자이너','출판 편집자','다큐 사진가','공연기획자','콘텐츠 에디터','일러스트레이터'],
+          esper: ['센터 홍보디자이너','기록영상 편집자','관리청 브랜딩 디자이너','능력 데이터 시각화 디자이너'],
+          fantasy: ['궁정 화가','왕립기록관 사서','유랑 시인','오페라 연출가','문장공예사'],
+          historical: ['카바레 피아니스트','신문사 기자','사진관 기사','양장점 재단사','서점 주인'],
+          entertainment: ['A&R 매니저','안무 디렉터','스타일리스트','음악 프로듀서','투어 매니저','무대 디자이너'],
+          scifi: ['기지 아카이브 디자이너','홀로그램 연출가','탐사기록 편집자','우주식민지 방송작가']
+        },
+        inhuman: {
+          modern: ['희귀 생체소재 아티스트','비인간 콘셉트 모델','특수개체 스타일리스트','기계 바디커스텀 디자이너'],
+          esper: ['이종기록 아트디렉터','촉수형 퍼포먼스 연출가','특수개체 이미지 디자이너'],
+          fantasy: ['수중 성가 지휘자','마수 가면공예사','수인 의상 디자이너','룬 퍼포머'],
+          historical: ['서커스 조련사','기담 무대연출가','이종모델 양장사'],
+          entertainment: ['버추얼 안드로이드 아이돌','특수분장 퍼포머','이종모델 스타일리스트','컨셉 퍼포먼스 연출가'],
+          scifi: ['합성피부 패션 디자이너','외계문화 퍼포먼스 감독','기계개체 무대연출가']
+        }
+      },
+      office: {
+        label: '사무·일반',
+        human: {
+          modern: ['제품기획자','법률사무원','출판 편집자','심리상담센터 코디네이터','건축 설계사','연구원'],
+          esper: ['센터 상황관제관','기록관리관','예산행정관','장비조달 담당관'],
+          fantasy: ['상단 회계관','왕궁 서기관','외교관','문서정리관'],
+          historical: ['은행 사무원','무역회사 통역관','서점 주인','사무 보조관'],
+          entertainment: ['콘텐츠 에디터','투어 매니저','계약관리 매니저','홍보팀 코디네이터'],
+          scifi: ['자원관리관','기지 운영조정관','문서기록 분석관','통신 관리관']
+        },
+        inhuman: {
+          modern: ['비인간 공존구역 코디네이터','이종 계약관리인','생체보안 컨설턴트','특수개체 협상관'],
+          esper: ['특수개체 보호구역 조사관','인외 개체 협력 가이드','관리청 이종행정관'],
+          fantasy: ['수인 외교실 서기관','마수 공존조약관','심해 의전관'],
+          historical: ['항만 특수개체 중개상','기계장치 서기관','해양 표본 상인'],
+          entertainment: ['이종 아티스트 매니저','합성아이돌 운영 코디네이터'],
+          scifi: ['비인간 접촉외교관','합성지능 조정관','심해 식민구역 운영관']
+        }
+      }
     };
 
     const RELATION_LINES = {
@@ -952,13 +1160,31 @@
       return 'human';
     }
 
-    function resolveCategory(text) {
-      if (selectedCategory !== 'auto') return selectedCategory;
-      return inferCategoryFromText(text);
+    function seededFloat(seed) {
+      const x = Math.sin(seed * 12.9898 + 78.233) * 43758.5453;
+      return x - Math.floor(x);
     }
 
-    function pickEyeStyle(seed) {
-      return seededPick(EYE_STYLES, seed + 23 + rerollSeed * 5);
+    function resolveCategoryMode(text) {
+      if (selectedCategory !== 'auto') return selectedCategory;
+      return 'auto';
+    }
+
+    function resolvePersonaCategory(text, genre, seed, index) {
+      const mode = resolveCategoryMode(text);
+      if (mode === 'human' || mode === 'inhuman') return mode;
+      let rate = INHUMAN_RATE_MAP[selectedInhumanRate] ?? INHUMAN_RATE_MAP.normal;
+      if (inferCategoryFromText(text) === 'inhuman') rate = Math.max(rate, 0.78);
+      if (['fantasy','scifi','esper'].includes(genre)) rate = Math.min(1, rate + 0.08);
+      const roll = seededFloat(seed + index * 53 + rerollSeed * 29);
+      return roll < rate ? 'inhuman' : 'human';
+    }
+
+    function pickEyeStyle(seed, category) {
+      const weighted = category === 'inhuman'
+        ? [...EYE_STYLES, EYE_STYLES[2], EYE_STYLES[4], EYE_STYLES[5]]
+        : [...EYE_STYLES, EYE_STYLES[0], EYE_STYLES[0]];
+      return seededPick(weighted, seed + 23 + rerollSeed * 5);
     }
 
     function pickSpecialMark(seed, category, genre) {
@@ -969,12 +1195,45 @@
       return base;
     }
 
+    function pickHumanDesignPoint(seed) {
+      return seededPick(HUMAN_DESIGN_POINTS, seed + 37 + rerollSeed * 2);
+    }
+
     function nonHumanSpec(seed) {
       return seededPick(NONHUMAN_TYPES, seed + 41 + rerollSeed * 13);
     }
 
-    function occupationFor(genre, seed) {
-      const pool = JOBS[genre] || JOBS.modern;
+    function nonHumanDetail(speciesLabel, seed) {
+      const pool = NONHUMAN_DETAILS[speciesLabel] || [];
+      return pool.length ? seededPick(pool, seed + 47 + rerollSeed * 7) : null;
+    }
+
+    function inferProfessionContext(text, genre) {
+      const n = normalize(text);
+      const map = [
+        { key:'rescue', words:['소방','구조','구급','재난','화재','소방관','구조대','119'] },
+        { key:'medical', words:['병원','의사','간호','의료','치료','수술','약사','상담사','치유','재활'] },
+        { key:'investigation', words:['형사','경찰','수사','조사','법률','변호','검사','탐정','감찰','증거','기록'] },
+        { key:'security', words:['군인','기사단','호위','경호','보안','전투','진압','감시','방위','전술'] },
+        { key:'research', words:['연구','실험','개발','분석','생태','데이터','과학','기술','테라포밍','연구소'] },
+        { key:'creative', words:['디자인','작가','그림','사진','편집','출판','아이돌','배우','가수','기획','마케팅','공연','스타일리스트','안무'] }
+      ];
+      for (const item of map) {
+        if (item.words.some(w => n.includes(w))) return item.key;
+      }
+      if (genre === 'entertainment') return 'creative';
+      if (genre === 'scifi') return 'research';
+      return 'office';
+    }
+
+    function occupationFor(genre, seed, category, professionKey, kind) {
+      const group = PROFESSION_CONTEXTS[professionKey] || PROFESSION_CONTEXTS.office;
+      const fallback = category === 'inhuman' ? (NONHUMAN_JOBS[genre] || NONHUMAN_JOBS.modern) : (JOBS[genre] || JOBS.modern);
+      const typed = category === 'inhuman' ? group.inhuman : group.human;
+      let pool = typed[genre] || fallback;
+      if (kind === 'chaos' && professionKey === 'office') {
+        pool = [...pool].reverse();
+      }
       return seededPick(pool, seed);
     }
 
@@ -987,10 +1246,14 @@
       if (genre === 'historical') { outfit = '1930s tailored outfit, period-accurate details'; outfitKo = '1930년대풍 테일러드 복식'; }
       if (genre === 'entertainment') { outfit = 'stylish contemporary fashion, polished layered outfit'; outfitKo = '세련된 현대식 레이어드 패션'; }
       if (genre === 'scifi') { outfit = 'clean futuristic utility wear, structured technical jacket'; outfitKo = '구조적인 미래형 유틸리티 웨어'; }
-      const eyeStyle = pickEyeStyle(seed);
+      const eyeStyle = pickEyeStyle(seed, category);
       const specialMark = pickSpecialMark(seed, category, genre);
       const species = category === 'inhuman' ? nonHumanSpec(seed) : null;
-      return { ...base, outfit, outfitKo, eyeStyle, specialMark, species };
+      const speciesDetail = species ? nonHumanDetail(species.label, seed) : null;
+      const designPoint = category === 'inhuman'
+        ? (speciesDetail || pickHumanDesignPoint(seed + 5))
+        : pickHumanDesignPoint(seed);
+      return { ...base, outfit, outfitKo, eyeStyle, specialMark, species, speciesDetail, designPoint };
     }
 
     function extractSourceKeywords(text) {
@@ -1015,14 +1278,17 @@
     function buildPersona(kind, arcKey, index, context, seed) {
       const arc = ARCHETYPES[arcKey];
       const gender = resolvePersonaGender(context.text, index, seed);
+      const category = resolvePersonaCategory(context.text, context.genre, seed + 1, index);
       const name = seededPick(NAME_POOLS[gender], seed + index * 19 + rerollSeed * 7);
       const age = personaAge(context.sourceAge, kind, seed + 3);
-      const job = occupationFor(context.genre, seed + 7);
-      const look = appearanceFor(arcKey, seed + 13, context.genre, context.category);
+      const job = occupationFor(context.genre, seed + 7, category, context.professionKey, kind);
+      const look = appearanceFor(arcKey, seed + 13, context.genre, category);
       const relation = RELATION_LINES[kind][arcKey] || RELATION_LINES[kind].softsteel;
       const identityKo = look.species ? look.species.label : '인간';
       const appearanceKo = `${look.hairKo}, ${look.eyesKo}, ${look.eyeStyle.ko}, ${look.bodyKo}, ${look.vibeKo}. ${look.outfitKo}.`;
-      const featureLine = look.species ? `${arc.feature} ${look.species.descKo}, ${look.specialMark.ko}.` : `${arc.feature} ${look.specialMark.ko}.`;
+      const pointBits = [look.specialMark.ko].filter(Boolean).join(', ');
+      const featureLine = arc.feature;
+      const detailLine = look.species ? `${look.species.descKo}, ${look.speciesDetail?.ko || ''}`.replace(/, $/,'') : `${look.designPoint?.ko || ''}`;
       const dynamicTags = [...arc.tags.slice(0,4), `#${identityKo.replace(/\s+/g,'')}`, `#${look.eyeStyle.ko.replace(/\s+/g,'')}`, `#${look.specialMark.ko.replace(/\s+/g,'')}`].slice(0,7).join(' ');
       const body = fitTo300([
         `${name} | ${age}세 | ${job}`,
@@ -1030,10 +1296,11 @@
         `구도: ${relation}.`,
         `정체: ${identityKo}.`,
         `외형: ${appearanceKo}`,
+        `포인트: ${detailLine}${pointBits ? `, ${pointBits}` : ''}.`,
         `특징: ${featureLine}`,
         dynamicTags
       ]);
-      return { kind, arcKey, arc, gender, name, age, job, look, relation, body, tags: dynamicTags, genre: context.genre, category: context.category, identityKo };
+      return { kind, arcKey, arc, gender, name, age, job, look, relation, body, tags: dynamicTags, genre: context.genre, category, identityKo };
     }
 
     function visualPrompts(persona) {
@@ -1043,7 +1310,9 @@
       const speciesNovel = l.species ? l.species.novel : [];
       const speciesPix = l.species ? l.species.pix : [];
       const speciesNiji = l.species ? l.species.niji : '';
-      const commonTags = [l.hair, l.eyes, l.eyeStyle.en, l.body, l.vibe, l.outfit, l.specialMark.en, 'solo', 'portrait', 'upper body', 'facing viewer', 'clean background', 'detailed face', 'detailed eyes'];
+      const extraNovel = [l.designPoint?.en, l.speciesDetail?.en].filter(Boolean);
+      const extraNiji = [l.designPoint?.niji, l.speciesDetail?.niji].filter(Boolean).join(', ');
+      const commonTags = [l.hair, l.eyes, l.eyeStyle.en, l.body, l.vibe, l.outfit, l.specialMark.en, ...extraNovel, 'solo', 'portrait', 'upper body', 'facing viewer', 'clean background', 'detailed face', 'detailed eyes'];
 
       const novelai = [
         'masterpiece', 'best quality', 'amazing quality', 'high complexity',
@@ -1058,12 +1327,14 @@
         g.pix, a.pix,
         ...speciesPix,
         l.hair, l.eyes, l.eyeStyle.en, l.body, l.vibe, l.outfit, l.specialMark.en,
+        ...extraNovel,
         'solo', 'anime style', 'anime coloring', 'upper body portrait', 'facing viewer',
         'soft cinematic lighting', 'clean background', 'detailed eyes', 'intricate details'
       ].join(', ');
 
       const speciesPhrase = speciesNiji ? `${speciesNiji}, ` : '';
-      const niji = `Anime character portrait of ${speciesPhrase}a ${a.niji} ${g.niji}, ${l.hair}, ${l.eyes}, ${l.eyeStyle.niji}, ${l.body}, ${l.vibe}, wearing ${l.outfit}, with ${l.specialMark.niji}. Upper-body composition, facing the viewer, clean background, refined facial features, expressive detailed eyes, elegant linework, polished anime illustration, soft cinematic lighting --niji 7 --ar 2:3 --s 250 --no text watermark signature`;
+      const extraPhrase = extraNiji ? `, ${extraNiji}` : '';
+      const niji = `Anime character portrait of ${speciesPhrase}a ${a.niji} ${g.niji}, ${l.hair}, ${l.eyes}, ${l.eyeStyle.niji}, ${l.body}, ${l.vibe}, wearing ${l.outfit}, with ${l.specialMark.niji}${extraPhrase}. Upper-body composition, facing the viewer, clean background, refined facial features, expressive detailed eyes, elegant linework, polished anime illustration, soft cinematic lighting --niji 7 --ar 2:3 --s 250 --no text watermark signature`;
 
       return { novelai, pixai, niji };
     }
@@ -1089,7 +1360,10 @@
       else chips.push(`<span class="chip"><b>감지 성향</b> · 핵심 키워드 부족 → 범용 매칭</span>`);
       const genreKo = { modern:'현대', esper:'에스퍼/가이드', fantasy:'판타지', historical:'시대극', entertainment:'연예계', scifi:'SF' }[context.genre];
       chips.push(`<span class="chip"><b>세계관</b> · ${genreKo}</span>`);
-      chips.push(`<span class="chip"><b>범주</b> · ${context.category === 'inhuman' ? '인외' : '인간'}</span>`);
+      const catText = context.categoryMode === 'auto' ? `자동 혼합 · ${({low:'낮음', normal:'보통', high:'높음', full:'전부 인외'})[context.inhumanRate]}` : (context.categoryMode === 'inhuman' ? '인외 고정' : '인간 고정');
+      chips.push(`<span class="chip"><b>범주</b> · ${catText}</span>`);
+      const professionLabel = (PROFESSION_CONTEXTS[context.professionKey] || PROFESSION_CONTEXTS.office).label;
+      chips.push(`<span class="chip"><b>직업 축</b> · ${professionLabel}</span>`);
       chips.push(`<span class="chip"><b>원문 나이</b> · ${context.sourceAge ? context.sourceAge + '세 감지' : '미감지'}</span>`);
       const explicit = extractSourceKeywords(context.text);
       if (explicit.length) chips.push(`<span class="chip"><b>명시 키워드</b> · ${explicit.join(' · ')}</span>`);
@@ -1161,7 +1435,9 @@
         analysis,
         genre: inferGenre(text),
         sourceAge: inferSourceAge(text),
-        category: resolveCategory(text)
+        categoryMode: resolveCategoryMode(text),
+        inhumanRate: selectedInhumanRate,
+        professionKey: inferProfessionContext(text, inferGenre(text))
       };
 
       const used = new Set();
@@ -1219,6 +1495,13 @@
       if (!btn) return;
       selectedCategory = btn.dataset.category;
       $$('#categoryControl .seg-btn').forEach(b => b.classList.toggle('active', b === btn));
+    });
+
+    $('#inhumanRateControl').addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-rate]');
+      if (!btn) return;
+      selectedInhumanRate = btn.dataset.rate;
+      $$('#inhumanRateControl .seg-btn').forEach(b => b.classList.toggle('active', b === btn));
     });
 
     $('#generateBtn').addEventListener('click', () => { rerollSeed = 0; generate(); });
