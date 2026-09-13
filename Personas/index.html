@@ -504,7 +504,7 @@
     <section class="hero">
       <div class="eyebrow">PERSONA MATCH LAB</div>
       <h1>캐릭터를 넣으면,<br>관계가 살아나는 페르소나.</h1>
-      <p>성격·말투·직업·과거·세계관을 한 번에 붙여넣으세요. 입력문에서 확인되는 정보만 우선 분석해 찰떡 / 파국 / 서사형 페르소나 3종과 이미지 생성용 외형 프롬프트를 만듭니다.</p>
+      <p>성격·말투·직업·과거·세계관을 한 번에 붙여넣으세요. 입력문에서 확인되는 정보만 우선 분석해 찰떡 / 파국 / 서사형 페르소나 3종과 이미지 생성용 외형 프롬프트를 만듭니다. 인외 모드에서는 수인·슬라임·동물형·어인·문어형·기계·안드로이드 등도 내부 로직으로 섞어 추천합니다.</p>
     </section>
 
     <section class="input-panel">
@@ -515,13 +515,23 @@
       <textarea id="characterInput" maxlength="8000" placeholder="예) 29세 남성. 무심하고 감정 표현이 적다. 책임감이 강하고 자기 사람은 끝까지 챙긴다. 질투는 심하지만 티 내지 않으며, 연애에서는 주도권을 잡는 편. 말수가 적고 직설적이다. 소방관이며 과거 연인을 사고로 잃었다."></textarea>
 
       <div class="input-footer">
-        <div class="gender-box">
-          <div class="gender-label">추천 페르소나 성별 · 이미지 프롬프트에 반영</div>
-          <div class="segmented" id="genderControl">
-            <button class="seg-btn active" data-gender="auto">자동</button>
-            <button class="seg-btn" data-gender="female">여성</button>
-            <button class="seg-btn" data-gender="male">남성</button>
-            <button class="seg-btn" data-gender="neutral">중성</button>
+        <div style="display:grid; gap:14px;">
+          <div class="gender-box">
+            <div class="gender-label">추천 페르소나 성별 · 이미지 프롬프트에 반영</div>
+            <div class="segmented" id="genderControl">
+              <button class="seg-btn active" data-gender="auto">자동</button>
+              <button class="seg-btn" data-gender="female">여성</button>
+              <button class="seg-btn" data-gender="male">남성</button>
+              <button class="seg-btn" data-gender="neutral">중성</button>
+            </div>
+          </div>
+          <div class="gender-box">
+            <div class="gender-label">추천 범주 · 인외 선택 시 내부적으로 수인/슬라임/동물형/어인/문어형/기계/안드로이드 등에서 랜덤 구성</div>
+            <div class="segmented" id="categoryControl">
+              <button class="seg-btn active" data-category="auto">자동</button>
+              <button class="seg-btn" data-category="human">인간</button>
+              <button class="seg-btn" data-category="inhuman">인외</button>
+            </div>
           </div>
         </div>
         <div class="actions">
@@ -549,7 +559,7 @@
         <div class="prompt-head" style="padding:0; border:0; align-items:flex-start;">
           <div>
             <div class="panel-title" style="font-size:16px; color:var(--text);">외형 프롬프트</div>
-            <p class="prompt-note">선택한 페르소나의 외형만 뽑기 좋도록 구성합니다. NovelAI / PixAI는 태그 중심, NijiJourney는 Niji 7 자연어 중심으로 출력합니다.</p>
+            <p class="prompt-note">선택한 페르소나의 외형만 뽑기 좋도록 구성합니다. 인간/인외 여부, 특수 동공, 흉터·화상 자국 같은 특이점도 함께 반영합니다. NovelAI / PixAI는 태그 중심, NijiJourney는 Niji 7 자연어 중심으로 출력합니다.</p>
           </div>
         </div>
 
@@ -597,6 +607,7 @@
     const toast = $('#toast');
 
     let selectedGender = 'auto';
+    let selectedCategory = 'auto';
     let selectedPlatform = 'novelai';
     let selectedPersonaIndex = 0;
     let currentPersonas = [];
@@ -616,6 +627,38 @@
       shy: { label: '소심·순진', words: ['소심','순진','낯가림','수줍','내성적','말더듬','어리숙'] },
       passionate: { label: '직진·열정', words: ['직진','열정','솔직','적극적','돌진','행동파','대담'] }
     };
+
+    const EYE_STYLES = [
+      { ko:'반짝이는 동공', en:'sparkling pupils', niji:'sparkling pupils' },
+      { ko:'하트 동공', en:'heart-shaped pupils', niji:'heart-shaped pupils' },
+      { ko:'별 동공', en:'star-shaped pupils', niji:'star-shaped pupils' },
+      { ko:'고리 동공', en:'ringed pupils', niji:'ringed pupils' },
+      { ko:'세로로 긴 짐승 눈동자', en:'vertical slit pupils', niji:'vertical slit pupils' },
+      { ko:'오로라빛 홍채', en:'iridescent eyes', niji:'iridescent irises' }
+    ];
+
+    const SPECIAL_MARKS = [
+      { ko:'눈 밑 점', en:'beauty mark under eye', niji:'a beauty mark under one eye' },
+      { ko:'옅은 주근깨', en:'soft freckles', niji:'soft freckles across the face' },
+      { ko:'손등의 잔흉터', en:'small scars on the hands', niji:'small scars scattered across the hands' },
+      { ko:'쇄골 부근 화상 자국', en:'burn scars near the collarbone', niji:'faint burn scars near the collarbone' },
+      { ko:'눈을 가로지르는 흉터', en:'scar across one eye', niji:'a scar crossing one eye' },
+      { ko:'목선을 따라 남은 봉합 자국', en:'stitch marks along the neck', niji:'stitch marks trailing along the neck' },
+      { ko:'볼 옆의 긁힌 자국', en:'thin scratch marks on the cheek', niji:'thin scratch marks along the cheek' },
+      { ko:'손목의 오래된 흉터', en:'old scars on the wrist', niji:'old scars around the wrist' },
+      { ko:'광대 위 점상 흉터', en:'small scar above the cheekbone', niji:'a small scar above the cheekbone' },
+      { ko:'피부를 스치는 발광 문양', en:'faint glowing markings', niji:'faint luminous markings across the skin' }
+    ];
+
+    const NONHUMAN_TYPES = [
+      { label:'수인', shortKo:'수인', descKo:'동물 귀와 꼬리를 지닌 수인', novel:['kemonomimi','animal ears','tail'], pix:['kemonomimi','animal ears','tail'], niji:'a beastkin with animal ears and a tail' },
+      { label:'슬라임', shortKo:'슬라임', descKo:'반투명한 젤 질감의 슬라임 인외', novel:['slime body','translucent body','gelatinous texture'], pix:['slime body','translucent body','gelatinous texture'], niji:'a humanoid slime with a translucent gelatinous body' },
+      { label:'동물형 인외', shortKo:'동물형', descKo:'사람형 체형에 동물적 특징이 강한 인외', novel:['anthropomorphic animal','fur','animal traits'], pix:['anthropomorphic animal','fur','animal traits'], niji:'an anthropomorphic animal-like humanoid' },
+      { label:'어인', shortKo:'어인', descKo:'비늘과 지느러미를 가진 어인', novel:['fish humanoid','scales','fins'], pix:['fish humanoid','scales','fins'], niji:'a fishfolk humanoid with scales and fins' },
+      { label:'문어형 인외', shortKo:'문어형', descKo:'촉수 장식과 흡반이 돋보이는 문어형 인외', novel:['octopus humanoid','tentacle hair','suction cups'], pix:['octopus humanoid','tentacle hair','suction cups'], niji:'an octopus-like humanoid with tentacle hair and visible suction cups' },
+      { label:'기계체', shortKo:'기계', descKo:'금속 골격과 관절이 드러나는 기계형 인외', novel:['mechanical body','metal joints','robotic parts'], pix:['mechanical body','metal joints','robotic parts'], niji:'a humanoid machine with exposed metal joints and mechanical parts' },
+      { label:'안드로이드', shortKo:'안드로이드', descKo:'인공 피부와 발광 회로를 지닌 안드로이드', novel:['android','synthetic skin','glowing circuit lines'], pix:['android','synthetic skin','glowing circuit lines'], niji:'an android with synthetic skin and subtle glowing circuit lines' }
+    ];
 
     const ARCHETYPES = {
       sunshine: {
@@ -903,12 +946,39 @@
       return { novel:'1other', pix:'1person, androgynous', niji:'androgynous person', ko:'중성' };
     }
 
+    function inferCategoryFromText(text) {
+      const n = normalize(text);
+      if (/(인외|수인|슬라임|괴물|마물|문어|촉수|어인|인어|기계|안드로이드|로봇|용인|비인간|nonhuman)/.test(n)) return 'inhuman';
+      return 'human';
+    }
+
+    function resolveCategory(text) {
+      if (selectedCategory !== 'auto') return selectedCategory;
+      return inferCategoryFromText(text);
+    }
+
+    function pickEyeStyle(seed) {
+      return seededPick(EYE_STYLES, seed + 23 + rerollSeed * 5);
+    }
+
+    function pickSpecialMark(seed, category, genre) {
+      const base = seededPick(SPECIAL_MARKS, seed + 31 + rerollSeed * 3);
+      if (category === 'inhuman' && genre === 'scifi') {
+        return SPECIAL_MARKS.find(v => v.ko === '피부를 스치는 발광 문양') || base;
+      }
+      return base;
+    }
+
+    function nonHumanSpec(seed) {
+      return seededPick(NONHUMAN_TYPES, seed + 41 + rerollSeed * 13);
+    }
+
     function occupationFor(genre, seed) {
       const pool = JOBS[genre] || JOBS.modern;
       return seededPick(pool, seed);
     }
 
-    function appearanceFor(arcKey, seed, genre) {
+    function appearanceFor(arcKey, seed, genre, category) {
       const base = seededPick(ARCHETYPES[arcKey].looks, seed);
       let outfit = base.outfit;
       let outfitKo = base.outfitKo;
@@ -917,7 +987,10 @@
       if (genre === 'historical') { outfit = '1930s tailored outfit, period-accurate details'; outfitKo = '1930년대풍 테일러드 복식'; }
       if (genre === 'entertainment') { outfit = 'stylish contemporary fashion, polished layered outfit'; outfitKo = '세련된 현대식 레이어드 패션'; }
       if (genre === 'scifi') { outfit = 'clean futuristic utility wear, structured technical jacket'; outfitKo = '구조적인 미래형 유틸리티 웨어'; }
-      return { ...base, outfit, outfitKo };
+      const eyeStyle = pickEyeStyle(seed);
+      const specialMark = pickSpecialMark(seed, category, genre);
+      const species = category === 'inhuman' ? nonHumanSpec(seed) : null;
+      return { ...base, outfit, outfitKo, eyeStyle, specialMark, species };
     }
 
     function extractSourceKeywords(text) {
@@ -945,30 +1018,37 @@
       const name = seededPick(NAME_POOLS[gender], seed + index * 19 + rerollSeed * 7);
       const age = personaAge(context.sourceAge, kind, seed + 3);
       const job = occupationFor(context.genre, seed + 7);
-      const look = appearanceFor(arcKey, seed + 13, context.genre);
+      const look = appearanceFor(arcKey, seed + 13, context.genre, context.category);
       const relation = RELATION_LINES[kind][arcKey] || RELATION_LINES[kind].softsteel;
-      const appearanceKo = `${look.hairKo}, ${look.eyesKo}, ${look.bodyKo}, ${look.vibeKo}. ${look.outfitKo}.`;
-      const tags = arc.tags.slice(0,5).join(' ');
+      const identityKo = look.species ? look.species.label : '인간';
+      const appearanceKo = `${look.hairKo}, ${look.eyesKo}, ${look.eyeStyle.ko}, ${look.bodyKo}, ${look.vibeKo}. ${look.outfitKo}.`;
+      const featureLine = look.species ? `${arc.feature} ${look.species.descKo}, ${look.specialMark.ko}.` : `${arc.feature} ${look.specialMark.ko}.`;
+      const dynamicTags = [...arc.tags.slice(0,4), `#${identityKo.replace(/\s+/g,'')}`, `#${look.eyeStyle.ko.replace(/\s+/g,'')}`, `#${look.specialMark.ko.replace(/\s+/g,'')}`].slice(0,7).join(' ');
       const body = fitTo300([
         `${name} | ${age}세 | ${job}`,
         `성격: ${arc.personality}`,
         `구도: ${relation}.`,
+        `정체: ${identityKo}.`,
         `외형: ${appearanceKo}`,
-        `특징: ${arc.feature}`,
-        tags
+        `특징: ${featureLine}`,
+        dynamicTags
       ]);
-      return { kind, arcKey, arc, gender, name, age, job, look, relation, body, tags, genre: context.genre };
+      return { kind, arcKey, arc, gender, name, age, job, look, relation, body, tags: dynamicTags, genre: context.genre, category: context.category, identityKo };
     }
 
     function visualPrompts(persona) {
       const g = genderPrompt(persona.gender);
       const a = agePrompt(persona.age);
       const l = persona.look;
-      const commonTags = [l.hair, l.eyes, l.body, l.vibe, l.outfit, 'solo', 'portrait', 'upper body', 'facing viewer', 'clean background', 'detailed face', 'detailed eyes'];
+      const speciesNovel = l.species ? l.species.novel : [];
+      const speciesPix = l.species ? l.species.pix : [];
+      const speciesNiji = l.species ? l.species.niji : '';
+      const commonTags = [l.hair, l.eyes, l.eyeStyle.en, l.body, l.vibe, l.outfit, l.specialMark.en, 'solo', 'portrait', 'upper body', 'facing viewer', 'clean background', 'detailed face', 'detailed eyes'];
 
       const novelai = [
         'masterpiece', 'best quality', 'amazing quality', 'high complexity',
         g.novel, a.novel,
+        ...speciesNovel,
         ...commonTags,
         'anime coloring', 'soft cinematic lighting', 'depthness'
       ].join(', ');
@@ -976,12 +1056,14 @@
       const pixai = [
         'masterpiece', 'best quality', 'highly detailed', 'sharp focus',
         g.pix, a.pix,
-        l.hair, l.eyes, l.body, l.vibe, l.outfit,
+        ...speciesPix,
+        l.hair, l.eyes, l.eyeStyle.en, l.body, l.vibe, l.outfit, l.specialMark.en,
         'solo', 'anime style', 'anime coloring', 'upper body portrait', 'facing viewer',
         'soft cinematic lighting', 'clean background', 'detailed eyes', 'intricate details'
       ].join(', ');
 
-      const niji = `Anime character portrait of a ${a.niji} ${g.niji}, ${l.hair}, ${l.eyes}, ${l.body}, ${l.vibe}, wearing ${l.outfit}. Upper-body composition, facing the viewer, clean background, refined facial features, expressive detailed eyes, elegant linework, polished anime illustration, soft cinematic lighting --niji 7 --ar 2:3 --s 250 --no text watermark signature`;
+      const speciesPhrase = speciesNiji ? `${speciesNiji}, ` : '';
+      const niji = `Anime character portrait of ${speciesPhrase}a ${a.niji} ${g.niji}, ${l.hair}, ${l.eyes}, ${l.eyeStyle.niji}, ${l.body}, ${l.vibe}, wearing ${l.outfit}, with ${l.specialMark.niji}. Upper-body composition, facing the viewer, clean background, refined facial features, expressive detailed eyes, elegant linework, polished anime illustration, soft cinematic lighting --niji 7 --ar 2:3 --s 250 --no text watermark signature`;
 
       return { novelai, pixai, niji };
     }
@@ -1007,6 +1089,7 @@
       else chips.push(`<span class="chip"><b>감지 성향</b> · 핵심 키워드 부족 → 범용 매칭</span>`);
       const genreKo = { modern:'현대', esper:'에스퍼/가이드', fantasy:'판타지', historical:'시대극', entertainment:'연예계', scifi:'SF' }[context.genre];
       chips.push(`<span class="chip"><b>세계관</b> · ${genreKo}</span>`);
+      chips.push(`<span class="chip"><b>범주</b> · ${context.category === 'inhuman' ? '인외' : '인간'}</span>`);
       chips.push(`<span class="chip"><b>원문 나이</b> · ${context.sourceAge ? context.sourceAge + '세 감지' : '미감지'}</span>`);
       const explicit = extractSourceKeywords(context.text);
       if (explicit.length) chips.push(`<span class="chip"><b>명시 키워드</b> · ${explicit.join(' · ')}</span>`);
@@ -1023,7 +1106,7 @@
               <span class="char-count">${p.body.length}/300자</span>
             </div>
             <h3 class="persona-name">${p.name}</h3>
-            <div class="persona-meta">${p.age}세 · ${p.job} · ${genderPrompt(p.gender).ko}</div>
+            <div class="persona-meta">${p.age}세 · ${p.job} · ${genderPrompt(p.gender).ko} · ${p.identityKo}</div>
             <div class="persona-text">${escapeHTML(p.body)}</div>
             <div class="card-actions">
               <span class="char-count">${p.arc.title}</span>
@@ -1077,7 +1160,8 @@
         text,
         analysis,
         genre: inferGenre(text),
-        sourceAge: inferSourceAge(text)
+        sourceAge: inferSourceAge(text),
+        category: resolveCategory(text)
       };
 
       const used = new Set();
@@ -1127,6 +1211,14 @@
       if (!btn) return;
       selectedGender = btn.dataset.gender;
       $$('#genderControl .seg-btn').forEach(b => b.classList.toggle('active', b === btn));
+    });
+
+
+    $('#categoryControl').addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-category]');
+      if (!btn) return;
+      selectedCategory = btn.dataset.category;
+      $$('#categoryControl .seg-btn').forEach(b => b.classList.toggle('active', b === btn));
     });
 
     $('#generateBtn').addEventListener('click', () => { rerollSeed = 0; generate(); });
