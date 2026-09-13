@@ -638,6 +638,24 @@
             </div>
           </div>
           <div class="gender-box">
+            <div class="gender-label">관계 톤 필터 · 성격/관계 훅/태그/외형 프롬프트 분위기에 반영</div>
+            <div class="segmented" id="toneControl">
+              <button class="seg-btn active" data-tone="auto">자동</button>
+              <button class="seg-btn" data-tone="nsfw">성인(NSFW)</button>
+              <button class="seg-btn" data-tone="pure">순애</button>
+              <button class="seg-btn" data-tone="dark">피폐</button>
+              <button class="seg-btn" data-tone="comedy">개그</button>
+            </div>
+          </div>
+          <div class="gender-box">
+            <div class="gender-label">세계관 완전 잠금 · ON이면 해당 항목은 감지된 세계관 밖 후보를 사용하지 않음</div>
+            <div class="segmented" id="lockControl">
+              <button class="seg-btn active" data-lock="job">직업 잠금 ON</button>
+              <button class="seg-btn active" data-lock="outfit">의상 잠금 ON</button>
+              <button class="seg-btn active" data-lock="prop">소품 잠금 ON</button>
+            </div>
+          </div>
+          <div class="gender-box">
             <div class="gender-label">사용자 정의 직업군 · 비워두면 자동 추천</div>
             <textarea id="customJobs" class="custom-jobs" maxlength="1200" placeholder="예) 응급구조사, 화재조사관, 재난심리상담사
 또는 찰떡: 응급구조사 / 파국: 화재조사관 / 서사: 유가족지원관"></textarea>
@@ -693,6 +711,8 @@
     let selectedGender = 'auto';
     let selectedCategory = 'auto';
     let selectedInhumanRate = 'normal';
+    let selectedTone = 'auto';
+    const worldLocks = { job:true, outfit:true, prop:true };
     let currentPersonas = [];
     let rerollSeed = 0;
 
@@ -1064,6 +1084,99 @@
       female: ['윤서하','한지우','강채은','정세린','서유진','문해원','차예린','임다온','백수아','신하린','유은재','김소윤'],
       male: ['윤재하','한도윤','강시온','정태윤','서이준','문지호','차우현','임선우','백현준','신재윤','유시현','김도하'],
       neutral: ['서하','지안','시온','다온','유진','하람','윤재','은재','해원','지우','재희','수현']
+    };
+
+    const WORLD_NAME_POOLS = {
+      modern: {
+        female:['윤서하','한지우','강채은','정세린','서유진','문해원','차예린','백수아','신하린','김소윤'],
+        male:['윤재하','한도윤','강시온','정태윤','서이준','문지호','차우현','백현준','신재윤','김도하'],
+        neutral:['서하','지안','시온','다온','유진','하람','은재','해원','재희','수현']
+      },
+      esper_gate: {
+        female:['연다온','차예린','윤세하','백서윤','한재인','임서아'],
+        male:['차이헌','백시헌','윤청리','강태현','한도윤','서이준'],
+        neutral:['다온','시헌','유진','재인','하람','서하']
+      },
+      royal_fantasy: {
+        female:['엘리시아','로잘린','세실리아','비비안','아델린','이사벨라','클라리스','에블린'],
+        male:['라파엘','루시안','아드리안','카시안','테오도르','에드윈','레오넬','데미안'],
+        neutral:['노엘','르네','에덴','아리엘','루엔','세렌']
+      },
+      magic_fantasy: {
+        female:['리엘라','세리나','미레아','엘로디','네리아','타니아'],
+        male:['카엘','루카스','이안','레온','에드릭','실베른'],
+        neutral:['루엔','세렌','리안','에린','노아','아렌']
+      },
+      oriental_fantasy: {
+        female:['연화','하련','소연','유란','설아','채령'],
+        male:['진무','백연','위진','도윤','현진','무혁'],
+        neutral:['하진','연','소운','유현','청하','가람']
+      },
+      historical_shanghai: {
+        female:['린메이','쉬란','쑹위에','천링','바이란','저우잉'],
+        male:['천위','류젠','션하오','장웨이','린카이','저우한'],
+        neutral:['샤오위','아진','린','위안','칭','루']
+      },
+      historical_korea: {
+        female:['윤희','정화','명순','금옥','혜원','옥란'],
+        male:['도진','태석','성윤','인호','명준','재필'],
+        neutral:['영','하진','윤','선우','연희','재']
+      },
+      cyberpunk: {
+        female:['리아','베라','니아','세라','이브','카야'],
+        male:['카이','노아','렉스','제인','루크','리온'],
+        neutral:['제로','네온','에코','노바','레이','애쉬']
+      },
+      space_colony: {
+        female:['마라','리아','엘라','세라','노바','미라'],
+        male:['카이','리온','노아','아렌','테오','루카'],
+        neutral:['노바','에코','아리','레이','세렌','이오']
+      },
+      apocalypse: {
+        female:['한유진','서해원','윤다희','차은서','백하린'],
+        male:['강도윤','한재혁','윤태성','차우진','서현우'],
+        neutral:['다온','해원','재희','하람','지우','선우']
+      },
+      entertainment: {
+        female:['서아','하윤','예린','채원','지안','다혜'],
+        male:['도하','시윤','재현','우진','현준','태윤'],
+        neutral:['지우','시온','하람','재희','유진','다온']
+      },
+      crime_noir: {
+        female:['한서린','차유경','윤해원','백세진','문지아'],
+        male:['서태건','차우현','윤재하','강이준','백도윤'],
+        neutral:['서진','해원','시온','유진','재희','도하']
+      }
+    };
+
+    const WORLD_STYLE_LOCKS = {
+      domestic:{ outfits:[['clean contemporary casualwear','현대식 단정한 캐주얼'],['minimal office casual','미니멀 오피스 캐주얼'],['simple knit and tailored pants','심플한 니트와 슬랙스']], props:[['smartphone and card wallet','스마트폰과 카드지갑'],['takeout coffee cup','테이크아웃 커피'],['canvas tote bag','캔버스 토트백']] },
+      office:{ outfits:[['business casual outfit','비즈니스 캐주얼'],['tailored blazer and slacks','테일러드 블레이저와 슬랙스'],['clean shirt and long coat','깔끔한 셔츠와 롱코트']], props:[['employee ID card','사원증'],['laptop and document folder','노트북과 서류 파일'],['office access card','출입카드']] },
+      campus:{ outfits:[['campus casual outfit','캠퍼스 캐주얼'],['hoodie and straight jeans','후드와 스트레이트진'],['light cardigan and backpack','가벼운 카디건과 백팩']], props:[['student ID card','학생증'],['notebook and pen','노트와 펜'],['canvas backpack','캔버스 백팩']] },
+      medical_world:{ outfits:[['medical scrubs and clean jacket','의료 스크럽과 깨끗한 재킷'],['white coat over simple clothes','심플한 복장 위 흰 가운'],['hospital staff uniform','병원 스태프 유니폼']], props:[['medical chart','의료 차트'],['stethoscope','청진기'],['hospital ID badge','병원 사원증']] },
+      entertainment:{ outfits:[['stylish contemporary fashion','세련된 현대 패션'],['stage staff black outfit','무대 스태프 블랙룩'],['fashionable layered outfit','트렌디한 레이어드 룩']], props:[['in-ear monitor case','인이어 케이스'],['schedule tablet','스케줄 태블릿'],['backstage pass','백스테이지 패스']] },
+      esper_gate:{ outfits:[['futuristic agency uniform, high-neck inner shirt, structured jacket, subtle insignia','하이넥 이너와 인장이 달린 미래형 기관 제복'],['combat-ready agency fieldwear','기관 전투용 필드웨어'],['clean tactical coat with rank insignia','계급장이 달린 전술 코트']], props:[['ability monitor wrist device','능력 모니터 손목 장치'],['agency ID badge','관리청 신분증'],['portable guiding sensor','휴대용 가이딩 센서']] },
+      royal_fantasy:{ outfits:[['refined aristocratic formalwear, subtle embroidery','은은한 자수의 귀족 포멀웨어'],['court dress with layered fabric','레이어드 궁정복'],['knightly formal uniform','기사단 정복']], props:[['signet ring','가문 인장 반지'],['sealed letter','봉인 편지'],['ornate pocket watch','장식 회중시계']] },
+      magic_fantasy:{ outfits:[['refined mage attire with layered fabric','레이어드 마도사 복식'],['guild uniform with leather accents','가죽 장식 길드복'],['traveler cloak and fitted tunic','여행용 망토와 튜닉']], props:[['rune notebook','룬 노트'],['magic crystal','마력 결정'],['guild badge','길드 휘장']] },
+      oriental_fantasy:{ outfits:[['elegant hanfu-inspired martial attire','한푸풍 무협 복식'],['layered martial robes','겹쳐 입은 무림 도복'],['scholar robe with waist sash','허리띠가 있는 문사복']], props:[['folding fan','접이식 부채'],['jade token','옥패'],['medicine pouch','약낭']] },
+      historical_shanghai:{ outfits:[['1930s tailored suit','1930년대 테일러드 수트'],['1930s qipao-inspired formalwear','1930년대 치파오풍 포멀웨어'],['period shirt with suspenders and coat','서스펜더와 코트의 시대 복식']], props:[['vintage cigarette case','빈티지 담배 케이스'],['press notebook','취재 수첩'],['pocket watch','회중시계']] },
+      historical_korea:{ outfits:[['1930s Korean modern-style formalwear','근대 한국식 모던 복식'],['simple hanbok-inspired dailywear','한복풍 일상복'],['period school or office uniform','근대식 학교·사무 제복']], props:[['fountain pen','만년필'],['folded newspaper','접은 신문'],['cloth satchel','천가방']] },
+      cyberpunk:{ outfits:[['cyberpunk techwear with luminous seams','발광 라인의 사이버펑크 테크웨어'],['dark tactical streetwear','어두운 전술 스트리트웨어'],['corporate cyber suit','기업형 사이버 수트']], props:[['data shard','데이터 샤드'],['holographic interface device','홀로그램 인터페이스 장치'],['cybernetic access key','사이버 액세스 키']] },
+      space_colony:{ outfits:[['clean futuristic utility wear','미래형 유틸리티 웨어'],['colony technical uniform','식민지 기술 제복'],['lightweight exploration suit','경량 탐사복']], props:[['colony ID module','콜로니 신분 모듈'],['portable scanner','휴대용 스캐너'],['navigation tablet','항법 태블릿']] },
+      apocalypse:{ outfits:[['practical survival jacket and cargo pants','실용적인 생존 재킷과 카고팬츠'],['worn field gear','낡은 필드 장비'],['layered scavenger outfit','레이어드 생존자 복장']], props:[['radio handset','무전기'],['worn map','낡은 지도'],['utility flashlight','휴대용 손전등']] },
+      crime_noir:{ outfits:[['dark tailored coat and formalwear','어두운 테일러드 코트와 포멀웨어'],['noir shirt and suspenders','느와르풍 셔츠와 서스펜더'],['minimal black suit','미니멀 블랙 수트']], props:[['leather notebook','가죽 수첩'],['metal lighter','금속 라이터'],['sealed evidence envelope','봉인된 증거 봉투']] },
+      military:{ outfits:[['modern military field uniform','현대 군 야전복'],['clean tactical uniform','깔끔한 전술 제복'],['officer service uniform','장교 정복']], props:[['dog tags','군번줄'],['field radio','야전 무전기'],['mission folder','작전 파일']] },
+      maritime:{ outfits:[['maritime workwear','해양 작업복'],['navy-inspired utility uniform','해군풍 유틸리티 제복'],['light coastal casualwear','가벼운 해안 캐주얼']], props:[['waterproof radio','방수 무전기'],['navigation compass','항해 나침반'],['deck gloves','갑판 장갑']] },
+      sports:{ outfits:[['athletic training wear','운동 트레이닝웨어'],['team track jacket','팀 트랙재킷'],['clean sports casual','스포츠 캐주얼']], props:[['sports tape','스포츠 테이프'],['stopwatch','스톱워치'],['team pass','팀 패스']] },
+      occult_urban:{ outfits:[['dark urban layers with subtle talisman details','부적 디테일의 어두운 도시복'],['practical occult investigator outfit','실용적인 오컬트 조사복'],['black coat over simple modern clothes','현대복 위 검은 코트']], props:[['paper talisman','종이 부적'],['old recorder','낡은 녹음기'],['protective charm','호신 부적']] }
+    };
+
+    const TONE_PROFILES = {
+      auto:{ label:'자동', tags:[], personality:'', hook:'', prompt:'', visual:'' },
+      nsfw:{ label:'성인(NSFW)', tags:['#성인로맨스','#관능적긴장','#위험한거리감'], personality:'감정을 숨기면서도 거리감이 묘하게 가까움', hook:'사적인 경계가 쉽게 흐려지는 긴장감이 생김.', prompt:'mature sensual atmosphere, alluring gaze, elegant suggestive styling', visual:'관능적이고 성숙한 분위기' },
+      pure:{ label:'순애', tags:['#순애','#헌신','#쌍방구원'], personality:'관계에서 진심과 신뢰를 가장 중시함', hook:'작은 약속을 반복해서 지키며 천천히 가까워짐.', prompt:'tender romantic atmosphere, sincere expression, soft warm lighting', visual:'따뜻하고 진심 어린 분위기' },
+      dark:{ label:'피폐', tags:['#피폐','#상처','#불신'], personality:'마음을 열수록 불안과 집착이 함께 커짐', hook:'과거의 상처와 현재 사건이 반복해서 관계를 흔듦.', prompt:'dark melancholic atmosphere, tired eyes, dramatic shadows, restrained tension', visual:'어둡고 피로한 긴장감' },
+      comedy:{ label:'개그', tags:['#개그','#티키타카','#생활밀착'], personality:'심각한 순간에도 엉뚱한 반응과 말싸움이 튀어나옴', hook:'사소한 실수와 오해가 계속 둘을 같은 장소에 묶어둠.', prompt:'lively comedic anime atmosphere, expressive face, playful pose, bright timing', visual:'발랄하고 표정이 살아있는 분위기' }
     };
 
     const WORLD_CONTEXTS = [
@@ -1559,6 +1672,38 @@
       return cycle[(seed + index) % cycle.length];
     }
 
+    function chooseWorldName(worldContext, gender, seed, usedNames = new Set()) {
+      const key = worldContext?.key || 'modern';
+      let poolSet = WORLD_NAME_POOLS[key];
+      if (!poolSet) {
+        if (['office','campus','medical_world','military','maritime','sports','occult_urban'].includes(key)) poolSet = WORLD_NAME_POOLS.modern;
+        else if (key === 'crime_noir') poolSet = WORLD_NAME_POOLS.crime_noir;
+        else if (key === 'apocalypse') poolSet = WORLD_NAME_POOLS.apocalypse;
+        else if (key === 'entertainment') poolSet = WORLD_NAME_POOLS.entertainment;
+        else poolSet = WORLD_NAME_POOLS.modern;
+      }
+      const rawPool = poolSet[gender] || NAME_POOLS[gender];
+      const available = rawPool.filter(name => !usedNames.has(name));
+      return seededPick(available.length ? available : rawPool, seed);
+    }
+
+    function worldStyleFor(worldContext, seed, lockOutfit, lockProp) {
+      const key = worldContext?.key || 'domestic';
+      const style = WORLD_STYLE_LOCKS[key] || WORLD_STYLE_LOCKS.domestic;
+      const outfitPair = seededPick(style.outfits, seed + 401);
+      const propPair = seededPick(style.props, seed + 409);
+      return {
+        outfit: lockOutfit ? outfitPair[0] : null,
+        outfitKo: lockOutfit ? outfitPair[1] : null,
+        prop: lockProp ? propPair[0] : null,
+        propKo: lockProp ? propPair[1] : null
+      };
+    }
+
+    function toneProfile(tone) {
+      return TONE_PROFILES[tone] || TONE_PROFILES.auto;
+    }
+
     function chooseArchetype(kind, analysis, used, seed) {
       const candidates = [];
       analysis.ranked.slice(0, 4).forEach(([traitKey, score], rankIndex) => {
@@ -1874,7 +2019,7 @@
       return !!worldContext && ['domestic','office','campus','medical_world','entertainment','military','maritime','sports'].includes(worldContext.key);
     }
 
-    function occupationFor(genre, seed, category, professionKey, kind, worldContext, customJobs, usedJobs = new Set(), exclusions = []) {
+    function occupationFor(genre, seed, category, professionKey, kind, worldContext, customJobs, usedJobs = new Set(), exclusions = [], lockJob = true) {
       const group = PROFESSION_CONTEXTS[professionKey] || PROFESSION_CONTEXTS.office;
       // 현대사회에서는 종족이 인외여도 직업까지 인외 전용으로 만들지 않는다.
       // 세계관이 실제로 판타지/SF/게이트 등일 때만 인외 전용 직업 풀을 허용한다.
@@ -1890,6 +2035,19 @@
       const commonCustom = (custom.common || []).filter(job => !usedJobs.has(job) && !isExcludedText(job, exclusions));
       const roleFallback = (ROLE_JOB_FALLBACKS[professionKey]?.[kind] || []).filter(job => !usedJobs.has(job) && !isExcludedText(job, exclusions));
       const roll = seededFloat(seed + 701);
+
+      // 직업 잠금 ON: 사용자 지정 또는 감지된 세계관 전용 직업 풀 안에서만 선택.
+      if (lockJob) {
+        if (roleSpecificCustom.length) return seededPick(roleSpecificCustom, seed + 17);
+        if (commonCustom.length) return seededPick(commonCustom, seed + 23);
+        const worldRoleLocked = worldRolePool.filter(job => !usedJobs.has(job) && !isExcludedText(job, exclusions));
+        const roleLocked = roleFallback.filter(job => !usedJobs.has(job) && !isExcludedText(job, exclusions));
+        const worldLocked = worldPool.filter(job => !usedJobs.has(job) && !isExcludedText(job, exclusions));
+        // 세부 세계관 전용 구도 직업이 있으면 최우선. 없으면 캐릭터의 직업축(소방/의료/수사 등)을 우선.
+        if (worldRoleLocked.length) return seededPick(worldRoleLocked, seed + 31);
+        if (roleLocked.length) return seededPick(roleLocked, seed + 37);
+        if (worldLocked.length) return seededPick(worldLocked, seed + 41);
+      }
 
       // 사용자가 구도별 직업을 직접 지정했다면 최우선 적용.
       if (roleSpecificCustom.length) return seededPick(roleSpecificCustom, seed + 17);
@@ -1925,7 +2083,7 @@
       return seededPick(pool.length ? pool : (availableFallback.length ? availableFallback : fallback), seed);
     }
 
-    function appearanceFor(arcKey, seed, genre, category, exclusions = []) {
+    function appearanceFor(arcKey, seed, genre, category, exclusions = [], worldContext = null, locks = worldLocks, tone = 'auto') {
       const base = seededPick(filterExcludedValues(ARCHETYPES[arcKey].looks, exclusions, v => `${v.hairKo} ${v.eyesKo} ${v.vibeKo} ${v.outfitKo}`), seed);
       let outfit = base.outfit;
       let outfitKo = base.outfitKo;
@@ -1934,6 +2092,10 @@
       if (genre === 'historical') { outfit = '1930s tailored outfit, period-accurate details'; outfitKo = '1930년대풍 테일러드 복식'; }
       if (genre === 'entertainment') { outfit = 'stylish contemporary fashion, polished layered outfit'; outfitKo = '세련된 현대식 레이어드 패션'; }
       if (genre === 'scifi') { outfit = 'clean futuristic utility wear, structured technical jacket'; outfitKo = '구조적인 미래형 유틸리티 웨어'; }
+      const lockedStyle = worldStyleFor(worldContext, seed, !!locks.outfit, !!locks.prop);
+      if (lockedStyle.outfit) { outfit = lockedStyle.outfit; outfitKo = lockedStyle.outfitKo; }
+      const prop = lockedStyle.prop || seededPick([['smartphone','스마트폰'],['notebook','노트'],['small accessory pouch','작은 소품 파우치']], seed + 415)[0];
+      const propKo = lockedStyle.propKo || ({ smartphone:'스마트폰', notebook:'노트', 'small accessory pouch':'작은 소품 파우치' }[prop] || '소품');
       const species = category === 'inhuman' ? nonHumanSpec(seed, exclusions) : null;
       const eyeStyle = pickEyeStyle(seed, category);
       const specialMark = pickSpecialMark(seed, category, genre, species?.label || '');
@@ -1944,7 +2106,8 @@
       const palette = choosePalette(seed, category, species);
       const signature = chooseSignature(seed, category, species, exclusions);
       const signatureEn = signatureToEnglish(signature);
-      return { ...base, outfit, outfitKo, eyeStyle, specialMark, species, speciesDetail, designPoint, palette, signature, signatureEn };
+      const toneData = toneProfile(tone);
+      return { ...base, outfit, outfitKo, prop, propKo, eyeStyle, specialMark, species, speciesDetail, designPoint, palette, signature, signatureEn, toneVisual:toneData.visual, tonePrompt:toneData.prompt };
     }
 
     function extractSourceKeywords(text) {
@@ -1970,20 +2133,24 @@
       const arc = ARCHETYPES[arcKey];
       const gender = resolvePersonaGender(context.text, index, seed);
       const category = resolvePersonaCategory(context.text, context.genre, seed + 1, index, context.exclusions);
-      const name = seededPick(NAME_POOLS[gender], seed + index * 19 + rerollSeed * 7);
+      const name = chooseWorldName(context.worldContext, gender, seed + index * 19 + rerollSeed * 7, context.usedNames);
+      context.usedNames.add(name);
       const age = personaAge(context.sourceAge, kind, seed + 3, context.exclusions);
-      const job = occupationFor(context.genre, seed + 7, category, context.professionKey, kind, context.worldContext, context.customJobs, context.usedJobs, context.exclusions);
+      const job = occupationFor(context.genre, seed + 7, category, context.professionKey, kind, context.worldContext, context.customJobs, context.usedJobs, context.exclusions, context.locks.job);
       context.usedJobs.add(job);
-      const look = appearanceFor(arcKey, seed + 13, context.genre, category, context.exclusions);
+      const look = appearanceFor(arcKey, seed + 13, context.genre, category, context.exclusions, context.worldContext, context.locks, context.tone);
       const relation = RELATION_LINES[kind][arcKey] || RELATION_LINES[kind].softsteel;
       const identityKo = look.species ? look.species.label : '인간';
-      const personalitySummary = composePersonaPersonality(context.analysis, kind, seed + 21);
+      const toneData = toneProfile(context.tone);
+      const basePersonality = composePersonaPersonality(context.analysis, kind, seed + 21);
+      const personalitySummary = toneData.personality ? `${basePersonality}, ${toneData.personality}` : basePersonality;
       const flaw = chooseFlaw(context.analysis, seed + 25);
-      const hook = relationHook(kind, context.worldContext, job, seed + 29);
+      const baseHook = relationHook(kind, context.worldContext, job, seed + 29);
+      const hook = toneData.hook ? `${baseHook} ${toneData.hook}` : baseHook;
       const appearanceKo = `${look.hairKo}, ${look.eyesKo}, ${look.eyeStyle.ko}, ${look.palette.ko}`;
       const detailLine = look.species ? `${look.species.shortKo || look.species.label}, ${look.speciesDetail?.ko || look.designPoint?.ko || ''}`.replace(/, $/,'') : `${look.designPoint?.ko || ''}, ${look.specialMark.ko}`;
       const signature = look.signature;
-      const dynamicTags = [...arc.tags.slice(0,3), `#${identityKo.replace(/\s+/g,'')}`, `#${look.palette.ko.replace(/\s+/g,'')}`, `#${look.eyeStyle.ko.replace(/\s+/g,'')}`].slice(0,6).join(' ');
+      const dynamicTags = [...arc.tags.slice(0,2), ...(toneData.tags || []), `#${identityKo.replace(/\s+/g,'')}`, `#${look.palette.ko.replace(/\s+/g,'')}`, `#${look.eyeStyle.ko.replace(/\s+/g,'')}`].slice(0,7).join(' ');
       const body = fitTo300([
         `${name} | ${age}세 | ${job}`,
         `성격: ${personalitySummary}.`,
@@ -1991,10 +2158,10 @@
         `구도: ${relation}.`,
         `관계 훅: ${hook}`,
         `외형: ${appearanceKo}.`,
-        `시그니처: ${signature}${detailLine ? ` / ${detailLine}` : ''}.`,
+        `시그니처: ${signature}${detailLine ? ` / ${detailLine}` : ''}${look.propKo ? ` / ${look.propKo}` : ''}.`,
         dynamicTags
       ]);
-      return { kind, arcKey, arc, gender, name, age, job, look, relation, personalitySummary, flaw, hook, body, tags: dynamicTags, genre: context.genre, category, identityKo, signature };
+      return { kind, arcKey, arc, gender, name, age, job, look, relation, personalitySummary, flaw, hook, body, tags: dynamicTags, genre: context.genre, category, identityKo, signature, tone:context.tone };
     }
 
     function visualPrompts(persona) {
@@ -2004,8 +2171,8 @@
       const speciesNovel = l.species ? l.species.novel : [];
       const speciesPix = l.species ? l.species.pix : [];
       const speciesNiji = l.species ? l.species.niji : '';
-      const extraNovel = [l.designPoint?.en, l.speciesDetail?.en, l.signatureEn || l.signature, l.palette?.en].filter(Boolean);
-      const extraNiji = [l.designPoint?.niji, l.speciesDetail?.niji, l.signatureEn || l.signature, l.palette?.en].filter(Boolean).join(', ');
+      const extraNovel = [l.designPoint?.en, l.speciesDetail?.en, l.signatureEn || l.signature, l.palette?.en, l.prop, l.tonePrompt].filter(Boolean);
+      const extraNiji = [l.designPoint?.niji, l.speciesDetail?.niji, l.signatureEn || l.signature, l.palette?.en, l.prop, l.tonePrompt].filter(Boolean).join(', ');
       const commonTags = [l.hair, l.eyes, l.eyeStyle.en, l.body, l.vibe, l.outfit, l.specialMark.en, ...extraNovel, 'solo', 'portrait', 'upper body', 'facing viewer', 'clean background', 'detailed face', 'detailed eyes'];
 
       const novelai = [
@@ -2062,6 +2229,9 @@
       const customJobCount = ['common','match','chaos','story'].reduce((sum,k) => sum + (context.customJobs[k]?.length || 0), 0);
       if (customJobCount) chips.push(`<span class="chip"><b>사용자 직업</b> · ${customJobCount}개 반영</span>`);
       if (context.exclusions?.length) chips.push(`<span class="chip"><b>제외 규칙</b> · ${context.exclusions.length}개 반영</span>`);
+      chips.push(`<span class="chip"><b>톤</b> · ${toneProfile(context.tone).label}</span>`);
+      const lockLabels = [context.locks.job ? '직업' : '', context.locks.outfit ? '의상' : '', context.locks.prop ? '소품' : ''].filter(Boolean);
+      chips.push(`<span class="chip"><b>세계관 잠금</b> · ${lockLabels.length ? lockLabels.join(' · ') : 'OFF'}</span>`);
       chips.push(`<span class="chip"><b>추천 나이</b> · 20~55세 독립 랜덤</span>`);
       const explicit = extractSourceKeywords(context.text);
       if (explicit.length) chips.push(`<span class="chip"><b>명시 키워드</b> · ${explicit.join(' · ')}</span>`);
@@ -2157,7 +2327,10 @@
         professionKey: inferProfessionContext(text, worldContext.genre),
         customJobs: parseCustomJobs(customJobsInput.value),
         exclusions: parseExclusions(excludeRulesInput.value),
-        usedJobs: new Set()
+        tone: selectedTone,
+        locks: { ...worldLocks },
+        usedJobs: new Set(),
+        usedNames: new Set()
       };
 
       const used = new Set();
@@ -2229,6 +2402,22 @@
       $$('#inhumanRateControl .seg-btn').forEach(b => b.classList.toggle('active', b === btn));
     });
 
+    $('#toneControl').addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-tone]');
+      if (!btn) return;
+      selectedTone = btn.dataset.tone;
+      $$('#toneControl .seg-btn').forEach(b => b.classList.toggle('active', b === btn));
+    });
+
+    $('#lockControl').addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-lock]');
+      if (!btn) return;
+      const key = btn.dataset.lock;
+      worldLocks[key] = !worldLocks[key];
+      btn.classList.toggle('active', worldLocks[key]);
+      btn.textContent = `${({job:'직업',outfit:'의상',prop:'소품'})[key]} 잠금 ${worldLocks[key] ? 'ON' : 'OFF'}`;
+    });
+
     $('#generateBtn').addEventListener('click', () => { rerollSeed = 0; generate(); });
     $('#rerollBtn').addEventListener('click', () => { rerollSeed += 1; generate(); });
     $('#clearBtn').addEventListener('click', () => {
@@ -2245,7 +2434,6 @@
     $('#sampleBtn').addEventListener('click', () => {
       characterInput.value = '29세 남성. 무심하고 감정 표현이 적다. 책임감이 강하고 한번 자기 사람이라고 생각하면 끝까지 챙긴다. 질투는 심하지만 티를 내지 않으며 연애에서는 주도권을 잡는 편이다. 말수가 적고 직설적인 말투를 사용한다. 소방관이며 과거 연인을 사고로 잃은 경험이 있어 가까운 사람의 안전에 예민하다.';
       inputCount.textContent = characterInput.value.length;
-      if (!excludeRulesInput.value) excludeRulesInput.value = '금발 금지';
       characterInput.focus();
     });
 
