@@ -680,7 +680,7 @@
       <div class="section-head">
         <div>
           <h2 class="section-title">추천 페르소나</h2>
-          <div class="section-sub">각 카드 복사용 본문은 300자 이내로 자동 제한됩니다.</div>
+          <div class="section-sub">각 카드 복사용 본문은 이름 / 나이 / 직업 / 성격 / 외형 / 특징 6개 항목만, 300자 이내로 출력됩니다.</div>
         </div>
         <button class="ghost-btn" id="rerollBtn">같은 설정으로 다시 추천</button>
       </div>
@@ -2151,19 +2151,31 @@
       const flaw = chooseFlaw(context.analysis, seed + 25);
       const baseHook = relationHook(kind, context.worldContext, job, seed + 29);
       const hook = toneData.hook ? `${baseHook} ${toneData.hook}` : baseHook;
-      const appearanceKo = `${look.hairKo}, ${look.eyesKo}, ${look.eyeStyle.ko}, ${look.palette.ko}`;
-      const detailLine = look.species ? `${look.species.shortKo || look.species.label}, ${look.speciesDetail?.ko || look.designPoint?.ko || ''}`.replace(/, $/,'') : `${look.designPoint?.ko || ''}, ${look.specialMark.ko}`;
+      const appearanceKo = [
+        identityKo !== '인간' ? identityKo : null,
+        look.hairKo,
+        look.eyesKo,
+        look.eyeStyle.ko,
+        look.bodyKo,
+        look.palette.ko
+      ].filter(Boolean).join(', ');
+      const detailLine = look.species
+        ? [look.speciesDetail?.ko, look.specialMark?.ko].filter(Boolean).join(', ')
+        : [look.designPoint?.ko, look.specialMark?.ko].filter(Boolean).join(', ');
       const signature = look.signature;
       const dynamicTags = [...arc.tags.slice(0,2), ...(toneData.tags || []), `#${identityKo.replace(/\s+/g,'')}`, `#${look.palette.ko.replace(/\s+/g,'')}`, `#${look.eyeStyle.ko.replace(/\s+/g,'')}`].slice(0,7).join(' ');
+      const featureSummary = [
+        signature,
+        detailLine,
+        arc.feature
+      ].filter(Boolean).join(' · ');
       const body = fitTo300([
-        `${name} | ${age}세 | ${job}`,
+        `이름: ${name}`,
+        `나이: ${age}세`,
+        `직업: ${job}`,
         `성격: ${personalitySummary}.`,
-        `약점: ${flaw}.`,
-        `구도: ${relation}.`,
-        `관계 훅: ${hook}`,
         `외형: ${appearanceKo}.`,
-        `시그니처: ${signature}${detailLine ? ` / ${detailLine}` : ''}${look.propKo ? ` / ${look.propKo}` : ''}.`,
-        dynamicTags
+        `특징: ${featureSummary}`
       ]);
       return { kind, arcKey, arc, gender, name, age, job, look, relation, personalitySummary, flaw, hook, body, tags: dynamicTags, genre: context.genre, category, identityKo, signature, tone:context.tone };
     }
@@ -2253,10 +2265,8 @@
               <span class="char-count">${p.body.length}/300자</span>
             </div>
             <h3 class="persona-name">${p.name}</h3>
-            <div class="persona-meta">${p.age}세 · ${p.job} · ${genderPrompt(p.gender).ko} · ${p.identityKo}</div>
             <div class="persona-text">${escapeHTML(p.body)}</div>
-            <div class="card-actions">
-              <span class="char-count">${p.arc.title}</span>
+            <div class="card-actions" style="justify-content:flex-end;">
               <button class="copy-btn" data-copy-card="${i}">페르소나 복사</button>
             </div>
 
