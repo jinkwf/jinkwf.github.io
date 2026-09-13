@@ -643,6 +643,11 @@
 또는 찰떡: 응급구조사 / 파국: 화재조사관 / 서사: 유가족지원관"></textarea>
             <div class="custom-help">쉼표·줄바꿈으로 여러 개 입력 가능. ‘찰떡: / 파국: / 서사:’를 붙이면 해당 구도에서 우선 추천됩니다.</div>
           </div>
+          <div class="gender-box">
+            <div class="gender-label">제외할 요소 · 원하지 않는 연령/직업/종족/디자인</div>
+            <textarea id="excludeRules" class="custom-jobs" maxlength="800" placeholder="예) 인외 금지, 의사 금지, 금발 금지, 연하 금지"></textarea>
+            <div class="custom-help">쉼표·줄바꿈으로 입력. 예: ‘인외 금지’, ‘의사 제외’, ‘연하 금지’. 해당 요소가 추천에서 최대한 빠집니다.</div>
+          </div>
         </div>
         <div class="actions">
           <button class="ghost-btn" id="sampleBtn">예시 넣기</button>
@@ -682,6 +687,7 @@
     const cards = $('#cards');
     const analysisStrip = $('#analysisStrip');
     const customJobsInput = $('#customJobs');
+    const excludeRulesInput = $('#excludeRules');
     const toast = $('#toast');
 
     let selectedGender = 'auto';
@@ -734,7 +740,23 @@
       { label:'어인', shortKo:'어인', descKo:'비늘과 지느러미를 가진 어인', novel:['fish humanoid','scales','fins'], pix:['fish humanoid','scales','fins'], niji:'a fishfolk humanoid with scales and fins' },
       { label:'문어형 인외', shortKo:'문어형', descKo:'촉수 장식과 흡반이 돋보이는 문어형 인외', novel:['octopus humanoid','tentacle hair','suction cups'], pix:['octopus humanoid','tentacle hair','suction cups'], niji:'an octopus-like humanoid with tentacle hair and visible suction cups' },
       { label:'기계체', shortKo:'기계', descKo:'금속 골격과 관절이 드러나는 기계형 인외', novel:['mechanical body','metal joints','robotic parts'], pix:['mechanical body','metal joints','robotic parts'], niji:'a humanoid machine with exposed metal joints and mechanical parts' },
-      { label:'안드로이드', shortKo:'안드로이드', descKo:'인공 피부와 발광 회로를 지닌 안드로이드', novel:['android','synthetic skin','glowing circuit lines'], pix:['android','synthetic skin','glowing circuit lines'], niji:'an android with synthetic skin and subtle glowing circuit lines' }
+      { label:'안드로이드', shortKo:'안드로이드', descKo:'인공 피부와 발광 회로를 지닌 안드로이드', novel:['android','synthetic skin','glowing circuit lines'], pix:['android','synthetic skin','glowing circuit lines'], niji:'an android with synthetic skin and subtle glowing circuit lines' },
+      { label:'흡혈귀', shortKo:'흡혈귀', descKo:'창백한 피부와 송곳니를 지닌 흡혈귀', novel:['vampire','pale skin','fangs'], pix:['vampire','pale skin','fangs'], niji:'a vampire with pale skin and visible fangs' },
+      { label:'악마', shortKo:'악마', descKo:'뿔과 꼬리를 지닌 악마형 인외', novel:['demon','horns','tail'], pix:['demon','horns','tail'], niji:'a demon-like humanoid with horns and a tail' },
+      { label:'천사', shortKo:'천사', descKo:'날개와 성흔을 지닌 천사형 인외', novel:['angel','wings','halo motif'], pix:['angel','wings','halo motif'], niji:'an angelic humanoid with wings and halo motifs' },
+      { label:'용인', shortKo:'용인', descKo:'뿔과 비늘을 가진 용인', novel:['dragonkin','scales','horns'], pix:['dragonkin','scales','horns'], niji:'a dragonkin humanoid with scales and horns' },
+      { label:'뱀수인', shortKo:'뱀수인', descKo:'비늘과 세로 동공을 지닌 뱀수인', novel:['snake beastkin','scales','slit pupils'], pix:['snake beastkin','scales','slit pupils'], niji:'a snake beastkin with scales and slit pupils' },
+      { label:'조류수인', shortKo:'조류수인', descKo:'깃털과 날개 장식을 지닌 조류수인', novel:['avian humanoid','feathers','wing motif'], pix:['avian humanoid','feathers','wing motif'], niji:'an avian humanoid with feathers and wing motifs' },
+      { label:'곤충형 인외', shortKo:'곤충형', descKo:'막날개와 외골격 디테일을 지닌 곤충형 인외', novel:['insectoid humanoid','thin wings','chitin texture'], pix:['insectoid humanoid','thin wings','chitin texture'], niji:'an insectoid humanoid with thin wings and chitin details' },
+      { label:'식물형 인외', shortKo:'식물형', descKo:'잎맥과 덩굴 장식을 지닌 식물형 인외', novel:['plant humanoid','leaf veins','vine motif'], pix:['plant humanoid','leaf veins','vine motif'], niji:'a plantlike humanoid with leaf veins and vine motifs' },
+      { label:'버섯형 인외', shortKo:'버섯형', descKo:'균사와 포자 장식을 지닌 버섯형 인외', novel:['mushroom humanoid','mycelium','spore motif'], pix:['mushroom humanoid','mycelium','spore motif'], niji:'a mushroom-like humanoid with mycelium and spores' },
+      { label:'유령', shortKo:'유령', descKo:'반투명한 실루엣과 안개감을 지닌 유령형 인외', novel:['ghost humanoid','translucent body','misty aura'], pix:['ghost humanoid','translucent body','misty aura'], niji:'a ghostly translucent humanoid with a misty aura' },
+      { label:'인형형 인외', shortKo:'인형형', descKo:'관절선과 도자기 질감을 지닌 인형형 인외', novel:['doll-like humanoid','jointed body','porcelain texture'], pix:['doll-like humanoid','jointed body','porcelain texture'], niji:'a doll-like humanoid with visible joints and porcelain texture' },
+      { label:'사이보그', shortKo:'사이보그', descKo:'인체와 기계가 결합된 사이보그', novel:['cyborg','mechanical limbs','synthetic parts'], pix:['cyborg','mechanical limbs','synthetic parts'], niji:'a cyborg with mechanical limbs and synthetic body parts' },
+      { label:'외계인', shortKo:'외계인', descKo:'낯선 피부색과 생체광을 지닌 외계형 인외', novel:['alien humanoid','bioluminescence','unusual skin tone'], pix:['alien humanoid','bioluminescence','unusual skin tone'], niji:'an alien humanoid with bioluminescent details' },
+      { label:'해파리형 인외', shortKo:'해파리형', descKo:'발광 촉수와 젤 질감을 지닌 해파리형 인외', novel:['jellyfish humanoid','glowing tendrils','gel texture'], pix:['jellyfish humanoid','glowing tendrils','gel texture'], niji:'a jellyfish-like humanoid with glowing tendrils and gel texture' },
+      { label:'상어형 인외', shortKo:'상어형', descKo:'지느러미와 날카로운 이빨을 가진 상어형 인외', novel:['shark humanoid','fin','sharp teeth'], pix:['shark humanoid','fin','sharp teeth'], niji:'a shark-like humanoid with fins and sharp teeth' },
+      { label:'갑각류형 인외', shortKo:'갑각류형', descKo:'외골격과 광택 껍질을 지닌 갑각류형 인외', novel:['crustacean humanoid','exoskeleton','shell texture'], pix:['crustacean humanoid','exoskeleton','shell texture'], niji:'a crustacean-like humanoid with exoskeleton details' }
     ];
 
     const INHUMAN_RATE_MAP = { low: 0.15, normal: 0.38, high: 0.68, full: 1 };
@@ -787,7 +809,152 @@
         { ko:'합성 피부 아래로 희미한 회로빛이 비침', en:'faint circuit lights visible beneath synthetic skin', niji:'faint circuit lights glowing beneath synthetic skin' },
         { ko:'귀 뒤와 목선에 매끈한 패널 이음선', en:'clean panel seams behind the ears and along the neck', niji:'clean panel seams behind the ears and along the neck' },
         { ko:'홍채 안쪽에 미세한 HUD 광원이 반짝임', en:'a subtle HUD glow within the irises', niji:'a subtle HUD glow within the irises' }
+      ],
+      '흡혈귀': [
+        { ko:'창백한 피부 위로 옅은 혈관이 비침', en:'faint veins showing beneath pale skin', niji:'faint veins visible beneath pale skin' },
+        { ko:'입술 끝으로 날카로운 송곳니가 드러남', en:'sharp fangs visible at the corners of the lips', niji:'sharp fangs peeking from the lips' }
+      ],
+      '악마': [
+        { ko:'광택 있는 뿔과 가는 꼬리', en:'glossy horns and a slim tail', niji:'glossy horns and a slim tail' },
+        { ko:'피부 위로 검은 인장 문양이 번짐', en:'black sigil patterns across the skin', niji:'black sigil patterns spreading across the skin' }
+      ],
+      '천사': [
+        { ko:'얇고 밝은 깃이 어깨 뒤로 겹침', en:'soft bright feathers layered behind the shoulders', niji:'soft bright feathers layered behind the shoulders' },
+        { ko:'은은한 후광빛이 목 뒤에 감돎', en:'a faint halo glow behind the neck', niji:'a faint halo glow behind the neck' }
+      ],
+      '용인': [
+        { ko:'쇄골과 뺨을 따라 작은 비늘이 이어짐', en:'small scales running along the collarbone and cheeks', niji:'small scales tracing the collarbone and cheeks' },
+        { ko:'이마 양옆으로 짧은 뿔이 솟음', en:'short horns rising from the temples', niji:'short horns rising from the temples' }
+      ],
+      '뱀수인': [
+        { ko:'목선을 따라 얇은 비늘 띠가 남음', en:'a ribbon of scales along the neck', niji:'a ribbon of scales along the neck' },
+        { ko:'혀끝이 짧게 갈라진 모습', en:'a subtly forked tongue', niji:'a subtly forked tongue' }
+      ],
+      '조류수인': [
+        { ko:'귀와 어깨에 잔깃이 흩어짐', en:'small feathers scattered around the ears and shoulders', niji:'small feathers scattered around the ears and shoulders' },
+        { ko:'팔 뒤로 접힌 날개깃 장식', en:'folded wing-feather accents behind the arms', niji:'folded wing-feather accents behind the arms' }
+      ],
+      '곤충형 인외': [
+        { ko:'등 뒤로 얇은 막날개가 비침', en:'thin translucent wings visible behind the back', niji:'thin translucent wings visible behind the back' },
+        { ko:'관절마다 키틴 광택이 흐름', en:'a chitin sheen along the joints', niji:'a chitin sheen along the joints' }
+      ],
+      '식물형 인외': [
+        { ko:'피부 위로 잎맥 같은 선이 흐름', en:'leaf-vein lines across the skin', niji:'leaf-vein lines running across the skin' },
+        { ko:'손목과 허리를 감싼 덩굴 장식', en:'vine motifs wrapping the wrists and waist', niji:'vine motifs wrapping the wrists and waist' }
+      ],
+      '버섯형 인외': [
+        { ko:'머리 위 작은 갓 장식과 포자 먼지', en:'a small mushroom cap accent and drifting spores', niji:'a small mushroom cap accent with drifting spores' },
+        { ko:'어깨와 목에 균사 문양이 번짐', en:'mycelium patterns across the shoulders and neck', niji:'mycelium patterns spreading across the shoulders and neck' }
+      ],
+      '유령': [
+        { ko:'손끝과 발끝이 안개처럼 흐려짐', en:'hands and feet fading into mist', niji:'hands and feet fading into mist' },
+        { ko:'몸가에 옅은 푸른 잔광이 맴돎', en:'a pale blue afterglow surrounding the body', niji:'a pale blue afterglow surrounding the body' }
+      ],
+      '인형형 인외': [
+        { ko:'도자기처럼 매끈한 피부와 관절선', en:'porcelain-smooth skin with visible joint lines', niji:'porcelain-smooth skin with visible joint lines' },
+        { ko:'목 뒤 리본과 금 간 표면', en:'a ribbon key detail and faint cracked surface', niji:'a ribbon key detail with a faint cracked surface' }
+      ],
+      '사이보그': [
+        { ko:'금속 의수/의족과 생체조직 경계선', en:'mechanical limbs with visible bio-mechanical seams', niji:'mechanical limbs with visible bio-mechanical seams' },
+        { ko:'관자놀이와 목 옆의 인터페이스 포트', en:'interface ports at the temples and neck', niji:'interface ports at the temples and neck' }
+      ],
+      '외계인': [
+        { ko:'피부 아래 형광빛이 은은하게 순환함', en:'faint bioluminescence pulsing beneath the skin', niji:'faint bioluminescence pulsing beneath the skin' },
+        { ko:'비대칭 홍채와 이마의 점광점', en:'asymmetrical irises and small luminous marks on the forehead', niji:'asymmetrical irises with small luminous marks on the forehead' }
+      ],
+      '해파리형 인외': [
+        { ko:'머리 끝에서 실처럼 빛나는 촉수가 늘어짐', en:'glowing tendrils flowing from the hair ends', niji:'glowing tendrils flowing from the hair ends' },
+        { ko:'몸가에 푸른 젤리빛 막이 맴돎', en:'a blue gel membrane shimmering around the body', niji:'a blue gel membrane shimmering around the body' }
+      ],
+      '상어형 인외': [
+        { ko:'목 옆 아가미선과 등 지느러미 실루엣', en:'gill lines at the neck and a dorsal-fin silhouette', niji:'gill lines at the neck with a dorsal-fin silhouette' },
+        { ko:'미소 사이로 짧고 날카로운 이빨이 보임', en:'short sharp teeth visible in a smile', niji:'short sharp teeth visible in a smile' }
+      ],
+      '갑각류형 인외': [
+        { ko:'어깨와 팔에 외골격 판이 겹쳐짐', en:'layered exoskeleton plates along the arms and shoulders', niji:'layered exoskeleton plates along the arms and shoulders' },
+        { ko:'광택 있는 껍질 문양이 몸선을 따라 흐름', en:'glossy shell patterns following the body line', niji:'glossy shell patterns following the body line' }
       ]
+    };
+
+    const COLOR_PALETTES = [
+      { ko:'버건디+골드', en:'burgundy and gold' },
+      { ko:'네이비+실버', en:'navy and silver' },
+      { ko:'블랙+크림', en:'black and cream' },
+      { ko:'포레스트그린+브론즈', en:'forest green and bronze' },
+      { ko:'와인+차콜', en:'wine red and charcoal' },
+      { ko:'코발트+화이트', en:'cobalt blue and white' },
+      { ko:'플럼+로즈골드', en:'plum and rose gold' },
+      { ko:'아이보리+모카', en:'ivory and mocha' }
+    ];
+
+    const PERSONALITY_FACETS = {
+      detached:['무심','침착','과묵'], possessive:['질투심','독점욕','집요함'], gentle:['다정함','배려심','온화함'],
+      dominant:['주도적','강단','통솔력'], playful:['능글거림','유연함','여유'], wounded:['경계심','불신','상처회피'],
+      responsible:['책임감','보호본능','헌신'], proud:['자존심','예민함','완고함'], impulsive:['즉흥성','반항기','자유분방'],
+      scheming:['계산적','분석적','치밀함'], shy:['낯가림','소심함','순진함'], passionate:['직진성','열정','솔직함']
+    };
+
+    const AFFECTION_STYLES = {
+      match:['행동으로 챙김','세심하게 돌봄','옆을 지켜줌','실무적으로 도와줌'],
+      chaos:['밀고 당김','도발하며 다가감','승부욕으로 자극함','선을 시험함'],
+      story:['말보다 기억으로 남음','오래 지켜봄','늦게 드러나는 진심','과거를 통해 가까워짐']
+    };
+
+    const FLAW_BY_TRAIT = {
+      detached:['감정을 삼키고 혼자 버팀','표현 부족으로 오해를 삼'],
+      possessive:['불안하면 통제하려 듦','질투를 숨기다 한꺼번에 터뜨림'],
+      gentle:['남의 사정을 자기 책임처럼 짊어짐','거절을 미루다 지침'],
+      dominant:['양보를 늦게 배움','자기 방식이 아니면 답답해함'],
+      playful:['진심을 농담으로 덮어버림','무게감 있는 순간을 피함'],
+      wounded:['믿고도 한 번 더 의심함','가까워질수록 먼저 거리를 둠'],
+      responsible:['자기 몸을 갈아 넣는 편','무리해서라도 책임지려 함'],
+      proud:['사과가 늦고 고집이 셈','상처받아도 아닌 척함'],
+      impulsive:['감정이 앞서 결정이 빠름','위험을 계산보다 직감으로 밂'],
+      scheming:['상대를 시험하려는 버릇','속내를 끝까지 감춤'],
+      shy:['하고 싶은 말을 제때 못함','혼자 상상으로 결론냄'],
+      passionate:['마음이 기울면 속도가 너무 빠름','좋아지면 주변이 잘 안 보임']
+    };
+
+    const SIGNATURES = {
+      human:['왼쪽 눈가를 스치는 가는 흉터','한쪽만 긴 은색 귀걸이','검은 장갑 한 짝','손등에 얇은 붕대','끝만 탈색된 머리카락','목선의 얇은 초커'],
+      generalInhuman:['부러진 뿔 한 쪽','꼬리 끝의 흰 무늬','피부 위를 흐르는 발광 균열','이빨이 드러나는 송곳니','한쪽 귀 끝의 찢긴 자국'],
+      '수인':['꼬리 끝의 흰 무늬','찢긴 오른쪽 귀끝','발목까지 내려오는 두툼한 꼬리'],
+      '슬라임':['가슴 부근에 떠 있는 코어 결정','손끝마다 맺히는 젤 방울','등 뒤로 흐르는 반투명 젤 리본'],
+      '동물형 인외':['눈가의 짐승 무늬','갈기처럼 부푸는 목덜미 털','굽은 손톱과 꼬리 무늬'],
+      '어인':['갈비뼈를 따라 번지는 비늘선','귓가에서 흔들리는 지느러미','팔목을 감싼 물결 무늬'],
+      '문어형 인외':['청록빛으로 빛나는 촉수 끝','머리카락처럼 늘어진 짧은 촉수','목 뒤의 흡반 패턴'],
+      '기계체':['금 간 외장판 한 조각','가슴 패널의 경고등','드러난 관절축'],
+      '안드로이드':['홍채 안 HUD 링','목 뒤 충전 포트','쇄골 아래 회로 문양'],
+      '흡혈귀':['입술 끝에 드러나는 송곳니','목 아래 오래된 교합 자국','핏빛 반지'],
+      '악마':['한쪽 부러진 뿔','꼬리 끝의 창날 무늬','발목의 검은 인장'],
+      '천사':['빛 깃이 떨어지는 날개 끝','목 뒤의 후광 문양','손등의 금빛 성흔'],
+      '용인':['비늘이 도드라진 쇄골선','한쪽 이마의 작은 뿔','꼬리 기저부의 금빛 비늘'],
+      '뱀수인':['목선을 타는 비늘 띠','갈라진 혀가 스치는 입술','황금빛 세로 동공'],
+      '조류수인':['어깨 뒤 깃털 장식','날개깃처럼 뻗는 귀 장식','발목의 얇은 발톱'],
+      '곤충형 인외':['등 뒤 얇은 막날개','관절마다 남은 광택 패턴','더듬이 장식'],
+      '식물형 인외':['머리카락 사이의 잎맥','손목을 감는 덩굴','피부 위 꽃잎 반점'],
+      '버섯형 인외':['어깨의 균사 장식','머리 위 작은 갓','희미한 포자 먼지'],
+      '유령':['몸가에 흐르는 안개','발끝이 흐릿한 실루엣','반투명 손등'],
+      '인형형 인외':['볼 관절선','목 뒤 리본 키홀','도자기 금 간 표면'],
+      '사이보그':['금속 의수 또는 의족','귀 뒤 인터페이스 포트','피부를 가르는 고정 나사'],
+      '외계인':['은은한 형광 혈관','비대칭 홍채 패턴','이마의 점광점'],
+      '해파리형 인외':['머리 끝에서 떨어지는 발광 촉수','젤리처럼 흔들리는 귀장식','청록빛 반투명 막'],
+      '상어형 인외':['옆구리 지느러미 돌기','목 옆 아가미선','날카로운 송곳니'],
+      '갑각류형 인외':['어깨의 단단한 껍질판','광택 나는 외골격 무늬','손등의 얇은 집게형 장갑']
+    };
+
+    const EXTRA_WORLD_KEYWORDS = {
+      campus:['학보','신입생','캠퍼스커플','학생증','강의실','과제','조별과제','휴학','복학'],
+      office:['인사팀','법무팀','마케팅팀','디자인팀','기획팀','실무','보고서','회의실','출근길'],
+      domestic:['카페알바','식당','베이커리','번역가','웹툰','작가','프리랜서','반려동물','주말'],
+      crime_noir:['카지노','브로커','잠입','청부','비리','로비'],
+      cyberpunk:['해커','보안망','AI기업','불법개조','데이터칩'],
+      apocalypse:['보급소','쉘터','방벽','정찰대','생존캠프'],
+      magic_fantasy:['용병길드','성유물','마법학교','소환사'],
+      royal_fantasy:['황실','사교계','정략결혼','시녀','집사'],
+      entertainment:['방송국','예능','화보','무대의상','팬사인회'],
+      medical_world:['응급환자','차트','회진','병동근무'],
+      maritime:['어시장','선착장','수족관','잠수장비']
     };
 
     const ARCHETYPES = {
@@ -1035,6 +1202,11 @@
         story:['재활 트레이너','스포츠 기자','경기영상 분석가','스포츠 심리상담사']
       }
     };
+
+    Object.entries(EXTRA_WORLD_KEYWORDS).forEach(([key, words]) => {
+      const target = WORLD_CONTEXTS.find(v => v.key === key);
+      if (target) target.words = [...new Set([...(target.words || []), ...words])];
+    });
 
     const ROLE_JOB_KEYWORDS = {
       match: ['구조','지원','협력','코디','조율','의무','치료','재활','안내','관제','가이드','매니저','조수','정비','교육','상담','기획','연출','연구'],
@@ -1404,9 +1576,13 @@
       return seededPick(FALLBACKS[kind], seed + rerollSeed * 17);
     }
 
-    function personaAge(sourceAge, kind, seed) {
-      // 원본 캐릭터 나이와 무관하게 추천 페르소나는 20~55세 풀에서 독립 랜덤 생성.
-      const agePool = Array.from({ length: 36 }, (_, i) => 20 + i);
+    function personaAge(sourceAge, kind, seed, exclusions = []) {
+      let agePool = Array.from({ length: 36 }, (_, i) => 20 + i);
+      if (sourceAge) {
+        if (exclusions.some(v => v.includes('연하'))) agePool = agePool.filter(age => age >= sourceAge);
+        if (exclusions.some(v => v.includes('연상'))) agePool = agePool.filter(age => age <= sourceAge);
+      }
+      if (!agePool.length) agePool = Array.from({ length: 36 }, (_, i) => 20 + i);
       return seededPick(agePool, seed + rerollSeed * 17);
     }
 
@@ -1438,7 +1614,8 @@
       return 'auto';
     }
 
-    function resolvePersonaCategory(text, genre, seed, index) {
+    function resolvePersonaCategory(text, genre, seed, index, exclusions = []) {
+      if (exclusions.some(v => v.includes('인외') || v.includes('비인간'))) return 'human';
       const mode = resolveCategoryMode(text);
       if (mode === 'human' || mode === 'inhuman') return mode;
       let rate = INHUMAN_RATE_MAP[selectedInhumanRate] ?? INHUMAN_RATE_MAP.normal;
@@ -1455,10 +1632,53 @@
       return seededPick(weighted, seed + 23 + rerollSeed * 5);
     }
 
-    function pickSpecialMark(seed, category, genre) {
-      const base = seededPick(SPECIAL_MARKS, seed + 31 + rerollSeed * 3);
-      if (category === 'inhuman' && genre === 'scifi') {
-        return SPECIAL_MARKS.find(v => v.ko === '피부를 스치는 발광 문양') || base;
+    function speciesGroup(speciesLabel = '') {
+      if (!speciesLabel) return 'human';
+      if (['기계체','안드로이드','사이보그'].includes(speciesLabel)) return 'mechanical';
+      if (['어인','해파리형 인외','상어형 인외','갑각류형 인외'].includes(speciesLabel)) return 'aquatic';
+      if (['슬라임'].includes(speciesLabel)) return 'slime';
+      if (['유령','천사'].includes(speciesLabel)) return 'ethereal';
+      return 'organic';
+    }
+
+    function pickSpecialMark(seed, category, genre, speciesLabel = '') {
+      const humanPool = [
+        { ko:'눈 밑 점', en:'beauty mark under eye', niji:'a beauty mark under one eye' },
+        { ko:'옅은 주근깨', en:'soft freckles', niji:'soft freckles across the face' },
+        { ko:'손등의 잔흉터', en:'small scars on the hands', niji:'small scars scattered across the hands' },
+        { ko:'쇄골 부근 화상 자국', en:'burn scars near the collarbone', niji:'faint burn scars near the collarbone' },
+        { ko:'눈을 가로지르는 흉터', en:'scar across one eye', niji:'a scar crossing one eye' },
+        { ko:'목선을 따라 남은 봉합 자국', en:'stitch marks along the neck', niji:'stitch marks trailing along the neck' }
+      ];
+      const organicPool = [
+        { ko:'눈을 가로지르는 흉터', en:'scar across one eye', niji:'a scar crossing one eye' },
+        { ko:'광대 위 점상 흉터', en:'small scar above the cheekbone', niji:'a small scar above the cheekbone' },
+        { ko:'볼 옆의 긁힌 자국', en:'thin scratch marks on the cheek', niji:'thin scratch marks along the cheek' }
+      ];
+      const aquaticPool = [
+        { ko:'갈비뼈를 따라 번지는 비늘선', en:'scale lines spreading along the ribs', niji:'scale lines spreading along the ribs' },
+        { ko:'목 옆 아가미 자국', en:'gill marks at the neck', niji:'gill marks at the neck' },
+        { ko:'지느러미 끝의 찢긴 흔적', en:'torn fin edges', niji:'torn fin edges' }
+      ];
+      const slimePool = [
+        { ko:'몸 안쪽의 작은 기포 군집', en:'clusters of tiny bubbles within the body', niji:'clusters of tiny bubbles inside the body' },
+        { ko:'가슴 부근의 발광 코어', en:'a glowing core near the chest', niji:'a glowing core near the chest' }
+      ];
+      const mechanicalPool = [
+        { ko:'금 간 외장판', en:'cracked outer plating', niji:'cracked outer plating' },
+        { ko:'드러난 연결 나사', en:'exposed fastening screws', niji:'exposed fastening screws' },
+        { ko:'피부를 스치는 발광 문양', en:'faint glowing markings', niji:'faint luminous markings across the skin' }
+      ];
+      const etherealPool = [
+        { ko:'몸가를 맴도는 잔광', en:'an afterglow surrounding the body', niji:'an afterglow surrounding the body' },
+        { ko:'흐릿한 안개 자락', en:'wisps of mist trailing from the body', niji:'wisps of mist trailing from the body' }
+      ];
+      const group = category === 'human' ? 'human' : speciesGroup(speciesLabel);
+      const pools = { human: humanPool, organic: organicPool, aquatic: aquaticPool, slime: slimePool, mechanical: mechanicalPool, ethereal: etherealPool };
+      const chosenPool = pools[group] || humanPool;
+      const base = seededPick(chosenPool, seed + 31 + rerollSeed * 3);
+      if (category === 'inhuman' && genre === 'scifi' && group === 'mechanical') {
+        return mechanicalPool.find(v => v.ko === '피부를 스치는 발광 문양') || base;
       }
       return base;
     }
@@ -1467,13 +1687,117 @@
       return seededPick(HUMAN_DESIGN_POINTS, seed + 37 + rerollSeed * 2);
     }
 
-    function nonHumanSpec(seed) {
-      return seededPick(NONHUMAN_TYPES, seed + 41 + rerollSeed * 13);
+    function nonHumanSpec(seed, exclusions = []) {
+      const pool = filterExcludedValues(NONHUMAN_TYPES, exclusions, v => `${v.label} ${v.descKo}`);
+      return seededPick(pool, seed + 41 + rerollSeed * 13);
     }
 
     function nonHumanDetail(speciesLabel, seed) {
       const pool = NONHUMAN_DETAILS[speciesLabel] || [];
       return pool.length ? seededPick(pool, seed + 47 + rerollSeed * 7) : null;
+    }
+
+    function choosePalette(seed, category, species) {
+      let pool = COLOR_PALETTES;
+      if (category === 'inhuman' && ['어인','해파리형 인외','상어형 인외','갑각류형 인외'].includes(species?.label)) {
+        pool = [{ ko:'청록+실버', en:'teal and silver' }, { ko:'딥블루+화이트', en:'deep blue and white' }, ...COLOR_PALETTES];
+      }
+      if (category === 'inhuman' && ['기계체','안드로이드','사이보그'].includes(species?.label)) {
+        pool = [{ ko:'건메탈+블루', en:'gunmetal and blue' }, { ko:'차콜+레드', en:'charcoal and red' }, ...COLOR_PALETTES];
+      }
+      return seededPick(pool, seed + 59 + rerollSeed * 3);
+    }
+
+    function signatureToEnglish(sig) {
+      const dict = {
+        '왼쪽 눈가를 스치는 가는 흉터':'a thin scar brushing the left eye',
+        '한쪽만 긴 은색 귀걸이':'a single long silver earring',
+        '검은 장갑 한 짝':'a single black glove',
+        '손등에 얇은 붕대':'thin bandages across the back of the hand',
+        '끝만 탈색된 머리카락':'hair with bleached tips',
+        '목선의 얇은 초커':'a slim choker at the neckline',
+        '부러진 뿔 한 쪽':'one broken horn',
+        '꼬리 끝의 흰 무늬':'a white marking at the tail tip',
+        '피부 위를 흐르는 발광 균열':'glowing cracks running across the skin',
+        '이빨이 드러나는 송곳니':'visible sharp fangs',
+        '한쪽 귀 끝의 찢긴 자국':'a tear at one ear tip',
+        '가슴 부근에 떠 있는 코어 결정':'a floating core crystal near the chest',
+        '손끝마다 맺히는 젤 방울':'small gel droplets at the fingertips',
+        '등 뒤로 흐르는 반투명 젤 리본':'translucent gel ribbons trailing behind the back',
+        '눈가의 짐승 무늬':'beastlike markings around the eyes',
+        '갈기처럼 부푸는 목덜미 털':'mane-like fur at the nape',
+        '굽은 손톱과 꼬리 무늬':'curved claws and patterned tail markings',
+        '갈비뼈를 따라 번지는 비늘선':'scales spreading along the ribs',
+        '귓가에서 흔들리는 지느러미':'fins fluttering near the ears',
+        '팔목을 감싼 물결 무늬':'wave patterns wrapping the wrists',
+        '청록빛으로 빛나는 촉수 끝':'teal-glowing tentacle tips',
+        '머리카락처럼 늘어진 짧은 촉수':'short tentacles hanging like hair',
+        '목 뒤의 흡반 패턴':'suction-cup patterns at the nape',
+        '금 간 외장판 한 조각':'a cracked armor plate',
+        '가슴 패널의 경고등':'a warning light on the chest panel',
+        '드러난 관절축':'exposed joint shafts',
+        '홍채 안 HUD 링':'a HUD ring inside the iris',
+        '목 뒤 충전 포트':'a charging port at the back of the neck',
+        '쇄골 아래 회로 문양':'circuit motifs below the collarbone'
+      };
+      return dict[sig] || sig;
+    }
+
+    function chooseSignature(seed, category, species, exclusions = []) {
+      let pool = category === 'inhuman' ? [ ...(SIGNATURES[species?.label] || []), ...(SIGNATURES.generalInhuman || []) ] : (SIGNATURES.human || []);
+      pool = filterExcludedValues(pool, exclusions);
+      return seededPick(pool.length ? pool : (category === 'inhuman' ? (SIGNATURES.generalInhuman || []) : (SIGNATURES.human || [])), seed + 67 + rerollSeed * 9);
+    }
+
+    function topTraitKeys(analysis) {
+      return (analysis?.ranked || []).slice(0, 3).map(([key]) => key);
+    }
+
+    function composePersonaPersonality(analysis, kind, seed) {
+      const tops = topTraitKeys(analysis);
+      const facets = tops.flatMap(key => PERSONALITY_FACETS[key] || []);
+      const primary = seededPick(facets.length ? facets : ['침착','다정함','강단'], seed + 71);
+      const secondary = seededPick((facets.length ? facets : ['배려심','열정']).filter(v => v !== primary), seed + 73);
+      const affection = seededPick(AFFECTION_STYLES[kind] || AFFECTION_STYLES.match, seed + 79);
+      return `${primary}·${secondary}, ${affection}`;
+    }
+
+    function chooseFlaw(analysis, seed) {
+      const tops = topTraitKeys(analysis);
+      let pool = tops.flatMap(key => FLAW_BY_TRAIT[key] || []);
+      if (!pool.length) pool = ['좋아지면 혼자 끌어안음','갈등을 미루다 커지게 둠'];
+      return seededPick(pool, seed + 83);
+    }
+
+    function relationHook(kind, worldContext, job, seed) {
+      const pools = {
+        match: [
+          `${job}로 같은 현장에 자주 엮임.`,
+          `공동 업무를 맡으며 신뢰가 쌓임.`,
+          `서로의 빈틈을 메우는 협업으로 시작.`
+        ],
+        chaos: [
+          `${job} 일로 책임 소재를 두고 충돌.`,
+          `권한과 방식이 달라 계속 부딪힘.`,
+          `같은 사건을 두고 정반대 결론을 냄.`
+        ],
+        story: [
+          `과거 사건 기록이 두 사람을 다시 묶음.`,
+          `예전의 흔적이 ${job} 일에서 다시 드러남.`,
+          `묻어둔 과거와 연결된 사람으로 재회.`
+        ]
+      };
+      const special = {
+        campus: { match:'같은 프로젝트와 동아리로 자주 마주침.', chaos:'학내 사건과 기사 때문에 마찰이 잦음.', story:'예전 기록과 졸업앨범에서 접점이 드러남.' },
+        office: { match:'같은 프로젝트 팀으로 묶여 호흡을 맞춤.', chaos:'평가·감사·협업 방식 차이로 충돌.', story:'과거 인사기록이나 이전 프로젝트가 실마리.' },
+        medical_world: { match:'환자 대응과 회복 과정에서 가까워짐.', chaos:'치료 방침과 책임 문제로 날이 섬.', story:'과거 진료기록과 사고 이력이 이어짐.' },
+        entertainment: { match:'같은 스케줄을 돌며 호흡을 맞춤.', chaos:'계약·이미지 관리 문제로 충돌.', story:'무명 시절의 기록과 스캔들이 연결됨.' },
+        historical_shanghai: { match:'취재와 연락 업무가 겹쳐 손발을 맞춤.', chaos:'조사와 단속이 겹쳐 신경전이 심함.', story:'실종사건 기록과 오래된 사진이 이어짐.' },
+        apocalypse: { match:'생존과 보급을 함께 버티며 가까워짐.', chaos:'규율과 생존 방식 차이로 부딪힘.', story:'과거 재난 로그가 둘을 다시 잇음.' }
+      };
+      const wk = special[worldContext?.key];
+      if (wk) return wk[kind];
+      return seededPick(pools[kind] || pools.match, seed + 89);
     }
 
     function inferProfessionContext(text, genre) {
@@ -1514,6 +1838,22 @@
       return result;
     }
 
+    function parseExclusions(raw) {
+      if (!raw || !raw.trim()) return [];
+      return raw.split(/[\n,;/]/).map(v => v.trim()).filter(Boolean).map(v => normalize(v.replace(/(금지|제외|하지 ?마|없음)/g,''))).filter(Boolean);
+    }
+
+    function isExcludedText(value, exclusions) {
+      if (!value) return false;
+      const n = normalize(value);
+      return (exclusions || []).some(ex => ex && n.includes(ex));
+    }
+
+    function filterExcludedValues(values, exclusions, getter = (v) => typeof v === 'string' ? v : JSON.stringify(v)) {
+      const filtered = (values || []).filter(v => !isExcludedText(getter(v), exclusions));
+      return filtered.length ? filtered : (values || []);
+    }
+
     function roleScore(job, kind) {
       const words = ROLE_JOB_KEYWORDS[kind] || [];
       return words.reduce((score, word) => score + (job.includes(word) ? 2 : 0), 0);
@@ -1534,7 +1874,7 @@
       return !!worldContext && ['domestic','office','campus','medical_world','entertainment','military','maritime','sports'].includes(worldContext.key);
     }
 
-    function occupationFor(genre, seed, category, professionKey, kind, worldContext, customJobs, usedJobs = new Set()) {
+    function occupationFor(genre, seed, category, professionKey, kind, worldContext, customJobs, usedJobs = new Set(), exclusions = []) {
       const group = PROFESSION_CONTEXTS[professionKey] || PROFESSION_CONTEXTS.office;
       // 현대사회에서는 종족이 인외여도 직업까지 인외 전용으로 만들지 않는다.
       // 세계관이 실제로 판타지/SF/게이트 등일 때만 인외 전용 직업 풀을 허용한다.
@@ -1546,9 +1886,9 @@
       const worldRolePool = (WORLD_ROLE_JOB_POOLS[worldContext?.key]?.[kind] || []).filter(job => !usedJobs.has(job));
       const custom = customJobs || { common:[], match:[], chaos:[], story:[] };
 
-      const roleSpecificCustom = (custom[kind] || []).filter(job => !usedJobs.has(job));
-      const commonCustom = (custom.common || []).filter(job => !usedJobs.has(job));
-      const roleFallback = (ROLE_JOB_FALLBACKS[professionKey]?.[kind] || []).filter(job => !usedJobs.has(job));
+      const roleSpecificCustom = (custom[kind] || []).filter(job => !usedJobs.has(job) && !isExcludedText(job, exclusions));
+      const commonCustom = (custom.common || []).filter(job => !usedJobs.has(job) && !isExcludedText(job, exclusions));
+      const roleFallback = (ROLE_JOB_FALLBACKS[professionKey]?.[kind] || []).filter(job => !usedJobs.has(job) && !isExcludedText(job, exclusions));
       const roll = seededFloat(seed + 701);
 
       // 사용자가 구도별 직업을 직접 지정했다면 최우선 적용.
@@ -1560,7 +1900,7 @@
       // 현대 일상처럼 세부 전용 풀이 없을 때는 직업 축의 관계구도 풀을 강하게 사용.
       if (roleFallback.length && (!worldRolePool.length || roll < 0.90)) return seededPick(roleFallback, seed + 37);
 
-      const allCandidates = [...new Set([...contextual, ...worldPool, ...worldRolePool, ...roleFallback])];
+      const allCandidates = [...new Set([...contextual, ...worldPool, ...worldRolePool, ...roleFallback])].filter(job => !isExcludedText(job, exclusions));
       const scored = allCandidates.map((job, idx) => {
         const role = roleScore(job, kind);
         return {
@@ -1581,12 +1921,12 @@
         .filter(job => job && !usedJobs.has(job));
       pool = [...new Set(pool.map(job => worldAdjustJob(job, worldContext, genre)))];
 
-      const availableFallback = fallback.filter(job => !usedJobs.has(job));
+      const availableFallback = fallback.filter(job => !usedJobs.has(job) && !isExcludedText(job, exclusions));
       return seededPick(pool.length ? pool : (availableFallback.length ? availableFallback : fallback), seed);
     }
 
-    function appearanceFor(arcKey, seed, genre, category) {
-      const base = seededPick(ARCHETYPES[arcKey].looks, seed);
+    function appearanceFor(arcKey, seed, genre, category, exclusions = []) {
+      const base = seededPick(filterExcludedValues(ARCHETYPES[arcKey].looks, exclusions, v => `${v.hairKo} ${v.eyesKo} ${v.vibeKo} ${v.outfitKo}`), seed);
       let outfit = base.outfit;
       let outfitKo = base.outfitKo;
       if (genre === 'esper') { outfit = 'futuristic agency uniform, high-neck inner shirt, structured jacket, subtle insignia'; outfitKo = '하이넥 이너와 인장이 달린 미래형 기관 제복'; }
@@ -1594,14 +1934,17 @@
       if (genre === 'historical') { outfit = '1930s tailored outfit, period-accurate details'; outfitKo = '1930년대풍 테일러드 복식'; }
       if (genre === 'entertainment') { outfit = 'stylish contemporary fashion, polished layered outfit'; outfitKo = '세련된 현대식 레이어드 패션'; }
       if (genre === 'scifi') { outfit = 'clean futuristic utility wear, structured technical jacket'; outfitKo = '구조적인 미래형 유틸리티 웨어'; }
+      const species = category === 'inhuman' ? nonHumanSpec(seed, exclusions) : null;
       const eyeStyle = pickEyeStyle(seed, category);
-      const specialMark = pickSpecialMark(seed, category, genre);
-      const species = category === 'inhuman' ? nonHumanSpec(seed) : null;
+      const specialMark = pickSpecialMark(seed, category, genre, species?.label || '');
       const speciesDetail = species ? nonHumanDetail(species.label, seed) : null;
       const designPoint = category === 'inhuman'
         ? (speciesDetail || pickHumanDesignPoint(seed + 5))
         : pickHumanDesignPoint(seed);
-      return { ...base, outfit, outfitKo, eyeStyle, specialMark, species, speciesDetail, designPoint };
+      const palette = choosePalette(seed, category, species);
+      const signature = chooseSignature(seed, category, species, exclusions);
+      const signatureEn = signatureToEnglish(signature);
+      return { ...base, outfit, outfitKo, eyeStyle, specialMark, species, speciesDetail, designPoint, palette, signature, signatureEn };
     }
 
     function extractSourceKeywords(text) {
@@ -1626,30 +1969,32 @@
     function buildPersona(kind, arcKey, index, context, seed) {
       const arc = ARCHETYPES[arcKey];
       const gender = resolvePersonaGender(context.text, index, seed);
-      const category = resolvePersonaCategory(context.text, context.genre, seed + 1, index);
+      const category = resolvePersonaCategory(context.text, context.genre, seed + 1, index, context.exclusions);
       const name = seededPick(NAME_POOLS[gender], seed + index * 19 + rerollSeed * 7);
-      const age = personaAge(context.sourceAge, kind, seed + 3);
-      const job = occupationFor(context.genre, seed + 7, category, context.professionKey, kind, context.worldContext, context.customJobs, context.usedJobs);
+      const age = personaAge(context.sourceAge, kind, seed + 3, context.exclusions);
+      const job = occupationFor(context.genre, seed + 7, category, context.professionKey, kind, context.worldContext, context.customJobs, context.usedJobs, context.exclusions);
       context.usedJobs.add(job);
-      const look = appearanceFor(arcKey, seed + 13, context.genre, category);
+      const look = appearanceFor(arcKey, seed + 13, context.genre, category, context.exclusions);
       const relation = RELATION_LINES[kind][arcKey] || RELATION_LINES[kind].softsteel;
       const identityKo = look.species ? look.species.label : '인간';
-      const appearanceKo = `${look.hairKo}, ${look.eyesKo}, ${look.eyeStyle.ko}, ${look.bodyKo}, ${look.vibeKo}. ${look.outfitKo}.`;
-      const pointBits = [look.specialMark.ko].filter(Boolean).join(', ');
-      const featureLine = arc.feature;
-      const detailLine = look.species ? `${look.species.descKo}, ${look.speciesDetail?.ko || ''}`.replace(/, $/,'') : `${look.designPoint?.ko || ''}`;
-      const dynamicTags = [...arc.tags.slice(0,4), `#${identityKo.replace(/\s+/g,'')}`, `#${look.eyeStyle.ko.replace(/\s+/g,'')}`, `#${look.specialMark.ko.replace(/\s+/g,'')}`].slice(0,7).join(' ');
+      const personalitySummary = composePersonaPersonality(context.analysis, kind, seed + 21);
+      const flaw = chooseFlaw(context.analysis, seed + 25);
+      const hook = relationHook(kind, context.worldContext, job, seed + 29);
+      const appearanceKo = `${look.hairKo}, ${look.eyesKo}, ${look.eyeStyle.ko}, ${look.palette.ko}`;
+      const detailLine = look.species ? `${look.species.shortKo || look.species.label}, ${look.speciesDetail?.ko || look.designPoint?.ko || ''}`.replace(/, $/,'') : `${look.designPoint?.ko || ''}, ${look.specialMark.ko}`;
+      const signature = look.signature;
+      const dynamicTags = [...arc.tags.slice(0,3), `#${identityKo.replace(/\s+/g,'')}`, `#${look.palette.ko.replace(/\s+/g,'')}`, `#${look.eyeStyle.ko.replace(/\s+/g,'')}`].slice(0,6).join(' ');
       const body = fitTo300([
         `${name} | ${age}세 | ${job}`,
-        `성격: ${arc.personality}`,
+        `성격: ${personalitySummary}.`,
+        `약점: ${flaw}.`,
         `구도: ${relation}.`,
-        `정체: ${identityKo}.`,
-        `외형: ${appearanceKo}`,
-        `포인트: ${detailLine}${pointBits ? `, ${pointBits}` : ''}.`,
-        `특징: ${featureLine}`,
+        `관계 훅: ${hook}`,
+        `외형: ${appearanceKo}.`,
+        `시그니처: ${signature}${detailLine ? ` / ${detailLine}` : ''}.`,
         dynamicTags
       ]);
-      return { kind, arcKey, arc, gender, name, age, job, look, relation, body, tags: dynamicTags, genre: context.genre, category, identityKo };
+      return { kind, arcKey, arc, gender, name, age, job, look, relation, personalitySummary, flaw, hook, body, tags: dynamicTags, genre: context.genre, category, identityKo, signature };
     }
 
     function visualPrompts(persona) {
@@ -1659,8 +2004,8 @@
       const speciesNovel = l.species ? l.species.novel : [];
       const speciesPix = l.species ? l.species.pix : [];
       const speciesNiji = l.species ? l.species.niji : '';
-      const extraNovel = [l.designPoint?.en, l.speciesDetail?.en].filter(Boolean);
-      const extraNiji = [l.designPoint?.niji, l.speciesDetail?.niji].filter(Boolean).join(', ');
+      const extraNovel = [l.designPoint?.en, l.speciesDetail?.en, l.signatureEn || l.signature, l.palette?.en].filter(Boolean);
+      const extraNiji = [l.designPoint?.niji, l.speciesDetail?.niji, l.signatureEn || l.signature, l.palette?.en].filter(Boolean).join(', ');
       const commonTags = [l.hair, l.eyes, l.eyeStyle.en, l.body, l.vibe, l.outfit, l.specialMark.en, ...extraNovel, 'solo', 'portrait', 'upper body', 'facing viewer', 'clean background', 'detailed face', 'detailed eyes'];
 
       const novelai = [
@@ -1716,6 +2061,7 @@
       if (isRealisticModernWorld(context.worldContext)) chips.push(`<span class="chip"><b>직업 현실성</b> · 현대 실존 직업 우선</span>`);
       const customJobCount = ['common','match','chaos','story'].reduce((sum,k) => sum + (context.customJobs[k]?.length || 0), 0);
       if (customJobCount) chips.push(`<span class="chip"><b>사용자 직업</b> · ${customJobCount}개 반영</span>`);
+      if (context.exclusions?.length) chips.push(`<span class="chip"><b>제외 규칙</b> · ${context.exclusions.length}개 반영</span>`);
       chips.push(`<span class="chip"><b>추천 나이</b> · 20~55세 독립 랜덤</span>`);
       const explicit = extractSourceKeywords(context.text);
       if (explicit.length) chips.push(`<span class="chip"><b>명시 키워드</b> · ${explicit.join(' · ')}</span>`);
@@ -1810,6 +2156,7 @@
         inhumanRate: selectedInhumanRate,
         professionKey: inferProfessionContext(text, worldContext.genre),
         customJobs: parseCustomJobs(customJobsInput.value),
+        exclusions: parseExclusions(excludeRulesInput.value),
         usedJobs: new Set()
       };
 
@@ -1856,6 +2203,10 @@
       try { localStorage.setItem('personaMatchCustomJobs', customJobsInput.value); } catch(e) {}
     });
 
+    excludeRulesInput.addEventListener('input', () => {
+      try { localStorage.setItem('personaMatchExcludeRules', excludeRulesInput.value); } catch(e) {}
+    });
+
     $('#genderControl').addEventListener('click', (e) => {
       const btn = e.target.closest('[data-gender]');
       if (!btn) return;
@@ -1886,13 +2237,15 @@
       results.classList.remove('show');
       hideNotice();
       customJobsInput.value = '';
-      try { localStorage.removeItem('personaMatchInput'); localStorage.removeItem('personaMatchCustomJobs'); } catch(e) {}
+      excludeRulesInput.value = '';
+      try { localStorage.removeItem('personaMatchInput'); localStorage.removeItem('personaMatchCustomJobs'); localStorage.removeItem('personaMatchExcludeRules'); } catch(e) {}
       characterInput.focus();
     });
 
     $('#sampleBtn').addEventListener('click', () => {
       characterInput.value = '29세 남성. 무심하고 감정 표현이 적다. 책임감이 강하고 한번 자기 사람이라고 생각하면 끝까지 챙긴다. 질투는 심하지만 티를 내지 않으며 연애에서는 주도권을 잡는 편이다. 말수가 적고 직설적인 말투를 사용한다. 소방관이며 과거 연인을 사고로 잃은 경험이 있어 가까운 사람의 안전에 예민하다.';
       inputCount.textContent = characterInput.value.length;
+      if (!excludeRulesInput.value) excludeRulesInput.value = '금발 금지';
       characterInput.focus();
     });
 
@@ -1912,6 +2265,8 @@
       }
       const savedJobs = localStorage.getItem('personaMatchCustomJobs');
       if (savedJobs) customJobsInput.value = savedJobs;
+      const savedExclude = localStorage.getItem('personaMatchExcludeRules');
+      if (savedExclude) excludeRulesInput.value = savedExclude;
     } catch(e) {}
   </script>
 </body>
