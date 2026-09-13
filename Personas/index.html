@@ -905,7 +905,7 @@
       { key:'magic_fantasy', label:'마법·길드 판타지', genre:'fantasy', words:['마법','마도','마탑','마법사','연금술','길드','모험가','성기사','용병','마수','드래곤','룬','정령'] },
       { key:'oriental_fantasy', label:'동양풍·무협', genre:'fantasy', words:['무협','강호','문파','무림','검객','도사','선협','황궁','세가','무공','기혈','내공','동양풍'] },
       { key:'occult_urban', label:'현대 오컬트·괴이', genre:'modern', words:['오컬트','퇴마','귀신','괴담','주술','무당','악마','천사','초능력','도시괴담','이능력','비밀조직'] },
-      { key:'cyberpunk', label:'사이버펑크·디스토피아', genre:'scifi', words:['사이버펑크','네온','메가코프','기업도시','의체','임플란트','해커','사이버웨어','디스토피아','감시사회','안드로이드'] },
+      { key:'cyberpunk', label:'사이버펑크·디스토피아', genre:'scifi', words:['사이버펑크','네온도시','메가코프','기업도시','의체산업','임플란트 사회','넷러너','사이버웨어','디스토피아','감시사회'] },
       { key:'space_colony', label:'우주·행성 개척', genre:'scifi', words:['우주','행성','식민지','테라포밍','우주선','기지','항법','외계','성간','콜로니','궤도','함선','sf','사이파이'] },
       { key:'apocalypse', label:'재난·아포칼립스', genre:'scifi', words:['아포칼립스','멸망','종말','핵전쟁','방사능','좀비','폐허','생존자','피난','문명붕괴','격리구역'] },
       { key:'crime_noir', label:'범죄·느와르', genre:'modern', words:['조직폭력','갱단','마피아','야쿠자','범죄조직','느와르','암시장','밀수','사채','조폭','마약수사','비밀경찰'] },
@@ -918,7 +918,7 @@
       { key:'military', label:'군·전쟁', genre:'modern', words:['군대','군인','부대','특수부대','전쟁','전투','작전','사령부','정보부','저격수','파일럿','해군','공군'] },
       { key:'maritime', label:'해양·항만', genre:'modern', words:['항만','선박','크루즈','바다','해변','잠수','해양','선원','항해','등대','수족관'] },
       { key:'sports', label:'스포츠·선수', genre:'modern', words:['축구','야구','농구','배구','수영','러닝','마라톤','선수','코치','트레이너','경기','체육관'] },
-      { key:'domestic', label:'현대 일상', genre:'modern', words:['현대','일상','연애','동거','카페','식당','회사원','프리랜서','자취','아파트'] }
+      { key:'domestic', label:'현대 일상', genre:'modern', words:['현대사회','현대물','현대 배경','현대','일상','연애','동거','카페','식당','회사원','프리랜서','자취','아파트','서울','직장인'] }
     ];
 
     const WORLD_JOB_POOLS = {
@@ -1002,22 +1002,22 @@
       entertainment: {
         match:['전담 스타일리스트','투어 매니저','A&R 매니저','안무 디렉터'],
         chaos:['경쟁사 프로듀서','계약분쟁 매니저','스캔들 대응기자','소속사 감사담당'],
-        story:['과거활동 아카이브 에디터','은퇴연예인 인터뷰 기자','사고기록 다큐PD','연습생시절 기록관리자']
+        story:['다큐멘터리 PD','연예기자','콘텐츠 에디터','아티스트 매니저']
       },
       campus: {
         match:['대학원 연구조교','교내상담센터 인턴','동아리 운영진','학과 조교'],
-        chaos:['학생회 감사위원','학칙 징계위원','경쟁동아리 회장','학보사 탐사기자'],
-        story:['학보사 기록기자','교내기록실 근로장학생','상담센터 기록보조','졸업앨범 편집위원']
+        chaos:['학생회 감사위원','학보사 기자','경쟁동아리 회장','학생회 간부'],
+        story:['학보사 기자','도서관 근로장학생','교내상담센터 인턴','졸업앨범 편집위원']
       },
       office: {
         match:['프로젝트 코디네이터','협업팀 기획자','사내 멘토','프로덕트 매니저'],
         chaos:['내부감사 담당자','경쟁부서 팀장','사내 법무담당','성과평가 담당자'],
-        story:['과거 프로젝트 기록담당','내부문서 관리관','전임자 인수인계 담당','사내사고 조사담당']
+        story:['프로젝트 매니저','인사팀 직원','법무팀 직원','사내 감사팀 직원']
       },
       medical_world: {
         match:['응급실 간호사','협진 코디네이터','재활치료사','병동 사회복지사'],
-        chaos:['의료감사관','의료분쟁 조정관','감염관리 감독관','보험심사 담당자'],
-        story:['과거 진료기록 분석원','트라우마 상담사','사고환자 추적관리사','병원기록 보존관']
+        chaos:['보험심사간호사','의료분쟁조정 담당자','감염관리 간호사','원무팀 직원'],
+        story:['의무기록사','임상심리사','의료사회복지사','재활치료사']
       },
       military: {
         match:['전술지원관','의무장교','작전통신관','군수지원관'],
@@ -1027,12 +1027,12 @@
       maritime: {
         match:['항해사','해양구조요원','항만 관제사','선박 정비사'],
         chaos:['해난사고 조사관','항만 세관 단속관','선박 안전감독관','밀수감시관'],
-        story:['침몰선 기록조사관','실종선원 추적관','항해일지 복원가','해양사고 기록원']
+        story:['해난사고 조사관','해양경찰','선박보험 손해사정사','항만 기록 담당자']
       },
       sports: {
         match:['재활 트레이너','전력분석관','구단 매니저','팀 코치'],
         chaos:['도핑검사관','경쟁팀 코치','구단 감사담당','스포츠 탐사기자'],
-        story:['부상기록 분석관','은퇴선수 인터뷰 기자','과거경기 영상분석가','선수심리 상담사']
+        story:['재활 트레이너','스포츠 기자','경기영상 분석가','스포츠 심리상담사']
       }
     };
 
@@ -1044,39 +1044,39 @@
 
     const ROLE_JOB_FALLBACKS = {
       rescue: {
-        match:['현장 협력구조관','재난대응 코디네이터'],
-        chaos:['안전감찰관','사고원인 조사관'],
-        story:['재난생존자 지원관','사고기록 분석관']
+        match:['응급구조사','소방안전교육 강사'],
+        chaos:['화재조사관','산업안전감독관'],
+        story:['재난심리상담사','손해사정사']
       },
       medical: {
         match:['협진 코디네이터','재활치료사'],
-        chaos:['의료감사관','의료분쟁 조사관'],
-        story:['트라우마 상담사','과거 진료기록 분석관']
+        chaos:['보험심사간호사','의료분쟁조정 담당자'],
+        story:['임상심리사','의무기록사']
       },
       investigation: {
-        match:['수사협력 분석관','현장 기록관'],
-        chaos:['감찰관','내부조사관'],
-        story:['미제사건 기록분석관','피해자 지원조사관']
+        match:['수사관 보조','법률사무원'],
+        chaos:['감사팀 직원','형사'],
+        story:['수사기록 분석관','피해자 지원상담사']
       },
       security: {
-        match:['전술지원관','작전 코디네이터'],
-        chaos:['감찰장교','보안감사관'],
-        story:['전사기록관','과거작전 조사관']
+        match:['보안팀 직원','경호원'],
+        chaos:['감사팀 직원','보안 책임자'],
+        story:['군사기록 담당자','수사관']
       },
       research: {
-        match:['공동연구 코디네이터','현장분석 연구원'],
-        chaos:['연구윤리 감찰관','경쟁 프로젝트 책임자'],
-        story:['과거 실험기록 연구원','사고원인 분석연구원']
+        match:['공동연구원','데이터 분석가'],
+        chaos:['연구윤리 담당자','경쟁 프로젝트 책임자'],
+        story:['연구원','품질관리 연구원']
       },
       creative: {
         match:['공동제작 프로듀서','콘텐츠 기획자'],
         chaos:['경쟁사 아트디렉터','계약분쟁 매니저'],
-        story:['아카이브 에디터','과거작품 복원기획자']
+        story:['출판 편집자','다큐멘터리 작가']
       },
       office: {
         match:['프로젝트 코디네이터','협업팀 기획자'],
         chaos:['감사팀 담당자','경쟁부서 책임자'],
-        story:['내부기록 관리관','과거 프로젝트 조사담당']
+        story:['인사팀 직원','프로젝트 매니저']
       }
     };
 
@@ -1090,7 +1090,7 @@
     };
 
     const NONHUMAN_JOBS = {
-      modern: ['특수개체 협상관','희귀 생체소재 아티스트','수중 전시관 큐레이터','생체보안 컨설턴트','비인간 공존구역 코디네이터','기계 신체 정비사'],
+      modern: ['출판 편집자','브랜드 디자이너','응급구조사','연구원','사진가','콘텐츠 기획자','바리스타','간호사','제품 디자이너','회사원'],
       esper: ['특수개체 보호구역 조사관','인외 개체 협력 가이드','촉수형 게이트 환경 분석관','이종 생체반응 연구원','기계개체 정비 분석관','비인간 전담 구조요원'],
       fantasy: ['마도생물 조율사','왕실 수인 호위관','심해 사원 제사장','룬 기계공','인어 항로 길잡이','마수 표본기록관'],
       historical: ['항만 잠수 안내인','기계장치 수리공','기담 전문 사진사','해양 표본 상인','서커스 조련사','밀항선 잠수부'],
@@ -1328,6 +1328,25 @@
 
     function inferWorldContext(text) {
       const n = normalize(text);
+
+      // 종족(안드로이드/외계인/수인 등)과 세계관은 분리한다.
+      // 사용자가 현대사회/현대물이라고 명시했다면, 명확한 미래·우주·판타지 설정이 없는 한 현대를 우선한다.
+      const explicitModern = /(현대사회|현대물|현대 배경|현대 일상|현재 시대|현대 한국|현대 도시)/.test(n);
+      const explicitSpeculativeWorld = /(사이버펑크|메가코프|기업도시|사이버웨어|넷러너|디스토피아|우주선|행성 개척|우주 식민지|테라포밍|성간|콜로니|게이트|에스퍼|가이드|마법|마탑|제국|왕국|무협|아포칼립스|문명붕괴)/.test(n);
+      if (explicitModern && !explicitSpeculativeWorld) {
+        // 병원/회사/학교/연예계 등 현대 하위 배경은 그대로 세부 분류한다.
+        const modernSpecific = WORLD_CONTEXTS
+          .filter(ctx => ['office','campus','medical_world','entertainment','military','maritime','sports','crime_noir','occult_urban'].includes(ctx.key))
+          .map((ctx, index) => ({
+            ...ctx,
+            score: ctx.words.reduce((sum, word) => sum + (n.includes(word.toLowerCase()) ? 1 : 0), 0),
+            index
+          }))
+          .filter(v => v.score > 0)
+          .sort((a,b) => b.score - a.score || a.index - b.index);
+        return modernSpecific[0] || { key:'domestic', label:'현대 일상', genre:'modern', score:99 };
+      }
+
       const ranked = WORLD_CONTEXTS.map((ctx, index) => ({
         ...ctx,
         score: ctx.words.reduce((sum, word) => sum + (n.includes(word.toLowerCase()) ? 1 : 0), 0),
@@ -1386,12 +1405,9 @@
     }
 
     function personaAge(sourceAge, kind, seed) {
-      if (sourceAge) {
-        const offsets = kind === 'match' ? [-2,-1,0,1] : kind === 'chaos' ? [-1,0,1,2] : [-3,-1,1,2];
-        return Math.max(14, Math.min(55, sourceAge + seededPick(offsets, seed)));
-      }
-      const bases = kind === 'match' ? [25,26,27,28,29] : kind === 'chaos' ? [24,27,28,30,31] : [26,28,29,30,32];
-      return seededPick(bases, seed);
+      // 원본 캐릭터 나이와 무관하게 추천 페르소나는 20~55세 풀에서 독립 랜덤 생성.
+      const agePool = Array.from({ length: 36 }, (_, i) => 20 + i);
+      return seededPick(agePool, seed + rerollSeed * 17);
     }
 
     function agePrompt(age) {
@@ -1514,10 +1530,17 @@
       return job;
     }
 
+    function isRealisticModernWorld(worldContext) {
+      return !!worldContext && ['domestic','office','campus','medical_world','entertainment','military','maritime','sports'].includes(worldContext.key);
+    }
+
     function occupationFor(genre, seed, category, professionKey, kind, worldContext, customJobs, usedJobs = new Set()) {
       const group = PROFESSION_CONTEXTS[professionKey] || PROFESSION_CONTEXTS.office;
-      const fallback = category === 'inhuman' ? (NONHUMAN_JOBS[genre] || NONHUMAN_JOBS.modern) : (JOBS[genre] || JOBS.modern);
-      const typed = category === 'inhuman' ? group.inhuman : group.human;
+      // 현대사회에서는 종족이 인외여도 직업까지 인외 전용으로 만들지 않는다.
+      // 세계관이 실제로 판타지/SF/게이트 등일 때만 인외 전용 직업 풀을 허용한다.
+      const jobCategory = isRealisticModernWorld(worldContext) ? 'human' : category;
+      const fallback = jobCategory === 'inhuman' ? (NONHUMAN_JOBS[genre] || NONHUMAN_JOBS.modern) : (JOBS[genre] || JOBS.modern);
+      const typed = jobCategory === 'inhuman' ? group.inhuman : group.human;
       const contextual = typed[genre] || fallback;
       const worldPool = WORLD_JOB_POOLS[worldContext?.key] || [];
       const worldRolePool = (WORLD_ROLE_JOB_POOLS[worldContext?.key]?.[kind] || []).filter(job => !usedJobs.has(job));
@@ -1690,9 +1713,10 @@
       chips.push(`<span class="chip"><b>범주</b> · ${catText}</span>`);
       const professionLabel = (PROFESSION_CONTEXTS[context.professionKey] || PROFESSION_CONTEXTS.office).label;
       chips.push(`<span class="chip"><b>직업 축</b> · ${professionLabel}</span>`);
+      if (isRealisticModernWorld(context.worldContext)) chips.push(`<span class="chip"><b>직업 현실성</b> · 현대 실존 직업 우선</span>`);
       const customJobCount = ['common','match','chaos','story'].reduce((sum,k) => sum + (context.customJobs[k]?.length || 0), 0);
       if (customJobCount) chips.push(`<span class="chip"><b>사용자 직업</b> · ${customJobCount}개 반영</span>`);
-      chips.push(`<span class="chip"><b>원문 나이</b> · ${context.sourceAge ? context.sourceAge + '세 감지' : '미감지'}</span>`);
+      chips.push(`<span class="chip"><b>추천 나이</b> · 20~55세 독립 랜덤</span>`);
       const explicit = extractSourceKeywords(context.text);
       if (explicit.length) chips.push(`<span class="chip"><b>명시 키워드</b> · ${explicit.join(' · ')}</span>`);
       analysisStrip.innerHTML = chips.join('');
