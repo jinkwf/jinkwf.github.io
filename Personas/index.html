@@ -356,6 +356,101 @@
       border-top: 1px solid var(--line);
     }
 
+    .custom-jobs {
+      width: 100%;
+      min-height: 78px;
+      resize: vertical;
+      margin-top: 0;
+      padding: 12px 13px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      outline: none;
+      background: #0d1118;
+      color: var(--text);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .custom-jobs:focus {
+      border-color: rgba(167,136,255,.62);
+      box-shadow: 0 0 0 3px rgba(167,136,255,.08);
+    }
+
+    .custom-help {
+      color: #707b8f;
+      font-size: 10px;
+      line-height: 1.55;
+    }
+
+    .card-prompt-wrap {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+    }
+
+    .card-prompt-title {
+      margin-bottom: 8px;
+      color: var(--soft);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .02em;
+    }
+
+    .card-prompt-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .card-prompt-tab {
+      padding: 7px 9px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: #0b0f15;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .card-prompt-tab.active {
+      border-color: rgba(111,216,255,.38);
+      background: rgba(111,216,255,.08);
+      color: #d9f4ff;
+    }
+
+    .card-prompt-box {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #090d13;
+    }
+
+    .card-prompt-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 8px 9px;
+      border-bottom: 1px solid var(--line);
+      color: #7f8a9d;
+      font-size: 9px;
+      font-weight: 800;
+    }
+
+    .card-prompt-pre {
+      min-height: 118px;
+      max-height: 210px;
+      margin: 0;
+      padding: 11px;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #dce3ed;
+      font: 10px/1.62 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
     .prompt-section {
       margin-top: 34px;
       padding: 20px;
@@ -504,7 +599,7 @@
     <section class="hero">
       <div class="eyebrow">PERSONA MATCH LAB</div>
       <h1>캐릭터를 넣으면,<br>관계가 살아나는 페르소나.</h1>
-      <p>성격·말투·직업·과거·세계관을 한 번에 붙여넣으세요. 입력문에서 확인되는 정보만 우선 분석해 찰떡 / 파국 / 서사형 페르소나 3종과 이미지 생성용 외형 프롬프트를 만듭니다. 인외 모드에서는 수인·슬라임·동물형·어인·문어형·기계·안드로이드 등도 내부 로직으로 섞어 추천합니다.</p>
+      <p>성격·말투·직업·과거·세계관을 한 번에 붙여넣으세요. 세계관과 직업 축을 읽어 찰떡은 협업형, 파국은 충돌형, 서사는 과거·사건 연결형 직업으로 분기합니다. 인외 모드에서는 수인·슬라임·동물형·어인·문어형·기계·안드로이드 등도 내부 로직으로 섞어 추천합니다.</p>
     </section>
 
     <section class="input-panel">
@@ -542,6 +637,12 @@
               <button class="seg-btn" data-rate="full">전부 인외</button>
             </div>
           </div>
+          <div class="gender-box">
+            <div class="gender-label">사용자 정의 직업군 · 비워두면 자동 추천</div>
+            <textarea id="customJobs" class="custom-jobs" maxlength="1200" placeholder="예) 응급구조사, 화재조사관, 재난심리상담사
+또는 찰떡: 응급구조사 / 파국: 화재조사관 / 서사: 유가족지원관"></textarea>
+            <div class="custom-help">쉼표·줄바꿈으로 여러 개 입력 가능. ‘찰떡: / 파국: / 서사:’를 붙이면 해당 구도에서 우선 추천됩니다.</div>
+          </div>
         </div>
         <div class="actions">
           <button class="ghost-btn" id="sampleBtn">예시 넣기</button>
@@ -563,36 +664,6 @@
 
       <div class="analysis-strip" id="analysisStrip"></div>
       <div class="cards" id="cards"></div>
-
-      <section class="prompt-section">
-        <div class="prompt-head" style="padding:0; border:0; align-items:flex-start;">
-          <div>
-            <div class="panel-title" style="font-size:16px; color:var(--text);">외형 프롬프트</div>
-            <p class="prompt-note">선택한 페르소나의 외형만 뽑기 좋도록 구성합니다. 인간/인외 여부, 특수 동공, 흉터·화상 자국, 털·비늘·촉수·금속 질감 같은 디테일까지 함께 반영합니다. NovelAI / PixAI는 태그 중심, NijiJourney는 Niji 7 자연어 중심으로 출력합니다.</p>
-          </div>
-        </div>
-
-        <div class="persona-select" id="personaSelect"></div>
-        <div class="tabs" id="platformTabs">
-          <button class="tab-btn active" data-platform="novelai">NovelAI</button>
-          <button class="tab-btn" data-platform="pixai">PixAI</button>
-          <button class="tab-btn" data-platform="niji">NijiJourney</button>
-        </div>
-
-        <div class="prompt-box">
-          <div class="prompt-head">
-            <span id="promptLabel">NovelAI · 외형 태그</span>
-            <button class="copy-btn" id="copyPromptBtn">프롬프트 복사</button>
-          </div>
-          <pre id="promptText"></pre>
-        </div>
-
-        <div class="mini-info">
-          <div><b>NovelAI</b>태그 순서를 인물 → 외형 → 의상 → 구도 순으로 구성.</div>
-          <div><b>PixAI</b>일반 SDXL/DiT 계열에서 쓰기 쉬운 태그형 프롬프트로 구성.</div>
-          <div><b>NijiJourney</b>자연어 묘사 + <code>--niji 7</code> + 세로 캐릭터 비율을 기본 적용.</div>
-        </div>
-      </section>
     </section>
 
     <footer>브라우저에서 단독 동작하는 규칙 기반 버전 · 입력 내용은 외부 서버로 전송하지 않습니다.</footer>
@@ -610,16 +681,12 @@
     const results = $('#results');
     const cards = $('#cards');
     const analysisStrip = $('#analysisStrip');
-    const personaSelect = $('#personaSelect');
-    const promptText = $('#promptText');
-    const promptLabel = $('#promptLabel');
+    const customJobsInput = $('#customJobs');
     const toast = $('#toast');
 
     let selectedGender = 'auto';
     let selectedCategory = 'auto';
     let selectedInhumanRate = 'normal';
-    let selectedPlatform = 'novelai';
-    let selectedPersonaIndex = 0;
     let currentPersonas = [];
     let rerollSeed = 0;
 
@@ -830,6 +897,187 @@
       female: ['윤서하','한지우','강채은','정세린','서유진','문해원','차예린','임다온','백수아','신하린','유은재','김소윤'],
       male: ['윤재하','한도윤','강시온','정태윤','서이준','문지호','차우현','임선우','백현준','신재윤','유시현','김도하'],
       neutral: ['서하','지안','시온','다온','유진','하람','윤재','은재','해원','지우','재희','수현']
+    };
+
+    const WORLD_CONTEXTS = [
+      { key:'esper_gate', label:'에스퍼·가이드/게이트', genre:'esper', words:['에스퍼','가이드','게이트','폭주','매칭률','관리청','가이딩','센티넬','헌터','각성자','던전','레이드','등급'] },
+      { key:'royal_fantasy', label:'로맨스 판타지·왕정', genre:'fantasy', words:['제국','공작','후작','백작','황제','황태자','황녀','귀족','기사단','왕국','궁정','영지','로판','황궁'] },
+      { key:'magic_fantasy', label:'마법·길드 판타지', genre:'fantasy', words:['마법','마도','마탑','마법사','연금술','길드','모험가','성기사','용병','마수','드래곤','룬','정령'] },
+      { key:'oriental_fantasy', label:'동양풍·무협', genre:'fantasy', words:['무협','강호','문파','무림','검객','도사','선협','황궁','세가','무공','기혈','내공','동양풍'] },
+      { key:'occult_urban', label:'현대 오컬트·괴이', genre:'modern', words:['오컬트','퇴마','귀신','괴담','주술','무당','악마','천사','초능력','도시괴담','이능력','비밀조직'] },
+      { key:'cyberpunk', label:'사이버펑크·디스토피아', genre:'scifi', words:['사이버펑크','네온','메가코프','기업도시','의체','임플란트','해커','사이버웨어','디스토피아','감시사회','안드로이드'] },
+      { key:'space_colony', label:'우주·행성 개척', genre:'scifi', words:['우주','행성','식민지','테라포밍','우주선','기지','항법','외계','성간','콜로니','궤도','함선','sf','사이파이'] },
+      { key:'apocalypse', label:'재난·아포칼립스', genre:'scifi', words:['아포칼립스','멸망','종말','핵전쟁','방사능','좀비','폐허','생존자','피난','문명붕괴','격리구역'] },
+      { key:'crime_noir', label:'범죄·느와르', genre:'modern', words:['조직폭력','갱단','마피아','야쿠자','범죄조직','느와르','암시장','밀수','사채','조폭','마약수사','비밀경찰'] },
+      { key:'historical_shanghai', label:'근대·1930s 도시극', genre:'historical', words:['1930','1920','1940','상하이','순무국','청방','홍련회','녹등회','카바레','조계','신문사','아편굴','전차'] },
+      { key:'historical_korea', label:'한국 근현대 시대극', genre:'historical', words:['경성','일제강점기','개화기','대한제국','한성','독립운동','신문배달','전당포','양장점'] },
+      { key:'entertainment', label:'연예계·아이돌', genre:'entertainment', words:['아이돌','배우','연예인','팬덤','기획사','연습생','가수','콘서트','드라마','영화배우','매니저','A&R','음방'] },
+      { key:'campus', label:'학교·캠퍼스', genre:'modern', words:['대학교','대학','캠퍼스','고등학교','학교','교수','학생회','동아리','기숙사','학과','교사','선생님'] },
+      { key:'office', label:'회사·오피스', genre:'modern', words:['회사','직장','사내','팀장','대리','과장','부장','대표','CEO','스타트업','출근','퇴근','프로젝트팀'] },
+      { key:'medical_world', label:'병원·의료', genre:'modern', words:['병원','응급실','수술실','의사','간호사','전공의','레지던트','병동','의료센터','클리닉'] },
+      { key:'military', label:'군·전쟁', genre:'modern', words:['군대','군인','부대','특수부대','전쟁','전투','작전','사령부','정보부','저격수','파일럿','해군','공군'] },
+      { key:'maritime', label:'해양·항만', genre:'modern', words:['항만','선박','크루즈','바다','해변','잠수','해양','선원','항해','등대','수족관'] },
+      { key:'sports', label:'스포츠·선수', genre:'modern', words:['축구','야구','농구','배구','수영','러닝','마라톤','선수','코치','트레이너','경기','체육관'] },
+      { key:'domestic', label:'현대 일상', genre:'modern', words:['현대','일상','연애','동거','카페','식당','회사원','프리랜서','자취','아파트'] }
+    ];
+
+    const WORLD_JOB_POOLS = {
+      esper_gate: ['전담 가이드','게이트 현장요원','관리청 조사관','능력연구원','폭주대응 의료관','게이트 기록분석관','센터 상황관제관'],
+      royal_fantasy: ['궁정 서기관','왕실 호위기사','귀족가 전속의사','왕립기록관 사서','외교관','영지 행정관','궁정 화가'],
+      magic_fantasy: ['마도공학 연구원','길드 접수관','마탑 연구사','마수생태 조사관','룬 감식관','연금술 조교','모험가 길드 기록관'],
+      oriental_fantasy: ['문파 의무관','무림 정보상','세가 기록관','약방 의원','표국 호위','관아 조사관','무공 교관'],
+      occult_urban: ['괴이현상 조사관','퇴마사 보조','오컬트 기록기자','주술흔적 감식관','비밀조직 연락관','도시괴담 아카이브 관리자'],
+      cyberpunk: ['넷러너','의체 정비사','메가코프 감찰관','사이버범죄 수사관','합성신체 디자이너','데이터 브로커','도시 보안분석관'],
+      space_colony: ['식민지 생태연구원','항법 분석관','우주선 의무관','기지 자원관리관','외계접촉 기록관','테라포밍 안전요원','통신 기술자'],
+      apocalypse: ['생존구역 정찰대원','구호소 의료요원','보급품 관리관','재난기록 조사관','격리구역 안전요원','폐허 탐사원','생존자 상담관'],
+      crime_noir: ['탐정사무소 조사원','범죄기자','조직전담 형사','비밀장부 분석가','항만 밀수 감시관','변호사 사무장','내부감찰관'],
+      historical_shanghai: ['순무국 기록관','신문사 기자','무역회사 통역관','항만 세관 조사원','카바레 피아니스트','사진관 기사','조계 병원 간호원'],
+      historical_korea: ['신문사 기자','의원 조수','전당포 장부관리인','양장점 재단사','독립운동 연락책','경성 사진관 기사','학교 교사'],
+      entertainment: ['A&R 매니저','스타일리스트','안무 디렉터','투어 매니저','콘텐츠 에디터','무대 디자이너','연예기자'],
+      campus: ['대학원 연구조교','학과 조교','학생회 간부','교내상담센터 인턴','학보사 기자','도서관 근로장학생','연구실 안전담당'],
+      office: ['프로젝트 매니저','브랜드 기획자','인사담당자','내부감사 담당자','데이터 분석가','사내 법무담당','제품 디자이너'],
+      medical_world: ['응급실 간호사','전공의','임상병리사','재활치료사','병원 사회복지사','의료분쟁 조정관','진료기록 분석원'],
+      military: ['작전장교','정보분석관','의무장교','헌병수사관','군수지원관','전술통신관','전사기록관'],
+      maritime: ['항해사','해양구조요원','잠수사','항만 관제사','해양생태 연구원','선박 정비사','해난사고 조사관'],
+      sports: ['운동선수','코치','재활 트레이너','전력분석관','구단 매니저','스포츠 기자','도핑검사관'],
+      domestic: ['출판 편집자','브랜드 디자이너','응급구조사','회사원','연구원','카페 매니저','프리랜서 사진가']
+    };
+
+    const WORLD_ROLE_JOB_POOLS = {
+      esper_gate: {
+        match:['전담 가이드','현장 의료요원','구조팀 코디네이터','능력안정화 연구원'],
+        chaos:['관리청 감찰관','능력사용 심사관','게이트 사고조사관','통제구역 감독관'],
+        story:['과거 사고기록 분석관','생존자 재활상담관','실종자 기록조사원','폭주사건 아카이브 담당']
+      },
+      royal_fantasy: {
+        match:['기사단 의무관','궁정 약제사','영지 행정관','왕실 전속서기관'],
+        chaos:['왕실 감사관','기사단 감찰관','경쟁가문 외교관','궁정 재판관'],
+        story:['왕립기록관 사서','가문사 조사관','전쟁기록관','몰락가문 문서복원사']
+      },
+      magic_fantasy: {
+        match:['마도공학 공동연구원','길드 임무조정관','연금술 치료사','마수생태 안내관'],
+        chaos:['마탑 감찰관','금지마법 조사관','경쟁길드 정보관','룬사고 감식관'],
+        story:['고대문헌 해석가','봉인사건 기록관','실종마도사 추적관','마력재해 조사사']
+      },
+      oriental_fantasy: {
+        match:['표국 호위','문파 의무관','약방 의원','정보 연락책'],
+        chaos:['관아 감찰관','적대문파 정보원','무림맹 조사관','세가 집법관'],
+        story:['비급 기록관','멸문사건 조사자','전대 고수 행적추적자','세가 족보관리인']
+      },
+      occult_urban: {
+        match:['퇴마사 보조','괴이현상 현장기록원','주술안정화 상담사','비밀조직 연락관'],
+        chaos:['이능력 감찰관','금지주술 조사관','초상현상 단속요원','괴이사건 형사'],
+        story:['도시괴담 아카이브 관리자','미제괴이 기록기자','실종사건 추적자','봉인기록 복원가']
+      },
+      cyberpunk: {
+        match:['의체 정비사','현장 넷러너','데이터 구조요원','합성신체 의료기사'],
+        chaos:['메가코프 감찰관','사이버범죄 수사관','기업보안 감사관','현상금 추적자'],
+        story:['삭제기록 복원가','과거실험 데이터 분석가','실종자 추적 넷러너','구형 아카이브 브로커']
+      },
+      space_colony: {
+        match:['우주선 의무관','기지 통신기술자','탐사팀 생태연구원','항법 보조관'],
+        chaos:['기지 보안감찰관','항로규정 조사관','식민지 자원감사관','군사통신 감독관'],
+        story:['탐사기록 복원관','실종탐사대 조사관','과거 식민계획 분석가','재난로그 기록관']
+      },
+      apocalypse: {
+        match:['구호소 의료요원','보급품 관리관','정찰대 지원요원','피난로 안내관'],
+        chaos:['격리구역 감찰관','보급통제관','군경 검문관','생존구역 규율담당'],
+        story:['재난기록 조사관','생존자 상담관','과거 시설기록 분석가','실종자 수색기록원']
+      },
+      crime_noir: {
+        match:['정보상 연락책','범죄전담 변호사 조수','항만 정보원','탐정사무소 조사원'],
+        chaos:['내부감찰관','조직전담 형사','밀수 단속관','경쟁조직 회계책'],
+        story:['비밀장부 분석가','미제사건 기자','과거조직 기록추적자','실종자 조사기자']
+      },
+      historical_shanghai: {
+        match:['신문사 취재기자','무역회사 통역관','조계 병원 간호원','항만 연락책'],
+        chaos:['순무국 감찰관','항만 세관 조사원','경쟁신문 기자','조계 경찰 조사관'],
+        story:['비밀장부 추적기자','신문사 자료보관원','실종사건 조사원','사진관 기록기사']
+      },
+      historical_korea: {
+        match:['의원 조수','신문사 취재기자','학교 교사','연락책'],
+        chaos:['경무국 조사관','검열 담당관','경쟁신문 기자','밀정 추적관'],
+        story:['독립운동 기록보관원','실종자 수소문 기자','과거문서 복원가','전당포 장부추적자']
+      },
+      entertainment: {
+        match:['전담 스타일리스트','투어 매니저','A&R 매니저','안무 디렉터'],
+        chaos:['경쟁사 프로듀서','계약분쟁 매니저','스캔들 대응기자','소속사 감사담당'],
+        story:['과거활동 아카이브 에디터','은퇴연예인 인터뷰 기자','사고기록 다큐PD','연습생시절 기록관리자']
+      },
+      campus: {
+        match:['대학원 연구조교','교내상담센터 인턴','동아리 운영진','학과 조교'],
+        chaos:['학생회 감사위원','학칙 징계위원','경쟁동아리 회장','학보사 탐사기자'],
+        story:['학보사 기록기자','교내기록실 근로장학생','상담센터 기록보조','졸업앨범 편집위원']
+      },
+      office: {
+        match:['프로젝트 코디네이터','협업팀 기획자','사내 멘토','프로덕트 매니저'],
+        chaos:['내부감사 담당자','경쟁부서 팀장','사내 법무담당','성과평가 담당자'],
+        story:['과거 프로젝트 기록담당','내부문서 관리관','전임자 인수인계 담당','사내사고 조사담당']
+      },
+      medical_world: {
+        match:['응급실 간호사','협진 코디네이터','재활치료사','병동 사회복지사'],
+        chaos:['의료감사관','의료분쟁 조정관','감염관리 감독관','보험심사 담당자'],
+        story:['과거 진료기록 분석원','트라우마 상담사','사고환자 추적관리사','병원기록 보존관']
+      },
+      military: {
+        match:['전술지원관','의무장교','작전통신관','군수지원관'],
+        chaos:['헌병수사관','감찰장교','보안감사관','상급부대 조사관'],
+        story:['전사기록관','과거작전 조사관','실종병력 추적관','전쟁기록 분석관']
+      },
+      maritime: {
+        match:['항해사','해양구조요원','항만 관제사','선박 정비사'],
+        chaos:['해난사고 조사관','항만 세관 단속관','선박 안전감독관','밀수감시관'],
+        story:['침몰선 기록조사관','실종선원 추적관','항해일지 복원가','해양사고 기록원']
+      },
+      sports: {
+        match:['재활 트레이너','전력분석관','구단 매니저','팀 코치'],
+        chaos:['도핑검사관','경쟁팀 코치','구단 감사담당','스포츠 탐사기자'],
+        story:['부상기록 분석관','은퇴선수 인터뷰 기자','과거경기 영상분석가','선수심리 상담사']
+      }
+    };
+
+    const ROLE_JOB_KEYWORDS = {
+      match: ['구조','지원','협력','코디','조율','의무','치료','재활','안내','관제','가이드','매니저','조수','정비','교육','상담','기획','연출','연구'],
+      chaos: ['조사','감찰','감사','단속','진압','보안','경비','감식','포렌식','심문','추적','법','분쟁','경호','감독','제압','감시','수사'],
+      story: ['기록','상담','심리','피해자','유가족','재활','감식','조사','연구','기록관','사서','기자','아카이브','표본','치유','재생','추적']
+    };
+
+    const ROLE_JOB_FALLBACKS = {
+      rescue: {
+        match:['현장 협력구조관','재난대응 코디네이터'],
+        chaos:['안전감찰관','사고원인 조사관'],
+        story:['재난생존자 지원관','사고기록 분석관']
+      },
+      medical: {
+        match:['협진 코디네이터','재활치료사'],
+        chaos:['의료감사관','의료분쟁 조사관'],
+        story:['트라우마 상담사','과거 진료기록 분석관']
+      },
+      investigation: {
+        match:['수사협력 분석관','현장 기록관'],
+        chaos:['감찰관','내부조사관'],
+        story:['미제사건 기록분석관','피해자 지원조사관']
+      },
+      security: {
+        match:['전술지원관','작전 코디네이터'],
+        chaos:['감찰장교','보안감사관'],
+        story:['전사기록관','과거작전 조사관']
+      },
+      research: {
+        match:['공동연구 코디네이터','현장분석 연구원'],
+        chaos:['연구윤리 감찰관','경쟁 프로젝트 책임자'],
+        story:['과거 실험기록 연구원','사고원인 분석연구원']
+      },
+      creative: {
+        match:['공동제작 프로듀서','콘텐츠 기획자'],
+        chaos:['경쟁사 아트디렉터','계약분쟁 매니저'],
+        story:['아카이브 에디터','과거작품 복원기획자']
+      },
+      office: {
+        match:['프로젝트 코디네이터','협업팀 기획자'],
+        chaos:['감사팀 담당자','경쟁부서 책임자'],
+        story:['내부기록 관리관','과거 프로젝트 조사담당']
+      }
     };
 
     const JOBS = {
@@ -1078,14 +1326,18 @@
       return { scores, ranked };
     }
 
-    function inferGenre(text) {
+    function inferWorldContext(text) {
       const n = normalize(text);
-      if (/(에스퍼|가이드|게이트|폭주|매칭률|관리청)/.test(n)) return 'esper';
-      if (/(제국|공작|황제|황태자|기사단|마법|마도|귀족|로판|왕국)/.test(n)) return 'fantasy';
-      if (/(1930|상하이|순무국|청방|홍련회|녹등회|카바레|신문사)/.test(n)) return 'historical';
-      if (/(아이돌|배우|연예인|팬덤|기획사|연습생|가수|콘서트)/.test(n)) return 'entertainment';
-      if (/(우주|행성|식민지|테라포밍|기지|항법|sf|사이파이)/.test(n)) return 'scifi';
-      return 'modern';
+      const ranked = WORLD_CONTEXTS.map((ctx, index) => ({
+        ...ctx,
+        score: ctx.words.reduce((sum, word) => sum + (n.includes(word.toLowerCase()) ? 1 : 0), 0),
+        index
+      })).filter(v => v.score > 0).sort((a,b) => b.score - a.score || a.index - b.index);
+      return ranked[0] || { key:'domestic', label:'현대 일상', genre:'modern', score:0 };
+    }
+
+    function inferGenre(text) {
+      return inferWorldContext(text).genre;
     }
 
     function inferSourceAge(text) {
@@ -1214,9 +1466,9 @@
         { key:'rescue', words:['소방','구조','구급','재난','화재','소방관','구조대','119'] },
         { key:'medical', words:['병원','의사','간호','의료','치료','수술','약사','상담사','치유','재활'] },
         { key:'investigation', words:['형사','경찰','수사','조사','법률','변호','검사','탐정','감찰','증거','기록'] },
-        { key:'security', words:['군인','기사단','호위','경호','보안','전투','진압','감시','방위','전술'] },
+        { key:'security', words:['군인','기사단','호위','경호','보안','전투','진압','감시','방위','전술','정찰','생존','보급','격리','피난','초소','순찰'] },
         { key:'research', words:['연구','실험','개발','분석','생태','데이터','과학','기술','테라포밍','연구소'] },
-        { key:'creative', words:['디자인','작가','그림','사진','편집','출판','아이돌','배우','가수','기획','마케팅','공연','스타일리스트','안무'] }
+        { key:'creative', words:['디자인','작가','그림','사진','편집','출판','아이돌','배우','가수','기획','마케팅','공연','스타일리스트','안무','기자','신문','영상','미술','콘텐츠','사진가','편집자'] }
       ];
       for (const item of map) {
         if (item.words.some(w => n.includes(w))) return item.key;
@@ -1226,15 +1478,88 @@
       return 'office';
     }
 
-    function occupationFor(genre, seed, category, professionKey, kind) {
+    function parseCustomJobs(raw) {
+      const result = { common:[], match:[], chaos:[], story:[] };
+      if (!raw || !raw.trim()) return result;
+      const lines = raw.split(/\n|;/).map(v => v.trim()).filter(Boolean);
+      lines.forEach(line => {
+        let bucket = 'common';
+        let content = line;
+        const m = line.match(/^\s*(찰떡|match|파국|chaos|서사|story)\s*[:：]\s*(.*)$/i);
+        if (m) {
+          const key = m[1].toLowerCase();
+          bucket = /찰떡|match/.test(key) ? 'match' : /파국|chaos/.test(key) ? 'chaos' : 'story';
+          content = m[2];
+        }
+        content.split(/[,/|]/).map(v => v.trim()).filter(Boolean).forEach(job => {
+          if (!result[bucket].includes(job)) result[bucket].push(job);
+        });
+      });
+      return result;
+    }
+
+    function roleScore(job, kind) {
+      const words = ROLE_JOB_KEYWORDS[kind] || [];
+      return words.reduce((score, word) => score + (job.includes(word) ? 2 : 0), 0);
+    }
+
+    function worldAdjustJob(job, worldContext, genre) {
+      if (!job) return job;
+      if (!worldContext) return job;
+      const key = worldContext.key;
+      if (key === 'academy' || key === 'campus') return job;
+      if (key === 'cyberpunk' && !/(사이버|의체|기업|보안|네트워크|합성|기계)/.test(job)) return job;
+      if (key === 'apocalypse' && !/(재난|생존|구조|기지|안전|의무|조사|보급)/.test(job)) return job;
+      if (key === 'crime_noir' && !/(조사|감찰|보안|법|기록|협상|경호|분쟁)/.test(job)) return job;
+      return job;
+    }
+
+    function occupationFor(genre, seed, category, professionKey, kind, worldContext, customJobs, usedJobs = new Set()) {
       const group = PROFESSION_CONTEXTS[professionKey] || PROFESSION_CONTEXTS.office;
       const fallback = category === 'inhuman' ? (NONHUMAN_JOBS[genre] || NONHUMAN_JOBS.modern) : (JOBS[genre] || JOBS.modern);
       const typed = category === 'inhuman' ? group.inhuman : group.human;
-      let pool = typed[genre] || fallback;
-      if (kind === 'chaos' && professionKey === 'office') {
-        pool = [...pool].reverse();
-      }
-      return seededPick(pool, seed);
+      const contextual = typed[genre] || fallback;
+      const worldPool = WORLD_JOB_POOLS[worldContext?.key] || [];
+      const worldRolePool = (WORLD_ROLE_JOB_POOLS[worldContext?.key]?.[kind] || []).filter(job => !usedJobs.has(job));
+      const custom = customJobs || { common:[], match:[], chaos:[], story:[] };
+
+      const roleSpecificCustom = (custom[kind] || []).filter(job => !usedJobs.has(job));
+      const commonCustom = (custom.common || []).filter(job => !usedJobs.has(job));
+      const roleFallback = (ROLE_JOB_FALLBACKS[professionKey]?.[kind] || []).filter(job => !usedJobs.has(job));
+      const roll = seededFloat(seed + 701);
+
+      // 사용자가 구도별 직업을 직접 지정했다면 최우선 적용.
+      if (roleSpecificCustom.length) return seededPick(roleSpecificCustom, seed + 17);
+      if (commonCustom.length && roll < 0.58) return seededPick(commonCustom, seed + 23);
+
+      // 세부 세계관 전용 풀을 우선 사용해 직업이 세계관 밖으로 튀는 것을 막는다.
+      if (worldRolePool.length && roll < 0.78) return seededPick(worldRolePool, seed + 31);
+      // 현대 일상처럼 세부 전용 풀이 없을 때는 직업 축의 관계구도 풀을 강하게 사용.
+      if (roleFallback.length && (!worldRolePool.length || roll < 0.90)) return seededPick(roleFallback, seed + 37);
+
+      const allCandidates = [...new Set([...contextual, ...worldPool, ...worldRolePool, ...roleFallback])];
+      const scored = allCandidates.map((job, idx) => {
+        const role = roleScore(job, kind);
+        return {
+          job,
+          role,
+          score: role * 3
+            + (worldRolePool.includes(job) ? 4.2 : 0)
+            + (roleFallback.includes(job) ? 3.2 : 0)
+            + (contextual.includes(job) ? 1.5 : 0)
+            + (worldPool.includes(job) ? 1.35 : 0)
+            + (allCandidates.length - idx) * 0.01
+        };
+      }).sort((a,b) => b.score - a.score);
+
+      let pool = scored.filter(v => v.role > 0 || worldRolePool.includes(v.job) || roleFallback.includes(v.job)).slice(0,7).map(v => v.job);
+      if (!pool.length) pool = scored.slice(0,6).map(v => v.job);
+      pool = [...pool, ...commonCustom, ...scored.slice(0,4).map(v => v.job)]
+        .filter(job => job && !usedJobs.has(job));
+      pool = [...new Set(pool.map(job => worldAdjustJob(job, worldContext, genre)))];
+
+      const availableFallback = fallback.filter(job => !usedJobs.has(job));
+      return seededPick(pool.length ? pool : (availableFallback.length ? availableFallback : fallback), seed);
     }
 
     function appearanceFor(arcKey, seed, genre, category) {
@@ -1281,7 +1606,8 @@
       const category = resolvePersonaCategory(context.text, context.genre, seed + 1, index);
       const name = seededPick(NAME_POOLS[gender], seed + index * 19 + rerollSeed * 7);
       const age = personaAge(context.sourceAge, kind, seed + 3);
-      const job = occupationFor(context.genre, seed + 7, category, context.professionKey, kind);
+      const job = occupationFor(context.genre, seed + 7, category, context.professionKey, kind, context.worldContext, context.customJobs, context.usedJobs);
+      context.usedJobs.add(job);
       const look = appearanceFor(arcKey, seed + 13, context.genre, category);
       const relation = RELATION_LINES[kind][arcKey] || RELATION_LINES[kind].softsteel;
       const identityKo = look.species ? look.species.label : '인간';
@@ -1359,11 +1685,13 @@
       if (traitLabels.length) chips.push(`<span class="chip"><b>감지 성향</b> · ${traitLabels.join(' / ')}</span>`);
       else chips.push(`<span class="chip"><b>감지 성향</b> · 핵심 키워드 부족 → 범용 매칭</span>`);
       const genreKo = { modern:'현대', esper:'에스퍼/가이드', fantasy:'판타지', historical:'시대극', entertainment:'연예계', scifi:'SF' }[context.genre];
-      chips.push(`<span class="chip"><b>세계관</b> · ${genreKo}</span>`);
+      chips.push(`<span class="chip"><b>세계관</b> · ${context.worldContext.label} / ${genreKo}</span>`);
       const catText = context.categoryMode === 'auto' ? `자동 혼합 · ${({low:'낮음', normal:'보통', high:'높음', full:'전부 인외'})[context.inhumanRate]}` : (context.categoryMode === 'inhuman' ? '인외 고정' : '인간 고정');
       chips.push(`<span class="chip"><b>범주</b> · ${catText}</span>`);
       const professionLabel = (PROFESSION_CONTEXTS[context.professionKey] || PROFESSION_CONTEXTS.office).label;
       chips.push(`<span class="chip"><b>직업 축</b> · ${professionLabel}</span>`);
+      const customJobCount = ['common','match','chaos','story'].reduce((sum,k) => sum + (context.customJobs[k]?.length || 0), 0);
+      if (customJobCount) chips.push(`<span class="chip"><b>사용자 직업</b> · ${customJobCount}개 반영</span>`);
       chips.push(`<span class="chip"><b>원문 나이</b> · ${context.sourceAge ? context.sourceAge + '세 감지' : '미감지'}</span>`);
       const explicit = extractSourceKeywords(context.text);
       if (explicit.length) chips.push(`<span class="chip"><b>명시 키워드</b> · ${explicit.join(' · ')}</span>`);
@@ -1373,8 +1701,9 @@
     function renderCards() {
       cards.innerHTML = currentPersonas.map((p, i) => {
         const info = kindInfo(p.kind);
+        const prompts = visualPrompts(p);
         return `
-          <article class="persona-card" data-kind="${p.kind}">
+          <article class="persona-card" data-kind="${p.kind}" data-card-index="${i}">
             <div class="card-head">
               <span class="badge ${info.cls}">${info.label} · ${info.desc}</span>
               <span class="char-count">${p.body.length}/300자</span>
@@ -1386,38 +1715,54 @@
               <span class="char-count">${p.arc.title}</span>
               <button class="copy-btn" data-copy-card="${i}">페르소나 복사</button>
             </div>
+
+            <div class="card-prompt-wrap">
+              <div class="card-prompt-title">외형 태그 · ${p.name}</div>
+              <div class="card-prompt-tabs">
+                <button class="card-prompt-tab active" data-card-platform="novelai" data-card="${i}">NovelAI</button>
+                <button class="card-prompt-tab" data-card-platform="pixai" data-card="${i}">PixAI</button>
+                <button class="card-prompt-tab" data-card-platform="niji" data-card="${i}">NijiJourney</button>
+              </div>
+              <div class="card-prompt-box">
+                <div class="card-prompt-head">
+                  <span data-card-prompt-label="${i}">NovelAI · 외형 태그</span>
+                  <button class="copy-btn" data-copy-prompt="${i}" data-current-platform="novelai">복사</button>
+                </div>
+                <pre class="card-prompt-pre" data-card-prompt="${i}">${escapeHTML(prompts.novelai)}</pre>
+              </div>
+            </div>
           </article>`;
       }).join('');
 
       $$('[data-copy-card]').forEach(btn => {
         btn.addEventListener('click', () => copyText(currentPersonas[Number(btn.dataset.copyCard)].body));
       });
-    }
 
-    function renderPersonaSelect() {
-      personaSelect.innerHTML = currentPersonas.map((p,i) => {
-        const info = kindInfo(p.kind);
-        return `<button class="${i === selectedPersonaIndex ? 'active' : ''}" data-persona="${i}">${info.label} · ${p.name}</button>`;
-      }).join('');
-      $$('[data-persona]').forEach(btn => btn.addEventListener('click', () => {
-        selectedPersonaIndex = Number(btn.dataset.persona);
-        renderPersonaSelect();
-        renderPrompt();
-      }));
-    }
+      $$('[data-card-platform]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const i = Number(btn.dataset.card);
+          const platform = btn.dataset.cardPlatform;
+          const article = btn.closest('.persona-card');
+          article.querySelectorAll('[data-card-platform]').forEach(b => b.classList.toggle('active', b === btn));
+          const prompts = visualPrompts(currentPersonas[i]);
+          const labels = {
+            novelai:'NovelAI · 외형 태그',
+            pixai:'PixAI · 외형 태그',
+            niji:'NijiJourney · Niji 7 외형 프롬프트'
+          };
+          article.querySelector(`[data-card-prompt="${i}"]`).textContent = prompts[platform];
+          article.querySelector(`[data-card-prompt-label="${i}"]`).textContent = labels[platform];
+          article.querySelector(`[data-copy-prompt="${i}"]`).dataset.currentPlatform = platform;
+        });
+      });
 
-    function renderPrompt() {
-      if (!currentPersonas.length) return;
-      const p = currentPersonas[selectedPersonaIndex];
-      const prompts = visualPrompts(p);
-      promptText.textContent = prompts[selectedPlatform];
-      const labels = {
-        novelai: 'NovelAI · 외형 태그',
-        pixai: 'PixAI · 외형 태그',
-        niji: 'NijiJourney · Niji 7 외형 프롬프트'
-      };
-      promptLabel.textContent = labels[selectedPlatform];
-      $$('#platformTabs .tab-btn').forEach(b => b.classList.toggle('active', b.dataset.platform === selectedPlatform));
+      $$('[data-copy-prompt]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const i = Number(btn.dataset.copyPrompt);
+          const platform = btn.dataset.currentPlatform || 'novelai';
+          copyText(visualPrompts(currentPersonas[i])[platform]);
+        });
+      });
     }
 
     function generate() {
@@ -1430,14 +1775,18 @@
 
       const seed = hashString(text) + rerollSeed * 101;
       const analysis = analyzeTraits(text);
+      const worldContext = inferWorldContext(text);
       const context = {
         text,
         analysis,
-        genre: inferGenre(text),
+        genre: worldContext.genre,
+        worldContext,
         sourceAge: inferSourceAge(text),
         categoryMode: resolveCategoryMode(text),
         inhumanRate: selectedInhumanRate,
-        professionKey: inferProfessionContext(text, inferGenre(text))
+        professionKey: inferProfessionContext(text, worldContext.genre),
+        customJobs: parseCustomJobs(customJobsInput.value),
+        usedJobs: new Set()
       };
 
       const used = new Set();
@@ -1448,11 +1797,8 @@
         return buildPersona(kind, arcKey, index, context, seed + index * 131);
       });
 
-      selectedPersonaIndex = 0;
       renderAnalysis(context);
       renderCards();
-      renderPersonaSelect();
-      renderPrompt();
       results.classList.add('show');
       setTimeout(() => results.scrollIntoView({ behavior:'smooth', block:'start' }), 60);
     }
@@ -1480,6 +1826,10 @@
     characterInput.addEventListener('input', () => {
       inputCount.textContent = characterInput.value.length;
       try { localStorage.setItem('personaMatchInput', characterInput.value); } catch(e) {}
+    });
+
+    customJobsInput.addEventListener('input', () => {
+      try { localStorage.setItem('personaMatchCustomJobs', customJobsInput.value); } catch(e) {}
     });
 
     $('#genderControl').addEventListener('click', (e) => {
@@ -1511,7 +1861,8 @@
       inputCount.textContent = '0';
       results.classList.remove('show');
       hideNotice();
-      try { localStorage.removeItem('personaMatchInput'); } catch(e) {}
+      customJobsInput.value = '';
+      try { localStorage.removeItem('personaMatchInput'); localStorage.removeItem('personaMatchCustomJobs'); } catch(e) {}
       characterInput.focus();
     });
 
@@ -1520,15 +1871,6 @@
       inputCount.textContent = characterInput.value.length;
       characterInput.focus();
     });
-
-    $('#platformTabs').addEventListener('click', (e) => {
-      const btn = e.target.closest('[data-platform]');
-      if (!btn) return;
-      selectedPlatform = btn.dataset.platform;
-      renderPrompt();
-    });
-
-    $('#copyPromptBtn').addEventListener('click', () => copyText(promptText.textContent));
 
     characterInput.addEventListener('keydown', (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
@@ -1544,6 +1886,8 @@
         characterInput.value = saved;
         inputCount.textContent = saved.length;
       }
+      const savedJobs = localStorage.getItem('personaMatchCustomJobs');
+      if (savedJobs) customJobsInput.value = savedJobs;
     } catch(e) {}
   </script>
 </body>
