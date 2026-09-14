@@ -330,6 +330,170 @@ section{padding:86px 0; border-bottom:1px solid rgba(66,95,77,.32)}
 .modal-item strong{display:block; margin-bottom:5px; color:#dfeae1}
 .modal-item span{font-size:13px; color:#98ab9f; line-height:1.65}
 @media(max-width:820px){.modal-layout{grid-template-columns:1fr}}
+
+/* ===== V3 TERMINAL UPGRADES ===== */
+.glitch-value{
+  display:inline-block;
+  min-width:3.4em;
+  transition:color .12s ease,filter .12s ease,transform .12s ease;
+}
+.glitch-value.value-glitch{
+  color:var(--danger)!important;
+  filter:blur(.25px);
+  text-shadow:2px 0 rgba(215,116,112,.55),-2px 0 rgba(104,188,125,.35);
+  transform:translateX(1px);
+}
+.glitch-value.value-glitch::after{
+  content:"";
+  display:inline-block;
+  width:3px;height:1em;
+  margin-left:3px;
+  vertical-align:-.13em;
+  background:currentColor;
+  animation:cursorBlink .12s steps(2,end) infinite;
+}
+@keyframes cursorBlink{50%{opacity:0}}
+
+.facility-overview{
+  position:relative;
+  margin:0 0 18px;
+  border:1px solid var(--line);
+  background:#07100c;
+  overflow:hidden;
+  cursor:zoom-in;
+  box-shadow:var(--shadow);
+}
+.facility-overview .map-frame{
+  height:clamp(280px,48vw,600px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:12px;
+}
+.facility-overview img{
+  width:100%;height:100%;object-fit:contain;
+}
+.facility-overview .map-caption{
+  position:absolute;left:14px;right:14px;bottom:14px;
+  display:flex;justify-content:space-between;gap:12px;align-items:center;
+  padding:10px 12px;
+  background:rgba(4,10,7,.83);
+  border:1px solid rgba(134,174,144,.35);
+  backdrop-filter:blur(7px);
+}
+.facility-overview .map-caption strong{
+  font-size:13px;color:#e3eee6;
+}
+.facility-overview .map-caption span{
+  font:10px ui-monospace,monospace;color:#8fa598;letter-spacing:.08em;
+}
+.db-image{
+  aspect-ratio:16/9;
+  background:#060c08;
+  overflow:hidden;
+  position:relative;
+  cursor:zoom-in;
+  padding:10px;
+}
+.db-image img{
+  width:100%;height:100%;object-fit:contain;
+}
+.db-image::after{
+  content:"BLUEPRINT / TAP TO ZOOM";
+  position:absolute;right:12px;bottom:12px;
+  padding:5px 7px;
+  background:rgba(3,8,5,.78);
+  border:1px solid rgba(159,193,164,.35);
+  color:#b7c9bc;
+  font:9px ui-monospace,monospace;
+  letter-spacing:.1em;
+}
+
+.image-lightbox{
+  position:fixed;inset:0;z-index:1900;
+  background:rgba(0,0,0,.88);
+  display:flex;align-items:center;justify-content:center;
+  padding:18px;
+  opacity:0;visibility:hidden;
+  transition:.22s ease;
+}
+.image-lightbox.open{opacity:1;visibility:visible}
+.image-lightbox-box{
+  width:min(1180px,100%);
+  max-height:94vh;
+  display:flex;flex-direction:column;
+  border:1px solid var(--line-soft);
+  background:#050b07;
+  box-shadow:var(--shadow);
+}
+.image-lightbox-head{
+  min-height:48px;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:9px 12px;
+  border-bottom:1px solid var(--line);
+  color:var(--accent);
+  font:700 11px ui-monospace,monospace;
+}
+.image-lightbox-stage{
+  min-height:0;
+  height:min(82vh,900px);
+  display:flex;align-items:center;justify-content:center;
+  padding:10px;
+  overflow:auto;
+}
+.image-lightbox-stage img{
+  max-width:100%;
+  max-height:100%;
+  width:auto;height:auto;
+  object-fit:contain;
+}
+
+.mobile-dock{display:none}
+@media(max-width:760px){
+  body{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
+  .mobile-dock{
+    position:fixed;
+    left:10px;right:10px;
+    bottom:calc(8px + env(safe-area-inset-bottom));
+    z-index:1000;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:4px;
+    padding:6px;
+    border:1px solid rgba(83,121,96,.68);
+    border-radius:18px;
+    background:rgba(5,12,9,.91);
+    backdrop-filter:blur(16px);
+    box-shadow:0 15px 50px rgba(0,0,0,.48);
+  }
+  .mobile-dock a{
+    min-width:0;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:3px;
+    min-height:50px;
+    color:#819589;
+    border-radius:12px;
+    font-size:9px;
+    line-height:1.1;
+  }
+  .mobile-dock a .dock-icon{
+    font:700 16px/1 ui-monospace,monospace;
+    color:#b7c9bc;
+  }
+  .mobile-dock a.active{
+    color:var(--accent-2);
+    background:rgba(64,101,76,.24);
+  }
+  .mobile-dock a.active .dock-icon{color:var(--accent)}
+  .facility-overview .map-caption{
+    left:8px;right:8px;bottom:8px;
+    flex-direction:column;align-items:flex-start;gap:2px;
+    padding:8px 9px;
+  }
+  .facility-overview .map-frame{padding:6px;height:360px}
+  .db-image{aspect-ratio:4/3;padding:6px}
+}
+
 @media(prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
 </style>
 </head>
@@ -381,13 +545,13 @@ section{padding:86px 0; border-bottom:1px solid rgba(66,95,77,.32)}
         <div class="panel-body">
           <div class="sys-title">[처녀자리 제06경작구역]</div>
           <div class="stat-grid">
-            <div class="stat">🌡 기온 <b>23.8℃</b></div>
-            <div class="stat">💧 습도 <b>71%</b></div>
-            <div class="stat">🌱 토양안정도 <b>64%</b></div>
-            <div class="stat">💦 수질안정도 <b>82%</b></div>
-            <div class="stat">🌾 작물생존율 <b>97%</b></div>
-            <div class="stat">🐝 생태활동도 <b>43%</b></div>
-            <div class="stat wide">⚠ 이상파형 <b style="color:var(--warn)">MEDIUM</b></div>
+            <div class="stat">🌡 기온 <b class="glitch-value" data-stable="23.8℃">23.8℃</b></div>
+            <div class="stat">💧 습도 <b class="glitch-value" data-stable="71%">71%</b></div>
+            <div class="stat">🌱 토양안정도 <b class="glitch-value" data-stable="64%">64%</b></div>
+            <div class="stat">💦 수질안정도 <b class="glitch-value" data-stable="82%">82%</b></div>
+            <div class="stat">🌾 작물생존율 <b class="glitch-value" data-stable="97%">97%</b></div>
+            <div class="stat">🐝 생태활동도 <b class="glitch-value" data-stable="43%">43%</b></div>
+            <div class="stat wide">⚠ 이상파형 <b class="glitch-value wave-value" data-stable="MEDIUM" style="color:var(--warn)">MEDIUM</b></div>
             <div class="stat wide">🎒 💧물 420L / 🥩식량 186KG / 🌱씨앗 1000KG</div>
             <div class="stat wide">👥 생존자 18명 / ⏳ 식량잔여 12일</div>
           </div>
@@ -395,7 +559,7 @@ section{padding:86px 0; border-bottom:1px solid rgba(66,95,77,.32)}
 &gt; 생장률 상승 감지
 &gt; 원인 : <span class="noise-inline">UNKNOWN</span>
 &gt; 현재까지 즉각적 위험은 감지되지 않았습니다.
-&gt; <span class="noise-inline">▒▒▒ 잘 자라고 있네 ▒▒▒</span>
+&gt; <span class="noise-inline" id="noisePhrase">▒▒▒ 잘 자라고 있네 ▒▒▒</span>
           </div>
           <div class="live-feed">
             <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%A4%91%EC%95%99%EC%84%BC%ED%84%B0%20%EC%9E%AC%EB%82%9C%20(1).png?raw=true" alt="중앙센터 재난 감시 화면">
@@ -503,6 +667,16 @@ section{padding:86px 0; border-bottom:1px solid rgba(66,95,77,.32)}
     <div class="sec-title">
       <h2>시설 DB</h2>
       <small>SELECT FACILITY NODE</small>
+    </div>
+
+    <div class="facility-overview zoomable-image" data-full="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%A0%84%EC%B2%B4%EA%B5%AC%EC%A1%B0%EB%8F%84.png?raw=true" data-title="VIR-06 / 전체 구조도">
+      <div class="map-frame">
+        <img loading="lazy" src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%A0%84%EC%B2%B4%EA%B5%AC%EC%A1%B0%EB%8F%84.png?raw=true" alt="처녀자리 전체 시설 구조도">
+      </div>
+      <div class="map-caption">
+        <strong>VIR-06 전체 구조도</strong>
+        <span>TAP / CLICK TO ZOOM</span>
+      </div>
     </div>
 
     <div class="db-layout">
@@ -664,6 +838,27 @@ section{padding:86px 0; border-bottom:1px solid rgba(66,95,77,.32)}
   <span>ZODIAC PROJECT · ♍ VIR-06</span>
   <span class="noise-inline">CURRENT STATUS : OBSERVATION CONTINUES</span>
 </footer>
+
+
+<nav class="mobile-dock" id="mobileDock" aria-label="모바일 빠른 메뉴">
+  <a href="#overview" data-section="overview"><span class="dock-icon">⌂</span><span>개요</span></a>
+  <a href="#logs" data-section="logs"><span class="dock-icon">⚠</span><span>재난</span></a>
+  <a href="#facilitydb" data-section="facilitydb"><span class="dock-icon">▦</span><span>시설</span></a>
+  <a href="#npcdb" data-section="npcdb"><span class="dock-icon">◎</span><span>인물</span></a>
+  <a href="#protocol" data-section="protocol"><span class="dock-icon">&gt;_</span><span>명령</span></a>
+</nav>
+
+<div class="image-lightbox" id="imageLightbox" aria-hidden="true">
+  <div class="image-lightbox-box">
+    <div class="image-lightbox-head">
+      <span id="lightboxTitle">FACILITY BLUEPRINT</span>
+      <button class="btn" id="closeLightbox">CLOSE</button>
+    </div>
+    <div class="image-lightbox-stage">
+      <img id="lightboxImage" src="" alt="">
+    </div>
+  </div>
+</div>
 
 <!-- LOG MODALS -->
 <div class="modal" id="log1">
@@ -917,7 +1112,7 @@ document.addEventListener("keydown", (e) => {
 
 const facilityData = {
   f1: {
-    image: "https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%A4%91%EC%95%99%EC%84%BC%ED%84%B0%20%EC%9E%AC%EB%82%9C%20(1).png?raw=true",
+    image: "https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%A0%9C3%EC%83%9D%ED%83%9C%EB%B3%B5%EC%9B%90%EC%97%B0%EA%B5%AC%EC%86%8C.png?raw=true",
     title: "제3생태복원연구소",
     sub: "ECOLOGICAL RESTORATION LAB",
     desc: "토양·미생물·작물의 이상현상을 분석하고 오염 경작지 복구와 생태 안정화를 담당하는 핵심 연구시설.",
@@ -930,7 +1125,7 @@ const facilityData = {
     ]
   },
   f2: {
-    image: "https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%A4%91%EC%95%99%EC%84%BC%ED%84%B0%20%EC%9E%AC%EB%82%9C%20(2).png?raw=true",
+    image: "https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%A4%91%EC%95%99%EC%98%A8%EC%8B%A4%EA%B5%B0.png?raw=true",
     title: "중앙온실군",
     sub: "CENTRAL GREENHOUSE COMPLEX",
     desc: "처녀자리 최대 식량생산시설. 곡물·과채류·과일·약초·사료작물 시험구역과 생장폭주 격리구역으로 구성된다.",
@@ -943,7 +1138,7 @@ const facilityData = {
     ]
   },
   f3: {
-    image: "https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%A4%91%EC%95%99%EC%84%BC%ED%84%B0%20%EC%9E%AC%EB%82%9C%20(1).png?raw=true",
+    image: "https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%88%98%EA%B3%84%EA%B4%80%EB%A6%AC%EA%B5%AC%EC%97%AD.png?raw=true",
     title: "수계관리구역",
     sub: "WATER CONTROL DISTRICT",
     desc: "지하저수조·정수시설·관개망을 통제하며 수질오염 확산 시 구역별 수계를 차단하는 핵심 설비 구역.",
@@ -956,7 +1151,7 @@ const facilityData = {
     ]
   },
   f4: {
-    image: "https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EB%B0%9C%EC%95%84%ED%8F%AD%EC%A3%BC_%EC%A2%85%EC%9E%90%EB%B3%B4%EC%A1%B4%EA%B3%A0%20(2).png?raw=true",
+    image: "https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%A2%85%EC%9E%90%EB%B3%B4%EC%A1%B4%EA%B3%A0.png?raw=true",
     title: "종자보존고",
     sub: "SEED VAULT",
     desc: "정상종자와 오염의심종자를 분류·격리·장기보존하는 시설. 처녀자리의 차기 경작 가능성을 유지하는 마지막 보존선이다.",
@@ -969,7 +1164,7 @@ const facilityData = {
     ]
   },
   f5: {
-    image: "https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%97%90%EB%9F%B0%EC%BD%94%EB%A5%B4_.png?raw=true",
+    image: "https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%99%B8%EA%B3%BD%EC%83%9D%EC%A1%B4%EA%B1%B0%EC%A0%90.png?raw=true",
     title: "외곽생존거점",
     sub: "OUTPOST",
     desc: "생존자와 현장인력이 생활하는 밀폐형 거점. 식량배급·장비보급·응급치료·대피통제를 담당한다.",
@@ -982,7 +1177,7 @@ const facilityData = {
     ]
   },
   f6: {
-    image: "https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EA%B2%BD%EC%9E%91%EC%A7%80%20%EC%A7%80%EB%B0%98%20%EB%B6%95%EA%B4%B4.png?raw=true",
+    image: "https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%A4%91%EC%95%99%EC%9B%90%ED%98%95%EA%B2%BD%EC%9E%91%EA%B5%AC%EC%97%AD.png?raw=true",
     title: "중앙원형경작구역",
     sub: "CENTRAL RING FIELD",
     desc: "초기 개척기부터 존재한 심층 경작구역. 외곽 환형 지대와 다중 시험구역, 장기봉쇄된 지하 관측실이 존재한다.",
@@ -995,7 +1190,7 @@ const facilityData = {
     ]
   },
   f7: {
-    image: "https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%A4%91%EC%95%99%EC%84%BC%ED%84%B0%20%EC%9E%AC%EB%82%9C%20(2).png?raw=true",
+    image: "https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%A7%80%ED%95%98%EB%AC%BC%EB%A5%98%EB%A7%9D.png?raw=true",
     title: "지하물류망",
     sub: "UNDERGROUND LOGISTICS",
     desc: "연구소·온실군·수계시설·종자보존고·외곽거점을 연결하는 화물철도와 정비통로망.",
@@ -1015,7 +1210,7 @@ const tabButtons = [...document.querySelectorAll(".db-tab")];
 function renderFacility(key) {
   const item = facilityData[key];
   facilityView.innerHTML = `
-    <div class="db-image"><img src="${item.image}" alt="${item.title}"></div>
+    <div class="db-image zoomable-image" data-full="${item.image}" data-title="${item.title} / 시설 도면"><img src="${item.image}" alt="${item.title} 시설 도면"></div>
     <div class="db-copy">
       <h3>${item.title}</h3>
       <div class="sub">${item.sub}</div>
@@ -1063,6 +1258,136 @@ closers.forEach(btn => btn.addEventListener("click", closeAnyModal));
 modals.forEach(m => m.addEventListener("click", e => {
   if (e.target === m) closeAnyModal();
 }));
+
+// ===== V3 RANDOM STATUS GLITCH =====
+const glitchTargets = [...document.querySelectorAll(".glitch-value")];
+const glitchTokens = ["██", "UNKNOWN", "ERR", "--", "▒▒▒", "0.00?", "N/A"];
+
+function randomStatusGlitch(){
+  if(!glitchTargets.length) return;
+  const target = glitchTargets[Math.floor(Math.random() * glitchTargets.length)];
+  if(target.dataset.glitching === "1") return;
+
+  const stable = target.dataset.stable || target.textContent;
+  target.dataset.glitching = "1";
+  target.classList.add("value-glitch");
+
+  const token = target.classList.contains("wave-value")
+    ? ["UNKNOWN","██","LOW?","MEDIUM","ERR"][Math.floor(Math.random()*5)]
+    : glitchTokens[Math.floor(Math.random()*glitchTokens.length)];
+
+  target.textContent = token;
+
+  window.setTimeout(() => {
+    target.textContent = stable;
+    target.classList.remove("value-glitch");
+    delete target.dataset.glitching;
+  }, 150 + Math.random() * 420);
+
+  window.setTimeout(randomStatusGlitch, 4200 + Math.random() * 7200);
+}
+window.setTimeout(randomStatusGlitch, 2600);
+
+// ===== V3 RANDOM NOISE PHRASE =====
+const noisePhrase = document.getElementById("noisePhrase");
+const noisePhrases = [
+  "▒▒▒ 잘 자라고 있네 ▒▒▒",
+  "▒▒▒ 계속 심어 ▒▒▒",
+  "▒▒▒ 씨앗이 남아 있잖아 ▒▒▒",
+  "▒▒▒ 왜 수확하지 않아 ▒▒▒",
+  "▒▒▒ 왜 멈춰 ▒▒▒",
+  "▒▒▒ 현재까지 이상은 감지되지 않았습니다 ▒▒▒",
+  "▒▒▒ 생장반응 재측정 중 ▒▒▒",
+  "▒▒▒ ████ █▒██ ██▒█ ▒▒▒"
+];
+let lastNoise = -1;
+
+function rotateNoise(){
+  if(!noisePhrase) return;
+  let next;
+  do { next = Math.floor(Math.random() * noisePhrases.length); }
+  while(next === lastNoise && noisePhrases.length > 1);
+  lastNoise = next;
+
+  noisePhrase.style.opacity = ".2";
+  noisePhrase.style.transform = "translateX(2px)";
+  setTimeout(() => {
+    noisePhrase.textContent = noisePhrases[next];
+    noisePhrase.style.opacity = "1";
+    noisePhrase.style.transform = "none";
+  }, 120);
+
+  setTimeout(rotateNoise, 6500 + Math.random() * 7500);
+}
+setTimeout(rotateNoise, 5200);
+
+// ===== V3 MOBILE DOCK ACTIVE SECTION =====
+const dockLinks = [...document.querySelectorAll("#mobileDock a")];
+const observedSections = dockLinks
+  .map(link => document.getElementById(link.dataset.section))
+  .filter(Boolean);
+
+if("IntersectionObserver" in window){
+  const dockObserver = new IntersectionObserver(entries => {
+    const visible = entries
+      .filter(e => e.isIntersecting)
+      .sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
+    if(!visible) return;
+    dockLinks.forEach(link => {
+      link.classList.toggle("active", link.dataset.section === visible.target.id);
+    });
+  }, {rootMargin:"-30% 0px -55% 0px", threshold:[0,.1,.25,.5]});
+  observedSections.forEach(section => dockObserver.observe(section));
+}
+
+// ===== V3 BLUEPRINT LIGHTBOX =====
+const imageLightbox = document.getElementById("imageLightbox");
+const lightboxImage = document.getElementById("lightboxImage");
+const lightboxTitle = document.getElementById("lightboxTitle");
+const closeLightboxBtn = document.getElementById("closeLightbox");
+
+function bindZoomables(){
+  document.querySelectorAll(".zoomable-image").forEach(el => {
+    if(el.dataset.zoomBound === "1") return;
+    el.dataset.zoomBound = "1";
+    el.addEventListener("click", () => {
+      const src = el.dataset.full || el.querySelector("img")?.src;
+      if(!src) return;
+      lightboxImage.src = src;
+      lightboxImage.alt = el.dataset.title || "시설 도면 확대";
+      lightboxTitle.textContent = el.dataset.title || "FACILITY BLUEPRINT";
+      imageLightbox.classList.add("open");
+      imageLightbox.setAttribute("aria-hidden","false");
+      document.body.style.overflowY = "hidden";
+    });
+  });
+}
+
+bindZoomables();
+
+const originalRenderFacility = renderFacility;
+renderFacility = function(key){
+  originalRenderFacility(key);
+  bindZoomables();
+};
+renderFacility("f1");
+
+function closeImageLightbox(){
+  imageLightbox.classList.remove("open");
+  imageLightbox.setAttribute("aria-hidden","true");
+  lightboxImage.src = "";
+  document.body.style.overflowY = "";
+}
+closeLightboxBtn.addEventListener("click", closeImageLightbox);
+imageLightbox.addEventListener("click", e => {
+  if(e.target === imageLightbox) closeImageLightbox();
+});
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape" && imageLightbox.classList.contains("open")){
+    closeImageLightbox();
+  }
+});
+
 </script>
 </body>
 </html>
