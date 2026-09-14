@@ -3,187 +3,362 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#07100c">
-<title>처녀자리 : VIRGO</title>
+<meta name="theme-color" content="#060d09">
+<title>처녀자리 : VIRGO / Terminal Archive</title>
 <style>
-:root{
-  --bg:#07100c;--bg2:#0a1510;--panel:#0d1913;--panel2:#101f18;
-  --line:#294538;--line2:#3b624d;--text:#dce8df;--muted:#8fa397;
-  --accent:#a8d58f;--accent2:#d8e7a8;--warn:#e3b76e;--danger:#d1786f;
-  --shadow:0 24px 70px rgba(0,0,0,.36);
+:root {
+  --bg:#060d09;
+  --bg-soft:#0a1410;
+  --panel:#0d1913;
+  --panel-2:#102019;
+  --panel-3:#14261d;
+  --line:#284437;
+  --line-soft:#355443;
+  --text:#dce6df;
+  --text-soft:#9fb0a6;
+  --accent:#a8d58f;
+  --accent-2:#d8e9a4;
+  --warn:#e0b772;
+  --danger:#d77470;
+  --ok:#87c98b;
+  --shadow:0 20px 60px rgba(0,0,0,.4);
+  --radius:18px;
 }
+
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;background:var(--bg)}
 body{
-  margin:0;color:var(--text);
-  background:
-    radial-gradient(circle at 12% 8%,rgba(112,157,111,.09),transparent 25rem),
-    linear-gradient(180deg,#06100b,#09130f 45%,#050a08);
+  margin:0;
+  color:var(--text);
   font-family:Pretendard,"Noto Sans KR","Apple SD Gothic Neo",system-ui,sans-serif;
-  letter-spacing:-.02em;overflow-x:hidden;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(111,164,109,.08), transparent 24rem),
+    radial-gradient(circle at 82% 0%, rgba(166,211,143,.05), transparent 18rem),
+    linear-gradient(180deg,#06100b 0%,#09130f 44%,#050a08 100%);
+  letter-spacing:-.02em;
+  overflow-x:hidden;
 }
 img{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
 button{font:inherit}
-.wrap{width:min(1180px,calc(100% - 40px));margin:auto}
+.wrap{width:min(1180px,calc(100% - 40px));margin:0 auto}
 @media(max-width:600px){.wrap{width:min(100% - 28px,1180px)}}
 
 body::before{
-  content:"";position:fixed;inset:0;z-index:1000;pointer-events:none;
-  background:repeating-linear-gradient(180deg,rgba(255,255,255,.015) 0 1px,transparent 1px 5px);
+  content:"";
+  position:fixed; inset:0; pointer-events:none; z-index:1100;
+  background:repeating-linear-gradient(180deg,rgba(255,255,255,.014) 0 1px,transparent 1px 5px);
   mix-blend-mode:screen;
 }
+body::after{
+  content:"";
+  position:fixed; inset:0; pointer-events:none; z-index:1090;
+  background:
+    radial-gradient(circle at 50% 50%, transparent 0, transparent 55%, rgba(0,0,0,.28) 100%);
+}
+
+.noise-inline{
+  display:inline-block;
+  text-shadow:1px 0 rgba(160,209,174,.5), -1px 0 rgba(40,63,48,.7);
+  animation:flicker 4.2s infinite;
+}
+@keyframes flicker{
+  0%,92%,100%{opacity:1; transform:none}
+  93%{opacity:.42; transform:translateX(1px)}
+  94%{opacity:1; transform:translateX(-1px)}
+  95%{opacity:.65}
+}
+
+.boot{
+  position:fixed; inset:0; z-index:2000;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(168,213,143,.06), transparent 20rem),
+    #040805;
+  display:flex; align-items:center; justify-content:center;
+  transition:opacity .55s ease, visibility .55s ease;
+}
+.boot.hidden{opacity:0; visibility:hidden}
+.boot-box{
+  width:min(780px,calc(100% - 32px));
+  border:1px solid var(--line-soft);
+  background:linear-gradient(180deg,rgba(7,16,12,.96),rgba(4,10,7,.98));
+  box-shadow:var(--shadow);
+  padding:22px;
+}
+.boot-head{
+  display:flex; justify-content:space-between; gap:16px; align-items:center;
+  font:700 12px ui-monospace,Consolas,monospace;
+  color:var(--accent);
+  border-bottom:1px solid var(--line);
+  padding-bottom:12px;
+}
+.boot-body{
+  padding-top:16px;
+  font:14px/1.85 ui-monospace,Consolas,monospace;
+  color:#cad8cc;
+  min-height:270px;
+  white-space:pre-wrap;
+}
+.boot-actions{display:flex; justify-content:flex-end; gap:10px; margin-top:12px}
+.btn{
+  appearance:none; border:1px solid var(--line-soft); background:#0a1510; color:var(--text);
+  padding:10px 14px; border-radius:12px; cursor:pointer; transition:.2s ease;
+}
+.btn:hover{border-color:var(--accent); color:var(--accent-2)}
+.btn.primary{background:linear-gradient(180deg,#13301f,#0c1b13); color:#e8f3e8; border-color:#466d57}
 
 .topbar{
-  position:sticky;top:0;z-index:50;background:rgba(5,12,9,.82);
-  backdrop-filter:blur(12px);border-bottom:1px solid rgba(72,108,86,.5)
+  position:sticky; top:0; z-index:120;
+  backdrop-filter:blur(12px);
+  background:rgba(5,12,9,.82);
+  border-bottom:1px solid rgba(72,108,86,.45);
 }
-.topbar .wrap{display:flex;align-items:center;justify-content:space-between;min-height:54px;gap:18px}
-.brand{font:800 12px/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.16em;color:var(--accent)}
-.nav{display:flex;gap:18px;font-size:12px;color:#94a79b}
-.nav a:hover{color:var(--accent2)}
-@media(max-width:650px){.nav{display:none}}
+.topbar .wrap{display:flex; align-items:center; justify-content:space-between; gap:16px; min-height:56px}
+.brand{font:800 12px ui-monospace,monospace; letter-spacing:.16em; color:var(--accent)}
+.nav{display:flex; gap:18px; flex-wrap:wrap; font-size:12px; color:#94a79b}
+.nav a:hover{color:var(--accent-2)}
+@media(max-width:760px){.nav{display:none}}
 
-.hero{padding:26px 0 64px;border-bottom:1px solid rgba(66,95,77,.35)}
-.hero-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(330px,.75fr);gap:22px;align-items:stretch}
+.hero{padding:20px 0 70px; border-bottom:1px solid rgba(66,95,77,.35)}
+.hero-grid{display:grid; grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr); gap:18px; align-items:stretch}
 .hero-visual{
-  min-height:650px;position:relative;overflow:hidden;border:1px solid var(--line);
-  background:#0a130f;box-shadow:var(--shadow)
+  position:relative; min-height:720px; overflow:hidden; border:1px solid var(--line); box-shadow:var(--shadow);
+  background:#09120e;
 }
-.hero-visual img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
-.hero-visual::after{
-  content:"";position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(4,9,6,.08) 20%,rgba(4,10,7,.45) 58%,rgba(4,9,6,.94) 100%),
-             linear-gradient(90deg,rgba(5,10,7,.18),transparent 55%);
+.hero-visual img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+.hero-visual::before{
+  content:""; position:absolute; inset:0; z-index:1;
+  background:
+    linear-gradient(180deg,rgba(5,9,7,.10) 12%, rgba(5,9,7,.45) 54%, rgba(4,9,6,.96) 100%),
+    linear-gradient(90deg,rgba(6,10,8,.28) 0%, transparent 48%);
 }
-.hero-copy{position:absolute;z-index:2;left:clamp(20px,4vw,52px);right:clamp(20px,4vw,52px);bottom:clamp(24px,5vw,54px)}
-.kicker{font:700 11px/1.3 ui-monospace,Consolas,monospace;letter-spacing:.18em;color:var(--accent);margin-bottom:12px}
-h1{font-size:clamp(54px,8vw,112px);line-height:.84;margin:0;letter-spacing:-.07em}
-h1 span{display:block;font-size:.39em;letter-spacing:.14em;color:var(--accent2);margin-top:20px}
-.tagline{margin:26px 0 0;font-size:clamp(20px,2.4vw,32px);line-height:1.45;color:#e4ebe6}
+.hero-copy{position:absolute; z-index:2; left:clamp(22px,4vw,52px); right:clamp(22px,4vw,52px); bottom:clamp(24px,5vw,52px)}
+.kicker{font:700 11px ui-monospace,monospace; letter-spacing:.18em; color:var(--accent); margin-bottom:14px}
+h1{margin:0; font-size:clamp(54px,8vw,118px); line-height:.84; letter-spacing:-.07em}
+h1 span{display:block; font-size:.38em; letter-spacing:.14em; color:var(--accent-2); margin-top:22px}
+.tagline{margin:26px 0 0; font-size:clamp(20px,2.4vw,32px); line-height:1.45; color:#e4ece6}
 .tagline strong{color:#fff}
+.glitch-bar{position:relative; margin-top:18px; height:22px; overflow:hidden; border-top:1px solid #233b30; border-bottom:1px solid #233b30; background:#07100c}
+.glitch-bar::before{content:"▓▒░ SIGNAL DEGRADED ░▒▓   ███ AGRI-NET / VIR-06 ███   ▓▒░ SIGNAL DEGRADED ░▒▓"; white-space:nowrap; position:absolute; left:0; top:3px; color:#557062; font:10px ui-monospace,monospace; animation:marquee 18s linear infinite}
+@keyframes marquee{to{transform:translateX(-42%)}}
 
-.system{
-  min-width:0;background:linear-gradient(180deg,rgba(12,24,18,.98),rgba(5,12,9,.99));
-  border:1px solid var(--line2);box-shadow:var(--shadow);position:relative;overflow:hidden
+.hero-side{display:grid; gap:18px}
+.panel{
+  border:1px solid var(--line-soft);
+  background:linear-gradient(180deg,rgba(12,24,18,.98),rgba(5,12,9,.99));
+  box-shadow:var(--shadow); position:relative; overflow:hidden;
 }
-.system::before{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(90deg,transparent,rgba(144,255,184,.028),transparent);
-  transform:translateX(-100%);animation:sweep 7s linear infinite
+.panel::before{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(144,255,184,.025),transparent);
+  transform:translateX(-100%); animation:sweep 7.5s linear infinite;
 }
 @keyframes sweep{to{transform:translateX(100%)}}
-.sys-head{
-  padding:13px 15px;border-bottom:1px solid var(--line);
-  display:flex;justify-content:space-between;align-items:center;gap:12px;
-  background:#0b1711;font:700 11px/1.4 ui-monospace,Consolas,monospace;color:var(--accent)
+.panel-head{
+  padding:13px 15px; border-bottom:1px solid var(--line);
+  display:flex; justify-content:space-between; align-items:center; gap:12px;
+  background:#0b1711; font:700 11px ui-monospace,monospace; color:var(--accent);
 }
-.sys-head span:last-child{color:#718879;white-space:nowrap}
-.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent);margin-right:7px}
-.sys-body{padding:17px}
-.sys-title{font:700 14px ui-monospace,Consolas,monospace;color:#dff1d8;margin-bottom:13px}
-.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.stat{min-width:0;padding:10px;border:1px solid #263f34;background:#09140f;color:#b9cabf;font:11.5px/1.55 ui-monospace,Consolas,monospace}
-.stat b{color:#eff8f1;font-weight:600}
-.stat.wide{grid-column:1/-1}
-.wave{color:var(--warn)!important}
-.log{margin-top:11px;padding:12px;border-left:2px solid #56765f;background:#07100c;color:#91a899;font:11.5px/1.65 ui-monospace,Consolas,monospace}
-.noise{display:inline-block;color:#d5e7d7;text-shadow:1px 0 #7d9b80,-1px 0 #243f2c;animation:flicker 3.8s infinite}
-@keyframes flicker{0%,93%,100%{opacity:1;transform:none}94%{opacity:.35;transform:translateX(1px)}95%{opacity:1;transform:translateX(-1px)}96%{opacity:.6}}
-.sys-image{margin-top:12px;aspect-ratio:16/10;overflow:hidden;border:1px solid #21382d;position:relative}
-.sys-image img{width:100%;height:100%;object-fit:cover}
-.sys-image::after{content:"LIVE / CENTER";position:absolute;top:9px;left:9px;padding:5px 7px;background:rgba(3,8,5,.72);border:1px solid #526b59;color:#b7c8bc;font:9px ui-monospace,monospace;letter-spacing:.13em}
+.panel-body{padding:16px}
+.dot{display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--accent); box-shadow:0 0 10px var(--accent); margin-right:7px}
+.sys-title{font:700 14px ui-monospace,monospace; color:#dff1d8; margin-bottom:12px}
+.stat-grid{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+.stat{padding:10px; border:1px solid #243d31; background:#09140f; color:#b8cac0; font:11.5px/1.55 ui-monospace,monospace}
+.stat b{color:#eff7f1}
+.stat.wide{grid-column:1 / -1}
+.log{
+  margin-top:11px; padding:12px; border-left:2px solid #56765f; background:#07100c;
+  color:#91a899; font:11.5px/1.65 ui-monospace,monospace;
+}
+.live-feed{margin-top:12px; aspect-ratio:16 / 10; overflow:hidden; position:relative; border:1px solid #22392d}
+.live-feed img{width:100%; height:100%; object-fit:cover}
+.live-feed::after{content:"LIVE / CENTER"; position:absolute; top:10px; left:10px; padding:5px 7px; background:rgba(3,8,5,.72); border:1px solid #526b59; color:#b7c8bc; font:9px ui-monospace,monospace; letter-spacing:.13em}
+.quick-panel .panel-body{display:grid; gap:10px}
+.quick-row{display:grid; grid-template-columns:1fr auto; gap:10px; padding:10px 0; border-bottom:1px dashed rgba(79,111,91,.35)}
+.quick-row:last-child{border-bottom:none; padding-bottom:0}
+.quick-row strong{font-size:13px}
+.quick-row span{font:11px ui-monospace,monospace; color:#8ea195}
 
-@media(max-width:900px){
+@media(max-width:980px){
   .hero-grid{grid-template-columns:1fr}
-  .hero-visual{min-height:min(72vh,680px)}
+  .hero-visual{min-height:78svh}
 }
 @media(max-width:600px){
-  .hero{padding-top:14px;padding-bottom:42px}
+  .hero{padding-top:14px; padding-bottom:42px}
   .hero-visual{min-height:72svh}
-  .hero-copy{left:20px;right:20px;bottom:24px}
-  .sys-head{font-size:10px}
+  .hero-copy{left:20px; right:20px; bottom:24px}
   .stat-grid{grid-template-columns:1fr}
   .stat.wide{grid-column:auto}
 }
 
-section{padding:84px 0;border-bottom:1px solid rgba(66,95,77,.32)}
-.sec-title{display:flex;align-items:end;justify-content:space-between;gap:18px;margin-bottom:28px}
-.sec-title h2{margin:0;font-size:clamp(30px,4vw,52px);letter-spacing:-.045em}
-.sec-title small{font:11px ui-monospace,monospace;color:var(--muted);white-space:nowrap}
-@media(max-width:600px){section{padding:58px 0}.sec-title{align-items:start;flex-direction:column;gap:7px;margin-bottom:22px}}
+section{padding:86px 0; border-bottom:1px solid rgba(66,95,77,.32)}
+.sec-title{display:flex; justify-content:space-between; align-items:end; gap:18px; margin-bottom:26px}
+.sec-title h2{margin:0; font-size:clamp(30px,4vw,52px); letter-spacing:-.045em}
+.sec-title small{font:11px ui-monospace,monospace; color:var(--text-soft); white-space:nowrap}
+@media(max-width:680px){section{padding:58px 0} .sec-title{flex-direction:column; align-items:flex-start; gap:8px}}
 
-.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-@media(max-width:800px){.grid2,.grid3{grid-template-columns:1fr}}
-.card{border:1px solid var(--line);background:linear-gradient(180deg,#0d1913,#09120e);padding:21px;min-width:0}
-.card h3{margin:0 0 10px;font-size:20px}
-.card p{margin:0;color:#aebdb4;line-height:1.78;font-size:14px}
-.label{font:700 10px ui-monospace,monospace;color:var(--accent);letter-spacing:.13em;margin-bottom:9px}
-.warning{border-color:#725847;background:linear-gradient(180deg,#17140f,#0c0f0c)}
-.warning .label{color:#e1ba78}
+.grid2{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px}
+.grid3{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px}
+@media(max-width:840px){.grid2,.grid3{grid-template-columns:1fr}}
 
-.media-card{overflow:hidden;border:1px solid var(--line);background:#09120e;min-width:0}
-.media-card .thumb{aspect-ratio:16/10;overflow:hidden;background:#040806;position:relative}
-.media-card .thumb img{width:100%;height:100%;object-fit:cover;transition:transform .45s ease}
-.media-card:hover .thumb img{transform:scale(1.025)}
-.media-card .meta{padding:16px 17px 18px}
-.media-card .meta h3{margin:4px 0 8px;font-size:19px}
-.media-card .meta p{margin:0;font-size:13px;color:#9eaea4;line-height:1.7}
-.media-card .stamp{position:absolute;left:10px;bottom:10px;background:rgba(4,9,6,.78);border:1px solid rgba(159,193,164,.35);padding:5px 7px;font:9px ui-monospace,monospace;color:#b7c9bc}
+.card{
+  border:1px solid var(--line); background:linear-gradient(180deg,#0d1913,#09120e); padding:22px; min-width:0;
+}
+.card h3{margin:0 0 10px; font-size:20px}
+.card p{margin:0; color:#acbbb2; line-height:1.8; font-size:14px}
+.label{font:700 10px ui-monospace,monospace; letter-spacing:.13em; color:var(--accent); margin-bottom:9px}
 
-.facility-feature{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(300px,.9fr);gap:18px;margin-bottom:18px}
-.facility-feature .image{min-height:390px;border:1px solid var(--line);overflow:hidden}
-.facility-feature .image img{width:100%;height:100%;object-fit:cover}
-.facility-feature .copy{border:1px solid var(--line);background:#0a1410;padding:24px;display:flex;flex-direction:column;justify-content:center}
-.facility-feature .copy h3{margin:5px 0 12px;font-size:26px}
-.facility-feature .copy p{margin:0;color:#a9b9af;line-height:1.8}
-@media(max-width:850px){.facility-feature{grid-template-columns:1fr}.facility-feature .image{min-height:300px}}
+.log-grid{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px}
+@media(max-width:1000px){.log-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.log-grid{grid-template-columns:1fr}}
+.log-card{
+  border:1px solid var(--line); background:#08120d; overflow:hidden; min-width:0; cursor:pointer;
+  transition:transform .22s ease, border-color .22s ease;
+}
+.log-card:hover{transform:translateY(-3px); border-color:#5d8a68}
+.log-card .thumb{aspect-ratio:4 / 3; overflow:hidden; position:relative}
+.log-card .thumb img{width:100%; height:100%; object-fit:cover; transition:transform .35s ease}
+.log-card:hover .thumb img{transform:scale(1.03)}
+.log-card .thumb::after{content:"OPEN LOG"; position:absolute; right:10px; bottom:10px; padding:4px 6px; background:rgba(4,9,6,.78); border:1px solid rgba(159,193,164,.35); font:9px ui-monospace,monospace; color:#b7c9bc}
+.log-card .meta{padding:15px 16px 18px}
+.log-code{font:700 10px ui-monospace,monospace; color:var(--warn); letter-spacing:.14em}
+.log-card h3{margin:6px 0 8px; font-size:18px}
+.log-card p{margin:0; font-size:13px; color:#9dadA3; line-height:1.68}
 
-.facility-list{display:grid;gap:9px}
-.facility{border:1px solid var(--line);background:#09130e;padding:15px 17px;display:grid;grid-template-columns:210px 1fr;gap:18px}
-.facility strong{color:#dbe8d8}
-.facility span{color:#99aba0;line-height:1.65;font-size:13px}
-@media(max-width:650px){.facility{grid-template-columns:1fr;gap:6px;padding:14px}}
+.wide-image{
+  margin:18px 0 0; border:1px solid var(--line); overflow:hidden; position:relative; min-height:340px;
+  box-shadow:var(--shadow)
+}
+.wide-image img{width:100%; height:100%; object-fit:cover; object-position:center}
+.wide-image::after{
+  content:"SOIL COLLAPSE / ACTIVE"; position:absolute; top:14px; left:14px; padding:6px 9px;
+  background:rgba(6,11,8,.74); border:1px solid rgba(164,198,167,.38); color:#c8d9cc; font:10px ui-monospace,monospace
+}
 
-.npc-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
-.npc{min-width:0;border:1px solid var(--line);background:#09130e;overflow:hidden}
-.npc-photo{aspect-ratio:4/5;overflow:hidden;background:#050a08}
-.npc-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 18%}
+.db-layout{display:grid; grid-template-columns:minmax(280px,.42fr) minmax(0,.58fr); gap:18px}
+@media(max-width:900px){.db-layout{grid-template-columns:1fr}}
+.db-tabs{display:grid; gap:10px}
+.db-tab{
+  border:1px solid var(--line); background:#09130e; padding:14px 15px; text-align:left; cursor:pointer;
+  border-radius:14px; transition:.2s ease;
+}
+.db-tab.active{border-color:#5d8a68; background:linear-gradient(180deg,#12231a,#0b1711)}
+.db-tab b{display:block; color:#e5eee7; margin-bottom:5px}
+.db-tab span{display:block; font-size:12px; color:#94a59b; line-height:1.55}
+.db-view{
+  border:1px solid var(--line); background:linear-gradient(180deg,#0c1812,#09110d); min-height:520px; overflow:hidden
+}
+.db-image{aspect-ratio:16/8; background:#060c08; overflow:hidden}
+.db-image img{width:100%; height:100%; object-fit:cover}
+.db-copy{padding:20px}
+.db-copy h3{margin:0 0 6px; font-size:28px}
+.db-copy .sub{font:11px ui-monospace,monospace; color:var(--accent); letter-spacing:.15em; margin-bottom:14px}
+.db-copy p{margin:0 0 14px; color:#a6b7ad; line-height:1.8}
+.levels{display:grid; gap:10px}
+.level{padding:12px 14px; border:1px solid #23392d; background:#09140f}
+.level strong{display:block; color:#dde8df; margin-bottom:5px}
+.level span{font-size:13px; color:#98ab9f; line-height:1.65}
+
+.npc-carousel{display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:12px}
+@media(max-width:1080px){.npc-carousel{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:760px){.npc-carousel{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:500px){.npc-carousel{display:flex; overflow-x:auto; gap:12px; padding-bottom:6px; scroll-snap-type:x mandatory}}
+.npc-card{
+  min-width:0; border:1px solid var(--line); background:#09130e; overflow:hidden; cursor:pointer;
+  transition:transform .22s ease, border-color .22s ease;
+}
+@media(max-width:500px){.npc-card{min-width:78%; scroll-snap-align:start}}
+.npc-card:hover{transform:translateY(-3px); border-color:#5d8a68}
+.npc-photo{aspect-ratio:4/5; overflow:hidden; background:#050a08}
+.npc-photo img{width:100%; height:100%; object-fit:cover; object-position:50% 18%}
 .npc-copy{padding:15px 15px 18px}
-.npc .num{font:10px ui-monospace,monospace;color:#6e8c79}
-.npc h3{margin:7px 0 2px;font-size:19px}
-.npc .eng{font:10px ui-monospace,monospace;color:#728779;margin-bottom:10px}
-.npc p{margin:0;color:#9dafA4;font-size:12.5px;line-height:1.7}
-@media(max-width:1080px){.npc-grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:760px){.npc-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:480px){.npc-grid{grid-template-columns:1fr}.npc{display:grid;grid-template-columns:42% 58%}.npc-photo{aspect-ratio:auto;min-height:230px}.npc-copy{padding:16px 14px}}
+.npc-num{font:10px ui-monospace,monospace; color:#6e8c79}
+.npc-card h3{margin:7px 0 2px; font-size:19px}
+.npc-eng{font:10px ui-monospace,monospace; color:#728779; margin-bottom:9px}
+.npc-card p{margin:0; color:#9dafA4; font-size:12.8px; line-height:1.68}
 
-.commands{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
-.command{border:1px solid var(--line);background:#08120d;padding:16px;min-width:0}
-.command b{display:block;color:var(--accent2);font:700 14px ui-monospace,monospace;margin-bottom:6px}
-.command span{font-size:13px;color:#96a89d;line-height:1.55}
-@media(max-width:750px){.commands{grid-template-columns:1fr 1fr}}
-@media(max-width:480px){.commands{grid-template-columns:1fr}}
+.commands{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px}
+.command{border:1px solid var(--line); background:#08120d; padding:16px}
+.command b{display:block; color:var(--accent-2); font:700 14px ui-monospace,monospace; margin-bottom:6px}
+.command span{font-size:13px; color:#96a89d; line-height:1.55}
+@media(max-width:760px){.commands{grid-template-columns:1fr 1fr}}
+@media(max-width:500px){.commands{grid-template-columns:1fr}}
 
-.play{border:1px solid #385d49;background:linear-gradient(180deg,rgba(22,42,31,.9),rgba(8,16,12,.96));padding:24px}
-.play ul{margin:0;padding-left:20px;display:grid;gap:9px;color:#c9d4cd;line-height:1.65}
-.footer{padding:40px 0 58px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font:11px ui-monospace,monospace;color:#63746a}
+.play{border:1px solid #385d49; background:linear-gradient(180deg,rgba(22,42,31,.9),rgba(8,16,12,.96)); padding:24px}
+.play ul{margin:0; padding-left:20px; display:grid; gap:10px; color:#c9d4cd; line-height:1.65}
 
-.glitch-bar{position:relative;margin-top:18px;height:23px;overflow:hidden;border-block:1px solid #233b30;background:#07100c}
-.glitch-bar::before{content:"▓▒░ SIGNAL DEGRADED ░▒▓   ███ AGRI-NET / VIR-06 ███   ▓▒░ SIGNAL DEGRADED ░▒▓";white-space:nowrap;position:absolute;left:0;top:3px;color:#557062;font:10px ui-monospace,monospace;animation:marquee 18s linear infinite}
-@keyframes marquee{to{transform:translateX(-42%)}}
+.ending{
+  min-height:68vh; display:flex; align-items:center;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(168,213,143,.05), transparent 18rem),
+    linear-gradient(180deg,#050906,#020503 100%);
+}
+.terminal-end{
+  width:min(860px,100%); border:1px solid var(--line-soft); background:#040805; box-shadow:var(--shadow);
+  padding:22px;
+}
+.end-log{
+  font:14px/1.9 ui-monospace,Consolas,monospace;
+  color:#c7d6cb;
+  white-space:pre-wrap;
+  min-height:240px;
+}
+.end-log .danger{color:var(--danger)}
+.end-log .accent{color:var(--accent-2)}
 
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.footer{padding:28px 0 54px; display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; font:11px ui-monospace,monospace; color:#63746a}
+
+.modal{
+  position:fixed; inset:0; background:rgba(0,0,0,.7); z-index:1600;
+  display:flex; align-items:center; justify-content:center; padding:18px;
+  opacity:0; visibility:hidden; transition:.25s ease;
+}
+.modal.open{opacity:1; visibility:visible}
+.modal-box{
+  width:min(980px,100%); max-height:min(92vh,900px); overflow:auto;
+  border:1px solid var(--line-soft); background:linear-gradient(180deg,#0a1510,#070e0a); box-shadow:var(--shadow)
+}
+.modal-head{display:flex; justify-content:space-between; align-items:center; gap:16px; padding:13px 16px; border-bottom:1px solid var(--line); background:#0b1711; font:700 11px ui-monospace,monospace; color:var(--accent)}
+.modal-body{padding:18px}
+.modal-layout{display:grid; grid-template-columns:minmax(0,1fr) minmax(300px,.9fr); gap:18px}
+.modal-layout img{width:100%; height:100%; object-fit:cover; border:1px solid #233a2f}
+.modal-copy h3{margin:0 0 6px; font-size:28px}
+.modal-copy .sub{font:11px ui-monospace,monospace; color:var(--warn); letter-spacing:.15em; margin-bottom:14px}
+.modal-copy p{margin:0 0 14px; color:#a6b7ad; line-height:1.82}
+.modal-list{display:grid; gap:10px}
+.modal-item{padding:12px 14px; border:1px solid #243a2f; background:#09140f}
+.modal-item strong{display:block; margin-bottom:5px; color:#dfeae1}
+.modal-item span{font-size:13px; color:#98ab9f; line-height:1.65}
+@media(max-width:820px){.modal-layout{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
 </style>
 </head>
 <body>
 
+<div class="boot" id="boot">
+  <div class="boot-box">
+    <div class="boot-head">
+      <span>VIR-06 / AGRI-NET CONNECTION</span>
+      <span>STATUS : INITIALIZING</span>
+    </div>
+    <div class="boot-body" id="bootText"></div>
+    <div class="boot-actions">
+      <button class="btn" id="skipBoot">SKIP</button>
+      <button class="btn primary" id="enterSite" style="display:none;">ENTER TERMINAL</button>
+    </div>
+  </div>
+</div>
+
 <div class="topbar">
   <div class="wrap">
-    <div class="brand">♍ VIR-06 / AGRI-NET</div>
+    <div class="brand">♍ VIR-06 / TERMINAL ARCHIVE</div>
     <nav class="nav">
-      <a href="#overview">구역 개요</a><a href="#disaster">재난 기록</a><a href="#facility">시설</a><a href="#npc">안내자</a><a href="#protocol">프로토콜</a>
+      <a href="#overview">구역 개요</a>
+      <a href="#logs">재난 로그</a>
+      <a href="#facilitydb">시설 DB</a>
+      <a href="#npcdb">안내자 DB</a>
+      <a href="#protocol">프로토콜</a>
+      <a href="#ending">종료 로그</a>
     </nav>
   </div>
 </div>
@@ -191,7 +366,7 @@ section{padding:84px 0;border-bottom:1px solid rgba(66,95,77,.32)}
 <header class="hero">
   <div class="wrap hero-grid">
     <div class="hero-visual">
-      <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EB%A9%94%EC%9D%B8%20%EC%97%90%EC%85%8B.webp?raw=true" alt="처녀자리 농업 식민행성 메인 전경" fetchpriority="high">
+      <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EB%A9%94%EC%9D%B8%20%EC%97%90%EC%85%8B.webp?raw=true" alt="처녀자리 메인 이미지" fetchpriority="high">
       <div class="hero-copy">
         <div class="kicker">ZODIAC PROJECT / VIR-06 / AGRICULTURAL COLONY</div>
         <h1>처녀자리<span>VIRGO</span></h1>
@@ -200,119 +375,229 @@ section{padding:84px 0;border-bottom:1px solid rgba(66,95,77,.32)}
       </div>
     </div>
 
-    <aside class="system" aria-label="처녀자리 시스템 상태창">
-      <div class="sys-head"><span><span class="dot"></span>VIR-06 SYSTEM ONLINE</span><span>ACCESS : FIELD</span></div>
-      <div class="sys-body">
-        <div class="sys-title">[처녀자리 제06경작구역]</div>
-        <div class="stat-grid">
-          <div class="stat">🌡 기온 <b>23.8℃</b></div><div class="stat">💧 습도 <b>71%</b></div>
-          <div class="stat">🌱 토양안정도 <b>64%</b></div><div class="stat">💦 수질안정도 <b>82%</b></div>
-          <div class="stat">🌾 작물생존율 <b>97%</b></div><div class="stat">🐝 생태활동도 <b>43%</b></div>
-          <div class="stat wide">⚠ 이상파형 <b class="wave">MEDIUM</b></div>
-          <div class="stat wide">🎒 💧물 420L / 🥩식량 186KG / 🌱씨앗 1000KG</div>
-          <div class="stat wide">👥 생존자 18명 / ⏳ 식량잔여 12일</div>
+    <div class="hero-side">
+      <aside class="panel">
+        <div class="panel-head"><span><span class="dot"></span>LIVE STATUS WINDOW</span><span>ACCESS : FIELD</span></div>
+        <div class="panel-body">
+          <div class="sys-title">[처녀자리 제06경작구역]</div>
+          <div class="stat-grid">
+            <div class="stat">🌡 기온 <b>23.8℃</b></div>
+            <div class="stat">💧 습도 <b>71%</b></div>
+            <div class="stat">🌱 토양안정도 <b>64%</b></div>
+            <div class="stat">💦 수질안정도 <b>82%</b></div>
+            <div class="stat">🌾 작물생존율 <b>97%</b></div>
+            <div class="stat">🐝 생태활동도 <b>43%</b></div>
+            <div class="stat wide">⚠ 이상파형 <b style="color:var(--warn)">MEDIUM</b></div>
+            <div class="stat wide">🎒 💧물 420L / 🥩식량 186KG / 🌱씨앗 1000KG</div>
+            <div class="stat wide">👥 생존자 18명 / ⏳ 식량잔여 12일</div>
+          </div>
+          <div class="log">
+&gt; 생장률 상승 감지
+&gt; 원인 : <span class="noise-inline">UNKNOWN</span>
+&gt; 현재까지 즉각적 위험은 감지되지 않았습니다.
+&gt; <span class="noise-inline">▒▒▒ 잘 자라고 있네 ▒▒▒</span>
+          </div>
+          <div class="live-feed">
+            <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%A4%91%EC%95%99%EC%84%BC%ED%84%B0%20%EC%9E%AC%EB%82%9C%20(1).png?raw=true" alt="중앙센터 재난 감시 화면">
+          </div>
         </div>
-        <div class="log">
-          &gt; 생장률 상승 감지<br>
-          &gt; 원인 : <span class="noise">UNKNOWN</span><br>
-          &gt; 현재까지 즉각적 위험은 감지되지 않았습니다.<br>
-          &gt; <span class="noise">▒▒▒ 잘 자라고 있네 ▒▒▒</span>
+      </aside>
+
+      <aside class="panel quick-panel">
+        <div class="panel-head"><span><span class="dot"></span>ACTIVE SUMMARY</span><span>MONITOR</span></div>
+        <div class="panel-body">
+          <div class="quick-row"><strong>행성 상태</strong><span>생장폭주 경계 단계</span></div>
+          <div class="quick-row"><strong>핵심 갈등</strong><span>풍요를 이용할수록 재앙이 강해질 가능성</span></div>
+          <div class="quick-row"><strong>핵심 규칙</strong><span>정상으로 보이는 풍작도 신뢰하지 말 것</span></div>
+          <div class="quick-row"><strong>우선 확인</strong><span>토양 / 수계 / 종자 / 생태 지표</span></div>
         </div>
-        <div class="sys-image">
-          <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%A4%91%EC%95%99%EC%84%BC%ED%84%B0%20%EC%9E%AC%EB%82%9C%20(1).png?raw=true" alt="중앙센터 재난 감시 화면">
-        </div>
-      </div>
-    </aside>
+      </aside>
+    </div>
   </div>
 </header>
 
 <section id="overview">
   <div class="wrap">
-    <div class="sec-title"><h2>구역 개요</h2><small>EC-13-006 / LEVEL 3</small></div>
+    <div class="sec-title">
+      <h2>구역 개요</h2>
+      <small>PUBLIC RECORD / EC-13-006</small>
+    </div>
     <div class="grid2">
-      <div class="card">
-        <div class="label">PLANET</div><h3>VIRGO / 처녀자리</h3>
+      <article class="card">
+        <div class="label">PLANET PROFILE</div>
+        <h3>VIRGO / 처녀자리</h3>
         <p>행성 전역의 대규모 경작지·온실·저수시설이 연결된 외곽 농업식민행성. 초기에는 척박한 토양이었으나 토양개량·미생물배양·대기조정 이후 주변 정착지의 핵심 식량공급지로 성장했다.</p>
-      </div>
-      <div class="card warning">
-        <div class="label">DISASTER CLASSIFICATION</div><h3>과잉생장재해 / 미분류 생태폭주</h3>
-        <p>비정상적 발아·성장·결실 이후 토양붕괴, 수질오염, 기형수확, 생물변이가 연쇄적으로 발생한다. 가장 위험한 징후는 죽음이 아니라 지나치게 완벽한 성장이다.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="disaster">
-  <div class="wrap">
-    <div class="sec-title"><h2>재난 기록</h2><small>FIELD MANUAL / PUBLIC DATA</small></div>
-    <div class="grid2">
-      <article class="media-card">
-        <div class="thumb"><img loading="lazy" src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EA%B2%BD%EC%9E%91%EC%A7%80%20%EC%A7%80%EB%B0%98%20%EB%B6%95%EA%B4%B4.png?raw=true" alt="경작지 지반 붕괴"><span class="stamp">SOIL COLLAPSE</span></div>
-        <div class="meta"><div class="label">ACTIVE DISASTER</div><h3>경작지 지반 붕괴</h3><p>생장 이후 토양 구조가 급격히 무너지며 균열이 경작지와 관개시설을 가로질러 확산된다.</p></div>
       </article>
-      <article class="media-card">
-        <div class="thumb"><img loading="lazy" src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EB%B0%9C%EC%95%84%ED%8F%AD%EC%A3%BC_%EC%A2%85%EC%9E%90%EB%B3%B4%EC%A1%B4%EA%B3%A0%20(2).png?raw=true" alt="종자보존고 발아 폭주"><span class="stamp">GERMINATION BREACH</span></div>
-        <div class="meta"><div class="label">CONTAINMENT FAILURE</div><h3>종자보존고 발아 폭주</h3><p>보존 상태의 종자가 격리 환경에서 발아하며 봉쇄구역과 저장 설비를 압박하는 사례가 보고된다.</p></div>
+      <article class="card">
+        <div class="label">DISASTER CLASS</div>
+        <h3>과잉생장재해 / 미분류 생태폭주</h3>
+        <p>비정상적 발아·성장·결실 이후 토양붕괴, 수질오염, 기형수확, 생물변이가 연쇄적으로 발생한다. 이곳에서 가장 위험한 징후는 죽음이 아니라 지나치게 완벽한 성장이다.</p>
       </article>
-      <article class="media-card">
-        <div class="thumb"><img loading="lazy" src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%A4%91%EC%95%99%EC%84%BC%ED%84%B0%20%EC%9E%AC%EB%82%9C%20(1).png?raw=true" alt="중앙센터 재난 상황 1"><span class="stamp">CENTER / CAM-01</span></div>
-        <div class="meta"><div class="label">CENTRAL FACILITY</div><h3>중앙센터 이상반응</h3><p>경작구역의 이상파형이 시설 운영부까지 확산될 경우 중앙 통제와 현장 대응이 동시에 요구된다.</p></div>
+      <article class="card">
+        <div class="label">FIRST SIGN</div>
+        <h3>무파종 발아</h3>
+        <p>수확을 마친 경작지에서 파종하지 않은 작물이 다시 발아했다. 이후 일부 구역은 성장·개화·결실의 주기가 비정상적으로 짧아졌다.</p>
       </article>
-      <article class="media-card">
-        <div class="thumb"><img loading="lazy" src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%A4%91%EC%95%99%EC%84%BC%ED%84%B0%20%EC%9E%AC%EB%82%9C%20(2).png?raw=true" alt="중앙센터 재난 상황 2"><span class="stamp">CENTER / CAM-02</span></div>
-        <div class="meta"><div class="label">EMERGENCY LOG</div><h3>격리·복구 동시 진행</h3><p>재난이 복수 시설에 걸쳐 진행되면 격리, 수계 차단, 종자 보존, 식량 확보가 서로 충돌할 수 있다.</p></div>
+      <article class="card">
+        <div class="label">FIELD RESPONSE</div>
+        <h3>격리 · 검사 · 차단</h3>
+        <p>생장폭주 구역을 즉시 격리하고 수계를 차단한다. 토양·종자·수확물은 별도 검사하며 외형이 정상인 작물도 승인 전 섭취를 금지한다.</p>
       </article>
     </div>
   </div>
 </section>
 
-<section id="facility">
+<section id="logs">
   <div class="wrap">
-    <div class="sec-title"><h2>주요 시설</h2><small>COLONY INFRASTRUCTURE</small></div>
-    <div class="facility-feature">
-      <div class="image"><img loading="lazy" src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EB%B0%9C%EC%95%84%ED%8F%AD%EC%A3%BC_%EC%A2%85%EC%9E%90%EB%B3%B4%EC%A1%B4%EA%B3%A0%20(2).png?raw=true" alt="종자보존고 내부 재난"></div>
-      <div class="copy">
-        <div class="label">RESTRICTED FACILITY</div>
-        <h3>종자보존고</h3>
-        <p>정상종자와 오염의심종자를 분류·격리·장기보존하는 시설. B3 장기동결 보존고부터 B1 오염의심 종자 격리·발아관찰실까지 단계별 보존구역을 운용한다.</p>
-      </div>
+    <div class="sec-title">
+      <h2>재난 로그</h2>
+      <small>CLICK TO EXPAND LOG</small>
     </div>
 
-    <div class="facility-list">
-      <div class="facility"><strong>[제3생태복원연구소]</strong><span>B1 샘플 격리·폐기 / 1F 통제·응급·제독 / 2F 토양·작물·미생물 분석 / 3F 숙소·자료실 / 옥상 기상·통신 관측.</span></div>
-      <div class="facility"><strong>[중앙온실군]</strong><span>A 곡물 / B 과채류 / C 과일·약초·사료 시험구역 / 생장폭주 격리구역 / 관리동 / 지하 관개·배수·차량정비 통로.</span></div>
-      <div class="facility"><strong>[수계관리구역]</strong><span>B2 취수·차단밸브·펌프 / B1 정수·수질검사·오염수탱크 / 1F 통제·정비 / 2F 저수조·관개망 관리.</span></div>
-      <div class="facility"><strong>[종자보존고]</strong><span>B3 장기동결 / B2 정상종자 / B1 오염의심종자 / 1F 검수·반출입·제독 / 2F 발아시험·유전자 기록 / 봉쇄실.</span></div>
-      <div class="facility"><strong>[외곽생존거점]</strong><span>B1 식량·물·종자·연료 / 1F 통제·배급·응급 / 2F 숙소 / 3F 상황·통신·관리 / 외부 차량·제독·경작지 게이트.</span></div>
-      <div class="facility"><strong>[중앙원형경작구역]</strong><span>외곽 환형 지대 / 제1환 곡물시험 / 제2환 생장실험·관측소 / 중앙환 / 장기봉쇄 지하 관측실.</span></div>
-      <div class="facility"><strong>[지하물류망]</strong><span>화물선 A·B, 정비통로, 재난 시 자동폐쇄되는 격리문, 중앙원형경작구역 방향의 폐선구간으로 구성.</span></div>
+    <div class="log-grid">
+      <article class="log-card" data-modal="log1">
+        <div class="thumb"><img loading="lazy" src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EA%B2%BD%EC%9E%91%EC%A7%80%20%EC%A7%80%EB%B0%98%20%EB%B6%95%EA%B4%B4.png?raw=true" alt="경작지 지반 붕괴"></div>
+        <div class="meta">
+          <div class="log-code">EC-06-014 / HIGH</div>
+          <h3>경작지 지반 붕괴</h3>
+          <p>생장 이후 토양 구조가 급격히 무너지며 균열이 경작지와 관개시설을 가로질러 확산된다.</p>
+        </div>
+      </article>
+
+      <article class="log-card" data-modal="log2">
+        <div class="thumb"><img loading="lazy" src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EB%B0%9C%EC%95%84%ED%8F%AD%EC%A3%BC_%EC%A2%85%EC%9E%90%EB%B3%B4%EC%A1%B4%EA%B3%A0%20(2).png?raw=true" alt="종자보존고 발아 폭주"></div>
+        <div class="meta">
+          <div class="log-code">EC-06-021 / HIGH</div>
+          <h3>종자보존고 발아 폭주</h3>
+          <p>보존 상태의 종자가 격리 환경에서 발아하며 봉쇄구역과 저장 설비를 압박하는 사례가 보고된다.</p>
+        </div>
+      </article>
+
+      <article class="log-card" data-modal="log3">
+        <div class="thumb"><img loading="lazy" src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%A4%91%EC%95%99%EC%84%BC%ED%84%B0%20%EC%9E%AC%EB%82%9C%20(1).png?raw=true" alt="중앙센터 재난 1"></div>
+        <div class="meta">
+          <div class="log-code">EC-06-030 / MEDIUM</div>
+          <h3>중앙센터 이상반응</h3>
+          <p>경작구역의 이상파형이 시설 운영부까지 확산될 경우 중앙 통제와 현장 대응이 동시에 요구된다.</p>
+        </div>
+      </article>
+
+      <article class="log-card" data-modal="log4">
+        <div class="thumb"><img loading="lazy" src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%A4%91%EC%95%99%EC%84%BC%ED%84%B0%20%EC%9E%AC%EB%82%9C%20(2).png?raw=true" alt="중앙센터 재난 2"></div>
+        <div class="meta">
+          <div class="log-code">EC-06-034 / VARIABLE</div>
+          <h3>격리·복구 동시 진행</h3>
+          <p>재난이 복수 시설에 걸쳐 진행되면 격리, 수계 차단, 종자 보존, 식량 확보가 서로 충돌할 수 있다.</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="wide-image" aria-hidden="true">
+      <img loading="lazy" src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EA%B2%BD%EC%9E%91%EC%A7%80%20%EC%A7%80%EB%B0%98%20%EB%B6%95%EA%B4%B4.png?raw=true" alt="경작지 붕괴 전경">
     </div>
   </div>
 </section>
 
-<section id="npc">
+<section id="facilitydb">
   <div class="wrap">
-    <div class="sec-title"><h2>안내자 기록</h2><small>FIELD PERSONNEL</small></div>
-    <div class="npc-grid">
-      <article class="npc">
+    <div class="sec-title">
+      <h2>시설 DB</h2>
+      <small>SELECT FACILITY NODE</small>
+    </div>
+
+    <div class="db-layout">
+      <div class="db-tabs" id="facilityTabs">
+        <button class="db-tab active" data-target="f1">
+          <b>제3생태복원연구소</b>
+          <span>토양·미생물·작물 분석 및 복구</span>
+        </button>
+        <button class="db-tab" data-target="f2">
+          <b>중앙온실군</b>
+          <span>행성 최대 식량생산시설</span>
+        </button>
+        <button class="db-tab" data-target="f3">
+          <b>수계관리구역</b>
+          <span>취수·정수·관개망 제어</span>
+        </button>
+        <button class="db-tab" data-target="f4">
+          <b>종자보존고</b>
+          <span>정상종자·오염의심종자 분리 보관</span>
+        </button>
+        <button class="db-tab" data-target="f5">
+          <b>외곽생존거점</b>
+          <span>생존자 생활·배급·응급·대피</span>
+        </button>
+        <button class="db-tab" data-target="f6">
+          <b>중앙원형경작구역</b>
+          <span>장기봉쇄된 심층 경작구역</span>
+        </button>
+        <button class="db-tab" data-target="f7">
+          <b>지하물류망</b>
+          <span>시설 간 화물철도·정비통로</span>
+        </button>
+      </div>
+
+      <div class="db-view" id="facilityView"></div>
+    </div>
+  </div>
+</section>
+
+<section id="npcdb">
+  <div class="wrap">
+    <div class="sec-title">
+      <h2>안내자 DB</h2>
+      <small>CLICK CARD TO OPEN PROFILE</small>
+    </div>
+
+    <div class="npc-carousel">
+      <article class="npc-card" data-modal="npc1">
         <div class="npc-photo"><img loading="lazy" src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%95%84%EB%8D%B8%EB%A6%B0%EB%AA%A8%EC%96%B4_.png?raw=true" alt="아델린 모어"></div>
-        <div class="npc-copy"><div class="num">01 / ECOLOGY</div><h3>아델린 모어</h3><div class="eng">ADELINE MOORE · 34</div><p>생태복원기사. 토양·작물·생장경계선 조사 담당. 지나치게 좋은 수치를 먼저 의심한다.</p></div>
+        <div class="npc-copy">
+          <div class="npc-num">01 / ECOLOGY</div>
+          <h3>아델린 모어</h3>
+          <div class="npc-eng">ADELINE MOORE · 34</div>
+          <p>생태복원기사. 토양·작물·생장경계선 조사 담당.</p>
+        </div>
       </article>
-      <article class="npc">
+
+      <article class="npc-card" data-modal="npc2">
         <div class="npc-photo"><img loading="lazy" src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%9A%94%EB%82%98%EC%8A%A4%EB%B2%A8_.png?raw=true" alt="요나스 벨"></div>
-        <div class="npc-copy"><div class="num">02 / WATER</div><h3>요나스 벨</h3><div class="eng">JONAS BELL · 41</div><p>수자원·설비관리자. 수계오염을 최우선으로 경계하며 현장 대응이 빠르고 정확하다.</p></div>
+        <div class="npc-copy">
+          <div class="npc-num">02 / WATER</div>
+          <h3>요나스 벨</h3>
+          <div class="npc-eng">JONAS BELL · 41</div>
+          <p>수자원·설비관리자. 수계오염을 최우선으로 경계.</p>
+        </div>
       </article>
-      <article class="npc">
+
+      <article class="npc-card" data-modal="npc3">
         <div class="npc-photo"><img loading="lazy" src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EB%A3%A8%EC%B9%B4%ED%8E%9C_.png?raw=true" alt="루카 펜"></div>
-        <div class="npc-copy"><div class="num">03 / SEED</div><h3>루카 펜</h3><div class="eng">LUCA PENN · 27</div><p>종자보존고 관리자. 예민하고 불안이 많으며 종자 보존 절차에 강한 집착을 보인다.</p></div>
+        <div class="npc-copy">
+          <div class="npc-num">03 / SEED</div>
+          <h3>루카 펜</h3>
+          <div class="npc-eng">LUCA PENN · 27</div>
+          <p>종자보존고 관리자. 예민하고 불안이 많다.</p>
+        </div>
       </article>
-      <article class="npc">
+
+      <article class="npc-card" data-modal="npc4">
         <div class="npc-photo"><img loading="lazy" src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EB%AF%B8%EB%9D%BC%EC%84%B8%EC%9D%B8_.png?raw=true" alt="미라 세인"></div>
-        <div class="npc-copy"><div class="num">04 / BIOLOGY</div><h3>미라 세인</h3><div class="eng">MIRA SANE · 30</div><p>생물감시원. 벌·새·곤충·미생물의 행동변화로 이상징후를 먼저 포착한다.</p></div>
+        <div class="npc-copy">
+          <div class="npc-num">04 / BIOLOGY</div>
+          <h3>미라 세인</h3>
+          <div class="npc-eng">MIRA SANE · 30</div>
+          <p>생물감시원. 생태 변화로 이상징후를 먼저 본다.</p>
+        </div>
       </article>
-      <article class="npc">
+
+      <article class="npc-card" data-modal="npc5">
         <div class="npc-photo"><img loading="lazy" src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%97%90%EB%9F%B0%EC%BD%94%EB%A5%B4_.png?raw=true" alt="에런 코르"></div>
-        <div class="npc-copy"><div class="num">05 / SURVIVAL</div><h3>에런 코르</h3><div class="eng">AARON COLE · 52</div><p>전직 농부·외곽거점 관리자. 살릴 수 없는 밭은 버리되 사람과 정상종자는 끝까지 챙긴다.</p></div>
+        <div class="npc-copy">
+          <div class="npc-num">05 / SURVIVAL</div>
+          <h3>에런 코르</h3>
+          <div class="npc-eng">AARON COLE · 52</div>
+          <p>전직 농부·외곽거점 관리자. 사람과 정상종자를 챙긴다.</p>
+        </div>
       </article>
     </div>
   </div>
@@ -320,28 +605,34 @@ section{padding:84px 0;border-bottom:1px solid rgba(66,95,77,.32)}
 
 <section id="protocol">
   <div class="wrap">
-    <div class="sec-title"><h2>통신 프로토콜</h2><small>AVAILABLE COMMANDS</small></div>
+    <div class="sec-title">
+      <h2>통신 프로토콜</h2>
+      <small>AVAILABLE COMMANDS</small>
+    </div>
     <div class="commands">
-      <div class="command"><b>!공지</b><span>다른 행성 및 주요 통신 기록 확인</span></div>
-      <div class="command"><b>!위험</b><span>현재 구역 재난상황과 대피 필요 여부 확인</span></div>
-      <div class="command"><b>!상태창</b><span>토양·수질·작물·생태·자원·생존자 현황 확인</span></div>
-      <div class="command"><b>!조사</b><span>현재 위치의 환경·시설·작물·이상징후 조사</span></div>
-      <div class="command"><b>!기록</b><span>확인된 사건·관측기록·미확인 현상 정리</span></div>
-      <div class="command"><b>!스킵</b><span>현재 흐름에 맞춰 시간을 자동 진행하고 경과 요약</span></div>
+      <article class="command"><b>!공지</b><span>다른 행성 및 주요 통신 기록 확인</span></article>
+      <article class="command"><b>!위험</b><span>현재 구역 재난상황과 대피 필요 여부 확인</span></article>
+      <article class="command"><b>!상태창</b><span>토양·수질·작물·생태·자원·생존자 현황 확인</span></article>
+      <article class="command"><b>!조사</b><span>현재 위치의 환경·시설·작물·이상징후 조사</span></article>
+      <article class="command"><b>!기록</b><span>확인된 사건·관측기록·미확인 현상 정리</span></article>
+      <article class="command"><b>!스킵</b><span>현재 흐름에 맞춰 시간을 자동 진행하고 경과 요약</span></article>
     </div>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <div class="sec-title"><h2>이렇게 플레이해보세요</h2><small>FIELD SUGGESTIONS</small></div>
+    <div class="sec-title">
+      <h2>이렇게 플레이해보세요</h2>
+      <small>FIELD SUGGESTIONS</small>
+    </div>
     <div class="play">
       <ul>
         <li>풍작이 정말 안전한지 확인해보세요.</li>
         <li>살릴 밭과 버릴 밭을 선택해보세요.</li>
         <li>부족한 식량과 오염 위험 사이에서 판단해보세요.</li>
         <li>NPC들의 서로 다른 의견을 비교해보세요.</li>
-        <li>시스템의 ‘정상’을 의심해보세요.</li>
+        <li>시스템의 “정상”을 의심해보세요.</li>
         <li>NPC와 신뢰를 쌓아보세요.</li>
         <li>끝까지 경작할지, 멈출지 결정해보세요.</li>
       </ul>
@@ -349,9 +640,429 @@ section{padding:84px 0;border-bottom:1px solid rgba(66,95,77,.32)}
   </div>
 </section>
 
+<section class="ending" id="ending">
+  <div class="wrap">
+    <div class="terminal-end">
+      <div class="panel-head"><span><span class="dot"></span>SESSION END</span><span>EXIT LOG</span></div>
+      <div class="end-log">[관측을 종료하시겠습니까?]
+
+&gt; NO
+
+[현재 위치 : 측정 중...]
+[토양파형 재스캔 중...]
+[생장반응 : 0.01%]
+[관측을 계속합니다.]
+
+<span class="accent">▒▒▒ 현재까지 즉각적 위험은 감지되지 않았습니다 ▒▒▒</span>
+<span class="danger">▒▒▒ 왜 멈춰 ▒▒▒</span>
+<span class="danger">▒▒▒ 씨앗이 남아 있잖아 ▒▒▒</span></div>
+    </div>
+  </div>
+</section>
+
 <footer class="wrap footer">
   <span>ZODIAC PROJECT · ♍ VIR-06</span>
-  <span class="noise">CURRENT STATUS : OBSERVATION CONTINUES</span>
+  <span class="noise-inline">CURRENT STATUS : OBSERVATION CONTINUES</span>
 </footer>
+
+<!-- LOG MODALS -->
+<div class="modal" id="log1">
+  <div class="modal-box">
+    <div class="modal-head"><span>EC-06-014 / SOIL COLLAPSE</span><button class="btn modal-close">CLOSE</button></div>
+    <div class="modal-body">
+      <div class="modal-layout">
+        <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EA%B2%BD%EC%9E%91%EC%A7%80%20%EC%A7%80%EB%B0%98%20%EB%B6%95%EA%B4%B4.png?raw=true" alt="경작지 지반 붕괴 상세">
+        <div class="modal-copy">
+          <h3>경작지 지반 붕괴</h3>
+          <div class="sub">RISK LEVEL : HIGH</div>
+          <p>생장 이후 토양 구조가 급격히 무너지며 균열이 경작지와 관개시설을 가로질러 확산된다. 균열부 인접 작물은 정상 생장을 유지하는 경우도 있으나, 내부 토양 안정도는 현저히 감소한다.</p>
+          <div class="modal-list">
+            <div class="modal-item"><strong>최초 징후</strong><span>경작면 아래 미세 진동, 배수로 각도 변형, 뿌리층 이완</span></div>
+            <div class="modal-item"><strong>대응 지침</strong><span>현장 격리 후 토양 샘플 확보, 중장비 접근 제한, 관개 라인 차단</span></div>
+            <div class="modal-item"><strong>비고</strong><span>풍작 직후 발생 빈도 증가. 수확량과 안정도가 반드시 비례하지 않는다.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="log2">
+  <div class="modal-box">
+    <div class="modal-head"><span>EC-06-021 / GERMINATION BREACH</span><button class="btn modal-close">CLOSE</button></div>
+    <div class="modal-body">
+      <div class="modal-layout">
+        <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EB%B0%9C%EC%95%84%ED%8F%AD%EC%A3%BC_%EC%A2%85%EC%9E%90%EB%B3%B4%EC%A1%B4%EA%B3%A0%20(2).png?raw=true" alt="종자보존고 발아 폭주 상세">
+        <div class="modal-copy">
+          <h3>종자보존고 발아 폭주</h3>
+          <div class="sub">RISK LEVEL : HIGH</div>
+          <p>보존 상태의 종자가 격리 환경에서 자발적으로 발아하며 일부 샘플은 밀폐 용기 내부에서 성장 징후를 보인다. 발아 양상은 외부 광량·온도·습도 기준과 일치하지 않는다.</p>
+          <div class="modal-list">
+            <div class="modal-item"><strong>최초 징후</strong><span>밀폐 용기 내부 결로 방향 오류, 표면 뿌리 압력 증가</span></div>
+            <div class="modal-item"><strong>대응 지침</strong><span>격리 선반 봉쇄, 오염의심 종자 분리, 발아 관찰실 출입 제한</span></div>
+            <div class="modal-item"><strong>비고</strong><span>정상 종자와 오염의심 종자의 경계가 일부 사례에서 불명확하다.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="log3">
+  <div class="modal-box">
+    <div class="modal-head"><span>EC-06-030 / CENTRAL FACILITY ALERT</span><button class="btn modal-close">CLOSE</button></div>
+    <div class="modal-body">
+      <div class="modal-layout">
+        <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%A4%91%EC%95%99%EC%84%BC%ED%84%B0%20%EC%9E%AC%EB%82%9C%20(1).png?raw=true" alt="중앙센터 이상반응 상세">
+        <div class="modal-copy">
+          <h3>중앙센터 이상반응</h3>
+          <div class="sub">RISK LEVEL : MEDIUM</div>
+          <p>경작구역의 이상파형이 중앙 운영부와 통신 계층에 간헐적으로 반영된다. 시스템 수치상 정상 구간으로 판정되더라도 현장 감각과 불일치하는 보고가 반복된다.</p>
+          <div class="modal-list">
+            <div class="modal-item"><strong>주요 현상</strong><span>로그 손상, 응답 지연, 경고문 출력 위치 오류</span></div>
+            <div class="modal-item"><strong>대응 지침</strong><span>현장측 관찰과 시스템 수치를 교차검증하고 단일 지표에 의존하지 말 것</span></div>
+            <div class="modal-item"><strong>비고</strong><span>“정상” 판정 이후 후속 재난 발생 사례가 존재한다.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="log4">
+  <div class="modal-box">
+    <div class="modal-head"><span>EC-06-034 / MULTI-POINT CONFLICT</span><button class="btn modal-close">CLOSE</button></div>
+    <div class="modal-body">
+      <div class="modal-layout">
+        <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%A4%91%EC%95%99%EC%84%BC%ED%84%B0%20%EC%9E%AC%EB%82%9C%20(2).png?raw=true" alt="격리 복구 동시 진행 상세">
+        <div class="modal-copy">
+          <h3>격리·복구 동시 진행</h3>
+          <div class="sub">RISK LEVEL : VARIABLE</div>
+          <p>재난이 복수 시설에 걸쳐 진행되면 격리, 수계 차단, 종자 보존, 식량 확보가 서로 충돌한다. 하나의 올바른 선택보다 어떤 손실을 감수할 것인지의 문제에 가깝다.</p>
+          <div class="modal-list">
+            <div class="modal-item"><strong>갈등 지점</strong><span>식량 확보 vs 오염 차단 / 시설 유지 vs 인력 대피</span></div>
+            <div class="modal-item"><strong>대응 지침</strong><span>우선순위를 명확히 하고 구역별 손실을 분리 계산할 것</span></div>
+            <div class="modal-item"><strong>비고</strong><span>선택 이후의 후속 이상현상은 인과관계가 명확히 확정되지 않는다.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NPC MODALS -->
+<div class="modal" id="npc1">
+  <div class="modal-box">
+    <div class="modal-head"><span>FIELD PERSONNEL / ECOLOGY</span><button class="btn modal-close">CLOSE</button></div>
+    <div class="modal-body">
+      <div class="modal-layout">
+        <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%95%84%EB%8D%B8%EB%A6%B0%EB%AA%A8%EC%96%B4_.png?raw=true" alt="아델린 모어">
+        <div class="modal-copy">
+          <h3>아델린 모어</h3>
+          <div class="sub">ADELINE MOORE · 34 · ECOLOGY</div>
+          <p>생태복원기사. 토양·작물·생장경계선 조사 담당. 냉정하고 책임감이 강하며 지나치게 좋은 수치를 먼저 의심한다.</p>
+          <div class="modal-list">
+            <div class="modal-item"><strong>전문 분야</strong><span>토양 복구 / 생장경계선 조사 / 환경 샘플 분석</span></div>
+            <div class="modal-item"><strong>현장 성향</strong><span>감정보다 검증을 우선하며 미세한 수치 이상을 놓치지 않는다.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="npc2">
+  <div class="modal-box">
+    <div class="modal-head"><span>FIELD PERSONNEL / WATER</span><button class="btn modal-close">CLOSE</button></div>
+    <div class="modal-body">
+      <div class="modal-layout">
+        <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%9A%94%EB%82%98%EC%8A%A4%EB%B2%A8_.png?raw=true" alt="요나스 벨">
+        <div class="modal-copy">
+          <h3>요나스 벨</h3>
+          <div class="sub">JONAS BELL · 41 · WATER</div>
+          <p>수자원·설비관리자. 저수조·관개망·격리설비를 담당한다. 까칠하고 직설적이지만 실무능력이 뛰어나며 수계오염을 최우선으로 경계한다.</p>
+          <div class="modal-list">
+            <div class="modal-item"><strong>전문 분야</strong><span>정수 / 관개망 제어 / 밸브 차단 / 시설 유지보수</span></div>
+            <div class="modal-item"><strong>현장 성향</strong><span>말보다 행동이 빠르며 위기 시 가장 먼저 설비를 멈춘다.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="npc3">
+  <div class="modal-box">
+    <div class="modal-head"><span>FIELD PERSONNEL / SEED</span><button class="btn modal-close">CLOSE</button></div>
+    <div class="modal-body">
+      <div class="modal-layout">
+        <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EB%A3%A8%EC%B9%B4%ED%8E%9C_.png?raw=true" alt="루카 펜">
+        <div class="modal-copy">
+          <h3>루카 펜</h3>
+          <div class="sub">LUCA PENN · 27 · SEED</div>
+          <p>종자보존고 관리자. 종자분류·발아검사·장기보존 담당. 농담이 많지만 실제로는 예민하고 불안이 많으며 보존절차에 강하게 집착한다.</p>
+          <div class="modal-list">
+            <div class="modal-item"><strong>전문 분야</strong><span>종자 보존 / 발아 검사 / 격리 선반 관리</span></div>
+            <div class="modal-item"><strong>현장 성향</strong><span>작은 변화를 쉽게 넘기지 않으며 용기 내부 현상을 유심히 본다.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="npc4">
+  <div class="modal-box">
+    <div class="modal-head"><span>FIELD PERSONNEL / BIOLOGY</span><button class="btn modal-close">CLOSE</button></div>
+    <div class="modal-body">
+      <div class="modal-layout">
+        <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EB%AF%B8%EB%9D%BC%EC%84%B8%EC%9D%B8_.png?raw=true" alt="미라 세인">
+        <div class="modal-copy">
+          <h3>미라 세인</h3>
+          <div class="sub">MIRA SANE · 30 · BIOLOGY</div>
+          <p>생물감시원. 벌·새·곤충·미생물의 행동변화를 통해 이상징후를 조기 감지한다. 수치보다 생물의 침묵과 패턴 변화를 먼저 신뢰한다.</p>
+          <div class="modal-list">
+            <div class="modal-item"><strong>전문 분야</strong><span>생물 감시 / 군집 반응 분석 / 조기징후 탐지</span></div>
+            <div class="modal-item"><strong>현장 성향</strong><span>조용하지만 관찰력이 뛰어나며 비정상적인 정적을 놓치지 않는다.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="npc5">
+  <div class="modal-box">
+    <div class="modal-head"><span>FIELD PERSONNEL / SURVIVAL</span><button class="btn modal-close">CLOSE</button></div>
+    <div class="modal-body">
+      <div class="modal-layout">
+        <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%97%90%EB%9F%B0%EC%BD%94%EB%A5%B4_.png?raw=true" alt="에런 코르">
+        <div class="modal-copy">
+          <h3>에런 코르</h3>
+          <div class="sub">AARON COLE · 52 · SURVIVAL</div>
+          <p>전직 농부·외곽거점 관리자. 생존자·식량·현장경작·대피 지원 담당. 무뚝뚝하지만 인내심이 강하고 사람과 정상종자를 끝까지 챙긴다.</p>
+          <div class="modal-list">
+            <div class="modal-item"><strong>전문 분야</strong><span>배급 / 현장경작 / 대피 지원 / 거점 운영</span></div>
+            <div class="modal-item"><strong>현장 성향</strong><span>버려야 할 밭은 버리되 지켜야 할 사람은 끝까지 데리고 나온다.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const bootLines = [
+  "[ AGRI-NET / VIR-06 ]",
+  "",
+  "Connection request accepted.",
+  "Linking to field archive...",
+  "Loading public record...",
+  "Synchronizing system window...",
+  "",
+  "[ 풍작을 축하드립니다. ]",
+  "[ 대피하십시오. ]",
+  "",
+  "Warning: non-critical text corruption detected.",
+  "Source : UNKNOWN",
+  "> ▒▒▒ 잘 자라고 있네 ▒▒▒"
+];
+
+const boot = document.getElementById("boot");
+const bootText = document.getElementById("bootText");
+const enterBtn = document.getElementById("enterSite");
+const skipBtn = document.getElementById("skipBoot");
+let bootIndex = 0;
+let bootFinished = false;
+
+function finishBoot() {
+  bootFinished = true;
+  enterBtn.style.display = "inline-flex";
+}
+
+function typeBoot() {
+  if (bootFinished) return;
+  if (bootIndex < bootLines.length) {
+    bootText.textContent += bootLines[bootIndex] + "\n";
+    bootText.scrollTop = bootText.scrollHeight;
+    bootIndex++;
+    setTimeout(typeBoot, bootIndex < 3 ? 250 : 520);
+  } else {
+    finishBoot();
+  }
+}
+
+setTimeout(typeBoot, 300);
+
+function closeBoot() {
+  boot.classList.add("hidden");
+  document.body.style.overflowY = "auto";
+}
+enterBtn.addEventListener("click", closeBoot);
+skipBtn.addEventListener("click", () => {
+  if (!bootFinished) {
+    bootText.textContent = bootLines.join("\n");
+    finishBoot();
+  } else {
+    closeBoot();
+  }
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    if (boot.classList.contains("hidden")) closeAnyModal();
+    else if (bootFinished) closeBoot();
+  }
+});
+
+const facilityData = {
+  f1: {
+    image: "https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%A4%91%EC%95%99%EC%84%BC%ED%84%B0%20%EC%9E%AC%EB%82%9C%20(1).png?raw=true",
+    title: "제3생태복원연구소",
+    sub: "ECOLOGICAL RESTORATION LAB",
+    desc: "토양·미생물·작물의 이상현상을 분석하고 오염 경작지 복구와 생태 안정화를 담당하는 핵심 연구시설.",
+    levels: [
+      ["[B1]", "샘플 보관·격리실, 폐기물 처리 구역"],
+      ["[1F]", "로비, 통제실, 응급처치실, 장비 보관소, 제독실"],
+      ["[2F]", "토양·작물·미생물 분석실, 생태 관측실"],
+      ["[3F]", "숙소, 회의실, 자료실, 폐쇄 구관 연결 통로"],
+      ["[옥상]", "기상·대기 관측기, 통신 안테나"]
+    ]
+  },
+  f2: {
+    image: "https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%A4%91%EC%95%99%EC%84%BC%ED%84%B0%20%EC%9E%AC%EB%82%9C%20(2).png?raw=true",
+    title: "중앙온실군",
+    sub: "CENTRAL GREENHOUSE COMPLEX",
+    desc: "처녀자리 최대 식량생산시설. 곡물·과채류·과일·약초·사료작물 시험구역과 생장폭주 격리구역으로 구성된다.",
+    levels: [
+      ["[A구역]", "곡물 재배 구역"],
+      ["[B구역]", "과채류 재배 구역"],
+      ["[C구역]", "과일·약초·사료 작물 시험 구역"],
+      ["[격리구역]", "생장 폭주로 폐쇄된 온실"],
+      ["[관리동/지하층]", "온실 설비 통제실 / 관개·배수 시설, 차량 정비 통로"]
+    ]
+  },
+  f3: {
+    image: "https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%A4%91%EC%95%99%EC%84%BC%ED%84%B0%20%EC%9E%AC%EB%82%9C%20(1).png?raw=true",
+    title: "수계관리구역",
+    sub: "WATER CONTROL DISTRICT",
+    desc: "지하저수조·정수시설·관개망을 통제하며 수질오염 확산 시 구역별 수계를 차단하는 핵심 설비 구역.",
+    levels: [
+      ["[B2]", "지하수 취수 시설, 차단 밸브, 펌프"],
+      ["[B1]", "정수 시설, 수질 검사실, 오염수 탱크"],
+      ["[1F]", "통제실, 정비실, 비상 장비 창고"],
+      ["[2F]", "저수조 관측실, 관개망 관리실, 요나스 근무실"],
+      ["[외부]", "저수조, 관개 수로, 급수탑"]
+    ]
+  },
+  f4: {
+    image: "https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EB%B0%9C%EC%95%84%ED%8F%AD%EC%A3%BC_%EC%A2%85%EC%9E%90%EB%B3%B4%EC%A1%B4%EA%B3%A0%20(2).png?raw=true",
+    title: "종자보존고",
+    sub: "SEED VAULT",
+    desc: "정상종자와 오염의심종자를 분류·격리·장기보존하는 시설. 처녀자리의 차기 경작 가능성을 유지하는 마지막 보존선이다.",
+    levels: [
+      ["[B3]", "장기 동결 보존고. 초기 종자·희귀종 보관"],
+      ["[B2]", "정상 종자 보존 구역"],
+      ["[B1]", "오염 의심 종자 격리·발아 관찰실"],
+      ["[1F]", "검수실, 반출입 통제실, 제독 구역"],
+      ["[2F/봉쇄실]", "발아 시험실, 유전자 기록실 / 발아 현상 확인 종자 보관 구역"]
+    ]
+  },
+  f5: {
+    image: "https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%97%90%EB%9F%B0%EC%BD%94%EB%A5%B4_.png?raw=true",
+    title: "외곽생존거점",
+    sub: "OUTPOST",
+    desc: "생존자와 현장인력이 생활하는 밀폐형 거점. 식량배급·장비보급·응급치료·대피통제를 담당한다.",
+    levels: [
+      ["[B1]", "식량·물·종자·연료 비축 창고"],
+      ["[1F]", "통제소, 배급소, 식당, 응급실"],
+      ["[2F]", "숙소, 샤워실, 휴게실"],
+      ["[3F]", "상황실, 통신실, 회의실, 관리실"],
+      ["[외부]", "차량 주차장, 제독 시설, 경작지 게이트"]
+    ]
+  },
+  f6: {
+    image: "https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EA%B2%BD%EC%9E%91%EC%A7%80%20%EC%A7%80%EB%B0%98%20%EB%B6%95%EA%B4%B4.png?raw=true",
+    title: "중앙원형경작구역",
+    sub: "CENTRAL RING FIELD",
+    desc: "초기 개척기부터 존재한 심층 경작구역. 외곽 환형 지대와 다중 시험구역, 장기봉쇄된 지하 관측실이 존재한다.",
+    levels: [
+      ["[외곽 환형 지대]", "방치된 시험 경작지와 폐쇄 온실"],
+      ["[제1환]", "곡물 시험 구역. 대부분 고사"],
+      ["[제2환]", "생장 실험 시설과 폐쇄 관측소"],
+      ["[중앙환]", "용도가 불명확한 원형 경작지"],
+      ["[지하 관측실]", "개척 기록·손상 로그·'VIRGO' 표기가 남은 봉쇄 구역"]
+    ]
+  },
+  f7: {
+    image: "https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%A4%91%EC%95%99%EC%84%BC%ED%84%B0%20%EC%9E%AC%EB%82%9C%20(2).png?raw=true",
+    title: "지하물류망",
+    sub: "UNDERGROUND LOGISTICS",
+    desc: "연구소·온실군·수계시설·종자보존고·외곽거점을 연결하는 화물철도와 정비통로망.",
+    levels: [
+      ["[화물선 A]", "외곽 거점 ↔ 제3 생태 복원 연구소 ↔ 중앙 온실군"],
+      ["[화물선 B]", "중앙 온실군 ↔ 수계 관리 구역 ↔ 종자 보존고"],
+      ["[정비 통로]", "도보·소형 차량용 보조 통로"],
+      ["[격리문]", "재난 시 시설 간 이동 차단"],
+      ["[폐선 구간]", "중앙 원형 경작 구역 방향의 운행 중단 화물 철도"]
+    ]
+  }
+};
+
+const facilityView = document.getElementById("facilityView");
+const tabButtons = [...document.querySelectorAll(".db-tab")];
+
+function renderFacility(key) {
+  const item = facilityData[key];
+  facilityView.innerHTML = `
+    <div class="db-image"><img src="${item.image}" alt="${item.title}"></div>
+    <div class="db-copy">
+      <h3>${item.title}</h3>
+      <div class="sub">${item.sub}</div>
+      <p>${item.desc}</p>
+      <div class="levels">
+        ${item.levels.map(level => `
+          <div class="level">
+            <strong>${level[0]}</strong>
+            <span>${level[1]}</span>
+          </div>`).join("")}
+      </div>
+    </div>`;
+}
+
+renderFacility("f1");
+
+tabButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    tabButtons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    renderFacility(btn.dataset.target);
+  });
+});
+
+const modals = [...document.querySelectorAll(".modal")];
+const openers = [...document.querySelectorAll("[data-modal]")];
+const closers = [...document.querySelectorAll(".modal-close")];
+
+function closeAnyModal() {
+  modals.forEach(m => m.classList.remove("open"));
+  document.body.style.overflowY = "";
+}
+
+openers.forEach(el => {
+  el.addEventListener("click", () => {
+    const target = document.getElementById(el.dataset.modal);
+    if (target) {
+      target.classList.add("open");
+      document.body.style.overflowY = "hidden";
+    }
+  });
+});
+
+closers.forEach(btn => btn.addEventListener("click", closeAnyModal));
+modals.forEach(m => m.addEventListener("click", e => {
+  if (e.target === m) closeAnyModal();
+}));
+</script>
 </body>
 </html>
