@@ -120,9 +120,9 @@ body::after{
 @media(max-width:760px){.nav{display:none}}
 
 .hero{padding:20px 0 70px; border-bottom:1px solid rgba(66,95,77,.35)}
-.hero-grid{display:grid; grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr); gap:18px; align-items:stretch}
+.hero-grid{display:grid; grid-template-columns:1fr; gap:18px; align-items:stretch}
 .hero-visual{
-  position:relative; min-height:720px; overflow:hidden; border:1px solid var(--line); box-shadow:var(--shadow);
+  position:relative; min-height:680px; overflow:hidden; border:1px solid var(--line); box-shadow:var(--shadow);
   background:#09120e;
 }
 .hero-visual img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
@@ -181,11 +181,11 @@ h1 span{display:block; font-size:.38em; letter-spacing:.14em; color:var(--accent
 
 @media(max-width:980px){
   .hero-grid{grid-template-columns:1fr}
-  .hero-visual{min-height:78svh}
+  .hero-visual{min-height:74svh}
 }
 @media(max-width:600px){
   .hero{padding-top:14px; padding-bottom:42px}
-  .hero-visual{min-height:72svh}
+  .hero-visual{min-height:68svh}
   .hero-copy{left:20px; right:20px; bottom:24px}
   .stat-grid{grid-template-columns:1fr}
   .stat.wide{grid-column:auto}
@@ -495,6 +495,286 @@ section{padding:86px 0; border-bottom:1px solid rgba(66,95,77,.32)}
 }
 
 @media(prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+
+/* ===== V4 COMPACT FACILITY DB + BGM ===== */
+#facilitydb{scroll-margin-top:68px}
+
+.db-layout{
+  display:block !important;
+}
+.db-tabs{
+  display:grid !important;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:8px !important;
+  margin:0 0 10px;
+}
+.db-tab{
+  min-width:0;
+  min-height:48px;
+  padding:8px 11px !important;
+  border-radius:10px !important;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center !important;
+}
+.db-tab b{
+  margin:0 !important;
+  font-size:13px;
+  line-height:1.25;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.db-tab span{
+  display:none !important;
+}
+
+.db-view{
+  display:grid !important;
+  grid-template-columns:minmax(0,1.4fr) minmax(270px,.6fr);
+  min-height:0 !important;
+  height:min(68vh,680px);
+  overflow:hidden !important;
+}
+.db-image{
+  aspect-ratio:auto !important;
+  width:100%;
+  height:100%;
+  min-height:0;
+  padding:10px !important;
+  border-right:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.db-image img{
+  width:100% !important;
+  height:100% !important;
+  object-fit:contain !important;
+}
+.db-copy{
+  min-height:0;
+  overflow:auto;
+  padding:16px !important;
+  scrollbar-width:thin;
+  scrollbar-color:#345642 transparent;
+}
+.db-copy h3{
+  font-size:24px !important;
+  margin-bottom:4px !important;
+}
+.db-copy .sub{
+  margin-bottom:10px !important;
+}
+.db-copy p{
+  font-size:13px;
+  line-height:1.65 !important;
+  margin-bottom:10px !important;
+}
+.levels{gap:6px !important}
+.level{padding:9px 10px !important}
+.level strong{font-size:12px;margin-bottom:2px !important}
+.level span{font-size:12px !important;line-height:1.45 !important}
+
+.facility-overview .map-frame{
+  height:min(58vh,560px) !important;
+  min-height:300px;
+}
+.facility-overview img{
+  object-fit:contain !important;
+}
+
+/* BGM */
+.music-btn{
+  appearance:none;
+  flex:0 0 auto;
+  height:32px;
+  padding:0 10px;
+  border-radius:10px;
+  border:1px solid #355443;
+  background:#0a1510;
+  color:#aebfb3;
+  cursor:pointer;
+  font:700 10px/1 ui-monospace,Consolas,monospace;
+  letter-spacing:.06em;
+  transition:.2s ease;
+}
+.music-btn:hover,
+.music-btn.on{
+  border-color:#6b966f;
+  color:var(--accent-2);
+  background:#102219;
+  box-shadow:0 0 16px rgba(168,213,143,.08);
+}
+.music-btn.loading{
+  color:#7f9286;
+}
+#ytBgmHost{
+  position:fixed;
+  width:1px;height:1px;
+  left:-9999px;bottom:-9999px;
+  opacity:0;
+  pointer-events:none;
+  overflow:hidden;
+}
+.topbar .wrap{
+  gap:12px !important;
+}
+.topbar .nav{
+  margin-left:auto;
+}
+
+@media(max-width:900px){
+  .db-tabs{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+  .db-view{
+    grid-template-columns:minmax(0,1.2fr) minmax(250px,.8fr);
+    height:min(70vh,660px);
+  }
+}
+
+@media(max-width:760px){
+  .db-tabs{
+    display:flex !important;
+    overflow-x:auto;
+    overscroll-behavior-inline:contain;
+    scroll-snap-type:x proximity;
+    gap:7px !important;
+    padding:1px 0 7px;
+    margin-bottom:6px;
+    scrollbar-width:none;
+  }
+  .db-tabs::-webkit-scrollbar{display:none}
+  .db-tab{
+    flex:0 0 auto;
+    min-height:38px;
+    padding:7px 10px !important;
+    scroll-snap-align:start;
+  }
+  .db-tab b{
+    font-size:11px;
+    overflow:visible;
+  }
+
+  .db-view{
+    display:block !important;
+    height:auto;
+  }
+  .db-image{
+    height:min(56svh,540px);
+    min-height:300px;
+    border-right:none;
+    border-bottom:1px solid var(--line);
+    padding:6px !important;
+  }
+  .db-copy{
+    overflow:visible;
+    padding:14px !important;
+  }
+  .db-copy h3{font-size:21px !important}
+  .db-copy p{font-size:12.5px}
+  .levels{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .level{min-width:0}
+  .facility-overview .map-frame{
+    height:min(52svh,480px) !important;
+    min-height:270px;
+  }
+  .music-btn{
+    height:30px;
+    padding:0 9px;
+    font-size:9px;
+  }
+}
+
+@media(max-width:500px){
+  .levels{
+    grid-template-columns:1fr;
+  }
+  .db-image{
+    height:min(52svh,500px);
+    min-height:270px;
+  }
+}
+
+
+/* ===== V5 STATUSLESS HERO + COMPACT COMMANDS ===== */
+.hero-noise-log{
+  margin-top:10px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-height:28px;
+  padding:6px 9px;
+  border-left:2px solid #425f4c;
+  background:rgba(4,10,7,.62);
+  color:#91a899;
+  font:10.5px/1.5 ui-monospace,Consolas,monospace;
+  max-width:520px;
+}
+.hero-noise-log .noise-prefix{
+  color:#6f8878;
+  flex:0 0 auto;
+}
+
+#protocol .commands{
+  display:flex !important;
+  flex-wrap:wrap;
+  gap:8px !important;
+}
+#protocol .command{
+  flex:0 0 auto;
+  min-width:0;
+  padding:0 !important;
+  border:none !important;
+  background:transparent !important;
+}
+#protocol .command b{
+  margin:0 !important;
+  display:inline-flex !important;
+  align-items:center;
+  justify-content:center;
+  min-height:38px;
+  padding:8px 13px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:#0a1510;
+  color:var(--accent-2);
+  font:700 12px/1 ui-monospace,Consolas,monospace;
+  white-space:nowrap;
+}
+#protocol .command span{
+  display:none !important;
+}
+#protocol .command b:hover{
+  border-color:#62856c;
+  background:#102019;
+}
+
+@media(max-width:600px){
+  #protocol .commands{
+    display:flex !important;
+    flex-wrap:wrap;
+    gap:7px !important;
+  }
+  #protocol .command{
+    width:auto !important;
+  }
+  #protocol .command b{
+    min-height:34px;
+    padding:7px 11px;
+    font-size:11px;
+  }
+  .hero-noise-log{
+    max-width:100%;
+    font-size:9.5px;
+    gap:6px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -524,8 +804,11 @@ section{padding:86px 0; border-bottom:1px solid rgba(66,95,77,.32)}
       <a href="#protocol">프로토콜</a>
       <a href="#ending">종료 로그</a>
     </nav>
+    <button class="music-btn loading" id="musicToggle" type="button" aria-pressed="false" title="배경음악 켜기/끄기">♪ BGM</button>
   </div>
 </div>
+
+<div id="ytBgmHost" aria-hidden="true"></div>
 
 <header class="hero">
   <div class="wrap hero-grid">
@@ -536,46 +819,11 @@ section{padding:86px 0; border-bottom:1px solid rgba(66,95,77,.32)}
         <h1>처녀자리<span>VIRGO</span></h1>
         <p class="tagline">풍작을 축하드립니다.<br><strong>대피하십시오.</strong></p>
         <div class="glitch-bar"></div>
+        <div class="hero-noise-log" aria-live="polite">
+          <span class="noise-prefix">&gt; SYSTEM :</span>
+          <span class="noise-inline" id="noisePhrase">▒▒▒ 잘 자라고 있네 ▒▒▒</span>
+        </div>
       </div>
-    </div>
-
-    <div class="hero-side">
-      <aside class="panel">
-        <div class="panel-head"><span><span class="dot"></span>LIVE STATUS WINDOW</span><span>ACCESS : FIELD</span></div>
-        <div class="panel-body">
-          <div class="sys-title">[처녀자리 제06경작구역]</div>
-          <div class="stat-grid">
-            <div class="stat">🌡 기온 <b class="glitch-value" data-stable="23.8℃">23.8℃</b></div>
-            <div class="stat">💧 습도 <b class="glitch-value" data-stable="71%">71%</b></div>
-            <div class="stat">🌱 토양안정도 <b class="glitch-value" data-stable="64%">64%</b></div>
-            <div class="stat">💦 수질안정도 <b class="glitch-value" data-stable="82%">82%</b></div>
-            <div class="stat">🌾 작물생존율 <b class="glitch-value" data-stable="97%">97%</b></div>
-            <div class="stat">🐝 생태활동도 <b class="glitch-value" data-stable="43%">43%</b></div>
-            <div class="stat wide">⚠ 이상파형 <b class="glitch-value wave-value" data-stable="MEDIUM" style="color:var(--warn)">MEDIUM</b></div>
-            <div class="stat wide">🎒 💧물 420L / 🥩식량 186KG / 🌱씨앗 1000KG</div>
-            <div class="stat wide">👥 생존자 18명 / ⏳ 식량잔여 12일</div>
-          </div>
-          <div class="log">
-&gt; 생장률 상승 감지
-&gt; 원인 : <span class="noise-inline">UNKNOWN</span>
-&gt; 현재까지 즉각적 위험은 감지되지 않았습니다.
-&gt; <span class="noise-inline" id="noisePhrase">▒▒▒ 잘 자라고 있네 ▒▒▒</span>
-          </div>
-          <div class="live-feed">
-            <img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/virgo/%EC%A4%91%EC%95%99%EC%84%BC%ED%84%B0%20%EC%9E%AC%EB%82%9C%20(1).png?raw=true" alt="중앙센터 재난 감시 화면">
-          </div>
-        </div>
-      </aside>
-
-      <aside class="panel quick-panel">
-        <div class="panel-head"><span><span class="dot"></span>ACTIVE SUMMARY</span><span>MONITOR</span></div>
-        <div class="panel-body">
-          <div class="quick-row"><strong>행성 상태</strong><span>생장폭주 경계 단계</span></div>
-          <div class="quick-row"><strong>핵심 갈등</strong><span>풍요를 이용할수록 재앙이 강해질 가능성</span></div>
-          <div class="quick-row"><strong>핵심 규칙</strong><span>정상으로 보이는 풍작도 신뢰하지 말 것</span></div>
-          <div class="quick-row"><strong>우선 확인</strong><span>토양 / 수계 / 종자 / 생태 지표</span></div>
-        </div>
-      </aside>
     </div>
   </div>
 </header>
@@ -784,12 +1032,12 @@ section{padding:86px 0; border-bottom:1px solid rgba(66,95,77,.32)}
       <small>AVAILABLE COMMANDS</small>
     </div>
     <div class="commands">
-      <article class="command"><b>!공지</b><span>다른 행성 및 주요 통신 기록 확인</span></article>
-      <article class="command"><b>!위험</b><span>현재 구역 재난상황과 대피 필요 여부 확인</span></article>
-      <article class="command"><b>!상태창</b><span>토양·수질·작물·생태·자원·생존자 현황 확인</span></article>
-      <article class="command"><b>!조사</b><span>현재 위치의 환경·시설·작물·이상징후 조사</span></article>
-      <article class="command"><b>!기록</b><span>확인된 사건·관측기록·미확인 현상 정리</span></article>
-      <article class="command"><b>!스킵</b><span>현재 흐름에 맞춰 시간을 자동 진행하고 경과 요약</span></article>
+      <article class="command" title="다른 행성 및 주요 통신 기록 확인"><b>!공지</b><span>다른 행성 및 주요 통신 기록 확인</span></article>
+      <article class="command" title="현재 구역 재난상황과 대피 필요 여부 확인"><b>!위험</b><span>현재 구역 재난상황과 대피 필요 여부 확인</span></article>
+      
+      <article class="command" title="현재 위치의 환경·시설·작물·이상징후 조사"><b>!조사</b><span>현재 위치의 환경·시설·작물·이상징후 조사</span></article>
+      <article class="command" title="확인된 사건·관측기록·미확인 현상 정리"><b>!기록</b><span>확인된 사건·관측기록·미확인 현상 정리</span></article>
+      <article class="command" title="현재 흐름에 맞춰 시간을 자동 진행하고 경과 요약"><b>!스킵</b><span>현재 흐름에 맞춰 시간을 자동 진행하고 경과 요약</span></article>
     </div>
   </div>
 </section>
@@ -1092,6 +1340,9 @@ setTimeout(typeBoot, 300);
 function closeBoot() {
   boot.classList.add("hidden");
   document.body.style.overflowY = "auto";
+  // Browser autoplay policies commonly require one user gesture for audible playback.
+  // The terminal entry click doubles as that gesture, so music begins without another prompt.
+  requestBgmPlayback(true);
 }
 enterBtn.addEventListener("click", closeBoot);
 skipBtn.addEventListener("click", () => {
@@ -1259,34 +1510,6 @@ modals.forEach(m => m.addEventListener("click", e => {
   if (e.target === m) closeAnyModal();
 }));
 
-// ===== V3 RANDOM STATUS GLITCH =====
-const glitchTargets = [...document.querySelectorAll(".glitch-value")];
-const glitchTokens = ["██", "UNKNOWN", "ERR", "--", "▒▒▒", "0.00?", "N/A"];
-
-function randomStatusGlitch(){
-  if(!glitchTargets.length) return;
-  const target = glitchTargets[Math.floor(Math.random() * glitchTargets.length)];
-  if(target.dataset.glitching === "1") return;
-
-  const stable = target.dataset.stable || target.textContent;
-  target.dataset.glitching = "1";
-  target.classList.add("value-glitch");
-
-  const token = target.classList.contains("wave-value")
-    ? ["UNKNOWN","██","LOW?","MEDIUM","ERR"][Math.floor(Math.random()*5)]
-    : glitchTokens[Math.floor(Math.random()*glitchTokens.length)];
-
-  target.textContent = token;
-
-  window.setTimeout(() => {
-    target.textContent = stable;
-    target.classList.remove("value-glitch");
-    delete target.dataset.glitching;
-  }, 150 + Math.random() * 420);
-
-  window.setTimeout(randomStatusGlitch, 4200 + Math.random() * 7200);
-}
-window.setTimeout(randomStatusGlitch, 2600);
 
 // ===== V3 RANDOM NOISE PHRASE =====
 const noisePhrase = document.getElementById("noisePhrase");
@@ -1387,6 +1610,128 @@ document.addEventListener("keydown", e => {
     closeImageLightbox();
   }
 });
+
+
+// ===== V4 YOUTUBE BGM =====
+// Source requested by the page author:
+// https://youtu.be/ZuzSD0i7j0A
+const BGM_VIDEO_ID = "ZuzSD0i7j0A";
+let ytBgmPlayer = null;
+let ytBgmReady = false;
+let bgmWanted = true;
+const musicToggle = document.getElementById("musicToggle");
+
+function setMusicUi(state){
+  if(!musicToggle) return;
+  musicToggle.classList.remove("loading","on");
+  if(state === "loading"){
+    musicToggle.classList.add("loading");
+    musicToggle.textContent = "♪ LOAD";
+    musicToggle.setAttribute("aria-pressed","false");
+  }else if(state === "on"){
+    musicToggle.classList.add("on");
+    musicToggle.textContent = "♪ BGM ON";
+    musicToggle.setAttribute("aria-pressed","true");
+  }else{
+    musicToggle.textContent = "♪ BGM OFF";
+    musicToggle.setAttribute("aria-pressed","false");
+  }
+}
+
+function requestBgmPlayback(audible = false){
+  bgmWanted = true;
+  if(!ytBgmReady || !ytBgmPlayer){
+    setMusicUi("loading");
+    return;
+  }
+  try{
+    if(audible) ytBgmPlayer.unMute();
+    ytBgmPlayer.setVolume(38);
+    ytBgmPlayer.playVideo();
+    setMusicUi("on");
+  }catch(err){
+    setMusicUi("loading");
+  }
+}
+
+function stopBgm(){
+  bgmWanted = false;
+  if(ytBgmPlayer && ytBgmReady){
+    try{ ytBgmPlayer.pauseVideo(); }catch(err){}
+  }
+  setMusicUi("off");
+}
+
+// YouTube calls this global function when its iframe API is ready.
+window.onYouTubeIframeAPIReady = function(){
+  ytBgmPlayer = new YT.Player("ytBgmHost", {
+    width:"1",
+    height:"1",
+    videoId:BGM_VIDEO_ID,
+    playerVars:{
+      autoplay:1,
+      controls:0,
+      disablekb:1,
+      fs:0,
+      loop:1,
+      playlist:BGM_VIDEO_ID,
+      modestbranding:1,
+      playsinline:1,
+      rel:0
+    },
+    events:{
+      onReady:function(event){
+        ytBgmReady = true;
+        // Try autoplay immediately. Some browsers will block audible autoplay;
+        // if so, the existing ENTER TERMINAL click retries it as an allowed user gesture.
+        event.target.setVolume(38);
+        event.target.playVideo();
+        if(bgmWanted) setMusicUi("on");
+      },
+      onStateChange:function(event){
+        if(event.data === YT.PlayerState.PLAYING){
+          setMusicUi("on");
+        }else if(event.data === YT.PlayerState.PAUSED && bgmWanted){
+          setMusicUi("off");
+        }
+      },
+      onError:function(){
+        setMusicUi("off");
+      }
+    }
+  });
+};
+
+(function loadYoutubeApi(){
+  if(document.querySelector('script[src*="youtube.com/iframe_api"]')) return;
+  const tag = document.createElement("script");
+  tag.src = "https://www.youtube.com/iframe_api";
+  tag.async = true;
+  document.head.appendChild(tag);
+})();
+
+if(musicToggle){
+  musicToggle.addEventListener("click", function(){
+    if(!ytBgmReady){
+      bgmWanted = true;
+      setMusicUi("loading");
+      return;
+    }
+    let state = -1;
+    try{ state = ytBgmPlayer.getPlayerState(); }catch(err){}
+    if(state === YT.PlayerState.PLAYING){
+      stopBgm();
+    }else{
+      requestBgmPlayback(true);
+    }
+  });
+}
+
+// Extra fallback: if the browser blocked the first audible autoplay,
+// the first interaction anywhere on the page retries playback once.
+document.addEventListener("pointerdown", function firstBgmGesture(){
+  if(bgmWanted) requestBgmPlayback(true);
+}, {once:true});
 
 </script>
 </body>
