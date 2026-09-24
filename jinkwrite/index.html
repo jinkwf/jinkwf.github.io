@@ -1,1 +1,43 @@
-
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jin_K · 제작자 소개</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F3F1F6;--card:#fff;--ink:#1F1B2E;--muted:#6B6680;--line:#DAD6E3;--ph:#E7E3EE;--gs:"Gungsuh","GungsuhChe","궁서","궁서체","Noto Serif KR",serif}
+@media (prefers-color-scheme:dark){:root{--bg:#1A1725;--card:#25212F;--ink:#EEEAF6;--muted:#9C97AE;--line:#3A3547;--ph:#302B3D}}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font:400 15px/1.7 "Noto Sans KR",system-ui,sans-serif;padding:0 20px 80px}
+.wrap{max-width:1040px;margin:0 auto}
+header{padding:64px 0 24px}
+h1{font:900 clamp(40px,8vw,72px)/1.1 "Noto Serif KR",serif;letter-spacing:-.02em}
+.sub{margin-top:12px;color:var(--muted)}
+.notice{margin-top:28px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;max-width:640px}
+.notice h2{font:700 15px "Noto Sans KR",sans-serif;letter-spacing:.08em;margin-bottom:10px}
+.notice p{margin-bottom:12px;font-size:14px}
+.notice p:last-child{margin-bottom:0}
+.notice a{color:var(--ink);text-underline-offset:3px}
+.notice .lab{display:block;color:var(--muted);font-size:13px}
+.notice .gs{font-family:var(--gs);font-size:19px;line-height:1.7;letter-spacing:.02em}
+.btn{display:inline-block;margin-top:16px;padding:10px 20px;border-radius:999px;background:var(--ink);color:var(--bg);text-decoration:none;font-weight:500}
+.btn:hover{opacity:.85}
+:focus-visible{outline:3px solid #7B5CFF;outline-offset:2px}
+details{margin-top:14px;background:var(--card);border:1px solid var(--line);border-left:6px solid var(--c);border-radius:10px}
+summary{cursor:pointer;list-style:none;padding:14px 18px;font:700 17px/1.4 "Noto Serif KR",serif;display:flex;align-items:center;gap:10px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"";margin-left:auto;width:9px;height:9px;border:solid var(--muted);border-width:0 2px 2px 0;transform:rotate(45deg);transition:transform .2s}
+details[open] summary::after{transform:rotate(-135deg)}
+.tag{font:500 13px "Noto Sans KR",sans-serif;color:var(--c)}
+.inner{padding:0 18px 18px}
+.row+.row{margin-top:18px}
+.rowhead{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.rowhead h3{font:400 18px var(--gs)}
+.rowhead .note{color:var(--muted);font-size:12px}
+.arrows{margin-left:auto;display:flex;gap:6px}
+.arrows button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;font-size:15px}
+.slider{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px;scrollbar-width:thin}
+.card{flex:none;width:170px;scroll-snap-align:start;background:var(--bg);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;padding:0;font:inherit;color:inherit;text-align:left;cursor:pointer}
