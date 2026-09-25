@@ -41,3 +41,192 @@ details[open] summary::after{transform:rotate(-135deg)}
 .arrows button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;font-size:15px}
 .slider{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px;scrollbar-width:thin}
 .card{flex:none;width:170px;scroll-snap-align:start;background:var(--bg);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;padding:0;font:inherit;color:inherit;text-align:left;cursor:pointer}
+.img{position:relative;aspect-ratio:3/4;background:var(--ph);display:grid;place-items:center;font:900 44px "Noto Serif KR",serif;color:var(--c)}
+.img img{width:100%;height:100%;object-fit:cover;display:block}
+.badges{position:absolute;top:8px;left:8px;display:flex;gap:4px;flex-wrap:wrap}
+.badge{font:500 11px/1 "Noto Sans KR",sans-serif;padding:4px 7px;border-radius:999px;background:var(--ink);color:var(--bg)}
+.body{padding:10px 12px 12px;display:flex;flex-direction:column;gap:2px}
+.body b{font-size:14px;line-height:1.4}
+.body span{font-size:12px;color:var(--muted)}
+.soon .card{border-style:dashed;cursor:default}
+dialog{border:0;border-radius:14px;padding:0;background:var(--card);color:var(--ink);width:min(380px,calc(100vw - 32px));max-height:calc(100vh - 32px);overflow:auto;margin:auto}
+dialog::backdrop{background:rgba(20,16,32,.6)}
+.pop .img{font-size:96px;border-radius:0}
+.pop h2{font:700 22px/1.4 "Noto Serif KR",serif;padding:16px 20px 22px}
+.pop .badges{top:12px;left:12px}
+.pop .badge{font-size:12px;padding:5px 9px}
+.close{position:absolute;top:10px;right:10px;z-index:2;width:34px;height:34px;border-radius:50%;border:0;background:var(--ink);color:var(--bg);font-size:18px;cursor:pointer}
+.pop{position:relative}
+footer{margin-top:56px;color:var(--muted);font-size:13px}
+@media(max-width:520px){.card{width:140px}.arrows{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Jin_K</h1>
+  <p class="sub">선호 장르 : 가이드버스 / 오메가버스</p>
+  <div class="notice">
+    <h2>NOTICE</h2>
+    <p>안녕하세요.<br>Jin_K입니다.<br>문의사항과 건의사항, 이식요청 사항은 언제나 대환영입니다!</p>
+    <p><span class="lab">활동 플랫폼</span><span class="gs">WHIF , Tingle , Doomchk , Postype , INK Chat</span></p>
+    <p><span class="lab">제작 사이트</span><a href="https://jinkwf.github.io/jinksseeworld/" target="_blank" rel="noopener">NSFW 에셋 랜덤 프롬프트 생성기.v4.0.2</a><br>(사용 희망하시는 분들은 연락주세요.)</p>
+  </div>
+  <a class="btn" href="https://open.kakao.com/o/sFqjQmBi" target="_blank" rel="noopener">오픈채팅 참여하기</a>
+</header>
+<main id="main"></main>
+<footer>© Jin_K</footer>
+</div>
+
+<dialog id="dlg"><div class="pop" id="pop"></div></dialog>
+
+<script>
+/* ------------------------------------------------------------
+  작품 = [이름, 설명, 링크, 이미지경로, 옵션]  (비워두려면 "")
+  옵션 = {tags:["20ver","14ver"], added:"YYYY-MM-DD"}
+   - added 를 적으면 맨 위 NEW 카테고리에 자동 반영됩니다. (최신 날짜가 맨 앞)
+   - 새 작품을 올릴 때 added 에 그날 날짜만 적으면 끝!
+  rows: 카테고리 안의 슬라이드 줄. t = 줄 제목(생략 가능)
+------------------------------------------------------------ */
+const NEW_MAX=10;
+const P=(n,o)=>[n,"","","",o||{}];
+const V=["20ver","14ver"];
+const CATS=[
+ {tag:"가이드버스",name:"⚡️ 대격변시대",color:"#E0A100",rows:[{items:[
+   ["강태현","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EA%B0%95%ED%83%9C%ED%98%84_%20%EB%86%80%EB%A6%B4%EA%B6%81%EB%A6%AC%EC%A4%91.png",{}],
+   ["권레오","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/%EA%B6%8C%EB%A0%88%EC%98%A4_%20%EB%A9%94%EC%9D%B8.png",{}],
+   ["백지한","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/masterpiece%2C%20high%20quality%2C%20highly%20detailed%2C%20sharp%20focus%2C%20cinematic%20lighting%2C%20rea%20s-405524188.png",{}]
+ ]}]},
+ {tag:"가이드버스",name:"🌱 대공존시대",color:"#3FA34D",rows:[
+  {items:[
+   ["연다비","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EC%97%B0%EB%8B%A4%EB%B9%84_%EB%AC%B4%EB%A0%A5%EA%B0%90.png",{tags:V}],
+   ["세가지","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/%EC%84%B8%EA%B0%80%EC%A7%80_%20%EC%95%BC%EC%98%81.png",{}],
+   ["심성훈","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/%EC%8B%AC%EC%84%B1%ED%9B%88_%EA%B2%8C%EC%9D%B4%ED%8A%B8%20%EC%A7%84%EC%9E%85%20%ED%9B%84.png",{}],
+   ["X","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/%EC%9C%A4%EC%B2%AD%EB%A6%AC_%EB%A7%88%EC%8A%A4%ED%81%AC.png",{}],
+   ["단임","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/%EB%8B%A8%EC%9E%84_%EB%AF%B8%EC%86%8C%EB%A5%BC%20%EC%A7%80%EC%96%B4%EB%B3%B4%EC%9D%B8%EB%8B%A4.png",{}],
+   P("하은우 & 하은호",{tags:V}),
+   ["정윤조","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/%EC%A0%95%EC%9C%A4%EC%A1%B0_%20%EA%B0%80%EC%9D%B4%EB%94%A9%EB%A3%B8.png",{}]
+  ]},
+  {t:"시뮬레이션",items:[
+   ["보육원게이트 시뮬레이션","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/ed627932-06ce-4b45-b56f-0d2600e2fe67.png",{}],
+   ["연다비 l 하은우 l 하은호","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EC%9D%80%EC%9A%B0%EC%9D%80%ED%98%B8%EB%8B%A4%EB%B9%84_%EC%82%90%EC%A7%84%EB%8B%A4%EB%B9%84,%EC%9E%A5%EB%82%9C%EC%B9%98%EB%8A%94%EC%9D%80%EC%9A%B0%EC%9D%80%ED%98%B8.png",{tags:["14ver"],added:"2026-09-24"}]
+  ]},
+  {t:"🧬 스핀오프",items:[["나의 장례식","차이헌","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EB%82%98%EC%9D%98%20%EC%9E%A5%EB%A1%80%EC%8B%9D%20%EB%A9%94%EC%9D%B8.png",{added:"2026-09-23"}]]}
+ ]},
+ {tag:"오메가버스",name:"💊 NSI",color:"#D9467A",rows:[{items:[
+   ["강도훈","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EA%B0%95%EB%8F%84%ED%9B%88.png",{}],
+   P("강아지"),P("NSI 제 7과"),
+   ["하연수","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%ED%95%98%EC%97%B0%EC%88%98.png",{}],
+   ["연우주","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EC%97%B0%EC%9A%B0%EC%A3%BC_%EC%9D%BC%EC%83%81%20(35).png",{}]
+ ]}]},
+ {tag:"현대물",name:"✖️ 나의 X (구남친 모음집)",color:"#2E7DD7",rows:[{note:"TMI. 모두 직접 들은 대사들로 이루어진 도입부예요.",items:[
+   ["권주석","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EA%B6%8C%EC%A3%BC%EC%84%9D%20(2).png",{}],
+   ["윤태우","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EC%9C%A4%ED%83%9C%EC%9A%B0%EB%A9%94%EC%9D%B8.png",{}],
+   ["서도훈","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EC%84%9C%EB%8F%84%ED%9B%88%201.png",{}]
+ ]}]},
+ {tag:"현대물",name:"💰 상금 10억, 무성욕자",color:"#2E7DD7",rows:[{items:[["무서욱","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/%EB%AC%B4%EC%84%9C%EC%9A%B1.png",{}]]}]},
+ {tag:"현대물",name:"📏 일반사회",color:"#2E7DD7",rows:[{items:[
+   ["임서준","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EC%9E%84%EC%84%9C%EC%A4%80%20(4).png",{}],
+   ["로즈쿼츠 6인의 호스트","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/%EB%A1%9C%EC%A6%88%EC%BF%BC%EC%B8%A0.jpg",{}]
+ ]}]},
+ {tag:"현대물",name:"🎶 에이전시 DH E&M",color:"#2E7DD7",rows:[{items:[
+   ["박하인","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EB%B0%95%ED%95%98%EC%9D%B8.png",{}],
+   ["Afor","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/Afor.png",{}],
+   ["유태석","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%ED%8C%AC%EB%AF%B8%ED%8C%85.png",{}]
+ ]}]},
+ {tag:"판타지",name:"🧙‍♂️ 엘라드리아 연대기",color:"#7B5CFF",rows:[{items:[
+   ["드래곤 육아는 처음이라서요","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/Untitled%20-%20July%2021,%202026%20at%2005.32.51.png",{}],
+   P("루시엘 발렌티누스 요한 12세"),
+   ["리엘 테라시아","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EC%88%B2%EC%86%8D.png",{}]
+ ]}]},
+ {tag:"동양물",name:"🔅 오령국",color:"#C4432B",rows:[{items:[
+   ["차설하","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EC%B0%A8%EC%84%A4%ED%95%98_%20%EB%AF%B8%EC%86%8C.png",{}],
+   ["수현오","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EC%88%98%ED%98%84%EC%98%A4_%20%EC%9B%83%EC%9D%8C.png",{}]
+ ]}]},
+ {tag:"시뮬레이션",name:"🔎 공포 / 탈출",color:"#1F9D8B",rows:[{items:[
+   P("Pointer"),
+   ["nightmare","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EB%82%98%EC%9D%B4%ED%8A%B8%EB%A9%94%EC%96%B4.png",{}],
+   P("레온하르트"),
+   ["AER-100","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EC%B9%B4%EB%A9%94%EB%9D%BC.png",{}],
+   P("비행일지")
+ ]}]},
+ {tag:"청춘물",name:"🌬 모든 계절이 네게 불어올 때",color:"#3AA0D8",rows:[{items:[P("차선태")]}]},
+ {tag:"기타/인외물",name:"휴면뮤지엄",color:"#8A6D3B",rows:[{items:[P("자판기")]}]},
+ {tag:"",name:"1934",color:"#B23A48",rows:[{items:[P("링란 [翎蘭]",{added:"2026-09-25"})]}]},
+ {tag:"",name:"합작",color:"#9C6ADE",rows:[{items:[
+   ["아사히나 소우","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/Jin_k_middle_shot._A_highly_detailed_sharp_close-up_portrait__d6cd11d6-0f8e-4ff8-863d-f1e4aa63f54e_2.png",{}],
+   ["니코","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EB%8B%88%EC%BD%94%20(2).png",{}],
+   ["올리버 밀러","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%ED%95%99%EC%83%9D%EC%A6%9D%20%EC%9D%B4%EB%AF%B8%EC%A7%80.png",{}],
+   P("♍VIR-06 : 재난 생존")
+ ]}]},
+ {tag:"SOON",name:"곧 공개됩니다",color:"#8B8698",soon:true,rows:[{items:[["🏫 에스텔 아카데미","엘라드리아","","",{}],["🧑‍🧒 마마보이","나의 X","","",{}],["🦋 휴먼뮤지엄","나비인간","","",{}]]}]}
+];
+
+const $=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.textContent=h;return e};
+const plain=s=>s.replace(/^[^\wㄱ-힣]+/u,"");
+
+function imgBox(name,img,tags){
+  const im=$("div","img");
+  if(img){const i=$("img");i.src=img;i.alt=name;i.loading="lazy";im.appendChild(i)}
+  else im.textContent="?";
+  if(tags&&tags.length){const b=$("div","badges");tags.forEach(t=>b.appendChild($("span","badge",t)));im.appendChild(b)}
+  return im;
+}
+
+/* 팝업 — 지금은 이미지 + 이름만. 상세내용은 나중에 여기에 추가 */
+const dlg=document.getElementById("dlg"),pop=document.getElementById("pop");
+dlg.addEventListener("click",e=>{if(e.target===dlg)dlg.close()});
+function openPop(item){
+  const [name,,,img,o={}]=item;
+  const x=$("button","close","✕");x.type="button";x.setAttribute("aria-label","닫기");x.onclick=()=>dlg.close();
+  pop.replaceChildren(x,imgBox(name,img,o.tags),$("h2",null,name));
+  pop.style.setProperty("--c",pop.dataset.c||"#7B5CFF");
+  dlg.showModal();
+}
+
+function card(item,cat,from){
+  const [name,,,img,o={}]=item;
+  const c=$("button","card");c.type="button";
+  c.appendChild(imgBox(name,img,o.tags));
+  const b=$("div","body");b.appendChild($("b",null,name));
+  if(from)b.appendChild($("span",null,from));
+  c.appendChild(b);
+  if(!cat.soon)c.onclick=()=>{pop.dataset.c=cat.color;openPop(item)};
+  return c;
+}
+
+/* NEW — added 날짜가 있는 작품을 최신순으로 자동 수집 */
+const fresh=[];
+CATS.forEach(cat=>cat.rows.forEach(r=>r.items.forEach(it=>{
+  if(it[4]&&it[4].added)fresh.push({it,cat:{...cat,soon:false},from:plain(cat.name)});
+})));
+fresh.sort((a,b)=>b.it[4].added.localeCompare(a.it[4].added));
+const NEW={isNew:true,name:"NEW",color:"#E5484D",rows:[{items:fresh.slice(0,NEW_MAX)}]};
+
+const main=document.getElementById("main");
+[NEW,...CATS].forEach((cat,i)=>{
+  const d=$("details",cat.soon?"soon":"");d.style.setProperty("--c",cat.color);
+  const s=$("summary");
+  if(cat.isNew)s.append($("span",null,"NEW"),$("span","tag","최근 추가순"));
+  else s.append($("span",null,cat.soon?"SOON":i+"."),$("span","tag",cat.tag&&!cat.soon?"["+cat.tag+"]":""),$("span",null,cat.name));
+  d.appendChild(s);
+  const inner=$("div","inner");
+  cat.rows.forEach(r=>{
+    const row=$("div","row"),head=$("div","rowhead");
+    if(r.t)head.appendChild($("h3",null,r.t));
+    if(r.note)head.appendChild($("span","note",r.note));
+    const sl=$("div","slider");
+    r.items.forEach(it=>sl.appendChild(cat.isNew?card(it.it,it.cat,it.from):card(it,cat)));
+    const ar=$("div","arrows");
+    [["‹",-1],["›",1]].forEach(([t,dir])=>{
+      const b=$("button",null,t);b.type="button";b.setAttribute("aria-label",dir<0?"이전":"다음");
+      b.onclick=()=>sl.scrollBy({left:dir*360,behavior:"smooth"});ar.appendChild(b);
+    });
+    head.appendChild(ar);
+    row.append(head,sl);inner.appendChild(row);
+  });
+  d.appendChild(inner);main.appendChild(d);
+});
+</script>
+</body>
+</html>
