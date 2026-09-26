@@ -999,6 +999,7 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
 const APP_BUILD_ID='20260926-v4.0.2-unified-lightmode-event-sync';
 const APP_BUILD_LABEL = 'v4.0.2 · Light Mode · Event Sync · Unified';
 const UPDATE_NOTES = [
+  { date:'09.26', text:'17 : v4.0.2-hotfix · 2인 기본 배치를 좌우 분할 대신 한 프레임 밀착 상호작용으로 바꾸고, A/B 행동에 상대 캐릭터 접촉을 강제하며 분할·비교 패널 네거티브를 강화했습니다.' },
   { date:'09.26', text:'16 : v4.0.2 통합본 · 블랙/화이트 화면 테마, 라이트모드 대비 보정, 플로팅 프롬프트 이벤트 동기화, 프리셋 슬롯 스크롤 점프 방지(overflow-anchor)를 v3.7 엔진에 병합했습니다.' },
 
   { date:'09.03', text:'14 : v3.6 다인 캐릭터 식별 유지 · A/B/C 입력에서 서로 다른 고유 외형·눈·헤어·의상·표정 앵커를 자동 추출하고 각 캐릭터 블록 앞에 identity anchor로 반복해 속성 전이를 줄였습니다.' },
@@ -3572,7 +3573,10 @@ function fitCompositionToPeople(pool,type){
       'bust shot',
       'POV, close distance',
       'hands visible',
-      'portrait composition'
+      'portrait composition',
+      'side by side, symmetrical',
+      'opposite sides of frame',
+      'on opposite sides'
     ];
     return pool.filter(x=>!banned.some(k=>String(x.en||'').includes(k)));
   }
@@ -3718,6 +3722,13 @@ function povPromptTags(){
     kiss:['kissing POV','intimate close-up'],bodyclose:['body contact POV','full-body close contact'],neck:['kissing necking POV','neck focus'],wall:['wall pin POV','close wall contact'],lap:['lap sitting POV','close embrace'],bededge:['bed POV','edge of bed','intimate distance'],kneeling:['kneeling POV','low intimate angle'],topdown:['top-down POV','high angle'],lowangle:['low-angle POV','looking up'],betweenlegs:['between legs POV','thigh framing'],oral:['oral POV','mouth focus','low intimate angle']
   };
   if(map[povType()])tags.push(...map[povType()]);
+  if(characterCount()>=2){
+    tags.push(
+      'both characters visible together in one POV shot',
+      'character A and character B interacting with each other in front of the viewer',
+      'not two separate POV portraits'
+    );
+  }
   return tags;
 }
 function updatePovModeHint(){
@@ -4345,8 +4356,8 @@ function roleLayoutTags(){
   const n=characterCount(); if(n<2)return[]; const v=roleLayoutValue();
   if(n===2){
     const map2={
-      auto:['character A on the left, character B on the right','clear two-person role separation'],
-      duo_lr:['character A on the left, character B on the right','clear side-by-side two-person composition'],
+      auto:['character A and character B together in the same frame','character A and character B in physical contact','interlocking two-person pose','one shared action between character A and character B'],
+      duo_lr:['character A and character B standing close together in the same frame','bodies overlapping slightly','not a split panel'],
       duo_fb:['character A in foreground, character B in background','clear foreground-background separation'],
       duo_face:['character A and character B facing each other','clear face-to-face two-person composition'],
       userfocus:['character A interacting with viewer, character B clearly separate','clear two-person role separation'],
@@ -4895,7 +4906,15 @@ function dedupePromptTokens(tokens,{dropRedundantGlobal=false}={}){
 }
 function strongerTwoPersonCommonTags(){
   const n=characterCount();if(n<2)return[];
-  return dedupePromptTokens([n===2?'2people':'3people',...roleLayoutTags(),'single image','single panel','one unified scene','all characters together in the same frame','clear limb ownership','organic interaction between characters','coordinated poses and eye lines','clear physical relationship between characters','no separate panels']);
+  const core=[n===2?'2people':'3people',...roleLayoutTags(),
+    'single image','single panel','one unified scene','one camera shot','same photograph',
+    'all characters together in the same frame','shared environment','shared lighting',
+    'physical contact between characters','interlocking poses','one shared action',
+    'character A touching character B','hands connecting the characters',
+    'clear limb ownership','organic interaction between characters',
+    'coordinated poses and eye lines','clear physical relationship between characters',
+    'no separate panels','no split screen','not two portraits'];
+  return dedupePromptTokens(core);
 }
 function hasSpecifiedCharacter(){return Boolean($('gender')?.value)}
 // 캐릭터 미지정: 성별/캐릭터별 외형(CHARACTER A/B/C)만 제외. 의상·행동·표정·포즈·배경 등 장면 슬롯은 유지.
@@ -5189,7 +5208,10 @@ function characterSpecificInlineBlocks(){
     if(/talking/i.test(s))return `talking with ${target}`;
     if(/leaning in/i.test(s))return `leaning toward ${target}`;
     if(/looking at/i.test(s))return s;
-    return s;
+    if(/viewer/i.test(s))return `${s}, sharing the shot with ${target}, body contact with ${target}`;
+    if(/sitting|standing|leaning|walking|kneeling|lying/i.test(s))return `${s} with ${target}, pressed close to ${target}`;
+    if(/holding|grabbing|gripping|reaching|touching|pinning|pulling|pushing/i.test(s))return `${s} toward ${target}`;
+    return `${s}, interacting with ${target}`;
   };
   const reciprocal=(sourceSeed,sourceLetter)=>{
     const s=String(sourceSeed||'').trim();
@@ -5263,11 +5285,17 @@ function characterSpecificInlineBlocks(){
   const actions={};
   if(n===2){
     const aSeed=entries.A.actionSeed,bSeed=entries.B.actionSeed;
-    actions.A=entries.A.explicitAction||targetAction(aSeed,'character B');
-    actions.B=entries.B.explicitAction||(aSeed?reciprocal(aSeed,'A'):targetAction(bSeed,'character A'));
+    actions.A=targetAction(entries.A.explicitAction||aSeed,'character B');
+    actions.B=entries.B.explicitAction
+      ? targetAction(entries.B.explicitAction,'character A')
+      : (aSeed?reciprocal(aSeed,'A'):targetAction(bSeed,'character A'));
     if(!actions.A&&bSeed)actions.A=reciprocal(bSeed,'B');
-    if(!actions.A)actions.A='interacting with character B';
-    if(!actions.B)actions.B='responding to character A';
+    if(!actions.A)actions.A='holding character B, bodies pressed together';
+    if(!actions.B)actions.B='holding onto character A, returning the contact';
+    const linkA=/character\s+B/i.test(actions.A||'');
+    const linkB=/character\s+A/i.test(actions.B||'');
+    if(!linkA) actions.A=`${actions.A}, gripping character B, shared pose with character B`;
+    if(!linkB) actions.B=`${actions.B}, leaning into character A, shared pose with character A`;
   }else if(n===3){
     const aSeed=entries.A.actionSeed,bSeed=entries.B.actionSeed,cSeed=entries.C.actionSeed;
     actions.A=entries.A.explicitAction||targetAction(aSeed,'character B');
@@ -7777,11 +7805,14 @@ function singleImageNegativeTags(){
     'diptych','triptych','polyptych','contact sheet','storyboard','sequence art',
     'multiple views','multiple angles','two scenes','three scenes','side by side comparison','before and after',
     'picture-in-picture','inset image','border panel','panel border','2koma','4koma','koma',
-    'separate frames','framed panels','page layout'
+    'separate frames','framed panels','page layout',
+    'two portraits','dual portrait','twin portraits','comparison sheet','character select screen',
+    'character comparison','variant sheet','two versions','same pose twice','mirrored panels',
+    'left panel','right panel','two copies of the same scene','separate scenes','divided composition'
   ];
 }
 function singleImagePositiveTags(){
-  return ['single image','single panel','one scene','unified scene','full frame composition','cohesive single shot'];
+  return ['single image','single panel','one scene','unified scene','full frame composition','cohesive single shot','one camera angle','both subjects in one shot'];
 }
 function isSplitCompositionText(text){
   return /\b(split\s*screen|split\s*image|multi\s*panel|multiple\s*panels|comic\s*panel|comic\s*strip|manga\s*page|collage|diptych|triptych|polyptych|storyboard|2koma|4koma|grid\s*layout|multiple\s*views|side\s*by\s*side|before\s*and\s*after)\b/i.test(String(text||''));
