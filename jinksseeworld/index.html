@@ -3723,11 +3723,7 @@ function povPromptTags(){
   };
   if(map[povType()])tags.push(...map[povType()]);
   if(characterCount()>=2){
-    tags.push(
-      'both characters visible together in one POV shot',
-      'character A and character B interacting with each other in front of the viewer',
-      'not two separate POV portraits'
-    );
+    tags.push('same frame','shared action');
   }
   return tags;
 }
@@ -4356,8 +4352,8 @@ function roleLayoutTags(){
   const n=characterCount(); if(n<2)return[]; const v=roleLayoutValue();
   if(n===2){
     const map2={
-      auto:['character A and character B together in the same frame','character A and character B in physical contact','interlocking two-person pose','one shared action between character A and character B'],
-      duo_lr:['character A and character B standing close together in the same frame','bodies overlapping slightly','not a split panel'],
+      auto:['same frame','physical contact','shared action'],
+      duo_lr:['same frame','standing close together'],
       duo_fb:['character A in foreground, character B in background','clear foreground-background separation'],
       duo_face:['character A and character B facing each other','clear face-to-face two-person composition'],
       userfocus:['character A interacting with viewer, character B clearly separate','clear two-person role separation'],
@@ -4906,15 +4902,7 @@ function dedupePromptTokens(tokens,{dropRedundantGlobal=false}={}){
 }
 function strongerTwoPersonCommonTags(){
   const n=characterCount();if(n<2)return[];
-  const core=[n===2?'2people':'3people',...roleLayoutTags(),
-    'single image','single panel','one unified scene','one camera shot','same photograph',
-    'all characters together in the same frame','shared environment','shared lighting',
-    'physical contact between characters','interlocking poses','one shared action',
-    'character A touching character B','hands connecting the characters',
-    'clear limb ownership','organic interaction between characters',
-    'coordinated poses and eye lines','clear physical relationship between characters',
-    'no separate panels','no split screen','not two portraits'];
-  return dedupePromptTokens(core);
+  return dedupePromptTokens([n===2?'2people':'3people',...roleLayoutTags(),'single image','same frame','physical contact','shared action']);
 }
 function hasSpecifiedCharacter(){return Boolean($('gender')?.value)}
 // 캐릭터 미지정: 성별/캐릭터별 외형(CHARACTER A/B/C)만 제외. 의상·행동·표정·포즈·배경 등 장면 슬롯은 유지.
@@ -5060,7 +5048,10 @@ function compactGlobalPromptTokens(tokens){
   const has=rx=>arr.some(t=>rx.test(tokenCore(t)));
   const remove=rx=>{arr=arr.filter(t=>!rx.test(tokenCore(t)))};
   // single-image 지시는 한 번만. 분할 방지는 Negative Prompt가 담당.
-  if(has(/^single image$/)) remove(/^(single panel|one scene|unified scene|full frame composition|cohesive single shot)$/);
+  if(has(/^single image$/)||has(/^same frame$/)) remove(/^(single panel|one scene|unified scene|one unified scene|full frame composition|cohesive single shot|one camera shot|one camera angle|same photograph|both subjects in one shot)$/);
+  if(has(/^physical contact$/)) remove(/^(physical contact between characters|character A and character B in physical contact|bodies pressed together|hands connecting the characters|character A touching character B|interlocking poses)$/);
+  if(has(/^shared action$/)) remove(/^(one shared action|organic interaction between characters|coordinated poses and eye lines|clear physical relationship between characters)$/);
+  remove(/^(no separate panels|no split screen|not two portraits|not a split panel|not two separate POV portraits)$/);
   // 품질 태그 압축
   if(has(/^masterpiece$/)&&has(/^best quality$/)) remove(/^(amazing quality|high quality|very aesthetic)$/);
   // 인원 중복
@@ -5290,12 +5281,10 @@ function characterSpecificInlineBlocks(){
       ? targetAction(entries.B.explicitAction,'character A')
       : (aSeed?reciprocal(aSeed,'A'):targetAction(bSeed,'character A'));
     if(!actions.A&&bSeed)actions.A=reciprocal(bSeed,'B');
-    if(!actions.A)actions.A='holding character B, bodies pressed together';
-    if(!actions.B)actions.B='holding onto character A, returning the contact';
-    const linkA=/character\s+B/i.test(actions.A||'');
-    const linkB=/character\s+A/i.test(actions.B||'');
-    if(!linkA) actions.A=`${actions.A}, gripping character B, shared pose with character B`;
-    if(!linkB) actions.B=`${actions.B}, leaning into character A, shared pose with character A`;
+    if(!actions.A)actions.A='holding character B';
+    if(!actions.B)actions.B='holding character A';
+    if(!/character\s+B/i.test(actions.A||'')) actions.A=`${actions.A}, holding character B`;
+    if(!/character\s+A/i.test(actions.B||'')) actions.B=`${actions.B}, holding character A`;
   }else if(n===3){
     const aSeed=entries.A.actionSeed,bSeed=entries.B.actionSeed,cSeed=entries.C.actionSeed;
     actions.A=entries.A.explicitAction||targetAction(aSeed,'character B');
@@ -5428,7 +5417,7 @@ function optimizePromptText(value){
   }).filter(Boolean);
   return{text:out.join('\n\n'),removed,conflicts};
 }
-function optimizeCurrentPrompt(){const r=optimizePromptText(prompt.value);prompt.value=r.text;lastPromptDiagnostics.duplicates=r.removed;lastPromptDiagnostics.dominated=r.conflicts;buildAllToolPrompts();updatePromptDiagnostics();updateQuickRecommendations();show(`✨ NovelAI 최적화 완료 · 중복/충돌 ${r.removed+r.conflicts}개 정리`)}
+function optimizeCurrentPrompt(){const r=optimizePromptText(prompt.value);prompt.value=compressFinalNovelPrompt(r.text);lastPromptDiagnostics.duplicates=r.removed;lastPromptDiagnostics.dominated=r.conflicts;buildAllToolPrompts();updatePromptDiagnostics();updateQuickRecommendations();show(`✨ NovelAI 최적화 완료 · 중복 압축 ${r.removed+r.conflicts}개 정리`)}
 function optimizeAllToolPrompts(){rebuildAllOptimizedPrompts();show('✨ Novel / Pix / Niji 프롬프트를 모두 최적화해 출력했습니다.');}
 function optimizePixCurrentPrompt(){if(!pixPrompt)return;pixPrompt.value=applyPixPromptOptimization(pixPrompt.value||'');show('✨ PixAI 프롬프트를 최적화해 출력했습니다.');}
 function optimizeNijiCurrentPrompt(){
@@ -7729,16 +7718,13 @@ function applyNijiPromptOptimization(text){
 }
 function finalizeOptimizedToolPrompts(){
   if(typeof pixPrompt!=='undefined'&&pixPrompt){
-    pixPrompt.value=stripSplitCompositionTokens(applyPixPromptOptimization(pixPrompt.value||''));
+    pixPrompt.value=compressPixNijiText(stripSplitCompositionTokens(applyPixPromptOptimization(pixPrompt.value||'')));
   }
   if(typeof nijiPrompt!=='undefined'&&nijiPrompt){
     let n=applyNijiPromptOptimization(nijiPrompt.value||'');
-    // niji 문장에서 분할 표현 제거
     n=n.replace(/\b(split screen|multiple panels|comic strip|collage|diptych|triptych|storyboard|multiple views)\b/gi,'');
-    if(!/single (image|panel|scene)|one scene|unified scene/i.test(n)){
-      n=('A single cohesive image of the scene. '+n).replace(/\s+/g,' ').trim();
-    }
-    nijiPrompt.value=n.replace(/[ ]{2,}/g,' ').trim();
+    if(!/single image/i.test(n)) n=('Single image. '+n).replace(/\s+/g,' ').trim();
+    nijiPrompt.value=compressPixNijiText(n);
   }
   try{
     const floatTa=document.getElementById('promptFloatText');
@@ -7847,6 +7833,108 @@ function stripAutoNegativeTags(value){
   const auto=new Set(dynamicNegativeTags().map(x=>x.toLowerCase()));
   return String(value||'').split(',').map(x=>x.trim()).filter(Boolean).filter(x=>!auto.has(x.toLowerCase())).join(', ');
 }
+
+function compressFinalNovelPrompt(text){
+  const raw=String(text||'').trim();
+  if(!raw)return raw;
+  const paras=raw.split(/\n\s*\n/);
+  const out=paras.map(par=>{
+    const prefixM=/^(\{\{user\}\}:|character\s+[ABC](?:\s+identity anchor)?:|character\d+:)\s*/i.exec(par);
+    const prefix=prefixM?prefixM[0]:'';
+    const body=prefix?par.slice(prefix.length):par;
+    let arr=splitPromptTokens(body).map(t=>t.replace(/\s+/g,' ').trim()).filter(Boolean);
+
+    // 긍정 프롬프트에서 금지형(no/not/do not) 제거 — 네거티브가 담당
+    arr=arr.filter(t=>!(/^(no |not |don't |do not |never )/i.test(t)));
+
+    const groups=[
+      {keep:'single image', rx:/^(single image|single panel|one scene|unified scene|one unified scene|full frame composition|cohesive single shot|one camera shot|one camera angle|same photograph|both subjects in one shot)$/i},
+      {keep:'same frame', rx:/^(same frame|all characters together in the same frame|all characters sharing the same environment|shared environment|shared lighting|both characters visible together in one POV shot|character A and character B together in the same frame)$/i},
+      {keep:'physical contact', rx:/^(physical contact|physical contact between characters|character A and character B in physical contact|bodies pressed together|bodies overlapping slightly|hands connecting the characters|character A touching character B|pressed close to character [ABC])$/i},
+      {keep:'shared action', rx:/^(shared action|one shared action|one shared action between character A and character B|organic interaction between characters|interlocking poses|interlocking two-person pose|coordinated poses and eye lines|clear physical relationship between characters)$/i},
+      {keep:'2people', rx:/^(2people|two people|two people clearly visible.*)$/i},
+      {keep:'3people', rx:/^(3people|three people|three people clearly visible.*)$/i},
+      {keep:'looking at viewer', rx:/^(looking at viewer|looking at the viewer)$/i},
+      {keep:'masterpiece', rx:/^(masterpiece|masterpiece quality)$/i},
+      {keep:'best quality', rx:/^(best quality|amazing quality|high quality|very aesthetic|newest|absurdres|highres)$/i}
+    ];
+    groups.forEach(g=>{
+      const hit=arr.filter(t=>g.rx.test(tokenCore(t))||g.rx.test(t));
+      if(!hit.length)return;
+      arr=arr.filter(t=>!(g.rx.test(tokenCore(t))||g.rx.test(t)));
+      arr.push(g.keep);
+    });
+
+    // 핵심 정규화
+    arr=arr.map(t=>t
+      .replace(/^character A and character B in physical contact$/i,'physical contact')
+      .replace(/^character A and character B together in the same frame$/i,'same frame')
+      .replace(/^not a split panel$/i,'')
+      .replace(/^not two separate POV portraits$/i,'')
+      .replace(/^clear two-person role separation$/i,'')
+      .replace(/^keep each character identity separate$/i,'separate identities')
+      .replace(/^do not transfer.*$/i,'')
+    ).map(t=>t.trim()).filter(Boolean);
+
+    arr=dedupePromptTokens(arr);
+
+    // 포함 관계 중복 제거: 짧은 토큰이 긴 토큰에 완전 포함되면 짧은 쪽 삭제
+    const cores=arr.map(tokenCore);
+    arr=arr.filter((t,i)=>{
+      const c=cores[i];
+      if(c.length<4)return true;
+      return !cores.some((o,j)=>j!==i && o!==c && o.includes(c) && o.length-c.length<=24);
+    });
+
+    // 장면 공통부는 짧게, 캐릭터 블록은 외형+행동 위주
+    const isChar=/\bcharacter\s+[ABC]\b/i.test(prefix+body);
+    const cap=isChar?16:26;
+    if(arr.length>cap){
+      const prefer=/(masterpiece|best quality|nsfw|explicit|2people|3people|1boy|1girl|2boys|2girls|single image|same frame|physical contact|shared action|POV|office|uniform|white shirt)/i;
+      const head=arr.filter(t=>prefer.test(t));
+      const rest=arr.filter(t=>!prefer.test(t));
+      arr=[...head,...rest].slice(0,cap);
+      arr=dedupePromptTokens(arr);
+    }
+    return (prefix+arr.join(', ')).replace(/\s+,/g,',').replace(/,\s*,+/g,', ').trim();
+  }).filter(Boolean);
+
+  return out.join('\n\n').replace(/[ ]{2,}/g,' ').replace(/\s*,\s*,+/g,', ').trim();
+}
+function compressPixNijiText(text){
+  let s=String(text||'').replace(/\s+/g,' ').trim();
+  const pairs=[
+    [/single cohesive image of the scene\.?/gi,'Single image.'],
+    [/all characters together in the same frame[,.]?/gi,'Same frame.'],
+    [/organic interaction between characters[,.]?/gi,'They touch.'],
+    [/no split screen[,.]?/gi,''],
+    [/not two portraits[,.]?/gi,''],
+    [/no separate panels[,.]?/gi,''],
+    [/one unified scene[,.]?/gi,''],
+    [/cohesive single shot[,.]?/gi,''],
+    [/full frame composition[,.]?/gi,''],
+    [/clear limb ownership[,.]?/gi,''],
+    [/coordinated poses and eye lines[,.]?/gi,''],
+    [/clear physical relationship between characters[,.]?/gi,''],
+    [/both characters visible together in one POV shot[,.]?/gi,'Both in one POV shot.'],
+    [/character A and character B interacting with each other in front of the viewer[,.]?/gi,'A and B interact in front of viewer.'],
+    [/not two separate POV portraits[,.]?/gi,'']
+  ];
+  pairs.forEach(([rx,rep])=>{s=s.replace(rx,rep)});
+  s=s.replace(/([.!?])\1+/g,'$1').replace(/\s+/g,' ').replace(/\s+([,.!?])/g,'$1').trim();
+  // 문장 중복 제거
+  const parts=s.split(/(?<=[.!?])\s+/);
+  const seen=new Set();
+  s=parts.filter(p=>{
+    const k=p.toLowerCase().replace(/[^a-z0-9]+/g,' ');
+    if(!k.trim())return false;
+    if(seen.has(k))return false;
+    seen.add(k);return true;
+  }).join(' ');
+  return s.replace(/[ ]{2,}/g,' ').trim();
+}
+
+
 function buildPrompt(){
   const nsfwBase=isNsfwGenre()?['nsfw','explicit','uncensored']:[];
   const speciesTags=(typeof categoryLockPromptTags==='function'?categoryLockPromptTags():categorySpeciesPromptTags());
@@ -7878,15 +7966,15 @@ function buildPrompt(){
   const guideBlocks=guideverseAbilityParagraphs();
   lastPromptDiagnostics={duplicates:optimized.removed,dominated:optimized.conflicts,poseConflicts:optimized.conflicts,multi:n>=2,outfit:outfitExposureMode()!=='none',categoryFit:'높음',singleImage:true};
   if(n>=2){
-    const flatParts=[sceneMain,...characterBlocks,...separation,...identityLocks,...guideBlocks].filter(Boolean);
+    const flatParts=[sceneMain,...characterBlocks,...separation,...guideBlocks].filter(Boolean);
     let result=flatParts.join(', ');
     result=result.replace(/\s*,\s*,+/g,', ').replace(/\s+/g,' ').trim();
     if(userTags)result+='\n\n'+userTags;
-    prompt.value=result;
+    prompt.value=compressFinalNovelPrompt(result);
   }else{
     const paragraphs=[sceneMain,...characterBlocks,...guideBlocks];
     if(userTags)paragraphs.push(userTags);
-    prompt.value=paragraphs.filter(Boolean).map(stripSplitCompositionTokens).filter(Boolean).join('\n\n');
+    prompt.value=compressFinalNovelPrompt(paragraphs.filter(Boolean).map(stripSplitCompositionTokens).filter(Boolean).join('\n\n'));
   }
   updateNegativePrompt();
   buildAllToolPrompts();
