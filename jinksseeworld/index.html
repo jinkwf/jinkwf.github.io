@@ -999,6 +999,7 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
 const APP_BUILD_ID='20260926-v4.0.2-unified-lightmode-event-sync';
 const APP_BUILD_LABEL = 'v4.0.2 · Light Mode · Event Sync · Unified';
 const UPDATE_NOTES = [
+  { date:'09.26', text:'18 : v4.0.2-hotfix2 · 생성 직후 프롬프트 동기화 이벤트 발사, 2인 공통태그 상시 적용, 외형 원문 보존, 조건부 접촉, 토큰 수 표시.' },
   { date:'09.26', text:'17 : v4.0.2-hotfix · 2인 기본 배치를 좌우 분할 대신 한 프레임 밀착 상호작용으로 바꾸고, A/B 행동에 상대 캐릭터 접촉을 강제하며 분할·비교 패널 네거티브를 강화했습니다.' },
   { date:'09.26', text:'16 : v4.0.2 통합본 · 블랙/화이트 화면 테마, 라이트모드 대비 보정, 플로팅 프롬프트 이벤트 동기화, 프리셋 슬롯 스크롤 점프 방지(overflow-anchor)를 v3.7 엔진에 병합했습니다.' },
 
@@ -3723,7 +3724,7 @@ function povPromptTags(){
   };
   if(map[povType()])tags.push(...map[povType()]);
   if(characterCount()>=2){
-    tags.push('same frame','shared action');
+    tags.push('same frame','shared action','A and B together in front of viewer');
   }
   return tags;
 }
@@ -4902,8 +4903,30 @@ function dedupePromptTokens(tokens,{dropRedundantGlobal=false}={}){
 }
 function strongerTwoPersonCommonTags(){
   const n=characterCount();if(n<2)return[];
-  return dedupePromptTokens([n===2?'2people':'3people',...roleLayoutTags(),'single image','same frame','physical contact','shared action']);
+  return ['single image','same frame','physical contact','shared action'];
 }
+function nAppearanceReady(){
+  const n=characterCount();
+  const letters=['A','B','C'].slice(0, Math.max(n,1));
+  return letters.some(L=>String($('char'+L+'Tags')?.value||'').trim());
+}
+function emitPromptUpdated(){
+  try{window.dispatchEvent(new CustomEvent('asset-prompt-updated',{detail:{source:'buildPrompt'}}));}catch(_){}
+}
+function promptTokenStats(text){
+  const raw=String(text||'');
+  const pieces=raw.split(/(?=\bcharacter\s+[ABC]|\{\{user\}\}:)/i);
+  const scene=typeof splitPromptTokens==='function'?splitPromptTokens(pieces[0]||''):(pieces[0]||'').split(',').map(s=>s.trim()).filter(Boolean);
+  const total=typeof splitPromptTokens==='function'?splitPromptTokens(raw.replace(/\n+/g,', ')) : raw.split(',').map(s=>s.trim()).filter(Boolean);
+  const looks=['A','B','C'].filter(L=>new RegExp('character\\s+'+L+'\\s+appearance:','i').test(raw) || new RegExp('char'+L+'Tags','i').test(raw));
+  return {scene:scene.length,total:total.length};
+}
+function actionAlreadyLinked(text, other){
+  const s=String(text||'');
+  if(new RegExp('character\\s+'+other,'i').test(s)) return true;
+  return /(kiss|hug|embrac|hold|grip|grab|touch|pin(?:ning)?|press|fuck|sex|penetrat|oral|lick|suck|straddl|against character|with character|contact with character)/i.test(s);
+}
+
 function hasSpecifiedCharacter(){return Boolean($('gender')?.value)}
 // 캐릭터 미지정: 성별/캐릭터별 외형(CHARACTER A/B/C)만 제외. 의상·행동·표정·포즈·배경 등 장면 슬롯은 유지.
 /* ===== v3.3 · CHARACTER RAW TAG CLASSIFIER =====
@@ -5281,10 +5304,10 @@ function characterSpecificInlineBlocks(){
       ? targetAction(entries.B.explicitAction,'character A')
       : (aSeed?reciprocal(aSeed,'A'):targetAction(bSeed,'character A'));
     if(!actions.A&&bSeed)actions.A=reciprocal(bSeed,'B');
-    if(!actions.A)actions.A='holding character B';
-    if(!actions.B)actions.B='holding character A';
-    if(!/character\s+B/i.test(actions.A||'')) actions.A=`${actions.A}, holding character B`;
-    if(!/character\s+A/i.test(actions.B||'')) actions.B=`${actions.B}, holding character A`;
+    if(!actions.A)actions.A='facing character B';
+    if(!actions.B)actions.B='facing character A';
+    if(!actionAlreadyLinked(actions.A,'B')) actions.A=`${actions.A}, contact with character B`;
+    if(!actionAlreadyLinked(actions.B,'A')) actions.B=`${actions.B}, contact with character A`;
   }else if(n===3){
     const aSeed=entries.A.actionSeed,bSeed=entries.B.actionSeed,cSeed=entries.C.actionSeed;
     actions.A=entries.A.explicitAction||targetAction(aSeed,'character B');
@@ -5301,8 +5324,10 @@ function characterSpecificInlineBlocks(){
     const anchorCores=new Set(anchors.map(tokenCore));
     const details=normalizeTokens(entries[letter].position,genders[index],entries[letter].appearance,entries[letter].pairRole,entries[letter].roleExtra,entries[letter].forcedPieces,actions[letter],inferredGaze(letter,index));
     // 외형 입력은 identity anchor와 겹쳐도 블록에 유지한다.
+    const rawLook=String($(`char${letter}Tags`)?.value||'').trim();
+    const rawLine=rawLook?`character ${letter} appearance: ${rawLook}`:'';
     const prefix=anchors.length?`character ${letter} identity anchor: ${anchors.join(', ')}, character ${letter}: `:`character ${letter}: `;
-    return prefix+details.join(', ');
+    return [rawLine, prefix+details.join(', ')].filter(Boolean).join('\n');
   });
 }
 
@@ -5486,7 +5511,9 @@ function updatePromptDiagnostics(){
     [q.expOk?'ok':'warn',q.expOk?'표정↔행동 ✓':'표정↔행동 재조정'],
     [q.peopleOk?'ok':'warn',q.peopleOk?`${characterCount()}인 구도 ✓`:`${characterCount()}인 구도 재조정`],
     [outfitExposureMode()!=='none'?'warn':'ok',outfitExposureMode()!=='none'?`의상-노출 보정 ${outfitStatusLabel()}`:`의상 ${outfitModeValue()==='layered'?'레이어':'완성'} ✓`],
-    [isPovMode()?'warn':'ok',`POV ${povDirectorLabel()}`]
+    [isPovMode()?'warn':'ok',`POV ${povDirectorLabel()}`],
+    [((d.tokens||0)>90?'warn':'ok'),`토큰 ${d.sceneTokens||0}+${Math.max(0,(d.tokens||0)-(d.sceneTokens||0))} / ${d.tokens||0}`],
+    [nAppearanceReady()?'ok':'warn', nAppearanceReady()?'외형 입력 반영':'외형 입력 없음']
   ];
   el.innerHTML=chips.map(([c,t])=>`<span class="diagnostic-chip ${c}">${t}</span>`).join('')
 }
@@ -7435,6 +7462,10 @@ function updateResultStatusBadges(){
       const nsfw=typeof isNsfwGenre==='function'&&isNsfwGenre();
       host.appendChild(mk(nsfw?'NSFW':'SFW','primary'));
       try{
+        const st=typeof promptTokenStats==='function'?promptTokenStats((document.getElementById('prompt')||{}).value||''):null;
+        if(st) host.appendChild(mk(`토큰 ${st.total}` , st.total>90?'warn':''));
+      }catch(_){}
+      try{
         const o=typeof quickSlotOverrides==='function'?quickSlotOverrides():null;
         if(o?.suppressOutfit) host.appendChild(mk('의상제외(빠른효과)','warn'));
         if(o?.suppressAction) host.appendChild(mk('행위우선(빠른효과)','hot'));
@@ -7837,7 +7868,7 @@ function stripAutoNegativeTags(value){
 function compressFinalNovelPrompt(text){
   const raw=String(text||'').trim();
   if(!raw)return raw;
-  const pieces=raw.split(/(?=\bcharacter\s+[ABC](?:\s+identity anchor)?:|\{\{user\}\}:)/i).map(v=>v.trim()).filter(Boolean);
+  const pieces=raw.split(/(?=\bcharacter\s+[ABC](?:\s+identity anchor)?:|\bcharacter\s+[ABC]\s+appearance:|\{\{user\}\}:)/i).map(v=>v.trim()).filter(Boolean);
 
   const collapseScene=arr=>{
     arr=arr.filter(t=>!(/^(no |not |don't |do not |never )/i.test(t)));
@@ -7882,7 +7913,7 @@ function compressFinalNovelPrompt(text){
   };
 
   const out=pieces.map(par=>{
-    const prefixM=/^(\{\{user\}\}:|character\s+[ABC](?:\s+identity anchor)?:|character\s+[ABC]:|character\d+:)\s*/i.exec(par);
+    const prefixM=/^(\{\{user\}\}:|character\s+[ABC](?:\s+identity anchor)?:|character\s+[ABC]\s+appearance:|character\s+[ABC]:|character\d+:)\s*/i.exec(par);
     if(!prefixM){
       return collapseScene(splitPromptTokens(par)).join(', ');
     }
@@ -7933,7 +7964,7 @@ function buildPrompt(){
   const userTags=activeUserCharacterText();
   const n=characterCount();
   const multiSceneKeys=new Set(['composition','background','weather','season','lighting','mood']);
-  let a=applyExcludedTokens([$('quality').value,$('gender').value,$('style').value,artStyleTag(),...aiPresetPromptTags('novel'),...detailBoosterTags('novel'),...themeNovelTags(),...guideverseCoreVisualPromptTags(),...guideUniformPromptTags(),...nsfwBase,...speciesTags,...specialPromptTags(),...multiAxisPromptTags(),...povPromptTags(),...presetPromptTags(),...relationNsfwPromptTags(),...roleLayoutTags(),customTagsForPrompt()]);
+  let a=applyExcludedTokens([$('quality').value,$('gender').value,$('style').value,artStyleTag(),...aiPresetPromptTags('novel'),...detailBoosterTags('novel'),...themeNovelTags(),...guideverseCoreVisualPromptTags(),...guideUniformPromptTags(),...nsfwBase,...speciesTags,...specialPromptTags(),...multiAxisPromptTags(),...povPromptTags(),...presetPromptTags(),...relationNsfwPromptTags(),...roleLayoutTags(),...strongerTwoPersonCommonTags(),customTagsForPrompt()]);
   promptSlotKeys().forEach(k=>{
     if(!state.active[k]||!state.selected[k]?.en)return;
     if(shouldSkipSlotForQuick(k))return;
@@ -7956,7 +7987,7 @@ function buildPrompt(){
   const separation=n>=2?multiCharacterSeparationTail():[];
   const identityLocks=n>=2?identityLockTail():[];
   const guideBlocks=guideverseAbilityParagraphs();
-  lastPromptDiagnostics={duplicates:optimized.removed,dominated:optimized.conflicts,poseConflicts:optimized.conflicts,multi:n>=2,outfit:outfitExposureMode()!=='none',categoryFit:'높음',singleImage:true};
+  lastPromptDiagnostics={duplicates:optimized.removed,dominated:optimized.conflicts,poseConflicts:optimized.conflicts,multi:n>=2,outfit:outfitExposureMode()!=='none',categoryFit:'높음',singleImage:true,tokens:0,sceneTokens:0};
   if(n>=2){
     const parts=[sceneMain,...characterBlocks,...separation,...guideBlocks].filter(Boolean);
     let result=parts.join('\n\n');
@@ -7967,9 +7998,16 @@ function buildPrompt(){
     if(userTags)paragraphs.push(userTags);
     prompt.value=compressFinalNovelPrompt(paragraphs.filter(Boolean).map(stripSplitCompositionTokens).filter(Boolean).join('\n\n'));
   }
+  try{
+    const st=promptTokenStats(prompt.value||'');
+    lastPromptDiagnostics.tokens=st.total;
+    lastPromptDiagnostics.sceneTokens=st.scene;
+  }catch(_){}
   updateNegativePrompt();
   buildAllToolPrompts();
   updatePromptDiagnostics();
+  try{updateResultStatusBadges()}catch(_){}
+  emitPromptUpdated();
 }
 
 function buildSummary(){
