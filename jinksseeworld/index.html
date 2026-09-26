@@ -5245,7 +5245,7 @@ function characterSpecificInlineBlocks(){
     const position=combineText($(`char${letter}PositionPreset`)?.value||'', $(`char${letter}Position`)?.value||'', autoRole);
     const controlAction=combineText(_charQ.suppressAction?'':$(`char${letter}ActionPreset`)?.value||'', _charQ.suppressAction?'':$(`char${letter}Action`)?.value||'', _charQ.suppressAction?'':roleAwareCharacterAction(letter));
     const forcedPieces=_charQ.suppressAction?[]:roleForcedPromptPieces(letter);
-    const compactAppearance=compactCharacterAppearanceTokens(classified.appearance);
+    const compactAppearance=dedupePromptTokens(classified.appearance||[]);
     const compactActions=compactCharacterActionTokens(classified.action);
     entries[letter]={classified,position,pairRole,roleExtra,forcedPieces,appearance:compactAppearance,actionInput:compactActions,controlAction};
   });
@@ -5299,8 +5299,8 @@ function characterSpecificInlineBlocks(){
   return letters.map((letter,index)=>{
     const anchors=identityAnchors[letter]||[];
     const anchorCores=new Set(anchors.map(tokenCore));
-    const details=normalizeTokens(entries[letter].position,genders[index],entries[letter].appearance,entries[letter].pairRole,entries[letter].roleExtra,entries[letter].forcedPieces,actions[letter],inferredGaze(letter,index))
-      .filter(t=>!anchorCores.has(tokenCore(t)));
+    const details=normalizeTokens(entries[letter].position,genders[index],entries[letter].appearance,entries[letter].pairRole,entries[letter].roleExtra,entries[letter].forcedPieces,actions[letter],inferredGaze(letter,index));
+    // 외형 입력은 identity anchor와 겹쳐도 블록에 유지한다.
     const prefix=anchors.length?`character ${letter} identity anchor: ${anchors.join(', ')}, character ${letter}: `:`character ${letter}: `;
     return prefix+details.join(', ');
   });
@@ -7837,66 +7837,58 @@ function stripAutoNegativeTags(value){
 function compressFinalNovelPrompt(text){
   const raw=String(text||'').trim();
   if(!raw)return raw;
-  const paras=raw.split(/\n\s*\n/);
-  const out=paras.map(par=>{
-    const prefixM=/^(\{\{user\}\}:|character\s+[ABC](?:\s+identity anchor)?:|character\d+:)\s*/i.exec(par);
-    const prefix=prefixM?prefixM[0]:'';
-    const body=prefix?par.slice(prefix.length):par;
-    let arr=splitPromptTokens(body).map(t=>t.replace(/\s+/g,' ').trim()).filter(Boolean);
+  const pieces=raw.split(/(?=\bcharacter\s+[ABC](?:\s+identity anchor)?:|\{\{user\}\}:)/i).map(v=>v.trim()).filter(Boolean);
 
-    // 긍정 프롬프트에서 금지형(no/not/do not) 제거 — 네거티브가 담당
+  const collapseScene=arr=>{
     arr=arr.filter(t=>!(/^(no |not |don't |do not |never )/i.test(t)));
-
     const groups=[
       {keep:'single image', rx:/^(single image|single panel|one scene|unified scene|one unified scene|full frame composition|cohesive single shot|one camera shot|one camera angle|same photograph|both subjects in one shot)$/i},
       {keep:'same frame', rx:/^(same frame|all characters together in the same frame|all characters sharing the same environment|shared environment|shared lighting|both characters visible together in one POV shot|character A and character B together in the same frame)$/i},
-      {keep:'physical contact', rx:/^(physical contact|physical contact between characters|character A and character B in physical contact|bodies pressed together|bodies overlapping slightly|hands connecting the characters|character A touching character B|pressed close to character [ABC])$/i},
+      {keep:'physical contact', rx:/^(physical contact|physical contact between characters|character A and character B in physical contact|bodies pressed together|bodies overlapping slightly|hands connecting the characters|character A touching character B)$/i},
       {keep:'shared action', rx:/^(shared action|one shared action|one shared action between character A and character B|organic interaction between characters|interlocking poses|interlocking two-person pose|coordinated poses and eye lines|clear physical relationship between characters)$/i},
       {keep:'2people', rx:/^(2people|two people|two people clearly visible.*)$/i},
       {keep:'3people', rx:/^(3people|three people|three people clearly visible.*)$/i},
-      {keep:'looking at viewer', rx:/^(looking at viewer|looking at the viewer)$/i},
-      {keep:'masterpiece', rx:/^(masterpiece|masterpiece quality)$/i},
       {keep:'best quality', rx:/^(best quality|amazing quality|high quality|very aesthetic|newest|absurdres|highres)$/i}
     ];
     groups.forEach(g=>{
-      const hit=arr.filter(t=>g.rx.test(tokenCore(t))||g.rx.test(t));
-      if(!hit.length)return;
+      const hit=arr.some(t=>g.rx.test(tokenCore(t))||g.rx.test(t));
+      if(!hit)return;
       arr=arr.filter(t=>!(g.rx.test(tokenCore(t))||g.rx.test(t)));
       arr.push(g.keep);
     });
-
-    // 핵심 정규화
     arr=arr.map(t=>t
-      .replace(/^character A and character B in physical contact$/i,'physical contact')
-      .replace(/^character A and character B together in the same frame$/i,'same frame')
       .replace(/^not a split panel$/i,'')
       .replace(/^not two separate POV portraits$/i,'')
       .replace(/^clear two-person role separation$/i,'')
-      .replace(/^keep each character identity separate$/i,'separate identities')
+      .replace(/^keep each character identity separate$/i,'')
       .replace(/^do not transfer.*$/i,'')
-    ).map(t=>t.trim()).filter(Boolean);
-
+    ).map(t=>String(t||'').trim()).filter(Boolean);
     arr=dedupePromptTokens(arr);
-
-    // 포함 관계 중복 제거: 짧은 토큰이 긴 토큰에 완전 포함되면 짧은 쪽 삭제
-    const cores=arr.map(tokenCore);
-    arr=arr.filter((t,i)=>{
-      const c=cores[i];
-      if(c.length<4)return true;
-      return !cores.some((o,j)=>j!==i && o!==c && o.includes(c) && o.length-c.length<=24);
-    });
-
-    // 장면 공통부는 짧게, 캐릭터 블록은 외형+행동 위주
-    const isChar=/\bcharacter\s+[ABC]\b/i.test(prefix+body);
-    const cap=isChar?16:26;
+    const cap=28;
     if(arr.length>cap){
-      const prefer=/(masterpiece|best quality|nsfw|explicit|2people|3people|1boy|1girl|2boys|2girls|single image|same frame|physical contact|shared action|POV|office|uniform|white shirt)/i;
+      const prefer=/(masterpiece|best quality|nsfw|explicit|2people|3people|1boy|1girl|2boys|2girls|3boys|3girls|single image|same frame|physical contact|shared action|POV|office)/i;
       const head=arr.filter(t=>prefer.test(t));
       const rest=arr.filter(t=>!prefer.test(t));
-      arr=[...head,...rest].slice(0,cap);
-      arr=dedupePromptTokens(arr);
+      arr=dedupePromptTokens([...head,...rest].slice(0,cap));
     }
-    return (prefix+arr.join(', ')).replace(/\s+,/g,',').replace(/,\s*,+/g,', ').trim();
+    return arr;
+  };
+
+  const keepCharacter=body=>{
+    let arr=splitPromptTokens(body).map(t=>t.replace(/\s+/g,' ').trim()).filter(Boolean);
+    arr=dedupePromptTokens(arr);
+    // 외형 입력은 절대 길이 캡으로 자르지 않음. 완전 동일 토큰만 제거.
+    return arr;
+  };
+
+  const out=pieces.map(par=>{
+    const prefixM=/^(\{\{user\}\}:|character\s+[ABC](?:\s+identity anchor)?:|character\s+[ABC]:|character\d+:)\s*/i.exec(par);
+    if(!prefixM){
+      return collapseScene(splitPromptTokens(par)).join(', ');
+    }
+    const prefix=prefixM[0];
+    const body=par.slice(prefix.length);
+    return (prefix+keepCharacter(body).join(', ')).replace(/\s+,/g,',').replace(/,\s*,+/g,', ').trim();
   }).filter(Boolean);
 
   return out.join('\n\n').replace(/[ ]{2,}/g,' ').replace(/\s*,\s*,+/g,', ').trim();
@@ -7966,9 +7958,8 @@ function buildPrompt(){
   const guideBlocks=guideverseAbilityParagraphs();
   lastPromptDiagnostics={duplicates:optimized.removed,dominated:optimized.conflicts,poseConflicts:optimized.conflicts,multi:n>=2,outfit:outfitExposureMode()!=='none',categoryFit:'높음',singleImage:true};
   if(n>=2){
-    const flatParts=[sceneMain,...characterBlocks,...separation,...guideBlocks].filter(Boolean);
-    let result=flatParts.join(', ');
-    result=result.replace(/\s*,\s*,+/g,', ').replace(/\s+/g,' ').trim();
+    const parts=[sceneMain,...characterBlocks,...separation,...guideBlocks].filter(Boolean);
+    let result=parts.join('\n\n');
     if(userTags)result+='\n\n'+userTags;
     prompt.value=compressFinalNovelPrompt(result);
   }else{
