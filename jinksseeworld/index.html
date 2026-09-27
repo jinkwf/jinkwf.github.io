@@ -1661,8 +1661,8 @@ function updateQuickEffectCount(){const n=collectedSpecialTagValues().length;con
 function resetQuickEffects(){const checked=[...document.querySelectorAll('[data-special-tag]:checked')];checked.forEach(el=>{el.checked=false});updateSpecialTagAvailability();updateQuickEffectCount();buildPrompt();buildSummary();updateNegativePrompt();saveSettings();updateQuickRecommendations();updateExposureStageHint();show(checked.length?`🧹 빠른 효과 / 흔적 태그 ${checked.length}개를 초기화했습니다.`:'🧹 초기화할 빠른 효과 / 흔적 태그가 없습니다.');}
 function multiDistinctPromptTags(){
   const n=characterCount();
-  if(n===2)return ['2people','two people clearly visible, both people distinct, separate silhouettes, clear limb ownership'];
-  if(n===3)return ['3people','three people clearly visible, each person fully distinct, separate silhouettes, clear limb ownership, no merged bodies, no overlapping faces'];
+  if(n===2)return ['2people'];
+  if(n===3)return ['3people'];
   return [];
 }
 function nsfwModeOn(){return $('nsfwMode')?.checked===true}
@@ -5033,6 +5033,15 @@ function compactCharacterAppearanceTokens(tokens){
   // 얼굴/피부 반복
   if(hasRx(/^youthful face$/)) removeRx(/^(delicate facial features|neat appearance)$/);
   if(hasRx(/^pale skin$/)) removeRx(/^fair skin$/);
+  if(hasRx(/^tanned skin$/)) removeRx(/^(sun-kissed skin|bronze skin|dark tan)$/);
+  if(hasRx(/lean muscular/)) removeRx(/^(powerful build|muscular build|muscular|strong body)$/);
+  else if(hasRx(/^muscular build$/)) removeRx(/^(powerful build|muscular)$/);
+  if(hasRx(/^long bangs covering eyes$/)||hasRx(/^hair over eyes$/)){
+    removeRx(/^(long bangs covering eyes|hair over eyes|eyes hidden by bangs|obscured eyes)$/);
+    addUnique('bangs covering eyes');
+  }
+  if(hasRx(/^rugged handsome man$/)) removeRx(/^rough appearance$/);
+  if(hasRx(/^confident expression$/)&&hasRx(/^intense gaze$/)) removeRx(/^intense gaze$/);
   return dedupePromptTokens(arr);
 }
 function compactCharacterActionTokens(tokens){
@@ -5183,11 +5192,8 @@ function multiCharacterSeparationTail(){
   });
   const distinctOutfits=letters.map(l=>(classes[l]?.appearance||[]).filter(t=>CHARACTER_OUTFIT_RX.test(t)).join('|')).filter(Boolean);
   const distinctExpressions=letters.map(l=>(classes[l]?.action||[]).filter(t=>CHARACTER_EXPRESSION_RX.test(t)).join('|')).filter(Boolean);
-  out.push(n===2?'character A and character B clearly separated':'character A, character B, and character C clearly separated');
-  out.push('distinct poses','separate silhouettes','clear limb ownership');
   if(new Set(distinctExpressions).size>=2)out.push('distinct expressions');
   if(new Set(distinctOutfits).size>=2)out.push('distinct outfits');
-  if(n>=3)out.push('no merged bodies');
   return compactRelationTokens(out);
 }
 
@@ -5322,12 +5328,27 @@ function characterSpecificInlineBlocks(){
   return letters.map((letter,index)=>{
     const anchors=identityAnchors[letter]||[];
     const anchorCores=new Set(anchors.map(tokenCore));
-    const details=normalizeTokens(entries[letter].position,genders[index],entries[letter].appearance,entries[letter].pairRole,entries[letter].roleExtra,entries[letter].forcedPieces,actions[letter],inferredGaze(letter,index));
-    // 외형 입력은 identity anchor와 겹쳐도 블록에 유지한다.
     const rawLook=String($(`char${letter}Tags`)?.value||'').trim();
-    const rawLine=rawLook?`character ${letter} appearance: ${rawLook}`:'';
+    const rawTokens=rawLook?compactCharacterAppearanceTokens(splitPromptTokens(rawLook)):[];
+    const rawCore=new Set(rawTokens.map(tokenCore));
+    const rawLine=rawTokens.length?`character ${letter} appearance: ${rawTokens.join(', ')}`:'';
+    const actionOnly=normalizeTokens(
+      entries[letter].position,
+      rawLine?'':genders[index],
+      rawLine?[]:entries[letter].appearance,
+      entries[letter].pairRole,
+      entries[letter].roleExtra,
+      entries[letter].forcedPieces,
+      actions[letter],
+      inferredGaze(letter,index)
+    ).filter(t=>!rawCore.has(tokenCore(t)) && !/^(distinct poses|separate silhouettes|clear limb ownership|clearly separated)$/i.test(tokenCore(t)));
+    if(rawLine){
+      const act=actionOnly.join(', ');
+      return act?`${rawLine}\ncharacter ${letter}: ${act}`:rawLine;
+    }
+    const details=normalizeTokens(entries[letter].position,genders[index],entries[letter].appearance,entries[letter].pairRole,entries[letter].roleExtra,entries[letter].forcedPieces,actions[letter],inferredGaze(letter,index));
     const prefix=anchors.length?`character ${letter} identity anchor: ${anchors.join(', ')}, character ${letter}: `:`character ${letter}: `;
-    return [rawLine, prefix+details.join(', ')].filter(Boolean).join('\n');
+    return prefix+details.join(', ');
   });
 }
 
