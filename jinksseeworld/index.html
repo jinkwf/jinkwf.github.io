@@ -9762,4 +9762,231 @@ html[data-color-mode="light"] .card{
 html[data-color-mode="light"] .ko{color:#2d2532!important}
 html[data-color-mode="light"] .en{color:#665a6e!important}
 </style>
+
+<style id="v403ReadabilitySkin">
+/* ===== v4.0.3 · readability skin · dark + light =====
+   원칙: 박스마다 무지개 X. 역할 레인만 색을 주고,
+   아웃라인 + 왼쪽 레일 + 아주 약한 아웃글로우로 구역을 구분한다.
+*/
+:root{
+  --lane-mode:#f0c978;
+  --lane-theme:#b79cff;
+  --lane-basic:#8eb4ff;
+  --lane-char:#7eb0ff;
+  --lane-slot:#c9a6ff;
+  --lane-random:#9fdfb6;
+  --lane-guide:#5bbbff;
+  --lane-novel:#c4b2ff;
+  --lane-pix:#7ed0c4;
+  --lane-niji:#e7a4cf;
+  --lane-neg:#ff9aa5;
+  --lane-saved:#d7c4ff;
+}
+.panel,.hero,.workflow-mode-panel,.current-setup-bar{
+  position:relative;
+  isolation:isolate;
+}
+.panel{
+  border-color:rgba(255,255,255,.12);
+  box-shadow:
+    0 18px 42px rgba(0,0,0,.28),
+    inset 0 1px 0 rgba(255,255,255,.05);
+}
+.panel::before{
+  content:"";
+  position:absolute;
+  left:0;top:16px;bottom:16px;
+  width:3px;
+  border-radius:0 4px 4px 0;
+  background:var(--lane,var(--accent));
+  box-shadow:0 0 14px var(--lane-glow,rgba(166,140,255,.42));
+  pointer-events:none;
+  z-index:2;
+}
+#contentModePanel{--lane:var(--lane-mode);--lane-glow:rgba(240,201,120,.5)}
+#themeTropePanel{--lane:var(--lane-theme);--lane-glow:rgba(183,156,255,.5)}
+#basicTagsPanel{--lane:var(--lane-basic);--lane-glow:rgba(142,180,255,.45)}
+#characterAppearancePanel,#characterSlotPanel,#characterPresetPanel{--lane:var(--lane-char);--lane-glow:rgba(126,176,255,.48)}
+#slotPanel{--lane:var(--lane-slot);--lane-glow:rgba(201,166,255,.5)}
+#randomControlPanel{--lane:var(--lane-random);--lane-glow:rgba(159,223,182,.42)}
+#guideverseAbilityPanel{--lane:var(--lane-guide);--lane-glow:rgba(91,187,255,.48)}
+#novelPromptPanel{--lane:var(--lane-novel);--lane-glow:rgba(196,178,255,.48)}
+#pixPromptPanel{--lane:var(--lane-pix);--lane-glow:rgba(126,208,196,.45)}
+#nijiPromptPanel{--lane:var(--lane-niji);--lane-glow:rgba(231,164,207,.45)}
+#negativePromptPanel{--lane:var(--lane-neg);--lane-glow:rgba(255,154,165,.4)}
+.guestbook-panel{--lane:#e694c4;--lane-glow:rgba(230,148,196,.4)}
+
+.hero{
+  border-color:rgba(166,140,255,.28);
+  box-shadow:
+    0 22px 50px rgba(0,0,0,.34),
+    0 0 0 1px rgba(166,140,255,.12),
+    0 0 42px rgba(166,140,255,.12);
+}
+.hero h1{
+  text-shadow:0 0 28px rgba(166,140,255,.18);
+}
+.workflow-mode-panel{
+  border-color:rgba(240,201,120,.28);
+  box-shadow:0 10px 28px rgba(0,0,0,.22), 0 0 24px rgba(240,201,120,.06);
+}
+.current-setup-bar{
+  box-shadow:inset 3px 0 0 #f0c978, 0 8px 22px rgba(0,0,0,.18);
+}
+
+/* 내부 박스: 같은 패널 안에서도 칸이 분리되게 */
+.opt,.director-card,.char-separate-item,.preset-preview-card,.preset-slot-card,.mode-choice-card,.theme-group,.theme-bl-box{
+  border-color:rgba(255,255,255,.11);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+.opt{background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.012)),var(--panel2)}
+.mode-choice-card{box-shadow:inset 3px 0 0 var(--lane-mode)}
+.theme-group{box-shadow:inset 3px 0 0 rgba(183,156,255,.7)}
+.theme-group[open]{
+  border-color:rgba(183,156,255,.38);
+  box-shadow:inset 3px 0 0 #b79cff, 0 0 22px rgba(166,140,255,.08);
+}
+
+/* 슬롯 카드: 종류별 레일. 배경은 거의 같고 가장자리만 다르게 */
+#cards .card{border-color:rgba(255,255,255,.11);box-shadow:inset 3px 0 0 var(--slot-rail,#a68cff)}
+#cards .card[data-slot-key="background"],
+#cards .card[data-slot-key="season"],
+#cards .card[data-slot-key="weather"],
+#cards .card[data-slot-key="time"],
+#cards .card[data-slot-key="place"]{--slot-rail:#7ed0c4}
+#cards .card[data-slot-key="outfit"],
+#cards .card[data-slot-key="accessory"]{--slot-rail:#f0c978}
+#cards .card[data-slot-key="expression"],
+#cards .card[data-slot-key="mood"],
+#cards .card[data-slot-key="emotion"]{--slot-rail:#e694c4}
+#cards .card[data-slot-key="action"],
+#cards .card[data-slot-key="pose"],
+#cards .card[data-slot-key="interaction"]{--slot-rail:#b79cff}
+#cards .card[data-slot-key="composition"],
+#cards .card[data-slot-key="gaze"],
+#cards .card[data-slot-key="camera"],
+#cards .card[data-slot-key="lighting"],
+#cards .card[data-slot-key="light"]{--slot-rail:#8eb4ff}
+#cards .card[data-slot-key="prop"],
+#cards .card[data-slot-key="props"]{--slot-rail:#9fdfb6}
+#cards .card.locked{
+  box-shadow:inset 3px 0 0 #f0c978, 0 0 0 1px rgba(240,201,120,.28), 0 0 18px rgba(240,201,120,.12);
+}
+#cards .card .ko{color:#f4f0fb;letter-spacing:-.01em}
+#cards .card .en{color:#b7afc2}
+
+select:focus,input:focus,textarea:focus{
+  border-color:rgba(183,156,255,.72)!important;
+  box-shadow:0 0 0 3px rgba(166,140,255,.16), 0 0 16px rgba(166,140,255,.12);
+}
+.roll{
+  box-shadow:0 14px 30px rgba(126,95,215,.32), 0 0 22px rgba(166,140,255,.18), inset 0 1px rgba(255,255,255,.22);
+}
+.tool.primary,.guestbook-send,#promptFloatCopyNovel,#promptFloatCopyPix,#promptFloatCopyNiji{
+  box-shadow:0 8px 18px rgba(120,100,216,.22), 0 0 16px rgba(166,140,255,.12);
+}
+
+/* 출력 패널은 열렸을 때만 약한 광 */
+#novelPromptPanel[open]{box-shadow:0 16px 36px rgba(0,0,0,.28), 0 0 26px rgba(183,156,255,.1)}
+#pixPromptPanel[open]{box-shadow:0 16px 36px rgba(0,0,0,.28), 0 0 26px rgba(126,208,196,.1)}
+#nijiPromptPanel[open]{box-shadow:0 16px 36px rgba(0,0,0,.28), 0 0 26px rgba(231,164,207,.1)}
+#negativePromptPanel[open]{box-shadow:0 16px 36px rgba(0,0,0,.28), 0 0 22px rgba(255,154,165,.08)}
+
+.desc,.collapse-desc{color:#c2bacb}
+.title,.collapse-title{letter-spacing:-.02em}
+
+/* ===== light ===== */
+html[data-color-mode="light"] body{
+  --text:#241c2b;
+  --sub:#4e4458;
+  background:
+    radial-gradient(circle at 8% 0,rgba(124,96,214,.08),transparent 28%),
+    radial-gradient(circle at 100% 12%,rgba(214,130,176,.07),transparent 26%),
+    #f3eef5;
+}
+html[data-color-mode="light"] .panel,
+html[data-color-mode="light"] .hero{
+  background:#fff;
+  border-color:rgba(48,36,62,.16);
+  box-shadow:0 10px 28px rgba(49,36,58,.06), inset 0 1px 0 #fff;
+}
+html[data-color-mode="light"] .panel::before{
+  box-shadow:none;
+  width:4px;
+}
+html[data-color-mode="light"] .hero{
+  box-shadow:0 14px 32px rgba(49,36,58,.07), 0 0 0 1px rgba(112,86,200,.12);
+}
+html[data-color-mode="light"] .hero h1,
+html[data-color-mode="light"] .title,
+html[data-color-mode="light"] .collapse-title,
+html[data-color-mode="light"] .ko,
+html[data-color-mode="light"] .card-title{
+  color:#241c2b!important;
+  text-shadow:none!important;
+}
+html[data-color-mode="light"] .desc,
+html[data-color-mode="light"] .collapse-desc,
+html[data-color-mode="light"] .en,
+html[data-color-mode="light"] .hero p{
+  color:#514658!important;
+}
+html[data-color-mode="light"] .opt,
+html[data-color-mode="light"] .director-card,
+html[data-color-mode="light"] .card,
+html[data-color-mode="light"] .mode-choice-card,
+html[data-color-mode="light"] .theme-group,
+html[data-color-mode="light"] .check{
+  background:#f7f4f9!important;
+  border-color:rgba(48,36,62,.14)!important;
+  color:#2a2232;
+}
+html[data-color-mode="light"] #cards .card{
+  box-shadow:inset 4px 0 0 var(--slot-rail,#7a63c8)!important;
+}
+html[data-color-mode="light"] #cards .card .ko{color:#241c2b!important}
+html[data-color-mode="light"] #cards .card .en{color:#5c5166!important}
+html[data-color-mode="light"] select,
+html[data-color-mode="light"] input[type=text],
+html[data-color-mode="light"] textarea,
+html[data-color-mode="light"] .opt select{
+  background:#fff!important;
+  color:#241c2b!important;
+  border-color:rgba(48,36,62,.18)!important;
+}
+html[data-color-mode="light"] select:focus,
+html[data-color-mode="light"] input:focus,
+html[data-color-mode="light"] textarea:focus{
+  box-shadow:0 0 0 3px rgba(112,86,200,.16)!important;
+}
+html[data-color-mode="light"] .workflow-mode-panel,
+html[data-color-mode="light"] .current-setup-bar{
+  background:#fff;
+  border-color:rgba(168,126,42,.28);
+}
+html[data-color-mode="light"] .chip,
+html[data-color-mode="light"] .current-setup-chip{
+  background:#f4f0f7;
+  color:#3a3144;
+  border-color:rgba(48,36,62,.12);
+}
+html[data-color-mode="light"] .small-btn,
+html[data-color-mode="light"] .tool{
+  background:#f3eef6;
+  color:#2c2434;
+  border-color:rgba(48,36,62,.14);
+}
+html[data-color-mode="light"] .theme-chip{
+  background:#fff;
+  color:#2d2534;
+  border-color:rgba(48,36,62,.14);
+}
+html[data-color-mode="light"] .theme-chip:has(input:checked){
+  color:#fff;
+}
+html[data-color-mode="light"] .nsfw-banner{
+  color:#ffd5dc;
+}
+</style>
+
 </body></html>
