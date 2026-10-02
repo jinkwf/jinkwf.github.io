@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1.0" name="viewport"/>
 <meta content="#0e0c12" name="theme-color"/>
-<title>NSFW 에셋 랜덤 프롬프트 생성기.v4.0.3</title>
+<title>NSFW 에셋 랜덤 프롬프트 생성기.v4.0.4</title>
 <style>
 :root{--bg:#0e0c12;--panel:#17141d;--panel2:#201c28;--panel3:#292333;--line:rgba(255,255,255,.09);--text:#f7f3fa;--sub:#aaa3b4;--accent:#a68cff;--pink:#e694c4;--gold:#f0c978;--green:#9fdfb6;--red:#ff9aa5;--shadow:0 20px 60px rgba(0,0,0,.35)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 8% 0,rgba(166,140,255,.13),transparent 27%),radial-gradient(circle at 100% 15%,rgba(230,148,196,.08),transparent 27%),var(--bg);color:var(--text);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif}button,select,input,textarea{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}.page{width:min(1220px,calc(100% - 28px));margin:auto;padding:28px 0 70px}.hero,.panel{border:1px solid var(--line);background:rgba(23,20,29,.96);box-shadow:var(--shadow)}.hero{position:relative;overflow:hidden;border-radius:26px;padding:31px;margin-bottom:17px}.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-100px;top:-135px;background:rgba(166,140,255,.12);filter:blur(12px);pointer-events:none}.eyebrow{font-size:11px;font-weight:900;letter-spacing:.2em;color:var(--accent)}
 .eyebrow-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
@@ -974,7 +974,7 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
 <div class="update-icon">✨</div>
 <h2 id="updateGateTitle">업데이트가 있습니다</h2>
 <p>새 버전이 배포되었습니다.<br/>정상 반영을 위해 페이지를 <strong style="color:#e8e0ff">새로고침</strong> 해주세요.</p>
-<div class="update-ver" id="updateGateVersion">v4.0.3</div>
+<div class="update-ver" id="updateGateVersion">v4.0.4</div>
 <div class="update-actions">
 <button class="update-btn primary" id="updateRefreshBtn" type="button">새로고침 하기</button>
 <button class="update-btn ghost" id="updateLaterBtn" type="button">나중에 (이번만 닫기)</button>
@@ -996,9 +996,10 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
    - 새 항목은 배열 맨 위에 추가하세요.
 ========================================================= */
 /* 빌드 ID가 바뀌면 성인/접속코드 인증보다 먼저 새로고침 팝업을 띄웁니다. 매 배포 시 반드시 이 값을 새 고유값으로 변경하세요. */
-const APP_BUILD_ID='20261002-v4.0.3-slot-merge-silent-reroll';
-const APP_BUILD_LABEL = 'v4.0.3 · Slot Merge · Silent Reroll · Readability';
+const APP_BUILD_ID='20261002-v4.0.4-small-category-pick';
+const APP_BUILD_LABEL = 'v4.0.4 · Small Category Pick';
 const UPDATE_NOTES = [
+  { date:'10.02', text:'22 : v4.0.4 · 소분류를 눌러도 선택이 풀리던 문제를 수정했습니다. 소분류 칩을 추가하고, 직접 고른 소분류는 재추첨이 덮지 않습니다.' },
   { date:'10.02', text:'21 : v4.0.3 · 행동·자세 / 계절·시간·날씨 슬롯 통합, 간편 모드 masterpiece·best quality와 애니/반실사 고정, 카메라 샷·앵글·초점 자동 보충, 장면 충돌 시 침묵 재추첨. 숨긴 슬롯 반짝임 오류로 생성이 끊기던 문제를 수정했습니다.' },
   { date:'10.02', text:'20 : v4.0.3 가독성 · 블랙/화이트 모두 역할별 왼쪽 레일·아웃라인·약한 광으로 패널을 구분하고, 라이트 모드 본문 대비를 올렸습니다.' },
   { date:'09.26', text:'18 : v4.0.2-hotfix2 · 생성 직후 프롬프트 동기화 이벤트 발사, 2인 공통태그 상시 적용, 외형 원문 보존, 조건부 접촉, 토큰 수 표시.' },
@@ -1289,7 +1290,7 @@ renderAdminUpdateNote();
 })();
 </script>
 <div class="page">
-<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v4.0.3</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v4.0.3</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며, 상세 설정과 빠른효과/흔적 태그로 장면 강도를 조절할 수 있습니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span>
+<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v4.0.4</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v4.0.4</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며, 상세 설정과 빠른효과/흔적 태그로 장면 강도를 조절할 수 있습니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span>
 <div id="themeModeToggle" class="theme-mode-toggle" role="group" aria-label="화면 테마 선택" data-current-mode="dark">
 <button type="button" class="theme-mode-btn active" data-theme-mode-btn="dark" aria-pressed="true">블랙</button>
 <button type="button" class="theme-mode-btn" data-theme-mode-btn="light" aria-pressed="false">화이트</button>
@@ -4293,7 +4294,30 @@ function loadSmallCategories(keep=false,preferred=''){
   const old=preferred||category.value;const cats=activeCategoryLibrary();const keys=activeCategoryKeys();
   category.innerHTML='';const all=document.createElement('option');all.value='__all';all.textContent=middleCategoryValue()==='__all'?'전체 소분류 랜덤':`${middleCategoryLabel()} 전체 랜덤`;category.appendChild(all);
   keys.forEach(k=>{const x=cats[k];if(!x)return;const o=document.createElement('option');o.value=k;o.textContent=x.label;category.appendChild(o)});
-  if(keep&&[...category.options].some(o=>o.value===old))category.value=old;else category.value='__all';
+  if(keep&&[...category.options].some(o=>o.value===old))category.value=old;else if(preferred&&[...category.options].some(o=>o.value===preferred))category.value=preferred;else category.value='__all';
+  renderSmallCategoryChips();
+}
+function renderSmallCategoryChips(){
+  const select=$('category');if(!select)return;
+  let host=$('smallCategoryChips');
+  if(!host){
+    host=document.createElement('div');
+    host.id='smallCategoryChips';
+    host.className='small-cat-chips';
+    select.insertAdjacentElement('afterend', host);
+  }
+  host.innerHTML='';
+  [...select.options].forEach(opt=>{
+    const btn=document.createElement('button');
+    btn.type='button';
+    btn.className='small-cat-chip'+(opt.value===select.value?' on':'');
+    btn.textContent=opt.textContent;
+    btn.addEventListener('click',()=>{
+      select.value=opt.value;
+      select.dispatchEvent(new Event('change',{bubbles:true}));
+    });
+    host.appendChild(btn);
+  });
 }
 
 const SLOTS={background:'🏙️ 배경',outfit:'👔 의상',expression:'🙂 표정',action:'🎬 행동 · 자세',season:'🍃 계절',weather:'🌦️ 계절 · 시간 · 날씨',composition:'📷 구도',lighting:'💡 조명',gaze:'👁️ 시선',pose:'🧍 자세',prop:'🧳 소품',mood:'🎞️ 분위기'};
@@ -7350,8 +7374,8 @@ function sceneCoherenceScore(){
 }
 function snapshotSelections(){const snap={};Object.keys(SLOTS).forEach(k=>{snap[k]=state.selected[k]});snap.simpleArtStyle=state.simpleArtStyle||'';return snap}
 function restoreSelections(snap){Object.keys(SLOTS).forEach(k=>{state.selected[k]=snap[k]});state.simpleArtStyle=snap.simpleArtStyle||state.simpleArtStyle}
-function rollSceneOnce(){
-  if($('randomCategory')?.checked) randomizeCategory();
+function rollSceneOnce(opts={}){
+  if($('randomCategory')?.checked && !opts.keepCategory) randomizeCategory();
   if(scenePresetValue()==='auto') resolveScenePreset(true);
   prepareSceneCoherenceRoll();
   if(document.body?.dataset?.uiMode==='simple') state.simpleArtStyle=Math.random()<0.5?'anime style':'semi-realistic';
@@ -7359,17 +7383,21 @@ function rollSceneOnce(){
   enforceSmartConflicts();
   enforceSemanticQuality();
 }
-function rollAll(record=true){
-  rollSceneOnce();
+function rollAll(record=true, opts={}){
+  const keepCategory=opts.keepCategory===true;
+  const picked=keepCategory?category.value:'';
+  rollSceneOnce(opts);
   let best=snapshotSelections();
   let bestScore=sceneCoherenceScore();
   for(let i=0;i<3 && bestScore<72;i++){
-    rollSceneOnce();
+    rollSceneOnce(opts);
     const score=sceneCoherenceScore();
     if(score>=bestScore){best=snapshotSelections();bestScore=score}
   }
   restoreSelections(best);
+  if(keepCategory && [...category.options].some(o=>o.value===picked)) category.value=picked;
   render();
+  if(typeof renderSmallCategoryChips==='function') renderSmallCategoryChips();
   if(record) addHistory();
 }
 function toggleLock(k){state.locked[k]=!state.locked[k];if(k==='action')state.locked.pose=state.locked.action;if(k==='pose')state.locked.action=state.locked.pose;if(k==='weather')state.locked.season=state.locked.weather;if(k==='season')state.locked.weather=state.locked.season;renderCardState(k)}
@@ -8258,7 +8286,7 @@ function loadSettings(){
   updateDirectorState();updateCharacterSpecificUI();updatePurposeHint();updateRandomStrengthHint();updateSemanticModeHints();updateGuideverseAbilityPanelVisibility();updateGuideverseAbilityHint();updateGuideUniformUI();refreshSetLockUI();updatePromptDiagnostics();
 }
 cards.addEventListener('click',e=>{const a=e.target.closest('[data-lock],[data-reroll],[data-toggle]');if(!a)return;if(a.dataset.lock)toggleLock(a.dataset.lock);if(a.dataset.toggle)toggleActive(a.dataset.toggle);if(a.dataset.reroll){const key=a.dataset.reroll;rollSlot(key,true);if(key==='prop'){['action','pose','composition'].forEach(k=>{if(!state.locked[k])rollSlot(k,true)})}if(key==='expression'&&!state.locked.action&&expressionCategoryValue()!=='auto')rollSlot('action',true);enforceSmartConflicts();enforceSemanticQuality();render();addHistory()}});
-$('rollAll').onclick=()=>{rollAll(true);trackAnalytics('roll')};genre.onchange=()=>{loadCategories(false);recoverCategorySelectors();populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();updateIntensityMode();updateQuickRecommendations();updateDirectorState();updateGuideverseAbilityPanelVisibility();updateGuideverseAbilityHint();updateGuideUniformUI();render();buildPrompt();buildSummary();buildStats();saveSettings()};$('middleCategory')?.addEventListener('change',()=>{loadSmallCategories(false);updateIntensityMode();updateQuickRecommendations();rollAll(false);buildPrompt();buildSummary();saveSettings()});category.onchange=()=>{updateIntensityMode();updateQuickRecommendations();rollAll(false);buildPrompt();buildSummary();saveSettings()};$('nsfwMode').addEventListener('change',()=>{syncContentModeUI();syncThemeModeAvailability();updateIntensityMode();loadCategories(false);recoverCategorySelectors();populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();updateQuickRecommendations();updateDirectorState();render();buildPrompt();buildSummary();saveSettings();show(`🔞 콘텐츠 모드 ${isNsfwGenre()?'NSFW':'SFW'}`);});
+$('rollAll').onclick=()=>{rollAll(true);trackAnalytics('roll')};genre.onchange=()=>{loadCategories(false);recoverCategorySelectors();populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();updateIntensityMode();updateQuickRecommendations();updateDirectorState();updateGuideverseAbilityPanelVisibility();updateGuideverseAbilityHint();updateGuideUniformUI();render();buildPrompt();buildSummary();buildStats();saveSettings()};$('middleCategory')?.addEventListener('change',()=>{loadSmallCategories(false);updateIntensityMode();updateQuickRecommendations();rollAll(false);buildPrompt();buildSummary();saveSettings()});category.onchange=()=>{updateIntensityMode();updateQuickRecommendations();rollAll(false,{keepCategory:true});buildPrompt();buildSummary();saveSettings();if(typeof renderSmallCategoryChips==='function')renderSmallCategoryChips();};$('nsfwMode').addEventListener('change',()=>{syncContentModeUI();syncThemeModeAvailability();updateIntensityMode();loadCategories(false);recoverCategorySelectors();populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();updateQuickRecommendations();updateDirectorState();render();buildPrompt();buildSummary();saveSettings();show(`🔞 콘텐츠 모드 ${isNsfwGenre()?'NSFW':'SFW'}`);});
 $('lockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=true);render();saveSettings()};$('unlockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=false);render();saveSettings()};$('enableAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.active[k]=true);render();buildPrompt();buildSummary();saveSettings()};$('disableAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.active[k]=false);render();buildPrompt();buildSummary();saveSettings();show('○ 모든 랜덤 슬롯을 미사용으로 설정했습니다.')};
 ['quality','style','aiStylePreset','artStyle','customTags','randomCategory','avoidSame','smartConflict','intensity','userGenderMode','userBodyMode','propCategoryMode','expressionCategoryMode','outfitMode'].forEach(id=>{
   const el=$(id);
@@ -10092,6 +10120,17 @@ html[data-color-mode="light"] .theme-chip:has(input:checked){
 html[data-color-mode="light"] .nsfw-banner{
   color:#ffd5dc;
 }
+</style>
+
+
+<style id="v404SmallCategoryPick">
+#sceneCategoryPanel{position:relative;z-index:6;overflow:visible}
+#sceneCategoryPanel select{position:relative;z-index:2}
+.small-cat-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.small-cat-chip{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:#e7e1eb;border-radius:999px;padding:6px 10px;font-size:10px;font-weight:800;cursor:pointer}
+.small-cat-chip.on{border-color:rgba(166,140,255,.7);background:rgba(166,140,255,.22);color:#fff}
+html[data-color-mode="light"] .small-cat-chip{background:#fff;color:#2d2532;border-color:rgba(48,36,62,.16)}
+html[data-color-mode="light"] .small-cat-chip.on{background:#ece4f8;color:#3d2f55;border-color:#b7a4e6}
 </style>
 
 </body></html>
