@@ -999,7 +999,7 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
 const APP_BUILD_ID='20261002-v4.0.4-small-category-pick';
 const APP_BUILD_LABEL = 'v4.0.4 · Small Category Pick';
 const UPDATE_NOTES = [
-  { date:'10.02', text:'22 : v4.0.4 · 소분류를 눌러도 선택이 풀리던 문제를 수정했습니다. 소분류 칩을 추가하고, 직접 고른 소분류는 재추첨이 덮지 않습니다.' },
+  { date:'10.02', text:'22 : v4.0.4 · 소분류는 대/중분류 탭 아래 기존 스크롤 셀렉트로 두고, 직접 고른 값은 재추첨이 덮지 않게 수정했습니다.' },
   { date:'10.02', text:'21 : v4.0.3 · 행동·자세 / 계절·시간·날씨 슬롯 통합, 간편 모드 masterpiece·best quality와 애니/반실사 고정, 카메라 샷·앵글·초점 자동 보충, 장면 충돌 시 침묵 재추첨. 숨긴 슬롯 반짝임 오류로 생성이 끊기던 문제를 수정했습니다.' },
   { date:'10.02', text:'20 : v4.0.3 가독성 · 블랙/화이트 모두 역할별 왼쪽 레일·아웃라인·약한 광으로 패널을 구분하고, 라이트 모드 본문 대비를 올렸습니다.' },
   { date:'09.26', text:'18 : v4.0.2-hotfix2 · 생성 직후 프롬프트 동기화 이벤트 발사, 2인 공통태그 상시 적용, 외형 원문 보존, 조건부 접촉, 토큰 수 표시.' },
@@ -4295,29 +4295,6 @@ function loadSmallCategories(keep=false,preferred=''){
   category.innerHTML='';const all=document.createElement('option');all.value='__all';all.textContent=middleCategoryValue()==='__all'?'전체 소분류 랜덤':`${middleCategoryLabel()} 전체 랜덤`;category.appendChild(all);
   keys.forEach(k=>{const x=cats[k];if(!x)return;const o=document.createElement('option');o.value=k;o.textContent=x.label;category.appendChild(o)});
   if(keep&&[...category.options].some(o=>o.value===old))category.value=old;else if(preferred&&[...category.options].some(o=>o.value===preferred))category.value=preferred;else category.value='__all';
-  renderSmallCategoryChips();
-}
-function renderSmallCategoryChips(){
-  const select=$('category');if(!select)return;
-  let host=$('smallCategoryChips');
-  if(!host){
-    host=document.createElement('div');
-    host.id='smallCategoryChips';
-    host.className='small-cat-chips';
-    select.insertAdjacentElement('afterend', host);
-  }
-  host.innerHTML='';
-  [...select.options].forEach(opt=>{
-    const btn=document.createElement('button');
-    btn.type='button';
-    btn.className='small-cat-chip'+(opt.value===select.value?' on':'');
-    btn.textContent=opt.textContent;
-    btn.addEventListener('click',()=>{
-      select.value=opt.value;
-      select.dispatchEvent(new Event('change',{bubbles:true}));
-    });
-    host.appendChild(btn);
-  });
 }
 
 const SLOTS={background:'🏙️ 배경',outfit:'👔 의상',expression:'🙂 표정',action:'🎬 행동 · 자세',season:'🍃 계절',weather:'🌦️ 계절 · 시간 · 날씨',composition:'📷 구도',lighting:'💡 조명',gaze:'👁️ 시선',pose:'🧍 자세',prop:'🧳 소품',mood:'🎞️ 분위기'};
@@ -7397,7 +7374,6 @@ function rollAll(record=true, opts={}){
   restoreSelections(best);
   if(keepCategory && [...category.options].some(o=>o.value===picked)) category.value=picked;
   render();
-  if(typeof renderSmallCategoryChips==='function') renderSmallCategoryChips();
   if(record) addHistory();
 }
 function toggleLock(k){state.locked[k]=!state.locked[k];if(k==='action')state.locked.pose=state.locked.action;if(k==='pose')state.locked.action=state.locked.pose;if(k==='weather')state.locked.season=state.locked.weather;if(k==='season')state.locked.weather=state.locked.season;renderCardState(k)}
@@ -8286,7 +8262,7 @@ function loadSettings(){
   updateDirectorState();updateCharacterSpecificUI();updatePurposeHint();updateRandomStrengthHint();updateSemanticModeHints();updateGuideverseAbilityPanelVisibility();updateGuideverseAbilityHint();updateGuideUniformUI();refreshSetLockUI();updatePromptDiagnostics();
 }
 cards.addEventListener('click',e=>{const a=e.target.closest('[data-lock],[data-reroll],[data-toggle]');if(!a)return;if(a.dataset.lock)toggleLock(a.dataset.lock);if(a.dataset.toggle)toggleActive(a.dataset.toggle);if(a.dataset.reroll){const key=a.dataset.reroll;rollSlot(key,true);if(key==='prop'){['action','pose','composition'].forEach(k=>{if(!state.locked[k])rollSlot(k,true)})}if(key==='expression'&&!state.locked.action&&expressionCategoryValue()!=='auto')rollSlot('action',true);enforceSmartConflicts();enforceSemanticQuality();render();addHistory()}});
-$('rollAll').onclick=()=>{rollAll(true);trackAnalytics('roll')};genre.onchange=()=>{loadCategories(false);recoverCategorySelectors();populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();updateIntensityMode();updateQuickRecommendations();updateDirectorState();updateGuideverseAbilityPanelVisibility();updateGuideverseAbilityHint();updateGuideUniformUI();render();buildPrompt();buildSummary();buildStats();saveSettings()};$('middleCategory')?.addEventListener('change',()=>{loadSmallCategories(false);updateIntensityMode();updateQuickRecommendations();rollAll(false);buildPrompt();buildSummary();saveSettings()});category.onchange=()=>{updateIntensityMode();updateQuickRecommendations();rollAll(false,{keepCategory:true});buildPrompt();buildSummary();saveSettings();if(typeof renderSmallCategoryChips==='function')renderSmallCategoryChips();};$('nsfwMode').addEventListener('change',()=>{syncContentModeUI();syncThemeModeAvailability();updateIntensityMode();loadCategories(false);recoverCategorySelectors();populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();updateQuickRecommendations();updateDirectorState();render();buildPrompt();buildSummary();saveSettings();show(`🔞 콘텐츠 모드 ${isNsfwGenre()?'NSFW':'SFW'}`);});
+$('rollAll').onclick=()=>{rollAll(true);trackAnalytics('roll')};genre.onchange=()=>{loadCategories(false);recoverCategorySelectors();populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();updateIntensityMode();updateQuickRecommendations();updateDirectorState();updateGuideverseAbilityPanelVisibility();updateGuideverseAbilityHint();updateGuideUniformUI();render();buildPrompt();buildSummary();buildStats();saveSettings()};$('middleCategory')?.addEventListener('change',()=>{loadSmallCategories(false);updateIntensityMode();updateQuickRecommendations();rollAll(false);buildPrompt();buildSummary();saveSettings()});category.onchange=()=>{updateIntensityMode();updateQuickRecommendations();rollAll(false,{keepCategory:true});buildPrompt();buildSummary();saveSettings();};$('nsfwMode').addEventListener('change',()=>{syncContentModeUI();syncThemeModeAvailability();updateIntensityMode();loadCategories(false);recoverCategorySelectors();populateScenePresetOptions(false);resolveScenePreset(true);updateScenePresetHint();updateQuickRecommendations();updateDirectorState();render();buildPrompt();buildSummary();saveSettings();show(`🔞 콘텐츠 모드 ${isNsfwGenre()?'NSFW':'SFW'}`);});
 $('lockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=true);render();saveSettings()};$('unlockAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.locked[k]=false);render();saveSettings()};$('enableAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.active[k]=true);render();buildPrompt();buildSummary();saveSettings()};$('disableAll').onclick=()=>{Object.keys(SLOTS).forEach(k=>state.active[k]=false);render();buildPrompt();buildSummary();saveSettings();show('○ 모든 랜덤 슬롯을 미사용으로 설정했습니다.')};
 ['quality','style','aiStylePreset','artStyle','customTags','randomCategory','avoidSame','smartConflict','intensity','userGenderMode','userBodyMode','propCategoryMode','expressionCategoryMode','outfitMode'].forEach(id=>{
   const el=$(id);
@@ -10123,14 +10099,11 @@ html[data-color-mode="light"] .nsfw-banner{
 </style>
 
 
-<style id="v404SmallCategoryPick">
-#sceneCategoryPanel{position:relative;z-index:6;overflow:visible}
-#sceneCategoryPanel select{position:relative;z-index:2}
-.small-cat-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.small-cat-chip{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:#e7e1eb;border-radius:999px;padding:6px 10px;font-size:10px;font-weight:800;cursor:pointer}
-.small-cat-chip.on{border-color:rgba(166,140,255,.7);background:rgba(166,140,255,.22);color:#fff}
-html[data-color-mode="light"] .small-cat-chip{background:#fff;color:#2d2532;border-color:rgba(48,36,62,.16)}
-html[data-color-mode="light"] .small-cat-chip.on{background:#ece4f8;color:#3d2f55;border-color:#b7a4e6}
+<style id="v404SmallCategorySelect">
+#sceneCategoryPanel{position:relative;z-index:8;overflow:visible}
+#sceneCategoryPanel .category-hierarchy-grid{grid-template-columns:1fr 1fr}
+#sceneCategoryPanel .category-hierarchy-grid .field:last-child{grid-column:1 / -1}
+#category{position:relative;z-index:3}
 </style>
 
 </body></html>
