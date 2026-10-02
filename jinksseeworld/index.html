@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1.0" name="viewport"/>
 <meta content="#0e0c12" name="theme-color"/>
-<title>NSFW 에셋 랜덤 프롬프트 생성기.v4.0.2</title>
+<title>NSFW 에셋 랜덤 프롬프트 생성기.v4.0.3</title>
 <style>
 :root{--bg:#0e0c12;--panel:#17141d;--panel2:#201c28;--panel3:#292333;--line:rgba(255,255,255,.09);--text:#f7f3fa;--sub:#aaa3b4;--accent:#a68cff;--pink:#e694c4;--gold:#f0c978;--green:#9fdfb6;--red:#ff9aa5;--shadow:0 20px 60px rgba(0,0,0,.35)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 8% 0,rgba(166,140,255,.13),transparent 27%),radial-gradient(circle at 100% 15%,rgba(230,148,196,.08),transparent 27%),var(--bg);color:var(--text);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif}button,select,input,textarea{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}.page{width:min(1220px,calc(100% - 28px));margin:auto;padding:28px 0 70px}.hero,.panel{border:1px solid var(--line);background:rgba(23,20,29,.96);box-shadow:var(--shadow)}.hero{position:relative;overflow:hidden;border-radius:26px;padding:31px;margin-bottom:17px}.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-100px;top:-135px;background:rgba(166,140,255,.12);filter:blur(12px);pointer-events:none}.eyebrow{font-size:11px;font-weight:900;letter-spacing:.2em;color:var(--accent)}
 .eyebrow-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
@@ -974,7 +974,7 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
 <div class="update-icon">✨</div>
 <h2 id="updateGateTitle">업데이트가 있습니다</h2>
 <p>새 버전이 배포되었습니다.<br/>정상 반영을 위해 페이지를 <strong style="color:#e8e0ff">새로고침</strong> 해주세요.</p>
-<div class="update-ver" id="updateGateVersion">v4.0.2</div>
+<div class="update-ver" id="updateGateVersion">v4.0.3</div>
 <div class="update-actions">
 <button class="update-btn primary" id="updateRefreshBtn" type="button">새로고침 하기</button>
 <button class="update-btn ghost" id="updateLaterBtn" type="button">나중에 (이번만 닫기)</button>
@@ -996,9 +996,11 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
    - 새 항목은 배열 맨 위에 추가하세요.
 ========================================================= */
 /* 빌드 ID가 바뀌면 성인/접속코드 인증보다 먼저 새로고침 팝업을 띄웁니다. 매 배포 시 반드시 이 값을 새 고유값으로 변경하세요. */
-const APP_BUILD_ID='20260926-v4.0.2-unified-lightmode-event-sync';
-const APP_BUILD_LABEL = 'v4.0.2 · Light Mode · Event Sync · Unified';
+const APP_BUILD_ID='20261002-v4.0.3-slot-merge-silent-reroll';
+const APP_BUILD_LABEL = 'v4.0.3 · Slot Merge · Silent Reroll · Readability';
 const UPDATE_NOTES = [
+  { date:'10.02', text:'21 : v4.0.3 · 행동·자세 / 계절·시간·날씨 슬롯 통합, 간편 모드 masterpiece·best quality와 애니/반실사 고정, 카메라 샷·앵글·초점 자동 보충, 장면 충돌 시 침묵 재추첨. 숨긴 슬롯 반짝임 오류로 생성이 끊기던 문제를 수정했습니다.' },
+  { date:'10.02', text:'20 : v4.0.3 가독성 · 블랙/화이트 모두 역할별 왼쪽 레일·아웃라인·약한 광으로 패널을 구분하고, 라이트 모드 본문 대비를 올렸습니다.' },
   { date:'09.26', text:'18 : v4.0.2-hotfix2 · 생성 직후 프롬프트 동기화 이벤트 발사, 2인 공통태그 상시 적용, 외형 원문 보존, 조건부 접촉, 토큰 수 표시.' },
   { date:'09.26', text:'17 : v4.0.2-hotfix · 2인 기본 배치를 좌우 분할 대신 한 프레임 밀착 상호작용으로 바꾸고, A/B 행동에 상대 캐릭터 접촉을 강제하며 분할·비교 패널 네거티브를 강화했습니다.' },
   { date:'09.26', text:'16 : v4.0.2 통합본 · 블랙/화이트 화면 테마, 라이트모드 대비 보정, 플로팅 프롬프트 이벤트 동기화, 프리셋 슬롯 스크롤 점프 방지(overflow-anchor)를 v3.7 엔진에 병합했습니다.' },
@@ -1068,13 +1070,8 @@ renderAdminUpdateNote();
     const build = getBuildId();
     let prev = null;
     try{ prev = localStorage.getItem(STORAGE_KEY); }catch(_){}
-    // 최초 방문: 팝업 없이 현재 빌드만 저장
-    if(!prev){
-      markSeen();
-      return;
-    }
+    // 저장된 빌드가 없거나 다르면 업데이트 팝업. 새로고침을 눌러야 이 빌드를 본 것으로 기록한다.
     if(prev === build) return;
-    // 빌드가 바뀜 → 팝업
     showGate();
   }
   function hardReload(){
@@ -1292,7 +1289,7 @@ renderAdminUpdateNote();
 })();
 </script>
 <div class="page">
-<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v4.0.2</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v4.0.2</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며, 상세 설정과 빠른효과/흔적 태그로 장면 강도를 조절할 수 있습니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span>
+<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v4.0.3</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v4.0.3</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며, 상세 설정과 빠른효과/흔적 태그로 장면 강도를 조절할 수 있습니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span>
 <div id="themeModeToggle" class="theme-mode-toggle" role="group" aria-label="화면 테마 선택" data-current-mode="dark">
 <button type="button" class="theme-mode-btn active" data-theme-mode-btn="dark" aria-pressed="true">블랙</button>
 <button type="button" class="theme-mode-btn" data-theme-mode-btn="light" aria-pressed="false">화이트</button>
@@ -7330,7 +7327,7 @@ function choose(type){
   if(conflictPreventionOn()&&conflictsWithContext(type,n))return null;
   return contextualizeItem(type,n);
 }
-function flash(type){const c=$('card-'+type);c.classList.remove('flash');void c.offsetWidth;c.classList.add('flash')}
+function flash(type){const c=$('card-'+type);if(!c)return;c.classList.remove('flash');void c.offsetWidth;c.classList.add('flash')}
 function rollSlot(type,force=false){if(state.locked[type]&&!force)return;state.selected[type]=choose(type);flash(type)}
 function randomizeCategory(){const opts=[...category.options].filter(o=>o.value!=='__all');if(opts.length)category.value=rand(opts).value}
 function sceneBlob(){return ['action','pose','season','weather','lighting','background','outfit','composition','expression'].map(k=>String(state.selected[k]?.en||'')).join(' | ').toLowerCase()}
