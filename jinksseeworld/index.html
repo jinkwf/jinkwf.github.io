@@ -1322,7 +1322,7 @@ renderAdminUpdateNote();
 • 컬러 라벨로 캐릭터·장르·용도별로 빠르게 구분할 수 있습니다.
 • JSON 내보내기/가져오기 시 라벨과 생성·수정 시각도 함께 보존됩니다.</div><div class="preset-mini-note">추천 흐름: 설정 완료 → 이름/라벨 지정 → 저장 → 검색/정렬로 관리</div></div></div><div class="preset-subhint" id="charPresetHint">로컬 저장 전용 · 최대 10개 · 같은 브라우저에서만 보입니다.</div><input accept="application/json,.json" class="hidden-file" id="importCharPresetsFile" type="file"/></div></div></details>
 <button class="roll" id="rollAll">🎲 주사위 돌리기<span>잠금된 슬롯은 유지 · 꺼진 슬롯은 프롬프트에서 제외</span></button>
-<section class="panel" data-ui-advanced="1" id="randomControlPanel"><div class="head"><div><h2 class="title">02D · 장면 목적 / 랜덤 제어</h2><p class="desc">장면 목적 프리셋, 랜덤 강도, 세트 락을 한 곳에서 직접 관리합니다. SCENE THEME와 현재 카테고리에 맞춰 배경·의상·표정·행동이 더 일관되게 조합됩니다.</p></div><div class="mini-tools"><button class="small-btn" id="resetRandomControl" type="button">🧹 초기화</button><button aria-pressed="false" class="small-btn panel-apply-toggle" id="toggleRandomControlApply" type="button">열기 · 적용</button></div></div><div class="panel-disabled-note">현재 닫힘 · 장면 목적 / 랜덤 강도 / 세트 락 설정은 적용되지 않습니다.</div><div class="panel-apply-body" id="randomControlBody"><div class="options utility-grid"><div class="opt"><label>장면 목적 프리셋</label><select id="purposePreset"><option value="none">미사용</option><option value="daily">일상</option><option value="romantic">로맨틱</option><option value="tension">긴장</option><option value="action">액션</option><option value="emotion">감정씬</option><option value="rest">휴식</option><option value="before_event">사건 직전</option><option value="after_event">사건 직후</option><option value="poster">포스터형</option><option value="snapshot">스냅샷형</option></select><div class="character-mode-hint" id="purposePresetHint">🎯 장면의 목적에 맞춰 표정·행동·구도·배경 가중치를 조정합니다.</div></div><div class="opt"><label>랜덤 강도</label><select id="randomStrength"><option value="safe">안전</option><option selected="" value="balanced">균형</option><option value="bold">과감</option></select><div class="character-mode-hint" id="randomStrengthHint">🎲 안전은 안정적, 과감은 희귀 조합의 등장률을 높입니다.</div></div><div class="opt"><label>세트 락</label><div class="setlock-grid"><button class="setlock-btn" id="setLockMood" type="button">🌆 분위기 세트</button><button class="setlock-btn" id="setLockActing" type="button">🎭 연기 세트</button><button class="setlock-btn" id="setLockStyle" type="button">👕 스타일링 세트</button></div><div class="character-mode-hint">분위기 = 배경·계절·날씨·조명·무드 / 연기 = 행동·표정·자세·시선·구도 / 스타일링 = 의상·소품</div></div></div><div class="setlock-status" id="setLockStatus">세트 락 미사용 · 개별 슬롯 잠금은 03 · 랜덤 슬롯에서 계속 사용할 수 있습니다.</div></div></section><section class="panel" data-ui-advanced="1" id="guideverseAbilityPanel"><div class="head"><div><h2 class="title">02E · GUIDEVERSE 능력 시스템</h2><p class="desc">가이드버스 전용 세부 설정입니다. 이 상위 패널은 전체 열기/닫기만 담당합니다. 왼쪽 GUIDE와 오른쪽 ESPER를 각각 독립 설정하며, 각 박스에서 따로 임의 생성·초기화할 수 있습니다. 시각 연출은 하단 VISUAL DIRECTION에서 조정합니다.</p></div><div class="mini-tools"><button aria-pressed="false" class="small-btn panel-apply-toggle" id="toggleGuideverseAbilityApply" type="button">열기 · 적용</button></div></div><div class="panel-disabled-note">현재 닫힘 · 가이드 능력 / 에스퍼 능력 / 가이딩 시각 연출 설정은 프롬프트와 저장값에 적용되지 않습니다.</div><div class="panel-apply-body" id="guideverseAbilityBody"><div class="guideverse-panel-note"><span class="guideverse-badge">GUIDEVERSE ONLY</span> 장르가 가이드버스로 설정되면 기본적으로 가이딩 파장과 능력 이펙트가 보이도록 보정되며, 아래 VISUAL DIRECTION으로 더 세밀하게 조정할 수 있습니다.</div>
+<section class="panel" data-ui-advanced="1" id="randomControlPanel"><div class="head"><div><h2 class="title">02D · 장면 목적 / 랜덤 제어</h2><p class="desc">장면 목적 프리셋, 랜덤 강도, 세트 락을 한 곳에서 직접 관리합니다. SCENE THEME와 현재 카테고리에 맞춰 배경·의상·표정·행동이 더 일관되게 조합됩니다.</p></div><div class="mini-tools"><button class="small-btn" id="resetRandomControl" type="button">🧹 초기화</button><button aria-pressed="false" class="small-btn panel-apply-toggle" id="toggleRandomControlApply" type="button">열기 · 적용</button></div></div><div class="panel-disabled-note">현재 닫힘 · 장면 목적 / 랜덤 강도 / 세트 락 설정은 적용되지 않습니다.</div><div class="panel-apply-body" id="randomControlBody"><div class="options utility-grid"><div class="opt"><label>장면 목적 프리셋</label><select id="purposePreset"><option value="none">미사용</option><option value="daily">일상</option><option value="romantic">로맨틱</option><option value="tension">긴장</option><option value="action">액션</option><option value="emotion">감정씬</option><option value="rest">휴식</option><option value="before_event">사건 직전</option><option value="after_event">사건 직후</option><option value="poster">포스터형</option><option value="snapshot">스냅샷형</option></select><div class="character-mode-hint" id="purposePresetHint">🎯 장면의 목적에 맞춰 표정·행동·구도·배경 가중치를 조정합니다.</div></div><div class="opt"><label>랜덤 강도</label><select id="randomStrength"><option value="safe">안전</option><option selected="" value="balanced">균형</option><option value="bold">과감</option></select><div class="character-mode-hint" id="randomStrengthHint">🎲 안전은 안정적, 과감은 희귀 조합의 등장률을 높입니다.</div></div><div class="opt"><label>세트 락</label><div class="setlock-grid"><button class="setlock-btn" id="setLockMood" type="button">🌆 분위기 세트</button><button class="setlock-btn" id="setLockActing" type="button">🎭 연기 세트</button><button class="setlock-btn" id="setLockStyle" type="button">👕 스타일링 세트</button></div><div class="character-mode-hint">분위기 = 배경·계절/날씨·조명·무드 / 연기 = 행동·자세·표정·시선·구도 / 스타일링 = 의상·소품</div></div></div><div class="setlock-status" id="setLockStatus">세트 락 미사용 · 개별 슬롯 잠금은 03 · 랜덤 슬롯에서 계속 사용할 수 있습니다.</div></div></section><section class="panel" data-ui-advanced="1" id="guideverseAbilityPanel"><div class="head"><div><h2 class="title">02E · GUIDEVERSE 능력 시스템</h2><p class="desc">가이드버스 전용 세부 설정입니다. 이 상위 패널은 전체 열기/닫기만 담당합니다. 왼쪽 GUIDE와 오른쪽 ESPER를 각각 독립 설정하며, 각 박스에서 따로 임의 생성·초기화할 수 있습니다. 시각 연출은 하단 VISUAL DIRECTION에서 조정합니다.</p></div><div class="mini-tools"><button aria-pressed="false" class="small-btn panel-apply-toggle" id="toggleGuideverseAbilityApply" type="button">열기 · 적용</button></div></div><div class="panel-disabled-note">현재 닫힘 · 가이드 능력 / 에스퍼 능력 / 가이딩 시각 연출 설정은 프롬프트와 저장값에 적용되지 않습니다.</div><div class="panel-apply-body" id="guideverseAbilityBody"><div class="guideverse-panel-note"><span class="guideverse-badge">GUIDEVERSE ONLY</span> 장르가 가이드버스로 설정되면 기본적으로 가이딩 파장과 능력 이펙트가 보이도록 보정되며, 아래 VISUAL DIRECTION으로 더 세밀하게 조정할 수 있습니다.</div>
 <div class="guide-uniform-box" id="guideUniformBox">
   <div class="guide-uniform-head">
     <div>
@@ -4299,7 +4299,7 @@ function loadSmallCategories(keep=false,preferred=''){
   if(keep&&[...category.options].some(o=>o.value===old))category.value=old;else category.value='__all';
 }
 
-const SLOTS={background:'🏙️ 배경',outfit:'👔 의상',expression:'🙂 표정',action:'🎬 행동',season:'🍃 계절',weather:'🌦️ 시간 · 날씨',composition:'📷 구도',lighting:'💡 조명',gaze:'👁️ 시선',pose:'🧍 자세',prop:'🧳 소품',mood:'🎞️ 분위기'};
+const SLOTS={background:'🏙️ 배경',outfit:'👔 의상',expression:'🙂 표정',action:'🎬 행동 · 자세',season:'🍃 계절',weather:'🌦️ 계절 · 시간 · 날씨',composition:'📷 구도',lighting:'💡 조명',gaze:'👁️ 시선',pose:'🧍 자세',prop:'🧳 소품',mood:'🎞️ 분위기'};
 const SCENE_COHERENCE_ROLL_ORDER=['background','season','weather','lighting','outfit','prop','pose','composition','gaze','action','expression','mood'];
 const SCENE_COHERENCE_VERSION='2.0';
 const state={selected:{},locked:{},active:{},sceneResolvedKey:''};
@@ -5664,7 +5664,7 @@ function promptDetailLevel(){const n=parseInt($('promptDetail')?.value||'2',10);
 function promptDetailBadge(level=promptDetailLevel()){return ({1:'간결',2:'보통',3:'상세'})[level]||'보통'}
 function promptDetailHintText(level=promptDetailLevel()){return ({1:'핵심 요소 위주로 짧게 정리합니다.',2:'장면과 캐릭터를 균형 있게 정리합니다.',3:'분위기·배경·연출까지 더 자세히 확장합니다.'})[level]||''}
 function updatePromptDetailUI(){if($('promptDetailBadge'))$('promptDetailBadge').textContent=promptDetailBadge();if($('promptDetailHint'))$('promptDetailHint').textContent='✍️ '+promptDetailHintText()}
-function promptSlotKeys(){const level=promptDetailLevel();if(level===1)return['composition','background','lighting','mood','outfit','pose','expression','action'];return['composition','background','season','weather','lighting','mood','outfit','pose','gaze','expression','action','prop']}
+function promptSlotKeys(){const level=promptDetailLevel();if(level===1)return['composition','background','lighting','mood','outfit','expression','action','weather'];return['composition','background','weather','lighting','mood','outfit','gaze','expression','action','prop']}
 function detailBoosterTags(target='novel'){const level=promptDetailLevel();if(level<=1)return target==='niji'?[]:['concise prompt'];if(level===2)return[];if(target==='niji')return['extra environmental detail','more nuanced atmosphere','richer visual storytelling'];return['detailed background','nuanced lighting','rich atmosphere','extra detail']}
 function nijiDetailSentence(){const level=promptDetailLevel();if(level===1)return'Keep the description concise and focused on the key visual idea';if(level===3)return'Add richer atmosphere, clearer environmental detail, and stronger visual storytelling';return''}
 function nijiArtStyleSentence(){return artStyleTag()?`Render it with a ${artStyleTag()} look`:''}
@@ -5924,7 +5924,7 @@ if(new URLSearchParams(location.search).get('analytics-debug')==='1'){
   console.info('[Asset Gacha Analytics] debug mode. Run analyticsDebugTest() in console.');
 }
 
-function createCards(){cards.innerHTML='';const CORE_SLOTS=new Set(['background','outfit','expression','action','pose','mood']);Object.entries(SLOTS).forEach(([k,t])=>{const el=document.createElement('article');el.className='card';el.id='card-'+k;el.dataset.slotKey=k;el.dataset.slotCore=CORE_SLOTS.has(k)?'1':'0';el.innerHTML=`<div class="card-top"><div class="card-title">${t}</div><div class="card-actions"><button class="icon" data-toggle="${k}" title="프롬프트 사용/제외">◉</button><button class="icon" data-reroll="${k}" title="이 항목만 재추첨">↻</button><button class="icon" data-lock="${k}" title="잠금">🔓</button></div></div><div class="ko" id="ko-${k}">-</div><div class="en" id="en-${k}">-</div><div class="slot-source" id="source-${k}"></div><div class="lock-note">🔒 이 결과는 고정되어 있습니다.</div><details class="slot-detail-picker" data-slot-picker="${k}"><summary><span>직접 선택 · 등록 후보</span><span>⌄</span></summary><div class="slot-picker-body"><input class="slot-picker-search" data-slot-search="${k}" type="search" placeholder="${t} 후보 검색"><div class="slot-picker-list" data-slot-list="${k}"><div class="slot-picker-empty">등록 후보를 불러오는 중...</div></div><select class="slot-picker-select" data-slot-select="${k}" size="6"></select><div class="slot-picker-meta" data-slot-meta="${k}">상세 모드에서 현재 장면에 등록된 후보를 직접 선택할 수 있습니다.</div></div></details>`;cards.appendChild(el)})}
+function createCards(){cards.innerHTML='';const CORE_SLOTS=new Set(['background','outfit','expression','action','weather','mood']);const MERGED_HIDDEN=new Set(['pose','season']);Object.entries(SLOTS).forEach(([k,t])=>{if(MERGED_HIDDEN.has(k))return;const el=document.createElement('article');el.className='card';el.id='card-'+k;el.dataset.slotKey=k;el.dataset.slotCore=CORE_SLOTS.has(k)?'1':'0';el.innerHTML=`<div class="card-top"><div class="card-title">${t}</div><div class="card-actions"><button class="icon" data-toggle="${k}" title="프롬프트 사용/제외">◉</button><button class="icon" data-reroll="${k}" title="이 항목만 재추첨">↻</button><button class="icon" data-lock="${k}" title="잠금">🔓</button></div></div><div class="ko" id="ko-${k}">-</div><div class="en" id="en-${k}">-</div><div class="slot-source" id="source-${k}"></div><div class="lock-note">🔒 이 결과는 고정되어 있습니다.</div><details class="slot-detail-picker" data-slot-picker="${k}"><summary><span>직접 선택 · 등록 후보</span><span>⌄</span></summary><div class="slot-picker-body"><input class="slot-picker-search" data-slot-search="${k}" type="search" placeholder="${t} 후보 검색"><div class="slot-picker-list" data-slot-list="${k}"><div class="slot-picker-empty">등록 후보를 불러오는 중...</div></div><select class="slot-picker-select" data-slot-select="${k}" size="6"></select><div class="slot-picker-meta" data-slot-meta="${k}">상세 모드에서 현재 장면에 등록된 후보를 직접 선택할 수 있습니다.</div></div></details>`;cards.appendChild(el)})}
 function loadCategories(keep=false){
   const oldCategory=category.value;
   const oldMiddle=middleCategoryValue();
@@ -7333,10 +7333,51 @@ function choose(type){
 function flash(type){const c=$('card-'+type);c.classList.remove('flash');void c.offsetWidth;c.classList.add('flash')}
 function rollSlot(type,force=false){if(state.locked[type]&&!force)return;state.selected[type]=choose(type);flash(type)}
 function randomizeCategory(){const opts=[...category.options].filter(o=>o.value!=='__all');if(opts.length)category.value=rand(opts).value}
-function rollAll(record=true){if($('randomCategory').checked)randomizeCategory();if(scenePresetValue()==='auto')resolveScenePreset(true);prepareSceneCoherenceRoll();SCENE_COHERENCE_ROLL_ORDER.forEach(k=>rollSlot(k));enforceSmartConflicts();enforceSemanticQuality();render();if(record)addHistory()}
-function toggleLock(k){state.locked[k]=!state.locked[k];renderCardState(k)}
+function sceneBlob(){return ['action','pose','season','weather','lighting','background','outfit','composition','expression'].map(k=>String(state.selected[k]?.en||'')).join(' | ').toLowerCase()}
+function sceneCoherenceScore(){
+  const blob=sceneBlob();
+  const has=re=>re.test(blob);
+  let score=100;
+  const stand=/\b(standing|walking|walks|running|stride)\b/;
+  const lie=/\b(lying|laying|reclining|on (?:her|his|their) back|face down|missionary)\b/;
+  const sit=/\b(sitting|seated|kneeling)\b/;
+  if(has(stand)&&has(lie)) score-=45;
+  if(has(stand)&&has(sit)) score-=18;
+  if(has(/snow|blizzard|heavy snow/)&&has(/\bsummer\b|midsummer|heat haze/)) score-=40;
+  if(has(/\bwinter\b|snowfall/)&&has(/scorching|heat haze|midsummer/)) score-=30;
+  if(has(/\bnight\b|midnight|moonlight/)&&has(/morning sunlight|sunrise|harsh noon|midday sun/)) score-=35;
+  if(has(/\brain\b|downpour|rainy/)&&has(/clear blue sky|bright sunny/)&&!has(/after rain/)) score-=25;
+  if(!state.selected.action?.en&&!state.selected.pose?.en) score-=20;
+  if(!state.selected.background?.en) score-=10;
+  return score;
+}
+function snapshotSelections(){const snap={};Object.keys(SLOTS).forEach(k=>{snap[k]=state.selected[k]});snap.simpleArtStyle=state.simpleArtStyle||'';return snap}
+function restoreSelections(snap){Object.keys(SLOTS).forEach(k=>{state.selected[k]=snap[k]});state.simpleArtStyle=snap.simpleArtStyle||state.simpleArtStyle}
+function rollSceneOnce(){
+  if($('randomCategory')?.checked) randomizeCategory();
+  if(scenePresetValue()==='auto') resolveScenePreset(true);
+  prepareSceneCoherenceRoll();
+  if(document.body?.dataset?.uiMode==='simple') state.simpleArtStyle=Math.random()<0.5?'anime style':'semi-realistic';
+  SCENE_COHERENCE_ROLL_ORDER.forEach(k=>rollSlot(k));
+  enforceSmartConflicts();
+  enforceSemanticQuality();
+}
+function rollAll(record=true){
+  rollSceneOnce();
+  let best=snapshotSelections();
+  let bestScore=sceneCoherenceScore();
+  for(let i=0;i<3 && bestScore<72;i++){
+    rollSceneOnce();
+    const score=sceneCoherenceScore();
+    if(score>=bestScore){best=snapshotSelections();bestScore=score}
+  }
+  restoreSelections(best);
+  render();
+  if(record) addHistory();
+}
+function toggleLock(k){state.locked[k]=!state.locked[k];if(k==='action')state.locked.pose=state.locked.action;if(k==='pose')state.locked.action=state.locked.pose;if(k==='weather')state.locked.season=state.locked.weather;if(k==='season')state.locked.weather=state.locked.season;renderCardState(k)}
 function toggleActive(k){state.active[k]=!state.active[k];renderCardState(k);buildPrompt();buildSummary()}
-function renderCardState(k){const c=$('card-'+k),lb=document.querySelector(`[data-lock="${k}"]`),tb=document.querySelector(`[data-toggle="${k}"]`);c.classList.toggle('locked',state.locked[k]);c.classList.toggle('off',!state.active[k]);lb.classList.toggle('active',state.locked[k]);lb.textContent=state.locked[k]?'🔒':'🔓';tb.textContent=state.active[k]?'◉':'○';tb.classList.toggle('active',state.active[k])}
+function renderCardState(k){const c=$('card-'+k);if(!c)return;const lb=document.querySelector(`[data-lock="${k}"]`),tb=document.querySelector(`[data-toggle="${k}"]`);c.classList.toggle('locked',state.locked[k]);c.classList.toggle('off',!state.active[k]);if(lb){lb.classList.toggle('active',state.locked[k]);lb.textContent=state.locked[k]?'🔒':'🔓'}if(tb){tb.textContent=state.active[k]?'◉':'○';tb.classList.toggle('active',state.active[k])}}
 const SLOT_PICKER_CACHE=new Map();
 const SLOT_PICKER_SEARCH_TIMERS=new Map();
 const GLOBAL_SLOT_PICKER_CACHE=new Map();
@@ -7522,7 +7563,7 @@ function updateResultStatusBadges(){
 }
 
 function render(){try{updateResultStatusBadges()}catch(_){}
-Object.keys(SLOTS).forEach(k=>{const v=state.selected[k];$('ko-'+k).textContent=v?.ko||'-';$('en-'+k).textContent=v?.en||'(태그 없음)';const src=$('source-'+k);if(src){src.textContent=slotSourceLabel(k,v);src.className='slot-source '+(k==='prop'||k==='expression'||k==='outfit'?'match':'auto')}renderCardState(k)});buildPrompt();buildSummary();buildStats();updateSemanticModeHints();if(typeof updateQuickRecommendations==='function')updateQuickRecommendations();if(typeof updatePromptDiagnostics==='function')updatePromptDiagnostics();if(typeof updateDirectorState==='function')updateDirectorState();if(typeof refreshSetLockUI==='function')refreshSetLockUI();}
+Object.keys(SLOTS).forEach(k=>{const card=$('card-'+k);if(!card)return;const v=state.selected[k];$('ko-'+k).textContent=slotExportKo(k);$('en-'+k).textContent=slotExportText(k)||'(태그 없음)';const src=$('source-'+k);if(src){src.textContent=slotSourceLabel(k,v);src.className='slot-source '+(k==='prop'||k==='expression'||k==='outfit'?'match':'auto')}renderCardState(k)});buildPrompt();buildSummary();buildStats();updateSemanticModeHints();if(typeof updateQuickRecommendations==='function')updateQuickRecommendations();if(typeof updatePromptDiagnostics==='function')updatePromptDiagnostics();if(typeof updateDirectorState==='function')updateDirectorState();if(typeof refreshSetLockUI==='function')refreshSetLockUI();}
 function cleanPieces(a){const seen=new Set();return a.map(x=>x?.trim()).filter(Boolean).filter(x=>{const key=x.toLowerCase();if(seen.has(key))return false;seen.add(key);return true})}
 function splitPromptTokens(text){return String(text||'').split(/\n+/).flatMap(line=>line.split(',')).map(v=>v.trim()).filter(Boolean)}
 function isCharacterAppearanceToken(token){
@@ -7979,6 +8020,71 @@ function compressPixNijiText(text){
 }
 
 
+function posesConflict(actionEn,poseEn){
+  const a=String(actionEn||'').toLowerCase(), p=String(poseEn||'').toLowerCase();
+  const stand=/standing|walking|running/, lie=/lying|reclining|on back|face down/, sit=/sitting|seated|kneeling/;
+  if(stand.test(a)&&lie.test(p)) return true;
+  if(lie.test(a)&&stand.test(p)) return true;
+  if(sit.test(a)&&stand.test(p)) return true;
+  if(stand.test(a)&&sit.test(p)) return true;
+  return false;
+}
+function seasonsConflict(seasonEn,weatherEn){
+  const s=String(seasonEn||'').toLowerCase(), w=String(weatherEn||'').toLowerCase();
+  if(/summer|midsummer/.test(s)&&/snow|blizzard|winter/.test(w)) return true;
+  if(/winter/.test(s)&&/heat haze|scorching|midsummer/.test(w)) return true;
+  return false;
+}
+function slotExportText(k){
+  if(k==='action'){
+    const a=state.selected.action?.en||'';
+    const p=state.selected.pose?.en||'';
+    if(!state.active.action) return '';
+    if(!p||posesConflict(a,p)||state.active.pose===false) return a;
+    return [a,p].filter(Boolean).join(', ');
+  }
+  if(k==='weather'){
+    const s=state.selected.season?.en||'';
+    const w=state.selected.weather?.en||'';
+    if(!state.active.weather) return '';
+    if(!s||seasonsConflict(s,w)||state.active.season===false) return w;
+    if(w.toLowerCase().includes(String(s).toLowerCase())) return w;
+    return [s,w].filter(Boolean).join(', ');
+  }
+  return state.selected[k]?.en||'';
+}
+function slotExportKo(k){
+  if(k==='action'){
+    const a=state.selected.action?.ko||'';
+    const p=state.selected.pose?.ko||'';
+    if(!p||posesConflict(state.selected.action?.en,state.selected.pose?.en)) return a||'-';
+    return [a,p].filter(Boolean).join(' · ')||'-';
+  }
+  if(k==='weather'){
+    const s=state.selected.season?.ko||'';
+    const w=state.selected.weather?.ko||'';
+    if(!s||seasonsConflict(state.selected.season?.en,state.selected.weather?.en)) return w||'-';
+    return [s,w].filter(Boolean).join(' · ')||'-';
+  }
+  return state.selected[k]?.ko||'-';
+}
+function ensureSimpleBaseTags(list){
+  if(document.body?.dataset?.uiMode!=='simple') return list;
+  const out=[...list];
+  const blob=out.join(', ').toLowerCase();
+  if(!blob.includes('masterpiece')) out.unshift('masterpiece');
+  if(!out.join(', ').toLowerCase().includes('best quality')) out.splice(Math.min(1,out.length),0,'best quality');
+  if(!/anime style|semi-realistic/.test(out.join(', ').toLowerCase())) out.push(state.simpleArtStyle||'anime style');
+  return out;
+}
+function ensureCameraTriplet(list){
+  const out=[...list];
+  const blob=out.join(', ').toLowerCase();
+  if(!/(close-up|close up|cowboy shot|full body|full-body|upper body|upper-body|waist-up|medium shot|portrait|wide shot)/.test(blob)) out.push('medium shot');
+  if(!/(low angle|high angle|from above|from below|eye level|side view|three-quarter|three quarter|dutch angle|over-the-shoulder|\bpov\b)/.test(blob)) out.push('eye level');
+  if(!/(depth of field|in focus|bokeh|sharp focus|soft focus|subject focus)/.test(blob)) out.push('sharp focus, shallow depth of field');
+  return out;
+}
 function buildPrompt(){
   const nsfwBase=isNsfwGenre()?['nsfw','explicit','uncensored']:[];
   const speciesTags=(typeof categoryLockPromptTags==='function'?categoryLockPromptTags():categorySpeciesPromptTags());
@@ -7987,7 +8093,8 @@ function buildPrompt(){
   const multiSceneKeys=new Set(['composition','background','weather','season','lighting','mood']);
   let a=applyExcludedTokens([$('quality').value,$('gender').value,$('style').value,artStyleTag(),...aiPresetPromptTags('novel'),...detailBoosterTags('novel'),...themeNovelTags(),...guideverseCoreVisualPromptTags(),...guideUniformPromptTags(),...nsfwBase,...speciesTags,...specialPromptTags(),...multiAxisPromptTags(),...povPromptTags(),...presetPromptTags(),...relationNsfwPromptTags(),...roleLayoutTags(),...strongerTwoPersonCommonTags(),customTagsForPrompt()]);
   promptSlotKeys().forEach(k=>{
-    if(!state.active[k]||!state.selected[k]?.en)return;
+    const slotEn=slotExportText(k);
+    if(!state.active[k]||!slotEn)return;
     if(shouldSkipSlotForQuick(k))return;
     if(n>=2&&!multiSceneKeys.has(k))return;
     if(k==='outfit'){
@@ -7996,13 +8103,14 @@ function buildPrompt(){
       if(filteredOutfit&&!tokenMatchesExcluded(filteredOutfit))a.push(filteredOutfit);
       return;
     }
-    if(!tokenMatchesExcluded(state.selected[k].en))a.push(state.selected[k].en);
+    if(!tokenMatchesExcluded(slotEn))a.push(slotEn);
   });
+  a=ensureSimpleBaseTags(a);
   const rawMain=cleanPieces(applyExcludedTokens(a)).join(', ');
   const singleBits=singleImagePositiveTags().join(', ');
   const mergedMain=cleanPieces([singleBits,rawMain]).join(', ');
   const optimized=optimizePromptText(mergedMain);
-  const sceneTokens=compactGlobalPromptTokens(splitPromptTokens(stripCrossSpeciesTokens(stripSplitCompositionTokens(optimized.text))));
+  const sceneTokens=ensureCameraTriplet(compactGlobalPromptTokens(splitPromptTokens(stripCrossSpeciesTokens(stripSplitCompositionTokens(optimized.text)))));
   const sceneMain=dedupePromptTokens(sceneTokens).join(', ');
   const characterBlocks=n>=2?characterSpecificInlineBlocks():characterSpecificParagraphs();
   const separation=n>=2?multiCharacterSeparationTail():[];
@@ -8905,7 +9013,7 @@ if(document.body.classList.contains('access-locked')){
       document.body.classList.toggle('simple-show-all-slots');
       const on=document.body.classList.contains('simple-show-all-slots');
       const btn=$('simpleSlotsToggle');
-      if(btn) btn.textContent=on?'슬롯 접기 · 핵심만 보기':'슬롯 더보기 · 계절/날씨/구도/조명/시선/소품';
+      if(btn) btn.textContent=on?'슬롯 접기 · 핵심만 보기':'슬롯 더보기 · 구도/조명/시선/소품';
     });
 
     const dockCopy = (id, label)=>{
