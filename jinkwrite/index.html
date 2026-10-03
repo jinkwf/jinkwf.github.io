@@ -6,75 +6,123 @@
 <title>Jin_K · 제작자 소개</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#F3F1F6;--card:#fff;--ink:#1F1B2E;--muted:#6B6680;--line:#DAD6E3;--ph:#E7E3EE;--gs:"Gungsuh","GungsuhChe","궁서","궁서체","Noto Serif KR",serif}
-@media (prefers-color-scheme:dark){:root{--bg:#1A1725;--card:#25212F;--ink:#EEEAF6;--muted:#9C97AE;--line:#3A3547;--ph:#302B3D}}
+:root{--f:"Pretendard Variable",Pretendard,"Noto Sans KR",system-ui,sans-serif;color-scheme:dark;--bg:#060A18;--ink:#E8EBF5;--muted:#9CA5C2;--gold:#E9CF8C;--line:rgba(255,255,255,.1);--ph:rgba(255,255,255,.05);--gs:"Gungsuh","GungsuhChe","궁서","궁서체","Noto Serif KR",serif}
 *{box-sizing:border-box;margin:0}
-body{background:var(--bg);color:var(--ink);font:400 15px/1.7 "Noto Sans KR",system-ui,sans-serif;padding:0 20px 80px}
-.wrap{max-width:1040px;margin:0 auto}
-header{padding:64px 0 24px}
-h1{font:900 clamp(40px,8vw,72px)/1.1 "Noto Serif KR",serif;letter-spacing:-.02em}
-.sub{margin-top:12px;color:var(--muted)}
-.notice{margin-top:28px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;max-width:640px}
-.notice h2{font:700 15px "Noto Sans KR",sans-serif;letter-spacing:.08em;margin-bottom:10px}
+body{background:radial-gradient(70vmax 60vmax at 78% 6%,#14224d 0,transparent 62%),var(--bg);color:var(--ink);font:400 16px/1.7 var(--f);padding:0 20px 80px;overflow-x:hidden;word-break:keep-all}
+body::before{content:"";position:fixed;inset:0;z-index:-1;opacity:.8;background:radial-gradient(1.5px 1.5px at 30px 40px,#fff,transparent),radial-gradient(1px 1px at 120px 90px,#cfe3ff,transparent),radial-gradient(1.5px 1.5px at 200px 170px,#fff,transparent),radial-gradient(1px 1px at 80px 210px,#fff,transparent);background-size:240px 240px}
+.wrap{max-width:1080px;margin:0 auto}
+header{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,440px);gap:40px;align-items:center;padding:72px 0 40px}
+h1{font:800 clamp(52px,9vw,96px)/1 var(--f);letter-spacing:-.03em}
+.sub{margin-top:14px;color:var(--gold)}
+.notice{margin-top:30px;border-left:1px solid var(--gold);padding:2px 0 2px 20px;max-width:520px}
+.notice h2{font:500 13px var(--f);color:var(--muted);margin-bottom:8px}
 .notice p{margin-bottom:12px;font-size:14px}
 .notice p:last-child{margin-bottom:0}
-.notice a{color:var(--ink);text-underline-offset:3px}
+.notice a{color:var(--gold);text-underline-offset:3px}
 .notice .lab{display:block;color:var(--muted);font-size:13px}
-.notice .gs{font-family:var(--gs);font-size:19px;line-height:1.7;letter-spacing:.02em}
-.btn{display:inline-block;margin-top:16px;padding:10px 20px;border-radius:999px;background:var(--ink);color:var(--bg);text-decoration:none;font-weight:500}
-.btn:hover{opacity:.85}
-:focus-visible{outline:3px solid #7B5CFF;outline-offset:2px}
-details{margin-top:14px;background:var(--card);border:1px solid var(--line);border-left:6px solid var(--c);border-radius:10px}
-summary{cursor:pointer;list-style:none;padding:14px 18px;font:700 17px/1.4 "Noto Serif KR",serif;display:flex;align-items:center;gap:10px}
-summary::-webkit-details-marker{display:none}
-summary::after{content:"";margin-left:auto;width:9px;height:9px;border:solid var(--muted);border-width:0 2px 2px 0;transform:rotate(45deg);transition:transform .2s}
-details[open] summary::after{transform:rotate(-135deg)}
-.tag{font:500 13px "Noto Sans KR",sans-serif;color:var(--c)}
-.inner{padding:0 18px 18px}
-.row+.row{margin-top:18px}
-.rowhead{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.rowhead h3{font:400 18px var(--gs)}
-.rowhead .note{color:var(--muted);font-size:12px}
-.arrows{margin-left:auto;display:flex;gap:6px}
-.arrows button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;font-size:15px}
-.slider{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px;scrollbar-width:thin}
-.card{flex:none;width:170px;scroll-snap-align:start;background:var(--bg);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;padding:0;font:inherit;color:inherit;text-align:left;cursor:pointer}
-.img{position:relative;aspect-ratio:3/4;background:var(--ph);display:grid;place-items:center;font:900 44px "Noto Serif KR",serif;color:var(--c)}
+.notice .gs{font-size:17px;font-weight:600;line-height:1.7}
+.btn{display:inline-block;margin-top:22px;padding:10px 24px;border-radius:999px;border:1px solid var(--gold);color:var(--gold);text-decoration:none;font-weight:500;transition:background .2s,color .2s}
+.btn:hover{background:var(--gold);color:var(--bg)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.map svg{width:100%;height:auto;display:block;overflow:visible}
+.cap{text-align:center;color:var(--muted);font-size:13px;margin-top:8px;min-height:1.7em}
+.hair{fill:none;stroke:var(--gold);stroke-opacity:.22}
+.tick{fill:none;stroke:var(--gold);stroke-opacity:.35;stroke-width:6;stroke-dasharray:1.2 8.8}
+.spin{transform-origin:200px 200px;animation:spin 150s linear infinite}
+.map:hover .spin{animation-play-state:paused}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ln{fill:none;stroke:var(--gold);stroke-opacity:.55;stroke-width:1;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 2.6s .2s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.map text{fill:var(--muted);font:500 10px var(--f);letter-spacing:.04em}
+.map .nm{fill:var(--gold);font-size:9px;letter-spacing:0}
+.hit{fill:transparent}
+.map a{cursor:pointer}
+.map a:focus-visible{outline:none}
+.map a:focus-visible .hit,.map a:hover .hit{stroke:var(--gold);stroke-opacity:.6}
+.mini{width:40px;height:24px;flex:none}
+.img{position:relative;aspect-ratio:3/4;background:var(--ph);display:grid;place-items:center;font:800 44px var(--f);color:var(--c)}
 .img img{width:100%;height:100%;object-fit:cover;display:block}
-.badges{position:absolute;top:8px;left:8px;display:flex;gap:4px;flex-wrap:wrap}
-.badge{font:500 11px/1 "Noto Sans KR",sans-serif;padding:4px 7px;border-radius:999px;background:var(--ink);color:var(--bg)}
-.body{padding:10px 12px 12px;display:flex;flex-direction:column;gap:2px}
-.body b{font-size:14px;line-height:1.4}
-.body span{font-size:12px;color:var(--muted)}
-.soon .card{border-style:dashed;cursor:default}
-dialog{border:0;border-radius:14px;padding:0;background:var(--card);color:var(--ink);width:min(380px,calc(100vw - 32px));max-height:calc(100vh - 32px);overflow:auto;margin:auto}
-dialog::backdrop{background:rgba(20,16,32,.6)}
-.pop .img{font-size:96px;border-radius:0}
-.pop h2{font:700 22px/1.4 "Noto Serif KR",serif;padding:16px 20px 22px}
-.pop .badges{top:12px;left:12px}
-.pop .badge{font-size:12px;padding:5px 9px}
-.close{position:absolute;top:10px;right:10px;z-index:2;width:34px;height:34px;border-radius:50%;border:0;background:var(--ink);color:var(--bg);font-size:18px;cursor:pointer}
-.pop{position:relative}
 footer{margin-top:56px;color:var(--muted);font-size:13px}
-@media(max-width:520px){.card{width:140px}.arrows{display:none}}
+@media(max-width:820px){header{grid-template-columns:1fr;gap:28px;padding-top:48px}.map{max-width:380px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.ln{stroke-dashoffset:0}}
+
+.layout{display:grid;grid-template-columns:270px minmax(0,1fr);gap:28px;align-items:start;scroll-margin-top:16px}
+.side{position:sticky;top:16px;display:flex;flex-direction:column;gap:2px;max-height:calc(100vh - 32px);overflow:auto;scrollbar-width:thin;scrollbar-color:var(--line) transparent;padding-right:4px}
+.side button{display:flex;align-items:center;gap:8px;width:100%;text-align:left;padding:8px 10px;border-radius:10px;border:1px solid transparent;background:transparent;color:var(--ink);font:600 14px/1.35 var(--f);cursor:pointer;transition:background .2s}
+.side button:hover{background:rgba(255,255,255,.05)}
+.side button.on{background:rgba(255,255,255,.07);border-color:color-mix(in srgb,var(--c) 55%,transparent)}
+.side .mini{width:34px;height:20px;flex:none}
+.side .num{color:var(--gold);min-width:22px;font-size:13px}
+.side .t{display:flex;flex-direction:column;min-width:0}
+.side small{color:var(--muted);font:400 13px var(--f)}
+.panel{background:rgba(255,255,255,.035);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid color-mix(in srgb,var(--c) 40%,var(--line));border-radius:16px;padding:22px 22px 28px;min-height:260px}
+.panel h2{display:flex;align-items:baseline;flex-wrap:wrap;gap:10px;font:800 clamp(22px,3.4vw,30px)/1.3 var(--f);margin-bottom:18px}
+.panel h2 .num{color:var(--gold)}
+.panel h2 small{font:500 13px var(--f);color:var(--muted)}
+.row+.row{margin-top:22px}
+.rowhead{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px;margin-bottom:10px}
+.rowhead h3{font:700 17px var(--f)}
+.rowhead .note{color:var(--muted);font-size:13px}
+.panel.soon .nt{border-style:dashed;cursor:default}
+.panel.soon .nt:hover{transform:none;background:rgba(255,255,255,.04);border-color:var(--line)}
+@media(max-width:820px){.layout{grid-template-columns:1fr}.side{position:static;flex-direction:row;max-height:none;overflow-x:auto;padding:0 0 8px}.side button{width:auto;flex:none;white-space:nowrap}.side .mini{display:none}}
+
+.tags{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.nt{display:grid;grid-template-rows:1fr auto;gap:6px;height:94px;min-width:0;padding:12px 14px;border-radius:12px;border:1px solid var(--line);border-left:3px solid var(--c);background:rgba(255,255,255,.04);color:var(--ink);font:inherit;text-align:left;cursor:pointer;transition:transform .2s,border-color .2s,background .2s}
+.nt:hover{transform:translateY(-2px);border-color:var(--gold);border-left-color:var(--c);background:rgba(255,255,255,.08)}
+.nt .top{display:flex;align-items:flex-start;gap:8px;min-width:0}
+.hole{width:8px;height:8px;margin-top:8px;border-radius:50%;border:1px solid var(--c);flex:none}
+.nt b{font:700 15px/1.4 var(--f);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.nt .meta{display:flex;align-items:center;gap:6px;padding-left:16px;min-width:0}
+.nt em{flex:none;font:600 12px/1 var(--f);font-style:normal;padding:4px 8px;border-radius:999px;border:1px solid rgba(233,207,140,.5);color:var(--gold)}
+.nt small{font:400 13px var(--f);color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+@media(max-width:520px){.tags{grid-template-columns:repeat(2,minmax(0,1fr))}.nt{height:112px;padding:10px 12px}.nt b{font-size:14px;-webkit-line-clamp:3}}
+
+dialog{border:1px solid var(--line);border-radius:22px;padding:0;background:rgba(14,20,44,.78);backdrop-filter:blur(24px) saturate(1.4);-webkit-backdrop-filter:blur(24px) saturate(1.4);color:var(--ink);width:min(400px,calc(100vw - 32px));max-height:calc(100vh - 32px);overflow:auto;margin:auto;box-shadow:0 24px 80px -12px color-mix(in srgb,var(--c,#7B5CFF) 45%,#000)}
+dialog[open]{animation:pin .25s ease-out}
+@keyframes pin{from{opacity:0;transform:translateY(12px)}}
+dialog::backdrop{background:rgba(4,6,16,.72);backdrop-filter:blur(4px)}
+.pop{position:relative}
+.frame{margin:14px 14px 0;padding:6px;border:1px solid rgba(233,207,140,.35);border-radius:18px}
+.frame .img{border-radius:13px;overflow:hidden;font-size:88px;max-height:min(62vh,520px)}
+.frame.empty .img{background:transparent;border:1px dashed var(--line)}
+.info{padding:18px 22px 22px}
+.info:has(+.pnav){padding-bottom:6px}
+.crumb{display:flex;align-items:center;gap:8px;color:var(--gold);font:600 13px var(--f)}
+.crumb span+span{color:var(--muted);font-weight:400}
+.crumb span+span::before{content:"";display:inline-block;width:3px;height:3px;margin-right:8px;border-radius:50%;background:var(--muted);vertical-align:middle}
+.info h2{margin-top:6px;font:800 26px/1.3 var(--f);letter-spacing:-.01em}
+.vers{display:flex;gap:6px;margin-top:10px}
+.vers em{font:600 12px/1 var(--f);font-style:normal;padding:5px 9px;border-radius:999px;border:1px solid rgba(233,207,140,.5);color:var(--gold)}
+.wait{margin-top:8px;color:var(--muted);font-size:13px}
+.go{display:inline-block;margin-top:14px;padding:9px 20px;border-radius:999px;border:1px solid var(--gold);color:var(--gold);text-decoration:none;font-weight:600}
+.go:hover{background:var(--gold);color:var(--bg)}
+.pnav{display:flex;align-items:center;justify-content:center;gap:14px;padding:12px 22px 18px;color:var(--muted);font-size:13px}
+.pnav button{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;font-size:16px}
+.pnav button:hover{border-color:var(--gold)}
+.close{position:absolute;top:24px;right:24px;z-index:2;width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:rgba(6,10,24,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;font-size:17px;cursor:pointer}
 </style>
 </head>
 <body>
 <div class="wrap">
 <header>
-  <h1>Jin_K</h1>
-  <p class="sub">선호 장르 : 가이드버스 / 오메가버스</p>
-  <div class="notice">
-    <h2>NOTICE</h2>
-    <p>안녕하세요.<br>Jin_K입니다.<br>문의사항과 건의사항, 이식요청 사항은 언제나 대환영입니다!</p>
-    <p><span class="lab">활동 플랫폼</span><span class="gs">WHIF , Tingle , Doomchk , Postype , INK Chat</span></p>
-    <p><span class="lab">제작 사이트</span><a href="https://jinkwf.github.io/jinksseeworld/" target="_blank" rel="noopener">NSFW 에셋 랜덤 프롬프트 생성기.v4.0.2</a><br>(사용 희망하시는 분들은 연락주세요.)</p>
+  <div class="hl">
+    <h1>Jin_K</h1>
+    <p class="sub">선호 장르 : 가이드버스 / 오메가버스</p>
+    <div class="notice">
+      <h2>NOTICE</h2>
+      <p>안녕하세요.<br>Jin_K입니다.<br>문의사항과 건의사항, 이식요청 사항은 언제나 대환영입니다!</p>
+      <p><span class="lab">활동 플랫폼</span><span class="gs">WHIF , Tingle , Doomchk , Postype , INK Chat</span></p>
+      <p><span class="lab">제작 사이트</span><a href="https://jinkwf.github.io/jinksseeworld/" target="_blank" rel="noopener">NSFW 에셋 랜덤 프롬프트 생성기.v4.0.2</a><br>(사용 희망하시는 분들은 연락주세요.)</p>
+    </div>
+    <a class="btn" href="https://open.kakao.com/o/sFqjQmBi" target="_blank" rel="noopener">오픈채팅 참여하기</a>
   </div>
-  <a class="btn" href="https://open.kakao.com/o/sFqjQmBi" target="_blank" rel="noopener">오픈채팅 참여하기</a>
+  <div class="map"><div id="map"></div><p class="cap" id="cap">별을 눌러 세계관을 열어보세요</p></div>
 </header>
-<main id="main"></main>
+<div class="layout" id="layout"><nav class="side" id="side" aria-label="세계관 목록"></nav><section class="panel" id="panel" aria-live="polite"></section></div>
 <footer>© Jin_K</footer>
 </div>
 
@@ -82,88 +130,103 @@ footer{margin-top:56px;color:var(--muted);font-size:13px}
 
 <script>
 /* ------------------------------------------------------------
-  작품 = [이름, 설명, 링크, 이미지경로, 옵션]  (비워두려면 "")
-  옵션 = {tags:["20ver","14ver"], added:"YYYY-MM-DD"}
-   - added 를 적으면 맨 위 NEW 카테고리에 자동 반영됩니다. (최신 날짜가 맨 앞)
-   - 새 작품을 올릴 때 added 에 그날 날짜만 적으면 끝!
-  rows: 카테고리 안의 슬라이드 줄. t = 줄 제목(생략 가능)
+  C(이름, 이미지, 옵션, 설명)  /  P(이름, 옵션) = 이미지 없는 카드
+  옵션 = {tags:["20ver"], added:"YYYY-MM-DD"}
+   - added 를 적으면 맨 위 NEW 카테고리에 자동 반영 (최신 날짜가 맨 앞)
+  M(파일) = 저장소 루트 / J(파일) = jinkwrite 폴더 이미지
+  상단 별자리 지도는 카테고리 목록에서 자동으로 만들어집니다.
 ------------------------------------------------------------ */
 const NEW_MAX=10;
-const P=(n,o)=>[n,"","","",o||{}];
+const R="https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/";
+const M=f=>R+f, J=f=>R+"jinkwrite/"+f;
+const C=(n,u,o,d)=>[n,d||"","",u||"",o||{}];
+const P=(n,o)=>C(n,"",o);
 const V=["20ver","14ver"];
 const CATS=[
- {tag:"가이드버스",name:"⚡️ 대격변시대",color:"#E0A100",rows:[{items:[
-   ["강태현","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EA%B0%95%ED%83%9C%ED%98%84_%20%EB%86%80%EB%A6%B4%EA%B6%81%EB%A6%AC%EC%A4%91.png",{}],
-   ["권레오","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/%EA%B6%8C%EB%A0%88%EC%98%A4_%20%EB%A9%94%EC%9D%B8.png",{}],
-   ["백지한","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/masterpiece%2C%20high%20quality%2C%20highly%20detailed%2C%20sharp%20focus%2C%20cinematic%20lighting%2C%20rea%20s-405524188.png",{}]
+ {tag:"가이드버스",name:"⚡️ 대격변시대",color:"#E8B923",rows:[{items:[
+   C("강태현",J("%EA%B0%95%ED%83%9C%ED%98%84_%20%EB%86%80%EB%A6%B4%EA%B6%81%EB%A6%AC%EC%A4%91.png")),
+   C("권레오",M("%EA%B6%8C%EB%A0%88%EC%98%A4_%20%EB%A9%94%EC%9D%B8.png")),
+   C("백지한",M("masterpiece%2C%20high%20quality%2C%20highly%20detailed%2C%20sharp%20focus%2C%20cinematic%20lighting%2C%20rea%20s-405524188.png"))
  ]}]},
- {tag:"가이드버스",name:"🌱 대공존시대",color:"#3FA34D",rows:[
+ {tag:"가이드버스",name:"🌱 대공존시대",color:"#5FD07A",rows:[
   {items:[
-   ["연다비","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EC%97%B0%EB%8B%A4%EB%B9%84_%EB%AC%B4%EB%A0%A5%EA%B0%90.png",{tags:V}],
-   ["세가지","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/%EC%84%B8%EA%B0%80%EC%A7%80_%20%EC%95%BC%EC%98%81.png",{}],
-   ["심성훈","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/%EC%8B%AC%EC%84%B1%ED%9B%88_%EA%B2%8C%EC%9D%B4%ED%8A%B8%20%EC%A7%84%EC%9E%85%20%ED%9B%84.png",{}],
-   ["X","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/%EC%9C%A4%EC%B2%AD%EB%A6%AC_%EB%A7%88%EC%8A%A4%ED%81%AC.png",{}],
-   ["단임","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/%EB%8B%A8%EC%9E%84_%EB%AF%B8%EC%86%8C%EB%A5%BC%20%EC%A7%80%EC%96%B4%EB%B3%B4%EC%9D%B8%EB%8B%A4.png",{}],
+   C("연다비",J("%EC%97%B0%EB%8B%A4%EB%B9%84_%EB%AC%B4%EB%A0%A5%EA%B0%90.png"),{tags:V}),
+   C("세가지",M("%EC%84%B8%EA%B0%80%EC%A7%80_%20%EC%95%BC%EC%98%81.png")),
+   C("심성훈",M("%EC%8B%AC%EC%84%B1%ED%9B%88_%EA%B2%8C%EC%9D%B4%ED%8A%B8%20%EC%A7%84%EC%9E%85%20%ED%9B%84.png")),
+   C("X",M("%EC%9C%A4%EC%B2%AD%EB%A6%AC_%EB%A7%88%EC%8A%A4%ED%81%AC.png")),
+   C("단임",M("%EB%8B%A8%EC%9E%84_%EB%AF%B8%EC%86%8C%EB%A5%BC%20%EC%A7%80%EC%96%B4%EB%B3%B4%EC%9D%B8%EB%8B%A4.png")),
    P("하은우 & 하은호",{tags:V}),
-   ["정윤조","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/%EC%A0%95%EC%9C%A4%EC%A1%B0_%20%EA%B0%80%EC%9D%B4%EB%94%A9%EB%A3%B8.png",{}]
+   C("정윤조",M("%EC%A0%95%EC%9C%A4%EC%A1%B0_%20%EA%B0%80%EC%9D%B4%EB%94%A9%EB%A3%B8.png"))
   ]},
   {t:"시뮬레이션",items:[
-   ["보육원게이트 시뮬레이션","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/ed627932-06ce-4b45-b56f-0d2600e2fe67.png",{}],
-   ["연다비 l 하은우 l 하은호","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EC%9D%80%EC%9A%B0%EC%9D%80%ED%98%B8%EB%8B%A4%EB%B9%84_%EC%82%90%EC%A7%84%EB%8B%A4%EB%B9%84,%EC%9E%A5%EB%82%9C%EC%B9%98%EB%8A%94%EC%9D%80%EC%9A%B0%EC%9D%80%ED%98%B8.png",{tags:["14ver"],added:"2026-09-24"}]
+   C("보육원게이트 시뮬레이션",M("ed627932-06ce-4b45-b56f-0d2600e2fe67.png")),
+   C("연다비 l 하은우 l 하은호",J("%EC%9D%80%EC%9A%B0%EC%9D%80%ED%98%B8%EB%8B%A4%EB%B9%84_%EC%82%90%EC%A7%84%EB%8B%A4%EB%B9%84,%EC%9E%A5%EB%82%9C%EC%B9%98%EB%8A%94%EC%9D%80%EC%9A%B0%EC%9D%80%ED%98%B8.png"),{tags:["14ver"],added:"2026-09-24"})
   ]},
-  {t:"🧬 스핀오프",items:[["나의 장례식","차이헌","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EB%82%98%EC%9D%98%20%EC%9E%A5%EB%A1%80%EC%8B%9D%20%EB%A9%94%EC%9D%B8.png",{added:"2026-09-23"}]]}
+  {t:"🧬 스핀오프",items:[C("나의 장례식",J("%EB%82%98%EC%9D%98%20%EC%9E%A5%EB%A1%80%EC%8B%9D%20%EB%A9%94%EC%9D%B8.png"),{added:"2026-09-23"},"차이헌")]}
  ]},
- {tag:"오메가버스",name:"💊 NSI",color:"#D9467A",rows:[{items:[
-   ["강도훈","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EA%B0%95%EB%8F%84%ED%9B%88.png",{}],
+ {tag:"오메가버스",name:"💊 NSI",color:"#FF6FA3",rows:[{items:[
+   C("강도훈",J("%EA%B0%95%EB%8F%84%ED%9B%88.png")),
    P("강아지"),P("NSI 제 7과"),
-   ["하연수","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%ED%95%98%EC%97%B0%EC%88%98.png",{}],
-   ["연우주","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EC%97%B0%EC%9A%B0%EC%A3%BC_%EC%9D%BC%EC%83%81%20(35).png",{}]
+   C("하연수",J("%ED%95%98%EC%97%B0%EC%88%98.png")),
+   C("연우주",J("%EC%97%B0%EC%9A%B0%EC%A3%BC_%EC%9D%BC%EC%83%81%20(35).png"))
  ]}]},
- {tag:"현대물",name:"✖️ 나의 X (구남친 모음집)",color:"#2E7DD7",rows:[{note:"TMI. 모두 직접 들은 대사들로 이루어진 도입부예요.",items:[
-   ["권주석","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EA%B6%8C%EC%A3%BC%EC%84%9D%20(2).png",{}],
-   ["윤태우","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EC%9C%A4%ED%83%9C%EC%9A%B0%EB%A9%94%EC%9D%B8.png",{}],
-   ["서도훈","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EC%84%9C%EB%8F%84%ED%9B%88%201.png",{}]
+ {tag:"현대물",name:"✖️ 나의 X (구남친 모음집)",color:"#6AB0FF",rows:[{note:"TMI. 모두 직접 들은 대사들로 이루어진 도입부예요.",items:[
+   C("권주석",J("%EA%B6%8C%EC%A3%BC%EC%84%9D%20(2).png")),
+   C("윤태우",J("%EC%9C%A4%ED%83%9C%EC%9A%B0%EB%A9%94%EC%9D%B8.png")),
+   C("서도훈",J("%EC%84%9C%EB%8F%84%ED%9B%88%201.png"))
  ]}]},
- {tag:"현대물",name:"💰 상금 10억, 무성욕자",color:"#2E7DD7",rows:[{items:[["무서욱","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/%EB%AC%B4%EC%84%9C%EC%9A%B1.png",{}]]}]},
- {tag:"현대물",name:"📏 일반사회",color:"#2E7DD7",rows:[{items:[
-   ["임서준","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EC%9E%84%EC%84%9C%EC%A4%80%20(4).png",{}],
-   ["로즈쿼츠 6인의 호스트","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/%EB%A1%9C%EC%A6%88%EC%BF%BC%EC%B8%A0.jpg",{}]
+ {tag:"현대물",name:"💰 상금 10억, 무성욕자",color:"#6AB0FF",rows:[{items:[C("무서욱",M("%EB%AC%B4%EC%84%9C%EC%9A%B1.png"))]}]},
+ {tag:"현대물",name:"📏 일반사회",color:"#6AB0FF",rows:[{items:[
+   C("임서준",J("%EC%9E%84%EC%84%9C%EC%A4%80%20(4).png")),
+   C("로즈쿼츠 6인의 호스트",M("%EB%A1%9C%EC%A6%88%EC%BF%BC%EC%B8%A0.jpg"))
  ]}]},
- {tag:"현대물",name:"🎶 에이전시 DH E&M",color:"#2E7DD7",rows:[{items:[
-   ["박하인","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EB%B0%95%ED%95%98%EC%9D%B8.png",{}],
-   ["Afor","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/Afor.png",{}],
-   ["유태석","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%ED%8C%AC%EB%AF%B8%ED%8C%85.png",{}]
+ {tag:"현대물",name:"🎶 에이전시 DH E&M",color:"#6AB0FF",rows:[{items:[
+   C("박하인",J("%EB%B0%95%ED%95%98%EC%9D%B8.png")),
+   C("Afor",J("Afor.png")),
+   C("유태석",J("%ED%8C%AC%EB%AF%B8%ED%8C%85.png"))
  ]}]},
- {tag:"판타지",name:"🧙‍♂️ 엘라드리아 연대기",color:"#7B5CFF",rows:[{items:[
-   ["드래곤 육아는 처음이라서요","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/Untitled%20-%20July%2021,%202026%20at%2005.32.51.png",{}],
+ {tag:"판타지",name:"🧙‍♂️ 엘라드리아 연대기",color:"#A892FF",rows:[{items:[
+   C("드래곤 육아는 처음이라서요",J("Untitled%20-%20July%2021,%202026%20at%2005.32.51.png")),
    P("루시엘 발렌티누스 요한 12세"),
-   ["리엘 테라시아","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EC%88%B2%EC%86%8D.png",{}]
+   C("리엘 테라시아",J("%EC%88%B2%EC%86%8D.png"))
  ]}]},
- {tag:"동양물",name:"🔅 오령국",color:"#C4432B",rows:[{items:[
-   ["차설하","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EC%B0%A8%EC%84%A4%ED%95%98_%20%EB%AF%B8%EC%86%8C.png",{}],
-   ["수현오","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EC%88%98%ED%98%84%EC%98%A4_%20%EC%9B%83%EC%9D%8C.png",{}]
+ {tag:"동양물",name:"🔅 오령국",color:"#FF7B5C",rows:[{items:[
+   C("차설하",J("%EC%B0%A8%EC%84%A4%ED%95%98_%20%EB%AF%B8%EC%86%8C.png")),
+   C("수현오",J("%EC%88%98%ED%98%84%EC%98%A4_%20%EC%9B%83%EC%9D%8C.png"))
  ]}]},
- {tag:"시뮬레이션",name:"🔎 공포 / 탈출",color:"#1F9D8B",rows:[{items:[
+ {tag:"시뮬레이션",name:"🔎 공포 / 탈출",color:"#4FD6C2",rows:[{items:[
    P("Pointer"),
-   ["nightmare","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EB%82%98%EC%9D%B4%ED%8A%B8%EB%A9%94%EC%96%B4.png",{}],
+   C("nightmare",J("%EB%82%98%EC%9D%B4%ED%8A%B8%EB%A9%94%EC%96%B4.png")),
    P("레온하르트"),
-   ["AER-100","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EC%B9%B4%EB%A9%94%EB%9D%BC.png",{}],
+   C("AER-100",J("%EC%B9%B4%EB%A9%94%EB%9D%BC.png")),
    P("비행일지")
  ]}]},
- {tag:"청춘물",name:"🌬 모든 계절이 네게 불어올 때",color:"#3AA0D8",rows:[{items:[P("차선태")]}]},
- {tag:"기타/인외물",name:"휴면뮤지엄",color:"#8A6D3B",rows:[{items:[P("자판기")]}]},
- {tag:"",name:"1934",color:"#B23A48",rows:[{items:[P("링란 [翎蘭]",{added:"2026-09-25"})]}]},
- {tag:"",name:"합작",color:"#9C6ADE",rows:[{items:[
-   ["아사히나 소우","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/Jin_k_middle_shot._A_highly_detailed_sharp_close-up_portrait__d6cd11d6-0f8e-4ff8-863d-f1e4aa63f54e_2.png",{}],
-   ["니코","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%EB%8B%88%EC%BD%94%20(2).png",{}],
-   ["올리버 밀러","","","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/%ED%95%99%EC%83%9D%EC%A6%9D%20%EC%9D%B4%EB%AF%B8%EC%A7%80.png",{}],
+ {tag:"청춘물",name:"🌬 모든 계절이 네게 불어올 때",color:"#6CCBFF",rows:[{items:[P("차선태")]}]},
+ {tag:"기타/인외물",name:"휴면뮤지엄",color:"#D4B26A",rows:[{items:[P("자판기")]}]},
+ {tag:"",name:"1934",color:"#FF7A8A",rows:[{items:[P("링란 [翎蘭]",{added:"2026-09-25"})]}]},
+ {tag:"",name:"합작",color:"#C79BFF",rows:[{items:[
+   C("아사히나 소우",M("Jin_k_middle_shot._A_highly_detailed_sharp_close-up_portrait__d6cd11d6-0f8e-4ff8-863d-f1e4aa63f54e_2.png")),
+   C("니코",J("%EB%8B%88%EC%BD%94%20(2).png")),
+   C("올리버 밀러",J("%ED%95%99%EC%83%9D%EC%A6%9D%20%EC%9D%B4%EB%AF%B8%EC%A7%80.png")),
    P("♍VIR-06 : 재난 생존")
  ]}]},
- {tag:"SOON",name:"곧 공개됩니다",color:"#8B8698",soon:true,rows:[{items:[["🏫 에스텔 아카데미","엘라드리아","","",{}],["🧑‍🧒 마마보이","나의 X","","",{}],["🦋 휴먼뮤지엄","나비인간","","",{}]]}]}
+ {tag:"SOON",name:"곧 공개됩니다",color:"#9A94BC",soon:true,rows:[{items:[C("🏫 에스텔 아카데미","","","엘라드리아"),C("🧑‍🧒 마마보이","","","나의 X"),C("🦋 휴먼뮤지엄","","","나비인간")]}]}
 ];
 
 const $=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.textContent=h;return e};
 const plain=s=>s.replace(/^[^\wㄱ-힣]+/u,"");
+
+/* 상단 세계관 천체도: 카테고리 하나 = 별 하나, 바깥 링의 이름은 천천히 돕니다(마우스를 올리면 멈춤) */
+const L=CATS.map((c,j)=>[c,j]).filter(([c])=>!c.soon),n=L.length;
+const pts=L.map((_,i)=>{const a=i/n*Math.PI*2-Math.PI/2,r=62+48*(.5+.5*Math.sin(i*2.3));return [(200+r*Math.cos(a)).toFixed(1),(200+r*Math.sin(a)).toFixed(1)]});
+const map=document.getElementById("map"),cap=document.getElementById("cap"),CAP0=cap.textContent;
+map.innerHTML=`<svg viewBox="0 0 400 400" role="group" aria-label="세계관 천체도"><defs><path id="rp" d="M13 200a187 187 0 1 1 374 0a187 187 0 1 1-374 0"/></defs><g class="spin"><circle cx="200" cy="200" r="196" class="hair"/><circle cx="200" cy="200" r="178" class="hair"/><text><textPath href="#rp" textLength="1160" lengthAdjust="spacing">${L.map(([c])=>plain(c.name)).join("  ✦  ")}  ✦</textPath></text></g><circle cx="200" cy="200" r="150" class="tick"/><circle cx="200" cy="200" r="126" class="hair"/><polyline class="ln" pathLength="1" points="${pts.join(" ")}"/>${L.map(([c,j],i)=>{const[x,y]=pts[i];return `<a href="#c${j+1}" data-n="${plain(c.name)}" aria-label="${j+1}. ${plain(c.name)}"><circle class="hit" cx="${x}" cy="${y}" r="14"/><circle cx="${x}" cy="${y}" r="8" fill="${c.color}" fill-opacity=".25"/><circle cx="${x}" cy="${y}" r="3.2" fill="#fff"/><text class="nm" x="${x}" y="${y-12}" text-anchor="middle">${j+1}</text></a>`}).join("")}</svg>`;
+const setCap=e=>{const a=e.target.closest&&e.target.closest("a");cap.textContent=a?a.dataset.n:CAP0};
+map.addEventListener("pointerover",setCap);map.addEventListener("focusin",setCap);map.addEventListener("pointerleave",()=>cap.textContent=CAP0);
+map.onclick=e=>{const a=e.target.closest("a");if(!a)return;e.preventDefault();show(+a.getAttribute("href").slice(2),1)};
+
+/* 카테고리 제목 옆 미니 별자리: 작품 수만큼 별이 이어집니다 */
+const mini=(k,c)=>{k=Math.min(k,8);const p=[...Array(k)].map((_,i)=>[5+i*30/Math.max(k-1,1),i%2?7:17]);return `<svg class="mini" viewBox="0 0 40 24" aria-hidden="true"><polyline points="${p.join(" ")}" fill="none" stroke="${c}" stroke-opacity=".55"/>${p.map(([x,y])=>`<circle cx="${x}" cy="${y}" r="2" fill="${c}"/>`).join("")}</svg>`};
 
 function imgBox(name,img,tags){
   const im=$("div","img");
@@ -173,27 +236,33 @@ function imgBox(name,img,tags){
   return im;
 }
 
-/* 팝업 — 지금은 이미지 + 이름만. 상세내용은 나중에 여기에 추가 */
+/* 팝업: 이미지 + 이름, 같은 세계관 안에서 ‹ › 로 넘겨볼 수 있어요. 상세내용·링크는 item[2](링크) 등에 추가 */
+let cur=[],pi=0;
 const dlg=document.getElementById("dlg"),pop=document.getElementById("pop");
 dlg.addEventListener("click",e=>{if(e.target===dlg)dlg.close()});
-function openPop(item){
-  const [name,,,img,o={}]=item;
+function openPop(i){
+  pi=(i+cur.length)%cur.length;
+  const {item,cat}=cur[pi],[name,,link,img,o={}]=item;
   const x=$("button","close","✕");x.type="button";x.setAttribute("aria-label","닫기");x.onclick=()=>dlg.close();
-  pop.replaceChildren(x,imgBox(name,img,o.tags),$("h2",null,name));
-  pop.style.setProperty("--c",pop.dataset.c||"#7B5CFF");
-  dlg.showModal();
+  const fr=$("div","frame"+(img?"":" empty"));fr.append(imgBox(name,img));
+  const info=$("div","info"),cr=$("p","crumb");
+  cr.append($("span",null,plain(cat.name)));if(cat.tag&&!cat.soon)cr.append($("span",null,cat.tag));
+  info.append(cr,$("h2",null,name));
+  if(o.tags&&o.tags.length){const v=$("div","vers");o.tags.forEach(t=>v.append($("em",null,t)));info.append(v)}
+  if(!img)info.append($("p","wait","이미지 준비 중이에요"));
+  if(link){const a=$("a","go","작품 보러가기");a.href=link;a.target="_blank";a.rel="noopener";info.append(a)}
+  const kids=[x,fr,info];
+  if(cur.length>1){
+    const nav=$("div","pnav"),pv=$("button",null,"‹"),nx=$("button",null,"›");
+    pv.type=nx.type="button";pv.setAttribute("aria-label","이전");nx.setAttribute("aria-label","다음");
+    pv.onclick=()=>openPop(pi-1);nx.onclick=()=>openPop(pi+1);
+    nav.append(pv,$("span",null,(pi+1)+" / "+cur.length),nx);kids.push(nav);
+  }
+  pop.replaceChildren(...kids);
+  dlg.style.setProperty("--c",cat.color);
+  if(!dlg.open)dlg.showModal();
 }
-
-function card(item,cat,from){
-  const [name,,,img,o={}]=item;
-  const c=$("button","card");c.type="button";
-  c.appendChild(imgBox(name,img,o.tags));
-  const b=$("div","body");b.appendChild($("b",null,name));
-  if(from)b.appendChild($("span",null,from));
-  c.appendChild(b);
-  if(!cat.soon)c.onclick=()=>{pop.dataset.c=cat.color;openPop(item)};
-  return c;
-}
+document.addEventListener("keydown",e=>{if(!dlg.open||cur.length<2)return;if(e.key==="ArrowRight")openPop(pi+1);if(e.key==="ArrowLeft")openPop(pi-1)});
 
 /* NEW — added 날짜가 있는 작품을 최신순으로 자동 수집 */
 const fresh=[];
@@ -201,32 +270,45 @@ CATS.forEach(cat=>cat.rows.forEach(r=>r.items.forEach(it=>{
   if(it[4]&&it[4].added)fresh.push({it,cat:{...cat,soon:false},from:plain(cat.name)});
 })));
 fresh.sort((a,b)=>b.it[4].added.localeCompare(a.it[4].added));
-const NEW={isNew:true,name:"NEW",color:"#E5484D",rows:[{items:fresh.slice(0,NEW_MAX)}]};
+const NEW={isNew:true,name:"NEW",color:"#FF6B72",rows:[{items:fresh.slice(0,NEW_MAX)}]};
 
-const main=document.getElementById("main");
-[NEW,...CATS].forEach((cat,i)=>{
-  const d=$("details",cat.soon?"soon":"");d.style.setProperty("--c",cat.color);
-  const s=$("summary");
-  if(cat.isNew)s.append($("span",null,"NEW"),$("span","tag","최근 추가순"));
-  else s.append($("span",null,cat.soon?"SOON":i+"."),$("span","tag",cat.tag&&!cat.soon?"["+cat.tag+"]":""),$("span",null,cat.name));
-  d.appendChild(s);
-  const inner=$("div","inner");
-  cat.rows.forEach(r=>{
-    const row=$("div","row"),head=$("div","rowhead");
-    if(r.t)head.appendChild($("h3",null,r.t));
-    if(r.note)head.appendChild($("span","note",r.note));
-    const sl=$("div","slider");
-    r.items.forEach(it=>sl.appendChild(cat.isNew?card(it.it,it.cat,it.from):card(it,cat)));
-    const ar=$("div","arrows");
-    [["‹",-1],["›",1]].forEach(([t,dir])=>{
-      const b=$("button",null,t);b.type="button";b.setAttribute("aria-label",dir<0?"이전":"다음");
-      b.onclick=()=>sl.scrollBy({left:dir*360,behavior:"smooth"});ar.appendChild(b);
-    });
-    head.appendChild(ar);
-    row.append(head,sl);inner.appendChild(row);
-  });
-  d.appendChild(inner);main.appendChild(d);
+/* 이름표: 이미지 없이 이름만. 누르면 팝업에서 이미지가 열립니다 */
+function tag(e,i){
+  const [name,desc,,,o={}]=e.item;
+  const b=$("button","nt");b.type="button";b.style.setProperty("--c",e.cat.color);
+  const top=$("span","top");top.append($("i","hole"),$("b",null,name));
+  const meta=$("span","meta");
+  (o.tags||[]).forEach(t=>meta.append($("em",null,t)));
+  if(e.from||desc)meta.append($("small",null,e.from||desc));
+  b.append(top,meta);
+  if(!e.cat.soon)b.onclick=()=>openPop(i);
+  return b;
+}
+const ALL=[NEW,...CATS],side=document.getElementById("side"),panel=document.getElementById("panel"),layout=document.getElementById("layout");
+ALL.forEach((cat,i)=>{
+  const b=$("button");b.type="button";b.style.setProperty("--c",cat.color);
+  b.insertAdjacentHTML("afterbegin",mini(cat.rows.reduce((a,r)=>a+r.items.length,0),cat.color));
+  const t=$("span","t");t.append($("b",null,cat.isNew?"NEW":cat.soon?"곧 공개됩니다":cat.name),$("small",null,cat.isNew?"최근 추가순":cat.tag&&!cat.soon?"["+cat.tag+"]":""));
+  b.append($("span","num",cat.isNew?"★":cat.soon?"…":i+"."),t);
+  b.onclick=()=>show(i);side.appendChild(b);
 });
+function show(i,go){
+  const cat=ALL[i];
+  [...side.children].forEach((b,k)=>b.classList.toggle("on",k===i));
+  panel.style.setProperty("--c",cat.color);panel.className="panel"+(cat.soon?" soon":"");
+  const h=$("h2");h.append($("span","num",cat.isNew?"NEW":cat.soon?"SOON":i+"."),$("span",null,cat.isNew?"최근 추가순":cat.name));
+  if(cat.tag&&!cat.soon)h.append($("small",null,"["+cat.tag+"]"));
+  cur=cat.rows.flatMap(r=>r.items.map(it=>cat.isNew?{item:it.it,cat:it.cat,from:it.from}:{item:it,cat}));let k=0;const kids=[h];
+  cat.rows.forEach(r=>{
+    const row=$("div","row");
+    if(r.t||r.note){const rh=$("div","rowhead");if(r.t)rh.append($("h3",null,r.t));if(r.note)rh.append($("span","note",r.note));row.append(rh)}
+    const w=$("div","tags");r.items.forEach(()=>{w.append(tag(cur[k],k));k++});
+    row.append(w);kids.push(row);
+  });
+  panel.replaceChildren(...kids);
+  if(go)layout.scrollIntoView({behavior:"smooth",block:"start"});
+}
+const h0=+location.hash.slice(2);show(h0>=0&&h0<ALL.length?h0:0);
 </script>
 </body>
 </html>
