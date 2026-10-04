@@ -134,6 +134,7 @@ dialog::backdrop{background:rgba(4,6,16,.72);backdrop-filter:blur(4px)}
 .pf.tg{background:#E9468A;color:#fff}
 .pf.dm{background:#FF9CC4;color:#111}
 .pf.po{background:#111;color:#fff;border-color:rgba(255,255,255,.35)}
+.pf.tp{background:#2BB5A0;color:#04201C}
 .pf.ic{background:#111;color:#FF9A3D;border-color:rgba(255,154,61,.5)}
 .vers .pf{font-size:12.5px;padding:6px 11px}
 </style>
@@ -199,7 +200,7 @@ const CATS=[
  ]},
  {tag:"오메가버스",name:"NSI",color:"#FF6FA3",rows:[{items:[
    C("강도훈",J("%EA%B0%95%EB%8F%84%ED%9B%88.png")),
-   P("강아지"),P("NSI 제 7과"),
+   P("강아지"),C("NSI 제 7과",J("%EC%A0%9C7%EA%B3%BC.png")),
    C("하연수",J("%ED%95%98%EC%97%B0%EC%88%98.png")),
    C("연우주",J("%EC%97%B0%EC%9A%B0%EC%A3%BC_%EC%9D%BC%EC%83%81%20(35).png"))
  ]}]},
@@ -220,7 +221,7 @@ const CATS=[
  ]}]},
  {tag:"판타지",name:"엘라드리아 연대기",color:"#A892FF",rows:[{items:[
    C("드래곤 육아는 처음이라서요",J("Untitled%20-%20July%2021,%202026%20at%2005.32.51.png")),
-   P("루시엘 발렌티누스 요한 12세"),
+   C("루시엘 발렌티누스 요한 12세",J("%EB%A3%A8%EC%8B%9C%EC%97%98%20%EB%B0%9C%EB%A0%8C%ED%8B%B0%EB%88%84%EC%8A%A4%20%EC%9A%94%ED%95%9C%2012%EC%84%B8,%20%EB%B9%84%EB%B0%80.png")),
    C("리엘 테라시아",J("%EC%88%B2%EC%86%8D.png"))
  ]}]},
  {tag:"동양물",name:"오령국",color:"#FF7B5C",rows:[{items:[
@@ -230,21 +231,38 @@ const CATS=[
  {tag:"시뮬레이션",name:"공포 / 탈출",color:"#4FD6C2",rows:[{items:[
    P("Pointer"),
    C("nightmare",J("%EB%82%98%EC%9D%B4%ED%8A%B8%EB%A9%94%EC%96%B4.png")),
-   P("레온하르트"),
+   C("레온하르트",J("%EB%A0%88%EC%98%A8%ED%95%98%EB%A5%B4%ED%8A%B8.png")),
    C("AER-100",J("%EC%B9%B4%EB%A9%94%EB%9D%BC.png")),
-   P("비행일지")
+   C("비행일지",J("%EB%B9%84%ED%96%89%EC%9D%BC%EC%A7%80%EB%A9%94%EC%9D%B8.png"))
  ]}]},
  {tag:"청춘물",name:"모든 계절이 네게 불어올 때",color:"#6CCBFF",rows:[{items:[P("차선태")]}]},
- {tag:"기타/인외물",name:"휴면뮤지엄",color:"#D4B26A",rows:[{items:[P("자판기")]}]},
- {tag:"",name:"1934",color:"#FF7A8A",rows:[{items:[P("링란 [翎蘭]",{added:"2026-09-25",pf:[WH,TG,PO]}),C("웨이청",J("%EC%9B%A8%EC%9D%B4%EC%B2%AD_%EC%98%86%EB%AA%A8%EC%8A%B5.png"),{added:"2026-10-04",pf:[WH,TG,PO]})]}]},
+ {tag:"기타/인외물",name:"휴먼뮤지엄",color:"#D4B26A",rows:[{items:[C("자판기",J("%EB%AE%A4%EC%A7%80%EC%97%84.png")),C("나비인간",J("57b02605-d133-4cfb-96fd-c55e3c5ebfc1.jpeg"),{added:"2026-10-04",tags:["오리지널"]})]}]},
+ {tag:"",name:"1934",color:"#FF7A8A",rows:[{items:[C("링란 [翎蘭]",J("%EB%A7%81%EB%9E%80_%EB%AC%B4%EB%8C%80%EC%9C%84.png"),{added:"2026-09-25",pf:[WH,TG,PO]}),C("웨이청",J("%EC%9B%A8%EC%9D%B4%EC%B2%AD_%EC%98%86%EB%AA%A8%EC%8A%B5.png"),{added:"2026-10-04",pf:[WH,TG,PO]})]}]},
  {tag:"",name:"합작",color:"#C79BFF",rows:[{items:[
    C("아사히나 소우",M("Jin_k_middle_shot._A_highly_detailed_sharp_close-up_portrait__d6cd11d6-0f8e-4ff8-863d-f1e4aa63f54e_2.png")),
    C("니코",J("%EB%8B%88%EC%BD%94%20(2).png")),
    C("올리버 밀러",J("%ED%95%99%EC%83%9D%EC%A6%9D%20%EC%9D%B4%EB%AF%B8%EC%A7%80.png")),
-   C("♍VIR-06 : 재난 생존",J("%EB%A9%94%EC%9D%B8%20%EC%97%90%EC%85%8B.webp"),{pf:[WH]})
+   C("♍VIR-06 : 재난 생존",J("%EB%A9%94%EC%9D%B8%20%EC%97%90%EC%85%8B.webp"),{pf:[WH]}),
+   C("백연하",J("%EB%B0%B1%EC%97%B0%ED%95%98_%20%EC%82%AC%EC%9A%A9%ED%95%A0%20%EC%88%98%20%EC%97%86%EB%8A%94%20%ED%8B%B0%EC%BC%93.png"),{added:"2026-10-04"})
  ]}]},
- {tag:"SOON",name:"곧 공개됩니다",color:"#9A94BC",soon:true,rows:[{items:[C("에스텔 아카데미","","","엘라드리아"),C("마마보이","","","나의 X"),C("휴먼뮤지엄","","","나비인간")]}]}
+ {tag:"SOON",name:"곧 공개됩니다",color:"#9A94BC",soon:true,rows:[{items:[C("에스텔 아카데미","","","엘라드리아"),C("마마보이","","","나의 X")]}]}
 ];
+
+
+/* 작품별 활동 플랫폼. 작품 이름이 같으면 자동으로 태그가 붙어요. 여기만 고치면 태그가 바뀝니다 */
+const TP="티팟";
+const PFMAP={
+"세가지":[WH,TG,DM,PO],"심성훈":[WH,TG,PO],"X":[WH,TG],"단임":[WH,TG],"정윤조":[WH,TG],
+"강도훈":[WH,TG,PO,IC,DM,TP],"NSI 제 7과":[WH,TG,IC],"강아지":A5,"하연수":[WH,TG,DM,IC],"연우주":[WH,TG],
+"권주석":[WH,TG,DM,IC],"윤태우":[WH,TG,IC],"서도훈":[WH,TG,DM,IC],"무서욱":A5,"임서준":[WH,TG],"로즈쿼츠 6인의 호스트":[WH,TG,DM,IC],
+"박하인":[WH,TG],"Afor":[WH,TG],"유태석":[WH,TG,DM],
+"드래곤 육아는 처음이라서요":[WH,TG,DM,IC],"루시엘 발렌티누스 요한 12세":[WH,TG],"리엘 테라시아":[WH,TG,DM,IC],
+"차설하":[WH,TG],"수현오":[WH,TG],
+"Pointer":[WH,TG],"nightmare":[WH,TG,DM,IC],"레온하르트":[WH,TG],"AER-100":[WH,TG],"비행일지":[WH,TG,DM,IC],
+"차선태":[WH,TG],"자판기":[WH,TG],"나비인간":[DM],
+"아사히나 소우":[WH,TG],"니코":[WH],"올리버 밀러":[WH,TG],"백연하":[TG,IC]
+};
+CATS.forEach(c=>c.rows.forEach(r=>r.items.forEach(it=>{if(PFMAP[it[0]])it[4].pf=PFMAP[it[0]]})));
 
 const $=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.textContent=h;return e};
 const plain=s=>s.replace(/^[^\wㄱ-힣]+/u,"");
@@ -281,7 +299,7 @@ function openPop(i){
   const info=$("div","info"),cr=$("p","crumb");
   cr.append($("span",null,plain(cat.name)));if(cat.tag&&!cat.soon)cr.append($("span",null,cat.tag));
   info.append(cr,$("h2",null,name));
-  if((o.tags&&o.tags.length)||(o.pf&&o.pf.length)){const v=$("div","vers");(o.tags||[]).forEach(t=>v.append($("em",null,t)));(o.pf||[]).forEach(n=>v.append(pf(n)));info.append(v)}
+  if((o.tags&&o.tags.length)||(o.pf&&o.pf.length)){const v=$("div","vers");(o.tags||[]).forEach(t=>v.append($("em",null,t)));sp(o.pf||[]).forEach(n=>v.append(pf(n)));info.append(v)}
   if(!img)info.append($("p","wait","이미지 준비 중이에요"));
   if(link){const a=$("a","go","작품 보러가기");a.href=link;a.target="_blank";a.rel="noopener";info.append(a)}
   const kids=[x,fr,info];
@@ -307,7 +325,7 @@ const NEW={isNew:true,name:"NEW",color:"#FF6B72",rows:[{items:fresh.slice(0,NEW_
 
 /* 이름표: 이미지 없이 이름만. 누르면 팝업에서 이미지가 열립니다 */
 let sel=0,gen="";const q=document.getElementById("q");
-const PFC={WHIF:"wh",Tingle:"tg",Doomchk:"dm",Postype:"po","INK Chat":"ic"},pf=n=>$("span","pf "+(PFC[n]||""),n);
+const PFC={WHIF:"wh",Tingle:"tg",Doomchk:"dm",Postype:"po","INK Chat":"ic","티팟":"tp"},pf=n=>$("span","pf "+(PFC[n]||""),n),sp=a=>[...a].sort((x,y)=>[WH,TG,DM,PO,IC,TP].indexOf(x)-[WH,TG,DM,PO,IC,TP].indexOf(y));
 function tag(e,i){
   const [name,desc,,img,o={}]=e.item;
   const b=$("button","nt");b.type="button";b.style.setProperty("--c",e.cat.color);
@@ -316,7 +334,7 @@ function tag(e,i){
   const top=$("span","top");top.append(th,$("b",null,name));
   const meta=$("span","meta");
   (o.tags||[]).forEach(t=>meta.append($("em",null,t)));
-  (o.pf||[]).forEach(n=>meta.append(pf(n)));
+  sp(o.pf||[]).forEach(n=>meta.append(pf(n)));
   if(e.from||desc)meta.append($("small",null,e.from||desc));
   b.append(top,meta);
   if(!e.cat.soon)b.onclick=()=>openPop(i);
