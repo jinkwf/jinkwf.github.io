@@ -143,6 +143,7 @@ html{cursor:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%
 a,button,summary,select,[role=button],.nt,.map a,.chips button{cursor:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2740%27%20height%3D%2740%27%20viewBox%3D%270%200%2040%2040%27%3E%3Ccircle%20cx%3D%2720.0%27%20cy%3D%2720.0%27%20r%3D%2719%27%20fill%3D%27%23FFFFFF%27%20fill-opacity%3D%27.18%27%2F%3E%3Cpolygon%20points%3D%2720.0%2C5.0%2023.8%2C14.7%2034.3%2C15.4%2026.2%2C22.0%2028.8%2C32.1%2020.0%2C26.5%2011.2%2C32.1%2013.8%2C22.0%205.7%2C15.4%2016.2%2C14.7%27%20fill%3D%27%23FFFFFF%27%20stroke%3D%27%23E9CF8C%27%20stroke-width%3D%271.6%27%20stroke-linejoin%3D%27round%27%2F%3E%3C%2Fsvg%3E") 20 20,pointer}
 input[type=search]{cursor:text}
 .panel.soon .nt{cursor:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2732%27%20height%3D%2732%27%20viewBox%3D%270%200%2032%2032%27%3E%3Cpolygon%20points%3D%2716.0%2C4.0%2019.1%2C11.8%2027.4%2C12.3%2020.9%2C17.6%2023.1%2C25.7%2016.0%2C21.2%208.9%2C25.7%2011.1%2C17.6%204.6%2C12.3%2012.9%2C11.8%27%20fill%3D%27%23E9CF8C%27%20stroke%3D%27%23060A18%27%20stroke-width%3D%271.6%27%20stroke-linejoin%3D%27round%27%2F%3E%3C%2Fsvg%3E") 16 16,default}
+#dust{position:fixed;inset:0;width:100vw;height:100vh;margin:0;padding:0;border:0;background:transparent;overflow:visible;pointer-events:none;z-index:9999}
 </style>
 </head>
 <body>
@@ -165,6 +166,7 @@ input[type=search]{cursor:text}
 <footer>© Jin_K</footer>
 </div>
 
+<canvas id="dust" popover="manual" aria-hidden="true"></canvas>
 <dialog id="dlg"><div class="pop" id="pop"></div></dialog>
 
 <script>
@@ -317,7 +319,7 @@ function openPop(i){
   }
   pop.replaceChildren(...kids);
   dlg.style.setProperty("--c",cat.color);
-  if(!dlg.open)dlg.showModal();
+  if(!dlg.open){dlg.showModal();dustUp()}
 }
 document.addEventListener("keydown",e=>{if(!dlg.open||cur.length<2)return;if(e.key==="ArrowRight")openPop(pi+1);if(e.key==="ArrowLeft")openPop(pi-1)});
 
@@ -402,6 +404,47 @@ q.addEventListener("input",()=>{
   panel.replaceChildren(...kids);
 });
 const h0=+location.hash.slice(2);show(h0>=0&&h0<ALL.length?h0:0);
+
+/* 커서 별가루: 마우스를 따라 반짝이는 가루가 흩날려요 (마우스 환경에서만, 클릭하면 팡 터져요) */
+let dustUp=()=>{};
+(()=>{
+  if(!matchMedia("(hover:hover) and (pointer:fine)").matches||matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+  const cv=document.getElementById("dust"),cx=cv.getContext("2d"),ps=[],COL=["#FFF4C9","#E9CF8C","#FFFFFF","#BFD9FF","#FFD6EC"];
+  let W,H,raf=0,lx=-1,ly=-1,lt=0;
+  const fit=()=>{const D=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*D;cv.height=H*D;cx.setTransform(D,0,0,D,0,0)};
+  fit();addEventListener("resize",fit);
+  dustUp=()=>{try{if(cv.hidePopover){cv.hidePopover();cv.showPopover()}}catch(e){}};
+  try{cv.showPopover&&cv.showPopover()}catch(e){}
+  const add=(x,y,boost)=>{
+    const a=Math.random()*6.283,v=boost?Math.random()*2.2+.6:Math.random()*.5;
+    ps.push({x:x+(Math.random()-.5)*8,y:y+(Math.random()-.5)*8,vx:Math.cos(a)*v,vy:Math.sin(a)*v+.25,life:0,max:600+Math.random()*600,s:1.6+Math.random()*3.4,c:COL[Math.random()*COL.length|0],k:Math.random()<.55,r:Math.random()*6.28,w:(Math.random()-.5)*.05,ph:Math.random()*6});
+    if(ps.length>140)ps.shift();
+  };
+  const go=()=>{if(!raf)raf=requestAnimationFrame(tick)};
+  function tick(t){
+    const dt=Math.min(t-(lt||t),40);lt=t;
+    cx.clearRect(0,0,W,H);
+    for(let i=ps.length-1;i>=0;i--){
+      const p=ps[i];p.life+=dt;
+      if(p.life>=p.max){ps.splice(i,1);continue}
+      const f=dt/16;p.x+=p.vx*f;p.y+=p.vy*f;p.vx*=.985;p.vy+=.004*f;p.r+=p.w*f;
+      const a=(1-p.life/p.max)*(.65+.35*Math.sin(p.life*.02+p.ph));
+      cx.globalAlpha=Math.max(a,0);cx.fillStyle=p.c;cx.shadowColor=p.c;cx.shadowBlur=6;
+      cx.save();cx.translate(p.x,p.y);cx.rotate(p.r);cx.beginPath();
+      if(p.k){const R=p.s*1.7,q=R*.26;cx.moveTo(0,-R);cx.lineTo(q,-q);cx.lineTo(R,0);cx.lineTo(q,q);cx.lineTo(0,R);cx.lineTo(-q,q);cx.lineTo(-R,0);cx.lineTo(-q,-q);cx.closePath()}
+      else cx.arc(0,0,p.s*.45,0,6.283);
+      cx.fill();cx.restore();
+    }
+    if(ps.length)raf=requestAnimationFrame(tick);else{raf=0;lt=0;cx.clearRect(0,0,W,H)}
+  }
+  addEventListener("pointermove",e=>{
+    if(e.pointerType!=="mouse")return;
+    if(lx<0){lx=e.clientX;ly=e.clientY}
+    const d=Math.hypot(e.clientX-lx,e.clientY-ly);
+    if(d>=10){for(let i=0;i<Math.min(3,Math.ceil(d/18));i++)add(e.clientX,e.clientY);lx=e.clientX;ly=e.clientY;go()}
+  },{passive:true});
+  addEventListener("pointerdown",e=>{if(e.pointerType!=="mouse")return;for(let i=0;i<12;i++)add(e.clientX,e.clientY,1);go()},{passive:true});
+})();
 </script>
 </body>
 </html>
