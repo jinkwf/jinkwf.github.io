@@ -137,9 +137,6 @@ dialog::backdrop{background:rgba(4,6,16,.72);backdrop-filter:blur(4px)}
 .ds{margin-top:8px;font-size:14px;line-height:1.6;color:var(--ink);opacity:.88}
 .vers{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
 .vers em{font:600 12px/1 var(--f);font-style:normal;padding:5px 9px;border-radius:999px;border:1px solid rgba(233,207,140,.5);color:var(--gold)}
-.acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-.share{padding:7px 16px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);font:600 13px var(--f);transition:border-color .2s,color .2s}
-.share:hover{border-color:var(--gold);color:var(--gold)}
 .wait{margin-top:8px;color:var(--muted);font-size:13px}
 .go{display:inline-block;margin-top:14px;padding:9px 20px;border-radius:999px;border:1px solid var(--gold);color:var(--gold);text-decoration:none;font-weight:600}
 .go:hover{background:var(--gold);color:var(--bg)}
@@ -177,6 +174,7 @@ dialog::backdrop{background:rgba(4,6,16,.72);backdrop-filter:blur(4px)}
 .pf.po{background:#111;color:#fff;border-color:rgba(255,255,255,.35)}
 .pf.tp{background:#20A98F;color:#fff}
 .pf.ic{background:#111;color:#FF9A3D;border-color:rgba(255,154,61,.5)}
+.pf.tk{background:#5B2AB5;color:#fff;border-color:rgba(255,255,255,.35)}
 .pf.lp{background:#FFD700;color:#fff;border-color:#FFD700}
 .vers .pf{font-size:12.5px;padding:6px 11px}
 /* 이미지 로딩 중 스켈레톤 */
@@ -283,7 +281,8 @@ const CATS=[
  ]}]},
  {tag:"동양물",name:"오령국",color:"#FF7B5C",rows:[{items:[
    C("차설하",J("%EC%B0%A8%EC%84%A4%ED%95%98_%20%EB%AF%B8%EC%86%8C.png")),
-   C("수현오",J("%EC%88%98%ED%98%84%EC%98%A4_%20%EC%9B%83%EC%9D%8C.png"))
+   C("수현오",J("%EC%88%98%ED%98%84%EC%98%A4_%20%EC%9B%83%EC%9D%8C.png")),
+   C("천은단",J("%EC%98%A4%EB%A0%B9%EA%B5%AD_animated_51frames.webp"),{added:"2026-10-13",tags:["오리지널"]})
  ]}]},
  {tag:"시뮬레이션",name:"공포 / 탈출",color:"#4FD6C2",rows:[{items:[
    C("Pointer",J("%ED%8F%AC%EC%9D%B8%ED%84%B0.png")),
@@ -302,13 +301,16 @@ const CATS=[
    C("♍VIR-06 : 재난 생존",J("%EB%A9%94%EC%9D%B8%20%EC%97%90%EC%85%8B.webp"),{pf:[WH]}),
    C("백연하",J("%EB%B0%B1%EC%97%B0%ED%95%98_%20%EC%82%AC%EC%9A%A9%ED%95%A0%20%EC%88%98%20%EC%97%86%EB%8A%94%20%ED%8B%B0%EC%BC%93.png"),{added:"2026-10-04"})
  ]}]},
+ {tag:"",name:"묵도(默島)",color:"#8AA4B8",rows:[{t:"그 마을의 세이렌 괴담",items:[
+   C("묵도",J("%EB%AC%B5%EB%8F%84.gif"),{added:"2026-10-13"})
+ ]}]},
  {tag:"SOON",name:"곧 공개됩니다",color:"#9A94BC",soon:true,rows:[{items:[C("마마보이","","","나의 X")]}]}
 ];
 /* 작품별 한 줄 소개. 비어 있으면 아무것도 안 나와요. 예) "강태현":"무심한 척하는 집착남", */
 const DESC={
 };
 /* 작품별 활동 플랫폼. 작품 이름이 같으면 자동으로 태그가 붙어요. 여기만 고치면 태그가 바뀝니다 */
-const TP="티팟";
+const TP="티팟",TK="티키타";
 const PFMAP={
 "세가지":[WH,TG,DM,PO],"심성훈":[WH,TG,PO],"X":[WH,TG],"단임":[WH,TG],"정윤조":[WH,TG],
 "강도훈":[WH,TG,PO,IC,DM,TP],"NSI 제 7과":[WH,TG,IC],"강아지":A5,"하연수":[WH,TG,DM,IC],"연우주":[WH,TG],
@@ -317,7 +319,7 @@ const PFMAP={
 "드래곤 육아는 처음이라서요":[WH,TG,DM,IC],"루시엘 발렌티누스 요한 12세":[WH,TG],"리엘 테라시아":[WH,TG,DM,IC],
 "차설하":[WH,TG],"수현오":[WH,TG],
 "Pointer":[WH,TG],"nightmare":[WH,TG,DM,IC],"레온하르트":[WH,TG],"AER-100":[WH,TG],"비행일지":[WH,TG,DM,IC],
-"차선태":[WH,TG],"자판기":[WH,TG],"나비인간":[DM],
+"차선태":[WH,TG],"자판기":[WH,TG],"나비인간":[DM],"천은단":[DM],"묵도":[TK],
 "아사히나 소우":[WH,TG],"니코":[WH],"올리버 밀러":[WH,TG],"백연하":[TG,IC]
 };
 /* 배열을 복사해서 넣어요 (A5 같은 공용 배열을 건드리지 않게) */
@@ -333,7 +335,8 @@ const LINKS = {
   "링란 [翎蘭]": "https://posty.pe/pg5lltzc",
   "웨이청": "https://posty.pe/pjzba1kc",
   "니코": "https://jinkwf.github.io/Paradise/",
-  "에스텔 아카데미": "https://posty.pe/pbuncl4c"
+  "에스텔 아카데미": "https://posty.pe/pbuncl4c",
+  "천은단": "https://doomchk.com/worlds/9142"
 };
 CATS.forEach(c=>c.rows.forEach(r=>r.items.forEach(it=>{
   if(LINKS[it[0]]) it[2]=LINKS[it[0]];
@@ -387,31 +390,10 @@ function imgBox(name,img){
   else im.textContent="?";
   return im;
 }
-/* 작품이 어느 카테고리 몇 번째인지 (공유 링크용) */
-function locate(item){
-  for(let i=1;i<ALL.length;i++){
-    let k=0;
-    for(const r of ALL[i].rows)for(const it of r.items){if(it===item)return [i,k];k++}
-  }
-  return null;
-}
-const setHash=h=>{try{history.replaceState(null,"",location.pathname+location.search+h)}catch(e){}};
-function copyLink(loc,btn){
-  const url=location.href.split("#")[0]+"#c"+loc[0]+"-"+loc[1];
-  const ok=()=>{btn.textContent="복사됨 ✓";setTimeout(()=>{btn.textContent="링크 복사"},1600)};
-  const fallback=()=>{
-    const t=document.createElement("textarea");t.value=url;t.style.cssText="position:fixed;opacity:0";dlg.append(t);t.select();
-    try{document.execCommand("copy");ok()}catch(e){prompt("링크를 복사하세요",url)}
-    t.remove();
-  };
-  if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(url).then(ok,fallback);
-  else fallback();
-}
 /* 팝업 */
 let cur=[],pi=0;
 const dlg=document.getElementById("dlg"),pop=document.getElementById("pop");
 dlg.addEventListener("click",e=>{if(e.target===dlg)dlg.close()});
-dlg.addEventListener("close",()=>setHash("#c"+sel));
 function openPop(i){
   pi=(i+cur.length)%cur.length;
   const {item,cat}=cur[pi],[name,desc,link,img,o={}]=item;
@@ -425,7 +407,7 @@ function openPop(i){
     fr.append(fb);
   }
   if(link){
-    const label = link.includes("github.io") ? "소개페이지" : "에셋 보기";
+    const label = link.includes("github.io") ? "소개페이지" : link.includes("doomchk.com") ? "둠칫에서 보기" : "에셋 보기";
     const a=$("a","asset-btn",label);
     a.href=link;a.target="_blank";a.rel="noopener";
     fr.append(a);
@@ -436,12 +418,6 @@ function openPop(i){
   if(desc)info.append($("p","ds",desc));
   if((o.tags&&o.tags.length)||(o.pf&&o.pf.length)){const v=$("div","vers");(o.tags||[]).forEach(t=>v.append($("em",null,t)));sp(o.pf||[]).forEach(n=>v.append(pf(n)));info.append(v)}
   if(!img)info.append($("p","wait","이미지 준비 중이에요"));
-  const loc=locate(item);
-  if(loc){
-    const ac=$("div","acts"),sb=$("button","share","링크 복사");sb.type="button";
-    sb.onclick=()=>copyLink(loc,sb);ac.append(sb);info.append(ac);
-  }
-  setHash(loc?"#c"+loc[0]+"-"+loc[1]:"#c"+sel);
   const kids=[x,fr,info];
   if(cur.length>1){
     const nav=$("div","pnav"),pv=$("button",null,"‹"),nx=$("button",null,"›");
@@ -478,8 +454,8 @@ if(fresh.length){
 /* 이름표 */
 let sel=0,gen="",plat="",view="grid";const q=document.getElementById("q");
 try{if(localStorage.getItem("jk-view")==="list")view="list"}catch(e){}
-const PFC={WHIF:"wh",Tingle:"tg",Doomchk:"dm",Postype:"po","INK Chat":"ic","티팟":"tp","로판AI":"lp"};
-const PFL=[WH,TG,DM,PO,IC,TP,"로판AI"];
+const PFC={WHIF:"wh",Tingle:"tg",Doomchk:"dm",Postype:"po","INK Chat":"ic","티팟":"tp","티키타":"tk","로판AI":"lp"};
+const PFL=[WH,TG,DM,PO,IC,TP,TK,"로판AI"];
 const pf=n=>$("span","pf "+(PFC[n]||""),n);
 const sp=a=>[...a].sort((x,y)=>PFL.indexOf(x)-PFL.indexOf(y));
 function tag(e,i){
@@ -658,8 +634,6 @@ let dustUp=()=>{};
   },{passive:true});
   addEventListener("pointerdown",e=>{if(e.pointerType!=="mouse")return;for(let i=0;i<12;i++)add(e.clientX,e.clientY,1);go()},{passive:true});
 })();
-/* 공유 링크(#c3-2)로 들어오면 해당 작품 팝업을 바로 열어요 */
-if(mh&&mh[2]!=null&&!ALL[sel].soon){const k=+mh[2];if(k>=0&&k<cur.length)openPop(k)}
 </script>
 </body>
 </html>
