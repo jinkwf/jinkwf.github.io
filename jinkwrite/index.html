@@ -311,19 +311,50 @@ const DESC={
 /* 작품별 활동 플랫폼. 작품 이름이 같으면 자동으로 태그가 붙어요. 여기만 고치면 태그가 바뀝니다 */
 const TP="티팟",TK="티키타";
 const PFMAP={
-"세가지":[WH,TG,DM,PO],"심성훈":[WH,TG,PO],"X":[WH,TG],"단임":[WH,TG],"정윤조":[WH,TG],
-"강도훈":[WH,TG,PO,IC,DM,TP],"NSI 제 7과":[WH,TG,IC],"강아지":A5,"하연수":[WH,TG,DM,IC],"연우주":[WH,TG],
-"권주석":[WH,TG,DM,IC],"윤태우":[WH,TG,IC],"서도훈":[WH,TG,DM,IC],"무서욱":A5,"임서준":[WH,TG],"로즈쿼츠 6인의 호스트":[WH,TG,DM,IC],
-"박하인":[WH,TG],"Afor":[WH,TG],"유태석":[WH,TG,DM],
-"드래곤 육아는 처음이라서요":[WH,TG,DM,IC],"루시엘 발렌티누스 요한 12세":[WH,TG],"리엘 테라시아":[WH,TG,DM,IC],
-"차설하":[WH,TG],"수현오":[WH,TG],
-"Pointer":[WH,TG],"nightmare":[WH,TG,DM,IC],"레온하르트":[WH,TG],"AER-100":[WH,TG],"비행일지":[WH,TG,DM,IC],
-"차선태":[WH,TG],"자판기":[WH,TG],"나비인간":[DM],"천은단":[DM],"묵도":[TK],
-"아사히나 소우":[WH,TG],"니코":[WH],"올리버 밀러":[WH,TG],"백연하":[TG,IC]
+"세가지":[WH,TG,DM,PO,TP],
+"심성훈":[WH,TG,PO],
+"X":[WH,TG],
+"단임":[WH,TG],
+"정윤조":[WH,TG],
+"강도훈":[WH,TG,PO,IC,DM,TP],
+"NSI 제 7과":[WH,TG,IC],
+"강아지":[WH,TG,DM,PO,IC,TP],
+"하연수":[WH,TG,DM,IC],
+"연우주":[WH,TG],
+"권주석":[WH,TG,DM,IC,TP],
+"윤태우":[WH,TG,IC],
+"서도훈":[WH,TG,DM,IC,TP,PO],
+"무서욱":A5,
+"임서준":[WH,TG],
+"로즈쿼츠 6인의 호스트":[WH,TG,DM,IC,TP],
+"박하인":[WH,TG,TP],
+"Afor":[WH,TG],
+"유태석":[WH,TG,DM],
+"드래곤 육아는 처음이라서요":[WH,TG,DM,IC,TP],
+"루시엘 발렌티누스 요한 12세":[WH,TG],
+"리엘 테라시아":[WH,TG,DM,IC],
+"차설하":[WH,TG],
+"수현오":[WH,TG],
+"Pointer":[WH,TG],
+"nightmare":[WH,TG,DM,IC],
+"레온하르트":[WH,TG],
+"AER-100":[WH,TG],
+"비행일지":[WH,TG,DM,IC],
+"차선태":[WH,TG],
+"자판기":[WH,TG],
+"나비인간":[DM],
+"천은단":[DM],
+"묵도":[TK],
+"아사히나 소우":[WH,TG],
+"니코":[WH],
+"올리버 밀러":[WH,TG],
+"백연하":[TG,IC],
+"강태현":[WH,TG,DM,PO,IC],
+"백지한":[WH,TG,IC],
+"연다비":[WH,TG,DM,PO,IC,TP]
 };
 /* 배열을 복사해서 넣어요 (A5 같은 공용 배열을 건드리지 않게) */
 CATS.forEach(c=>c.rows.forEach(r=>r.items.forEach(it=>{if(PFMAP[it[0]])it[4].pf=[...PFMAP[it[0]]];if(it[4].pf)it[4].pf=[...it[4].pf];if(DESC[it[0]])it[1]=DESC[it[0]]})));
-
 /* 링크 매핑 */
 const LINKS = {
   "연다비 l 하은우 l 하은호": "https://jinkwf.github.io/Trio/",
@@ -345,7 +376,6 @@ CATS.forEach(c=>c.rows.forEach(r=>r.items.forEach(it=>{
     if(!it[4].pf.includes("로판AI")) it[4].pf.push("로판AI");
   }
 })));
-
 const $=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.textContent=h;return e};
 const plain=s=>s.replace(/^[^\wㄱ-힣]+/u,"");
 const countOf=c=>c.rows.reduce((a,r)=>a+r.items.length,0);
