@@ -83,8 +83,16 @@ dialog[open]{animation:pin .25s ease-out}
 @keyframes pin{from{opacity:0;transform:translateY(12px)}}
 dialog::backdrop{background:rgba(4,6,16,.72);backdrop-filter:blur(4px)}
 .pop{position:relative}
-.frame{margin:14px 14px 0;padding:6px;border:1px solid rgba(233,207,140,.35);border-radius:18px}
-.frame .img{border-radius:13px;overflow:hidden;font-size:88px;max-height:min(62vh,520px)}
+.frame{margin:14px 14px 0;padding:6px;border:1px solid rgba(233,207,140,.35);border-radius:18px;position:relative}
+.frame .img{border-radius:13px;overflow:hidden;font-size:88px;max-height:min(62vh,520px);position:relative}
+.asset-btn{
+  position:absolute;bottom:18px;right:18px;z-index:3;
+  padding:8px 16px;border-radius:999px;
+  background:rgba(6,10,24,.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1px solid #fff;color:#fff;font-weight:600;font-size:13px;
+  text-decoration:none;white-space:nowrap;transition:background .2s,color .2s;
+}
+.asset-btn:hover{background:#fff;color:var(--bg)}
 .frame.empty .img{background:transparent;border:1px dashed var(--line)}
 .info{padding:18px 22px 22px}
 .info:has(+.pnav){padding-bottom:6px}
@@ -222,11 +230,11 @@ const CATS=[
    C("Afor",J("Afor.png")),
    C("유태석",J("%ED%8C%AC%EB%AF%B8%ED%8C%85.png"))
  ]}]},
- {tag:"판타지",name:"엘라드리아 연대기",color:"#A892FF",rows:[{items:[
+ {tag:"판타지",name:"엘라드리아 연대기",color:"#A892FF",worldLink:"https://posty.pe/pj9i5w0c",rows:[{items:[
    C("드래곤 육아는 처음이라서요",J("Untitled%20-%20July%2021,%202026%20at%2005.32.51.png")),
    C("루시엘 발렌티누스 요한 12세",J("%EB%A3%A8%EC%8B%9C%EC%97%98%20%EB%B0%9C%EB%A0%8C%ED%8B%B0%EB%88%84%EC%8A%A4%20%EC%9A%94%ED%95%9C%2012%EC%84%B8,%20%EB%B9%84%EB%B0%80.png")),
    C("리엘 테라시아",J("%EC%88%B2%EC%86%8D.png")),
-   C("에스텔 아카데미",J("%EC%97%90%EC%8A%A4%ED%85%94%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8.gif"),{added:"2026-10-12",pf:[WH,TG]})
+   C("에스텔 아카데미",J("%EC%97%90%EC%8A%A4%ED%85%94%EC%95%84%EC%B9%B4%EB%8D%B0%EB%AF%B8.gif"),{added:"2026-10-12",pf:[WH,TG,PO]})
  ]}]},
  {tag:"동양물",name:"오령국",color:"#FF7B5C",rows:[{items:[
    C("차설하",J("%EC%B0%A8%EC%84%A4%ED%95%98_%20%EB%AF%B8%EC%86%8C.png")),
@@ -275,7 +283,8 @@ const LINKS = {
   "연다비": "https://posty.pe/pwusbdzc",
   "링란 [翎蘭]": "https://posty.pe/pg5lltzc",
   "웨이청": "https://posty.pe/pjzba1kc",
-  "니코": "https://jinkwf.github.io/Paradise/"
+  "니코": "https://jinkwf.github.io/Paradise/",
+  "에스텔 아카데미": "https://posty.pe/pbuncl4c"
 };
 CATS.forEach(c=>c.rows.forEach(r=>r.items.forEach(it=>{
   if(LINKS[it[0]]) it[2]=LINKS[it[0]];
@@ -313,16 +322,19 @@ function openPop(i){
   pi=(i+cur.length)%cur.length;
   const {item,cat}=cur[pi],[name,,link,img,o={}]=item;
   const x=$("button","close","✕");x.type="button";x.setAttribute("aria-label","닫기");x.onclick=()=>dlg.close();
-  const fr=$("div","frame"+(img?"":" empty"));fr.append(imgBox(name,img));
+  const fr=$("div","frame"+(img?"":" empty"));
+  fr.append(imgBox(name,img));
+  if(link){
+    const label = link.includes("github.io") ? "소개페이지" : "에셋 보기";
+    const a=$("a","asset-btn",label);
+    a.href=link;a.target="_blank";a.rel="noopener";
+    fr.append(a);
+  }
   const info=$("div","info"),cr=$("p","crumb");
   cr.append($("span",null,plain(cat.name)));if(cat.tag&&!cat.soon)cr.append($("span",null,cat.tag));
   info.append(cr,$("h2",null,name));
   if((o.tags&&o.tags.length)||(o.pf&&o.pf.length)){const v=$("div","vers");(o.tags||[]).forEach(t=>v.append($("em",null,t)));sp(o.pf||[]).forEach(n=>v.append(pf(n)));info.append(v)}
   if(!img)info.append($("p","wait","이미지 준비 중이에요"));
-  if(link){
-    const label = link.includes("github.io") ? "소개페이지 보러가기" : "에셋 보러가기";
-    const a=$("a","go",label);a.href=link;a.target="_blank";a.rel="noopener";info.append(a)
-  }
   const kids=[x,fr,info];
   if(cur.length>1){
     const nav=$("div","pnav"),pv=$("button",null,"‹"),nx=$("button",null,"›");
