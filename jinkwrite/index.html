@@ -597,37 +597,95 @@ const chipBox=document.getElementById("chips");
     gen=g==="전체"?"":g;
     [...chipBox.children].forEach(x=>x.classList.toggle("on",x===b));
     [...side.children].forEach((x,k)=>{const c=ALL[k];x.hidden=!!gen&&!(c.tag===gen&&!c.soon)});
-    if(gen&&(ALL[sel].tag!==gen||ALL[sel].soon))show(ALL.findIndex(c=>!c.soon&&c.tag===gen));
+    if(!gen){show(sel);return}
+    showGrouped(CATS.filter(c=>c.tag===gen&&!c.soon), g+" 세계관");
   };
   chipBox.append(b);
 });
-/* 검색 + 플랫폼 필터 결과 */
-const norm=t=>t.toLowerCase().replace(/\s/g,"");
-function results(keep){
-  const nq=norm(q.value);
-  if(!nq&&!plat){show(sel);return}
-  const hits=[];
-  CATS.forEach(c=>{
-    if(c.soon)return;
-    const cn=norm(plain(c.name));
-    c.rows.forEach(r=>r.items.forEach(it=>{
-      const pl=it[4].pf||[];
-      if(plat&&!pl.includes(plat))return;
-      if(!nq||cn.includes(nq)||norm(it[0]).includes(nq)||pl.some(n=>norm(n).includes(nq)))hits.push({item:it,cat:c,from:plain(c.name)});
-    }));
-  });
-  cur=hits;
+/* 계층 그룹 렌더 (장르/플랫폼용) */
+function showGrouped(cats, title){
+  q.value="";plat="";syncP();
   [...side.children].forEach(b=>b.classList.remove("on"));
   map.classList.remove("sel");map.querySelectorAll("a").forEach(a=>a.classList.remove("on"));
   document.body.style.setProperty("--tint","#E9CF8C");
   panel.style.setProperty("--c","#E9CF8C");panel.className="panel";
-  const h=$("h2");h.append($("span",null,plat&&!nq?plat+" 작품":"검색 결과"),$("small",null,hits.length+"개"));
+  const h=$("h2");h.append($("span",null,title),$("small",null,cats.length+"개 세계관"));
   const ph=$("div","phead");ph.append(h,vt());
   const kids=[ph];
-  if(!hits.length)kids.push($("p","none","일치하는 작품이 없어요."));
+  cur=[];
+  let gIdx=0;
+  if(!cats.length){kids.push($("p","none","해당 세계관이 없어요."));}
   else{
-    const g=view==="grid",w=$("div","tags"+(g?" grid":""));
-    hits.forEach((e,k)=>w.append(g?gcard(e,k):tag(e,k)));kids.push(w);
+    cats.forEach(cat=>{
+      const block=$("div","world-block open");block.style.setProperty("--c",cat.color);
+      const head=$("div","world-head");
+      head.append($("b",null,plain(cat.name)),$("small",null,countOf(cat)+"작품"),$("span","arr","›"));
+      head.onclick=()=>block.classList.toggle("open");
+      const content=$("div","world-content");
+      const g=view==="grid",w=$("div","tags"+(g?" grid":""));
+      const items=cat.rows.flatMap(r=>r.items.map(it=>({item:it,cat})));
+      items.forEach((e)=>{
+        w.append(g?gcard(e,gIdx):tag(e,gIdx));
+        gIdx++;
+      });
+      cur.push(...items);
+      content.append(w);
+      block.append(head,content);
+      kids.push(block);
+    });
+  }
+  panel.replaceChildren(...kids);
+  layout.scrollIntoView({behavior:"smooth",block:"start"});
+}
+/* 검색 + 플랫폼 필터 결과 */
+const norm=t=>t.toLowerCase().replace(/\s/g,"");
+function results(keep){
+  const nq=norm(q.value);
+  if(!nq&&!plat){
+    if(gen) showGrouped(CATS.filter(c=>c.tag===gen&&!c.soon), gen+" 세계관");
+    else show(sel);
+    return;
+  }
+  const byCat=new Map();
+  CATS.forEach(c=>{
+    if(c.soon)return;
+    const cn=norm(plain(c.name));
+    const items=[];
+    c.rows.forEach(r=>r.items.forEach(it=>{
+      const pl=it[4].pf||[];
+      if(plat&&!pl.includes(plat))return;
+      if(!nq||cn.includes(nq)||norm(it[0]).includes(nq)||pl.some(n=>norm(n).includes(nq)))items.push({item:it,cat:c,from:plain(c.name)});
+    }));
+    if(items.length)byCat.set(c,items);
+  });
+  [...side.children].forEach(b=>b.classList.remove("on"));
+  map.classList.remove("sel");map.querySelectorAll("a").forEach(a=>a.classList.remove("on"));
+  document.body.style.setProperty("--tint","#E9CF8C");
+  panel.style.setProperty("--c","#E9CF8C");panel.className="panel";
+  const total=Array.from(byCat.values()).reduce((a,b)=>a+b.length,0);
+  const h=$("h2");h.append($("span",null,plat&&!nq?plat+" 작품":"검색 결과"),$("small",null,total+"개"));
+  const ph=$("div","phead");ph.append(h,vt());
+  const kids=[ph];
+  cur=[];
+  let gIdx=0;
+  if(!total)kids.push($("p","none","일치하는 작품이 없어요."));
+  else{
+    byCat.forEach((items,cat)=>{
+      const block=$("div","world-block open");block.style.setProperty("--c",cat.color);
+      const head=$("div","world-head");
+      head.append($("b",null,plain(cat.name)),$("small",null,items.length+"작품"),$("span","arr","›"));
+      head.onclick=()=>block.classList.toggle("open");
+      const content=$("div","world-content");
+      const g=view==="grid",w=$("div","tags"+(g?" grid":""));
+      items.forEach((e)=>{
+        w.append(g?gcard(e,gIdx):tag(e,gIdx));
+        gIdx++;
+      });
+      content.append(w);
+      block.append(head,content);
+      kids.push(block);
+      cur.push(...items);
+    });
   }
   panel.replaceChildren(...kids);
 }
@@ -677,4 +735,4 @@ let dustUp=()=>{};
 })();
 </script>
 </body>
-</html>
+</html>```
