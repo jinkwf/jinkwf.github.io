@@ -264,8 +264,7 @@ const CATS=[
    C("강도훈",J("%EA%B0%95%EB%8F%84%ED%9B%88.png")),
    C("강아지",J("%EA%B0%95%EC%95%84%EC%A7%80.png")),C("NSI 제 7과",J("%EC%A0%9C7%EA%B3%BC.png")),
    C("하연수",J("%ED%95%98%EC%97%B0%EC%88%98.png")),
-   C("연우주",J("%EC%97%B0%EC%9A%B0%EC%A3%BC_%EC%9D%BC%EC%83%81%20(35).png")),
-   C("백현조","",{pf:[WH]})
+   C("연우주",J("%EC%97%B0%EC%9A%B0%EC%A3%BC_%EC%9D%BC%EC%83%81%20(35).png"))
  ]}]},
  {tag:"현대물",name:"나의 X (구남친 모음집)",color:"#6AB0FF",rows:[{note:"TMI. 모두 직접 들은 대사들로 이루어진 도입부예요.",items:[
    C("권주석",J("%EA%B6%8C%EC%A3%BC%EC%84%9D%20(2).png")),
@@ -316,9 +315,6 @@ const CATS=[
  {tag:"",name:"묵도(默島)",color:"#8AA4B8",rows:[{t:"그 마을의 세이렌 괴담",items:[
    C("묵도",J("%EB%AC%B5%EB%8F%84.gif"),{added:"2026-10-13"})
  ]}]},
- {tag:"시뮬레이션",name:"데이터 파놉티콘",color:"#4A90E2",rows:[{items:[
-   C("이시한","",{pf:[WH]})
- ]}]},
  {tag:"SOON",name:"곧 공개됩니다",color:"#9A94BC",soon:true,rows:[{items:[C("마마보이","","","나의 X")]}]}
 ];
 /* 작품별 한 줄 소개. 비어 있으면 아무것도 안 나와요. 예) "강태현":"무심한 척하는 집착남", */
@@ -367,9 +363,7 @@ const PFMAP={
 "백연하":[TG,IC],
 "강태현":[WH,TG,DM,PO,IC],
 "백지한":[WH,TG,IC],
-"연다비":[WH,TG,DM,PO,IC,TP],
-"백현조":[WH],
-"이시한":[WH]
+"연다비":[WH,TG,DM,PO,IC,TP]
 };
 /* 배열을 복사해서 넣어요 (A5 같은 공용 배열을 건드리지 않게) */
 CATS.forEach(c=>c.rows.forEach(r=>r.items.forEach(it=>{if(PFMAP[it[0]])it[4].pf=[...PFMAP[it[0]]];if(it[4].pf)it[4].pf=[...it[4].pf];if(DESC[it[0]])it[1]=DESC[it[0]]})));
@@ -435,9 +429,8 @@ const LINKS = {
   "강도훈": "https://www.whif.io/characters/1dc7d5c6-257a-41d9-bc66-809183b08133",
   "연우주": "https://www.whif.io/characters/5c15f7ca-44c6-402c-ad5d-4f8ebe198a9c",
   "NSI 제 7과": "https://www.whif.io/characters/65696799-7f2d-46d3-a1cc-b183cce150e3",
-  "천은단": "https://doomchk.com/worlds/9142",
-  "백현조": "https://www.whif.io/characters/32d1c2d5-0184-4504-9d75-be7091da1db7",
-  "이시한": "https://www.whif.io/characters/802940fa-efa3-4dbf-9a80-c481363d63c0"
+  "천은단": "https://doomchk.com/worlds/9142"
+  // 백현조, 이시한 은 현재 목록에 없음
 };
 CATS.forEach(c=>c.rows.forEach(r=>r.items.forEach(it=>{
   if(LINKS[it[0]]) it[2]=LINKS[it[0]];
