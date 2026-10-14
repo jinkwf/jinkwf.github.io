@@ -188,6 +188,7 @@ dialog::backdrop{background:rgba(4,6,16,.72);backdrop-filter:blur(4px)}
 .pf.tk{background:#5B2AB5;color:#fff;border-color:rgba(255,255,255,.35)}
 .pf.lp{background:#FFD700;color:#fff;border-color:#FFD700}
 .vers .pf{font-size:12.5px;padding:6px 11px}
+.verpill:hover{background:rgba(233,207,140,.16)}
 /* 이미지 로딩 중 스켈레톤 */
 .ld{background:linear-gradient(100deg,rgba(255,255,255,.04) 30%,rgba(255,255,255,.12) 50%,rgba(255,255,255,.04) 70%) 0 0/200% 100%;animation:sh 1.4s linear infinite}
 @keyframes sh{to{background-position:-200% 0}}
@@ -373,7 +374,26 @@ const PFMAP={
 };
 /* 배열을 복사해서 넣어요 (A5 같은 공용 배열을 건드리지 않게) */
 CATS.forEach(c=>c.rows.forEach(r=>r.items.forEach(it=>{if(PFMAP[it[0]])it[4].pf=[...PFMAP[it[0]]];if(it[4].pf)it[4].pf=[...it[4].pf];if(DESC[it[0]])it[1]=DESC[it[0]]})));
-/* 에셋 보기 링크 (팝업 이미지 위 버튼용 — 플랫폼 링크와 분리) */
+/* 버전별 링크 (이름 옆에 알약으로 표시) */
+const VER_LINKS = {
+  "연다비": [
+    {label:"14ver", url:"https://www.whif.io/characters/b5607018-c6a8-4191-a627-f6595ba353ca"},
+    {label:"20ver safe", url:"https://www.whif.io/characters/f80c54bc-26cd-4c01-8990-04bf1890121c"},
+    {label:"20ver unsafe", url:"https://www.whif.io/characters/672dd402-6e7b-4676-8838-1cdc217d7041"}
+  ],
+  "하은우 & 하은호": [
+    {label:"14ver", url:"https://www.whif.io/characters/40c29862-3744-4fe0-87da-657faec4438f"},
+    {label:"20ver", url:"https://www.whif.io/characters/64826f5d-5c56-4dff-8db2-3d40669b9c7f"}
+  ],
+  "권레오": [
+    {label:"safe", url:"https://www.whif.io/characters/d209325f-fc41-4df5-9ebb-8872621bd7d9"},
+    {label:"unsafe", url:"https://www.whif.io/characters/14ad9145-8111-4911-ba11-d8a81cd4a39f"}
+  ],
+  "백지한": [
+    {label:"safe", url:"https://www.whif.io/characters/fc7ecf85-490e-4da4-ac81-bb4ace118781"},
+    {label:"unsafe", url:"https://www.whif.io/characters/49954180-1194-49dd-8a21-c399ba1f2507"}
+  ]
+};
 const LINKS = {
   "연다비 l 하은우 l 하은호": "https://jinkwf.github.io/Trio/",
   "강태현": "https://posty.pe/ps8nwekc",
@@ -445,7 +465,8 @@ const PLAT_LINKS = {
   "연우주": {"WHIF": "https://www.whif.io/characters/5c15f7ca-44c6-402c-ad5d-4f8ebe198a9c"},
   "NSI 제 7과": {"WHIF": "https://www.whif.io/characters/65696799-7f2d-46d3-a1cc-b183cce150e3"},
   "백현조": {"WHIF": "https://www.whif.io/characters/32d1c2d5-0184-4504-9d75-be7091da1db7"},
-  "이시한": {"WHIF": "https://www.whif.io/characters/802940fa-efa3-4dbf-9a80-c481363d63c0"}
+  "이시한": {"WHIF": "https://www.whif.io/characters/802940fa-efa3-4dbf-9a80-c481363d63c0"},
+  "천은단": {"Doomchk": "https://doomchk.com/worlds/9142"}
 };
 const $=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.textContent=h;return e};
 const plain=s=>s.replace(/^[^\wㄱ-힣]+/u,"");
@@ -514,9 +535,29 @@ function openPop(i){
   }
   const info=$("div","info"),cr=$("p","crumb");
   cr.append($("span",null,plain(cat.name)));if(cat.tag&&!cat.soon)cr.append($("span",null,cat.tag));
-  info.append(cr,$("h2",null,name));
+  const nameRow=$("div","namerow");
+  nameRow.style.cssText="display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px;margin-top:6px";
+  const h2=$("h2",null,name);h2.style.margin="0";
+  nameRow.append(h2);
+  const vers=VER_LINKS[name];
+  if(vers){
+    vers.forEach(v=>{
+      const a=$("a","verpill",v.label);
+      a.href=v.url;a.target="_blank";a.rel="noopener";
+      a.style.cssText="font:600 12px/1 var(--f);padding:5px 10px;border-radius:999px;border:1px solid rgba(233,207,140,.5);color:var(--gold);text-decoration:none;white-space:nowrap";
+      nameRow.append(a);
+    });
+  }
+  info.append(cr,nameRow);
   if(desc)info.append($("p","ds",desc));
-  if((o.tags&&o.tags.length)||(o.pf&&o.pf.length)){const v=$("div","vers");(o.tags||[]).forEach(t=>v.append($("em",null,t)));sp(o.pf||[]).forEach(n=>v.append(pf(n,name)));info.append(v)}
+  const hasPf=o.pf&&o.pf.length;
+  const showTags=o.tags&&o.tags.length&&!vers; // 버전 링크가 있으면 기존 태그 숨김
+  if(showTags||hasPf){
+    const v=$("div","vers");
+    if(showTags)(o.tags||[]).forEach(t=>v.append($("em",null,t)));
+    if(hasPf)sp(o.pf||[]).forEach(n=>v.append(pf(n,name)));
+    info.append(v);
+  }
   if(!img)info.append($("p","wait","이미지 준비 중이에요"));
   const kids=[x,fr,info];
   if(cur.length>1){
