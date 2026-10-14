@@ -264,7 +264,8 @@ const CATS=[
    C("강도훈",J("%EA%B0%95%EB%8F%84%ED%9B%88.png")),
    C("강아지",J("%EA%B0%95%EC%95%84%EC%A7%80.png")),C("NSI 제 7과",J("%EC%A0%9C7%EA%B3%BC.png")),
    C("하연수",J("%ED%95%98%EC%97%B0%EC%88%98.png")),
-   C("연우주",J("%EC%97%B0%EC%9A%B0%EC%A3%BC_%EC%9D%BC%EC%83%81%20(35).png"))
+   C("연우주",J("%EC%97%B0%EC%9A%B0%EC%A3%BC_%EC%9D%BC%EC%83%81%20(35).png")),
+   C("백현조","",{pf:[WH]})
  ]}]},
  {tag:"현대물",name:"나의 X (구남친 모음집)",color:"#6AB0FF",rows:[{note:"TMI. 모두 직접 들은 대사들로 이루어진 도입부예요.",items:[
    C("권주석",J("%EA%B6%8C%EC%A3%BC%EC%84%9D%20(2).png")),
@@ -315,6 +316,9 @@ const CATS=[
  {tag:"",name:"묵도(默島)",color:"#8AA4B8",rows:[{t:"그 마을의 세이렌 괴담",items:[
    C("묵도",J("%EB%AC%B5%EB%8F%84.gif"),{added:"2026-10-13"})
  ]}]},
+ {tag:"시뮬레이션",name:"데이터 파놉티콘",color:"#4A90E2",rows:[{items:[
+   C("이시한","",{pf:[WH]})
+ ]}]},
  {tag:"SOON",name:"곧 공개됩니다",color:"#9A94BC",soon:true,rows:[{items:[C("마마보이","","","나의 X")]}]}
 ];
 /* 작품별 한 줄 소개. 비어 있으면 아무것도 안 나와요. 예) "강태현":"무심한 척하는 집착남", */
@@ -363,22 +367,77 @@ const PFMAP={
 "백연하":[TG,IC],
 "강태현":[WH,TG,DM,PO,IC],
 "백지한":[WH,TG,IC],
-"연다비":[WH,TG,DM,PO,IC,TP]
+"연다비":[WH,TG,DM,PO,IC,TP],
+"백현조":[WH],
+"이시한":[WH]
 };
 /* 배열을 복사해서 넣어요 (A5 같은 공용 배열을 건드리지 않게) */
 CATS.forEach(c=>c.rows.forEach(r=>r.items.forEach(it=>{if(PFMAP[it[0]])it[4].pf=[...PFMAP[it[0]]];if(it[4].pf)it[4].pf=[...it[4].pf];if(DESC[it[0]])it[1]=DESC[it[0]]})));
-/* 링크 매핑 */
+/* 링크 매핑 (문자열 = 단일 버튼, 배열 = 여러 버튼) */
 const LINKS = {
-  "연다비 l 하은우 l 하은호": "https://jinkwf.github.io/Trio/",
-  "강태현": "https://posty.pe/ps8nwekc",
-  "하은우 & 하은호": "https://posty.pe/pun2fuvc",
-  "나의 장례식": "https://posty.pe/pmoih2ac",
-  "연다비": "https://posty.pe/pwusbdzc",
-  "링란 [翎蘭]": "https://posty.pe/pg5lltzc",
-  "웨이청": "https://posty.pe/pjzba1kc",
-  "니코": "https://jinkwf.github.io/Paradise/",
-  "에스텔 아카데미": "https://posty.pe/pbuncl4c",
-  "천은단": "https://doomchk.com/worlds/9142"
+  "묵도": "https://tikita.ai/ko/story/KUYHYL72?referrer=MN9TUQ",
+  "웨이청": "https://www.whif.io/characters/641a076a-1c1c-44a0-a81f-fa320bc1e010",
+  "링란 [翎蘭]": "https://www.whif.io/characters/9f52f4fd-0d58-4a8b-a504-20bf43b25c38",
+  "♍VIR-06 : 재난 생존": "https://www.whif.io/characters/6d473e01-6176-434c-8963-c477deff9e29",
+  "니코": "https://www.whif.io/characters/ccf5491e-e67f-4817-bc53-0fd5f03534d6",
+  "올리버 밀러": "https://www.whif.io/characters/8eb9f0a4-d9ff-4e96-8863-895bb2e38f82",
+  "에스텔 아카데미": "https://www.whif.io/characters/33a6e68c-2958-46f1-85e9-d479178a941c",
+  "루시엘 발렌티누스 요한 12세": "https://www.whif.io/characters/f2cf37a8-2419-4926-b048-6ed109d5ff8a",
+  "리엘 테라시아": "https://www.whif.io/characters/d19a76ca-532a-4123-a916-eedcdea1dba1",
+  "드래곤 육아는 처음이라서요": "https://www.whif.io/characters/89164879-875a-4752-a977-ad0664b5ebd1",
+  "권주석": "https://www.whif.io/characters/55c108f9-4cfa-4761-b34d-f2498a4261ce",
+  "윤태우": "https://www.whif.io/characters/dba06c04-06d7-459d-8362-a86d446245fb",
+  "서도훈": "https://www.whif.io/characters/05405b7f-1bf3-4e18-a8e5-b8b29a5e4b3d",
+  "아사히나 소우": "https://www.whif.io/characters/f84092d7-c41d-4961-8466-d8c567df4329",
+  "수현오": "https://www.whif.io/characters/7f2a6699-bb48-4d55-b419-3c5644c9d775",
+  "차설하": "https://www.whif.io/characters/04dacd96-26f7-442d-912a-9637bf63e2f7",
+  "AER-100": "https://www.whif.io/characters/09003497-7756-4bde-bd0a-4598a564b24d",
+  "자판기": "https://www.whif.io/characters/5141cf3f-cde7-4c34-a2e9-e0bd339dd333",
+  "무서욱": "https://www.whif.io/characters/57fbde7f-d2b6-4182-b51b-a87ab8c09979",
+  "강성욱": "https://www.whif.io/characters/517e20a4-9844-496a-8ed9-6cbe3ba2c2c8",
+  "nightmare": "https://www.whif.io/characters/603df9f6-68cd-41ad-939f-ea3ba89be634",
+  "차선태": "https://www.whif.io/characters/40f2f768-50fd-43ae-beaa-5a7496b3fc5c",
+  "권레오": [
+    {label:"위프 (언세이프)", url:"https://www.whif.io/characters/14ad9145-8111-4911-ba11-d8a81cd4a39f"},
+    {label:"위프 (세이프)", url:"https://www.whif.io/characters/d209325f-fc41-4df5-9ebb-8872621bd7d9"}
+  ],
+  "백지한": [
+    {label:"위프 (세이프)", url:"https://www.whif.io/characters/fc7ecf85-490e-4da4-ac81-bb4ace118781"},
+    {label:"위프 (언세이프)", url:"https://www.whif.io/characters/49954180-1194-49dd-8a21-c399ba1f2507"}
+  ],
+  "강태현": "https://www.whif.io/characters/2035d2f6-0a20-49d4-9710-6c41d1dc5c7c",
+  "보육원게이트 시뮬레이션": "https://www.whif.io/characters/3d715a03-35e4-42ac-9c73-a3829f925faf",
+  "연다비": [
+    {label:"위프 20ver 세이프", url:"https://www.whif.io/characters/f80c54bc-26cd-4c01-8990-04bf1890121c"},
+    {label:"위프 20ver 언세이프", url:"https://www.whif.io/characters/672dd402-6e7b-4676-8838-1cdc217d7041"},
+    {label:"위프 14ver", url:"https://www.whif.io/characters/b5607018-c6a8-4191-a627-f6595ba353ca"}
+  ],
+  "나의 장례식": "https://www.whif.io/characters/fec395f8-8770-47e9-8cda-02d8ea5aa189",
+  "연다비 l 하은우 l 하은호": "https://www.whif.io/characters/6eec1c83-6470-430a-8311-06d72f538e09",
+  "X": "https://www.whif.io/characters/39975967-52ce-41c2-ad97-921c71cb11cd",
+  "단임": "https://www.whif.io/characters/41b65de3-8d40-4748-bbee-1194d954c054",
+  "세가지": "https://www.whif.io/characters/56a1ecd3-17b1-4bbd-8bb5-ac458c630d9e",
+  "하은우 & 하은호": [
+    {label:"위프 20ver", url:"https://www.whif.io/characters/64826f5d-5c56-4dff-8db2-3d40669b9c7f"},
+    {label:"위프 14ver", url:"https://www.whif.io/characters/40c29862-3744-4fe0-87da-657faec4438f"}
+  ],
+  "정윤조": "https://www.whif.io/characters/d1b00e14-1c60-48e2-b93b-3629ca3ee002",
+  "심성훈": "https://www.whif.io/characters/519c4d26-245e-4992-9ea1-aeb99e6d2efb",
+  "로즈쿼츠 6인의 호스트": "https://www.whif.io/characters/b511008e-8c07-4fe3-8880-0c57d4e636b9",
+  "임서준": "https://www.whif.io/characters/5a08ff56-a4d0-4df5-8d3a-63b868b174d2",
+  "Pointer": "https://www.whif.io/characters/c407a6a6-8400-4674-a42c-0c9dcd9d3139",
+  "레온하르트": "https://www.whif.io/characters/48b9927c-233c-46ec-9035-8aa4446d493c",
+  "유태석": "https://www.whif.io/characters/440d0c20-21ae-44a2-985a-637101f05717",
+  "박하인": "https://www.whif.io/characters/4b5bb060-254c-436c-9272-231ef1fb66e3",
+  "Afor": "https://www.whif.io/characters/1e0ec6a5-f8eb-47a6-8252-046cdbb85650",
+  "하연수": "https://www.whif.io/characters/ba2ce99c-3704-492f-9fcd-d1baee54a5dc",
+  "강아지": "https://www.whif.io/characters/ca9d69d5-dd8b-4779-8b06-a15a59b54f23",
+  "강도훈": "https://www.whif.io/characters/1dc7d5c6-257a-41d9-bc66-809183b08133",
+  "연우주": "https://www.whif.io/characters/5c15f7ca-44c6-402c-ad5d-4f8ebe198a9c",
+  "NSI 제 7과": "https://www.whif.io/characters/65696799-7f2d-46d3-a1cc-b183cce150e3",
+  "천은단": "https://doomchk.com/worlds/9142",
+  "백현조": "https://www.whif.io/characters/32d1c2d5-0184-4504-9d75-be7091da1db7",
+  "이시한": "https://www.whif.io/characters/802940fa-efa3-4dbf-9a80-c481363d63c0"
 };
 CATS.forEach(c=>c.rows.forEach(r=>r.items.forEach(it=>{
   if(LINKS[it[0]]) it[2]=LINKS[it[0]];
@@ -448,10 +507,27 @@ function openPop(i){
     fr.append(fb);
   }
   if(link){
-    const label = link.includes("github.io") ? "소개페이지" : link.includes("doomchk.com") ? "둠칫에서 보기" : "에셋 보기";
-    const a=$("a","asset-btn",label);
-    a.href=link;a.target="_blank";a.rel="noopener";
-    fr.append(a);
+    const links = Array.isArray(link) ? link : [{label: null, url: link}];
+    links.forEach((ln, idx)=>{
+      const url = typeof ln === "string" ? ln : ln.url;
+      const customLabel = typeof ln === "object" ? ln.label : null;
+      let label = customLabel;
+      if(!label){
+        if(url.includes("tikita.ai")) label = "티키타에서 보기";
+        else if(url.includes("whif.io")) label = "위프에서 보기";
+        else if(url.includes("github.io")) label = "소개페이지";
+        else if(url.includes("doomchk.com")) label = "둠칫에서 보기";
+        else if(url.includes("posty.pe") || url.includes("postype")) label = "에셋 보기";
+        else label = "바로가기";
+      }
+      const a=$("a","asset-btn",label);
+      a.href=url;a.target="_blank";a.rel="noopener";
+      // 여러 개일 때 위치 조정
+      if(links.length > 1){
+        a.style.bottom = (18 + idx * 42) + "px";
+      }
+      fr.append(a);
+    });
   }
   const info=$("div","info"),cr=$("p","crumb");
   cr.append($("span",null,plain(cat.name)));if(cat.tag&&!cat.soon)cr.append($("span",null,cat.tag));
