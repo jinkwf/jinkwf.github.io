@@ -313,7 +313,8 @@ const CATS=[
    C("니코",J("%EB%8B%88%EC%BD%94%20(2).png")),
    C("올리버 밀러",J("%ED%95%99%EC%83%9D%EC%A6%9D%20%EC%9D%B4%EB%AF%B8%EC%A7%80.png")),
    C("♍VIR-06 : 재난 생존",J("%EB%A9%94%EC%9D%B8%20%EC%97%90%EC%85%8B.webp"),{pf:[WH]}),
-   C("백연하",J("%EB%B0%B1%EC%97%B0%ED%95%98_%20%EC%82%AC%EC%9A%A9%ED%95%A0%20%EC%88%98%20%EC%97%86%EB%8A%94%20%ED%8B%B0%EC%BC%93.png"),{added:"2026-10-04"})
+   C("백연하",J("%EB%B0%B1%EC%97%B0%ED%95%98_%20%EC%82%AC%EC%9A%A9%ED%95%A0%20%EC%88%98%20%EC%97%86%EB%8A%94%20%ED%8B%B0%EC%BC%93.png"),{added:"2026-10-04"}),
+   C("레프",J("%EB%A0%88%ED%94%84.gif"),{added:"2026-10-17",pf:["Caveduck"]})
  ]}]},
  {tag:"",name:"묵도(默島)",color:"#8AA4B8",rows:[{t:"그 마을의 세이렌 괴담",items:[
    C("묵도",J("%EB%AC%B5%EB%8F%84.gif"),{added:"2026-10-13"})
@@ -372,7 +373,8 @@ const PFMAP={
 "연다비":[WH,TG,DM,PO,IC,TP,"Caveduck"],
 "하은우 & 하은호":[WH,TG,DM,PO,IC,"Caveduck"],
 "백현조":[WH],
-"이시한":[WH]
+"이시한":[WH],
+"레프":["Caveduck"]
 };
 /* 배열을 복사해서 넣어요 (A5 같은 공용 배열을 건드리지 않게) */
 CATS.forEach(c=>c.rows.forEach(r=>r.items.forEach(it=>{if(PFMAP[it[0]])it[4].pf=[...PFMAP[it[0]]];if(it[4].pf)it[4].pf=[...it[4].pf];if(DESC[it[0]])it[1]=DESC[it[0]]})));
@@ -468,7 +470,8 @@ const PLAT_LINKS = {
   "NSI 제 7과": {"WHIF": "https://www.whif.io/characters/65696799-7f2d-46d3-a1cc-b183cce150e3"},
   "백현조": {"WHIF": "https://www.whif.io/characters/32d1c2d5-0184-4504-9d75-be7091da1db7"},
   "이시한": {"WHIF": "https://www.whif.io/characters/802940fa-efa3-4dbf-9a80-c481363d63c0"},
-  "천은단": {"Doomchk": "https://doomchk.com/worlds/9142"}
+  "천은단": {"Doomchk": "https://doomchk.com/worlds/9142"},
+  "레프": {"Caveduck": "https://ko.cvdk.io/c/WBs3w3TqQr6CaICccwmr9Q?rc=c2uM69befK"}
 };
 const $=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.textContent=h;return e};
 const plain=s=>s.replace(/^[^\wㄱ-힣]+/u,"");
@@ -850,3 +853,7 @@ let dustUp=()=>{};
 </body>
 </html>
 ```
+```
+
+**적용 완료.**
+합작 세계관에서 레프 카드를 확인하시고, Caveduck 알약을 클릭해 링크가 잘 열리는지 확인해 보세요.
