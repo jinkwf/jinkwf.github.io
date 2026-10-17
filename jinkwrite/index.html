@@ -308,12 +308,7 @@ const CATS=[
  {tag:"청춘물",name:"모든 계절이 네게 불어올 때",color:"#6CCBFF",rows:[{items:[C("차선태",J("%EC%B0%A8%EC%84%A0%ED%83%9C.png"))]}]},
  {tag:"기타/인외물",name:"휴먼뮤지엄",color:"#D4B26A",rows:[{items:[C("자판기",J("%EB%AE%A4%EC%A7%80%EC%97%84.png")),C("나비인간",J("57b02605-d133-4cfb-96fd-c55e3c5ebfc1.jpeg"),{added:"2026-10-04",tags:["오리지널"]})]}]},
  {tag:"",name:"1934",color:"#FF7A8A",rows:[{items:[C("링란 [翎蘭]",J("%EB%A7%81%EB%9E%80_%EB%AC%B4%EB%8C%80%EC%9C%84.png"),{added:"2026-09-25",pf:[WH,TG,PO]}),C("웨이청",J("%EC%9B%A8%EC%9D%B4%EC%B2%AD_%EC%98%86%EB%AA%A8%EC%8A%B5.png"),{added:"2026-10-04",pf:[WH,TG,PO]})]}]},
- {tag:"",name:"합작",color:"#C79BFF",rows:[{items:[
-   C("아사히나 소우",M("Jin_k_middle_shot._A_highly_detailed_sharp_close-up_portrait__d6cd11d6-0f8e-4ff8-863d-f1e4aa63f54e_2.png")),
-   C("니코",J("%EB%8B%88%EC%BD%94%20(2).png")),
-   C("올리버 밀러",J("%ED%95%99%EC%83%9D%EC%A6%9D%20%EC%9D%B4%EB%AF%B8%EC%A7%80.png")),
-   C("♍VIR-06 : 재난 생존",J("%EB%A9%94%EC%9D%B8%20%EC%97%90%EC%85%8B.webp"),{pf:[WH]}),
-   C("백연하",J("%EB%B0%B1%EC%97%B0%ED%95%98_%20%EC%82%AC%EC%9A%A9%ED%95%A0%20%EC%88%98%20%EC%97%86%EB%8A%94%20%ED%8B%B0%EC%BC%93.png"),{added:"2026-10-04"}),
+ {tag:"",name:"레프",color:"#A0C4FF",rows:[{items:[
    C("레프",J("%EB%A0%88%ED%94%84.gif"),{added:"2026-10-17",pf:["Caveduck"]})
  ]}]},
  {tag:"",name:"묵도(默島)",color:"#8AA4B8",rows:[{t:"그 마을의 세이렌 괴담",items:[
@@ -321,6 +316,13 @@ const CATS=[
  ]}]},
  {tag:"BDSM",name:"데이터 파놉티콘",color:"#4A90E2",rows:[{items:[
    C("이시한","",{pf:[WH]})
+ ]}]},
+ {tag:"",name:"합작",color:"#C79BFF",rows:[{items:[
+   C("아사히나 소우",M("Jin_k_middle_shot._A_highly_detailed_sharp_close-up_portrait__d6cd11d6-0f8e-4ff8-863d-f1e4aa63f54e_2.png")),
+   C("니코",J("%EB%8B%88%EC%BD%94%20(2).png")),
+   C("올리버 밀러",J("%ED%95%99%EC%83%9D%EC%A6%9D%20%EC%9D%B4%EB%AF%B8%EC%A7%80.png")),
+   C("♍VIR-06 : 재난 생존",J("%EB%A9%94%EC%9D%B8%20%EC%97%90%EC%85%8B.webp"),{pf:[WH]}),
+   C("백연하",J("%EB%B0%B1%EC%97%B0%ED%95%98_%20%EC%82%AC%EC%9A%A9%ED%95%A0%20%EC%88%98%20%EC%97%86%EB%8A%94%20%ED%8B%B0%EC%BC%93.png"),{added:"2026-10-04"})
  ]}]},
  {tag:"SOON",name:"곧 공개됩니다",color:"#9A94BC",soon:true,rows:[{items:[C("마마보이","","","나의 X")]}]}
 ];
@@ -664,8 +666,12 @@ const ALL=[NEW,...CATS],side=document.getElementById("side"),panel=document.getE
 ALL.forEach((cat,i)=>{
   const b=$("button");b.type="button";b.style.setProperty("--c",cat.color);
   b.insertAdjacentHTML("afterbegin",mini(countOf(cat),cat.color));
-  const t=$("span","t");t.append($("b",null,cat.isNew?"NEW":cat.soon?"곧 공개됩니다":cat.name),$("small",null,cat.isNew?"최근 추가순":cat.tag&&!cat.soon?"["+cat.tag+"]":""));
-  b.append($("span","num",cat.isNew?"★":cat.soon?"…":i+"."),t);
+  const t=$("span","t");
+  const isHapjak = cat.name === "합작";
+  t.append($("b",null,cat.isNew?"NEW":cat.soon?"곧 공개됩니다":isHapjak?"합작":cat.name),$("small",null,cat.isNew?"최근 추가순":cat.tag&&!cat.soon?"["+cat.tag+"]":""));
+  let numText = cat.isNew?"★":cat.soon?"…":isHapjak?"":i+".";
+  if(isHapjak) numText = ""; // 합작은 번호 없음
+  b.append($("span","num",numText),t);
   b.onclick=()=>show(i);side.appendChild(b);
 });
 /* 플랫폼 필터 칩 */
@@ -684,7 +690,9 @@ function show(i,go){
   CAP0=cat.isNew?"최근 추가된 작품":cat.soon?"곧 공개될 세계관":plain(cat.name);capSet(CAP0);
   [...side.children].forEach((b,k)=>b.classList.toggle("on",k===i));
   panel.style.setProperty("--c",cat.color);panel.className="panel"+(cat.soon?" soon":"");
-  const h=$("h2");h.append($("span","num",cat.isNew?"NEW":cat.soon?"SOON":i+"."),$("span",null,cat.isNew?"최근 추가순":cat.name));
+  const h=$("h2");
+  const isHapjak = cat.name === "합작";
+  h.append($("span","num",cat.isNew?"NEW":cat.soon?"SOON":isHapjak?"":i+"."),$("span",null,cat.isNew?"최근 추가순":isHapjak?"합작":cat.name));
   if(cat.tag&&!cat.soon)h.append($("small",null,"["+cat.tag+"]"));
   const ph=$("div","phead");ph.append(h);if(!cat.soon)ph.append(vt());
   const kids=[ph];
@@ -854,6 +862,3 @@ let dustUp=()=>{};
 </html>
 ```
 ```
-
-**적용 완료.**
-합작 세계관에서 레프 카드를 확인하시고, Caveduck 알약을 클릭해 링크가 잘 열리는지 확인해 보세요.
