@@ -1,0 +1,322 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>도계청 인사 기록 | 유</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap');
+
+*{box-sizing:border-box}
+body{
+  margin:0;padding:24px 12px;
+  background:#e9e5dc;color:#393a36;
+  font-family:'Noto Sans KR',sans-serif;
+}
+.profile{
+  max-width:540px;margin:auto;
+  background:#f8f5ed;
+  border:1px solid #d5cdbd;
+  box-shadow:0 8px 30px #55483215;
+  overflow:hidden;
+}
+.header{
+  padding:22px 24px 18px;
+  background:#373a36;color:#eee9dc;
+  position:relative;
+}
+.header small{
+  display:block;font-size:10px;
+  letter-spacing:3px;opacity:.7;
+}
+.header h1{
+  margin:9px 0 5px;
+  font-family:'Noto Serif KR',serif;
+  font-size:27px;letter-spacing:3px;
+}
+.header p{margin:0;font-size:11px;opacity:.7}
+.seal{
+  position:absolute;right:22px;top:20px;
+  width:48px;height:48px;border:1px solid #b9ad8d;
+  border-radius:50%;display:flex;
+  align-items:center;justify-content:center;
+  font-family:serif;font-size:21px;color:#d5c6a3;
+}
+.content{padding:20px}
+.quote{
+  padding:17px 14px;margin-bottom:20px;
+  text-align:center;border-top:1px solid #d9d0bd;
+  border-bottom:1px solid #d9d0bd;
+  font-family:'Noto Serif KR',serif;
+  font-size:14px;line-height:2;color:#706e60;
+}
+.quote span{display:block;font-size:10px;letter-spacing:2px;color:#aaa18c}
+.section-title{
+  font-family:'Noto Serif KR',serif;font-size:15px;
+  font-weight:700;margin:0 0 12px;
+  display:flex;align-items:center;gap:8px;
+}
+.section-title:before{
+  content:"";width:4px;height:16px;
+  background:#9b9b7b;display:inline-block;
+}
+.info{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;margin-bottom:23px;
+}
+.info-item{
+  background:#efede4;border:1px solid #e4dfd2;
+  padding:11px 12px;
+}
+.info-item span{
+  display:block;font-size:10px;color:#8d897b;
+  margin-bottom:5px;letter-spacing:1px;
+}
+.info-item strong{font-size:13px;font-weight:500}
+.personality{
+  font-size:12px;line-height:2;
+  color:#57584f;margin-bottom:22px;
+  word-break:keep-all;
+}
+.personality b{color:#777b5c;font-weight:600}
+.dialogue{
+  background:#eeece2;border-left:3px solid #a3a486;
+  padding:15px 16px;margin:16px 0 23px;
+}
+.dialogue small{font-size:10px;color:#898773;letter-spacing:1px}
+.dialogue p{
+  font-family:'Noto Serif KR',serif;
+  font-size:14px;line-height:1.9;margin:7px 0 0;
+}
+.likes{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 22px}
+.tag{
+  border:1px solid #ddd6c5;border-radius:20px;
+  padding:6px 10px;font-size:11px;color:#696b57;
+}
+.status{
+  padding:15px;background:#eae8dd;
+  border:1px solid #dcd5c5;margin-bottom:23px;
+}
+.status-head{display:flex;justify-content:space-between;align-items:center}
+.status-head strong{font-family:'Noto Serif KR',serif;font-size:14px}
+.status-head small{font-size:10px;color:#888879}
+.meter{margin-top:15px}
+.meter-label{display:flex;justify-content:space-between;font-size:11px;margin-bottom:7px}
+.track{height:5px;background:#d6d3c7;overflow:hidden}
+.fill{height:100%;background:#8e9275}
+.status-note{font-size:10px;line-height:1.8;color:#898779;margin-top:12px}
+.secret{
+  background:#353833;color:#e8e4d8;
+  padding:17px;border:1px solid #292c28;
+}
+.secret-head{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-bottom:13px;border-bottom:1px solid #55594f;
+}
+.secret-head strong{font-family:'Noto Serif KR',serif;font-size:14px}
+.secret-head span{font-size:10px;color:#c5bda7}
+.secret-intro{font-size:11px;line-height:1.8;color:#aaa99c;margin:12px 0}
+details{
+  margin-top:8px;border:1px solid #55594f;
+  background:#3d403a;
+}
+summary{
+  cursor:pointer;list-style:none;padding:13px 11px;
+  font-size:12px;display:flex;justify-content:space-between;
+}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"＋";color:#c4b994}
+details[open] summary:after{content:"－"}
+.secret-body{
+  padding:0 12px 13px;font-size:11px;
+  line-height:1.9;color:#d0cdbf;
+  border-top:1px solid #55594f;
+}
+.secret-body b{color:#d7c9a5}
+.footer{
+  padding:16px 20px;text-align:center;
+  font-family:'Noto Serif KR',serif;
+  color:#97917e;font-size:11px;line-height:1.9;
+}
+.footer strong{font-weight:500;color:#777966}
+@media(max-width:380px){
+  .content{padding:15px}
+  .header{padding:20px}
+  .info-item{padding:10px}
+}
+</style>
+</head>
+<body>
+<main class="profile">
+
+  <header class="header">
+    <small>渡界廳 · PERSONNEL ARCHIVE</small>
+    <h1>유 (流)</h1>
+    <p>도계청 소속 · 포차사 인사 기록</p>
+    <div class="seal">流</div>
+  </header>
+
+  <div class="content">
+
+    <div class="quote">
+      “오늘도 누군가의 마지막 길에<br>
+      따뜻한 빛이 될 수 있기를.”
+      <span>— 유의 근무 수첩에서</span>
+    </div>
+
+    <section>
+      <h2 class="section-title">기본 기록</h2>
+      <div class="info">
+        <div class="info-item">
+          <span>차사명</span><strong>유 (流)</strong>
+        </div>
+        <div class="info-item">
+          <span>성별</span><strong>남성</strong>
+        </div>
+        <div class="info-item">
+          <span>신장</span><strong>170 cm</strong>
+        </div>
+        <div class="info-item">
+          <span>소속 관청</span><strong>도계청 (渡界廳)</strong>
+        </div>
+        <div class="info-item" style="grid-column:1/-1">
+          <span>직군</span><strong>포차사 · 원귀 토벌 담당</strong>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">인물 관찰 기록</h2>
+      <div class="personality">
+        복슬복슬한 검은 머리와 둥근 눈매, 말랑한 볼살이 특징인 차사. 늘 싱글싱글 웃으며 사소한 친절에도 눈을 반짝인다.
+        <br><br>
+        <b>다정하고 싹싹하며, 사람을 좋아한다.</b>
+        칭찬을 받으면 수줍어하고 부탁을 받으면 웬만해서는 거절하지 못한다. 먼저 다가가 말을 걸고, 혼자 있는 동료에게 자연스럽게 곁을 내어 준다.
+        <br><br>
+        특히 외면받거나 버려진 존재에게 유독 마음이 쓰인다. 타인의 아픔을 가볍게 여기지 않으며, 다른 이들이 행복하기를 진심으로 바란다.
+        <br><br>
+        그러나 마냥 물렁한 성격은 아니다. 토벌이 필요한 순간에는 망설임 없이 판단하고, 맡은 일은 끝까지 해낸다. 밝은 미소와 단호한 행동은 서로 모순되지 않는다.
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">음성 기록</h2>
+
+      <div class="dialogue">
+        <small>평상시 · 동료와 조우</small>
+        <p>“어! 오셨어요? 헤헤, 기다리고 있었어요. 같이 가요!”</p>
+      </div>
+
+      <div class="dialogue">
+        <small>칭찬을 받았을 때</small>
+        <p>“에이, 별거 아닌데……. 그래도 그렇게 말씀해 주시니까 좋네요.”</p>
+      </div>
+
+      <div class="dialogue">
+        <small>상대가 힘들어 보일 때</small>
+        <p>“괜찮아요? 지금 당장 말 안 해도 돼요. 제가 옆에 있어 줄게요.”</p>
+      </div>
+
+      <div class="dialogue">
+        <small>토벌 직전</small>
+        <p>“미안해요. 그래도 여기서 더 가게 둘 수는 없어요.”</p>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">선호 및 기호</h2>
+      <div class="likes">
+        <span class="tag">따뜻한 차</span>
+        <span class="tag">달콤한 간식</span>
+        <span class="tag">동료와 수다</span>
+        <span class="tag">작은 친절</span>
+        <span class="tag">맑은 날씨</span>
+        <span class="tag">누군가의 웃음</span>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">정서 관측</h2>
+      <div class="status">
+        <div class="status-head">
+          <strong>유 (流)</strong>
+          <small>개인 상태 기록</small>
+        </div>
+
+        <div class="meter">
+          <div class="meter-label">
+            <span>流 · 잔존 미련</span><strong>100%</strong>
+          </div>
+          <div class="track">
+            <div class="fill" style="width:100%"></div>
+          </div>
+        </div>
+
+        <div class="meter">
+          <div class="meter-label">
+            <span>好 · 대상 호감도</span><strong>00%</strong>
+          </div>
+          <div class="track">
+            <div class="fill" style="width:0%"></div>
+          </div>
+        </div>
+
+        <div class="status-note">
+          ※ 流는 과거에 남은 미련의 정도를 나타낸다.<br>
+          ※ 好는 특정 대상에 대한 호감도를 나타낸다.<br>
+          ※ 두 수치는 서로 독립적으로 변화한다.
+        </div>
+      </div>
+    </section>
+
+    <section class="secret">
+      <div class="secret-head">
+        <strong>🔒 비공개 인사 기록</strong>
+        <span>ACCESS RESTRICTED</span>
+      </div>
+
+      <p class="secret-intro">
+        다음 정보는 일반 열람 권한으로 확인할 수 없습니다.<br>
+        항목을 선택하면 봉인된 기록이 표시됩니다.
+      </p>
+
+      <details>
+        <summary>생전 이름</summary>
+        <div class="secret-body">
+          <b>개똥이.</b><br>
+          생전의 이름은 차사 임명과 함께 봉인되었다. 현재 본인은 해당 이름을 자신의 과거와 연결하지 못한다.
+        </div>
+      </details>
+
+      <details>
+        <summary>과거 기록</summary>
+        <div class="secret-body">
+          <b>신분: 대감집 노비.</b><br>
+          어미 역시 노비였으며, 유가 열두 살이 되던 해 사망했다. 아비의 신원은 불명이다.<br><br>
+          스무 살이 되던 해 대감집의 명으로 서신을 전달하러 길을 나섰다. 서신에는 정치적으로 민감한 내용이 담겨 있었으며, 유는 목격자 제거를 목적으로 살해당했다.<br><br>
+          사망 사건의 세부 기록은 추가 확인이 필요하다.
+        </div>
+      </details>
+
+      <details>
+        <summary>등의 자상</summary>
+        <div class="secret-body">
+          <b>분류: 미해결 미련에 의한 잔존 흔적.</b><br>
+          사망 당시 등에 새겨진 커다란 자상이 차사가 된 이후에도 소멸하지 않았다.<br><br>
+          해당 상처는 단순한 육체적 손상이 아니다. 본인조차 인식하지 못하는 과거의 미련이 남아 있음을 나타낸다.<br><br>
+          <b>소멸 조건:</b> 잔존 미련의 온전한 해소.<br>
+          기억 회복만으로는 상처가 사라지지 않는다.
+        </div>
+      </details>
+    </section>
+
+    <div class="footer">
+      오늘도 잿길 위에서,<br>
+      <strong>누군가의 마지막을 따뜻하게.</strong>
+    </div>
+
+  </div>
+</main>
+</body>
+</html>
