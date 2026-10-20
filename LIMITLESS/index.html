@@ -74,7 +74,8 @@ nav#bar{align-items:center}
 .langs{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:0 0 18px}
 .langs button{padding:5px 11px;letter-spacing:.03em;font-size:13px}
 .langs button.on{background:var(--c);color:#04121c;box-shadow:0 0 14px var(--c)}
-#audio-ctrl{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);right:10px;z-index:56;display:none;align-items:center;gap:8px;background:rgba(5,8,15,.85);padding:6px 10px;border:1px solid var(--line);border-radius:4px}
+/* 음악 패널을 우측 하단으로 이동해서 상단 페이지번호와 겹치지 않게 */
+#audio-ctrl{position:fixed;bottom:16px;right:12px;z-index:56;display:none;align-items:center;gap:8px;background:rgba(5,8,15,.85);padding:6px 10px;border:1px solid var(--line);border-radius:4px}
 #snd{padding:4px 12px;letter-spacing:.1em;font-size:12px;background:transparent;border:none;color:var(--c)}
 #vol{width:80px;height:6px;accent-color:var(--c);cursor:pointer}
 .note{color:var(--mut);font-size:13px;border:1px dashed var(--line);padding:6px 10px}
@@ -92,7 +93,7 @@ nav#bar{align-items:center}
 .gm .mc em{display:block;font-style:normal;color:var(--c2);font-size:12px;margin-bottom:4px}
 .ph{aspect-ratio:1/1;overflow:hidden;border:1px dashed var(--g);display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:11px;letter-spacing:.25em;margin-bottom:8px;background:repeating-linear-gradient(45deg,rgba(255,255,255,.03) 0 6px,transparent 6px 12px)}
 .ph img{width:100%;height:100%;object-fit:cover}
-nav#bar{flex-wrap:wrap;gap:6px;padding-right:96px}
+nav#bar{flex-wrap:wrap;gap:6px;padding-right:16px}
 #pg{display:flex;gap:3px;margin-left:auto}
 #pg button{width:24px;padding:4px 0;letter-spacing:0;font-size:12px;text-align:center}
 #pg button.on{background:var(--c);color:#04121c;box-shadow:0 0 12px var(--c)}
@@ -123,7 +124,6 @@ td,th{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-ali
 .mem b{color:var(--g)}.mem em{display:block;font-style:normal;color:var(--mut);font-size:12px}
 pre{background:#030509;border:1px solid var(--line);padding:14px;overflow-x:auto;font-size:12px;line-height:1.5;color:var(--c2)}
 footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{display:block;color:var(--c);font-size:20px;letter-spacing:.2em;margin-bottom:10px}
-
 /* Hunter Card Modal & Roulette */
 .modal{position:fixed;inset:0;z-index:100;background:rgba(5,8,15,.92);display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
 .modal.show{display:flex;animation:fin .3s ease both}
@@ -376,7 +376,6 @@ footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{displa
 <footer><b>LIMITLESS — 끝없는 탑, 유한한 시간.</b>
 최강이 되는 것만으로는 부족하다.<Br> 정보를 확보하고, 자원을 관리하고, 때로는 적과 손을 잡아야 한다.<br>누구와 협력할지, 무엇을 희생할지, 어떤 길드의 편에 설지는 스스로 결정해야한다.<br><br>999층의 문이 닫히기 전에, 당신은 어디까지 올라갈 수 있을까?</footer>
 </div>
-
 <!-- Hunter Card Modal -->
 <div id="card-modal" class="modal">
   <div class="modal-box">
@@ -409,7 +408,6 @@ footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{displa
     
   </div>
 </div>
-
 <script>
 var G=[
 {n:"ZERO",k:"제로",t:"정예 전투 · 보스 레이드 · 최상위 공략",c:"#ff5d73",d:"길드장 권태혁이 이끄는 최상위 전투 중심 길드. <Br>전투력과 실적을 중시하며 보스 최초 격파와 고난도 층 공략의 주도권을 노린다. 준비되지 않은 레이드에는 가차 없이 반대한다.",s:"강력한 전투 인력, 보스 패턴 분석, 신속한 공략 지휘",w:"전투 성과 우선 경향으로 생존 원칙·정보 독점 전략과 충돌하기 쉽다",m:[["권태혁","32·남｜길드장","DEATH","과묵하고 냉철한 최상위 전투 헌터"],["서이준","29·남｜부길드장","반박시니말이틀림","합리적·직설적인 실질적 작전 조율자"],["강무혁","35·남｜레이드 총괄","아빠","엄격하고 책임감이 강한 편성 관리자"],["백시온","27·남｜전투 분석관","오차범위내","예민한 완벽주의자, 전투 로그 분석"],["차도윤","30·남｜인사·훈련 담당","인재예약","능글맞은 평가자, 집요한 영입"]]},
@@ -500,7 +498,6 @@ vol.addEventListener("input",function(){bgm.volume=parseFloat(this.value)});
 var pg=document.getElementById("pg");pg.innerHTML=M.map(function(m,i){return '<button data-i="'+i+'">'+(i+1)+'</button>'}).join("");
 function pgSet(id){pg.querySelectorAll("button").forEach(function(b,i){b.classList.toggle("on",M[i][0]===id);b.title=T[L].m[i]})}
 pg.addEventListener("click",function(e){var b=e.target.closest("button");if(b){var i=+b.dataset.i;show(M[i][0],T[L].m[i])}});
-
 // Hunter Card Modal (delegated so it survives section re-render)
 var cardModal = document.getElementById("card-modal");
 document.addEventListener("click", function(e){
@@ -514,7 +511,6 @@ document.addEventListener("click", function(e){
     cardModal.classList.remove("show");
   }
 });
-
 // Persona list
 var personas = [
   {name:"냉철한 검사", desc:"전투계 · 과묵하고 정확한 칼날. 보스 패턴을 철저히 분석한다.", guild:"ZERO"},
@@ -528,7 +524,6 @@ var personas = [
 ];
 var currentPersona = null;
 var rolling = false;
-
 document.getElementById("spin-roulette").addEventListener("click", function(){
   if(rolling) return;
   rolling = true;
@@ -573,7 +568,6 @@ document.getElementById("spin-roulette").addEventListener("click", function(){
     }
   }, 80);
 });
-
 document.getElementById("issue-card").addEventListener("click", function(){
   var result = document.getElementById("card-result");
   var name = currentPersona ? currentPersona.name : "미정";
@@ -598,7 +592,6 @@ document.getElementById("issue-card").addEventListener("click", function(){
     + '</div>';
   result.innerHTML = htmlCard;
   result.style.display = "block";
-
   // Copy text version to clipboard
   var text = "이름: " + name + "\n나이: " + age + "\n계열: " + series + "\n추천 길드: " + guild;
   if(navigator.clipboard && navigator.clipboard.writeText){
