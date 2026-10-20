@@ -74,7 +74,9 @@ nav#bar{align-items:center}
 .langs{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:0 0 18px}
 .langs button{padding:5px 11px;letter-spacing:.03em;font-size:13px}
 .langs button.on{background:var(--c);color:#04121c;box-shadow:0 0 14px var(--c)}
-#snd{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);right:10px;z-index:56;padding:4px 12px;letter-spacing:.1em;font-size:12px;background:rgba(5,8,15,.8)}
+#audio-ctrl{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);right:10px;z-index:56;display:none;align-items:center;gap:8px;background:rgba(5,8,15,.85);padding:6px 10px;border:1px solid var(--line);border-radius:4px}
+#snd{padding:4px 12px;letter-spacing:.1em;font-size:12px;background:transparent;border:none;color:var(--c)}
+#vol{width:80px;height:6px;accent-color:var(--c);cursor:pointer}
 .note{color:var(--mut);font-size:13px;border:1px dashed var(--line);padding:6px 10px}
 .gtabs{display:flex;gap:4px;overflow-x:auto;padding:6px 8px 0;margin-bottom:-1px;position:relative;z-index:1}
 .gtab{flex:none;padding:9px 20px;letter-spacing:.1em;border:1px solid var(--line);border-bottom:0;border-radius:10px 10px 0 0;background:rgba(5,8,15,.7);color:var(--mut)}
@@ -121,6 +123,23 @@ td,th{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-ali
 .mem b{color:var(--g)}.mem em{display:block;font-style:normal;color:var(--mut);font-size:12px}
 pre{background:#030509;border:1px solid var(--line);padding:14px;overflow-x:auto;font-size:12px;line-height:1.5;color:var(--c2)}
 footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{display:block;color:var(--c);font-size:20px;letter-spacing:.2em;margin-bottom:10px}
+
+/* Hunter Card Modal & Roulette */
+.modal{position:fixed;inset:0;z-index:100;background:rgba(5,8,15,.92);display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+.modal.show{display:flex;animation:fin .3s ease both}
+.modal-box{background:var(--panel);border:1px solid var(--c);padding:24px;max-width:520px;width:100%;box-shadow:0 0 30px rgba(79,216,255,.3);position:relative}
+.modal-box h3{margin-top:0;color:var(--c)}
+.modal-box label{display:block;margin:10px 0 4px;font-size:13px;color:var(--mut)}
+.modal-box input,.modal-box select,.modal-box textarea{width:100%;padding:8px;background:#0b1626;border:1px solid var(--line);color:var(--tx);font:inherit}
+.modal-box .guide{font-size:12px;color:var(--mut);border:1px dashed var(--line);padding:8px;margin:12px 0}
+.card-preview{border:1px solid var(--c);padding:16px;margin:16px 0;background:rgba(11,28,48,.6);text-align:left}
+.card-preview .grade{color:var(--warn);font-weight:700}
+.roulette-wrap{text-align:center;margin:16px 0}
+.roulette{display:inline-block;width:200px;height:200px;border:4px solid var(--c);border-radius:50%;position:relative;background:conic-gradient(#4fd8ff 0 45deg,#7aa7ff 45deg 90deg,#ff5d73 90deg 135deg,#6df0c2 135deg 180deg,#b58aff 180deg 225deg,#ffc857 225deg 270deg,#4fd8ff 270deg 315deg,#7aa7ff 315deg 360deg);transition:transform 3s cubic-bezier(.2,.8,.3,1);box-shadow:0 0 20px rgba(79,216,255,.4)}
+.roulette::after{content:"▼";position:absolute;top:-18px;left:50%;transform:translateX(-50%);color:var(--c);font-size:20px}
+.persona-result{margin-top:16px;padding:12px;border:1px solid var(--c2);background:rgba(122,167,255,.1);min-height:60px}
+.close-modal{position:absolute;top:10px;right:12px;background:none;border:none;color:var(--mut);font-size:20px;padding:0;letter-spacing:0}
+.issue-btn{margin:12px 0;letter-spacing:.2em}
 </style>
 </head>
 <body>
@@ -136,9 +155,11 @@ footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{displa
 </div>
 <canvas id="fx"></canvas>
 <canvas id="bgn"></canvas>
-<button id="snd" style="display:none">♪ ON</button>
+<div id="audio-ctrl">
+  <button id="snd">♪ ON</button>
+  <input type="range" id="vol" min="0" max="1" step="0.01" value="0.5" title="볼륨 조절">
+</div>
 <div id="gate"><div class="tbox" id="gbox" tabindex="0"><h1 id="gt">무한탑</h1><canvas id="gn"></canvas></div><div class="hint" id="gh">▼ 눌러서 계속</div></div>
-
 <div id="main">
 <nav id="bar" style="display:none"><button id="back">◀ 메뉴</button><span id="ttl"></span><div id="pg"></div></nav>
 <header class="hero">
@@ -149,7 +170,6 @@ footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{displa
   <div class="count" id="h-c">목표 ｜ 2099년 12월 31일까지 탑 999층 공략 완료</div>
   <div id="menu"></div>
 </header>
-
 <section id="world">
 <h2>01 WORLD<span>세계관</span></h2>
 <p>3년 전, 세계 곳곳에 정체불명의 균열이 발생했다.<br>균열에서는 기존 생태계로 설명할 수 없는 몬스터와 마력이 쏟아져 나왔고, 일부 인간은 특별한 능력을 각성해 상태창과 스킬을 다루는 헌터가 되었다.</p>
@@ -167,7 +187,6 @@ footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{displa
 <p>999층을 최초로 완전히 정복한 자는 탑의 유일한 소유자이자 최고 관리자 권한을 획득한다. <br>단, 그 권한은 탑 내부의 관리 기능에 한정되며 현실 세계와 타인의 의지까지 조종할 수는 없다.</p>
 <p><b>탑을 정복하는 것은 선택이 아닌, 살아남기 위한 필수 조건이다.</b></p>
 </section>
-
 <section id="hunter">
 <h2>02 HUNTER<span>헌터와 성장 시스템</span></h2>
 <p>헌터는 마력에 적응하거나 특수한 능력을 각성해 균열과 탑에 대응하는 인간이다. <br>헌터 등록과 길드 가입은 별개이며, 독립 헌터로 활동할 수도 있다.</p>
@@ -197,9 +216,11 @@ footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{displa
 <tr><td>상태 이상</td><td>출혈·중독·저주·마력 봉쇄 등 행동이나 능력을 제한</td></tr>
 </table>
 <h3>헌터 등급</h3>
-<div class="box">공식 등급 <b>F &gt; D &gt; C &gt; B &gt; A &gt; S &gt; L &gt; X</b> (E등급은 존재하지 않는다)<br>등급은 레벨과 동일하지 않으며 능력·실적·평가 조건을 종합해 결정된다.</div>
+<div class="box">공식 등급 <b>F > D > C > B > A > S > L > X</b> (E등급은 존재하지 않는다)<br>등급은 레벨과 동일하지 않으며 능력·실적·평가 조건을 종합해 결정된다.</div>
+<div style="text-align:center;margin:20px 0">
+  <button class="issue-btn" id="open-card">헌터카드 발급하기</button>
+</div>
 </section>
-
 <section id="guilds">
 <h2>03 GUILDS<span>4대 길드</span></h2>
 <p>네 길드는 모두 999층 정복을 목표로 하지만 공략 주도권·최초 격파·희귀 자원·인재·정보·랭킹을 놓고 끊임없이 경쟁한다. <Br>전문 분야는 강점일 뿐 독점 영역이 아니다.</p>
@@ -215,14 +236,12 @@ footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{displa
 </table>
 <p style="margin-top:10px">동맹은 가능하지만 영구적이지 않다. 공동 레이드에서도 보상 분배와 최초 공략 기록을 두고 다시 경쟁할 수 있다.</p>
 </section>
-
 <section id="assoc">
 <h2>04 ASSOCIATION<span>헌터협회</span></h2>
 <p>정부 산하 기관으로 헌터 등록·등급 심사·탑 출입·재난 대응·공식 의뢰와 보상·불법 거래 단속을 담당한다. <br>길드의 지휘를 받지 않으며 분쟁에도 법률과 규정에 따라 개입한다.</p>
 <div class="mem" id="alist" style="--g:var(--c)"></div>
 <p style="margin-top:10px">협회는 개인 시스템을 직접 열람할 수 없다. 공식 등급은 측정 결과와 실적을 근거로 판정하며, 불법 행위도 증거 없이 유죄로 확정하지 않는다.</p>
 </section>
-
 <section id="district">
 <h2>05 SEOUL TOWER DISTRICT<span>서울 탑 지구</span></h2>
 <p>무한탑을 중심으로 형성된 특수 관리 구역. 헌터와 민간인, 협회와 길드, 상업 시설이 밀집해 있다.</p>
@@ -254,7 +273,6 @@ footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{displa
          경매장·상가·병원·숙소·교통·비공식 거래 구역</pre>
 <p style="font-size:13px;color:var(--mut)">기능별 구역 배치를 나타낸 개념도이며 실제 거리·규모·출입 경로는 별도 설정에 따라 확정된다.</p>
 </section>
-
 <section id="tower">
 <h2>06 TOWER<span>무한탑 내부 구조</span></h2>
 <p>탑은 층마다 환경·규칙·위협이 달라지는 독립적인 공략 공간이다. 강한 몬스터를 쓰러뜨리는 것만으로는 모든 층을 돌파할 수 없다.</p>
@@ -270,7 +288,6 @@ footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{displa
 <p>층별 정보는 불완전하거나 오래되었을 수 있다. 이전 공략이 성공했다고 같은 전략이 통한다는 보장은 없다.</p>
 <div class="box warn"><b>보스 처치 ≠ 층 클리어.</b> 시스템이 요구하는 추가 조건과 결과 확인까지 완료해야 공략이 인정된다.</div>
 </section>
-
 <section id="economy">
 <h2>07 ECONOMY<span>화폐·아이템·거래</span></h2>
 <ul>
@@ -282,7 +299,6 @@ footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{displa
 </ul>
 <p>거래 명령을 입력했다고 즉시 거래가 완료되는 것은 아니다. 가격·재고·조건을 확인하고 실제로 성립한 경우에만 아이템과 잔액이 변경된다. 희귀 아이템의 가치도 수요·성능·출처·감정 결과·시장 상황에 따라 변동한다.</p>
 </section>
-
 <section id="ranking">
 <h2>08 RANKING<span>랭킹과 명성</span></h2>
 <div class="grid">
@@ -293,7 +309,6 @@ footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{displa
 </div>
 <p style="margin-top:12px">협회·길드·대중·암시장은 서로 다른 기준으로 헌터를 평가한다. <br>공식 기록에 없는 성과는 검증되기 전까지 확정된 실적으로 취급하지 않는다.<br> 강력한 헌터는 존경받는 동시에 경계의 대상이 될 수 있다.</p>
 </section>
-
 <section id="rp">
 <h2>09 ROLEPLAY<span>진행 원칙</span></h2>
 <ul>
@@ -309,9 +324,38 @@ footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{displa
 <li>사망이 확정되면 영구 게임 오버이며 부활·시간 역행·기록 복구는 불가능하다.</li>
 </ul>
 </section>
-
 <footer><b>LIMITLESS — 끝없는 탑, 유한한 시간.</b>
 최강이 되는 것만으로는 부족하다.<Br> 정보를 확보하고, 자원을 관리하고, 때로는 적과 손을 잡아야 한다.<br>누구와 협력할지, 무엇을 희생할지, 어떤 길드의 편에 설지는 스스로 결정해야한다.<br><br>999층의 문이 닫히기 전에, 당신은 어디까지 올라갈 수 있을까?</footer>
+</div>
+
+<!-- Hunter Card Modal -->
+<div id="card-modal" class="modal">
+  <div class="modal-box">
+    <button class="close-modal" id="close-card">×</button>
+    <h3>헌터카드 발급</h3>
+    <div class="guide">헌터 카드 발급 안내서<br>레벨 / 행동 / 성격에 따라 부여 및 성장하실 수 있습니다.<br>등급과 능력은 현재 공란이며, 탑 공략과 실적에 따라 추후 결정됩니다.</div>
+    <label>헌터명</label>
+    <input type="text" id="card-name" placeholder="헌터 이름 입력">
+    <label>직업 계열 (선택)</label>
+    <select id="card-class">
+      <option value="">미정</option>
+      <option>전투계</option>
+      <option>마법계</option>
+      <option>지원계</option>
+      <option>생산계</option>
+      <option>특수계</option>
+    </select>
+    <label>간단 소개 / 성격</label>
+    <textarea id="card-desc" rows="3" placeholder="성격이나 배경 간단히"></textarea>
+    <button id="issue-card" style="margin-top:12px;width:100%">카드 발급</button>
+    <div id="card-result" class="card-preview" style="display:none"></div>
+    <div class="roulette-wrap">
+      <h3 style="font-size:15px;margin:8px 0">페르소나 추천 룰렛</h3>
+      <div class="roulette" id="roulette"></div>
+      <button id="spin-roulette" style="margin-top:12px">룰렛 돌리기</button>
+      <div id="persona-result" class="persona-result">룰렛을 돌려 세계관에 맞는 페르소나를 추천받으세요.</div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -331,7 +375,6 @@ function gTabs(){return '<div class="gwrap"><div class="gtabs">'+G.map(function(
 document.addEventListener("click",function(e){var t=e.target.closest(".gtab");if(!t)return;var w=t.closest(".gwrap"),i=+t.dataset.i,p=w.querySelector(".gpanel");w.querySelectorAll(".gtab").forEach(function(x){x.classList.toggle("on",x===t)});p.style.setProperty("--g",G[i].c);p.style.animation="none";void p.offsetWidth;p.style.animation="";p.innerHTML=gPanel(i)});
 document.getElementById("glist").innerHTML=gTabs();
 document.getElementById("alist").innerHTML=A.map(function(a){return '<div><b>'+a[0]+'</b> <span style="color:var(--mut);font-size:12px">'+a[1]+'</span><br>'+a[2]+'</div>'}).join("");
-
 var cv=document.getElementById("fx"),cx=cv.getContext("2d"),busy=false;
 function enter(){
   if(busy)return;busy=true;
@@ -393,17 +436,59 @@ function applyLang(){var t=T[L],e=function(i){return document.getElementById(i)}
 var lgEl=document.getElementById("langs");lgEl.innerHTML=LG.map(function(l){return '<button data-l="'+l[0]+'">'+l[1]+'</button>'}).join("");
 lgEl.addEventListener("click",function(e){var b=e.target.closest("button");if(b){L=b.dataset.l;applyLang()}});
 applyLang();
-var SRC=["bgm.mp3","bgm3%20(1).wav","https://jinkwf.github.io/LIMITLESS/bgm3%20(1).wav"],si=0,started=0,bgmFail=0,bgm=new Audio(SRC[0]),bgmOn=true,snd=document.getElementById("snd");bgm.loop=true;bgm.volume=.5;bgm.preload="auto";
+var SRC=["bgm.mp3","bgm3%20(1).wav","https://jinkwf.github.io/LIMITLESS/bgm3%20(1).wav"],si=0,started=0,bgmFail=0,bgm=new Audio(SRC[0]),bgmOn=true,snd=document.getElementById("snd"),vol=document.getElementById("vol");bgm.loop=true;bgm.volume=.5;bgm.preload="auto";
 function sndLabel(){snd.textContent=bgmFail?"♪ ✕":(!bgmOn?"♪ OFF":(bgm.paused?"♪ …":"♪ ON"))}
 function tryPlay(){if(!bgmOn||bgmFail)return;var p=bgm.play();if(p&&p.catch)p.catch(function(){})}
 bgm.addEventListener("error",function(){si++;if(si<SRC.length){bgm.src=SRC[si];bgm.load();tryPlay()}else{bgmFail=1;sndLabel()}});
 bgm.addEventListener("playing",sndLabel);bgm.addEventListener("pause",sndLabel);
 ["pointerdown","keydown"].forEach(function(ev){document.addEventListener(ev,function(){if(started&&bgmOn&&bgm.paused)tryPlay()},true)});
-document.getElementById("ok").addEventListener("click",function(){started=1;snd.style.display="block";sndLabel();tryPlay()});
+document.getElementById("ok").addEventListener("click",function(){started=1;document.getElementById("audio-ctrl").style.display="flex";sndLabel();tryPlay()});
 snd.addEventListener("click",function(){bgmOn=!bgmOn;if(bgmOn)tryPlay();else bgm.pause();sndLabel()});
+vol.addEventListener("input",function(){bgm.volume=parseFloat(this.value)});
 var pg=document.getElementById("pg");pg.innerHTML=M.map(function(m,i){return '<button data-i="'+i+'">'+(i+1)+'</button>'}).join("");
 function pgSet(id){pg.querySelectorAll("button").forEach(function(b,i){b.classList.toggle("on",M[i][0]===id);b.title=T[L].m[i]})}
 pg.addEventListener("click",function(e){var b=e.target.closest("button");if(b){var i=+b.dataset.i;show(M[i][0],T[L].m[i])}});
+
+// Hunter Card Modal
+var cardModal = document.getElementById("card-modal");
+document.getElementById("open-card").addEventListener("click", function(){ cardModal.classList.add("show"); });
+document.getElementById("close-card").addEventListener("click", function(){ cardModal.classList.remove("show"); });
+cardModal.addEventListener("click", function(e){ if(e.target === cardModal) cardModal.classList.remove("show"); });
+
+document.getElementById("issue-card").addEventListener("click", function(){
+  var name = document.getElementById("card-name").value || "미등록 헌터";
+  var cls = document.getElementById("card-class").value || "미정";
+  var desc = document.getElementById("card-desc").value || "기록 없음";
+  var result = document.getElementById("card-result");
+  result.style.display = "block";
+  result.innerHTML = '<b>' + name + '</b><br>직업 계열: ' + cls + '<br>등급: <span class="grade">공란</span><br>능력: <span class="grade">공란</span><br>소개: ' + desc + '<br><small style="color:var(--mut)">레벨 / 행동 / 성격에 따라 부여 및 성장하실 수 있습니다.</small>';
+});
+
+// Persona Roulette
+var personas = [
+  {name:"냉철한 검사", desc:"전투계 · 과묵하고 정확한 칼날. 보스 패턴을 철저히 분석한다.", guild:"ZERO"},
+  {name:"온화한 치유사", desc:"지원계 · 생존을 최우선으로 하는 구조 전문가. 희생을 거부한다.", guild:"SERAPH"},
+  {name:"계산적인 정보원", desc:"특수계 · 숨겨진 통로와 약점을 먼저 확보하는 잠입자.", guild:"NYXUS"},
+  {name:"실리적인 제작자", desc:"생산계 · 장비와 자원으로 승부를 보는 협상가.", guild:"HEILOCK"},
+  {name:"대담한 정찰자", desc:"특수계 · 미탐사 구역을 홀로 누비는 독립 헌터.", guild:"독립"},
+  {name:"엄격한 방어 지휘관", desc:"전투계 · 파티의 생존을 책임지는 탱커 리더.", guild:"SERAPH"},
+  {name:"능글맞은 협상가", desc:"특수계 · 정보와 계약을 오가는 암시장 통로.", guild:"NYXUS"},
+  {name:"장인 대장장이", desc:"생산계 · 무뚝뚝하지만 최고의 장비를 만드는 제작자.", guild:"HEILOCK"}
+];
+var roulette = document.getElementById("roulette");
+var spinning = false;
+document.getElementById("spin-roulette").addEventListener("click", function(){
+  if(spinning) return;
+  spinning = true;
+  var deg = 1800 + Math.random() * 360;
+  roulette.style.transform = "rotate(" + deg + "deg)";
+  setTimeout(function(){
+    var idx = Math.floor(Math.random() * personas.length);
+    var p = personas[idx];
+    document.getElementById("persona-result").innerHTML = "<b>" + p.name + "</b><br>" + p.desc + "<br><small>추천 소속: " + p.guild + "</small>";
+    spinning = false;
+  }, 3000);
+});
 </script>
 </body>
 </html>
