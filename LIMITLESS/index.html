@@ -449,11 +449,19 @@ var pg=document.getElementById("pg");pg.innerHTML=M.map(function(m,i){return '<b
 function pgSet(id){pg.querySelectorAll("button").forEach(function(b,i){b.classList.toggle("on",M[i][0]===id);b.title=T[L].m[i]})}
 pg.addEventListener("click",function(e){var b=e.target.closest("button");if(b){var i=+b.dataset.i;show(M[i][0],T[L].m[i])}});
 
-// Hunter Card Modal
+// Hunter Card Modal (delegated so it survives section re-render)
 var cardModal = document.getElementById("card-modal");
-document.getElementById("open-card").addEventListener("click", function(){ cardModal.classList.add("show"); });
-document.getElementById("close-card").addEventListener("click", function(){ cardModal.classList.remove("show"); });
-cardModal.addEventListener("click", function(e){ if(e.target === cardModal) cardModal.classList.remove("show"); });
+document.addEventListener("click", function(e){
+  if(e.target && e.target.id === "open-card"){
+    cardModal.classList.add("show");
+  }
+  if(e.target && e.target.id === "close-card"){
+    cardModal.classList.remove("show");
+  }
+  if(e.target === cardModal){
+    cardModal.classList.remove("show");
+  }
+});
 
 document.getElementById("issue-card").addEventListener("click", function(){
   var name = document.getElementById("card-name").value || "미등록 헌터";
