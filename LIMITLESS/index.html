@@ -90,6 +90,11 @@ nav#bar{align-items:center}
 .gm .mc em{display:block;font-style:normal;color:var(--c2);font-size:12px;margin-bottom:4px}
 .ph{aspect-ratio:1/1;overflow:hidden;border:1px dashed var(--g);display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:11px;letter-spacing:.25em;margin-bottom:8px;background:repeating-linear-gradient(45deg,rgba(255,255,255,.03) 0 6px,transparent 6px 12px)}
 .ph img{width:100%;height:100%;object-fit:cover}
+nav#bar{flex-wrap:wrap;gap:6px;padding-right:96px}
+#pg{display:flex;gap:3px;margin-left:auto}
+#pg button{width:24px;padding:4px 0;letter-spacing:0;font-size:12px;text-align:center}
+#pg button.on{background:var(--c);color:#04121c;box-shadow:0 0 12px var(--c)}
+@media(max-width:600px){#pg{flex:0 0 100%;margin-left:0}}
 #tt{cursor:default}#tt:hover{letter-spacing:.12em;text-shadow:0 0 20px rgba(79,216,255,.6)}
 #menu button{border-color:var(--c);color:var(--c);text-shadow:0 0 8px rgba(79,216,255,.8);box-shadow:0 0 10px rgba(79,216,255,.55),0 0 26px rgba(79,216,255,.25),inset 0 0 12px rgba(79,216,255,.12)}
 #menu button:hover{background:rgba(79,216,255,.18);color:#fff;text-shadow:0 0 10px #fff,0 0 22px var(--c);box-shadow:0 0 14px var(--c),0 0 40px rgba(79,216,255,.6),inset 0 0 18px rgba(79,216,255,.3)}
@@ -135,7 +140,7 @@ footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{displa
 <div id="gate"><div class="tbox" id="gbox" tabindex="0"><h1 id="gt">무한탑</h1><canvas id="gn"></canvas></div><div class="hint" id="gh">▼ 눌러서 계속</div></div>
 
 <div id="main">
-<nav id="bar" style="display:none"><button id="back">◀ 메뉴</button><span id="ttl"></span></nav>
+<nav id="bar" style="display:none"><button id="back">◀ 메뉴</button><span id="ttl"></span><div id="pg"></div></nav>
 <header class="hero">
   <div class="tbox" id="tbox"><h1 id="tt" tabindex="0">무한탑: LIMITLESS</h1><canvas id="tn"></canvas></div>
   
@@ -353,7 +358,7 @@ menu.innerHTML=M.map(function(m,i){return '<button data-id="'+m[0]+'" style="ani
 function toggleMenu(){var o=menu.classList.toggle("open");hint.style.display=o?"none":""}
 menu.classList.add("open");
 function home(){document.querySelectorAll("section.on").forEach(function(s){s.classList.remove("on")});hero.style.display="";ft.style.display="";bar.style.display="none";window.scrollTo(0,0);titleFx()}
-function show(id,name){home();hero.style.display="none";ft.style.display="none";bar.style.display="flex";document.getElementById("ttl").textContent=name;document.getElementById(id).classList.add("on");secFill(id);window.scrollTo(0,0);burst(380)}
+function show(id,name){home();hero.style.display="none";ft.style.display="none";bar.style.display="flex";document.getElementById("ttl").textContent=name;pgSet(id);document.getElementById(id).classList.add("on");secFill(id);window.scrollTo(0,0);burst(380)}
 menu.addEventListener("click",function(e){var b=e.target.closest("button");if(b)show(b.dataset.id,b.lastChild.textContent)});
 document.getElementById("back").addEventListener("click",home);
 document.addEventListener("keydown",function(e){if(e.key==="Escape"&&bar.style.display==="flex")home()});
@@ -388,10 +393,17 @@ function applyLang(){var t=T[L],e=function(i){return document.getElementById(i)}
 var lgEl=document.getElementById("langs");lgEl.innerHTML=LG.map(function(l){return '<button data-l="'+l[0]+'">'+l[1]+'</button>'}).join("");
 lgEl.addEventListener("click",function(e){var b=e.target.closest("button");if(b){L=b.dataset.l;applyLang()}});
 applyLang();
-var bgm=new Audio(encodeURI("bgm3 (1).wav")),bgmOn=true,snd=document.getElementById("snd");bgm.loop=true;bgm.volume=.5;bgm.preload="auto";
-bgm.addEventListener("error",function(){if(!bgm._f){bgm._f=1;bgm.src="https://jinkwf.github.io/LIMITLESS/bgm3%20(1).wav";bgm.load();if(bgmOn)bgm.play().catch(function(){})}});
-document.getElementById("ok").addEventListener("click",function(){snd.style.display="block";if(bgmOn)bgm.play().catch(function(){})});
-snd.addEventListener("click",function(){bgmOn=!bgmOn;if(bgmOn)bgm.play().catch(function(){});else bgm.pause();snd.textContent=bgmOn?"♪ ON":"♪ OFF"});
+var SRC=["bgm.mp3","bgm3%20(1).wav","https://jinkwf.github.io/LIMITLESS/bgm3%20(1).wav"],si=0,started=0,bgmFail=0,bgm=new Audio(SRC[0]),bgmOn=true,snd=document.getElementById("snd");bgm.loop=true;bgm.volume=.5;bgm.preload="auto";
+function sndLabel(){snd.textContent=bgmFail?"♪ ✕":(!bgmOn?"♪ OFF":(bgm.paused?"♪ …":"♪ ON"))}
+function tryPlay(){if(!bgmOn||bgmFail)return;var p=bgm.play();if(p&&p.catch)p.catch(function(){})}
+bgm.addEventListener("error",function(){si++;if(si<SRC.length){bgm.src=SRC[si];bgm.load();tryPlay()}else{bgmFail=1;sndLabel()}});
+bgm.addEventListener("playing",sndLabel);bgm.addEventListener("pause",sndLabel);
+["pointerdown","keydown"].forEach(function(ev){document.addEventListener(ev,function(){if(started&&bgmOn&&bgm.paused)tryPlay()},true)});
+document.getElementById("ok").addEventListener("click",function(){started=1;snd.style.display="block";sndLabel();tryPlay()});
+snd.addEventListener("click",function(){bgmOn=!bgmOn;if(bgmOn)tryPlay();else bgm.pause();sndLabel()});
+var pg=document.getElementById("pg");pg.innerHTML=M.map(function(m,i){return '<button data-i="'+i+'">'+(i+1)+'</button>'}).join("");
+function pgSet(id){pg.querySelectorAll("button").forEach(function(b,i){b.classList.toggle("on",M[i][0]===id);b.title=T[L].m[i]})}
+pg.addEventListener("click",function(e){var b=e.target.closest("button");if(b){var i=+b.dataset.i;show(M[i][0],T[L].m[i])}});
 </script>
 </body>
 </html>
