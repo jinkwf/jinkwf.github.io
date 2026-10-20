@@ -132,7 +132,7 @@ footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{displa
 .modal-box label{display:block;margin:10px 0 4px;font-size:13px;color:var(--mut)}
 .modal-box input,.modal-box select,.modal-box textarea{width:100%;padding:8px;background:#0b1626;border:1px solid var(--line);color:var(--tx);font:inherit}
 .modal-box .guide{font-size:12px;color:var(--mut);border:1px dashed var(--line);padding:8px;margin:12px 0}
-.card-preview{display:none;margin:16px auto;max-width:380px}
+.card-preview{margin:16px auto;max-width:380px}
 .hunter-card{
   background: linear-gradient(145deg, #0a1a2e 0%, #102a4a 40%, #0d2038 100%);
   border: 1.5px solid #4fd8ff;
@@ -388,8 +388,25 @@ footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{displa
       <button id="issue-card" style="flex:1">복사하기</button>
     </div>
     <div id="dice-area" style="text-align:center;min-height:80px;margin:12px 0;font-size:48px;letter-spacing:4px;color:var(--c)">🎲</div>
-    <div id="card-result" class="card-preview" style="display:none"></div>
-    <div id="persona-result" class="persona-result">룰렛을 돌려 페르소나를 추천받으세요.</div>
+    <div id="card-result" class="card-preview" style="display:block">
+      <div class="hunter-card">
+        <div class="card-id">LT-----</div>
+        <div class="card-header"><span class="logo">LIMITLESS</span><span>HUNTER CARD</span></div>
+        <div class="card-body">
+          <div class="card-photo">PHOTO</div>
+          <div class="card-info">
+            <div class="card-row"><span class="lbl">이름</span><span class="val">—</span></div>
+            <div class="card-row"><span class="lbl">나이</span><span class="val">—</span></div>
+            <div class="card-row"><span class="lbl">계열</span><span class="val">—</span></div>
+            <div class="card-row"><span class="lbl">길드</span><span class="val">—</span></div>
+            <div class="card-row"><span class="lbl">등급</span><span class="val"></span></div>
+            <div class="card-row"><span class="lbl">능력</span><span class="val"></span></div>
+          </div>
+        </div>
+        <div class="card-footer">레벨 / 행동 / 성격에 따라 부여 및 성장하실 수 있습니다.</div>
+      </div>
+    </div>
+    
   </div>
 </div>
 
@@ -516,8 +533,8 @@ document.getElementById("spin-roulette").addEventListener("click", function(){
   if(rolling) return;
   rolling = true;
   var diceArea = document.getElementById("dice-area");
-  var resultBox = document.getElementById("persona-result");
-  resultBox.innerHTML = "주사위를 굴리는 중...";
+  
+  
   var frames = ["⚀","⚁","⚂","⚃","⚄","⚅"];
   var count = 0;
   var iv = setInterval(function(){
@@ -528,7 +545,30 @@ document.getElementById("spin-roulette").addEventListener("click", function(){
       var idx = Math.floor(Math.random() * personas.length);
       currentPersona = personas[idx];
       diceArea.textContent = "🎲";
-      resultBox.innerHTML = "<b>" + currentPersona.name + "</b><br>" + currentPersona.desc + "<br><small>추천 소속: " + currentPersona.guild + "</small>";
+      // Immediately update the card
+      var name = currentPersona.name;
+      var series = currentPersona.desc.split(" · ")[0] || "미정";
+      var guild = currentPersona.guild || "미정";
+      var age = Math.floor(Math.random()*12)+20;
+      var idNum = "LT-" + String(Math.floor(Math.random()*9000)+1000);
+      var result = document.getElementById("card-result");
+      result.innerHTML = '<div class="hunter-card">'
+        + '<div class="card-id">' + idNum + '</div>'
+        + '<div class="card-header"><span class="logo">LIMITLESS</span><span>HUNTER CARD</span></div>'
+        + '<div class="card-body">'
+        + '<div class="card-photo">PHOTO</div>'
+        + '<div class="card-info">'
+        + '<div class="card-row"><span class="lbl">이름</span><span class="val">' + name + '</span></div>'
+        + '<div class="card-row"><span class="lbl">나이</span><span class="val">' + age + '</span></div>'
+        + '<div class="card-row"><span class="lbl">계열</span><span class="val">' + series + '</span></div>'
+        + '<div class="card-row"><span class="lbl">길드</span><span class="val">' + guild + '</span></div>'
+        + '<div class="card-row"><span class="lbl">등급</span><span class="val"></span></div>'
+        + '<div class="card-row"><span class="lbl">능력</span><span class="val"></span></div>'
+        + '</div></div>'
+        + '<div class="card-footer">레벨 / 행동 / 성격에 따라 부여 및 성장하실 수 있습니다.</div>'
+        + '</div>'
+        + '<div style="text-align:center;margin-top:8px;font-size:13px;color:var(--c2)">추천 소속: ' + guild + '</div>';
+      result.style.display = "block";
       rolling = false;
     }
   }, 80);
