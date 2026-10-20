@@ -60,6 +60,41 @@ nav#bar{align-items:center}
 .fl{animation:tf 1.6s steps(1) forwards,tl 5s 1.6s infinite}
 @keyframes tf{0%{opacity:0}8%{opacity:1}12%{opacity:.1}18%{opacity:1}24%{opacity:.25}30%{opacity:1}36%{opacity:.55}42%,100%{opacity:1}}
 @keyframes tl{0%,88%,100%{opacity:1}90%{opacity:.3}92%{opacity:1}95%{opacity:.5}97%{opacity:1}}
+#gate{position:fixed;inset:0;z-index:48;display:none;align-items:center;justify-content:center;flex-direction:column;background:radial-gradient(ellipse at 50% 40%,#0c2238,#04070d 70%);padding:20px;text-align:center}
+#gate::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(79,216,255,.04) 0 1px,transparent 1px 4px);pointer-events:none}
+#gate .tbox{cursor:pointer;min-width:min(420px,100%);padding:32px 30px}
+#gate h1{margin:0;font-size:clamp(28px,8.5vw,64px);letter-spacing:.18em;padding-left:.18em;color:var(--c);text-shadow:0 0 16px var(--c),0 0 40px rgba(79,216,255,.5)}
+#gate .hint{margin-top:24px}
+#gate.out .hint{opacity:0}
+#gate.out .tbox{animation:shr .7s cubic-bezier(.6,0,.9,.4) forwards}
+@keyframes shr{to{transform:scale(.04);opacity:.2;filter:brightness(3)}}
+#main.pop{animation:grow .9s cubic-bezier(.15,.8,.3,1) both}
+@keyframes grow{0%{transform:scale(.04);opacity:0;filter:brightness(3) blur(3px)}60%{opacity:1}100%{transform:none;opacity:1;filter:none}}
+#bgn{position:fixed;inset:0;z-index:55;width:100%;height:100%;pointer-events:none;image-rendering:pixelated}
+.langs{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:0 0 18px}
+.langs button{padding:5px 11px;letter-spacing:.03em;font-size:13px}
+.langs button.on{background:var(--c);color:#04121c;box-shadow:0 0 14px var(--c)}
+#snd{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);right:10px;z-index:56;padding:4px 12px;letter-spacing:.1em;font-size:12px;background:rgba(5,8,15,.8)}
+.note{color:var(--mut);font-size:13px;border:1px dashed var(--line);padding:6px 10px}
+.gtabs{display:flex;gap:4px;overflow-x:auto;padding:6px 8px 0;margin-bottom:-1px;position:relative;z-index:1}
+.gtab{flex:none;padding:9px 20px;letter-spacing:.1em;border:1px solid var(--line);border-bottom:0;border-radius:10px 10px 0 0;background:rgba(5,8,15,.7);color:var(--mut)}
+.gtab:hover{background:rgba(79,216,255,.12);color:var(--c);box-shadow:none}
+.gtab.on,.gtab.on:hover{color:var(--g);border-color:var(--g);background:var(--panel);box-shadow:0 -4px 14px -6px var(--g);padding-bottom:11px;text-shadow:0 0 8px var(--g)}
+.gpanel{border:1px solid var(--g);background:var(--panel);padding:18px;box-shadow:0 0 22px -8px var(--g);animation:fin .4s ease both}
+.gh .n{font-size:24px;font-weight:700;color:var(--g);letter-spacing:.1em;text-shadow:0 0 12px var(--g)}
+.gh .t{display:block;color:var(--mut);font-size:13px}
+.gm{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:14px}
+.gm .mc{border:1px solid var(--line);padding:8px;background:rgba(255,255,255,.02);font-size:13px}
+.gm .mc b{display:block;color:var(--g)}
+.gm .mc span{display:block;color:var(--mut);font-size:12px}
+.gm .mc em{display:block;font-style:normal;color:var(--c2);font-size:12px;margin-bottom:4px}
+.ph{aspect-ratio:1/1;overflow:hidden;border:1px dashed var(--g);display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:11px;letter-spacing:.25em;margin-bottom:8px;background:repeating-linear-gradient(45deg,rgba(255,255,255,.03) 0 6px,transparent 6px 12px)}
+.ph img{width:100%;height:100%;object-fit:cover}
+#tt{cursor:default}#tt:hover{letter-spacing:.12em;text-shadow:0 0 20px rgba(79,216,255,.6)}
+#menu button{border-color:var(--c);color:var(--c);text-shadow:0 0 8px rgba(79,216,255,.8);box-shadow:0 0 10px rgba(79,216,255,.55),0 0 26px rgba(79,216,255,.25),inset 0 0 12px rgba(79,216,255,.12)}
+#menu button:hover{background:rgba(79,216,255,.18);color:#fff;text-shadow:0 0 10px #fff,0 0 22px var(--c);box-shadow:0 0 14px var(--c),0 0 40px rgba(79,216,255,.6),inset 0 0 18px rgba(79,216,255,.3)}
+#menu button small{color:var(--c2)}#menu button:hover small{color:#cfefff}
+section.on{width:calc(100% - 24px);margin:22px auto;border:1px solid var(--c);background:rgba(11,28,48,.5);box-shadow:0 0 24px rgba(79,216,255,.25),inset 0 0 40px rgba(79,216,255,.06)}
 h2{font-size:22px;color:var(--c);margin:0 0 18px;padding-left:12px;border-left:3px solid var(--c);letter-spacing:.04em}
 h2 span{color:var(--mut);font-size:13px;margin-left:8px;font-weight:400}
 h3{margin:22px 0 8px;font-size:16px;color:var(--c2)}
@@ -87,22 +122,26 @@ footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{displa
 <div id="intro">
   <div class="win" id="win">
     <small>SYSTEM</small>
-    <h1>상태창</h1>
+    <h1 id="i-t">상태창</h1>
     <hr>
-    <p>헌터 시스템에 접속합니다.<br>무한탑 정보를 열람하시겠습니까?<br><b>제한 시간: 2099.12.31 23:59:59</b></p>
+    <p id="i-p">헌터 시스템에 접속합니다.<br>무한탑 정보를 열람하시겠습니까?<br><b>제한 시간: 2099.12.31 23:59:59</b></p>
+    <div class="langs" id="langs"></div>
     <button id="ok">확인</button>
   </div>
 </div>
 <canvas id="fx"></canvas>
+<canvas id="bgn"></canvas>
+<button id="snd" style="display:none">♪ ON</button>
+<div id="gate"><div class="tbox" id="gbox" tabindex="0"><h1 id="gt">무한탑</h1><canvas id="gn"></canvas></div><div class="hint" id="gh">▼ 눌러서 계속</div></div>
 
 <div id="main">
 <nav id="bar" style="display:none"><button id="back">◀ 메뉴</button><span id="ttl"></span></nav>
 <header class="hero">
   <div class="tbox" id="tbox"><h1 id="tt" tabindex="0">무한탑: LIMITLESS</h1><canvas id="tn"></canvas></div>
-  <div class="hint" id="hint">▼ 무한탑을 눌러 열기</div>
-  <p>999층의 끝에서, 세계의 운명이 결정된다.</p>
-  <div class="tags">헌터물 · 탑등반 · 생존 · 전투 · 성장 · 길드경쟁 · 미스터리 ｜ 현대 대한민국</div>
-  <div class="count">목표 ｜ 2099년 12월 31일까지 탑 999층 공략 완료</div>
+  
+  <p id="h-p">999층의 끝에서, 세계의 운명이 결정된다.</p>
+  <div class="tags" id="h-g">헌터물 · 탑등반 · 생존 · 전투 · 성장 · 길드경쟁 · 미스터리 ｜ 현대 대한민국</div>
+  <div class="count" id="h-c">목표 ｜ 2099년 12월 31일까지 탑 999층 공략 완료</div>
   <div id="menu"></div>
 </header>
 
@@ -281,7 +320,11 @@ var h="";
 G.forEach(function(g,i){h+='<details class="gcard" style="--g:'+g.c+'"'+(i==0?' open':'')+'><summary><span class="n">'+g.n+'</span><span>'+g.k+'</span><span class="t">'+g.t+'</span></summary><div class="gbody"><p>'+g.d+'</p><p><b style="color:var(--g)">강점</b> '+g.s+'<br><b style="color:var(--warn)">약점</b> '+g.w+'</p><div class="mem">';
 g.m.forEach(function(m){h+='<div><b>'+m[0]+'</b> <span style="color:var(--mut);font-size:12px">'+m[1]+'</span><em>'+m[2]+'</em>'+m[3]+'</div>'});
 h+='</div></div></details>'});
-document.getElementById("glist").innerHTML=h;
+var IMG={};
+function gPanel(i){var g=G[i];return '<div class="gh"><span class="n">'+g.n+'</span> <b>'+g.k+'</b><span class="t">'+g.t+'</span></div><p>'+g.d+'</p><p><b style="color:var(--g)">강점</b> '+g.s+'<br><b style="color:var(--warn)">약점</b> '+g.w+'</p><div class="gm">'+g.m.map(function(m){return '<div class="mc"><div class="ph">'+(IMG[m[0]]?'<img src="'+IMG[m[0]]+'" alt="'+m[0]+'">':'IMAGE')+'</div><b>'+m[0]+'</b><span>'+m[1]+'</span><em>'+m[2]+'</em>'+m[3]+'</div>'}).join('')+'</div>'}
+function gTabs(){return '<div class="gwrap"><div class="gtabs">'+G.map(function(g,i){return '<button class="gtab'+(i?'':' on')+'" data-i="'+i+'" style="--g:'+g.c+'">'+g.n+'</button>'}).join('')+'</div><div class="gpanel" style="--g:'+G[0].c+'">'+gPanel(0)+'</div></div>'}
+document.addEventListener("click",function(e){var t=e.target.closest(".gtab");if(!t)return;var w=t.closest(".gwrap"),i=+t.dataset.i,p=w.querySelector(".gpanel");w.querySelectorAll(".gtab").forEach(function(x){x.classList.toggle("on",x===t)});p.style.setProperty("--g",G[i].c);p.style.animation="none";void p.offsetWidth;p.style.animation="";p.innerHTML=gPanel(i)});
+document.getElementById("glist").innerHTML=gTabs();
 document.getElementById("alist").innerHTML=A.map(function(a){return '<div><b>'+a[0]+'</b> <span style="color:var(--mut);font-size:12px">'+a[1]+'</span><br>'+a[2]+'</div>'}).join("");
 
 var cv=document.getElementById("fx"),cx=cv.getContext("2d"),busy=false;
@@ -299,7 +342,7 @@ function enter(){
     cx.putImageData(id,0,0);
     var bars=3+Math.floor(a*5);
     for(var b=0;b<bars;b++){var y=Math.random()*cv.height;cx.fillStyle=Math.random()<.5?"rgba(79,216,255,.55)":"rgba(255,93,115,.45)";cx.fillRect(0,y,cv.width,1+Math.random()*5)}
-    if(p>=.55&&!swapped){swapped=true;intro.style.display="none";main.classList.add("show");window.scrollTo(0,0);titleFx()}
+    if(p>=.55&&!swapped){swapped=true;intro.style.display="none";gateOpen()}
     if(p<1)requestAnimationFrame(f);else{cv.style.display="none"}
   })(t0);
 }
@@ -308,18 +351,47 @@ var M=[["world","01","세계관","WORLD"],["hunter","02","헌터와 성장 시�
 var menu=document.getElementById("menu"),hero=document.querySelector("header.hero"),bar=document.getElementById("bar"),ft=document.querySelector("footer"),tt=document.getElementById("tt"),hint=document.getElementById("hint");
 menu.innerHTML=M.map(function(m,i){return '<button data-id="'+m[0]+'" style="animation-delay:'+(i*.06)+'s"><small>'+m[1]+' · '+m[3]+'</small>'+m[2]+'</button>'}).join("");
 function toggleMenu(){var o=menu.classList.toggle("open");hint.style.display=o?"none":""}
-tt.addEventListener("click",toggleMenu);
-tt.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();toggleMenu()}});
+menu.classList.add("open");
 function home(){document.querySelectorAll("section.on").forEach(function(s){s.classList.remove("on")});hero.style.display="";ft.style.display="";bar.style.display="none";window.scrollTo(0,0);titleFx()}
-function show(id,name){home();hero.style.display="none";ft.style.display="none";bar.style.display="flex";document.getElementById("ttl").textContent=name;document.getElementById(id).classList.add("on");window.scrollTo(0,0)}
+function show(id,name){home();hero.style.display="none";ft.style.display="none";bar.style.display="flex";document.getElementById("ttl").textContent=name;document.getElementById(id).classList.add("on");secFill(id);window.scrollTo(0,0);burst(380)}
 menu.addEventListener("click",function(e){var b=e.target.closest("button");if(b)show(b.dataset.id,b.lastChild.textContent)});
 document.getElementById("back").addEventListener("click",home);
 document.addEventListener("keydown",function(e){if(e.key==="Escape"&&bar.style.display==="flex")home()});
 var tn=document.getElementById("tn"),tx=tn.getContext("2d"),tbox=document.getElementById("tbox"),tRun=0;
-function noiseFrame(k){var w=tn.width=Math.ceil(tbox.offsetWidth/3),h=tn.height=Math.ceil(tbox.offsetHeight/3);var id=tx.createImageData(w,h),d=id.data;for(var i=0;i<d.length;i+=4){var v=Math.random()*255;d[i]=v*.7;d[i+1]=v;d[i+2]=v;d[i+3]=255*k*Math.random()}tx.putImageData(id,0,0);for(var b=0;b<3;b++){tx.fillStyle="rgba(79,216,255,"+(.6*k)+")";tx.fillRect(0,Math.random()*h,w,1+Math.random()*3)}}
+function noiseFrame(k){if(!tbox.offsetWidth)return;var w=tn.width=Math.ceil(tbox.offsetWidth/3),h=tn.height=Math.ceil(tbox.offsetHeight/3);var id=tx.createImageData(w,h),d=id.data;for(var i=0;i<d.length;i+=4){var v=Math.random()*255;d[i]=v*.7;d[i+1]=v;d[i+2]=v;d[i+3]=255*k*Math.random()}tx.putImageData(id,0,0);for(var b=0;b<3;b++){tx.fillStyle="rgba(79,216,255,"+(.6*k)+")";tx.fillRect(0,Math.random()*h,w,1+Math.random()*3)}}
 function noiseRun(ms,amp){var n=++tRun,t0=performance.now();(function f(now){if(n!==tRun)return;var p=(now-t0)/ms;if(p<1){noiseFrame(amp*(1-p));requestAnimationFrame(f)}else{tx.clearRect(0,0,tn.width,tn.height)}})(t0)}
 function titleFx(){tt.classList.remove("fl");void tt.offsetWidth;tt.classList.add("fl");noiseRun(1500,1)}
 setInterval(function(){if(hero.offsetParent)noiseRun(260,.5)},4500);
+function nz(c,k){var b=c.parentNode;if(!b.offsetWidth)return;var w=c.width=Math.ceil(b.offsetWidth/3),h=c.height=Math.ceil(b.offsetHeight/3),x=c.getContext("2d"),id=x.createImageData(w,h),d=id.data;for(var i=0;i<d.length;i+=4){var v=Math.random()*255;d[i]=v*.7;d[i+1]=v;d[i+2]=v;d[i+3]=255*k*Math.random()}x.putImageData(id,0,0);for(var j=0;j<3;j++){x.fillStyle="rgba(79,216,255,"+.6*k+")";x.fillRect(0,Math.random()*h,w,1+Math.random()*3)}}
+function nzRun(c,ms,amp){var t0=performance.now();(function f(now){var p=(now-t0)/ms;if(p<1){nz(c,amp*(1-p));requestAnimationFrame(f)}else{c.getContext("2d").clearRect(0,0,c.width,c.height)}})(t0)}
+function burst(ms){cv.width=Math.ceil(innerWidth/4);cv.height=Math.ceil(innerHeight/4);cv.style.display="block";var t0=performance.now();(function f(now){var p=(now-t0)/ms;if(p>=1){cv.style.display="none";return}var id=cx.createImageData(cv.width,cv.height),d=id.data,k=(1-p)*.8;for(var i=0;i<d.length;i+=4){var v=Math.random()*255;d[i]=v*.8;d[i+1]=v;d[i+2]=v;d[i+3]=255*k*Math.random()}cx.putImageData(id,0,0);for(var b=0;b<4;b++){cx.fillStyle="rgba(79,216,255,.5)";cx.fillRect(0,Math.random()*cv.height,cv.width,1+Math.random()*4)}requestAnimationFrame(f)})(t0)}
+var gate=document.getElementById("gate"),gt=document.getElementById("gt"),gn=document.getElementById("gn"),gh=document.getElementById("gh"),gs=0;
+function flk(){gt.classList.remove("fl");void gt.offsetWidth;gt.classList.add("fl")}
+function gateOpen(){gs=0;gate.className="";gt.textContent=T[L].g1;gh.textContent=T[L].gh1;gate.style.display="flex";flk();nzRun(gn,1300,1)}
+function gateGo(){if(gs===0){gs=1;gt.textContent="LIMITLESS";gh.textContent=T[L].gh2;flk();nzRun(gn,800,1)}else if(gs===1){gs=2;gate.classList.add("out");nzRun(gn,700,.9);setTimeout(function(){gate.style.display="none";document.getElementById("main").classList.add("show","pop");home();burst(500)},720)}}
+document.getElementById("gbox").addEventListener("click",gateGo);
+document.getElementById("gbox").addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();gateGo()}});
+setInterval(function(){if(gate.style.display==="flex"&&gs<2)nzRun(gn,260,.5)},4500);
+var bg=document.getElementById("bgn"),bx=bg.getContext("2d");
+function bgDraw(){var w=Math.ceil(innerWidth/3),h=Math.ceil(innerHeight/3);if(bg.width!==w||bg.height!==h){bg.width=w;bg.height=h}var id=bx.createImageData(w,h),d=id.data;for(var i=0;i<d.length;i+=4){var v=Math.random()*255;d[i]=v*.6;d[i+1]=v*.9;d[i+2]=v;d[i+3]=Math.random()*28}bx.putImageData(id,0,0)}
+bgDraw();setInterval(bgDraw,90);
+var L="ko",S={};
+var T={
+ko:{it:"상태창",ip:"헌터 시스템에 접속합니다.<br>무한탑 정보를 열람하시겠습니까?<br><b>제한 시간: 2099.12.31 23:59:59</b>",ok:"확인",g1:"무한탑",gh1:"▼ 눌러서 계속",gh2:"▼ 한 번 더",tag:"999층의 끝에서 세계의 운명이 결정된다.",tags:"헌터물 · 탑등반 · 생존 · 전투 · 성장 · 길드경쟁 · 미스터리 ｜ 현대 대한민국",goal:"목표 ｜ 2099년 12월 31일까지 탑 999층 공략 완료",back:"◀ 메뉴",note:"",m:["세계관","헌터와 성장 시스템","4대 길드","헌터협회","서울 탑 지구","무한탑 내부 구조","화폐·아이템·거래","랭킹과 명성","진행 원칙"]},
+en:{it:"STATUS",ip:"Connecting to the Hunter System.<br>Open the Limitless Tower records?<br><b>Time limit: 2099.12.31 23:59:59</b>",ok:"CONFIRM",g1:"Infinite Tower",gh1:"▼ Tap to continue",gh2:"▼ Once more",tag:"At the end of Floor 999, the fate of the world will be decided.",tags:"Hunter · Tower Climb · Survival · Combat · Growth · Guild Rivalry · Mystery ｜ Modern Korea",goal:"Objective ｜ Clear Floor 999 of the Tower by December 31, 2099",back:"◀ Menu",note:"※ Detailed text is currently shown in Korean.",m:["World","Hunters & Growth System","The Four Guilds","Hunter Association","Seoul Tower District","Inside the Tower","Currency · Items · Trade","Ranking & Fame","Roleplay Rules"]},
+zs:{it:"状态窗",ip:"正在连接猎人系统。<br>要查看无限塔的信息吗？<br><b>时间限制：2099.12.31 23:59:59</b>",ok:"确认",g1:"无限塔",gh1:"▼ 点击继续",gh2:"▼ 再点一次",tag:"在第999层的尽头，决定世界的命运。",tags:"猎人 · 爬塔 · 生存 · 战斗 · 成长 · 公会竞争 · 悬疑 ｜ 现代韩国",goal:"目标 ｜ 在2099年12月31日前攻略塔的第999层",back:"◀ 菜单",note:"※ 详细正文暂以韩语显示。",m:["世界观","猎人与成长系统","四大公会","猎人协会","首尔塔区","无限塔内部结构","货币·道具·交易","排名与声望","进行原则"]},
+zt:{it:"狀態窗",ip:"正在連接獵人系統。<br>要查看無限塔的資訊嗎？<br><b>時間限制：2099.12.31 23:59:59</b>",ok:"確認",g1:"無限塔",gh1:"▼ 點擊繼續",gh2:"▼ 再點一次",tag:"在第999層的盡頭，決定世界的命運。",tags:"獵人 · 爬塔 · 生存 · 戰鬥 · 成長 · 公會競爭 · 懸疑 ｜ 現代韓國",goal:"目標 ｜ 在2099年12月31日前攻略塔的第999層",back:"◀ 選單",note:"※ 詳細正文暫以韓語顯示。",m:["世界觀","獵人與成長系統","四大公會","獵人協會","首爾塔區","無限塔內部結構","貨幣・道具・交易","排名與聲望","進行原則"]},
+ja:{it:"ステータス",ip:"ハンターシステムに接続します。<br>無限塔の情報を閲覧しますか？<br><b>制限時間：2099.12.31 23:59:59</b>",ok:"確認",g1:"無限塔",gh1:"▼ タップして続行",gh2:"▼ もう一度",tag:"999階の果てで、世界の運命が決まる。",tags:"ハンター · 塔攻略 · サバイバル · 戦闘 · 成長 · ギルド競争 · ミステリー ｜ 現代韓国",goal:"目標 ｜ 2099年12月31日までに塔の999階を攻略",back:"◀ メニュー",note:"※ 詳細な本文は現在、韓国語で表示されます。",m:["世界観","ハンターと成長システム","4大ギルド","ハンター協会","ソウル塔地区","無限塔の内部構造","通貨・アイテム・取引","ランキングと名声","進行原則"]}};
+var LG=[["ko","한국어"],["en","English"],["zs","简体中文"],["zt","繁體中文"],["ja","日本語"]];
+function secFill(id){var s=document.getElementById(id);if(s._o===undefined)s._o=s.innerHTML;var tr=S[L]&&S[L][id];s.innerHTML=tr?tr:(L==="ko"?s._o:'<p class="note">'+T[L].note+'</p>'+s._o)}
+function applyLang(){var t=T[L],e=function(i){return document.getElementById(i)};document.documentElement.lang={ko:"ko",en:"en",zs:"zh-Hans",zt:"zh-Hant",ja:"ja"}[L];e("i-t").textContent=t.it;e("i-p").innerHTML=t.ip;e("ok").textContent=t.ok;e("h-p").textContent=t.tag;e("h-g").textContent=t.tags;e("h-c").textContent=t.goal;e("back").textContent=t.back;tt.textContent=t.g1+": LIMITLESS";menu.innerHTML=M.map(function(m,i){return '<button data-id="'+m[0]+'" style="animation-delay:'+(i*.06)+'s"><small>'+m[1]+' · '+m[3]+'</small>'+t.m[i]+'</button>'}).join("");document.querySelectorAll("#langs button").forEach(function(b){b.classList.toggle("on",b.dataset.l===L)})}
+var lgEl=document.getElementById("langs");lgEl.innerHTML=LG.map(function(l){return '<button data-l="'+l[0]+'">'+l[1]+'</button>'}).join("");
+lgEl.addEventListener("click",function(e){var b=e.target.closest("button");if(b){L=b.dataset.l;applyLang()}});
+applyLang();
+var bgm=new Audio(encodeURI("bgm3 (1).wav")),bgmOn=true,snd=document.getElementById("snd");bgm.loop=true;bgm.volume=.5;bgm.preload="auto";
+bgm.addEventListener("error",function(){if(!bgm._f){bgm._f=1;bgm.src="https://jinkwf.github.io/LIMITLESS/bgm3%20(1).wav";bgm.load();if(bgmOn)bgm.play().catch(function(){})}});
+document.getElementById("ok").addEventListener("click",function(){snd.style.display="block";if(bgmOn)bgm.play().catch(function(){})});
+snd.addEventListener("click",function(){bgmOn=!bgmOn;if(bgmOn)bgm.play().catch(function(){});else bgm.pause();snd.textContent=bgmOn?"♪ ON":"♪ OFF"});
 </script>
 </body>
 </html>
