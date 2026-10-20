@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>무한탑: LIMITLESS</title>
+<style>
+:root{color-scheme:dark;--bg:#05080f;--panel:#0b1626;--line:#1f4a6e;--c:#4fd8ff;--c2:#7aa7ff;--tx:#cfe3f2;--mut:#7f9bb3;--warn:#ff5d73;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:56px}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:"Pretendard","Noto Sans KR",system-ui,sans-serif;line-height:1.7;overflow-x:hidden}
+#intro{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 40%,#0c2238,#04070d 70%);padding:20px}
+#intro::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(79,216,255,.04) 0 1px,transparent 1px 4px);pointer-events:none}
+.win{position:relative;width:min(440px,100%);padding:28px 26px 24px;background:rgba(11,28,48,.62);border:1px solid var(--c);box-shadow:0 0 28px rgba(79,216,255,.28),inset 0 0 40px rgba(79,216,255,.08);backdrop-filter:blur(6px);text-align:center;animation:pop .8s ease both}
+.win::before,.win::after{content:"";position:absolute;width:14px;height:14px;border:2px solid var(--c)}
+.win::before{top:-5px;left:-5px;border-right:0;border-bottom:0}
+.win::after{bottom:-5px;right:-5px;border-left:0;border-top:0}
+@keyframes pop{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
+.win small{letter-spacing:.35em;color:var(--mut);font-size:11px}
+.win h1{margin:6px 0 4px;font-size:34px;letter-spacing:.3em;color:var(--c);text-shadow:0 0 12px var(--c);font-weight:700;padding-left:.3em}
+.win hr{border:0;border-top:1px solid var(--line);margin:16px 0}
+.win p{margin:0 0 18px;color:var(--tx);font-size:14px}
+.win p b{color:var(--warn)}
+button{font:inherit;cursor:pointer;color:var(--c);background:rgba(79,216,255,.08);border:1px solid var(--c);padding:10px 38px;letter-spacing:.4em;padding-left:calc(38px + .4em);transition:.2s}
+button:hover{background:var(--c);color:#04121c;box-shadow:0 0 18px var(--c)}
+#fx{position:fixed;inset:0;z-index:60;width:100%;height:100%;pointer-events:none;display:none;image-rendering:pixelated}
+.shake{animation:sh .12s steps(2) infinite}
+@keyframes sh{0%{transform:translate(-4px,2px) skewX(1deg);filter:hue-rotate(0)}50%{transform:translate(5px,-3px) skewX(-2deg);filter:hue-rotate(90deg) saturate(2)}100%{transform:translate(-2px,4px);filter:hue-rotate(200deg)}}
+#main{display:none}
+#main.show{display:block;animation:fin 1.1s ease both}
+@keyframes fin{0%{opacity:0;filter:blur(8px) contrast(2)}40%{opacity:.8;filter:blur(2px) contrast(1.5)}100%{opacity:1;filter:none}}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;gap:4px;overflow-x:auto;padding:10px 14px;background:rgba(5,8,15,.92);border-bottom:1px solid var(--line);backdrop-filter:blur(6px)}
+nav a{flex:none;color:var(--mut);text-decoration:none;font-size:13px;padding:4px 10px;border:1px solid transparent}
+nav a:hover{color:var(--c);border-color:var(--line)}
+header.hero{padding:90px 20px 70px;text-align:center;background:radial-gradient(ellipse at 50% 0,#0e2a44,transparent 70%)}
+.hero h1{margin:0;font-size:clamp(34px,8vw,64px);letter-spacing:.12em;color:var(--c);text-shadow:0 0 20px rgba(79,216,255,.6)}
+.hero p{color:var(--mut);margin:10px 0}
+.hero .tags{font-size:13px;color:var(--c2)}
+.count{display:inline-block;margin-top:18px;padding:8px 18px;border:1px solid var(--warn);color:var(--warn);font-size:13px;letter-spacing:.08em}
+section{max-width:980px;margin:0 auto;padding:46px 18px;display:none}
+section.on{display:block;animation:fin .6s ease both}
+#tt{cursor:pointer;transition:.25s}#tt:hover{letter-spacing:.17em;text-shadow:0 0 30px var(--c)}
+.hint{color:var(--c);font-size:13px;letter-spacing:.2em;animation:bl 1.4s infinite}
+@keyframes bl{50%{opacity:.25}}
+#menu{display:none;max-width:720px;margin:34px auto 0;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;text-align:left}
+#menu.open{display:grid}
+#menu button{display:block;width:100%;padding:14px 16px;text-align:left;letter-spacing:.05em;border-color:var(--line);background:rgba(11,28,48,.7);animation:fin .5s ease both}
+#menu button small{display:block;color:var(--mut);font-size:11px;letter-spacing:.2em}
+#menu button:hover small{color:#04121c}
+nav#bar{align-items:center}
+#bar button{padding:6px 16px;letter-spacing:.1em}
+#bar span{color:var(--c);margin-left:12px;font-weight:700}
+.tbox{position:relative;display:inline-block;max-width:100%;padding:20px 36px;border:1px solid var(--c);background:rgba(11,28,48,.55);box-shadow:0 0 28px rgba(79,216,255,.25),inset 0 0 30px rgba(79,216,255,.08);animation:bx 3.6s infinite}
+.tbox::before,.tbox::after{content:"";position:absolute;width:14px;height:14px;border:2px solid var(--c)}
+.tbox::before{top:-5px;left:-5px;border-right:0;border-bottom:0}
+.tbox::after{bottom:-5px;right:-5px;border-left:0;border-top:0}
+.tbox canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;image-rendering:pixelated;mix-blend-mode:screen}
+.tbox h1{font-size:clamp(26px,7vw,60px)}
+@keyframes bx{0%,100%{border-color:var(--c);box-shadow:0 0 28px rgba(79,216,255,.25),inset 0 0 30px rgba(79,216,255,.08)}44%{border-color:rgba(79,216,255,.35);box-shadow:0 0 6px rgba(79,216,255,.1),inset 0 0 8px rgba(79,216,255,.03)}46%{border-color:var(--c);box-shadow:0 0 40px rgba(79,216,255,.5),inset 0 0 40px rgba(79,216,255,.15)}48%{border-color:rgba(79,216,255,.4)}50%{border-color:var(--c)}}
+.fl{animation:tf 1.6s steps(1) forwards,tl 5s 1.6s infinite}
+@keyframes tf{0%{opacity:0}8%{opacity:1}12%{opacity:.1}18%{opacity:1}24%{opacity:.25}30%{opacity:1}36%{opacity:.55}42%,100%{opacity:1}}
+@keyframes tl{0%,88%,100%{opacity:1}90%{opacity:.3}92%{opacity:1}95%{opacity:.5}97%{opacity:1}}
+h2{font-size:22px;color:var(--c);margin:0 0 18px;padding-left:12px;border-left:3px solid var(--c);letter-spacing:.04em}
+h2 span{color:var(--mut);font-size:13px;margin-left:8px;font-weight:400}
+h3{margin:22px 0 8px;font-size:16px;color:var(--c2)}
+p{margin:0 0 12px}
+.box{background:var(--panel);border:1px solid var(--line);padding:16px 18px;margin:12px 0}
+.warn{border-color:var(--warn);color:#ffc7cf}
+ul{margin:6px 0 12px;padding-left:20px}li{margin:3px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+table{width:100%;border-collapse:collapse;font-size:14px;display:block;overflow-x:auto}
+td,th{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}th{background:#0e2238;color:var(--c)}
+.gcard{border:1px solid var(--g);background:var(--panel);margin:16px 0;box-shadow:0 0 18px -8px var(--g)}
+.gcard>summary{cursor:pointer;padding:14px 18px;list-style:none;display:flex;flex-wrap:wrap;align-items:baseline;gap:10px}
+.gcard>summary::-webkit-details-marker{display:none}
+.gcard .n{font-size:22px;font-weight:700;color:var(--g);letter-spacing:.1em}
+.gcard .t{color:var(--mut);font-size:13px}
+.gbody{padding:0 18px 16px;font-size:14px}
+.mem{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:8px;margin-top:10px}
+.mem div{border:1px solid var(--line);padding:9px 12px;background:rgba(255,255,255,.02)}
+.mem b{color:var(--g)}.mem em{display:block;font-style:normal;color:var(--mut);font-size:12px}
+pre{background:#030509;border:1px solid var(--line);padding:14px;overflow-x:auto;font-size:12px;line-height:1.5;color:var(--c2)}
+footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{display:block;color:var(--c);font-size:20px;letter-spacing:.2em;margin-bottom:10px}
+</style>
+</head>
+<body>
+<div id="intro">
+  <div class="win" id="win">
+    <small>SYSTEM</small>
+    <h1>상태창</h1>
+    <hr>
+    <p>헌터 시스템에 접속합니다.<br>무한탑 정보를 열람하시겠습니까?<br><b>제한 시간: 2099.12.31 23:59:59</b></p>
+    <button id="ok">확인</button>
+  </div>
+</div>
+<canvas id="fx"></canvas>
+
+<div id="main">
+<nav id="bar" style="display:none"><button id="back">◀ 메뉴</button><span id="ttl"></span></nav>
+<header class="hero">
+  <div class="tbox" id="tbox"><h1 id="tt" tabindex="0">무한탑: LIMITLESS</h1><canvas id="tn"></canvas></div>
+  <div class="hint" id="hint">▼ 무한탑을 눌러 열기</div>
+  <p>999층의 끝에서, 세계의 운명이 결정된다.</p>
+  <div class="tags">헌터물 · 탑등반 · 생존 · 전투 · 성장 · 길드경쟁 · 미스터리 ｜ 현대 대한민국</div>
+  <div class="count">목표 ｜ 2099년 12월 31일까지 탑 999층 공략 완료</div>
+  <div id="menu"></div>
+</header>
+
+<section id="world">
+<h2>01 WORLD<span>세계관</span></h2>
+<p>3년 전, 세계 곳곳에 정체불명의 균열이 발생했다. 균열에서는 기존 생태계로 설명할 수 없는 몬스터와 마력이 쏟아져 나왔고, 일부 인간은 특별한 능력을 각성해 상태창과 스킬을 다루는 헌터가 되었다.</p>
+<p>그리고 서울 한복판, 하늘을 찌를 듯한 거대한 탑이 나타났다. 사람들은 그것을 <b>무한탑(LIMITLESS)</b>이라 불렀다.</p>
+<p>탑 내부에는 층마다 다른 환경이 있다. 폐허가 된 도시, 끝없는 숲, 용암 지대, 수몰된 유적, 살아 움직이는 미궁. 몬스터와 보스뿐 아니라 함정·퍼즐·생존 임무·호위·제한 시간 등 다양한 조건이 헌터를 기다린다.</p>
+<p>마정석은 에너지원이자 거래 자산이 되었고, 몬스터 부산물과 유물은 무기·방어구·신기술의 핵심 재료가 되었다. 헌터의 실적은 국가와 기업의 이해관계까지 좌우한다. 그러나 탑의 출현 목적과 최종층 너머의 진실은 아직 밝혀지지 않았다.</p>
+<div class="box warn"><b>최종 제한 시간</b>
+<ul>
+<li>마감 시각: 2100년 1월 1일 00:00</li>
+<li>2099년 12월 31일 23:59:59까지 999층의 모든 클리어 조건 충족</li>
+<li>보스 처치만으로 클리어가 인정되지 않을 수 있으며, 층별 추가 조건을 모두 확인해야 한다.</li>
+<li>기한 내 실패 시 인류와 문명은 멸망한다.</li>
+<li>부활·시간 역행·체크포인트 복구·기한 이후의 재도전은 불가능하다.</li>
+</ul></div>
+<p>999층을 최초로 완전히 정복한 자는 탑의 유일한 소유자이자 최고 관리자 권한을 획득한다. 단, 그 권한은 탑 내부의 관리 기능에 한정되며 현실 세계와 타인의 의지까지 조종할 수는 없다.</p>
+<p><b>탑을 정복하는 것은 선택이 아니다. 살아남기 위한 필수 조건이다.</b></p>
+</section>
+
+<section id="hunter">
+<h2>02 HUNTER<span>헌터와 성장 시스템</span></h2>
+<p>헌터는 마력에 적응하거나 특수한 능력을 각성해 균열과 탑에 대응하는 인간이다. 헌터 등록과 길드 가입은 별개이며, 독립 헌터로 활동할 수도 있다.</p>
+<h3>상태창</h3>
+<p>레벨·경험치·능력치 / 직업·스킬·특성 / 장비·아이템·화폐 / 퀘스트·공략 기록·업적 / 상태 이상. 개인 시스템 정보는 본인에게 귀속되며 협회나 다른 헌터가 자동으로 열람할 수 없다.</p>
+<h3>레벨과 능력치</h3>
+<div class="grid">
+<div class="box">시작 레벨<br><b>Lv.1</b></div><div class="box">시작 능력치<br><b>각 항목 10</b></div><div class="box">레벨 상승 시<br><b>포인트 +5</b></div><div class="box">최대 레벨<br><b>제한 없음</b></div>
+</div>
+<p>능력치는 힘·민첩·체력·마력·정신력·감각·행운의 7개 항목이며, 실제 효과는 직업·스킬·장비·상태 이상과 함께 적용된다.</p>
+<h3>직업 계열</h3>
+<ul>
+<li><b>전투계</b> 검사·창기사·격투가·궁수</li>
+<li><b>마법계</b> 원소술사·마력 조작자·주술사</li>
+<li><b>지원계</b> 치유사·강화사·보호막 사용자</li>
+<li><b>생산계</b> 대장장이·연금술사·감정사</li>
+<li><b>특수계</b> 정찰자·암살자·소환사</li>
+</ul>
+<p>스킬은 마력 소모·재사용 시간·사거리·발동 조건·신체 부담 등의 제약이 있으며 모든 스킬이 무제한으로 강해지지는 않는다.</p>
+<table>
+<tr><th>분류</th><th>설명</th></tr>
+<tr><td>고유 능력</td><td>개인에게 특화된 희귀 능력. 발현 조건과 한계가 다르다.</td></tr>
+<tr><td>액티브 스킬</td><td>사용자가 발동하는 공격·방어·치유·이동 기술</td></tr>
+<tr><td>패시브 스킬</td><td>조건 충족 시 지속적으로 효과를 제공</td></tr>
+<tr><td>특성</td><td>특정 행동이나 환경에서 발휘되는 성질</td></tr>
+<tr><td>장비 효과</td><td>무기·방어구·유물에 부여된 추가 기능</td></tr>
+<tr><td>상태 이상</td><td>출혈·중독·저주·마력 봉쇄 등 행동이나 능력을 제한</td></tr>
+</table>
+<h3>헌터 등급</h3>
+<div class="box">공식 등급 <b>F &gt; D &gt; C &gt; B &gt; A &gt; S &gt; L &gt; X</b> (E등급은 존재하지 않는다)<br>등급은 레벨과 동일하지 않으며 능력·실적·평가 조건을 종합해 결정된다.</div>
+</section>
+
+<section id="guilds">
+<h2>03 GUILDS<span>4대 길드</span></h2>
+<p>네 길드는 모두 999층 정복을 목표로 하지만 공략 주도권·최초 격파·희귀 자원·인재·정보·랭킹을 놓고 끊임없이 경쟁한다. 전문 분야는 강점일 뿐 독점 영역이 아니다.</p>
+<div id="glist"></div>
+<h3>길드 간 관계</h3>
+<table>
+<tr><td>ZERO ↔ SERAPH</td><td>공략 속도와 생존 원칙의 충돌</td></tr>
+<tr><td>ZERO ↔ NYXUS</td><td>전투 지휘권과 정보 공개 시점 경쟁</td></tr>
+<tr><td>ZERO ↔ HEILOCK</td><td>전투 성과와 자원 투자, 보상 분배의 대립</td></tr>
+<tr><td>SERAPH ↔ NYXUS</td><td>구조 정보 공유와 정보 독점의 갈등</td></tr>
+<tr><td>SERAPH ↔ HEILOCK</td><td>구조 비용과 보상, 자원 우선 배분 협상</td></tr>
+<tr><td>NYXUS ↔ HEILOCK</td><td>정보와 자원의 교환, 독점 계약과 가격 경쟁</td></tr>
+</table>
+<p style="margin-top:10px">동맹은 가능하지만 영구적이지 않다. 공동 레이드에서도 보상 분배와 최초 공략 기록을 두고 다시 경쟁할 수 있다.</p>
+</section>
+
+<section id="assoc">
+<h2>04 ASSOCIATION<span>헌터협회</span></h2>
+<p>정부 산하 기관으로 헌터 등록·등급 심사·탑 출입·재난 대응·공식 의뢰와 보상·불법 거래 단속을 담당한다. 길드의 지휘를 받지 않으며 분쟁에도 법률과 규정에 따라 개입한다.</p>
+<div class="mem" id="alist" style="--g:var(--c)"></div>
+<p style="margin-top:10px">협회는 개인 시스템을 직접 열람할 수 없다. 공식 등급은 측정 결과와 실적을 근거로 판정하며, 불법 행위도 증거 없이 유죄로 확정하지 않는다.</p>
+</section>
+
+<section id="district">
+<h2>05 SEOUL TOWER DISTRICT<span>서울 탑 지구</span></h2>
+<p>무한탑을 중심으로 형성된 특수 관리 구역. 헌터와 민간인, 협회와 길드, 상업 시설이 밀집해 있다.</p>
+<div class="grid">
+<div class="box"><b>탑 광장·입구 검문소</b><br>출입 자격, 파티 등록, 긴급 통제</div>
+<div class="box"><b>헌터협회 본부</b><br>등록·심사·기록·의뢰·재난 대응</div>
+<div class="box"><b>ZERO 본부</b><br>훈련장·브리핑룸·전술 분석실</div>
+<div class="box"><b>SERAPH 본부</b><br>치유실·재활실·구조 상황실</div>
+<div class="box"><b>NYXUS 본부</b><br>정보 분석실·정찰 장비실·작전실</div>
+<div class="box"><b>HEILOCK 본부</b><br>제작 공방·감정실·계약 사무실</div>
+<div class="box"><b>경매장·헌터 상가</b><br>공식 경매와 일반 거래 구분</div>
+<div class="box"><b>암시장</b><br>불법 유물·출처 불명 재료·비공개 정보. 사기와 감찰 위험</div>
+<div class="box"><b>헌터 병원·구조 센터</b><br>마력 손상 치료, 실종자 접수</div>
+<div class="box"><b>훈련장·연구소</b><br>스킬 숙련, 마력 측정, 부산물 분석</div>
+<div class="box"><b>생활·교통 구역</b><br>숙소·식당·편의점·수리점·대중교통</div>
+<div class="box"><b>관리자 전용 구역</b><br>999층 클리어 이후 접근 권한 부여</div>
+</div>
+<h3>구역 구조도</h3>
+<pre>                 [북부 연구·통제 구역]
+                    ┌─────────┐
+                    │ 탑 연구소 │
+                    └────┬────┘
+                         │
+[서부 행정 구역] ── [중앙 탑 광장] ── [동부 길드 구역]
+ 헌터협회 본부            │            ZERO · SERAPH
+ 등록·심사·재난 대응   [탑 입구]         NYXUS · HEILOCK
+                         │
+                  [남부 상업·생활 구역]
+         경매장·상가·병원·숙소·교통·비공식 거래 구역</pre>
+<p style="font-size:13px;color:var(--mut)">기능별 구역 배치를 나타낸 개념도이며 실제 거리·규모·출입 경로는 별도 설정에 따라 확정된다.</p>
+</section>
+
+<section id="tower">
+<h2>06 TOWER<span>무한탑 내부 구조</span></h2>
+<p>탑은 층마다 환경·규칙·위협이 달라지는 독립적인 공략 공간이다. 강한 몬스터를 쓰러뜨리는 것만으로는 모든 층을 돌파할 수 없다.</p>
+<ul>
+<li><b>전투형</b> 몬스터 처치, 보스 격파</li>
+<li><b>탐험형</b> 지역 조사, 지도 작성, 숨겨진 통로 발견</li>
+<li><b>기믹형</b> 퍼즐·장치·환경 규칙 해결</li>
+<li><b>생존형</b> 제한 시간 버티기, 식량·수분 확보, 탈출</li>
+<li><b>호위형</b> 지정 대상 보호, 이동 경로 확보</li>
+<li><b>수집형</b> 재료·유물·기록물 수집 및 전달</li>
+<li><b>복합형</b> 전투·퍼즐·생존·호위가 동시에 적용</li>
+</ul>
+<p>층별 정보는 불완전하거나 오래되었을 수 있다. 이전 공략이 성공했다고 같은 전략이 통한다는 보장은 없다.</p>
+<div class="box warn"><b>보스 처치 ≠ 층 클리어.</b> 시스템이 요구하는 추가 조건과 결과 확인까지 완료해야 공략이 인정된다. 미확인 보상이나 숨겨진 조건은 확정된 사실처럼 취급하지 않는다.</div>
+</section>
+
+<section id="economy">
+<h2>07 ECONOMY<span>화폐·아이템·거래</span></h2>
+<ul>
+<li>화폐: G(Gold)</li>
+<li>거래 방식: 일반 상점 · 헌터 전용 상점 · 시스템 상점 · 공식 경매 · 암시장</li>
+<li>주요 자산: 무기·방어구·소모품·마정석·몬스터 부산물·유물·정보</li>
+<li>제작·강화: 재료와 숙련도, 제작 조건에 따라 결과가 달라진다.</li>
+<li>거래 기록: 아이템·수량·가격·수수료·거래 전후 잔액을 일치시킨다.</li>
+</ul>
+<p>거래 명령을 입력했다고 즉시 거래가 완료되는 것은 아니다. 가격·재고·조건을 확인하고 실제로 성립한 경우에만 아이템과 잔액이 변경된다. 희귀 아이템의 가치도 수요·성능·출처·감정 결과·시장 상황에 따라 변동한다.</p>
+</section>
+
+<section id="ranking">
+<h2>08 RANKING<span>랭킹과 명성</span></h2>
+<div class="grid">
+<div class="box"><b>개인 헌터 랭킹</b><br>전투력·공략 실적·검증된 기여도</div>
+<div class="box"><b>탑 공략 랭킹</b><br>층별 클리어·최초 공략·공략 기여</div>
+<div class="box"><b>길드 랭킹</b><br>공략 성과·인력·운영 실적</div>
+<div class="box"><b>경제 랭킹</b><br>자산·거래·제작·시장 영향력</div>
+</div>
+<p style="margin-top:12px">협회·길드·대중·암시장은 서로 다른 기준으로 헌터를 평가한다. 공식 기록에 없는 성과는 검증되기 전까지 확정된 실적으로 취급하지 않는다. 강력한 헌터는 존경받는 동시에 경계의 대상이 될 수 있다.</p>
+</section>
+
+<section id="rp">
+<h2>09 ROLEPLAY<span>진행 원칙</span></h2>
+<ul>
+<li>모든 인물은 고유한 성격·전문성·한계·이해관계를 유지한다.</li>
+<li>NPC는 직접 관찰하거나 전달받은 정보만 알 수 있다.</li>
+<li>사용자 캐릭터의 대사·행동·감정·의도·선택을 대신 작성하지 않는다.</li>
+<li>사용자의 행동이 발생하기 전에 성공·실패·피해·보상을 확정하지 않는다.</li>
+<li>전투와 탐험은 위험·자원·스킬 조건·적의 행동에 따라 결과가 달라진다.</li>
+<li>NPC의 호감·신뢰·적대·협력은 실제 대화와 사건에 따라 변한다.</li>
+<li>길드 간 경쟁은 정보전·공략권·보상·인재 영입·계약 분쟁 등의 사건으로 드러난다.</li>
+<li>모든 사건은 기존 기록과 인과관계를 유지하며, 확인되지 않은 정보를 사실로 확정하지 않는다.</li>
+<li>레벨·장비·스킬·화폐·퀘스트·공략 기록은 실제 변화가 발생했을 때만 갱신한다.</li>
+<li>사망이 확정되면 영구 게임 오버이며 부활·시간 역행·기록 복구는 불가능하다.</li>
+</ul>
+</section>
+
+<footer><b>LIMITLESS — 끝없는 탑, 유한한 시간.</b>
+최강이 되는 것만으로는 부족하다. 정보를 확보하고, 자원을 관리하고, 때로는 적과 손을 잡아야 한다.<br>누구와 협력할지, 무엇을 희생할지, 어떤 길드의 편에 설지는 누구도 대신 결정해주지 않는다.<br><br>999층의 문이 닫히기 전에, 당신은 어디까지 올라갈 수 있을까?</footer>
+</div>
+
+<script>
+var G=[
+{n:"ZERO",k:"제로",t:"정예 전투 · 보스 레이드 · 최상위 공략",c:"#ff5d73",d:"길드장 권태혁이 이끄는 최상위 전투 중심 길드. 전투력과 실적을 중시하며 보스 최초 격파와 고난도 층 공략의 주도권을 노린다. 준비되지 않은 레이드에는 가차 없이 반대한다.",s:"강력한 전투 인력, 보스 패턴 분석, 신속한 공략 지휘",w:"전투 성과 우선 경향으로 생존 원칙·정보 독점 전략과 충돌하기 쉽다",m:[["권태혁","32·남｜길드장","DEATH","과묵하고 냉철한 최상위 전투 헌터"],["서이준","29·남｜부길드장","반박시니말이틀림","합리적·직설적인 실질적 작전 조율자"],["강무혁","35·남｜레이드 총괄","아빠","엄격하고 책임감이 강한 편성 관리자"],["백시온","27·남｜전투 분석관","오차범위내","예민한 완벽주의자, 전투 로그 분석"],["차도윤","30·남｜인사·훈련 담당","인재예약","능글맞은 평가자, 집요한 영입"]]},
+{n:"SERAPH",k:"세라프",t:"치유 · 방어 · 구조 · 생존",c:"#6df0c2",d:"윤서하가 이끄는 치유·방어 특화 길드. 생존자 회수와 피해 최소화를 중요한 성과로 평가하며, 희생을 감수하는 작전에는 정면으로 반대한다.",s:"치유와 방어, 장기 생존, 구조 작전, 파티 유지력",w:"생존 원칙 고수로 공략 속도가 늦어지거나 자원 소모가 커질 수 있다",m:[["윤서하","31·여｜길드장","솜사탕","온화하지만 단호한 고등급 치유 능력자"],["한도겸","34·남｜부길드장","LAST WALL","신중하고 현실적인 방어·후퇴 지휘"],["임채린","29·여｜의료·치유 총괄","복약하세요","냉철하고 꼼꼼한 마력 손상 진단"],["오진욱","32·남｜방어 전술 담당","철벽남","과묵·보수적, 탱커 육성과 진형 설계"],["최나경","27·여｜구조·생존 담당","삐약이","활발하고 대담한 수색·회수 전문"]]},
+{n:"NYXUS",k:"나이커스",t:"정찰 · 잠입 · 정보전 · 특수 임무",c:"#b58aff",d:"차시혁이 이끄는 정보전 중심 길드. 미탐사 구역과 보스의 약점, 숨겨진 통로를 먼저 확보한다. 정보는 거래·교환·독점 계약을 통해 이익으로 바꾼다.",s:"정찰, 함정 탐지, 정보 수집, 잠입과 특수 임무",w:"정보의 진위에 따라 성과가 크게 달라지며, 은폐가 불신을 키울 수 있다",m:[["차시혁","33·남｜길드장","NULL","신중하고 계산적, 정보의 출처를 중시"],["문재하","30·남｜부길드장","사기아님","사교적·능글맞은 협상과 잠입 총괄"],["유건우","28·남｜정찰 총괄","길찾는중","침착하고 관찰력이 뛰어난 탐사자"],["백유진","29·여｜정보 분석관","팩트체크","논리적·집요한 공략 기록 검증"],["이태오","26·남｜특수 임무 담당","몰래왔태오","능청스럽고 대담한 비공개 의뢰 수행"]]},
+{n:"HEILOCK",k:"헤일록",t:"경제 · 제작 · 경매 · 자원 확보 · 종합 공략",c:"#ffc857",d:"강도현이 이끄는 경제·자원 중심 길드. 희귀 재료와 장비, 제작 기술, 자금과 거래망을 확보해 주도권을 노린다. 손해를 감수하며 충성하지 않는다.",s:"자금 조달, 장비 제작, 유물 감정, 경매와 자원 관리",w:"경제력이 전투력을 대체할 수 없고, 타 길드가 독자 거래망을 확보하면 영향력이 약해진다",m:[["강도현","34·남｜길드장","Midas","여유롭고 계산적, 고급 정장의 협상가"],["정하린","30·여｜부길드장","정산완료","냉정하고 효율적인 계약·재정 총괄"],["남기석","38·남｜제작 총괄","망치든곰","무뚝뚝한 장인, 장비 제작·강화·수리"],["송아린","28·여｜감정·경매 담당","얼마까지알아보고오셨어요","사교적·실리적인 시세 분석가"],["배현수","32·남｜경제·협상 담당","약관제일조","침착하고 설득력 있는 거래 담당"]]}];
+var A=[["장명환","52·남｜본부장","신중하고 정치적, 정부 협의 총괄"],["고세진","46·여｜운영 부본부장","원칙주의자, 인사·예산·감사"],["박정우","41·남｜등록·등급 심사실장","공정하고 엄격한 등급 심사"],["신유라","37·여｜탑 출입·기록 관리실장","출입 승인, 파티 등록, 공략 기록"],["남태건","43·남｜재난 대응실장","직설적·결단력, 대피·구조 지휘"],["이수민","36·여｜의뢰·보상 심사실장","꼼꼼하고 합리적인 분쟁 심사"],["조현석","45·남｜불법 거래 감찰실장","집요하고 증거 중심, 암시장 조사"],["오민서","39·여｜마력·탑 연구실장","분석적, 마정석과 탑의 이상 현상 연구"]];
+var h="";
+G.forEach(function(g,i){h+='<details class="gcard" style="--g:'+g.c+'"'+(i==0?' open':'')+'><summary><span class="n">'+g.n+'</span><span>'+g.k+'</span><span class="t">'+g.t+'</span></summary><div class="gbody"><p>'+g.d+'</p><p><b style="color:var(--g)">강점</b> '+g.s+'<br><b style="color:var(--warn)">약점</b> '+g.w+'</p><div class="mem">';
+g.m.forEach(function(m){h+='<div><b>'+m[0]+'</b> <span style="color:var(--mut);font-size:12px">'+m[1]+'</span><em>'+m[2]+'</em>'+m[3]+'</div>'});
+h+='</div></div></details>'});
+document.getElementById("glist").innerHTML=h;
+document.getElementById("alist").innerHTML=A.map(function(a){return '<div><b>'+a[0]+'</b> <span style="color:var(--mut);font-size:12px">'+a[1]+'</span><br>'+a[2]+'</div>'}).join("");
+
+var cv=document.getElementById("fx"),cx=cv.getContext("2d"),busy=false;
+function enter(){
+  if(busy)return;busy=true;
+  var intro=document.getElementById("intro"),main=document.getElementById("main"),win=document.getElementById("win");
+  cv.width=Math.ceil(innerWidth/4);cv.height=Math.ceil(innerHeight/4);cv.style.display="block";
+  win.classList.add("shake");
+  var t0=performance.now(),D=1900,swapped=false;
+  (function f(now){
+    var p=Math.min((now-t0)/D,1);
+    var a=p<.55?p/.55:(1-p)/.45;
+    var id=cx.createImageData(cv.width,cv.height),d=id.data,k=.25+a*.75;
+    for(var i=0;i<d.length;i+=4){var v=Math.random()*255;var r=Math.random()<.02;d[i]=r?255:v*.8;d[i+1]=r?80:v;d[i+2]=v;d[i+3]=Math.min(255,255*k*(.5+Math.random()*.5))}
+    cx.putImageData(id,0,0);
+    var bars=3+Math.floor(a*5);
+    for(var b=0;b<bars;b++){var y=Math.random()*cv.height;cx.fillStyle=Math.random()<.5?"rgba(79,216,255,.55)":"rgba(255,93,115,.45)";cx.fillRect(0,y,cv.width,1+Math.random()*5)}
+    if(p>=.55&&!swapped){swapped=true;intro.style.display="none";main.classList.add("show");window.scrollTo(0,0);titleFx()}
+    if(p<1)requestAnimationFrame(f);else{cv.style.display="none"}
+  })(t0);
+}
+document.getElementById("ok").addEventListener("click",enter);
+var M=[["world","01","세계관","WORLD"],["hunter","02","헌터와 성장 시스템","HUNTER"],["guilds","03","4대 길드","GUILDS"],["assoc","04","헌터협회","ASSOCIATION"],["district","05","서울 탑 지구","TOWER DISTRICT"],["tower","06","무한탑 내부 구조","TOWER"],["economy","07","화폐·아이템·거래","ECONOMY"],["ranking","08","랭킹과 명성","RANKING"],["rp","09","진행 원칙","ROLEPLAY"]];
+var menu=document.getElementById("menu"),hero=document.querySelector("header.hero"),bar=document.getElementById("bar"),ft=document.querySelector("footer"),tt=document.getElementById("tt"),hint=document.getElementById("hint");
+menu.innerHTML=M.map(function(m,i){return '<button data-id="'+m[0]+'" style="animation-delay:'+(i*.06)+'s"><small>'+m[1]+' · '+m[3]+'</small>'+m[2]+'</button>'}).join("");
+function toggleMenu(){var o=menu.classList.toggle("open");hint.style.display=o?"none":""}
+tt.addEventListener("click",toggleMenu);
+tt.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();toggleMenu()}});
+function home(){document.querySelectorAll("section.on").forEach(function(s){s.classList.remove("on")});hero.style.display="";ft.style.display="";bar.style.display="none";window.scrollTo(0,0);titleFx()}
+function show(id,name){home();hero.style.display="none";ft.style.display="none";bar.style.display="flex";document.getElementById("ttl").textContent=name;document.getElementById(id).classList.add("on");window.scrollTo(0,0)}
+menu.addEventListener("click",function(e){var b=e.target.closest("button");if(b)show(b.dataset.id,b.lastChild.textContent)});
+document.getElementById("back").addEventListener("click",home);
+document.addEventListener("keydown",function(e){if(e.key==="Escape"&&bar.style.display==="flex")home()});
+var tn=document.getElementById("tn"),tx=tn.getContext("2d"),tbox=document.getElementById("tbox"),tRun=0;
+function noiseFrame(k){var w=tn.width=Math.ceil(tbox.offsetWidth/3),h=tn.height=Math.ceil(tbox.offsetHeight/3);var id=tx.createImageData(w,h),d=id.data;for(var i=0;i<d.length;i+=4){var v=Math.random()*255;d[i]=v*.7;d[i+1]=v;d[i+2]=v;d[i+3]=255*k*Math.random()}tx.putImageData(id,0,0);for(var b=0;b<3;b++){tx.fillStyle="rgba(79,216,255,"+(.6*k)+")";tx.fillRect(0,Math.random()*h,w,1+Math.random()*3)}}
+function noiseRun(ms,amp){var n=++tRun,t0=performance.now();(function f(now){if(n!==tRun)return;var p=(now-t0)/ms;if(p<1){noiseFrame(amp*(1-p));requestAnimationFrame(f)}else{tx.clearRect(0,0,tn.width,tn.height)}})(t0)}
+function titleFx(){tt.classList.remove("fl");void tt.offsetWidth;tt.classList.add("fl");noiseRun(1500,1)}
+setInterval(function(){if(hero.offsetParent)noiseRun(260,.5)},4500);
+</script>
+</body>
+</html>
