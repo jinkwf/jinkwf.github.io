@@ -132,7 +132,13 @@ footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{displa
 .modal-box label{display:block;margin:10px 0 4px;font-size:13px;color:var(--mut)}
 .modal-box input,.modal-box select,.modal-box textarea{width:100%;padding:8px;background:#0b1626;border:1px solid var(--line);color:var(--tx);font:inherit}
 .modal-box .guide{font-size:12px;color:var(--mut);border:1px dashed var(--line);padding:8px;margin:12px 0}
-.card-preview{border:1px solid var(--c);padding:16px;margin:16px 0;background:rgba(11,28,48,.6);text-align:left}
+.card-preview{display:none;border:1px solid var(--c);padding:14px;margin:16px 0;background:linear-gradient(135deg,rgba(11,28,48,.9),rgba(15,40,70,.7));box-shadow:0 0 20px rgba(79,216,255,.25);border-radius:6px}
+.hunter-card{display:flex;gap:14px;align-items:flex-start}
+.card-photo{width:90px;height:110px;border:1px dashed var(--c);background:repeating-linear-gradient(45deg,rgba(79,216,255,.05) 0 6px,transparent 6px 12px);display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:11px;letter-spacing:.1em;flex-shrink:0}
+.card-info{flex:1;font-size:13px;line-height:1.8}
+.card-info div{display:flex;border-bottom:1px solid rgba(31,74,110,.4);padding:2px 0}
+.card-info b{width:48px;color:var(--c);flex-shrink:0}
+.card-info span{color:var(--tx)}
 .card-preview .grade{color:var(--warn);font-weight:700}
 .roulette-wrap{text-align:center;margin:16px 0}
 .roulette{display:inline-block;width:200px;height:200px;border:4px solid var(--c);border-radius:50%;position:relative;background:conic-gradient(#4fd8ff 0 45deg,#7aa7ff 45deg 90deg,#ff5d73 90deg 135deg,#6df0c2 135deg 180deg,#b58aff 180deg 225deg,#ffc857 225deg 270deg,#4fd8ff 270deg 315deg,#7aa7ff 315deg 360deg);transition:transform 3s cubic-bezier(.2,.8,.3,1);box-shadow:0 0 20px rgba(79,216,255,.4)}
@@ -334,27 +340,13 @@ footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{displa
     <button class="close-modal" id="close-card">×</button>
     <h3>헌터카드 발급</h3>
     <div class="guide">헌터 카드 발급 안내서<br>레벨 / 행동 / 성격에 따라 부여 및 성장하실 수 있습니다.<br>등급과 능력은 현재 공란이며, 탑 공략과 실적에 따라 추후 결정됩니다.</div>
-    <label>헌터명</label>
-    <input type="text" id="card-name" placeholder="헌터 이름 입력">
-    <label>직업 계열 (선택)</label>
-    <select id="card-class">
-      <option value="">미정</option>
-      <option>전투계</option>
-      <option>마법계</option>
-      <option>지원계</option>
-      <option>생산계</option>
-      <option>특수계</option>
-    </select>
-    <label>간단 소개 / 성격</label>
-    <textarea id="card-desc" rows="3" placeholder="성격이나 배경 간단히"></textarea>
-    <button id="issue-card" style="margin-top:12px;width:100%">카드 발급</button>
-    <div id="card-result" class="card-preview" style="display:none"></div>
-    <div class="roulette-wrap">
-      <h3 style="font-size:15px;margin:8px 0">페르소나 추천 룰렛</h3>
-      <div class="roulette" id="roulette"></div>
-      <button id="spin-roulette" style="margin-top:12px">룰렛 돌리기</button>
-      <div id="persona-result" class="persona-result">룰렛을 돌려 세계관에 맞는 페르소나를 추천받으세요.</div>
+    <div style="display:flex;gap:8px;margin:16px 0">
+      <button id="spin-roulette" style="flex:1">룰렛 돌리기</button>
+      <button id="issue-card" style="flex:1">복사하기</button>
     </div>
+    <div id="dice-area" style="text-align:center;min-height:80px;margin:12px 0;font-size:48px;letter-spacing:4px;color:var(--c)">🎲</div>
+    <div id="card-result" class="card-preview" style="display:none"></div>
+    <div id="persona-result" class="persona-result">룰렛을 돌려 페르소나를 추천받으세요.</div>
   </div>
 </div>
 
@@ -463,16 +455,7 @@ document.addEventListener("click", function(e){
   }
 });
 
-document.getElementById("issue-card").addEventListener("click", function(){
-  var name = document.getElementById("card-name").value || "미등록 헌터";
-  var cls = document.getElementById("card-class").value || "미정";
-  var desc = document.getElementById("card-desc").value || "기록 없음";
-  var result = document.getElementById("card-result");
-  result.style.display = "block";
-  result.innerHTML = '<b>' + name + '</b><br>직업 계열: ' + cls + '<br>등급: <span class="grade">공란</span><br>능력: <span class="grade">공란</span><br>소개: ' + desc + '<br><small style="color:var(--mut)">레벨 / 행동 / 성격에 따라 부여 및 성장하실 수 있습니다.</small>';
-});
-
-// Persona Roulette
+// Persona list
 var personas = [
   {name:"냉철한 검사", desc:"전투계 · 과묵하고 정확한 칼날. 보스 패턴을 철저히 분석한다.", guild:"ZERO"},
   {name:"온화한 치유사", desc:"지원계 · 생존을 최우선으로 하는 구조 전문가. 희생을 거부한다.", guild:"SERAPH"},
@@ -483,19 +466,59 @@ var personas = [
   {name:"능글맞은 협상가", desc:"특수계 · 정보와 계약을 오가는 암시장 통로.", guild:"NYXUS"},
   {name:"장인 대장장이", desc:"생산계 · 무뚝뚝하지만 최고의 장비를 만드는 제작자.", guild:"HEILOCK"}
 ];
-var roulette = document.getElementById("roulette");
-var spinning = false;
+var currentPersona = null;
+var rolling = false;
+
 document.getElementById("spin-roulette").addEventListener("click", function(){
-  if(spinning) return;
-  spinning = true;
-  var deg = 1800 + Math.random() * 360;
-  roulette.style.transform = "rotate(" + deg + "deg)";
-  setTimeout(function(){
-    var idx = Math.floor(Math.random() * personas.length);
-    var p = personas[idx];
-    document.getElementById("persona-result").innerHTML = "<b>" + p.name + "</b><br>" + p.desc + "<br><small>추천 소속: " + p.guild + "</small>";
-    spinning = false;
-  }, 3000);
+  if(rolling) return;
+  rolling = true;
+  var diceArea = document.getElementById("dice-area");
+  var resultBox = document.getElementById("persona-result");
+  resultBox.innerHTML = "주사위를 굴리는 중...";
+  var frames = ["⚀","⚁","⚂","⚃","⚄","⚅"];
+  var count = 0;
+  var iv = setInterval(function(){
+    diceArea.textContent = frames[count % 6] + " " + frames[(count+2)%6];
+    count++;
+    if(count > 18){
+      clearInterval(iv);
+      var idx = Math.floor(Math.random() * personas.length);
+      currentPersona = personas[idx];
+      diceArea.textContent = "🎲";
+      resultBox.innerHTML = "<b>" + currentPersona.name + "</b><br>" + currentPersona.desc + "<br><small>추천 소속: " + currentPersona.guild + "</small>";
+      rolling = false;
+    }
+  }, 80);
+});
+
+document.getElementById("issue-card").addEventListener("click", function(){
+  var result = document.getElementById("card-result");
+  var name = currentPersona ? currentPersona.name : "미정";
+  var series = currentPersona ? (currentPersona.desc.split(" · ")[0] || "미정") : "미정";
+  var age = Math.floor(Math.random()*12)+20; // 20~31 random for flavor
+  var htmlCard = '<div class="hunter-card">'
+    + '<div class="card-photo">PHOTO</div>'
+    + '<div class="card-info">'
+    + '<div><b>이름</b><span>' + name + '</span></div>'
+    + '<div><b>나이</b><span>' + age + '</span></div>'
+    + '<div><b>계열</b><span>' + series + '</span></div>'
+    + '<div><b>등급</b><span class="grade">공란</span></div>'
+    + '<div><b>능력</b><span class="grade">공란</span></div>'
+    + '</div></div>'
+    + '<div style="margin-top:8px;font-size:11px;color:var(--mut);text-align:center">레벨 / 행동 / 성격에 따라 부여 및 성장하실 수 있습니다.</div>';
+  result.innerHTML = htmlCard;
+  result.style.display = "block";
+
+  // Copy text version to clipboard
+  var text = "[헌터카드]\n이름: " + name + "\n나이: " + age + "\n계열: " + series + "\n등급: 공란\n능력: 공란\n\n레벨 / 행동 / 성격에 따라 부여 및 성장하실 수 있습니다.";
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){
+      var btn = document.getElementById("issue-card");
+      var orig = btn.textContent;
+      btn.textContent = "복사됨!";
+      setTimeout(function(){ btn.textContent = orig; }, 1200);
+    }).catch(function(){});
+  }
 });
 </script>
 </body>
