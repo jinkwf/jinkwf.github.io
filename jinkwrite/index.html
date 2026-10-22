@@ -264,8 +264,8 @@ const CATS=[
  ]},
  {tag:"오메가버스",name:"NSI",color:"#FF6FA3",rows:[{items:[
    C("강도훈",J("%EA%B0%95%EB%8F%84%ED%9B%88.png")),
-   C("강아지",J("%EA%B0%95%EC%95%84%EC%A7%80.png")),C("NSI 제 7과",J("%EC%A0%9C7%EA%B3%BC.png")),
-   C("하연수",J("%ED%95%98%EC%97%B0%EC%88%98.png")),
+   C("강아지",J("%EC%9C%A0%EC%A0%80%EC%9D%91%EC%8B%9C,%EC%A7%88%ED%88%AC.png")),C("NSI 제 7과",J("%EC%A0%9C7%EA%B3%BC.png")),
+   C("하연수",J("%EC%9E%A5%EB%82%9C%EC%B9%98%EB%8A%94%20%EC%97%B0%EC%98%A4,%EC%86%8C%ED%8C%8C%EC%97%90%EB%88%84%EC%9B%8C%EC%9E%88%EB%8A%94%20%EC%97%B0%EC%88%98.png")),
    C("연우주",J("%EC%97%B0%EC%9A%B0%EC%A3%BC_%EC%9D%BC%EC%83%81%20(35).png")),
    C("백현조","",{pf:[WH]})
  ]}]},
@@ -543,20 +543,24 @@ function openPop(i){
     if(imgEl){
       imgEl.style.cursor="pointer";
       imgEl.title="클릭하면 변화가 일어나요";
-      let spun=false;
+      const imgA = img; // original
+      const imgB = "https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/Untitled%20-%20October%2022,%202026%20at%2004.43.03.png";
+      let isB = false;
+      let spinning = false;
       imgEl.addEventListener("click", ()=>{
-        if(spun) return;
-        spun=true;
+        if(spinning) return;
+        spinning = true;
         imgEl.style.transition="none";
         imgEl.style.transform="rotate(0deg)";
-        // force reflow
         void imgEl.offsetWidth;
         imgEl.style.transition="transform 1.2s ease-in-out";
         imgEl.style.transform="rotate(360deg)";
         setTimeout(()=>{
-          imgEl.src="https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/Untitled%20-%20October%2022,%202026%20at%2004.43.03.png";
+          isB = !isB;
+          imgEl.src = isB ? imgB : imgA;
           imgEl.style.transition="";
           imgEl.style.transform="";
+          spinning = false;
         }, 1200);
       });
     }
@@ -892,5 +896,3 @@ let dustUp=()=>{};
 </script>
 </body>
 </html>
-```
-```
