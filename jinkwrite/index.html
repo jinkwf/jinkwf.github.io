@@ -538,6 +538,29 @@ function openPop(i){
   const fr=$("div","frame"+(img?"":" empty"));
   const im=imgBox(name,img);
   fr.append(im);
+  if(name==="11.11" && img){
+    const imgEl = im.querySelector("img");
+    if(imgEl){
+      imgEl.style.cursor="pointer";
+      imgEl.title="클릭하면 변화가 일어나요";
+      let spun=false;
+      imgEl.addEventListener("click", ()=>{
+        if(spun) return;
+        spun=true;
+        imgEl.style.transition="none";
+        imgEl.style.transform="rotate(0deg)";
+        // force reflow
+        void imgEl.offsetWidth;
+        imgEl.style.transition="transform 1.2s ease-in-out";
+        imgEl.style.transform="rotate(360deg)";
+        setTimeout(()=>{
+          imgEl.src="https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/Untitled%20-%20October%2022,%202026%20at%2004.43.03.png";
+          imgEl.style.transition="";
+          imgEl.style.transform="";
+        }, 1200);
+      });
+    }
+  }
   if(img){
     const fb=$("button","fit-btn","원본 비율");fb.type="button";fb.setAttribute("aria-pressed","false");
     fb.onclick=()=>{const on=im.classList.toggle("contain");fb.textContent=on?"꽉 채우기":"원본 비율";fb.setAttribute("aria-pressed",String(on))};
