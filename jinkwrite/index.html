@@ -328,7 +328,7 @@ const CATS=[
    C("LIMITLESS","","","곧 공개")
  ]}]},
  {tag:"",name:"11:11 factory",color:"#FF6B6B",rows:[{items:[
-   C("11.11",J("1111.png"),{added:"2026-10-22"})
+   C("11.11","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/Untitled%20-%20October%2022,%202026%20at%2004.43.03.png",{added:"2026-10-22"})
  ]}]},
  {tag:"SOON",name:"곧 공개됩니다",color:"#9A94BC",soon:true,rows:[{items:[
    C("마마보이","","","나의 X"),
@@ -538,17 +538,24 @@ function openPop(i){
   const fr=$("div","frame"+(img?"":" empty"));
   const im=imgBox(name,img);
   fr.append(im);
-  if(name==="11.11" && img){
+  if((name==="11.11" || name==="하연수" || name==="강아지") && img){
     const imgEl = im.querySelector("img");
     if(imgEl){
       imgEl.style.cursor="pointer";
       imgEl.title="클릭하면 변화가 일어나요";
-      const imgA = img; // original
-      const imgB = "https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/Untitled%20-%20October%2022,%202026%20at%2004.43.03.png";
+      let imgA = img;
+      let imgB = "";
+      if(name==="11.11"){
+        imgB = "https://jinkwf.github.io/jinkwrite/1111.png";
+      }else if(name==="하연수"){
+        imgB = "https://jinkwf.github.io/jinkwrite/%ED%95%98%EC%97%B0%EC%88%98.png";
+      }else if(name==="강아지"){
+        imgB = "https://jinkwf.github.io/jinkwrite/%EA%B0%95%EC%95%84%EC%A7%80.png";
+      }
       let isB = false;
       let spinning = false;
       imgEl.addEventListener("click", ()=>{
-        if(spinning) return;
+        if(spinning || !imgB) return;
         spinning = true;
         imgEl.style.transition="none";
         imgEl.style.transform="rotate(0deg)";
