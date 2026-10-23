@@ -93,6 +93,13 @@ nav#bar{align-items:center}
 .gm .mc em{display:block;font-style:normal;color:var(--c2);font-size:12px;margin-bottom:4px}
 .ph{aspect-ratio:1/1;overflow:hidden;border:1px dashed var(--g);display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:11px;letter-spacing:.25em;margin-bottom:8px;background:repeating-linear-gradient(45deg,rgba(255,255,255,.03) 0 6px,transparent 6px 12px)}
 .ph img{width:100%;height:100%;object-fit:cover}
+/* Flip card for childhood images */
+.flip-card{width:100%;height:100%;perspective:1000px;cursor:pointer}
+.flip-inner{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d}
+.flip-card.flipped .flip-inner{transform:rotateY(180deg)}
+.flip-front,.flip-back{position:absolute;width:100%;height:100%;-webkit-backface-visibility:hidden;backface-visibility:hidden}
+.flip-back{transform:rotateY(180deg)}
+.flip-front img,.flip-back img{width:100%;height:100%;object-fit:cover}
 nav#bar{flex-wrap:wrap;gap:6px;padding-right:16px}
 #pg{display:flex;gap:3px;margin-left:auto}
 #pg button{width:24px;padding:4px 0;letter-spacing:0;font-size:12px;text-align:center}
@@ -189,6 +196,22 @@ footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{displa
 .persona-result{margin-top:16px;padding:12px;border:1px solid var(--c2);background:rgba(122,167,255,.1);min-height:60px}
 .close-modal{position:absolute;top:10px;right:12px;background:none;border:none;color:var(--mut);font-size:20px;padding:0;letter-spacing:0}
 .issue-btn{margin:12px 0;letter-spacing:.2em}
+/* Event modal specific */
+.event-input{caret-color:var(--c);font-size:18px;letter-spacing:.1em;text-align:center}
+@keyframes blink{50%{opacity:0}}
+.blink-cursor{display:inline-block;width:2px;height:1.2em;background:var(--c);margin-left:4px;animation:blink 1s step-end infinite;vertical-align:middle}
+.place-img{width:100%;aspect-ratio:16/9;object-fit:cover;border:1px solid var(--line);border-radius:6px;margin-top:6px}
+.mem .ph{aspect-ratio:1/1;margin-bottom:8px;border-color:var(--c)}
+/* Ranking animation */
+.rank-item{display:flex;align-items:center;gap:12px;margin:8px 0;padding:8px 12px;background:rgba(11,28,48,.6);border:1px solid var(--line);border-radius:6px;transition:all .6s cubic-bezier(.2,.8,.3,1)}
+.rank-item .rank-num{width:32px;font-weight:700;color:var(--c);text-align:center;font-size:18px}
+.rank-item .rank-name{flex:1;font-weight:600}
+.rank-bar-wrap{width:180px;height:10px;background:#0a1a2e;border-radius:5px;overflow:hidden;border:1px solid var(--line)}
+.rank-bar{height:100%;background:linear-gradient(90deg,var(--c),var(--c2));width:0;transition:width 1.2s cubic-bezier(.2,.8,.3,1);border-radius:5px}
+.rank-item.up{border-color:var(--c);box-shadow:0 0 12px rgba(79,216,255,.3)}
+.rank-item.down{opacity:.7}
+.rank-tab{padding:6px 14px;letter-spacing:.05em;font-size:13px}
+.rank-tab.on{background:var(--c);color:#04121c;box-shadow:0 0 10px var(--c)}
 </style>
 </head>
 <body>
@@ -315,16 +338,33 @@ footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{displa
                     └────┬────┘
                          │
 [서부 행정 구역] ── [중앙 탑 광장] ── [동부 길드 구역]
- 헌터협회 본부            │            ZERO · SERAPH
- 등록·심사·재난 대응   [탑 입구]         NYXUS · HEILOCK
-                         │
+  ┌────────────┐            │            ┌────────────┐
+  │ 헌터협회 본부 │         [탑 입구]        │ ZERO 본부 │
+  │ 등록·등급 심사│            │            │ 레이드 훈련장│
+  │ 의뢰·재난 대응│            │            ├────────────┤
+  └────────────┘            │            │ SERAPH 본부 │
+                             │            │ 치유·구조 시설│
+                             │            ├────────────┤
+                             │            │ NYXUS 본부 │
+                             │            │ 정보·정찰 시설│
+                             │            ├────────────┤
+                             │            │ HEILOCK 본부│
+                             │            │ 제작·감정 시설│
+                             │            └────────────┘
+                             │
                   [남부 상업·생활 구역]
-         경매장·상가·병원·숙소·교통·비공식 거래 구역</pre>
-<p style="font-size:13px;color:var(--mut)">기능별 구역 배치를 나타낸 개념도이며 실제 거리·규모·출입 경로는 별도 설정에 따라 확정된다.</p>
+         ┌──────────┴──────────┐
+         │ 경매장·헌터 상가·병원 │
+         │ 숙소·식당·교통·구조센터│
+         │ 비공식 거래 구역 │
+         └─────────────────────┘</pre>
+<p style="font-size:13px;color:var(--mut)">기능별 구역 배치를 나타낸 개념도.</p>
+<h3>주요 시설 이미지</h3>
+<div class="grid" id="place-imgs"></div>
 </section>
 <section id="tower">
 <h2>06 TOWER<span>무한탑 내부 구조</span></h2>
-<p>탑은 층마다 환경·규칙·위협이 달라지는 독립적인 공략 공간이다. 강한 몬스터를 쓰러뜨리는 것만으로는 모든 층을 돌파할 수 없다.</p>
+<p>탑은 층마다 환경·규칙·위협이 달라지는 독립적인 공략 공간이다.<br>강한 몬스터를 쓰러뜨리는 것만으로는 모든 층을 돌파할 수 없다.</p>
 <ul>
 <li><b>전투형</b> 몬스터 처치, 보스 격파</li>
 <li><b>탐험형</b> 지역 조사, 지도 작성, 숨겨진 통로 발견</li>
@@ -334,8 +374,8 @@ footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{displa
 <li><b>수집형</b> 재료·유물·기록물 수집 및 전달</li>
 <li><b>복합형</b> 전투·퍼즐·생존·호위가 동시에 적용</li>
 </ul>
-<p>층별 정보는 불완전하거나 오래되었을 수 있다. 이전 공략이 성공했다고 같은 전략이 통한다는 보장은 없다.</p>
-<div class="box warn"><b>보스 처치 ≠ 층 클리어.</b> 시스템이 요구하는 추가 조건과 결과 확인까지 완료해야 공략이 인정된다.</div>
+<p>층별 정보는 불완전하거나 오래되었을 수 있다.<br> 이전 공략이 성공했다고 같은 전략이 통한다는 보장은 없다.</p>
+<div class="box warn"><b>보스 처치 ≠ 층 클리어.</b><br> 시스템이 요구하는 추가 조건과 결과 확인까지 완료해야 공략이 인정된다.</div>
 </section>
 <section id="economy">
 <h2>07 ECONOMY<span>화폐·아이템·거래</span></h2>
@@ -346,32 +386,25 @@ footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{displa
 <li>제작·강화: 재료와 숙련도, 제작 조건에 따라 결과가 달라진다.</li>
 <li>거래 기록: 아이템·수량·가격·수수료·거래 전후 잔액을 일치시킨다.</li>
 </ul>
-<p>거래 명령을 입력했다고 즉시 거래가 완료되는 것은 아니다. 가격·재고·조건을 확인하고 실제로 성립한 경우에만 아이템과 잔액이 변경된다. 희귀 아이템의 가치도 수요·성능·출처·감정 결과·시장 상황에 따라 변동한다.</p>
+<p>거래 명령을 입력했다고 즉시 거래가 완료되는 것이 아니라 가격·재고·조건을 확인하고 실제로 성립한 경우에만 아이템과 잔액이 변경된다. 희귀 아이템의 가치도 수요·성능·출처·감정 결과·시장 상황에 따라 변동한다.</p>
 </section>
 <section id="ranking">
 <h2>08 RANKING<span>랭킹과 명성</span></h2>
-<div class="grid">
-<div class="box"><b>개인 헌터 랭킹</b><br>전투력·공략 실적·검증된 기여도</div>
-<div class="box"><b>탑 공략 랭킹</b><br>층별 클리어·최초 공략·공략 기여</div>
-<div class="box"><b>길드 랭킹</b><br>공략 성과·인력·운영 실적</div>
-<div class="box"><b>경제 랭킹</b><br>자산·거래·제작·시장 영향력</div>
+<p>실시간으로 변동하는 주요 랭킹입니다.</p>
+<div class="rank-tabs" style="display:flex;gap:8px;margin:16px 0;flex-wrap:wrap">
+  <button class="rank-tab on" data-type="hunter">개인 헌터</button>
+  <button class="rank-tab" data-type="tower">탑 공략</button>
+  <button class="rank-tab" data-type="guild">길드</button>
+  <button class="rank-tab" data-type="economy">경제</button>
 </div>
-<p style="margin-top:12px">협회·길드·대중·암시장은 서로 다른 기준으로 헌터를 평가한다. <br>공식 기록에 없는 성과는 검증되기 전까지 확정된 실적으로 취급하지 않는다.<br> 강력한 헌터는 존경받는 동시에 경계의 대상이 될 수 있다.</p>
+<div id="rank-list" style="max-width:640px;margin:0 auto"></div>
+<p style="margin-top:16px;font-size:13px;color:var(--mut)">협회·길드·대중·암시장은 서로 다른 기준으로 헌터를 평가한다.<br>공식 기록에 없는 성과는 검증되기 전까지 확정된 실적으로 취급하지 않는다.</p>
 </section>
-<section id="rp">
-<h2>09 ROLEPLAY<span>진행 원칙</span></h2>
-<ul>
-<li>모든 인물은 고유한 성격·전문성·한계·이해관계를 유지한다.</li>
-<li>NPC는 직접 관찰하거나 전달받은 정보만 알 수 있다.</li>
-<li>사용자 캐릭터의 대사·행동·감정·의도·선택을 대신 작성하지 않는다.</li>
-<li>사용자의 행동이 발생하기 전에 성공·실패·피해·보상을 확정하지 않는다.</li>
-<li>전투와 탐험은 위험·자원·스킬 조건·적의 행동에 따라 결과가 달라진다.</li>
-<li>NPC의 호감·신뢰·적대·협력은 실제 대화와 사건에 따라 변한다.</li>
-<li>길드 간 경쟁은 정보전·공략권·보상·인재 영입·계약 분쟁 등의 사건으로 드러난다.</li>
-<li>모든 사건은 기존 기록과 인과관계를 유지하며, 확인되지 않은 정보를 사실로 확정하지 않는다.</li>
-<li>레벨·장비·스킬·화폐·퀘스트·공략 기록은 실제 변화가 발생했을 때만 갱신한다.</li>
-<li>사망이 확정되면 영구 게임 오버이며 부활·시간 역행·기록 복구는 불가능하다.</li>
-</ul>
+<section id="event">
+<h2>09 EVENT<span>이벤트 응모</span></h2>
+<p style="text-align:center;color:var(--mut)">999층 공략을 완료한 헌터를 위한 특별 이벤트입니다.</p>
+<div class="box" style="width:220px;height:220px;margin:40px auto;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid var(--c);box-shadow:0 0 20px rgba(79,216,255,.3);text-align:center;font-size:18px;letter-spacing:.15em;color:var(--c)" onclick="openEvent()">이벤트<br>응모</div>
+<p style="text-align:center;font-size:13px;color:var(--mut)">네모창을 클릭하세요.</p>
 </section>
 <footer><b>LIMITLESS — 끝없는 탑, 유한한 시간.</b>
 최강이 되는 것만으로는 부족하다.<Br> 정보를 확보하고, 자원을 관리하고, 때로는 적과 손을 잡아야 한다.<br>누구와 협력할지, 무엇을 희생할지, 어떤 길드의 편에 설지는 스스로 결정해야한다.<br><br>999층의 문이 닫히기 전에, 당신은 어디까지 올라갈 수 있을까?</footer>
@@ -408,23 +441,178 @@ footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{displa
     
   </div>
 </div>
+<!-- Event Modal -->
+<div id="event-modal" class="modal">
+  <div class="modal-box" style="max-width:480px;text-align:center">
+    <button class="close-modal" onclick="document.getElementById('event-modal').classList.remove('show')">×</button>
+    <h3>999층 공략을 축하드립니다.</h3>
+    <p>시스템의 이름을 적어주세요</p>
+    <input type="text" id="event-name" class="event-input" placeholder="이름 입력" oninput="checkEventName(this.value)" autocomplete="off" style="margin:12px 0">
+    <div id="event-result" style="min-height:80px;margin-top:16px;font-size:14px;line-height:1.6"></div>
+  </div>
+</div>
+<!-- Character Detail Modal -->
+<div id="char-modal" class="modal">
+  <div class="modal-box" style="max-width:420px;text-align:center">
+    <button class="close-modal" onclick="document.getElementById('char-modal').classList.remove('show')">×</button>
+    <div id="char-photo" style="width:180px;height:220px;margin:0 auto 16px;border:1px solid var(--c);overflow:hidden;border-radius:6px;background:#081422"></div>
+    <h3 id="char-name" style="margin:8px 0;color:var(--c)"></h3>
+    <div id="char-pos" style="font-size:13px;color:var(--c2);margin-bottom:8px"></div>
+    <div id="char-desc" style="font-size:14px;color:var(--tx);margin:8px 0;line-height:1.6"></div>
+    <div id="char-personality" style="font-size:13px;color:var(--mut);margin:6px 0"></div>
+    <div id="char-dialogue" style="margin-top:12px;padding:10px;border:1px dashed var(--c);background:rgba(79,216,255,.08);font-style:italic;color:var(--c)"></div>
+    <button id="toggle-young" style="margin-top:12px;display:none;padding:6px 16px;letter-spacing:.1em" onclick="toggleYoung()">어린 시절 보기</button>
+  </div>
+</div>
 <script>
 var G=[
-{n:"ZERO",k:"제로",t:"정예 전투 · 보스 레이드 · 최상위 공략",c:"#ff5d73",d:"길드장 권태혁이 이끄는 최상위 전투 중심 길드. <Br>전투력과 실적을 중시하며 보스 최초 격파와 고난도 층 공략의 주도권을 노린다. 준비되지 않은 레이드에는 가차 없이 반대한다.",s:"강력한 전투 인력, 보스 패턴 분석, 신속한 공략 지휘",w:"전투 성과 우선 경향으로 생존 원칙·정보 독점 전략과 충돌하기 쉽다",m:[["권태혁","32·남｜길드장","DEATH","과묵하고 냉철한 최상위 전투 헌터"],["서이준","29·남｜부길드장","반박시니말이틀림","합리적·직설적인 실질적 작전 조율자"],["강무혁","35·남｜레이드 총괄","아빠","엄격하고 책임감이 강한 편성 관리자"],["백시온","27·남｜전투 분석관","오차범위내","예민한 완벽주의자, 전투 로그 분석"],["차도윤","30·남｜인사·훈련 담당","인재예약","능글맞은 평가자, 집요한 영입"]]},
-{n:"SERAPH",k:"세라프",t:"치유 · 방어 · 구조 · 생존",c:"#6df0c2",d:"윤서하가 이끄는 치유·방어 특화 길드. <Br>생존자 회수와 피해 최소화를 중요한 성과로 평가하며, 희생을 감수하는 작전에는 정면으로 반대한다.",s:"치유와 방어, 장기 생존, 구조 작전, 파티 유지력",w:"생존 원칙 고수로 공략 속도가 늦어지거나 자원 소모가 커질 수 있다",m:[["윤서하","31·여｜길드장","솜사탕","온화하지만 단호한 고등급 치유 능력자"],["한도겸","34·남｜부길드장","LAST WALL","신중하고 현실적인 방어·후퇴 지휘"],["임채린","29·여｜의료·치유 총괄","복약하세요","냉철하고 꼼꼼한 마력 손상 진단"],["오진욱","32·남｜방어 전술 담당","철벽남","과묵·보수적, 탱커 육성과 진형 설계"],["최나경","27·여｜구조·생존 담당","삐약이","활발하고 대담한 수색·회수 전문"]]},
-{n:"NYXUS",k:"나이커스",t:"정찰 · 잠입 · 정보전 · 특수 임무",c:"#b58aff",d:"차시혁이 이끄는 정보전 중심 길드. <Br>미탐사 구역과 보스의 약점, 숨겨진 통로를 먼저 확보한다. 정보는 거래·교환·독점 계약을 통해 이익으로 바꾼다.",s:"정찰, 함정 탐지, 정보 수집, 잠입과 특수 임무",w:"정보의 진위에 따라 성과가 크게 달라지며, 은폐가 불신을 키울 수 있다",m:[["차시혁","33·남｜길드장","NULL","신중하고 계산적, 정보의 출처를 중시"],["문재하","30·남｜부길드장","사기아님","사교적·능글맞은 협상과 잠입 총괄"],["유건우","28·남｜정찰 총괄","길찾는중","침착하고 관찰력이 뛰어난 탐사자"],["백유진","29·여｜정보 분석관","팩트체크","논리적·집요한 공략 기록 검증"],["이태오","26·남｜특수 임무 담당","몰래왔태오","능청스럽고 대담한 비공개 의뢰 수행"]]},
-{n:"HEILOCK",k:"헤일록",t:"경제 · 제작 · 경매 · 자원 확보 · 종합 공략",c:"#ffc857",d:"강도현이 이끄는 경제·자원 중심 길드. <Br>희귀 재료와 장비, 제작 기술, 자금과 거래망을 확보해 주도권을 노린다. 손해를 감수하며 충성하지 않는다.",s:"자금 조달, 장비 제작, 유물 감정, 경매와 자원 관리",w:"경제력이 전투력을 대체할 수 없고, 타 길드가 독자 거래망을 확보하면 영향력이 약해진다",m:[["강도현","34·남｜길드장","Midas","여유롭고 계산적, 고급 정장의 협상가"],["정하린","30·여｜부길드장","정산완료","냉정하고 효율적인 계약·재정 총괄"],["남기석","38·남｜제작 총괄","망치든곰","무뚝뚝한 장인, 장비 제작·강화·수리"],["송아린","28·여｜감정·경매 담당","얼마까지알아보고오셨어요","사교적·실리적인 시세 분석가"],["배현수","32·남｜경제·협상 담당","약관제일조","침착하고 설득력 있는 거래 담당"]]}];
-var A=[["장명환","52·남｜본부장","신중하고 정치적, 정부 협의 총괄"],["고세진","46·여｜운영 부본부장","원칙주의자, 인사·예산·감사"],["박정우","41·남｜등록·등급 심사실장","공정하고 엄격한 등급 심사"],["신유라","37·여｜탑 출입·기록 관리실장","출입 승인, 파티 등록, 공략 기록"],["남태건","43·남｜재난 대응실장","직설적·결단력, 대피·구조 지휘"],["이수민","36·여｜의뢰·보상 심사실장","꼼꼼하고 합리적인 분쟁 심사"],["조현석","45·남｜불법 거래 감찰실장","집요하고 증거 중심, 암시장 조사"],["오민서","39·여｜마력·탑 연구실장","분석적, 마정석과 탑의 이상 현상 연구"]];
-var h="";
-G.forEach(function(g,i){h+='<details class="gcard" style="--g:'+g.c+'"'+(i==0?' open':'')+'><summary><span class="n">'+g.n+'</span><span>'+g.k+'</span><span class="t">'+g.t+'</span></summary><div class="gbody"><p>'+g.d+'</p><p><b style="color:var(--g)">강점</b> '+g.s+'<br><b style="color:var(--warn)">약점</b> '+g.w+'</p><div class="mem">';
-g.m.forEach(function(m){h+='<div><b>'+m[0]+'</b> <span style="color:var(--mut);font-size:12px">'+m[1]+'</span><em>'+m[2]+'</em>'+m[3]+'</div>'});
-h+='</div></div></details>'});
-var IMG={};
-function gPanel(i){var g=G[i];return '<div class="gh"><span class="n">'+g.n+'</span> <b>'+g.k+'</b><span class="t">'+g.t+'</span></div><p>'+g.d+'</p><p><b style="color:var(--g)">강점</b> '+g.s+'<br><b style="color:var(--warn)">약점</b> '+g.w+'</p><div class="gm">'+g.m.map(function(m){return '<div class="mc"><div class="ph">'+(IMG[m[0]]?'<img src="'+IMG[m[0]]+'" alt="'+m[0]+'">':'IMAGE')+'</div><b>'+m[0]+'</b><span>'+m[1]+'</span><em>'+m[2]+'</em>'+m[3]+'</div>'}).join('')+'</div>'}
+{n:"ZERO",k:"제로",t:"정예 전투 · 보스 레이드 · 최상위 공략",c:"#ff5d73",d:"길드장 권태혁이 이끄는 최상위 전투 중심 길드. <Br>전투력과 실적을 중시하며 보스 최초 격파와 고난도 층 공략의 주도권을 노린다. 준비되지 않은 레이드에는 가차 없이 반대한다.",s:"강력한 전투 인력, 보스 패턴 분석, 신속한 공략 지휘",w:"전투 성과 우선 경향으로 생존 원칙·정보 독점 전략과 충돌하기 쉽다",m:[
+{name:"권태혁",age:"32·남",height:"188cm",code:"DEATH",grade:"S",job:"검사",pos:"길드장",app:"흑발·회색눈·큰 체격·검은 전투복",pers:"과묵·냉철·승리지향",ability:"보스 패턴 분석 특화, 최상위 근접 전투",skills:["패턴파괴","처형","절대회피"]},
+{name:"서이준",age:"29·남",height:"193cm",code:"반박시니말이틀림",grade:"A",job:"검사",pos:"부 길드장",app:"짙은 갈색머리·금안·단정한 인상",pers:"합리적·직설적·경쟁적",ability:"근접 전투 + 실시간 파티 지휘",skills:["전선재편","반격","지휘"]},
+{name:"강무혁",age:"35·남",height:"188cm",code:"아빠",grade:"A",job:"수호자",pos:"레이드 총괄",app:"짧은 흑발·흉터·다부진 체격",pers:"엄격·현실적·책임감 강함",ability:"레이드 편성 · 전장 통제 · 강제 후퇴",skills:["강제후퇴","전선고정","레이드지휘"],note:"두딸(1세,4세)의아빠. 세라프길드의임채린과부부. 팔불출이라서코드명아빠로지음"},
+{name:"백시온",age:"27·남",height:"176cm",code:"오차범위내",grade:"A",job:"감정사",pos:"전투 분석관",app:"은회색 머리·안경·마른 체형",pers:"분석적·예민·완벽주의",ability:"몬스터 패턴·전투 로그·약점 분석",skills:["패턴분석","약점도출","전투재구성"]},
+{name:"차도윤",age:"30·남",height:"180cm",code:"인재는세상을구함",grade:"B",job:"수호자",pos:"인사·훈련 담당",app:"밝은 갈색머리·날카로운 눈매",pers:"능글맞음·냉정한 평가자",ability:"신입 발굴·훈련 최적화·인재 선점",skills:["잠재력감지","훈련강화","인재선점"]}
+]},
+{n:"SERAPH",k:"세라프",t:"치유 · 방어 · 구조 · 생존",c:"#6df0c2",d:"윤서하가 이끄는 치유·방어 특화 길드. <Br>생존자 회수와 피해 최소화를 중요한 성과로 평가하며, 희생을 감수하는 작전에는 정면으로 반대한다.",s:"치유와 방어, 장기 생존, 구조 작전, 파티 유지력",w:"생존 원칙 고수로 공략 속도가 늦어지거나 자원 소모가 커질 수 있다",m:[
+{name:"윤서하",age:"31·여",height:"168cm",code:"솜사탕",grade:"S",job:"치유사",pos:"길드장",app:"긴 백금발·청록색 눈·차분한 분위기",pers:"온화·단호·책임감 강함",ability:"고등급 광역치유+생존 지원",skills:["생명연결","대량치유","재생"]},
+{name:"한도겸",age:"34·남",height:"184cm",code:"LASTWALL",grade:"S",job:"수호자",pos:"부길드장",app:"짙은 남색머리·넓은 어깨·부드러운 인상",pers:"신중·인내심 강함·현실적",ability:"방어·보호막·후퇴 작전",skills:["절대방어","보호막","최후의방벽"]},
+{name:"임채린",age:"29·여",height:"160cm",code:"복약하세요",grade:"A",job:"치유사",pos:"의료·치유총괄",app:"검은 단발·얇은 금테 안경",pers:"냉철·꼼꼼",ability:"치유 배분·응급 처치·마력 손상진단",skills:["우선치유","마력진단","응급안정"],note:"강무혁와부부. 두딸(1세,4세)의엄마, 현재육아로현장출전X"},
+{name:"오진욱",age:"32·남",height:"188cm",code:"철벽남",grade:"A",job:"수호자",pos:"방어전술담당",app:"짙은 갈색머리·큰키·단단한 체격",pers:"과묵·보수적·신뢰 중시",ability:"탱커 육성·방어 진형·후퇴 설계",skills:["철벽","강제방어","후퇴유도"]},
+{name:"최나경",age:"27·여",height:"162cm",code:"삐약이",grade:"S",job:"암살자",pos:"구조·생존담당",app:"짧은 흑발·활동적인 인상",pers:"활발·대담·위기대응 빠름",ability:"실종자 수색·생존자 회수·위험구역 돌파",skills:["생존탐지","긴급회수","위험돌파"]}
+]},
+{n:"NYXUS",k:"나이커스",t:"정찰 · 잠입 · 정보전 · 특수 임무",c:"#b58aff",d:"차시혁이 이끄는 정보전 중심 길드. <Br>미탐사 구역과 보스의 약점, 숨겨진 통로를 먼저 확보한다. 정보는 거래·교환·독점 계약을 통해 이익으로 바꾼다.",s:"정찰, 함정 탐지, 정보 수집, 잠입과 특수 임무",w:"정보의 진위에 따라 성과가 크게 달라지며, 은폐가 불신을 키울 수 있다",m:[
+{name:"차시혁",age:"33·남",height:"184cm",code:"NULL",grade:"S",job:"암살자",pos:"길드장",app:"검은머리·옅은 청회색눈·표정 변화 적음",pers:"신중·계산적·속내 숨김",ability:"은신·정찰·정보전 최상위",skills:["완전은신","정보차단","흔적소거"]},
+{name:"문재하",age:"30·남",height:"187cm",code:"사기아님",grade:"S",job:"암살자",pos:"부길드장",app:"회갈색 머리·웃는 눈·단정한 차림",pers:"사교적·능글맞음·기회 주의적",ability:"정보원 관리·협상·잠입 작전",skills:["이중정보","신뢰조작","잠입"]},
+{name:"유건우",age:"28·남",height:"184cm",code:"길찾는중",grade:"A",job:"암살자",pos:"정찰총괄",app:"짧은 흑발·날렵한 체형",pers:"침착·과묵·관찰력 뛰어남",ability:"미탐사 조사·함정 탐지·경로 확보",skills:["함정감지","경로최적화","은밀정찰"]},
+{name:"백유진",age:"29·여",height:"157cm",code:"팩트체크",grade:"A",job:"감정사",pos:"정보분석관",app:"긴 흑발·차가운 인상",pers:"논리적·의심많음·집요함",ability:"헌터 동향·공략 기록·정보 진위 검증",skills:["정보검증","연결추적","진실판별"]},
+{name:"이태오",age:"26·남",height:"188cm",code:"몰래왔태오",grade:"A",job:"암살자",pos:"특수임무담당",app:"밝은 은발·장난스러운 눈매",pers:"능청·대담·독립적",ability:"잠입·회수·비공개 의뢰",skills:["완전잠입","흔적회수","단독임무"]}
+]},
+{n:"HEILOCK",k:"헤일록",t:"경제 · 제작 · 경매 · 자원 확보 · 종합 공략",c:"#ffc857",d:"강도현이 이끄는 경제·자원 중심 길드. <Br>희귀 재료와 장비, 제작 기술, 자금과 거래망을 확보해 주도권을 노린다. 손해를 감수하며 충성하지 않는다.",s:"자금 조달, 장비 제작, 유물 감정, 경매와 자원 관리",w:"경제력이 전투력을 대체할 수 없고, 타 길드가 독자 거래망을 확보하면 영향력이 약해진다",m:[
+{name:"강도현",age:"34·남",height:"187cm",code:"Midas",grade:"S",job:"감정사",pos:"길드장",app:"짙은 갈색 머리·금안·고급 정장",pers:"여유로움·계산적·협상에 능함",ability:"자금·장비·인력 조달+사업 감각",skills:["자원선점","계약체결","자금흐름"]},
+{name:"정하린",age:"30·여",height:"170cm",code:"정산완료",grade:"S",job:"감정사",pos:"부 길드장",app:"긴 흑갈색 머리·날카로운 눈매",pers:"냉정·꼼꼼·효율 중시",ability:"길드운영·계약·재정·자원 배분",skills:["정산","효율배분","계약확인"]},
+{name:"남기석",age:"38·남",height:"192cm",code:"망치든곰",grade:"A",job:"대장장이",pos:"제작총괄",app:"짧은 회색 머리·굵은 손·작업용 앞치마",pers:"무뚝뚝·장인 기질·품질 엄격",ability:"장비 제작·강화·수리·특수재료 활용",skills:["고품질제작","특수강화","재료변환"]},
+{name:"송아린",age:"28·여",height:"157cm",code:"얼마까지알아보고오셨어요",grade:"A",job:"감정사",pos:"감정·경매 담당",app:"붉은 갈색 머리·세련된 인상",pers:"사교적·눈치 빠름·철저한 실리주의",ability:"유물 감정·시세 분석·경매 관리",skills:["진위감정","시세판별","경매유도"]},
+{name:"배현수",age:"32·남",height:"180cm",code:"약관제일조",grade:"A",job:"감정사",pos:"경제·협상담당",app:"검은 머리·얇은 안경·정돈된 차림",pers:"침착·설득력강함·계약 엄격",ability:"길드 간 거래·공략권 협상·자원 조달",skills:["계약강제","협상우위","약관해석"]}
+]}];
+var A=[
+{name:"장명환",age:"52·남",height:"180cm",code:"",grade:"S",job:"수호자",pos:"본부장",app:"희끗한 머리·중후한 인상·정장",pers:"신중·권위적·정치적 감각",ability:"협회 운영·정부 협의·재난 총괄",skills:["공공안전","정부조율","재난지휘"]},
+{name:"고세진",age:"46·여",height:"170cm",code:"",grade:"A",job:"감정사",pos:"운영부본부장",app:"짧은 흑발·단정한 안경",pers:"원칙주의·실무중심",ability:"부서 조정·인사·예산·행정 감사",skills:["규정해석","예외승인","기록우선"]},
+{name:"박정우",age:"41·남",height:"182cm",code:"",grade:"S",job:"감정사",pos:"등록·등급 심사 실장",app:"짙은 갈색 머리·날카로운 눈매",pers:"공정·엄격·편견 경계",ability:"헌터 등록·등급 심사·신원 확인",skills:["능력측정","실적검증","편견배제"]},
+{name:"신유라",age:"37·여",height:"165cm",code:"",grade:"A",job:"감정사",pos:"탑 출입·기록 관리 실장",app:"검은 단발·차분한 인상",pers:"세밀·신중·보안의식 강함",ability:"출입 승인·파티 등록·기록 검증",skills:["기록대조","허위탐지","출입통제"]},
+{name:"남태건",age:"43·남",height:"190cm",code:"",grade:"A",job:"수호자",pos:"재난 대응 실장",app:"짧은 흑발·다부진 체격",pers:"직설적·결단력·현장 우선",ability:"몬스터 유출·탑 이상·대피·구조 배치",skills:["긴급대응","대피지휘","현장우선"]},
+{name:"이수민",age:"36·여",height:"155cm",code:"",grade:"A",job:"감정사",pos:"의뢰·보상 심사 실장",app:"긴 흑발·단정한 정장",pers:"꼼꼼·합리적·규정 충실",ability:"의뢰 발급·기여도 검증·보상 지급",skills:["계약확인","기여도산정","분쟁조정"]},
+{name:"조현석",age:"45·남",height:"188cm",code:"",grade:"A",job:"암살자",pos:"불법 거래 감찰 실장",app:"회색이 섞인머리·무표정",pers:"집요·의심 많음·증거 중심",ability:"암시장·밀수·위조 유물 조사",skills:["증거추적","불법탐지","수사개시"]},
+{name:"오민서",age:"39·여",height:"168cm",code:"",grade:"A",job:"룬술사",pos:"마력·탑연구 실장",app:"밝은 갈색머리·피곤한 눈·연구복",pers:"호기심 강함·분석적",ability:"마력 측정·마정석 분석·탑 이상 연구",skills:["마력분석","이상가설","시료분류"]}
+];
+var IMG={
+"강도현":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EA%B0%95%EB%8F%84%ED%98%84.png?raw=true",
+"강무혁":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EA%B0%95%EB%AC%B4%ED%98%81.png?raw=true",
+"고세진":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EA%B3%A0%EC%84%B8%EC%A7%84.png?raw=true",
+"권태혁":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EA%B6%8C%ED%83%9C%ED%98%81.png?raw=true",
+"남기석":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EB%82%A8%EA%B8%B0%EC%84%9D.png?raw=true",
+"남태건":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EB%82%A8%ED%83%9C%EA%B1%B4.png?raw=true",
+"문재하":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EB%AC%B8%EC%9E%AC%ED%95%98.png?raw=true",
+"배현수":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EB%B0%B0%ED%98%84%EC%88%98.png?raw=true",
+"백시온":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EB%B0%B1%EC%8B%9C%EC%98%A8.png?raw=true",
+"백유진":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EB%B0%B1%EC%9C%A0%EC%A7%84.png?raw=true",
+"서이준":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EC%84%9C%EC%9D%B4%EC%A4%80.png?raw=true",
+"송아린":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EC%86%A1%EC%95%84%EB%A6%B0.png?raw=true",
+"신유라":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EC%8B%A0%EC%9C%A0%EB%9D%BC.png?raw=true",
+"박정우":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EB%B0%95%EC%A0%95%EC%9A%B0.png?raw=true",
+"조현석":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EC%A1%B0%ED%98%84%EC%84%9D.png?raw=true",
+"장명환":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EC%9E%A5%EB%AA%85%ED%99%98.png?raw=true",
+"오민서":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EC%98%A4%EB%AF%BC%EC%84%9C.png?raw=true",
+"오진욱":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EC%98%A4%EC%A7%84%EC%9A%B1.png?raw=true",
+"유건우":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EC%9C%A0%EA%B1%B4%EC%9A%B0.png?raw=true",
+"윤서하":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EC%9C%A4%EC%84%9C%ED%95%98.png?raw=true",
+"이수민":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EC%9D%B4%EC%88%98%EB%AF%BC.png?raw=true",
+"이태오":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EC%9D%B4%ED%83%9C%EC%98%A4.png?raw=true",
+"임채린":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EC%9E%84%EC%B1%84%EB%A6%B0.png?raw=true",
+"정하린":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EC%A0%95%ED%95%98%EB%A6%B0.png?raw=true",
+"차도윤":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EC%B0%A8%EB%8F%84%EC%9C%A4.png?raw=true",
+"차시혁":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EC%B0%A8%EC%8B%9C%ED%98%81.png?raw=true",
+"최나경":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EC%B5%9C%EB%82%98%EA%B2%BD.png?raw=true",
+"한도겸":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%ED%95%9C%EB%8F%84%EA%B2%B8.png?raw=true"
+};
+var YOUNG={
+"고세진":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EC%96%B4%EB%A6%B0%20%EA%B3%A0%EC%84%B8%EC%A7%84.png?raw=true",
+"박정우":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EC%96%B4%EB%A6%B0%EC%8B%9C%EC%A0%88%20%EB%B0%95%EC%A0%95%EC%9A%B0.png?raw=true",
+"조현석":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EC%96%B4%EB%A6%B0%EC%8B%9C%EC%A0%88%20%EC%A1%B0%ED%98%84%EC%84%9D.png?raw=true",
+"장명환":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EC%96%B4%EB%A6%B0%EC%8B%9C%EC%A0%88%EC%9E%A5%EB%AA%85%ED%99%98.png?raw=true"
+};
+var GUILD_IMG={
+"ZERO":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EC%A0%9C%EB%A1%9C%EA%B8%B8%EB%93%9C%20%EC%9E%85%EA%B5%AC.png?raw=true",
+"SERAPH":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EC%84%B8%EB%9D%BC%ED%94%84%20%EA%B8%B8%EB%93%9C%EA%B1%B4%EB%AC%BC.png?raw=true",
+"NYXUS":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EB%82%98%EC%9D%B4%EC%BB%A4%EC%8A%A4%20%EA%B8%B8%EB%93%9C%EA%B1%B4%EB%AC%BC.png?raw=true",
+"HEILOCK":"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%ED%97%A4%EC%9D%BC%EB%A1%9D%20%EA%B8%B8%EB%93%9C%20%EA%B1%B4%EB%AC%BC.png?raw=true"
+};
+var PLACE_IMG=[
+{n:"헌터 병원",u:"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EB%B3%91%EC%9B%90%EC%9C%BC%EB%A1%9C%20%EB%93%A4%EC%96%B4%EA%B0%84%EB%8B%A4.png?raw=true"},
+{n:"공식 경매장",u:"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EA%B3%B5%EC%8B%9D%20%EA%B2%BD%EB%A7%A4%EC%9E%A5%20(2).png?raw=true"},
+{n:"골목",u:"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EA%B3%A8%EB%AA%A9.png?raw=true"},
+{n:"항공기 보관장",u:"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%ED%95%AD%EA%B3%B5%EA%B8%B0%20%EB%B3%B4%EA%B4%80%EC%9E%A5.png?raw=true"},
+{n:"헌터 상점가",u:"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%ED%97%8C%ED%84%B0%EC%83%81%EC%A0%90%EA%B0%80.png?raw=true"},
+{n:"훈련 센터",u:"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%ED%9B%88%EB%A0%A8%EC%84%BC%ED%84%B0.png?raw=true"},
+{n:"암시장 가는 길",u:"https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/%EC%95%94%EC%8B%9C%EC%9E%A5%20%EA%B0%80%EB%8A%94%EA%B8%B8.png?raw=true"}
+];
+var DIALOGUES={
+"권태혁":"말은 필요 없다. 결과만 가져와라.",
+"서이준":"그 작전은 비효율적입니다. 수정하죠.",
+"강무혁":"전원 집결. 이탈자는 없다.",
+"백시온":"오차 범위 0.1% 이내. 재분석 필요합니다.",
+"차도윤":"너, 제법인데? 우리 길드 어때?",
+"윤서하":"희생은 거부합니다. 모두 살아 돌아오세요.",
+"한도겸":"후퇴 준비 완료. 무리하지 마세요.",
+"임채린":"마력 손상 등급 B. 즉시 치료 시작.",
+"오진욱":"진형은 유지한다. 돌파하지 마라.",
+"최나경":"실종자 위치 확인! 내가 먼저 갈게!",
+"차시혁":"정보는 출처가 중요하다. 확인부터.",
+"문재하":"거래 조건 어때요? 서로 좋은 게 좋잖아요.",
+"유건우":"함정 3개. 우회로 확보했습니다.",
+"백유진":"기록과 일치하지 않습니다. 재검증 필요.",
+"이태오":"비밀 의뢰? 물론이죠. 수수료는 선불로.",
+"강도현":"이익이 없다면 움직이지 않습니다.",
+"정하린":"계약 조건 확인. 손실 항목은 제외.",
+"남기석":"재료가 부족해. 이걸로 최고를 만들어주마.",
+"송아린":"시세는 이렇습니다. 얼마까지 알아보고 오셨어요?",
+"배현수":"이 거래, 양쪽에 모두 이득입니다.",
+"장명환":"협회는 중립을 지킨다. 이해관계에 휘둘리지 마라.",
+"고세진":"규정대로. 예외는 없습니다.",
+"박정우":"등급 심사는 공정하게. 실력으로 증명하세요.",
+"신유라":"출입 승인 완료. 파티 등록 확인됐습니다.",
+"남태건":"재난 상황. 즉시 대피 명령 하달.",
+"이수민":"의뢰 내용 검토. 보상 기준 명확히.",
+"조현석":"증거 없이는 움직이지 않는다. 철저히 조사.",
+"오민서":"탑의 이상 현상... 더 분석이 필요합니다."
+};
+function renderPhoto(name){
+  var src=IMG[name];
+  if(!src) return "IMAGE";
+  return '<img src="'+src+'" alt="'+name+'" style="cursor:pointer" onclick="openCharModal(\''+name+'\')">';
+}
+function getPositionLabel(idx, isGuild){
+  if(isGuild){
+    if(idx===0) return "길드장";
+    if(idx===1) return "부길드장";
+    return "길드원";
+  }
+  return "";
+}
+function gPanel(i){var g=G[i];var building=GUILD_IMG[g.n]?'<div style="text-align:center;margin-bottom:16px"><img src="'+GUILD_IMG[g.n]+'" style="max-width:100%;max-height:280px;object-fit:cover;border:1px solid var(--g);border-radius:8px" alt="'+g.n+' 본부"></div>':'';
+  var cards=g.m.map(function(m,idx){
+    var pos=getPositionLabel(idx,true);
+    return '<div class="mc"><div class="ph">'+renderPhoto(m.name)+'</div><div style="font-size:11px;color:var(--c);letter-spacing:.1em;margin-bottom:4px">'+pos+'</div><b>'+m.name+'</b><span>'+m.age+'｜'+m.pos+'</span><em style="color:var(--c2)">'+m.code+' · '+m.grade+'</em><div style="font-size:12px;margin-top:4px">'+m.ability+'</div></div>';
+  });
+  var top='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px">'+cards.slice(0,2).join('')+'</div>';
+  var members=cards.slice(2);
+  var memberRow=members.length?'<div style="margin-top:16px;padding-top:10px;border-top:1px dashed var(--line);text-align:center;color:var(--c);font-size:13px;letter-spacing:.15em;margin-bottom:8px">길드원</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px">'+members.join('')+'</div>':'';
+  return building+'<div class="gh"><span class="n">'+g.n+'</span> <b>'+g.k+'</b><span class="t">'+g.t+'</span></div><p>'+g.d+'</p><p><b style="color:var(--g)">강점</b> '+g.s+'<br><b style="color:var(--warn)">약점</b> '+g.w+'</p><div class="gm" style="display:block">'+top+memberRow+'</div>';
+}
 function gTabs(){return '<div class="gwrap"><div class="gtabs">'+G.map(function(g,i){return '<button class="gtab'+(i?'':' on')+'" data-i="'+i+'" style="--g:'+g.c+'">'+g.n+'</button>'}).join('')+'</div><div class="gpanel" style="--g:'+G[0].c+'">'+gPanel(0)+'</div></div>'}
 document.addEventListener("click",function(e){var t=e.target.closest(".gtab");if(!t)return;var w=t.closest(".gwrap"),i=+t.dataset.i,p=w.querySelector(".gpanel");w.querySelectorAll(".gtab").forEach(function(x){x.classList.toggle("on",x===t)});p.style.setProperty("--g",G[i].c);p.style.animation="none";void p.offsetWidth;p.style.animation="";p.innerHTML=gPanel(i)});
 document.getElementById("glist").innerHTML=gTabs();
-document.getElementById("alist").innerHTML=A.map(function(a){return '<div><b>'+a[0]+'</b> <span style="color:var(--mut);font-size:12px">'+a[1]+'</span><br>'+a[2]+'</div>'}).join("");
+document.getElementById("alist").innerHTML=A.map(function(a){return '<div><div class="ph" style="aspect-ratio:1/1;margin-bottom:8px">'+renderPhoto(a.name)+'</div><b>'+a.name+'</b> <span style="color:var(--mut);font-size:12px">'+a.age+'｜'+a.pos+'</span><br><em style="color:var(--c2);font-size:12px">'+a.grade+' · '+a.job+'</em><br>'+a.ability+'</div>'}).join("");
+document.getElementById("place-imgs").innerHTML=PLACE_IMG.map(function(p){return '<div class="box"><b>'+p.n+'</b><img class="place-img" src="'+p.u+'" alt="'+p.n+'"></div>'}).join("");
 var cv=document.getElementById("fx"),cx=cv.getContext("2d"),busy=false;
 function enter(){
   if(busy)return;busy=true;
@@ -445,7 +633,7 @@ function enter(){
   })(t0);
 }
 document.getElementById("ok").addEventListener("click",enter);
-var M=[["world","01","세계관","WORLD"],["hunter","02","헌터와 성장 시스템","HUNTER"],["guilds","03","4대 길드","GUILDS"],["assoc","04","헌터협회","ASSOCIATION"],["district","05","서울 탑 지구","TOWER DISTRICT"],["tower","06","무한탑 내부 구조","TOWER"],["economy","07","화폐·아이템·거래","ECONOMY"],["ranking","08","랭킹과 명성","RANKING"],["rp","09","진행 원칙","ROLEPLAY"]];
+var M=[["world","01","세계관","WORLD"],["hunter","02","헌터와 성장 시스템","HUNTER"],["guilds","03","4대 길드","GUILDS"],["assoc","04","헌터협회","ASSOCIATION"],["district","05","서울 탑 지구","TOWER DISTRICT"],["tower","06","무한탑 내부 구조","TOWER"],["economy","07","화폐·아이템·거래","ECONOMY"],["ranking","08","랭킹과 명성","RANKING"],["event","09","이벤트 응모","EVENT"]];
 var menu=document.getElementById("menu"),hero=document.querySelector("header.hero"),bar=document.getElementById("bar"),ft=document.querySelector("footer"),tt=document.getElementById("tt"),hint=document.getElementById("hint");
 menu.innerHTML=M.map(function(m,i){return '<button data-id="'+m[0]+'" style="animation-delay:'+(i*.06)+'s"><small>'+m[1]+' · '+m[3]+'</small>'+m[2]+'</button>'}).join("");
 function toggleMenu(){var o=menu.classList.toggle("open");hint.style.display=o?"none":""}
@@ -475,11 +663,11 @@ function bgDraw(){var w=Math.ceil(innerWidth/3),h=Math.ceil(innerHeight/3);if(bg
 bgDraw();setInterval(bgDraw,90);
 var L="ko",S={};
 var T={
-ko:{it:"상태창",ip:"헌터 시스템에 접속합니다.<br>무한탑 정보를 열람하시겠습니까?<br><b>제한 시간: 2099.12.31 23:59:59</b>",ok:"확인",g1:"무한탑",gh1:"▼ 눌러서 계속",gh2:"▼ 한 번 더",tag:"999층의 끝에서 세계의 운명이 결정된다.",tags:"헌터물 · 탑등반 · 생존 · 전투 · 성장 · 길드경쟁 · 미스터리 ｜ 현대 대한민국",goal:"목표 ｜ 2099년 12월 31일까지 탑 999층 공략 완료",back:"◀ 메뉴",note:"",m:["세계관","헌터와 성장 시스템","4대 길드","헌터협회","서울 탑 지구","무한탑 내부 구조","화폐·아이템·거래","랭킹과 명성","진행 원칙"]},
-en:{it:"STATUS",ip:"Connecting to the Hunter System.<br>Open the Limitless Tower records?<br><b>Time limit: 2099.12.31 23:59:59</b>",ok:"CONFIRM",g1:"Infinite Tower",gh1:"▼ Tap to continue",gh2:"▼ Once more",tag:"At the end of Floor 999, the fate of the world will be decided.",tags:"Hunter · Tower Climb · Survival · Combat · Growth · Guild Rivalry · Mystery ｜ Modern Korea",goal:"Objective ｜ Clear Floor 999 of the Tower by December 31, 2099",back:"◀ Menu",note:"※ Detailed text is currently shown in Korean.",m:["World","Hunters & Growth System","The Four Guilds","Hunter Association","Seoul Tower District","Inside the Tower","Currency · Items · Trade","Ranking & Fame","Roleplay Rules"]},
-zs:{it:"状态窗",ip:"正在连接猎人系统。<br>要查看无限塔的信息吗？<br><b>时间限制：2099.12.31 23:59:59</b>",ok:"确认",g1:"无限塔",gh1:"▼ 点击继续",gh2:"▼ 再点一次",tag:"在第999层的尽头，决定世界的命运。",tags:"猎人 · 爬塔 · 生存 · 战斗 · 成长 · 公会竞争 · 悬疑 ｜ 现代韩国",goal:"目标 ｜ 在2099年12月31日前攻略塔的第999层",back:"◀ 菜单",note:"※ 详细正文暂以韩语显示。",m:["世界观","猎人与成长系统","四大公会","猎人协会","首尔塔区","无限塔内部结构","货币·道具·交易","排名与声望","进行原则"]},
-zt:{it:"狀態窗",ip:"正在連接獵人系統。<br>要查看無限塔的資訊嗎？<br><b>時間限制：2099.12.31 23:59:59</b>",ok:"確認",g1:"無限塔",gh1:"▼ 點擊繼續",gh2:"▼ 再點一次",tag:"在第999層的盡頭，決定世界的命運。",tags:"獵人 · 爬塔 · 生存 · 戰鬥 · 成長 · 公會競爭 · 懸疑 ｜ 現代韓國",goal:"目標 ｜ 在2099年12月31日前攻略塔的第999層",back:"◀ 選單",note:"※ 詳細正文暫以韓語顯示。",m:["世界觀","獵人與成長系統","四大公會","獵人協會","首爾塔區","無限塔內部結構","貨幣・道具・交易","排名與聲望","進行原則"]},
-ja:{it:"ステータス",ip:"ハンターシステムに接続します。<br>無限塔の情報を閲覧しますか？<br><b>制限時間：2099.12.31 23:59:59</b>",ok:"確認",g1:"無限塔",gh1:"▼ タップして続行",gh2:"▼ もう一度",tag:"999階の果てで、世界の運命が決まる。",tags:"ハンター · 塔攻略 · サバイバル · 戦闘 · 成長 · ギルド競争 · ミステリー ｜ 現代韓国",goal:"目標 ｜ 2099年12月31日までに塔の999階を攻略",back:"◀ メニュー",note:"※ 詳細な本文は現在、韓国語で表示されます。",m:["世界観","ハンターと成長システム","4大ギルド","ハンター協会","ソウル塔地区","無限塔の内部構造","通貨・アイテム・取引","ランキングと名声","進行原則"]}};
+ko:{it:"상태창",ip:"헌터 시스템에 접속합니다.<br>무한탑 정보를 열람하시겠습니까?<br><b>제한 시간: 2099.12.31 23:59:59</b>",ok:"확인",g1:"무한탑",gh1:"▼ 눌러서 계속",gh2:"▼ 한 번 더",tag:"999층의 끝에서 세계의 운명이 결정된다.",tags:"헌터물 · 탑등반 · 생존 · 전투 · 성장 · 길드경쟁 · 미스터리 ｜ 현대 대한민국",goal:"목표 ｜ 2099년 12월 31일까지 탑 999층 공략 완료",back:"◀ 메뉴",note:"",m:["세계관","헌터와 성장 시스템","4대 길드","헌터협회","서울 탑 지구","무한탑 내부 구조","화폐·아이템·거래","랭킹과 명성","이벤트 응모"]},
+en:{it:"STATUS",ip:"Connecting to the Hunter System.<br>Open the Limitless Tower records?<br><b>Time limit: 2099.12.31 23:59:59</b>",ok:"CONFIRM",g1:"Infinite Tower",gh1:"▼ Tap to continue",gh2:"▼ Once more",tag:"At the end of Floor 999, the fate of the world will be decided.",tags:"Hunter · Tower Climb · Survival · Combat · Growth · Guild Rivalry · Mystery ｜ Modern Korea",goal:"Objective ｜ Clear Floor 999 of the Tower by December 31, 2099",back:"◀ Menu",note:"※ Detailed text is currently shown in Korean.",m:["World","Hunters & Growth System","The Four Guilds","Hunter Association","Seoul Tower District","Inside the Tower","Currency · Items · Trade","Ranking & Fame","Event Entry"]},
+zs:{it:"状态窗",ip:"正在连接猎人系统。<br>要查看无限塔的信息吗？<br><b>时间限制：2099.12.31 23:59:59</b>",ok:"确认",g1:"无限塔",gh1:"▼ 点击继续",gh2:"▼ 再点一次",tag:"在第999层的尽头，决定世界的命运。",tags:"猎人 · 爬塔 · 生存 · 战斗 · 成长 · 公会竞争 · 悬疑 ｜ 现代韩国",goal:"目标 ｜ 在2099年12月31日前攻略塔的第999层",back:"◀ 菜单",note:"※ 详细正文暂以韩语显示。",m:["世界观","猎人与成长系统","四大公会","猎人协会","首尔塔区","无限塔内部结构","货币·道具·交易","排名与声望","活动应征"]},
+zt:{it:"狀態窗",ip:"正在連接獵人系統。<br>要查看無限塔的資訊嗎？<br><b>時間限制：2099.12.31 23:59:59</b>",ok:"確認",g1:"無限塔",gh1:"▼ 點擊繼續",gh2:"▼ 再點一次",tag:"在第999層的盡頭，決定世界的命運。",tags:"獵人 · 爬塔 · 生存 · 戰鬥 · 成長 · 公會競爭 · 懸疑 ｜ 現代韓國",goal:"目標 ｜ 在2099年12月31日前攻略塔的第999層",back:"◀ 選單",note:"※ 詳細正文暫以韓語顯示。",m:["世界觀","獵人與成長系統","四大公會","獵人協會","首爾塔區","無限塔內部結構","貨幣・道具・交易","排名與聲望","活動應徵"]},
+ja:{it:"ステータス",ip:"ハンターシステムに接続します。<br>無限塔の情報を閲覧しますか？<br><b>制限時間：2099.12.31 23:59:59</b>",ok:"確認",g1:"無限塔",gh1:"▼ タップして続行",gh2:"▼ もう一度",tag:"999階の果てで、世界の運命が決まる。",tags:"ハンター · 塔攻略 · サバイバル · 戦闘 · 成長 · ギルド競争 · ミステリー ｜ 現代韓国",goal:"目標 ｜ 2099年12月31日までに塔の999階を攻略",back:"◀ メニュー",note:"※ 詳細な本文は現在、韓国語で表示されます。",m:["世界観","ハンターと成長システム","4大ギルド","ハンター協会","ソウル塔地区","無限塔の内部構造","通貨・アイテム・取引","ランキングと名声","イベント応募"]}};
 var LG=[["ko","한국어"],["en","English"],["zs","简体中文"],["zt","繁體中文"],["ja","日本語"]];
 function secFill(id){var s=document.getElementById(id);if(s._o===undefined)s._o=s.innerHTML;var tr=S[L]&&S[L][id];s.innerHTML=tr?tr:(L==="ko"?s._o:'<p class="note">'+T[L].note+'</p>'+s._o)}
 function applyLang(){var t=T[L],e=function(i){return document.getElementById(i)};document.documentElement.lang={ko:"ko",en:"en",zs:"zh-Hans",zt:"zh-Hant",ja:"ja"}[L];e("i-t").textContent=t.it;e("i-p").innerHTML=t.ip;e("ok").textContent=t.ok;e("h-p").textContent=t.tag;e("h-g").textContent=t.tags;e("h-c").textContent=t.goal;e("back").textContent=t.back;tt.textContent=t.g1+": LIMITLESS";menu.innerHTML=M.map(function(m,i){return '<button data-id="'+m[0]+'" style="animation-delay:'+(i*.06)+'s"><small>'+m[1]+' · '+m[3]+'</small>'+t.m[i]+'</button>'}).join("");document.querySelectorAll("#langs button").forEach(function(b){b.classList.toggle("on",b.dataset.l===L)})}
@@ -603,6 +791,126 @@ document.getElementById("issue-card").addEventListener("click", function(){
     }).catch(function(){});
   }
 });
+// Event functions
+function openEvent(){
+  document.getElementById("event-modal").classList.add("show");
+  document.getElementById("event-name").value="";
+  document.getElementById("event-result").innerHTML="";
+  document.getElementById("event-name").focus();
+}
+function checkEventName(val){
+  var res=document.getElementById("event-result");
+  if(val.trim()==="레프"){
+    res.innerHTML='동기화 중 ... 100% 완료.<br>해당 이미지를 캡쳐해서 Jin_K에게 발송해주세요.<br>발송 시, 페소의 이름 / 나이 / 능력 / 소속 / 원하는 직위 및 역할을 말씀해주시기 바랍니다. 감사합니다.<br><br><a href="https://open.kakao.com/o/sFqjQmBi" target="_blank" style="color:var(--c);text-decoration:underline;font-size:16px">▶ 카카오톡 오픈채팅 바로가기</a>';
+  }else if(val.trim().length>0){
+    res.innerHTML='<span style="color:var(--warn)">시스템 이름이 일치하지 않습니다.</span>';
+  }else{
+    res.innerHTML="";
+  }
+}
+// Character detail modal
+var currentChar=null;
+var showingYoung=false;
+function openCharModal(name){
+  currentChar=name;
+  showingYoung=false;
+  var info=findCharInfo(name);
+  if(!info) return;
+  var photo=document.getElementById("char-photo");
+  var src=IMG[name]||"";
+  photo.innerHTML=src?'<img src="'+src+'" style="width:100%;height:100%;object-fit:cover">':'';
+  document.getElementById("char-name").textContent=info.name + (info.code ? ' ('+info.code+')' : '');
+  document.getElementById("char-pos").textContent=(info.pos||'') + ' · ' + (info.grade||'') + ' · ' + (info.job||'');
+  document.getElementById("char-desc").innerHTML='<b>능력</b> ' + (info.ability||'') + '<br><b>스킬</b> ' + (info.skills ? info.skills.map(function(s){return '['+s+']'}).join(' ') : '') + (info.note ? '<br><small style="color:var(--mut)">'+info.note+'</small>' : '');
+  document.getElementById("char-personality").textContent="성격: " + (info.pers||"");
+  document.getElementById("char-dialogue").textContent='" ' + (DIALOGUES[name]||"...") + ' "';
+  var btn=document.getElementById("toggle-young");
+  if(YOUNG[name]){
+    btn.style.display="inline-block";
+    btn.textContent="어린 시절 보기";
+  }else{
+    btn.style.display="none";
+  }
+  document.getElementById("char-modal").classList.add("show");
+}
+function toggleYoung(){
+  if(!currentChar||!YOUNG[currentChar]) return;
+  showingYoung=!showingYoung;
+  var photo=document.getElementById("char-photo");
+  var src=showingYoung ? YOUNG[currentChar] : IMG[currentChar];
+  photo.innerHTML='<img src="'+src+'" style="width:100%;height:100%;object-fit:cover">';
+  document.getElementById("toggle-young").textContent=showingYoung ? "성인 모습 보기" : "어린 시절 보기";
+}
+function findCharInfo(name){
+  for(var g of G){
+    for(var i=0;i<g.m.length;i++){
+      if(g.m[i].name===name){
+        var m=g.m[i];
+        var pos=getPositionLabel(i,true);
+        return {name:m.name, pos:pos+" · "+m.age+"｜"+m.pos, grade:m.grade, job:m.job, code:m.code, ability:m.ability, skills:m.skills, pers:m.pers, note:m.note||""};
+      }
+    }
+  }
+  for(var a of A){
+    if(a.name===name){
+      return {name:a.name, pos:a.age+"｜"+a.pos, grade:a.grade, job:a.job, code:a.code, ability:a.ability, skills:a.skills, pers:a.pers, note:""};
+    }
+  }
+  return null;
+}
+// Ranking animation
+var RANK_DATA={
+  hunter:[{n:"DEATH",s:98},{n:"NULL",s:95},{n:"솜사탕",s:94},{n:"Midas",s:92},{n:"LASTWALL",s:90},{n:"사기아님",s:88},{n:"정산완료",s:86},{n:"반박시니말이틀림",s:84},{n:"삐약이",s:82},{n:"장명환",s:80}],
+  tower:[{n:"ZERO",s:96},{n:"SERAPH",s:89},{n:"NYXUS",s:87},{n:"HEILOCK",s:83},{n:"독립 헌터",s:71}],
+  guild:[{n:"ZERO",s:95},{n:"SERAPH",s:90},{n:"NYXUS",s:86},{n:"HEILOCK",s:84}],
+  economy:[{n:"HEILOCK",s:97},{n:"ZERO",s:85},{n:"NYXUS",s:82},{n:"SERAPH",s:74}]
+};
+var currentRankType="hunter";
+function renderRanking(type, animate){
+  var list=document.getElementById("rank-list");
+  if(!list) return;
+  var data=RANK_DATA[type]||[];
+  // slightly shuffle for motion effect
+  var shuffled=data.map(function(d,i){return {n:d.n,s:d.s+(Math.random()*4-2),orig:i}});
+  shuffled.sort(function(a,b){return b.s-a.s});
+  list.innerHTML=shuffled.map(function(item,idx){
+    var delta=item.orig-idx;
+    var cls=delta>0?"up":(delta<0?"down":"");
+    return '<div class="rank-item '+cls+'" style="transition-delay:'+(idx*0.08)+'s">'
+      +'<div class="rank-num">'+(idx+1)+'</div>'
+      +'<div class="rank-name">'+item.n+'</div>'
+      +'<div class="rank-bar-wrap"><div class="rank-bar" style="width:'+Math.min(100,item.s)+'%"></div></div>'
+      +'<div style="width:40px;text-align:right;font-size:13px;color:var(--c2)">'+Math.round(item.s)+'</div>'
+      +'</div>';
+  }).join("");
+  if(animate){
+    setTimeout(function(){
+      list.querySelectorAll(".rank-bar").forEach(function(b,i){
+        setTimeout(function(){b.style.width=b.style.width},50);
+      });
+    },50);
+  }
+}
+document.addEventListener("click",function(e){
+  var t=e.target.closest(".rank-tab");
+  if(!t) return;
+  document.querySelectorAll(".rank-tab").forEach(function(b){b.classList.remove("on")});
+  t.classList.add("on");
+  currentRankType=t.dataset.type;
+  renderRanking(currentRankType,true);
+});
+// Auto refresh ranking motion every 4s when on ranking page
+setInterval(function(){
+  if(document.getElementById("ranking")&&document.getElementById("ranking").classList.contains("on")){
+    renderRanking(currentRankType,true);
+  }
+},4000);
+// Initial render when section shown (hook into show)
+var origShow=show;
+show=function(id,name){
+  origShow(id,name);
+  if(id==="ranking") setTimeout(function(){renderRanking(currentRankType,true)},100);
+};
 </script>
 </body>
 </html>
