@@ -359,6 +359,7 @@ footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{displa
          │ 비공식 거래 구역 │
          └─────────────────────┘</pre>
 <p style="font-size:13px;color:var(--mut)">기능별 구역 배치를 나타낸 개념도.</p>
+<img src="https://github.com/jinkwf/jinkwf.github.io/blob/main/LIMITLESS/grok-image-143fec5b-7a74-4fe1-a882-ea7ca659aad2.jpg?raw=true" alt="구역 구조도" style="width:100%;max-width:100%;border:1px solid var(--line);border-radius:6px;margin:12px 0;display:block">
 <h3>주요 시설 이미지</h3>
 <div class="grid" id="place-imgs"></div>
 </section>
@@ -400,8 +401,25 @@ footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{displa
 <div id="rank-list" style="max-width:640px;margin:0 auto"></div>
 <p style="margin-top:16px;font-size:13px;color:var(--mut)">협회·길드·대중·암시장은 서로 다른 기준으로 헌터를 평가한다.<br>공식 기록에 없는 성과는 검증되기 전까지 확정된 실적으로 취급하지 않는다.</p>
 </section>
+<section id="commands">
+<h2>09 COMMANDS<span>명령어</span></h2>
+<p>헌터 시스템에서 사용할 수 있는 주요 명령어입니다.</p>
+<div class="box">
+<ul>
+<li><b>!임무</b> : 임무를 확인합니다. ( 개인/ 길드 / 협회 등)</li>
+<li><b>!커뮤</b> : 커뮤니티를 확인합니다.</li>
+<li><b>!길드단톡</b> : 길드가입 후 단톡사용가능. 길드원들과 톡 합니다.</li>
+<li><b>!탑</b> : 탑을 오를 준비를 합니다. *랭킹과 등급을 올려봅시다 뚠뚠* ★</li>
+<li><b>!랭킹</b> : 랭킹을 확인합니다.</li>
+<li><b>!상태창</b> : @나의 상태창을 확인합니다</li>
+<li><b>!거래</b> : 거래할 수 있는 목록을 엽니다. 각 상점목록을 확인하고 해당 상점 목록 선택 시 , 거래할 수 있는 물품을 확인할 수 있습니다.</li>
+<li><b>!이벤트</b> : 랜덤 이벤트를 생성합니다.</li>
+<li><b>!승급시험</b> : 승급시험을 봅니다</li>
+</ul>
+</div>
+</section>
 <section id="event">
-<h2>09 EVENT<span>이벤트 응모</span></h2>
+<h2>10 EVENT<span>이벤트 응모</span></h2>
 <p style="text-align:center;color:var(--mut)">999층 공략을 완료한 헌터를 위한 특별 이벤트입니다.</p>
 <div class="box" style="width:220px;height:220px;margin:40px auto;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid var(--c);box-shadow:0 0 20px rgba(79,216,255,.3);text-align:center;font-size:18px;letter-spacing:.15em;color:var(--c)" onclick="openEvent()">이벤트<br>응모</div>
 <p style="text-align:center;font-size:13px;color:var(--mut)">네모창을 클릭하세요.</p>
@@ -633,7 +651,7 @@ function enter(){
   })(t0);
 }
 document.getElementById("ok").addEventListener("click",enter);
-var M=[["world","01","세계관","WORLD"],["hunter","02","헌터와 성장 시스템","HUNTER"],["guilds","03","4대 길드","GUILDS"],["assoc","04","헌터협회","ASSOCIATION"],["district","05","서울 탑 지구","TOWER DISTRICT"],["tower","06","무한탑 내부 구조","TOWER"],["economy","07","화폐·아이템·거래","ECONOMY"],["ranking","08","랭킹과 명성","RANKING"],["event","09","이벤트 응모","EVENT"]];
+var M=[["world","01","세계관","WORLD"],["hunter","02","헌터와 성장 시스템","HUNTER"],["guilds","03","4대 길드","GUILDS"],["assoc","04","헌터협회","ASSOCIATION"],["district","05","서울 탑 지구","TOWER DISTRICT"],["tower","06","무한탑 내부 구조","TOWER"],["economy","07","화폐·아이템·거래","ECONOMY"],["ranking","08","랭킹과 명성","RANKING"],["commands","09","명령어","COMMANDS"],["event","10","이벤트 응모","EVENT"]];
 var menu=document.getElementById("menu"),hero=document.querySelector("header.hero"),bar=document.getElementById("bar"),ft=document.querySelector("footer"),tt=document.getElementById("tt"),hint=document.getElementById("hint");
 menu.innerHTML=M.map(function(m,i){return '<button data-id="'+m[0]+'" style="animation-delay:'+(i*.06)+'s"><small>'+m[1]+' · '+m[3]+'</small>'+m[2]+'</button>'}).join("");
 function toggleMenu(){var o=menu.classList.toggle("open");hint.style.display=o?"none":""}
@@ -663,11 +681,11 @@ function bgDraw(){var w=Math.ceil(innerWidth/3),h=Math.ceil(innerHeight/3);if(bg
 bgDraw();setInterval(bgDraw,90);
 var L="ko",S={};
 var T={
-ko:{it:"상태창",ip:"헌터 시스템에 접속합니다.<br>무한탑 정보를 열람하시겠습니까?<br><b>제한 시간: 2099.12.31 23:59:59</b>",ok:"확인",g1:"무한탑",gh1:"▼ 눌러서 계속",gh2:"▼ 한 번 더",tag:"999층의 끝에서 세계의 운명이 결정된다.",tags:"헌터물 · 탑등반 · 생존 · 전투 · 성장 · 길드경쟁 · 미스터리 ｜ 현대 대한민국",goal:"목표 ｜ 2099년 12월 31일까지 탑 999층 공략 완료",back:"◀ 메뉴",note:"",m:["세계관","헌터와 성장 시스템","4대 길드","헌터협회","서울 탑 지구","무한탑 내부 구조","화폐·아이템·거래","랭킹과 명성","이벤트 응모"]},
-en:{it:"STATUS",ip:"Connecting to the Hunter System.<br>Open the Limitless Tower records?<br><b>Time limit: 2099.12.31 23:59:59</b>",ok:"CONFIRM",g1:"Infinite Tower",gh1:"▼ Tap to continue",gh2:"▼ Once more",tag:"At the end of Floor 999, the fate of the world will be decided.",tags:"Hunter · Tower Climb · Survival · Combat · Growth · Guild Rivalry · Mystery ｜ Modern Korea",goal:"Objective ｜ Clear Floor 999 of the Tower by December 31, 2099",back:"◀ Menu",note:"※ Detailed text is currently shown in Korean.",m:["World","Hunters & Growth System","The Four Guilds","Hunter Association","Seoul Tower District","Inside the Tower","Currency · Items · Trade","Ranking & Fame","Event Entry"]},
-zs:{it:"状态窗",ip:"正在连接猎人系统。<br>要查看无限塔的信息吗？<br><b>时间限制：2099.12.31 23:59:59</b>",ok:"确认",g1:"无限塔",gh1:"▼ 点击继续",gh2:"▼ 再点一次",tag:"在第999层的尽头，决定世界的命运。",tags:"猎人 · 爬塔 · 生存 · 战斗 · 成长 · 公会竞争 · 悬疑 ｜ 现代韩国",goal:"目标 ｜ 在2099年12月31日前攻略塔的第999层",back:"◀ 菜单",note:"※ 详细正文暂以韩语显示。",m:["世界观","猎人与成长系统","四大公会","猎人协会","首尔塔区","无限塔内部结构","货币·道具·交易","排名与声望","活动应征"]},
-zt:{it:"狀態窗",ip:"正在連接獵人系統。<br>要查看無限塔的資訊嗎？<br><b>時間限制：2099.12.31 23:59:59</b>",ok:"確認",g1:"無限塔",gh1:"▼ 點擊繼續",gh2:"▼ 再點一次",tag:"在第999層的盡頭，決定世界的命運。",tags:"獵人 · 爬塔 · 生存 · 戰鬥 · 成長 · 公會競爭 · 懸疑 ｜ 現代韓國",goal:"目標 ｜ 在2099年12月31日前攻略塔的第999層",back:"◀ 選單",note:"※ 詳細正文暫以韓語顯示。",m:["世界觀","獵人與成長系統","四大公會","獵人協會","首爾塔區","無限塔內部結構","貨幣・道具・交易","排名與聲望","活動應徵"]},
-ja:{it:"ステータス",ip:"ハンターシステムに接続します。<br>無限塔の情報を閲覧しますか？<br><b>制限時間：2099.12.31 23:59:59</b>",ok:"確認",g1:"無限塔",gh1:"▼ タップして続行",gh2:"▼ もう一度",tag:"999階の果てで、世界の運命が決まる。",tags:"ハンター · 塔攻略 · サバイバル · 戦闘 · 成長 · ギルド競争 · ミステリー ｜ 現代韓国",goal:"目標 ｜ 2099年12月31日までに塔の999階を攻略",back:"◀ メニュー",note:"※ 詳細な本文は現在、韓国語で表示されます。",m:["世界観","ハンターと成長システム","4大ギルド","ハンター協会","ソウル塔地区","無限塔の内部構造","通貨・アイテム・取引","ランキングと名声","イベント応募"]}};
+ko:{it:"상태창",ip:"헌터 시스템에 접속합니다.<br>무한탑 정보를 열람하시겠습니까?<br><b>제한 시간: 2099.12.31 23:59:59</b>",ok:"확인",g1:"무한탑",gh1:"▼ 눌러서 계속",gh2:"▼ 한 번 더",tag:"999층의 끝에서 세계의 운명이 결정된다.",tags:"헌터물 · 탑등반 · 생존 · 전투 · 성장 · 길드경쟁 · 미스터리 ｜ 현대 대한민국",goal:"목표 ｜ 2099년 12월 31일까지 탑 999층 공략 완료",back:"◀ 메뉴",note:"",m:["세계관","헌터와 성장 시스템","4대 길드","헌터협회","서울 탑 지구","무한탑 내부 구조","화폐·아이템·거래","랭킹과 명성","명령어","이벤트 응모"]},
+en:{it:"STATUS",ip:"Connecting to the Hunter System.<br>Open the Limitless Tower records?<br><b>Time limit: 2099.12.31 23:59:59</b>",ok:"CONFIRM",g1:"Infinite Tower",gh1:"▼ Tap to continue",gh2:"▼ Once more",tag:"At the end of Floor 999, the fate of the world will be decided.",tags:"Hunter · Tower Climb · Survival · Combat · Growth · Guild Rivalry · Mystery ｜ Modern Korea",goal:"Objective ｜ Clear Floor 999 of the Tower by December 31, 2099",back:"◀ Menu",note:"※ Detailed text is currently shown in Korean.",m:["World","Hunters & Growth System","The Four Guilds","Hunter Association","Seoul Tower District","Inside the Tower","Currency · Items · Trade","Ranking & Fame","Commands","Event Entry"]},
+zs:{it:"状态窗",ip:"正在连接猎人系统。<br>要查看无限塔的信息吗？<br><b>时间限制：2099.12.31 23:59:59</b>",ok:"确认",g1:"无限塔",gh1:"▼ 点击继续",gh2:"▼ 再点一次",tag:"在第999层的尽头，决定世界的命运。",tags:"猎人 · 爬塔 · 生存 · 战斗 · 成长 · 公会竞争 · 悬疑 ｜ 现代韩国",goal:"目标 ｜ 在2099年12月31日前攻略塔的第999层",back:"◀ 菜单",note:"※ 详细正文暂以韩语显示。",m:["世界观","猎人与成长系统","四大公会","猎人协会","首尔塔区","无限塔内部结构","货币·道具·交易","排名与声望","指令","活动应征"]},
+zt:{it:"狀態窗",ip:"正在連接獵人系統。<br>要查看無限塔的資訊嗎？<br><b>時間限制：2099.12.31 23:59:59</b>",ok:"確認",g1:"無限塔",gh1:"▼ 點擊繼續",gh2:"▼ 再點一次",tag:"在第999層的盡頭，決定世界的命運。",tags:"獵人 · 爬塔 · 生存 · 戰鬥 · 成長 · 公會競爭 · 懸疑 ｜ 現代韓國",goal:"目標 ｜ 在2099年12月31日前攻略塔的第999層",back:"◀ 選單",note:"※ 詳細正文暫以韓語顯示。",m:["世界觀","獵人與成長系統","四大公會","獵人協會","首爾塔區","無限塔內部結構","貨幣・道具・交易","排名與聲望","指令","活動應徵"]},
+ja:{it:"ステータス",ip:"ハンターシステムに接続します。<br>無限塔の情報を閲覧しますか？<br><b>制限時間：2099.12.31 23:59:59</b>",ok:"確認",g1:"無限塔",gh1:"▼ タップして続行",gh2:"▼ もう一度",tag:"999階の果てで、世界の運命が決まる。",tags:"ハンター · 塔攻略 · サバイバル · 戦闘 · 成長 · ギルド競争 · ミステリー ｜ 現代韓国",goal:"目標 ｜ 2099年12月31日までに塔の999階を攻略",back:"◀ メニュー",note:"※ 詳細な本文は現在、韓国語で表示されます。",m:["世界観","ハンターと成長システム","4大ギルド","ハンター協会","ソウル塔地区","無限塔の内部構造","通貨・アイテム・取引","ランキングと名声","コマンド","イベント応募"]}};
 var LG=[["ko","한국어"],["en","English"],["zs","简体中文"],["zt","繁體中文"],["ja","日本語"]];
 function secFill(id){var s=document.getElementById(id);if(s._o===undefined)s._o=s.innerHTML;var tr=S[L]&&S[L][id];s.innerHTML=tr?tr:(L==="ko"?s._o:'<p class="note">'+T[L].note+'</p>'+s._o)}
 function applyLang(){var t=T[L],e=function(i){return document.getElementById(i)};document.documentElement.lang={ko:"ko",en:"en",zs:"zh-Hans",zt:"zh-Hant",ja:"ja"}[L];e("i-t").textContent=t.it;e("i-p").innerHTML=t.ip;e("ok").textContent=t.ok;e("h-p").textContent=t.tag;e("h-g").textContent=t.tags;e("h-c").textContent=t.goal;e("back").textContent=t.back;tt.textContent=t.g1+": LIMITLESS";menu.innerHTML=M.map(function(m,i){return '<button data-id="'+m[0]+'" style="animation-delay:'+(i*.06)+'s"><small>'+m[1]+' · '+m[3]+'</small>'+t.m[i]+'</button>'}).join("");document.querySelectorAll("#langs button").forEach(function(b){b.classList.toggle("on",b.dataset.l===L)})}
