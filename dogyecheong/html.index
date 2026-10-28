@@ -5,64 +5,76 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#17130f">
 <title>渡界廳 — 도계청</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Serif+KR:wght@400;500;600;700;900&display=swap">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Serif+KR:wght@400;500;600;700;900&display=swap');
-:root{--ink:#241b15;--paper:#e8d8b4;--paper-light:#f1e5c9;--red:#8e2f25;--gold:#b69a61;--shadow:rgba(0,0,0,.48)}
+:root{--paper:#e8d8b4;--paper-light:#f1e5c9;--red:#8e2f25}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:#17130f;color:var(--paper-light);font-family:'Noto Serif KR',serif;overflow-x:hidden}
-button{font:inherit}
-
+body.lock{overflow:hidden;height:100svh}
+button{font:inherit;color:inherit}
 .noise{position:fixed;inset:0;pointer-events:none;z-index:20;opacity:.11;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.38'/%3E%3C/svg%3E")}
 
-/* === INTRO (3D Gate Cinematic) === */
-.intro-container{position:fixed;inset:0;z-index:100;background:#0d0a08;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:opacity 1.2s ease, visibility 1.2s}
-.intro-container.hidden{opacity:0;visibility:hidden;pointer-events:none}
+/* ===== INTRO: 영상 → 줌인 → 대문 → 클릭 ===== */
+.intro{position:fixed;inset:0;z-index:100;background:#0d0a08;display:grid;place-items:center;overflow:hidden;transition:opacity 1.2s,visibility 1.2s}
+.intro.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.intro-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;filter:saturate(.75) contrast(1.06) brightness(.85);transform:scale(1);transition:transform 3s cubic-bezier(.5,0,.3,1),filter 3s}
+.intro.zoom .intro-video{transform:scale(1.55);filter:saturate(.6) contrast(1.1) brightness(.28)}
+.shade{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at center,transparent 40%,#0d0a08 100%);opacity:.7;transition:opacity 3s}
+.intro.zoom .shade{opacity:1}
+.skip,.mute{position:absolute;top:18px;z-index:12;border:1px solid #8c7045;background:rgba(22,18,14,.5);backdrop-filter:blur(6px);padding:7px 14px;font-size:.7rem;letter-spacing:.18em;color:#d8c69f;cursor:pointer;transition:opacity .6s}
+.skip{right:18px}
+.mute{right:18px;opacity:0;pointer-events:none}
+.intro.ready .mute{opacity:1;pointer-events:auto}
+.intro.zoom .skip{opacity:0;pointer-events:none}
+.intro-copy{position:absolute;top:6%;left:0;right:0;z-index:5;text-align:center;font-size:.68rem;letter-spacing:.28em;color:#e4d2ad;text-shadow:0 2px 10px #000;opacity:0;transition:opacity 1.2s}
+.intro.ready .intro-copy{opacity:.9}
+.gate-scene{position:relative;z-index:6;width:min(88vw,620px);height:min(70vh,600px);min-height:380px;perspective:1300px;opacity:0;transform:scale(1.12);transition:opacity 1.4s,transform 1.8s ease-out;pointer-events:none}
+.intro.ready .gate-scene{opacity:1;transform:scale(1)}
+.frame{position:absolute;inset:0;border:11px solid #241710;outline:2px solid #7d613b;outline-offset:-17px;box-shadow:0 0 70px #000}
+.back{position:absolute;inset:30px 14px 14px;background:radial-gradient(ellipse at 50% 55%,#2a2018,#090705 72%)}
+.back::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,#f6e4b0,#b48b4c 45%,#2a1a0e 88%);opacity:0;transition:opacity 1.6s}
+.gate-scene.open .back::after{opacity:1}
+.lintel{position:absolute;top:-18px;left:-10px;right:-10px;height:46px;z-index:7;display:grid;place-items:center;background:linear-gradient(#795535,#2c1b11 40%,#593b25 65%,#1b100b);border:2px solid #9b7949}
+.lintel span{color:#e7d6b2;letter-spacing:.4em;font-size:.72rem;text-shadow:0 0 8px #000;font-family:'Gowun Batang',serif;white-space:nowrap}
+.leaf{position:absolute;top:30px;bottom:14px;width:calc(50% - 14px);z-index:3;transform-style:preserve-3d;transition:transform 1.9s cubic-bezier(.3,.9,.3,1);background:repeating-linear-gradient(90deg,transparent 0 25px,#120b07 26px 30px),linear-gradient(90deg,#4a2e1d,#29180f 40%,#3d2517 70%,#1f130b);border:3px solid #7c5733;box-shadow:inset 0 0 15px #000}
+.leaf.l{left:14px;transform-origin:left center}
+.leaf.r{right:14px;transform-origin:right center}
+.leaf::after{content:"";position:absolute;top:50%;width:14px;height:14px;border-radius:50%;background:#b59a63;box-shadow:0 0 0 3px #1a100a,0 0 8px #d0b87b}
+.l::after{right:8%}.r::after{left:8%}
+.gate-scene.open .l{transform:rotateY(-98deg)}
+.gate-scene.open .r{transform:rotateY(98deg)}
+/* 제목·버튼은 문짝보다 위 레이어 */
+.gate-ui{position:absolute;inset:30px 14px 14px;z-index:8;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none;opacity:0;transition:opacity 1.2s}
+.intro.ui .gate-ui{opacity:1}
+.gate-scene.open .gate-ui{opacity:0;transition-duration:.5s}
+.title-hanja{display:flex;flex-direction:column;font-family:'Gowun Batang',serif;font-weight:700;font-size:clamp(3.4rem,9vw,5.4rem);line-height:1;letter-spacing:.1em;color:#f0dfbd;text-shadow:0 2px 18px #000,0 0 36px #c8a36c66}
+.title-korean{font-size:.82rem;letter-spacing:.5em;padding-left:.5em;color:#e7d6b2;margin:16px 0 6px;text-shadow:0 2px 8px #000}
+.title-caption{font-size:.7rem;letter-spacing:.12em;color:#c4b28e;margin-bottom:22px;text-shadow:0 2px 8px #000}
+.enter-btn{pointer-events:none;border:1px solid #b69a68;background:rgba(22,18,14,.78);backdrop-filter:blur(6px);padding:13px 30px;color:#f0dfbd;font-size:.8rem;letter-spacing:.22em;cursor:pointer;transition:.3s}
+.intro.ui .enter-btn{pointer-events:auto}
+.enter-btn:hover{background:#8e2f25;border-color:#e0c38c;box-shadow:0 0 20px #8e2f2599}
+.tagline{position:absolute;bottom:6%;left:0;right:0;z-index:5;text-align:center;font-family:'Gowun Batang',serif;font-size:.82rem;letter-spacing:.18em;color:#e2d2b2;text-shadow:0 2px 8px #000;opacity:0;transition:opacity 1.4s}
+.intro.ready .tagline{opacity:1}
+.idx{position:absolute;right:4%;bottom:3%;z-index:5;font-size:.58rem;letter-spacing:.18em;color:#d2c09b99}
 
-.intro-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;filter:saturate(.7) contrast(1.1) brightness(.5)}
-.video-shade{position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at center, transparent 30%, #0d0a08 90%);pointer-events:none}
-
-/* 3D Gate Scene */
-.gate-scene{position:relative;width:min(88vw, 680px);height:min(75vh, 600px);perspective:1200px;display:flex;align-items:center;justify-content:center}
-.gate-frame{position:absolute;inset:0;border:12px solid #241710;outline:2px solid #7d613b;outline-offset:-18px;background:#130b06;box-shadow:inset 0 0 50px #000, 0 0 40px #000}
-.lintel{position:absolute;top:-20px;left:-10px;right:-10px;height:55px;background:linear-gradient(#795535,#2c1b11 40%,#593b25 65%,#1b100b);border:2px solid #9b7949;z-index:10;display:grid;place-items:center}
-.lintel-text{color:#e7d6b2;letter-spacing:.5em;font-size:.85rem;text-shadow:0 0 8px #000;font-family:'Gowun Batang',serif}
-
-.gate-leaf{position:absolute;top:32px;bottom:16px;width:calc(50% - 12px);z-index:5;background:repeating-linear-gradient(90deg,transparent 0 25px,#120b07 26px 30px),linear-gradient(90deg,#4a2e1d,#29180f 40%,#3d2517 70%,#1f130b);border:3px solid #7c5733;box-shadow:inset 0 0 15px #000;transition:transform 2.2s cubic-bezier(.25,1,.25,1);transform-style:preserve-3d}
-.gate-leaf.left{left:12px;transform-origin:left center;border-right:3px solid #100a06}
-.gate-leaf.right{right:12px;transform-origin:right center;border-left:3px solid #100a06}
-.gate-leaf::after{content:"";position:absolute;top:50%;width:14px;height:14px;border-radius:50%;background:#b59a63;box-shadow:0 0 0 3px #1a100a, 0 0 8px #d0b87b}
-.left::after{right:8%}.right::after{left:8%}
-
-/* Open Door State */
-.gate-scene.open .left{transform:rotateY(-115deg)}
-.gate-scene.open .right{transform:rotateY(115deg)}
-
-/* Gate Content Inside */
-.gate-inside{position:absolute;inset:32px 16px 16px;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px}
-.title-hanja{font-family:'Gowun Batang',serif;font-size:clamp(3.8rem,9vw,6rem);font-weight:700;color:#f0dfbd;letter-spacing:.2em;text-shadow:0 0 20px #c8a36c77, 0 0 40px #000}
-.title-korean{font-size:.85rem;letter-spacing:.5em;color:#c4b28e;margin:15px 0 25px;padding-left:.5em}
-
-.enter-btn{border:1px solid #b69a68;background:rgba(22,18,14,.75);backdrop-filter:blur(6px);padding:14px 32px;color:#f0dfbd;font-size:.85rem;letter-spacing:.25em;cursor:pointer;transition:.4s;z-index:15;margin-top:10px}
-.enter-btn:hover{background:#8e2f25;border-color:#e0c38c;box-shadow:0 0 20px rgba(142,47,37,.6);transform:scale(1.03)}
-
-/* === MAIN CONTENT === */
-main{opacity:0;transition:opacity 1s ease}
+/* ===== MAIN ===== */
+main{opacity:0;transition:opacity 1.2s}
 main.revealed{opacity:1}
-
-/* Live Alert Ticker */
-.ticker-wrap{width:100%;background:#201712;border-bottom:1px solid #57432e;overflow:hidden;height:36px;display:flex;align-items:center;position:sticky;top:0;z-index:30}
-.ticker-title{background:#8e2f25;color:#f0dfbd;padding:0 14px;height:100%;display:flex;align-items:center;font-size:.7rem;letter-spacing:.15em;font-weight:700;flex-shrink:0;z-index:2}
-.ticker-move{display:flex;white-space:nowrap;animation:ticker 35s linear infinite}
-.ticker-item{padding:0 30px;font-size:.75rem;color:#cbb892;letter-spacing:.05em}
-@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-
+.ticker-wrap{position:sticky;top:0;z-index:30;height:36px;display:flex;align-items:center;overflow:hidden;background:#201712;border-bottom:1px solid #57432e}
+.ticker-title{flex-shrink:0;height:100%;display:flex;align-items:center;padding:0 14px;background:var(--red);color:#f0dfbd;font-size:.7rem;font-weight:700;letter-spacing:.15em;z-index:2}
+.ticker-move{display:flex;white-space:nowrap;animation:tick 55s linear infinite}
+.ticker-wrap:hover .ticker-move{animation-play-state:paused}
+@keyframes tick{to{transform:translateX(-50%)}}
+.ti{background:none;border:0;padding:0 30px;font-size:.75rem;color:#cbb892;letter-spacing:.05em;cursor:pointer}
+.ti:hover{color:#f0dfbd;text-decoration:underline}
 .archive{position:relative;max-width:1050px;margin:0 auto;padding:50px 24px 100px}
 .archive::before{content:"";position:absolute;top:0;bottom:0;left:50%;width:1px;background:linear-gradient(transparent,#8c7045 10%,#8c7045 90%,transparent);opacity:.35}
 .eyebrow{text-align:center;color:#b99b65;letter-spacing:.3em;font-size:.72rem}
 h1{font-family:'Gowun Batang',serif;text-align:center;font-size:clamp(2.4rem,7vw,4.5rem);letter-spacing:.12em;margin:12px 0;color:#e9d9b6;font-weight:700}
 .subtitle{text-align:center;color:#b9a782;line-height:2;font-size:.95rem;margin:0 auto 46px;max-width:620px}
-
 .prologue{position:relative;margin:0 auto 60px;padding:28px clamp(20px,5vw,55px);max-width:760px;background:linear-gradient(135deg,#d9c59c,#f0e2bf 48%,#d1bc91);color:#302219;box-shadow:0 12px 30px #0007;transform:rotate(-.25deg)}
 .prologue::before,.prologue::after{content:"";position:absolute;left:12px;right:12px;height:1px;background:#80644366}
 .prologue::before{top:10px}.prologue::after{bottom:10px}
@@ -70,33 +82,30 @@ h1{font-family:'Gowun Batang',serif;text-align:center;font-size:clamp(2.4rem,7vw
 .prologue p{line-height:2.05;margin:0 0 12px;max-width:90%;font-size:.96rem}
 .prologue p:last-of-type{margin-bottom:0}
 .prologue strong{color:#812e24}
-
 .section-heading{text-align:center;margin:0 0 25px;color:#bda574;font-size:.78rem;letter-spacing:.32em}
-.category-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;position:relative}
+.category-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .category{min-height:170px;position:relative;cursor:pointer;text-align:center;color:#2a1c12;background:linear-gradient(135deg,#e8d8b4,#cbb384);border:1px solid #8c7045;padding:23px 12px 20px;box-shadow:0 8px 18px #0004;transition:transform .25s,filter .25s;overflow:hidden}
 .category::before{content:"";position:absolute;inset:7px;border:1px solid #7c5d3b55;pointer-events:none}
 .category:hover{transform:translateY(-5px) rotate(-.5deg);filter:brightness(1.08)}
 .category .hanja{font-size:.68rem;letter-spacing:.25em;color:#8e3026;margin-bottom:8px}
-.category .brush{font-family:'Gowun Batang',serif;font-size:clamp(1.45rem,3.3vw,2.15rem);font-weight:700;letter-spacing:.05em}
+.category .brush{font-family:'Gowun Batang',serif;font-size:clamp(1.45rem,3.3vw,2.15rem);font-weight:700}
 .category .hint{font-size:.73rem;line-height:1.6;margin-top:9px;color:#59432d}
 .category .corner{position:absolute;right:12px;top:10px;color:#8e3026;font-size:1.1rem}
 .footnote{text-align:center;color:#867456;font-size:.75rem;letter-spacing:.1em;margin-top:35px}
 footer{text-align:center;border-top:1px solid #57452e;padding:25px 16px 38px;color:#847153;font-size:.72rem;letter-spacing:.13em}
 
-/* === MODAL & DOCUMENT STAMP EFFECT === */
+/* ===== MODAL ===== */
 .modal{position:fixed;inset:0;z-index:200;display:none;place-items:center;padding:18px;background:#090705d9;backdrop-filter:blur(6px)}
-.modal.show{display:grid;animation:modalFade .25s forwards}
-@keyframes modalFade{from{opacity:0}to{opacity:1}}
-
-.document{position:relative;width:min(900px,100%);max-height:min(86svh,900px);overflow:auto;color:#2b2017;background:linear-gradient(110deg,#cdb58a 0,#ead9b4 8%,#f0e3c6 50%,#e0cba2 94%,#bca176 100%);padding:clamp(25px,5vw,55px);box-shadow:0 25px 90px #000b;border:1px solid #a98a57;transform:translateY(20px);transition:transform .3s ease}
-.modal.show .document{transform:translateY(0)}
+.modal.show{display:grid;animation:fade .25s}
+@keyframes fade{from{opacity:0}}
+.document{position:relative;width:min(900px,100%);max-height:min(86svh,900px);overflow:auto;color:#2b2017;background:linear-gradient(110deg,#cdb58a 0,#ead9b4 8%,#f0e3c6 50%,#e0cba2 94%,#bca176 100%);padding:clamp(25px,5vw,55px);box-shadow:0 25px 90px #000b;border:1px solid #a98a57}
+.modal.show .document{animation:drop .5s cubic-bezier(.2,.9,.3,1)}
+@keyframes drop{from{opacity:0;transform:translateY(-36px) rotate(-1.2deg)}}
 .document::before{content:"";position:absolute;inset:10px;border:1px solid #7f613b66;pointer-events:none}
-
 .doc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;border-bottom:1px solid #80613d66;padding-bottom:18px;margin-bottom:22px}
 .doc-kicker{font-size:.7rem;letter-spacing:.2em;color:#8e3026}
 .doc-title{font-family:'Gowun Batang',serif;font-size:clamp(1.8rem,5vw,3rem);margin:5px 0 0;font-weight:700}
 .close{position:sticky;top:0;flex-shrink:0;border:1px solid #8e3026;color:#8e3026;background:transparent;width:38px;height:38px;cursor:pointer;font-size:1.25rem}
-
 .doc-content{line-height:1.9;font-size:.92rem}
 .doc-content h3{font-family:'Gowun Batang',serif;font-size:1.3rem;margin:28px 0 8px;color:#7f2c22;border-bottom:1px solid #a58a5c;padding-bottom:6px}
 .doc-content h3:first-child{margin-top:0}
@@ -107,76 +116,66 @@ footer{text-align:center;border-top:1px solid #57452e;padding:25px 16px 38px;col
 .doc-content th,.doc-content td{border:1px solid #9b8056;padding:9px 10px;text-align:left;vertical-align:top}
 .doc-content th{background:#cdb68b}
 .doc-content tr:nth-child(even) td{background:#bca17622}
+.doc-seal-box{display:flex;justify-content:flex-end;margin-top:30px}
+.doc-seal{border:3px solid #8e3026;color:#8e3026;padding:8px 14px;writing-mode:vertical-rl;font-weight:700;letter-spacing:.2em;font-size:1.1rem;opacity:0}
+.modal.show .doc-seal{animation:stamp .4s .45s forwards cubic-bezier(.175,.885,.32,1.275)}
+@keyframes stamp{from{opacity:0;transform:scale(2) rotate(-10deg)}to{opacity:.9;transform:scale(1) rotate(4deg)}}
 
-/* Dynamic Animated Seal Stamp */
-.doc-seal-container{display:flex;justify-content:flex-end;margin-top:30px}
-.doc-seal{border:3px solid #8e3026;color:#8e3026;padding:8px 14px;writing-mode:vertical-rl;font-weight:700;letter-spacing:.2em;font-size:1.1rem;opacity:0;transform:scale(2) rotate(-10deg);transition:none}
-.modal.show .doc-seal{animation:stampIn .4s .3s forwards cubic-bezier(.175, .885, .32, 1.275)}
-@keyframes stampIn{to{opacity:.9;transform:scale(1) rotate(4deg)}}
-
-@media(max-width:650px){.archive{padding:35px 15px 65px}.category-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.category{min-height:150px;padding:20px 8px}.prologue p{max-width:100%;font-size:.88rem}.doc-content table{font-size:.75rem}.archive::before{display:none}}
+@media(max-width:650px){
+.archive{padding:35px 15px 65px}.archive::before{display:none}
+.category-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.category{min-height:150px;padding:20px 8px}
+.prologue p{max-width:100%;font-size:.88rem}.doc-content table{font-size:.75rem}.doc-content th,.doc-content td{padding:7px 6px}
+.gate-scene{width:92vw;height:64vh}.lintel span{font-size:.6rem;letter-spacing:.25em}
+.intro-copy{top:5%;font-size:.56rem;letter-spacing:.15em}.idx{left:0;right:0;text-align:center;font-size:.52rem}.tagline{bottom:8%;font-size:.74rem}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}.ticker-move{animation:none}}
 </style>
 </head>
-<body>
-
+<body class="lock">
 <div class="noise" aria-hidden="true"></div>
 
-<!-- 1. CINEMATIC 3D GATE INTRO -->
-<div class="intro-container" id="introContainer">
-  <video class="intro-video" autoplay muted playsinline loop preload="auto">
+<section class="intro" id="intro" aria-label="도계청 인트로">
+  <video class="intro-video" id="vid" muted playsinline preload="auto">
     <source src="https://jinkwf.github.io/afterlife/%EC%9D%B8%ED%8A%B8%EB%A1%9C.mp4" type="video/mp4">
   </video>
-  <div class="video-shade"></div>
+  <div class="shade"></div>
+  <button class="skip" id="skip">건너뛰기 ›</button>
+  <button class="mute" id="mute" aria-pressed="false">음향 ON</button>
+  <div class="intro-copy">冥府所屬　·　此岸事務執行機關</div>
 
-  <div class="gate-scene" id="gateScene">
-    <div class="gate-frame"></div>
-    <div class="lintel"><span class="lintel-text">冥府所屬 · 此岸事務執行機關</span></div>
-    
-    <!-- Left & Right Gate Leaves -->
-    <div class="gate-leaf left"></div>
-    <div class="gate-leaf right"></div>
-
-    <!-- Inside Portal Content -->
-    <div class="gate-inside">
-      <div class="title-hanja">渡界廳</div>
+  <div class="gate-scene" id="gate">
+    <div class="frame"></div>
+    <div class="back"></div>
+    <div class="lintel"><span>渡界廳 · 此岸事務執行機關</span></div>
+    <div class="leaf l"></div><div class="leaf r"></div>
+    <div class="gate-ui">
+      <div class="title-hanja"><span>渡</span><span>界</span><span>廳</span></div>
       <div class="title-korean">도 계 청</div>
-      <button class="enter-btn" id="enterBtn">관청 문 열기 ➔</button>
+      <div class="title-caption">죽은 자를 저승으로 인도하는 관청</div>
+      <button class="enter-btn" id="enterBtn">기록 열람 ➔</button>
     </div>
   </div>
-</div>
+  <div class="tagline">기록은 남고, 혼은 길을 잃는다.</div>
+  <div class="idx">D.G.C.　/　ARCHIVE No. 049</div>
+</section>
 
-<!-- 2. MAIN ARCHIVE SECTION -->
 <main id="main">
-  <!-- Real-time Incident Ticker -->
   <div class="ticker-wrap">
     <div class="ticker-title">도계청 실시간 상황</div>
-    <div class="ticker-move">
-      <span class="ticker-item">[긴급] 서울 2호선 지하철 터널 구간 1급 미련 혼 발생 — 인차사 2반 출동</span>
-      <span class="ticker-item">[통보] 금일 49일 경과 예정 혼: 142건 (원귀화 위험 지정)</span>
-      <span class="ticker-item">[주의] 마포구 재개발 구역 봉인망 균열 감지 — 물괴 '그슨대' 접근 주의</span>
-      <span class="ticker-item">[공지] 적관실: 산 자 측 수사 기록 은폐 작업 89% 완료</span>
-      <!-- Duplicate for seamless looping -->
-      <span class="ticker-item">[긴급] 서울 2호선 지하철 터널 구간 1급 미련 혼 발생 — 인차사 2반 출동</span>
-      <span class="ticker-item">[통보] 금일 49일 경과 예정 혼: 142건 (원귀화 위험 지정)</span>
-      <span class="ticker-item">[주의] 마포구 재개발 구역 봉인망 균열 감지 — 물괴 '그슨대' 접근 주의</span>
-      <span class="ticker-item">[공지] 적관실: 산 자 측 수사 기록 은폐 작업 89% 완료</span>
-    </div>
+    <div class="ticker-move" id="ticker"></div>
   </div>
-
   <div class="archive">
     <div class="eyebrow">渡界廳 · RECORDS OF THE AFTERLIFE</div>
     <h1>도계청</h1>
     <p class="subtitle">이승과 저승의 경계에서, 아직 끝나지 않은 죽음을 처리하는 관청.<br>열람 가능한 문서를 선택하시오.</p>
-    
     <section class="prologue">
       <p>한 해 <strong>36만 명</strong>이 죽는다. 차사 정원은 조선 후기에 정한 수에서 거의 늘지 않았다.</p>
       <p>아무도 데리러 오지 않은 혼은 이승에 남아 탁해지고, 탁해진 혼은 산 자를 해친다. 땅에 박아 두었던 봉인망은 터널과 지하철과 재개발에 끊겼고, 민담 속에서나 살던 것들이 다시 거리로 기어 나왔다.</p>
       <p>죽은 자를 저승으로 인도하는 관청, 도계청. 그곳에 요괴를 맡는 부서는 없다. 떠맡는 것은 언제나 가장 가까이 있는 차사다.</p>
       <div class="stamp">機密<br>閱覽</div>
     </section>
-
     <h2 class="section-heading">— 열람 가능한 문서 —</h2>
-    <div class="category-grid" id="categoryGrid">
+    <div class="category-grid">
       <button class="category" data-key="overview"><span class="corner">一</span><div class="hanja">槪要</div><div class="brush">한눈에 보기</div><div class="hint">배경 · 중심 갈등 · 핵심 기한</div></button>
       <button class="category" data-key="rules"><span class="corner">二</span><div class="hanja">世界規則</div><div class="brush">세계 규칙</div><div class="hint">사후 흐름 · 잿길 · 49일</div></button>
       <button class="category" data-key="office"><span class="corner">三</span><div class="hanja">渡界廳</div><div class="brush">도계청</div><div class="hint">조직 · 위장 · 명적 · 인력난</div></button>
@@ -185,27 +184,19 @@ footer{text-align:center;border-top:1px solid #57452e;padding:25px 16px 38px;col
       <button class="category" data-key="mulgoe"><span class="corner">六</span><div class="hanja">物怪</div><div class="brush">물괴</div><div class="hint">요괴 계통 · 정체 · 성향</div></button>
       <button class="category" data-key="factions"><span class="corner">七</span><div class="hanja">外部勢力</div><div class="brush">외부 세력</div><div class="hint">묵자리 · 열두거리회 · 해원회</div></button>
     </div>
-    
     <p class="footnote">※ 본 문서는 도계청 분청 보관본을 바탕으로 재구성되었음.</p>
   </div>
-
   <footer>渡界廳 · 이승과 저승 사이의 행정 집행 기관</footer>
 </main>
 
-<!-- DOCUMENT MODAL -->
-<div class="modal" id="modal" role="dialog" aria-modal="true">
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <article class="document">
     <div class="doc-top">
-      <div>
-        <div class="doc-kicker" id="modalKicker">渡界廳 · 機密文書</div>
-        <h2 class="doc-title" id="modalTitle">문서 제목</h2>
-      </div>
+      <div><div class="doc-kicker" id="modalKicker">渡界廳 · 機密文書</div><h2 class="doc-title" id="modalTitle">문서 제목</h2></div>
       <button class="close" id="closeBtn" aria-label="문서 닫기">×</button>
     </div>
     <div class="doc-content" id="modalContent"></div>
-    <div class="doc-seal-container">
-      <div class="doc-seal">渡界廳 印</div>
-    </div>
+    <div class="doc-seal-box"><div class="doc-seal">渡界廳 印</div></div>
   </article>
 </div>
 
@@ -220,51 +211,86 @@ const docs = {
   factions:{hanja:'外部勢力 機密附錄',title:'외부 세력',html:`<h3>묵자리</h3><p>큰것들의 느슨한 연합. 봉인망이 끊기면서 사람과 땅을 나눠 쓰던 오래된 약속도 함께 무너졌다고 본다. 교섭은 그슨대 계통의 전령 <b>검은 손님</b>을 거쳐서만 이뤄진다. 적이라기보다 거래 상대이며, 가장 예의 바르면서 가장 무섭다. 1998년 당시 분청장과 맺은 밀약이 분청 최고 기밀로 남아 있다.</p><h3>열두거리회</h3><p>도시화에서 살아남은 세습무 계열. 봉인망을 손보던 전통의 마지막 상속자지만, 그 방법을 온전히 아는 사람은 더 이상 없다. 도계청과 <b>방인 계약</b>을 맺고 인력을 대며, 보수는 현금 대신 <b>수명</b>으로 나간다. 이 조항은 계약서 뒷장에 있다.</p><h3>해원회</h3><p>2010년대 중반에 생긴 신흥 교단. 한을 풀어 준다며 유족을 모아 원한을 반복 낭송하고 기록하고 공유한다. 되풀이된 원한은 풀리기는커녕 더 짙어지고 번지지만, 교단도 도계청도 아직 이 사실을 모른다. 가장 빠르게 커지는 위협이다.</p><h3>관계 메모</h3><p>세 세력은 단순한 선악 구도로 묶이지 않는다. 묵자리는 오래된 약속을 지키려 하고, 열두거리회는 사라져 가는 기술을 붙들고 있으며, 해원회는 선의의 언어로 위험을 확산시킨다.</p>`}
 };
 
-// 1. Gate Open Interaction
-const enterBtn = document.getElementById('enterBtn');
-const gateScene = document.getElementById('gateScene');
-const introContainer = document.getElementById('introContainer');
-const main = document.getElementById('main');
+const $=id=>document.getElementById(id);
+const intro=$('intro'),vid=$('vid'),gate=$('gate'),main=$('main');
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const k=reduce?0:1;
 
-enterBtn.addEventListener('click', () => {
-  gateScene.classList.add('open');
-  
-  setTimeout(() => {
-    introContainer.classList.add('hidden');
+/* 1) 영상 단독 재생 → 종료 시 줌인 → 대문 → 제목·버튼 */
+let went=false;
+function toGate(){
+  if(went)return; went=true;
+  vid.pause();
+  intro.classList.add('zoom');
+  setTimeout(()=>intro.classList.add('ready'),1700*k);
+  setTimeout(()=>intro.classList.add('ui'),2800*k);
+}
+vid.addEventListener('ended',toGate);
+vid.addEventListener('error',toGate);
+vid.querySelector('source').addEventListener('error',toGate);
+$('skip').addEventListener('click',toGate);
+if(reduce){toGate()}else{const p=vid.play();if(p&&p.catch)p.catch(toGate)}
+
+/* 2) 음향(클릭 시점에만 재생) */
+let sound=true;
+$('mute').addEventListener('click',e=>{sound=!sound;e.target.textContent=sound?'음향 ON':'음향 OFF';e.target.setAttribute('aria-pressed',String(!sound))});
+function rumble(){
+  if(!sound)return;
+  try{
+    const c=new(window.AudioContext||window.webkitAudioContext)(),t=c.currentTime;
+    const o=c.createOscillator(),f=c.createBiquadFilter(),g=c.createGain();
+    o.type='sawtooth';o.frequency.setValueAtTime(52,t);o.frequency.linearRampToValueAtTime(30,t+2.4);
+    f.type='lowpass';f.frequency.value=170;
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.16,t+.4);g.gain.linearRampToValueAtTime(0,t+2.4);
+    o.connect(f);f.connect(g);g.connect(c.destination);o.start();o.stop(t+2.5);
+  }catch(e){}
+}
+
+/* 3) 문 열림 → 페이드 → 본문 */
+$('enterBtn').addEventListener('click',()=>{
+  if(gate.classList.contains('open'))return;
+  gate.classList.add('open');
+  rumble();
+  setTimeout(()=>{
+    intro.classList.add('hidden');
     main.classList.add('revealed');
-  }, 1200);
+    document.body.classList.remove('lock');
+    scrollTo(0,0);
+  },1900*k);
 });
 
-// 2. Modal Document Handlers
-const modal = document.getElementById('modal');
-const modalTitle = document.getElementById('modalTitle');
-const modalKicker = document.getElementById('modalKicker');
-const modalContent = document.getElementById('modalContent');
+/* 4) 실시간 상황 티커 (항목 클릭 시 관련 문서 열람) */
+const feed=[
+  ['[긴급] 서울 2호선 지하철 터널 구간 1급 미련 혼 발생 — 인차사 제4반 수거 요청','wongwi'],
+  ['[통보] 금일 49일 경과 예정 혼 142건 (원귀화 위험 지정)','rules'],
+  ['[주의] 마포구 재개발 구역 봉인망 균열 감지 — 물괴 ‘그슨대’ 접근 주의','mulgoe'],
+  ['[공지] 적관실: 산 자 측 수사 기록 은폐 작업 89% 완료','chasas'],
+  ['[공지] 이번 분기 49일 내 인도율 — 부산지부 1위, 서울 3반 최하위','office'],
+  ['[민원] 장례식장 영정사진에 업경편 반사 문의 접수','chasas'],
+  ['[보고] 해원회 유족 모임 참석자 증가 — 감차사 모니터링 중','factions']
+];
+const row=feed.map(([t,key])=>`<button class="ti" data-key="${key}">${t}</button>`).join('');
+$('ticker').innerHTML=row+row;
 
+/* 5) 문서 모달 */
+const modal=$('modal');
 function openDoc(key){
-  const d = docs[key];
-  if(!d) return;
-  modalTitle.textContent = d.title;
-  modalKicker.textContent = '渡界廳 · ' + d.hanja;
-  modalContent.innerHTML = d.html;
+  const d=docs[key];if(!d)return;
+  $('modalTitle').textContent=d.title;
+  $('modalKicker').textContent='渡界廳 · '+d.hanja;
+  $('modalContent').innerHTML=d.html;
   modal.classList.add('show');
-  document.body.style.overflow = 'hidden';
-  document.getElementById('closeBtn').focus();
+  document.body.style.overflow='hidden';
+  $('closeBtn').focus();
 }
-
-function closeDoc(){
-  modal.classList.remove('show');
-  document.body.style.overflow = '';
-}
-
-document.getElementById('categoryGrid').addEventListener('click', e => {
-  const btn = e.target.closest('[data-key]');
-  if(btn) openDoc(btn.dataset.key);
+function closeDoc(){modal.classList.remove('show');document.body.style.overflow=''}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('main [data-key]');
+  if(b)openDoc(b.dataset.key);
 });
-
-document.getElementById('closeBtn').addEventListener('click', closeDoc);
-modal.addEventListener('click', e => { if(e.target === modal) closeDoc(); });
-document.addEventListener('keydown', e => { if(e.key === 'Escape' && modal.classList.contains('show')) closeDoc(); });
+$('closeBtn').addEventListener('click',closeDoc);
+modal.addEventListener('click',e=>{if(e.target===modal)closeDoc()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('show'))closeDoc()});
 </script>
 </body>
 </html>
