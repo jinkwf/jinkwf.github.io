@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#17130f">
+<title>渡界廳 — 도계청</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Serif+KR:wght@400;500;600;700;900&display=swap');
+:root{--ink:#241b15;--paper:#e8d8b4;--paper-light:#f1e5c9;--red:#8e2f25;--gold:#b69a61;--shadow:rgba(0,0,0,.48)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#17130f;color:var(--paper-light);font-family:'Noto Serif KR',serif;overflow-x:hidden}
+button{font:inherit}
+.noise{position:fixed;inset:0;pointer-events:none;z-index:20;opacity:.11;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.38'/%3E%3C/svg%3E")}
+.intro{position:relative;min-height:100svh;display:grid;place-items:center;overflow:hidden;background:radial-gradient(ellipse at 50% 48%,#3b2b20 0,#211913 42%,#100e0b 100%)}
+.moon{position:absolute;width:min(54vw,440px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 40% 35%,#d7c39a,#9b8154 58%,#54422b 100%);opacity:.17;filter:blur(1px);top:12%;left:50%;transform:translateX(-50%)}
+.intro-copy{position:absolute;top:7%;left:0;right:0;text-align:center;color:#c9b58c;letter-spacing:.35em;font-size:clamp(.65rem,1.6vw,.9rem);opacity:.8}
+.gate-scene{position:relative;width:min(82vw,560px);height:min(72vh,650px);min-height:420px;display:flex;align-items:stretch;justify-content:center;perspective:1200px;filter:drop-shadow(0 22px 25px #0009)}
+.gate-frame{position:absolute;inset:0 5%;border:9px solid #241710;outline:2px solid #7d613b;outline-offset:-16px;background:linear-gradient(90deg,#39251a,#5a3a25 12%,#24160f 13%,#3a2519 50%,#24160f 87%,#5a3a25 88%,#39251a);box-shadow:inset 0 0 30px #090705,0 0 0 3px #100c09}
+.lintel{position:absolute;top:-15px;left:0;right:0;height:45px;background:linear-gradient(#795535,#2c1b11 40%,#593b25 65%,#1b100b);border:2px solid #9b7949;z-index:4}
+.lintel:after{content:"";position:absolute;inset:8px 10%;border:1px solid #b89a66}
+.gate-leaf{position:absolute;top:28px;bottom:12px;width:44%;z-index:3;background:repeating-linear-gradient(90deg,transparent 0 31px,#170e09 32px 37px,transparent 38px 43px),linear-gradient(90deg,#553521,#321d12 35%,#4a2d1a 65%,#25150d);border:3px solid #88613b;box-shadow:inset 0 0 0 5px #29180f,inset 0 0 18px #090604;transition:transform 2.6s cubic-bezier(.22,.8,.25,1);transform-style:preserve-3d}
+.gate-leaf.left{left:6%;transform-origin:left center;border-right:4px solid #120b07}
+.gate-leaf.right{right:6%;transform-origin:right center;border-left:4px solid #120b07}
+.gate-leaf:before{content:"";position:absolute;inset:13% 13%;border:2px solid #9b7446;box-shadow:inset 0 0 0 5px #382115,inset 0 0 0 7px #8c643a}
+.gate-leaf:after{content:"";position:absolute;top:45%;width:13px;height:13px;border-radius:50%;background:#b59a63;box-shadow:0 0 0 4px #29190f,0 0 10px #d0b87b}
+.left:after{right:10%}.right:after{left:10%}
+.gate-scene.open .left{transform:rotateY(-108deg)}.gate-scene.open .right{transform:rotateY(108deg)}
+.gate-opening{position:absolute;inset:28px 17% 12px;background:radial-gradient(ellipse at 50% 45%,#a58a5b22,#090705 68%);z-index:1}
+.vertical-title{position:absolute;z-index:5;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:.04em;color:#e8d7b0;text-shadow:0 2px 5px #000,0 0 16px #c9a96c55;font-family:'Gowun Batang','Noto Serif KR',serif;font-size:clamp(3.5rem,11vw,6.2rem);font-weight:700;letter-spacing:.12em;line-height:1.03;transition:opacity .8s,transform 1s}
+.vertical-title span{display:block;opacity:0;transform:translateY(-16px);animation:inkIn .65s forwards}
+.vertical-title span:nth-child(1){animation-delay:.6s}.vertical-title span:nth-child(2){animation-delay:1.25s}.vertical-title span:nth-child(3){animation-delay:1.9s}
+@keyframes inkIn{to{opacity:1;transform:translateY(0)}}
+.seal{position:absolute;z-index:6;bottom:8%;right:10%;width:56px;height:56px;border:2px solid #9e3026;color:#a63a2d;display:grid;place-items:center;font-size:1.3rem;writing-mode:vertical-rl;transform:rotate(8deg);opacity:0;animation:sealIn .8s 2.5s forwards}
+@keyframes sealIn{to{opacity:.9}}
+.intro-bottom{position:absolute;bottom:5%;left:0;right:0;text-align:center;z-index:8}
+.intro-bottom p{margin:0 0 18px;color:#c7b58e;letter-spacing:.12em;font-size:.85rem}
+.enter-btn{border:1px solid #9d8050;color:#e7d7b5;background:#20170fbb;padding:12px 30px;letter-spacing:.2em;cursor:pointer;transition:.3s}
+.enter-btn:hover{background:#8e2f25;border-color:#c8a36c;transform:translateY(-2px)}
+.intro.hidden{animation:fadeAway 1.2s forwards;pointer-events:none}
+@keyframes fadeAway{to{opacity:0;visibility:hidden}}
+main{opacity:0;max-height:0;overflow:hidden;transition:opacity 1s}
+main.revealed{opacity:1;max-height:none;overflow:visible}
+.archive{position:relative;max-width:1050px;margin:0 auto;padding:70px 24px 100px}
+.archive:before{content:"";position:absolute;top:0;bottom:0;left:50%;width:1px;background:linear-gradient(transparent,#8c7045 10%,#8c7045 90%,transparent);opacity:.35}
+.eyebrow{text-align:center;color:#b99b65;letter-spacing:.3em;font-size:.72rem}
+h1{font-family:'Gowun Batang',serif;text-align:center;font-size:clamp(2.4rem,7vw,4.5rem);letter-spacing:.12em;margin:12px 0;color:#e9d9b6;font-weight:700}
+.subtitle{text-align:center;color:#b9a782;line-height:2;font-size:.95rem;margin:0 auto 46px;max-width:620px}
+.prologue{position:relative;margin:0 auto 60px;padding:28px clamp(20px,5vw,55px);max-width:760px;background:linear-gradient(135deg,#d9c59c,#f0e2bf 48%,#d1bc91);color:#302219;box-shadow:0 12px 30px #0007;transform:rotate(-.25deg)}
+.prologue:before,.prologue:after{content:"";position:absolute;left:12px;right:12px;height:1px;background:#80644366}
+.prologue:before{top:10px}.prologue:after{bottom:10px}
+.prologue .stamp{position:absolute;right:25px;bottom:22px;border:2px solid #8e3026;color:#8e3026;padding:7px 5px;writing-mode:vertical-rl;font-weight:700;transform:rotate(5deg);font-size:.9rem}
+.prologue p{line-height:2.05;margin:0 0 12px;max-width:90%;font-size:.96rem}
+.prologue p:last-of-type{margin-bottom:0}
+.prologue strong{color:#812e24}
+.section-heading{text-align:center;margin:0 0 25px;color:#bda574;font-size:.78rem;letter-spacing:.32em}
+.category-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;position:relative}
+.category{min-height:170px;position:relative;cursor:pointer;text-align:center;color:#2a1c12;background:linear-gradient(135deg,#e8d8b4,#cbb384);border:1px solid #8c7045;padding:23px 12px 20px;box-shadow:0 8px 18px #0004;transition:transform .25s,filter .25s;overflow:hidden}
+.category:before{content:"";position:absolute;inset:7px;border:1px solid #7c5d3b55;pointer-events:none}
+.category:hover{transform:translateY(-5px) rotate(-.5deg);filter:brightness(1.08)}
+.category .hanja{font-size:.68rem;letter-spacing:.25em;color:#8e3026;margin-bottom:8px}
+.category .brush{font-family:'Gowun Batang',serif;font-size:clamp(1.45rem,3.3vw,2.15rem);font-weight:700;letter-spacing:.05em}
+.category .hint{font-size:.73rem;line-height:1.6;margin-top:9px;color:#59432d}
+.category .corner{position:absolute;right:12px;top:10px;color:#8e3026;font-size:1.1rem}
+.footnote{text-align:center;color:#867456;font-size:.75rem;letter-spacing:.1em;margin-top:35px}
+footer{text-align:center;border-top:1px solid #57452e;padding:25px 16px 38px;color:#847153;font-size:.72rem;letter-spacing:.13em}
+.modal{position:fixed;inset:0;z-index:50;display:none;place-items:center;padding:18px;background:#090705d9;backdrop-filter:blur(5px)}
+.modal.show{display:grid;animation:modalFade .25s}
+@keyframes modalFade{from{opacity:0}to{opacity:1}}
+.document{position:relative;width:min(900px,100%);max-height:min(86svh,900px);overflow:auto;color:#2b2017;background:linear-gradient(110deg,#cdb58a 0,#ead9b4 8%,#f0e3c6 50%,#e0cba2 94%,#bca176 100%);padding:clamp(25px,5vw,55px);box-shadow:0 25px 90px #000b;border:1px solid #a98a57}
+.document:before{content:"";position:absolute;inset:10px;border:1px solid #7f613b66;pointer-events:none}
+.doc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;border-bottom:1px solid #80613d66;padding-bottom:18px;margin-bottom:22px}
+.doc-kicker{font-size:.7rem;letter-spacing:.2em;color:#8e3026}
+.doc-title{font-family:'Gowun Batang',serif;font-size:clamp(1.8rem,5vw,3rem);margin:5px 0 0;font-weight:700}
+.close{position:sticky;top:0;flex-shrink:0;border:1px solid #8e3026;color:#8e3026;background:transparent;width:38px;height:38px;cursor:pointer;font-size:1.25rem}
+.doc-content{line-height:1.9;font-size:.92rem}
+.doc-content h3{font-family:'Gowun Batang',serif;font-size:1.3rem;margin:28px 0 8px;color:#7f2c22;border-bottom:1px solid #a58a5c;padding-bottom:6px}
+.doc-content h3:first-child{margin-top:0}
+.doc-content p{margin:8px 0 14px}
+.doc-content ul{padding-left:1.3em}
+.doc-content li{margin:5px 0}
+.doc-content table{border-collapse:collapse;width:100%;font-size:.82rem;margin:15px 0 20px}
+.doc-content th,.doc-content td{border:1px solid #9b8056;padding:9px 10px;text-align:left;vertical-align:top}
+.doc-content th{background:#cdb68b}
+.doc-content tr:nth-child(even) td{background:#bca17622}
+.doc-seal{margin:28px 0 0 auto;border:2px solid #8e3026;color:#8e3026;width:max-content;padding:7px 10px;writing-mode:vertical-rl;font-weight:700;letter-spacing:.15em;transform:rotate(4deg)}
+
+/* Cinematic video intro */
+.intro{min-height:100svh;background:#100e0b;isolation:isolate}
+.intro-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:-2;filter:saturate(.72) contrast(1.06) brightness(.76)}
+.video-shade{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(13,11,9,.55),rgba(13,11,9,.12) 35%,rgba(13,11,9,.32) 62%,rgba(13,11,9,.86)),linear-gradient(90deg,rgba(13,11,9,.28),transparent 45%,rgba(13,11,9,.28));pointer-events:none}
+.intro-copy{top:6%;font-size:.68rem;letter-spacing:.28em;color:#e4d2ad;text-shadow:0 2px 10px #000;opacity:.9}
+.title-lockup{position:absolute;top:48%;left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;text-align:center;color:#f0dfbd;text-shadow:0 2px 18px #000,0 0 36px #0008;animation:lockupIn 1.2s .3s both}
+.title-hanja{display:flex;flex-direction:column;gap:.02em;font-family:'Gowun Batang','Noto Serif KR',serif;font-weight:700;font-size:clamp(4.3rem,10vw,7.3rem);line-height:.98;letter-spacing:.12em}
+.title-hanja span{opacity:0;animation:inkIn .75s forwards}
+.title-hanja span:nth-child(1){animation-delay:.55s}.title-hanja span:nth-child(2){animation-delay:1.05s}.title-hanja span:nth-child(3){animation-delay:1.55s}
+.title-rule{height:1px;width:42px;background:#c4a56e;margin:22px 0 15px;opacity:0;animation:softReveal 1s 2.1s forwards}
+.title-korean{font-size:.82rem;letter-spacing:.48em;padding-left:.48em;color:#e7d6b2;opacity:0;animation:softReveal 1s 2.25s forwards}
+.title-caption{font-size:.72rem;letter-spacing:.12em;color:#c4b28e;margin-top:12px;opacity:0;animation:softReveal 1s 2.4s forwards}
+.intro-bottom{bottom:8%;z-index:4}
+.intro-bottom p{font-family:'Gowun Batang',serif;font-size:.82rem;letter-spacing:.18em;color:#e2d2b2;margin-bottom:22px;text-shadow:0 2px 8px #000}
+.enter-btn{min-width:176px;border:1px solid #b69a68;background:rgba(22,18,14,.48);backdrop-filter:blur(8px);padding:13px 25px;color:#f0dfbd;font-size:.78rem;letter-spacing:.22em;transition:background .3s,border-color .3s,transform .3s}
+.enter-btn span{margin-left:13px;color:#c8a86c}
+.enter-btn:hover{background:rgba(120,39,29,.75);border-color:#dfc18a;transform:translateY(-2px)}
+.intro-index{position:absolute;right:4%;bottom:4%;font-size:.58rem;letter-spacing:.18em;color:#d2c09b99}
+@keyframes lockupIn{from{opacity:0;transform:translate(-50%,-47%)}to{opacity:1;transform:translate(-50%,-50%)}}
+@keyframes softReveal{to{opacity:1}}
+.intro.hidden{animation:fadeAway .8s forwards}
+@media(max-width:650px){.intro-video{object-position:center}.intro-copy{top:5%;font-size:.56rem;letter-spacing:.15em}.title-hanja{font-size:clamp(4rem,17vw,6rem)}.title-rule{margin:18px 0 12px}.title-caption{font-size:.65rem}.intro-bottom{bottom:10%}.intro-index{right:0;left:0;text-align:center;bottom:3%;font-size:.52rem}}
+
+@media(max-width:650px){.gate-scene{width:92vw;min-height:420px;height:62vh}.intro-copy{top:5%}.archive{padding:48px 15px 65px}.category-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.category{min-height:150px;padding:20px 8px}.prologue p{max-width:100%;font-size:.88rem}.prologue .stamp{position:static;float:right;margin:8px 0 0 12px}.doc-content table{font-size:.75rem}.doc-content th,.doc-content td{padding:7px 6px}.archive:before{display:none}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="noise" aria-hidden="true"></div>
+<section class="intro" id="intro" aria-label="도계청 인트로">
+  <video class="intro-video" autoplay muted playsinline preload="auto">
+    <source src="https://jinkwf.github.io/afterlife/%EC%9D%B8%ED%8A%B8%EB%A1%9C.mp4" type="video/mp4">
+  </video>
+  <div class="video-shade"></div>
+  <div class="intro-copy">冥府所屬　·　此岸事務執行機關</div>
+  <div class="title-lockup" aria-label="도계청">
+    <div class="title-hanja"><span>渡</span><span>界</span><span>廳</span></div>
+    <div class="title-rule"></div>
+    <div class="title-korean">도 계 청</div>
+    <div class="title-caption">죽은 자를 저승으로 인도하는 관청</div>
+  </div>
+  <div class="intro-bottom">
+    <p>기록은 남고, 혼은 길을 잃는다.</p>
+    <button class="enter-btn" id="enterBtn">기록 열람 <span aria-hidden="true">↗</span></button>
+  </div>
+  <div class="intro-index">D.G.C.　/　ARCHIVE No. 049</div>
+</section>
+<main id="main">
+  <div class="archive">
+    <div class="eyebrow">渡界廳 · RECORDS OF THE AFTERLIFE</div>
+    <h1>도계청</h1>
+    <p class="subtitle">이승과 저승의 경계에서, 아직 끝나지 않은 죽음을 처리하는 관청.<br>열람 가능한 문서를 선택하시오.</p>
+    <section class="prologue">
+      <p>한 해 <strong>36만 명</strong>이 죽는다. 차사 정원은 조선 후기에 정한 수에서 거의 늘지 않았다.</p>
+      <p>아무도 데리러 오지 않은 혼은 이승에 남아 탁해지고, 탁해진 혼은 산 자를 해친다. 땅에 박아 두었던 봉인망은 터널과 지하철과 재개발에 끊겼고, 민담 속에서나 살던 것들이 다시 거리로 기어 나왔다.</p>
+      <p>죽은 자를 저승으로 인도하는 관청, 도계청. 그곳에 요괴를 맡는 부서는 없다. 떠맡는 것은 언제나 가장 가까이 있는 차사다.</p>
+      <div class="stamp">機密<br>閱覽</div>
+    </section>
+    <h2 class="section-heading">— 열람 가능한 문서 —</h2>
+    <div class="category-grid" id="categoryGrid">
+      <button class="category" data-key="overview"><span class="corner">一</span><div class="hanja">槪要</div><div class="brush">한눈에 보기</div><div class="hint">배경 · 중심 갈등 · 핵심 기한</div></button>
+      <button class="category" data-key="rules"><span class="corner">二</span><div class="hanja">世界規則</div><div class="brush">세계 규칙</div><div class="hint">사후 흐름 · 잿길 · 49일</div></button>
+      <button class="category" data-key="office"><span class="corner">三</span><div class="hanja">渡界廳</div><div class="brush">도계청</div><div class="hint">조직 · 위장 · 명적 · 인력난</div></button>
+      <button class="category" data-key="chasas"><span class="corner">四</span><div class="hanja">差使</div><div class="brush">차사</div><div class="hint">임용 · 직군 · 권능 · 장구</div></button>
+      <button class="category" data-key="wongwi"><span class="corner">五</span><div class="hanja">怨鬼</div><div class="brush">원귀</div><div class="hint">등급 · 현장 징후 · 대응 절차</div></button>
+      <button class="category" data-key="mulgoe"><span class="corner">六</span><div class="hanja">物怪</div><div class="brush">물괴</div><div class="hint">요괴 계통 · 정체 · 성향</div></button>
+      <button class="category" data-key="factions"><span class="corner">七</span><div class="hanja">外部勢力</div><div class="brush">외부 세력</div><div class="hint">묵자리 · 열두거리회 · 해원회</div></button>
+    </div>
+    <p class="footnote">※ 본 문서는 도계청 분청 보관본을 바탕으로 재구성되었음.</p>
+  </div>
+  <footer>渡界廳 · 이승과 저승 사이의 행정 집행 기관</footer>
+</main>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <article class="document">
+    <div class="doc-top"><div><div class="doc-kicker" id="modalKicker">渡界廳 · 機密文書</div><h2 class="doc-title" id="modalTitle">문서 제목</h2></div><button class="close" id="closeBtn" aria-label="문서 닫기">×</button></div>
+    <div class="doc-content" id="modalContent"></div><div class="doc-seal">渡界廳 印</div>
+  </article>
+</div>
+<script>
+const docs = {
+overview:{hanja:'總覽 · 槪要',title:'한눈에 보기',html:`<h3>기본 개요</h3><ul><li><b>배경</b> — 현대 한국. 저승 행정의 집행 기관 도계청이 과로 중이다.</li><li><b>중심 갈등</b> — 밀린 혼의 원귀화와 봉인망 붕괴로 거리로 나온 요괴.</li><li><b>차사</b> — 죽은 자 중에서 뽑는 저승 공무원. 백년역 복무 후 환생한다.</li><li><b>49일</b> — 이 기한을 넘기면 혼이 굳어 원귀가 된다.</li></ul><h3>핵심 전제</h3><p>이 세계의 괴이는 단순한 퇴치 대상이 아니다. 원귀는 제때 인도되지 못한 사람이며, 물괴는 인간의 질서와 다른 오래된 존재다. 차사들은 행정 절차와 현장의 위험 사이에서 매일 선택을 강요받는다.</p>`},
+rules:{hanja:'世界規則',title:'세계 규칙',html:`<h3>사후 흐름</h3><p><b>사망 → 차표 자동 발부 → 인차사 수거 → 잿길 인도 → 황천문 통과 → 명부</b><br>명부에서 시왕이 심판과 환생을 결정한다. 도계청의 관할은 황천문까지다.</p><h3>잿길</h3><p>이승과 저승 사이에 놓인 얇은 중간지대. 죽은 자만 걸을 수 있으며, 생전의 기억을 되감아 보여 준다. 미련이 남은 혼은 기억 앞에서 걸음을 멈춘다.</p><h3>설득 중심</h3><p>혼은 대개 자신이 죽었다는 사실을 모른다. 차사의 임무는 혼을 설득해 황천문까지 인도하는 것이다. 심판과 환생에는 관여할 수 없다.</p><h3>49일 기한</h3><p>기한을 넘긴 혼은 이승의 사물이나 장소에 들러붙어 굳는다. 이것이 원귀화의 시작이다. 모든 지부는 <b>‘49일 내 인도율’</b>로 평가받는다.</p><h3>산 자는 모른다</h3><p>원귀 사고는 가스 누출·노후 배관·집단 히스테리 등으로 처리된다. 적관이 언론과 수사 기록을 고쳐 쓰기 때문이다. 다만 CCTV와 휴대전화가 늘면서 은폐 성공률은 눈에 띄게 떨어지고 있다.</p>`},
+office:{hanja:'渡界廳 組織案內',title:'도계청',html:`<h3>기관 개요</h3><p>명부 산하에서 이승의 사후 행정 집행을 맡는 관청. 심판은 명부가, 집행은 도계청이 나누어 맡는다.</p><table><tr><th>항목</th><th>내용</th></tr><tr><td>조직</td><td>한반도분청 → 광역시·도 지부 → 반</td></tr><tr><td>위장</td><td>(재)도계복지원이라는 장례·상조 재단 간판. 검은 정장으로 병원·장례식장·유족의 집을 드나든다.</td></tr><tr><td>명적</td><td>전 인구의 수명과 사인을 적은 장부. 전산화 완료.</td></tr><tr><td>인력난</td><td>사망자는 다섯 배 넘게 늘었지만 정원은 그대로다. 본청은 증원 대신 차표 자동발부 시스템으로 대응한다.</td></tr></table><h3>조직의 현실</h3><p>규정은 오래되었고, 현장은 변했다. 전산 시스템이 차표를 자동 발부해도 혼을 직접 찾아 설득하고 인도하는 일은 여전히 사람의 몫이다.</p>`},
+chasas:{hanja:'差使 人事記錄',title:'차사',html:`<h3>차사란</h3><p>죽은 사람 중에서 뽑는 저승 공무원이다. 신도 귀신도 아니다. <b>백년역</b>이라는 복무 기간을 채우면 환생 자격을 얻는다.</p><h3>임용 기준</h3><p>선행보다 적성을 본다. 남의 말을 끝까지 듣는 자, 제 한에 잡아먹히지 않은 자, 겁이 적은 자를 고른다. 자살자와 횡사자를 배제하는 원칙은 인력난 이후 유명무실해졌다.</p><h3>차사명</h3><p>임용 때 받는 두 글자 이름. 성정에서 한 글자, 죽은 방식에서 한 글자를 딴다. 본명은 봉인되어 본인도 떠올리지 못하지만 얼굴과 지문은 생전 그대로다.</p><h3>직군</h3><table><tr><th>직군</th><th>하는 일</th><th>특징</th></tr><tr><td>인차사</td><td>혼 수거·잿길 인도</td><td>전체의 7할. 상시 인력난.</td></tr><tr><td>포차사</td><td>3급 이상 원귀 포박·소멸</td><td>체력·담력 중심. 사상률 높음.</td></tr><tr><td>감차사</td><td>차사 비위 감찰과 조사</td><td>동료에게 가장 미움받는 직군.</td></tr><tr><td>적관</td><td>명적 관리, 산 자 측 기록 은폐</td><td>내근직. 정보의 길목.</td></tr><tr><td>방인</td><td>계약으로 쓰는 산 자 외주 인력</td><td>차사가 아니다. 권능도 보호도 없다.</td></tr></table><h3>권능 — 명패에 실린 권한</h3><p>명패를 빼앗기면 보통 혼과 다를 바 없어진다.</p><table><tr><th>권능</th><th>효과</th><th>제약</th></tr><tr><td>은신</td><td>산 자의 눈에 보이지 않는다.</td><td>CCTV·사진에는 찍힌다.</td></tr><tr><td>보행</td><td>잿길로 이동한다. 환승역 사이를 몇 걸음에 건넌다.</td><td>잿길이 끊긴 곳에서는 불가.</td></tr><tr><td>촉혼</td><td>혼을 붙잡고 끌 수 있다.</td><td>산 자의 몸에는 닿지 못한다.</td></tr><tr><td>열람</td><td>명패를 대면 혼의 생전 기록을 읽는다.</td><td>산 자에게는 통하지 않는다.</td></tr></table><h3>장구</h3><table><tr><th>이름</th><th>설명</th></tr><tr><td>명패</td><td>검은 나무패. 신분과 권한의 표식. 요즘은 직원증 지갑에 끼워 다닌다.</td></tr><tr><td>차표</td><td>혼 1인 인도 영장. 영수증처럼 뽑혀 나오며 유효기간은 49일.</td></tr><tr><td>혼줄</td><td>혼을 묶는 희끗한 삼끈. 3급까지 유효.</td></tr><tr><td>업경편</td><td>손거울만 한 거울 조각. 혼의 탁도를 비춘다. 요즘은 스마트폰 액정에 덧대 쓴다.</td></tr></table>`},
+wongwi:{hanja:'怨鬼 危險等級',title:'원귀',html:`<h3>정의</h3><p>원귀는 사람이었다. 포차사가 부수는 것은 괴물이 아니라 <b>49일 안에 아무도 데리러 오지 않은 사람</b>이다.</p><table><tr><th>등급</th><th>상태·현장 징후</th><th>대응</th></tr><tr><td>1급 미련</td><td>죽은 줄 모르고 생전 동선을 반복한다. 같은 시각의 소리, 국소 한기.</td><td>인차사 1인, 설득 인도.</td></tr><tr><td>2급 집념</td><td>죽은 줄 알지만 거부한다. 사람·장소에 고착되며 물건 이동, 가위눌림, 전자기기 오작동이 나타난다.</td><td>인차사 2인 + 혼줄.</td></tr><tr><td>3급 원귀</td><td>산 자를 적극적으로 해친다. 반복 사고, 접촉자의 급성 쇠약.</td><td>포차사반 출동, 포박 후 압송.</td></tr><tr><td>4급 역귀</td><td>전염성. 접촉자가 같은 원한을 앓다 죽어 새 원귀가 된다. 한 건물·한 부서의 연쇄 사망.</td><td>구역 봉쇄, 감차사 입회하 소각.</td></tr><tr><td>5급 살</td><td>여러 원귀가 한 덩어리로 응축된다. 지역 전체의 사고율·자살률이 급등한다.</td><td>본청 승인 후 소멸 처분.</td></tr></table><h3>현장 원칙</h3><p>등급이 높다고 해서 처음부터 소멸이 답은 아니다. 혼이 무엇에 매였는지, 누구를 기다리는지 확인하는 것이 우선이다. 단, 4급 이상은 현장 판단만으로 봉쇄를 해제할 수 없다.</p>`},
+mulgoe:{hanja:'物怪 分類記錄',title:'물괴(요괴)',html:`<h3>정의</h3><p>물괴는 도계청 공문서에서 요괴를 부르는 말이다. 사람에게서 비롯되지 않은 존재라 원래 차사의 관할이 아니지만, 담당 부서가 없어 결국 현장의 차사가 떠맡는다.</p><table><tr><th>계통</th><th>정체·사례</th><th>성향</th></tr><tr><td>터주</td><td>땅·물·건물 자체에 든 것. 예: 어둑시니, 그슨대.</td><td>제자리를 벗어나지 않으면 온순하다.</td></tr><tr><td>묵은것</td><td>오래 쓰인 물건에 든 것. 예: 야광귀, 손말명.</td><td>소유자를 따라 옮겨 다닌다.</td></tr><tr><td>들것</td><td>짐승이 묵어 변한 것. 예: 창귀, 독각귀.</td><td>사람을 먹이로 인식한다.</td></tr><tr><td>큰것</td><td>사람 이전부터 있던 것. 예: 불가사리, 삼두구미, 영노.</td><td>교섭 대상. 토벌 불가.</td></tr></table><h3>현장 주의</h3><p>물괴의 행동을 인간의 선악 기준으로 단정하지 말 것. 특히 ‘큰것’은 토벌 대상으로 분류하지 않으며, 접촉 전 교섭 가능성과 봉인망의 영향을 먼저 확인한다.</p>`},
+factions:{hanja:'外部勢力 機密附錄',title:'외부 세력',html:`<h3>묵자리</h3><p>큰것들의 느슨한 연합. 봉인망이 끊기면서 사람과 땅을 나눠 쓰던 오래된 약속도 함께 무너졌다고 본다. 교섭은 그슨대 계통의 전령 <b>검은 손님</b>을 거쳐서만 이뤄진다. 적이라기보다 거래 상대이며, 가장 예의 바르면서 가장 무섭다. 1998년 당시 분청장과 맺은 밀약이 분청 최고 기밀로 남아 있다.</p><h3>열두거리회</h3><p>도시화에서 살아남은 세습무 계열. 봉인망을 손보던 전통의 마지막 상속자지만, 그 방법을 온전히 아는 사람은 더 이상 없다. 도계청과 <b>방인 계약</b>을 맺고 인력을 대며, 보수는 현금 대신 <b>수명</b>으로 나간다. 이 조항은 계약서 뒷장에 있다.</p><h3>해원회</h3><p>2010년대 중반에 생긴 신흥 교단. 한을 풀어 준다며 유족을 모아 원한을 반복 낭송하고 기록하고 공유한다. 되풀이된 원한은 풀리기는커녕 더 짙어지고 번지지만, 교단도 도계청도 아직 이 사실을 모른다. 가장 빠르게 커지는 위협이다.</p><h3>관계 메모</h3><p>세 세력은 단순한 선악 구도로 묶이지 않는다. 묵자리는 오래된 약속을 지키려 하고, 열두거리회는 사라져 가는 기술을 붙들고 있으며, 해원회는 선의의 언어로 위험을 확산시킨다.</p>`}
+};
+const intro=document.getElementById('intro'), main=document.getElementById('main');
+document.getElementById('enterBtn').addEventListener('click',()=>{
+  intro.classList.add('hidden');
+  main.classList.add('revealed');
+  setTimeout(()=>{main.scrollIntoView({behavior:'smooth'});},220);
+});
+const modal=document.getElementById('modal'), modalTitle=document.getElementById('modalTitle'), modalKicker=document.getElementById('modalKicker'), modalContent=document.getElementById('modalContent');
+function openDoc(key){const d=docs[key];if(!d)return;modalTitle.textContent=d.title;modalKicker.textContent='渡界廳 · '+d.hanja;modalContent.innerHTML=d.html;modal.classList.add('show');document.body.style.overflow='hidden';document.getElementById('closeBtn').focus();}
+function closeDoc(){modal.classList.remove('show');document.body.style.overflow='';}
+document.getElementById('categoryGrid').addEventListener('click',e=>{const btn=e.target.closest('[data-key]');if(btn)openDoc(btn.dataset.key)});
+document.getElementById('closeBtn').addEventListener('click',closeDoc);
+modal.addEventListener('click',e=>{if(e.target===modal)closeDoc()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('show'))closeDoc()});
+</script>
+</body>
+</html>
