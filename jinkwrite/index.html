@@ -314,9 +314,76 @@ dialog::before{content:"";position:sticky;top:0;display:block;height:2px;margin-
 footer{display:flex;flex-direction:column;align-items:center;gap:10px;padding-top:28px;border-top:1px solid var(--line);text-align:center}
 footer svg{width:120px;height:24px;opacity:.7}
 footer span{letter-spacing:.2em;font-size:12px}
+
+/* =========================================================
+   업그레이드 2 — 홀로 카드 / 블러 팝업 / 배너 / 오프닝 / 위성별 / 별 뽑기
+   ========================================================= */
+/* 1. 트레이딩 카드: 기울기 + 홀로그램 포일 */
+.tags.grid{perspective:900px}
+.gc{transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .18s ease-out,border-color .25s,box-shadow .25s}
+.gc:hover,.gc:focus-visible{transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(-4px)}
+.gc::after{transform:none;opacity:0;transition:opacity .35s;mix-blend-mode:color-dodge;
+  background:
+   radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.55),transparent 42%),
+   linear-gradient(125deg,rgba(255,60,170,.5),rgba(255,214,90,.45),rgba(60,255,210,.45),rgba(90,130,255,.5),rgba(220,80,255,.45),rgba(255,60,170,.5));
+  background-size:100% 100%,320% 320%;
+  background-position:center,var(--mx,50%) var(--my,50%)}
+.gc:hover::after{transform:none;opacity:.42}
+
+/* 2. 팝업 배경에 캐릭터 이미지 블러 */
+.pop{overflow:hidden;border-radius:22px}
+.pop::before{content:"";position:absolute;inset:-10%;z-index:0;pointer-events:none;background:var(--bgimg,none) center 25%/cover;filter:blur(38px) saturate(1.35);opacity:.42;transition:opacity .4s}
+.pop::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(to bottom,rgba(10,14,32,.25),rgba(10,14,32,.75) 70%)}
+.pop>*{position:relative;z-index:1}
+.pop>.close{position:absolute;z-index:3}
+
+/* 3. 세계관 배너 */
+.banner{position:absolute;left:0;right:0;top:0;height:190px;border-radius:20px 20px 0 0;overflow:hidden;pointer-events:none;z-index:0;
+  -webkit-mask-image:linear-gradient(to bottom,#000 20%,transparent);mask-image:linear-gradient(to bottom,#000 20%,transparent)}
+.banner img{width:100%;height:100%;object-fit:cover;object-position:50% 25%;filter:blur(10px) saturate(1.25);opacity:.5;transform:scale(1.15);animation:bnin .9s ease both}
+@keyframes bnin{from{opacity:0;transform:scale(1.25)}}
+.panel>*:not(.banner){position:relative;z-index:1}
+.panel.has-bn .phead{margin-top:34px}
+.panel.has-bn h2{text-shadow:0 2px 18px rgba(0,0,0,.6)}
+
+/* 4. 오프닝 */
+#intro{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;background:radial-gradient(60vmax 50vmax at 50% 40%,#16244f,transparent 70%),var(--bg);transition:opacity .7s ease,visibility .7s;animation:introfail 0s 7s forwards}
+#intro canvas{position:absolute;inset:0;width:100%;height:100%}
+#intro span{position:absolute;bottom:36px;left:0;right:0;text-align:center;color:var(--muted);font:500 12px var(--f);letter-spacing:.2em;opacity:.7}
+#intro.out{opacity:0;visibility:hidden}
+@keyframes introfail{to{opacity:0;visibility:hidden}}
+@media(prefers-reduced-motion:reduce){#intro{display:none}}
+
+/* 5. 천체도 위성별 + 확대 */
+.map .zoom{transform-origin:0 0;transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+.map .sat{animation:spin 18s linear infinite;opacity:.75}
+.map a:nth-of-type(even) .sat{animation-direction:reverse;animation-duration:24s}
+.map a.on .sat{opacity:1}
+
+/* 6. 오늘의 별 뽑기 + 운세 */
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:22px}
+.actions .btn{margin-top:0}
+.lucky{display:inline-flex;align-items:center;gap:8px;font:600 16px var(--f);cursor:pointer;border-color:#FFB7D5;color:#FFD3E6;background:linear-gradient(135deg,rgba(255,150,200,.18),rgba(160,140,255,.12))}
+.lucky:hover{background:#FFD3E6;color:var(--bg);box-shadow:0 0 0 4px rgba(255,183,213,.15),0 14px 34px -10px rgba(255,150,200,.6)}
+.lucky svg{width:16px;height:16px;flex:none;transition:rotate .6s}
+.lucky:hover svg{rotate:144deg}
+.fortune{margin:0 22px 6px;padding:16px 18px;border-radius:16px;border:1px solid rgba(255,211,230,.35);background:linear-gradient(135deg,rgba(255,170,210,.14),rgba(150,140,255,.1));animation:rise .6s .15s cubic-bezier(.2,.7,.2,1) both}
+.fortune .fh{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.fortune .fh b{color:#FFD3E6;font:700 12px var(--f);letter-spacing:.24em}
+.fortune .stars{color:var(--gold);font-size:13px;letter-spacing:2px}
+.fortune p{font:600 15px/1.65 var(--f);color:#fff}
+.fortune dl{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;font-size:12.5px}
+.fortune dt{color:var(--muted)}
+.fortune dd{margin:0 0 0 -8px;color:var(--ink);font-weight:600}
+.notice .gs.sub-pf{font-size:15px;opacity:.82}
+.pf.subp{opacity:.85}
+#pchips .div{flex-basis:100%;height:0}
+#pchips .lbl{flex:none;align-self:center;color:var(--muted);font:600 11px var(--f);letter-spacing:.08em;margin-right:2px}
+.fortune .sw{display:inline-block;width:9px;height:9px;margin-right:5px;border-radius:50%;background:var(--c);box-shadow:0 0 8px var(--c);vertical-align:0}
 </style>
 </head>
 <body>
+<div id="intro" aria-hidden="true"><canvas></canvas><span>화면을 누르면 건너뛰어요</span></div>
 <div class="sky" id="sky" aria-hidden="true"></div>
 <div class="wrap">
 <header>
@@ -329,10 +396,14 @@ footer span{letter-spacing:.2em;font-size:12px}
     <div class="notice">
       <h2>NOTICE</h2>
       <p>안녕하세요.<br>Jin_K입니다.<br>문의사항과 건의사항, 이식요청 사항은 언제나 대환영입니다!</p>
-      <p><span class="lab">활동 플랫폼</span><span class="gs">WHIF , Tingle , Doomchk , Postype , INK Chat , 로판AI , Caveduck</span></p>
+      <p><span class="lab">주 플랫폼</span><span class="gs">WHIF , Tingle , Postype</span></p>
+      <p><span class="lab">부 플랫폼</span><span class="gs sub-pf">INK Chat , 로판AI , Caveduck , Doomchk</span></p>
       <p><span class="lab">제작 사이트</span><a href="https://jinkwf.github.io/jinksseeworld/" target="_blank" rel="noopener">NSFW 에셋 랜덤 프롬프트 생성기.v4.0.2</a><span class="adult">19+</span><br>(사용 희망하시는 분들은 연락주세요.)</p>
     </div>
-    <a class="btn" href="https://open.kakao.com/o/sFqjQmBi" target="_blank" rel="noopener">오픈채팅 참여하기</a>
+    <div class="actions">
+      <a class="btn" href="https://open.kakao.com/o/sFqjQmBi" target="_blank" rel="noopener">오픈채팅 참여하기</a>
+      <button class="btn lucky" id="lucky" type="button"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0 9.6 6.4 16 8 9.6 9.6 8 16 6.4 9.6 0 8 6.4 6.4Z" fill="currentColor"/></svg>오늘의 별 뽑기</button>
+    </div>
   </div>
   <div class="map"><div id="map"></div><p class="cap" id="cap">별을 눌러 세계관을 열어보세요</p></div>
 </header>
@@ -628,11 +699,25 @@ function loadImg(box,url,alt,sk=true){
   h+=`<b style="--y:12%;--dl:2s"></b><b style="--y:36%;--dl:7.5s"></b>`;
   sky.innerHTML=h;
 })();
+/* 작품 수만큼 별 주위를 도는 위성별 */
+const sats=(c,x,y)=>{
+  const k=Math.min(countOf(c),8);let s=`<g class="sat" style="transform-origin:${x}px ${y}px" aria-hidden="true">`;
+  for(let i=0;i<k;i++){const a=i/k*Math.PI*2;s+=`<circle cx="${(+x+11*Math.cos(a)).toFixed(1)}" cy="${(+y+11*Math.sin(a)).toFixed(1)}" r="1.1" fill="${c.color}"/>`}
+  return s+"</g>";
+};
 /* 상단 세계관 천체도 */
 const L=CATS.map((c,j)=>[c,j]).filter(([c])=>!c.soon),n=L.length;
 const pts=L.map((_,i)=>{const a=i/n*Math.PI*2-Math.PI/2,r=62+48*(.5+.5*Math.sin(i*2.3));return [(200+r*Math.cos(a)).toFixed(1),(200+r*Math.sin(a)).toFixed(1)]});
 const map=document.getElementById("map"),cap=document.getElementById("cap");let CAP0="";
-map.innerHTML=`<svg viewBox="0 0 400 400" role="group" aria-label="세계관 천체도"><defs><path id="rp" d="M13 200a187 187 0 1 1 374 0a187 187 0 1 1-374 0"/></defs><g class="spin"><circle cx="200" cy="200" r="196" class="hair"/><circle cx="200" cy="200" r="178" class="hair"/><text><textPath href="#rp" textLength="1160" lengthAdjust="spacing">${L.map(([c])=>plain(c.name)).join("  ✦  ")}  ✦</textPath></text></g><circle cx="200" cy="200" r="150" class="tick"/><circle cx="200" cy="200" r="126" class="hair"/><g class="core" aria-hidden="true"><circle cx="200" cy="200" r="30" class="hair"/><path d="M200 182 202.6 197.4 218 200 202.6 202.6 200 218 197.4 202.6 182 200 197.4 197.4Z" fill="#E9CF8C" fill-opacity=".85"/><text class="core-t" x="200" y="246" text-anchor="middle">JIN_K</text></g><polyline class="ln" pathLength="1" points="${pts.join(" ")}"/>${L.map(([c,j],i)=>{const[x,y]=pts[i];return `<a href="#c${j+1}" data-i="${j+1}" data-n="${plain(c.name)}" aria-label="${j+1}. ${plain(c.name)}"><circle class="hit" cx="${x}" cy="${y}" r="14"/><circle class="rg" cx="${x}" cy="${y}" r="15"/><circle class="halo" cx="${x}" cy="${y}" r="8" fill="${c.color}" fill-opacity=".32" style="animation-delay:${(-i*.4).toFixed(1)}s"/><circle class="pt" cx="${x}" cy="${y}" r="3.4" fill="${c.color}" stroke="#fff" stroke-width=".9"/><text class="nm" x="${x}" y="${y-12}" text-anchor="middle">${j+1}</text></a>`}).join("")}</svg>`;
+map.innerHTML=`<svg viewBox="0 0 400 400" role="group" aria-label="세계관 천체도"><defs><path id="rp" d="M13 200a187 187 0 1 1 374 0a187 187 0 1 1-374 0"/></defs><g class="spin"><circle cx="200" cy="200" r="196" class="hair"/><circle cx="200" cy="200" r="178" class="hair"/><text><textPath href="#rp" textLength="1160" lengthAdjust="spacing">${L.map(([c])=>plain(c.name)).join("  ✦  ")}  ✦</textPath></text></g><circle cx="200" cy="200" r="150" class="tick"/><circle cx="200" cy="200" r="126" class="hair"/><g class="zoom"><g class="core" aria-hidden="true"><circle cx="200" cy="200" r="30" class="hair"/><path d="M200 182 202.6 197.4 218 200 202.6 202.6 200 218 197.4 202.6 182 200 197.4 197.4Z" fill="#E9CF8C" fill-opacity=".85"/><text class="core-t" x="200" y="246" text-anchor="middle">JIN_K</text></g><polyline class="ln" pathLength="1" points="${pts.join(" ")}"/>${L.map(([c,j],i)=>{const[x,y]=pts[i];return `<a href="#c${j+1}" data-i="${j+1}" data-n="${plain(c.name)}" data-x="${x}" data-y="${y}" aria-label="${j+1}. ${plain(c.name)}"><circle class="hit" cx="${x}" cy="${y}" r="14"/><circle class="rg" cx="${x}" cy="${y}" r="15"/>${sats(c,x,y)}<circle class="halo" cx="${x}" cy="${y}" r="8" fill="${c.color}" fill-opacity=".32" style="animation-delay:${(-i*.4).toFixed(1)}s"/><circle class="pt" cx="${x}" cy="${y}" r="3.4" fill="${c.color}" stroke="#fff" stroke-width=".9"/><text class="nm" x="${x}" y="${y-12}" text-anchor="middle">${j+1}</text></a>`}).join("")}</g></svg>`;
+/* 별 확대: 선택한 세계관 별 쪽으로 천체도가 살짝 다가가요 */
+function zoomTo(i){
+  const z=map.querySelector(".zoom"),a=i==null?null:map.querySelector(`a[data-i="${i}"]`);
+  if(!z)return;
+  if(!a){z.style.transform="";return}
+  const s=1.16,x=+a.dataset.x,y=+a.dataset.y;
+  z.style.transform=`translate(${(x+(200-x)*.3-s*x).toFixed(1)}px,${(y+(200-y)*.3-s*y).toFixed(1)}px) scale(${s})`;
+}
 /* 캡션: 별에 올리면 대표 썸네일 + 세계관 이름 + 작품 수 */
 function capSet(text,img){
   cap.replaceChildren();
@@ -738,6 +823,7 @@ function openPop(i){
   }
   if(!img)info.append($("p","wait","이미지 준비 중이에요"));
   const kids=[x,fr,info];
+  if(lucky&&cur===lucky.pool&&pi===lucky.idx)kids.push(lucky.card);
   if(cur.length>1){
     const nav=$("div","pnav"),pv=$("button",null,"‹"),nx=$("button",null,"›");
     pv.type=nx.type="button";pv.setAttribute("aria-label","이전");nx.setAttribute("aria-label","다음");
@@ -746,6 +832,7 @@ function openPop(i){
   }
   pop.replaceChildren(...kids);
   dlg.style.setProperty("--c",cat.color);
+  pop.style.setProperty("--bgimg",img?`url("${img}")`:"none");
   if(!dlg.open){dlg.showModal();dustUp()}
 }
 document.addEventListener("keydown",e=>{if(!dlg.open||cur.length<2)return;if(e.key==="ArrowRight")openPop(pi+1);if(e.key==="ArrowLeft")openPop(pi-1)});
@@ -774,7 +861,9 @@ if(fresh.length){
 let sel=0,gen="",plat="",view="grid";const q=document.getElementById("q");
 try{if(localStorage.getItem("jk-view")==="list")view="list"}catch(e){}
 const PFC={WHIF:"wh",Tingle:"tg",Doomchk:"dm",Postype:"po","INK Chat":"ic","티팟":"tp","티키타":"tk","로판AI":"lp",Caveduck:"cd"};
-const PFL=[WH,TG,DM,PO,IC,TP,TK,"로판AI","Caveduck"];
+/* 주 플랫폼(위프·팅글·포스타입) → 부 플랫폼 순서. 카드의 태그 순서와 필터 순서도 이걸 따라요 */
+const PF_MAIN=[WH,TG,PO],PF_SUB=[IC,"로판AI","Caveduck",DM,TP,TK];
+const PFL=[...PF_MAIN,...PF_SUB];
 /* 헤더 숫자 요약 (자동 계산) */
 (()=>{
   const st=document.getElementById("stats");
@@ -855,26 +944,33 @@ ALL.forEach((cat,i)=>{
 });
 /* 플랫폼 필터 칩 */
 const pBox=document.getElementById("pchips");
-const syncP=()=>[...pBox.children].forEach((b,k)=>b.classList.toggle("on",k===0?!plat:b.textContent===plat));
-["전체 플랫폼",...PFL].forEach(p=>{
-  const b=$("button","",p);b.type="button";
-  b.onclick=()=>{plat=p==="전체 플랫폼"?"":p;syncP();results()};
+const syncP=()=>pBox.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.p===plat));
+const pBtn=(p,label)=>{
+  const b=$("button","",label||p);b.type="button";b.dataset.p=p;
+  b.onclick=()=>{plat=p;syncP();results()};
   pBox.append(b);
-});
+};
+pBtn("","전체 플랫폼");
+pBox.append($("span","div"),$("span","lbl","주"));PF_MAIN.forEach(p=>pBtn(p));
+pBox.append($("span","div"),$("span","lbl","부"));PF_SUB.forEach(p=>pBtn(p));
 function show(i,go){
   const cat=ALL[i];sel=i;q.value="";plat="";syncP();
   document.body.style.setProperty("--tint",cat.color);
   map.querySelectorAll("a").forEach(a=>{const on=+a.dataset.i===i;a.classList.toggle("on",on);on?a.setAttribute("aria-current","true"):a.removeAttribute("aria-current")});
   map.classList.toggle("sel",i>=1&&!cat.soon);
+  zoomTo(i>=1&&!cat.soon?i:null);
   CAP0=cat.isNew?"최근 추가된 작품":cat.soon?"곧 공개될 세계관":plain(cat.name);capSet(CAP0);
   [...side.children].forEach((b,k)=>b.classList.toggle("on",k===i));
-  panel.style.setProperty("--c",cat.color);panel.className="panel"+(cat.soon?" soon":"");
+  const bimg=cat.isNew?(fresh[0]&&fresh[0].it[3]):firstImg(cat);
+  panel.style.setProperty("--c",cat.color);panel.className="panel"+(cat.soon?" soon":"")+(bimg?" has-bn":"");
   const h=$("h2");
   const isHapjak = cat.name === "합작";
   h.append($("span","num",cat.isNew?"NEW":cat.soon?"SOON":isHapjak?"":i+"."),$("span",null,cat.isNew?"최근 추가순":isHapjak?"합작":cat.name));
   if(cat.tag&&!cat.soon)h.append($("small",null,"["+cat.tag+"]"));
   const ph=$("div","phead");ph.append(h);if(!cat.soon)ph.append(vt());
-  const kids=[ph];
+  const kids=[];
+  if(bimg){const bn=$("div","banner");bn.setAttribute("aria-hidden","true");loadImg(bn,bimg,"",false);kids.push(bn)}
+  kids.push(ph);
   if(cat.worldLink){
     const wl=$("a","btn","세계관 설명");
     wl.href=cat.worldLink;wl.target="_blank";wl.rel="noopener";
@@ -909,7 +1005,7 @@ const chipBox=document.getElementById("chips");
 function showGrouped(cats, title){
   q.value="";plat="";syncP();
   [...side.children].forEach(b=>b.classList.remove("on"));
-  map.classList.remove("sel");map.querySelectorAll("a").forEach(a=>a.classList.remove("on"));
+  map.classList.remove("sel");map.querySelectorAll("a").forEach(a=>a.classList.remove("on"));zoomTo(null);
   document.body.style.setProperty("--tint","#E9CF8C");
   panel.style.setProperty("--c","#E9CF8C");panel.className="panel";
   const h=$("h2");h.append($("span",null,title),$("small",null,cats.length+"개 세계관"));
@@ -962,7 +1058,7 @@ function results(keep){
     if(items.length)byCat.set(c,items);
   });
   [...side.children].forEach(b=>b.classList.remove("on"));
-  map.classList.remove("sel");map.querySelectorAll("a").forEach(a=>a.classList.remove("on"));
+  map.classList.remove("sel");map.querySelectorAll("a").forEach(a=>a.classList.remove("on"));zoomTo(null);
   document.body.style.setProperty("--tint","#E9CF8C");
   panel.style.setProperty("--c","#E9CF8C");panel.className="panel";
   const total=Array.from(byCat.values()).reduce((a,b)=>a+b.length,0);
@@ -996,6 +1092,104 @@ q.addEventListener("input",()=>results());
 const mh=location.hash.match(/^#c(\d+)(?:-(\d+))?$/);
 const h0=mh?+mh[1]:0;
 show(h0>=0&&h0<ALL.length?h0:0);
+/* 1. 갤러리 카드 기울기 + 홀로그램 (마우스가 있는 기기에서만) */
+(()=>{
+  if(!matchMedia("(hover:hover) and (pointer:fine)").matches||matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+  let last=null;
+  const reset=c=>{if(c){c.style.removeProperty("--rx");c.style.removeProperty("--ry")}};
+  panel.addEventListener("pointermove",e=>{
+    const c=e.target.closest(".gc");
+    if(c!==last){reset(last);last=c}
+    if(!c)return;
+    const r=c.getBoundingClientRect(),px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;
+    c.style.setProperty("--ry",((px-.5)*16).toFixed(2)+"deg");
+    c.style.setProperty("--rx",((.5-py)*14).toFixed(2)+"deg");
+    c.style.setProperty("--mx",(px*100).toFixed(1)+"%");
+    c.style.setProperty("--my",(py*100).toFixed(1)+"%");
+  });
+  panel.addEventListener("pointerleave",()=>{reset(last);last=null});
+})();
+/* 6. 오늘의 별 뽑기 + 오늘의 운세 */
+let lucky=null;
+const FORTUNES=[
+  "오래 기다리던 소식이 생각보다 빨리 도착해요. 오늘은 휴대폰 알림이 반가운 날이에요.",
+  "별 생각 없이 던진 한마디가 누군가의 하루를 환하게 만들어요. 당신은 생각보다 다정한 사람이에요.",
+  "작은 행운이 연달아 찾아오는 날. 자판기 음료가 하나 더 나올지도 몰라요.",
+  "오늘 쓴 문장 중 하나가 오래 사랑받을 거예요. 떠오른 아이디어는 꼭 메모해 두세요.",
+  "괜히 기분 좋은 우연이 생겨요. 좋아하는 노래가 딱 맞는 타이밍에 흘러나올 거예요.",
+  "애써온 일이 조용히 결실을 맺기 시작해요. 오늘의 당신은 충분히 잘하고 있어요.",
+  "마음이 통하는 사람과 웃을 일이 생겨요. 먼저 연락해보면 더 좋은 일이 따라와요.",
+  "맛있는 걸 먹으면 운이 두 배가 되는 날. 오늘만큼은 디저트를 허락해 주세요.",
+  "평소보다 조금 더 반짝이는 하루예요. 거울 속 당신이 오늘따라 마음에 들 거예요.",
+  "잃어버린 줄 알았던 것을 다시 찾게 돼요. 물건이든, 마음이든요.",
+  "누군가 당신의 이야기를 기다리고 있어요. 오늘 올린 작품에 따뜻한 반응이 모여요.",
+  "막혀 있던 고민이 샤워하거나 걷는 순간 스르르 풀려요. 잠깐 쉬어가도 괜찮아요.",
+  "예상 밖의 칭찬을 듣게 돼요. 쑥스러워 말고 그대로 받아도 되는 말이에요.",
+  "오늘 밤은 유난히 푹 잘 수 있어요. 좋은 꿈이 내일의 영감이 되어줄 거예요.",
+  "작은 선택 하나가 좋은 흐름을 만들어요. 오늘은 직감을 믿어도 되는 날이에요.",
+  "당신을 응원하는 사람이 생각보다 훨씬 많아요. 오늘 그 마음이 한 번 더 전해져요.",
+  "하고 싶던 걸 시작하기 딱 좋은 날이에요. 첫 줄만 쓰면 나머지는 저절로 따라와요.",
+  "소소하지만 확실한 행복이 세 번 찾아와요. 하나씩 세어보는 재미가 있을 거예요.",
+  "오늘의 하늘은 당신 편이에요. 외출하면 기분 좋은 장면을 만나게 돼요.",
+  "지친 마음에 따뜻한 위로가 닿는 날. 스스로에게도 '수고했어'라고 말해 주세요."
+];
+const ITEMS=["따뜻한 라떼","좋아하는 펜","포근한 담요","향이 좋은 핸드크림","새 플레이리스트","작은 별 스티커","말랑한 젤리","창가 자리","보송한 양말","손편지 한 장"];
+function fortuneCard(cat){
+  const f=$("div","fortune");f.style.setProperty("--c",cat.color);
+  const hd=$("div","fh");hd.append($("b",null,"오늘의 운세"),$("span","stars",Math.random()<.5?"★★★★★":"★★★★☆"));
+  const dl=$("dl");
+  const pick=a=>a[Math.random()*a.length|0];
+  const sw=$("dd");sw.append($("span","sw"),document.createTextNode(plain(cat.name)+"의 빛"));
+  dl.append($("dt",null,"행운의 색"),sw,$("dt",null,"행운의 아이템"),$("dd",null,pick(ITEMS)),$("dt",null,"행운의 숫자"),$("dd",null,String(1+(Math.random()*99|0))));
+  f.append(hd,$("p",null,pick(FORTUNES)),dl);
+  return f;
+}
+document.getElementById("lucky").onclick=()=>{
+  const pool=[];
+  CATS.forEach(c=>{if(!c.soon)c.rows.forEach(r=>r.items.forEach(it=>pool.push({item:it,cat:c,from:plain(c.name)})))});
+  if(!pool.length)return;
+  const saved=cur,k=Math.random()*pool.length|0;
+  lucky={pool,idx:k,card:fortuneCard(pool[k].cat)};
+  cur=pool;
+  if(dlg.open)dlg.close();
+  openPop(k);
+  dlg.addEventListener("close",()=>{cur=saved;lucky=null},{once:true});
+};
+/* 4. 오프닝: 흩어진 별이 모여 Jin_K 가 돼요 (방문할 때 한 번) */
+(()=>{
+  const ov=document.getElementById("intro");if(!ov)return;
+  let seen=false;try{seen=sessionStorage.getItem("jk-intro")}catch(e){}
+  if(seen||matchMedia("(prefers-reduced-motion:reduce)").matches){ov.remove();return}
+  try{sessionStorage.setItem("jk-intro","1")}catch(e){}
+  let done=false;
+  const end=()=>{if(done)return;done=true;ov.classList.add("out");setTimeout(()=>ov.remove(),750)};
+  ov.addEventListener("click",end);addEventListener("keydown",end,{once:true});
+  const start=()=>{
+    if(done)return;
+    const cv=ov.querySelector("canvas"),cx=cv.getContext("2d"),D=Math.min(devicePixelRatio||1,2),W=innerWidth,H=innerHeight;
+    cv.width=W*D;cv.height=H*D;cx.scale(D,D);
+    const fs=Math.min(W*.24,210),o=document.createElement("canvas"),ox=o.getContext("2d");
+    o.width=W;o.height=H;ox.font=`800 ${fs}px "Pretendard Variable",Pretendard,"Noto Sans KR",sans-serif`;
+    ox.textAlign="center";ox.textBaseline="middle";ox.fillText("Jin_K",W/2,H/2);
+    const d=ox.getImageData(0,0,W,H).data,step=Math.max(4,Math.round(fs/38)),ps=[];
+    for(let y=0;y<H;y+=step)for(let x=0;x<W;x+=step)if(d[(y*W+x)*4+3]>128)
+      ps.push({x:Math.random()*W,y:Math.random()*H,tx:x,ty:y,s:Math.random()*1.3+.7,c:Math.random()<.32?"#E9CF8C":Math.random()<.5?"#BFD9FF":"#fff",dl:Math.random()*500});
+    let t0=0;
+    const f=t=>{
+      if(!ov.isConnected)return;
+      t0=t0||t;const e=t-t0;cx.clearRect(0,0,W,H);
+      for(const p of ps){
+        const k=Math.min(Math.max((e-p.dl)/1300,0),1),q=1-Math.pow(1-k,3);
+        cx.globalAlpha=.25+.75*q;cx.fillStyle=p.c;cx.shadowColor=p.c;cx.shadowBlur=q*6;
+        cx.beginPath();cx.arc(p.x+(p.tx-p.x)*q,p.y+(p.ty-p.y)*q,p.s,0,6.283);cx.fill();
+      }
+      if(e>2600)end();
+      requestAnimationFrame(f);
+    };
+    requestAnimationFrame(f);
+  };
+  Promise.race([document.fonts?document.fonts.ready:Promise.resolve(),new Promise(r=>setTimeout(r,700))]).then(start);
+})();
 /* 맨 위로 버튼 */
 (()=>{
   const b=document.getElementById("toTop");
