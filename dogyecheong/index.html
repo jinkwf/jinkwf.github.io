@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#17130f">
 <title>(재)도계복지원 — 당신의 마지막 길을 모십니다</title>
+<link rel="preload" as="image" href="https://jinkwf.github.io/dogyecheong/KakaoTalk_20261028_112524982.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Serif+KR:wght@400;500;700&family=Noto+Serif+TC:wght@600;900&family=Noto+Sans+KR:wght@400;500;700;800&family=Nanum+Gothic+Coding:wght@400;700&display=swap">
@@ -31,25 +32,6 @@ button{font:inherit;color:inherit}
 .intro.zoom .skip{opacity:0;pointer-events:none}
 .intro-copy{position:absolute;top:6%;left:0;right:0;z-index:5;text-align:center;font-size:.68rem;letter-spacing:.28em;color:#e4d2ad;text-shadow:0 2px 10px #000;opacity:0;transition:opacity 1.2s}
 .intro.ready .intro-copy{opacity:.9}
-.gate-scene{position:relative;z-index:6;width:min(88vw,620px);height:min(70vh,600px);min-height:380px;perspective:1300px;opacity:0;transform:scale(1.12);transition:opacity 1.4s,transform 1.8s ease-out;pointer-events:none}
-.intro.ready .gate-scene{opacity:1;transform:scale(1)}
-.frame{position:absolute;inset:0;border:11px solid #241710;outline:2px solid #7d613b;outline-offset:-17px;box-shadow:0 0 70px #000}
-.back{position:absolute;inset:30px 14px 14px;background:radial-gradient(ellipse at 50% 55%,#2a2018,#090705 72%)}
-.back::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,#f6e4b0,#b48b4c 45%,#2a1a0e 88%);opacity:0;transition:opacity 1.6s}
-.gate-scene.open .back::after{opacity:1}
-.lintel{position:absolute;top:-18px;left:-10px;right:-10px;height:46px;z-index:7;display:grid;place-items:center;background:linear-gradient(#795535,#2c1b11 40%,#593b25 65%,#1b100b);border:2px solid #9b7949}
-.lintel span{color:#e7d6b2;letter-spacing:.4em;font-size:.72rem;text-shadow:0 0 8px #000;font-family:'Nanum Myeongjo',serif;white-space:nowrap}
-.leaf{position:absolute;top:30px;bottom:14px;width:calc(50% - 14px);z-index:3;transform-style:preserve-3d;transition:transform 1.9s cubic-bezier(.3,.9,.3,1);background:repeating-linear-gradient(90deg,transparent 0 25px,#120b07 26px 30px),linear-gradient(90deg,#4a2e1d,#29180f 40%,#3d2517 70%,#1f130b);border:3px solid #7c5733;box-shadow:inset 0 0 15px #000}
-.leaf.l{left:14px;transform-origin:left center}
-.leaf.r{right:14px;transform-origin:right center}
-.leaf::after{content:"";position:absolute;top:50%;width:14px;height:14px;border-radius:50%;background:#b59a63;box-shadow:0 0 0 3px #1a100a,0 0 8px #d0b87b}
-.l::after{right:8%}.r::after{left:8%}
-.gate-scene.open .l{transform:rotateY(-98deg)}
-.gate-scene.open .r{transform:rotateY(98deg)}
-/* 제목·버튼은 문짝보다 위 레이어 */
-.gate-ui{position:absolute;inset:30px 14px 14px;z-index:8;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none;opacity:0;transition:opacity 1.2s}
-.intro.ui .gate-ui{opacity:1}
-.gate-scene.open .gate-ui{opacity:0;transition-duration:.5s}
 .title-hanja{display:flex;flex-direction:column;font-family:'Nanum Myeongjo',serif;font-weight:700;font-size:clamp(3.4rem,9vw,5.4rem);line-height:1;letter-spacing:.1em;color:#f0dfbd;text-shadow:0 2px 18px #000,0 0 36px #c8a36c66}
 .title-korean{font-size:.82rem;letter-spacing:.5em;padding-left:.5em;color:#e7d6b2;margin:16px 0 6px;text-shadow:0 2px 8px #000}
 .title-caption{font-size:.7rem;letter-spacing:.12em;color:#c4b28e;margin-bottom:22px;text-shadow:0 2px 8px #000}
@@ -126,7 +108,6 @@ footer{text-align:center;border-top:1px solid #57452e;padding:25px 16px 38px;col
 .archive{padding:35px 15px 65px}.archive::before{display:none}
 .category-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.category{min-height:150px;padding:20px 8px}
 .prologue p{max-width:100%;font-size:.88rem}.doc-content table{font-size:.75rem}.doc-content th,.doc-content td{padding:7px 6px}
-.gate-scene{width:92vw;height:64vh}.lintel span{font-size:.6rem;letter-spacing:.25em}
 .intro-copy{top:5%;font-size:.56rem;letter-spacing:.15em}.idx{left:0;right:0;text-align:center;font-size:.52rem}.tagline{bottom:8%;font-size:.74rem}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}.ticker-move{animation:none}}
@@ -182,7 +163,6 @@ p,li,.hint,.subtitle{text-wrap:pretty}
 .title-hanja{font-family:var(--f-han);font-weight:900;letter-spacing:.06em;line-height:1.02}
 .lintel span,.intro-copy,.category .hanja,.doc-kicker,.eyebrow,.idx,.prologue .stamp,.doc-seal{font-family:var(--f-han);font-weight:600}
 .prologue .stamp,.doc-seal{font-weight:900}
-.lintel span{font-size:.78rem;letter-spacing:.42em}
 .intro-copy{letter-spacing:.3em}
 .category .hanja{font-size:.74rem;letter-spacing:.3em}
 .doc-kicker{font-size:.76rem}
@@ -237,6 +217,58 @@ footer{font-family:var(--f-head)}
 #funeral .notice em{font-variant-numeric:tabular-nums;font-weight:400}
 #funeral .util{font-weight:400;letter-spacing:0}
 #funeral .ff{font-weight:400;line-height:2}
+
+/* ===== 청사 전경(이미지) 인트로 ===== */
+.plate{position:absolute;z-index:2;left:50%;top:50%;width:max(100vw,calc(100vh*1.7843));width:max(100vw,calc(100svh*1.7843));aspect-ratio:1456/816;transform:translate(-50%,-50%);opacity:0;transition:opacity 2.2s ease;pointer-events:none;overflow:hidden}
+.intro.ready .plate{opacity:1}
+.plate-in{position:absolute;inset:0;transform:scale(1) translate(0,0);transform-origin:50% 50%}
+.intro.ready .plate-in{transform:scale(1.1) translate(0,0);transition:transform 14s ease-out}
+.intro.enter .plate-in{transform:scale(3.1) translate(-.5%,-26.6%);filter:brightness(1.5);transition:transform 2.6s cubic-bezier(.6,0,.3,1),filter 2.4s ease-in}
+.plate-img{position:absolute;inset:0;width:100%;height:100%;display:block;filter:saturate(.9) sepia(.15) brightness(.95)}
+.plate-tint{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 58%,transparent 42%,rgba(13,10,8,.72) 100%),linear-gradient(180deg,rgba(13,10,8,.4),transparent 28%,transparent 72%,rgba(13,10,8,.6))}
+.door-glow{position:absolute;left:50.5%;top:76.6%;width:20%;height:30%;transform:translate(-50%,-50%);background:radial-gradient(ellipse at center,rgba(255,214,140,.55),rgba(255,170,80,.18) 45%,transparent 70%);mix-blend-mode:screen;animation:flick 3.2s steps(1,end) infinite}
+@keyframes flick{0%{opacity:.75}12%{opacity:.95}27%{opacity:.7}41%{opacity:1}58%{opacity:.8}73%{opacity:.92}88%{opacity:.72}100%{opacity:.75}}
+.star{position:absolute;left:60.6%;top:18%;width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 0 10px 3px rgba(255,255,255,.7);transform:translate(-50%,-50%);animation:tw 4.5s ease-in-out infinite}
+@keyframes tw{0%,100%{opacity:.5;transform:translate(-50%,-50%) scale(.8)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.25)}}
+.mist{position:absolute;left:-8%;right:-8%;bottom:0;height:26%;background:radial-gradient(ellipse 40% 60% at 20% 70%,rgba(170,185,225,.2),transparent 70%),radial-gradient(ellipse 45% 55% at 62% 80%,rgba(170,185,225,.16),transparent 70%),radial-gradient(ellipse 35% 60% at 90% 65%,rgba(170,185,225,.18),transparent 70%);animation:mist 20s ease-in-out infinite alternate}
+@keyframes mist{from{transform:translateX(-3%)}to{transform:translateX(3%)}}
+.door-hit{position:absolute;left:50.5%;top:76.6%;width:13%;height:22%;transform:translate(-50%,-50%);border:0;background:none;cursor:pointer;pointer-events:none;border-radius:50% 50% 0 0/28% 28% 0 0}
+.intro.ui .door-hit{pointer-events:auto}
+.intro.ui .door-hit:hover{background:radial-gradient(ellipse at center,rgba(255,224,160,.22),transparent 70%)}
+.door-hit::before{content:"";position:absolute;left:50%;top:50%;width:34%;height:38%;transform:translate(-50%,-50%);border:1px solid #f6e4b0;border-radius:50%;opacity:0}
+.intro.ui .door-hit::before{animation:ring 2.8s ease-out infinite}
+.intro.enter .door-hit::before{animation:none;opacity:0}
+@keyframes ring{0%{transform:translate(-50%,-50%) scale(.6);opacity:.7}100%{transform:translate(-50%,-50%) scale(2.2);opacity:0}}
+.title-wrap{position:absolute;z-index:8;top:10%;left:0;right:0;display:flex;flex-direction:column;align-items:center;text-align:center;pointer-events:none;opacity:0;transition:opacity 1.4s}
+.intro.ui .title-wrap{opacity:1}
+.intro.enter .title-wrap{opacity:0;transition-duration:.6s}
+.title-wrap .title-hanja{flex-direction:row;font-size:clamp(3rem,8.5vw,5.6rem);letter-spacing:.14em;padding-left:.14em}
+.title-wrap .title-korean{margin:12px 0 4px}
+.title-wrap .title-caption{margin-bottom:16px}
+.flash{position:absolute;inset:0;z-index:9;background:radial-gradient(circle at 50% 50%,#fff3cf,#f6e4b0 40%,#d9b765);opacity:0;pointer-events:none;transition:opacity 1.1s ease-in 1.3s}
+.intro.enter .flash{opacity:1}
+
+/* ===== 본문 히어로 ===== */
+.hero-plate{position:relative;min-height:clamp(430px,60vw,640px);display:flex;align-items:flex-end;justify-content:center;overflow:hidden;background:#17130f}
+.hero-img{position:absolute;left:0;right:0;top:-20%;width:100%;height:140%;object-fit:cover;object-position:50% 50%;filter:saturate(.9) sepia(.15) brightness(1);will-change:transform}
+.hero-fade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(23,19,15,.5) 0%,rgba(23,19,15,.05) 28%,rgba(23,19,15,.4) 66%,#17130f 100%)}
+.hero-text{position:relative;z-index:2;text-align:center;padding:0 22px 34px;max-width:760px}
+.hero-text .eyebrow{text-shadow:0 2px 10px #000}
+.hero-text h1{margin:8px 0 14px}
+.hero-text .subtitle{margin:0 auto;text-shadow:0 2px 12px #000}
+.archive{padding-top:36px}
+
+/* ===== 위장 상조: 본사 사옥(낮 버전) ===== */
+.about{display:grid;grid-template-columns:1.1fr 1fr;gap:30px;align-items:center;padding:0 max(16px,calc(50vw - 520px)) 56px}
+.about figure{margin:0;position:relative;border-radius:10px;overflow:hidden;aspect-ratio:16/9;background:#cfd8e6}
+.about img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(1.75) saturate(.5) contrast(.8) hue-rotate(-8deg)}
+.about figure::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(215,228,246,.4),rgba(255,255,255,0) 60%)}
+.about h3{font-size:1.05rem;margin:0 0 12px;font-weight:800;letter-spacing:-.02em;border-bottom:2px solid #14213d;padding-bottom:10px}
+.about p{margin:0 0 14px;line-height:1.8;font-size:.92rem;color:#44556f;font-weight:400}
+.about dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.86rem}
+.about dt{color:#8895ad}.about dd{margin:0;font-weight:500}
+@media(max-width:650px){.about{grid-template-columns:1fr}.title-wrap{top:9%}}
+@media(prefers-reduced-motion:reduce){.door-glow,.star,.mist,.door-hit::before{animation:none!important}.door-glow{opacity:.85}}
 </style>
 </head>
 <body>
@@ -259,6 +291,14 @@ footer{font-family:var(--f-head)}
     <div><b>운구 · 입관</b><p>숙련된 전담 인력이 고인의 마지막 길을 정중하게 모십니다.</p></div>
     <div><b>49일 추모 프로그램</b><p>49일 동안 유족을 위한 추모와 상담 프로그램을 운영합니다.</p></div>
   </section>
+  <section class="about">
+    <figure><img data-plate alt="(재)도계복지원 본사 사옥" loading="lazy" decoding="async"></figure>
+    <div>
+      <h3>본사 사옥 안내</h3>
+      <p>본원은 24시간 불이 꺼지지 않습니다. 임종 직후 언제든 상담하실 수 있도록 야간 접수 창구를 상시 운영합니다.</p>
+      <dl><dt>주소</dt><dd>서울특별시 ○○구 경계로 49</dd><dt>야간 방문</dt><dd>사전 예약 불필요</dd><dt>접수</dt><dd>국번없이 049</dd></dl>
+    </div>
+  </section>
   <section class="notice">
     <h3>공지사항</h3>
     <ul>
@@ -274,27 +314,32 @@ footer{font-family:var(--f-head)}
 
 <section class="intro hidden" id="intro" aria-label="도계청 인트로">
   <video class="intro-video" id="vid" muted playsinline preload="auto">
-    <source src="https://jinkwf.github.io/afterlife/%EC%9D%B8%ED%8A%B8%EB%A1%9C.mp4" type="video/mp4">
+    <source src="https://jinkwf.github.io/dogyecheong/%EC%9D%B8%ED%8A%B8%EB%A1%9C.mp4" type="video/mp4">
   </video>
   <div class="shade"></div>
+  <div class="plate" id="plate" aria-hidden="true">
+    <div class="plate-in">
+      <img class="plate-img" data-plate alt="" decoding="async">
+      <div class="mist"></div>
+      <div class="door-glow"></div>
+      <div class="star"></div>
+      <button class="door-hit" id="doorHit" aria-label="청사 문 열기" tabindex="-1"></button>
+    </div>
+    <div class="plate-tint"></div>
+  </div>
   <button class="skip" id="skip">건너뛰기 ›</button>
   <button class="mute" id="mute" aria-pressed="false">음향 ON</button>
   <div class="intro-copy">冥府所屬　·　此岸事務執行機關</div>
 
-  <div class="gate-scene" id="gate">
-    <div class="frame"></div>
-    <div class="back"></div>
-    <div class="lintel"><span>渡界廳 · 此岸事務執行機關</span></div>
-    <div class="leaf l"></div><div class="leaf r"></div>
-    <div class="gate-ui">
-      <div class="title-hanja"><span>渡</span><span>界</span><span>廳</span></div>
-      <div class="title-korean">도 계 청</div>
-      <div class="title-caption">죽은 자를 저승으로 인도하는 관청</div>
-      <button class="enter-btn" id="enterBtn">기록 열람 ➔</button>
-    </div>
+  <div class="title-wrap">
+    <div class="title-hanja"><span>渡</span><span>界</span><span>廳</span></div>
+    <div class="title-korean">도 계 청</div>
+    <div class="title-caption">죽은 자를 저승으로 인도하는 관청</div>
+    <button class="enter-btn" id="enterBtn">기록 열람 ➔</button>
   </div>
   <div class="tagline">기록은 남고, 혼은 길을 잃는다.</div>
   <div class="idx">D.G.C.　/　ARCHIVE No. 049</div>
+  <div class="flash"></div>
 </section>
 
 <main id="main">
@@ -302,10 +347,16 @@ footer{font-family:var(--f-head)}
     <div class="ticker-title">도계청 실시간 상황</div>
     <div class="ticker-move" id="ticker"></div>
   </div>
+  <header class="hero-plate" id="heroPlate">
+    <img class="hero-img" id="heroImg" data-plate alt="" decoding="async">
+    <div class="hero-fade"></div>
+    <div class="hero-text">
+      <div class="eyebrow">渡界廳 · RECORDS OF THE AFTERLIFE</div>
+      <h1>도계청</h1>
+      <p class="subtitle">이승과 저승의 경계에서, 아직 끝나지 않은 죽음을 처리하는 관청.<br>열람 가능한 문서를 선택하시오.</p>
+    </div>
+  </header>
   <div class="archive">
-    <div class="eyebrow">渡界廳 · RECORDS OF THE AFTERLIFE</div>
-    <h1>도계청</h1>
-    <p class="subtitle">이승과 저승의 경계에서, 아직 끝나지 않은 죽음을 처리하는 관청.<br>열람 가능한 문서를 선택하시오.</p>
     <section class="prologue">
       <p>한 해 <strong>36만 명</strong>이 죽는다. 차사 정원은 조선 후기에 정한 수에서 거의 늘지 않았다.</p>
       <p>아무도 데리러 오지 않은 혼은 이승에 남아 탁해지고, 탁해진 혼은 산 자를 해친다. 땅에 박아 두었던 봉인망은 터널과 지하철과 재개발에 끊겼고, 민담 속에서나 살던 것들이 다시 거리로 기어 나왔다.</p>
@@ -350,7 +401,10 @@ const docs = {
 };
 
 const $=id=>document.getElementById(id);
-const intro=$('intro'),vid=$('vid'),gate=$('gate'),main=$('main');
+const IMG_MAIN='https://jinkwf.github.io/dogyecheong/KakaoTalk_20261028_112524982.jpg';
+const IMG_RAW='https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/dogyecheong/KakaoTalk_20261028_112524982.jpg';
+document.querySelectorAll('img[data-plate]').forEach(i=>{i.addEventListener('error',()=>{if(i.src!==IMG_RAW)i.src=IMG_RAW},{once:true});i.src=IMG_MAIN});
+const intro=$('intro'),vid=$('vid'),main=$('main');
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const k=reduce?0:1;
 
@@ -390,10 +444,12 @@ function rumble(){
   }catch(e){}
 }
 
-/* 3) 문 열림 → 페이드 → 본문 */
-$('enterBtn').addEventListener('click',()=>{
-  if(gate.classList.contains('open'))return;
-  gate.classList.add('open');
+/* 3) 청사 문으로 줌인 → 황금빛 → 본문 */
+let entering=false;
+function enterHall(){
+  if(entering||!intro.classList.contains('ui'))return;
+  entering=true;
+  intro.classList.add('enter');
   rumble();
   setTimeout(()=>{
     intro.classList.add('hidden');
@@ -402,8 +458,10 @@ $('enterBtn').addEventListener('click',()=>{
     scrollTo(0,0);
     setTimeout(()=>main.classList.add('revealed'),40);
     vid.removeAttribute('src');
-  },1900*k);
-});
+  },2600*k);
+}
+$('enterBtn').addEventListener('click',enterHall);
+$('doorHit').addEventListener('click',enterHall);
 
 /* 4) 실시간 상황 티커 (항목 클릭 시 관련 문서 열람) */
 const feed=[
@@ -473,6 +531,13 @@ async function breach(){
   busy=false;
 }
 $('back').addEventListener('click',()=>location.reload());
+
+/* 7) 히어로 패럴랙스 */
+const heroImg=$('heroImg');
+if(!reduce)addEventListener('scroll',()=>{
+  if(!main.classList.contains('on'))return;
+  heroImg.style.transform='translateY('+(Math.min(scrollY,600)*.12)+'px)';
+},{passive:true});
 </script>
 </body>
 </html>
