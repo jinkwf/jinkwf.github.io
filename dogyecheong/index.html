@@ -776,7 +776,6 @@ $('sec').addEventListener('click',()=>{
   if(busy)return;
   const el=$('sec');
   el.classList.add('pulse');setTimeout(()=>el.classList.remove('pulse'),160);
-  clearTimeout(clickTimer);clickTimer=setTimeout(()=>clicks=0,2200);
   if(++clicks>=3){clicks=0;breach()}
 });
 async function breach(){
