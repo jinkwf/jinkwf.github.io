@@ -269,6 +269,163 @@ footer{font-family:var(--f-head)}
 .about dt{color:#8895ad}.about dd{margin:0;font-weight:500}
 @media(max-width:650px){.about{grid-template-columns:1fr}.title-wrap{top:9%}}
 @media(prefers-reduced-motion:reduce){.door-glow,.star,.mist,.door-hit::before{animation:none!important}.door-glow{opacity:.85}}
+
+/* ===== 상조 사이트: 페이지·게시판·고객센터 ===== */
+a.logo{text-decoration:none;color:#14213d}
+.fh nav a{color:#44556f;font-size:.88rem;text-decoration:none;padding:6px 2px;border-bottom:2px solid transparent;transition:.2s}
+.fh nav a:hover{color:#14213d}
+.fh nav a.on{color:#14213d;font-weight:700;border-color:#f2b84b}
+.view{display:none}
+.view.on{display:block;animation:vin .35s ease}
+@keyframes vin{from{opacity:0;transform:translateY(6px)}}
+.svc>div[data-go]{cursor:pointer;transition:.2s}
+.svc>div[data-go]:hover{box-shadow:0 6px 20px #14213d1a;transform:translateY(-2px)}
+.pg{padding:44px max(16px,calc(50vw - 520px)) 70px}
+.pg h2{margin:0 0 8px;font-size:1.65rem;font-weight:800;letter-spacing:-.03em;color:#14213d}
+.pg .lead{margin:0 0 30px;color:#55657f;line-height:1.8;font-size:.95rem;max-width:640px}
+.crumb{font-size:.78rem;color:#8895ad;margin-bottom:14px}
+.sub-h{margin:40px 0 12px;font-size:1.05rem;font-weight:800;letter-spacing:-.02em;color:#14213d;border-bottom:2px solid #14213d;padding-bottom:10px}
+.notice h3{display:flex;justify-content:space-between;align-items:baseline}
+.notice h3 a{font-size:.78rem;font-weight:500;color:#6a7a96;text-decoration:none}
+.notice li{padding:0}
+.notice li a{display:flex;justify-content:space-between;gap:12px;width:100%;padding:13px 4px;color:inherit;text-decoration:none}
+.notice li a:hover span{text-decoration:underline}
+
+/* 장례서비스 */
+.steps{display:grid;gap:12px}
+.step{display:grid;grid-template-columns:48px 1fr;gap:18px;background:#fff;border:1px solid #dde3ee;border-radius:10px;padding:20px 22px}
+.step .n{width:42px;height:42px;border-radius:50%;background:#14213d;color:#f2b84b;display:grid;place-items:center;font-weight:800}
+.step b{font-size:1.02rem;margin-right:10px}
+.step small{color:#8895ad;font-size:.78rem}
+.step p{margin:8px 0 0;line-height:1.8;font-size:.9rem;color:#44556f}
+.faq{background:#fff;border:1px solid #dde3ee;border-radius:8px;margin-bottom:8px;padding:0 18px}
+.faq summary{cursor:pointer;padding:15px 0;font-weight:600;font-size:.92rem;list-style:none}
+.faq summary::after{content:"+";float:right;color:#8895ad}
+.faq[open] summary::after{content:"−"}
+.faq p{margin:0 0 16px;line-height:1.8;font-size:.88rem;color:#55657f}
+.callbox{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-top:34px;background:#14213d;color:#fff;border-radius:12px;padding:24px 28px}
+.callbox b{display:block;font-size:1.05rem;margin-bottom:4px}
+.callbox span{color:#b9c6df;font-size:.88rem}
+
+/* 상조상품 */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:stretch}
+.plan{position:relative;background:#fff;border:1px solid #dde3ee;border-radius:12px;padding:28px 22px;display:flex;flex-direction:column}
+.plan.hot{border:2px solid #f2b84b;box-shadow:0 10px 30px #14213d14}
+.plan .badge{position:absolute;top:-12px;left:22px;background:#f2b84b;color:#14213d;font-size:.72rem;font-weight:800;padding:4px 12px;border-radius:20px}
+.plan h3{margin:0;font-size:1.3rem;font-weight:800;letter-spacing:-.02em}
+.plan .pd{margin:6px 0 18px;color:#6a7a96;font-size:.85rem}
+.price{font-size:1.9rem;font-weight:800;letter-spacing:-.03em;color:#14213d}
+.price small{font-size:.95rem;font-weight:600;margin-left:3px}
+.plan ul{margin:18px 0 24px;padding:0;flex:1}
+.plan li{list-style:none;padding:8px 0 8px 22px;border-top:1px solid #eef1f6;font-size:.88rem;color:#44556f;position:relative}
+.plan li::before{content:"✓";position:absolute;left:0;color:#d9a23a;font-weight:800}
+.btn-o{border:1px solid #14213d;background:#fff;color:#14213d;font-weight:700;padding:12px;border-radius:6px;cursor:pointer;font-family:inherit}
+.plan .cta{width:100%}
+.terms{margin-top:26px}
+
+/* 부고·추모 */
+.obs{display:grid;gap:14px}
+.ob{background:#fff;border:1px solid #dde3ee;border-radius:12px;padding:20px 22px}
+.ob-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.ob-top b{font-size:1.08rem;letter-spacing:-.01em}
+.ob-top b i{font-style:normal;font-weight:500;color:#8895ad;font-size:.85rem;margin-left:8px}
+.dchip{font-size:.78rem;font-weight:800;padding:4px 11px;border-radius:20px;background:#e8eef9;color:#26395f}
+.dchip.warn{background:#fdeccb;color:#8a5a00}
+.ob dl{margin:14px 0;display:grid;grid-template-columns:auto 1fr;gap:5px 16px;font-size:.86rem}
+.ob dt{color:#8895ad}.ob dd{margin:0}
+.ob-act{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.fl{border:1px solid #dde3ee;background:#fff;border-radius:20px;padding:7px 15px;cursor:pointer;font-family:inherit;font-size:.84rem;color:#44556f}
+.fl.on{background:#14213d;color:#fff;border-color:#14213d}
+.memo{flex:1 1 100%;margin-top:10px;border-top:1px solid #eef1f6;padding-top:6px}
+.memo summary{cursor:pointer;padding:8px 0;font-size:.86rem;font-weight:600;color:#44556f}
+.memo ul{margin:6px 0 12px;padding:0}
+.memo li{list-style:none;padding:8px 12px;background:#f4f6fa;border-radius:8px;margin-bottom:6px;font-size:.86rem;color:#33445f}
+.memo li em{font-style:normal;color:#8895ad;font-size:.76rem;margin-left:8px}
+.memo form{display:flex;gap:8px}
+.memo input{flex:1;border:1px solid #dde3ee;border-radius:6px;padding:9px 12px;font:inherit;font-size:.86rem}
+.memo form button{border:0;background:#14213d;color:#fff;border-radius:6px;padding:0 16px;font:inherit;font-size:.84rem;cursor:pointer}
+
+/* 게시판 */
+.board{margin:0;padding:0;border-top:2px solid #14213d}
+.board li{list-style:none;border-bottom:1px solid #dde3ee}
+.board a{display:grid;grid-template-columns:48px 1fr 92px 64px;gap:10px;padding:15px 6px;text-decoration:none;color:#1d2b44;font-size:.9rem;align-items:center}
+.board a:hover .bt{text-decoration:underline}
+.board .bn,.board .bd,.board .bv{color:#8895ad;font-size:.8rem}
+.board .tag,.post-meta .tag{display:inline-block;font-size:.7rem;font-weight:700;background:#e8eef9;color:#26395f;border-radius:4px;padding:2px 7px;margin-right:8px}
+.post h2{font-size:1.4rem;line-height:1.45;margin-bottom:12px}
+.post-meta{display:flex;gap:14px;font-size:.8rem;color:#8895ad;padding-bottom:16px;border-bottom:1px solid #dde3ee}
+.post-body{padding:28px 4px;min-height:200px}
+.post-body p{margin:0 0 16px;line-height:1.95;font-size:.95rem;color:#33445f}
+.pn{border-top:1px solid #dde3ee}
+.pn a{display:flex;gap:16px;padding:13px 4px;border-bottom:1px solid #eef1f6;text-decoration:none;color:#1d2b44;font-size:.88rem}
+.pn a span{width:52px;flex-shrink:0;color:#8895ad;font-size:.8rem}
+.pn a:hover{background:#f0f3f9}
+.back-list{display:inline-block;margin-top:22px;padding:10px 24px;border:1px solid #14213d;border-radius:6px;color:#14213d;text-decoration:none;font-weight:700;font-size:.88rem}
+
+/* 고객센터 채팅 */
+.chat{display:grid;grid-template-columns:300px 1fr;height:min(660px,calc(100svh - 170px));min-height:480px;background:#fff;border:1px solid #dde3ee;border-radius:14px;overflow:hidden}
+.rooms{border-right:1px solid #dde3ee;overflow-y:auto;background:#fafbfd}
+.rm{display:flex;align-items:center;gap:12px;width:100%;padding:13px 16px;border:0;border-bottom:1px solid #eef1f6;background:none;text-align:left;cursor:pointer;font-family:inherit;color:#1d2b44}
+.rm:hover{background:#f0f3f9}
+.rm.on{background:#e8eef9}
+.ri{flex:1;min-width:0}
+.ri b{display:block;font-size:.92rem;margin-bottom:3px}
+.ri span{display:block;font-size:.78rem;color:#7b8aa3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rt{display:flex;flex-direction:column;align-items:flex-end;gap:6px;font-size:.7rem;color:#9aa6bb}
+.rt em{font-style:normal;background:#e5484d;color:#fff;border-radius:10px;min-width:18px;height:18px;line-height:18px;text-align:center;font-weight:700;padding:0 5px}
+.av{width:42px;height:42px;border-radius:50%;flex-shrink:0;display:grid;place-items:center;background:var(--c,#14213d) center/cover;color:#fff;font-weight:800;font-size:1rem;font-family:'Noto Serif KR',serif}
+.av.sm{width:34px;height:34px;font-size:.85rem}
+.av.grp{background:#e8edf5;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;place-items:stretch;gap:3px;padding:7px}
+.av.grp i{border-radius:50%;display:block}
+.room{display:flex;flex-direction:column;min-width:0;background:#eef2f8;position:relative}
+.empty{margin:auto;color:#8895ad;font-size:.9rem}
+.rh{display:flex;align-items:center;gap:12px;padding:12px 16px;background:#fff;border-bottom:1px solid #dde3ee}
+.rh[hidden],.msgs[hidden],.chips[hidden],.composer[hidden]{display:none}
+.rhi{flex:1;min-width:0}
+.rhi b{display:block;font-size:.95rem}
+.rhi span{font-size:.76rem;color:#7b8aa3}
+.rhi span.typing-s{color:#2f7f86}
+.rback{display:none;border:0;background:none;font-size:1.6rem;cursor:pointer;color:#14213d;padding:0 4px}
+.rclr{border:0;background:none;color:#9aa6bb;font-size:.74rem;cursor:pointer;font-family:inherit}
+.rclr:hover{color:#e5484d}
+.msgs{flex:1;overflow-y:auto;padding:18px 16px;display:flex;flex-direction:column;gap:12px}
+.sys{align-self:center;background:#d9e0ee;color:#55657f;font-size:.74rem;padding:4px 14px;border-radius:20px}
+.m{display:flex;gap:8px;align-items:flex-end;max-width:86%}
+.m.me{align-self:flex-end;flex-direction:row-reverse}
+.m.ot{align-self:flex-start}
+.mb{display:flex;flex-direction:column;gap:3px;min-width:0}
+.mn{font-size:.74rem;color:#55657f;margin-left:2px}
+.bb{padding:10px 14px;border-radius:14px;font-size:.9rem;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere;white-space:pre-wrap}
+.ot .bb{background:#fff;border:1px solid #dde3ee;border-top-left-radius:4px}
+.me .bb{background:#14213d;color:#fff;border-top-right-radius:4px}
+.m time{font-size:.68rem;color:#9aa6bb;white-space:nowrap;padding-bottom:2px}
+.typing .bb{display:flex;gap:4px;padding:13px 16px}
+.typing i{width:6px;height:6px;border-radius:50%;background:#9aa6bb;animation:dot 1.2s infinite}
+.typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+@keyframes dot{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:8px 16px;background:#eef2f8}
+.chips button{flex-shrink:0;border:1px solid #c9d3e6;background:#fff;color:#33445f;border-radius:18px;padding:7px 14px;font:inherit;font-size:.78rem;cursor:pointer}
+.chips button:hover{background:#14213d;color:#fff;border-color:#14213d}
+.composer{display:flex;gap:8px;padding:12px 16px;background:#fff;border-top:1px solid #dde3ee}
+.composer input{flex:1;border:1px solid #dde3ee;border-radius:22px;padding:11px 18px;font:inherit;font-size:.9rem;outline:none;min-width:0}
+.composer input:focus{border-color:#14213d}
+.composer button{border:0;background:#f2b84b;color:#14213d;font-weight:800;border-radius:22px;padding:0 20px;font:inherit;font-weight:800;cursor:pointer}
+
+@media(max-width:700px){
+  .fh{flex-wrap:wrap;gap:10px;padding-top:12px;padding-bottom:10px}
+  .fh nav{display:flex;width:100%;gap:20px;overflow-x:auto}
+  .fh nav a{white-space:nowrap}
+  .plans{grid-template-columns:1fr}
+  .pg{padding-top:30px}
+  .step{grid-template-columns:40px 1fr;gap:12px;padding:16px}
+  .board a{grid-template-columns:1fr 70px;grid-template-areas:"t t" "d v"}
+  .board .bn{display:none}.board .bt{grid-area:t}.board .bd{grid-area:d}.board .bv{grid-area:v;text-align:right}
+  .chat{grid-template-columns:1fr;height:calc(100svh - 150px)}
+  .chat .room{display:none}
+  .chat.in-room .rooms{display:none}
+  .chat.in-room .room{display:flex}
+  .rback{display:block}
+}
 </style>
 </head>
 <body>
@@ -277,37 +434,148 @@ footer{font-family:var(--f-head)}
 <div id="funeral">
   <div class="util"><span>보건복지 위탁 장례지원기관 · <b id="sec">도계청</b> 인증</span><span>24시간 상담 · 국번없이 049</span></div>
   <header class="fh">
-    <div class="logo"><i>(재)</i>도계복지원</div>
-    <nav><span>장례서비스</span><span>상조상품</span><span>부고·추모</span><span>고객센터</span></nav>
+    <a class="logo" href="#/" data-nav="home"><i>(재)</i>도계복지원</a>
+    <nav>
+      <a href="#/service" data-nav="service">장례서비스</a>
+      <a href="#/products" data-nav="products">상조상품</a>
+      <a href="#/obituary" data-nav="obituary">부고·추모</a>
+      <a href="#/support" data-nav="support">고객센터</a>
+    </nav>
   </header>
-  <section class="hero">
-    <p>24시간 · 전국 어디서나</p>
-    <h2>당신의 마지막 길을<br>정성으로 모십니다</h2>
-    <p class="sub">임종 직후, 가장 먼저 도착하는 사람들. 검은 정장의 전담 인력이 유족 곁에서 모든 절차를 조용히 안내해 드립니다.</p>
-    <button class="cta">무료 상담 신청</button>
-  </section>
-  <section class="svc">
-    <div><b>장례식장 연계</b><p>전국 병원 장례식장과 연계해 빈소 마련부터 접객까지 지원합니다.</p></div>
-    <div><b>운구 · 입관</b><p>숙련된 전담 인력이 고인의 마지막 길을 정중하게 모십니다.</p></div>
-    <div><b>49일 추모 프로그램</b><p>49일 동안 유족을 위한 추모와 상담 프로그램을 운영합니다.</p></div>
-  </section>
-  <section class="about">
-    <figure><img data-plate alt="(재)도계복지원 본사 사옥" loading="lazy" decoding="async"></figure>
-    <div>
-      <h3>본사 사옥 안내</h3>
-      <p>본원은 24시간 불이 꺼지지 않습니다. 임종 직후 언제든 상담하실 수 있도록 야간 접수 창구를 상시 운영합니다.</p>
-      <dl><dt>주소</dt><dd>서울특별시 ○○구 경계로 49</dd><dt>야간 방문</dt><dd>사전 예약 불필요</dd><dt>접수</dt><dd>국번없이 049</dd></dl>
+
+  <!-- 홈 -->
+  <div class="view on" data-view="home">
+    <section class="hero">
+      <p>24시간 · 전국 어디서나</p>
+      <h2>당신의 마지막 길을<br>정성으로 모십니다</h2>
+      <p class="sub">임종 직후, 가장 먼저 도착하는 사람들. 검은 정장의 전담 인력이 유족 곁에서 모든 절차를 조용히 안내해 드립니다.</p>
+      <button class="cta" data-go="#/support">무료 상담 신청</button>
+    </section>
+    <section class="svc">
+      <div data-go="#/service"><b>장례식장 연계</b><p>전국 병원 장례식장과 연계해 빈소 마련부터 접객까지 지원합니다.</p></div>
+      <div data-go="#/service"><b>운구 · 입관</b><p>숙련된 전담 인력이 고인의 마지막 길을 정중하게 모십니다.</p></div>
+      <div data-go="#/products"><b>49일 추모 프로그램</b><p>49일 동안 유족을 위한 추모와 상담 프로그램을 운영합니다.</p></div>
+    </section>
+    <section class="about">
+      <figure><img data-plate alt="(재)도계복지원 본사 사옥" loading="lazy" decoding="async"></figure>
+      <div>
+        <h3>본사 사옥 안내</h3>
+        <p>본원은 24시간 불이 꺼지지 않습니다. 임종 직후 언제든 상담하실 수 있도록 야간 접수 창구를 상시 운영합니다.</p>
+        <dl><dt>주소</dt><dd>서울특별시 ○○구 경계로 49</dd><dt>야간 방문</dt><dd>사전 예약 불필요</dd><dt>접수</dt><dd>국번없이 049</dd></dl>
+      </div>
+    </section>
+    <section class="notice">
+      <h3>공지사항<a href="#/notice">더보기 +</a></h3>
+      <ul id="homeNotices"></ul>
+    </section>
+  </div>
+
+  <!-- 장례서비스 -->
+  <div class="view" data-view="service">
+    <div class="pg">
+      <div class="crumb">홈 › 장례서비스</div>
+      <h2>장례서비스 안내</h2>
+      <p class="lead">처음 겪는 일이라 막막하시겠지만, 접수 이후의 모든 절차는 담당 직원이 한 단계씩 안내해 드립니다.</p>
+      <div class="steps">
+        <div class="step"><span class="n">1</span><div><b>임종 접수</b><small>24시간 · 국번없이 049</small><p>임종 직후 접수 번호로 연락 주시면 가장 가까운 지점에서 담당 직원이 출발합니다. 접수와 동시에 접수증이 영수증 형태로 자동 발급되며, 유효기간은 49일입니다.</p></div></div>
+        <div class="step"><span class="n">2</span><div><b>수습 · 안치</b><small>병원 · 자택 방문</small><p>검은 정장을 입은 직원이 병원 또는 자택을 방문해 고인을 모십니다. 유족께서는 고인 곁에 머무르셔도 좋습니다. 직원은 고인이 길을 잃지 않도록 끝까지 곁을 지킵니다.</p></div></div>
+        <div class="step"><span class="n">3</span><div><b>빈소 마련</b><small>장례식장 연계</small><p>전국 병원 장례식장과 연계해 빈소와 접객 용품을 준비합니다. 조문객 응대와 식사 준비는 전담 인력이 맡습니다.</p></div></div>
+        <div class="step"><span class="n">4</span><div><b>입관 · 발인</b><small>고인과의 마지막 인사</small><p>입관 시간에는 유족이 고인께 마지막 인사를 건넬 수 있도록 충분한 시간을 드립니다. 발인 후 운구와 안치까지 직원이 동행합니다.</p></div></div>
+        <div class="step"><span class="n">5</span><div><b>49일 추모</b><small>유족 케어 프로그램</small><p>49일 동안 주 1회 추모 안내와 유족 상담이 이어집니다. 마음을 정리하고 인사를 건네는 일은 49일 안에 마치시는 것을 권해 드립니다.</p></div></div>
+      </div>
+      <h3 class="sub-h">자주 묻는 질문</h3>
+      <details class="faq"><summary>한밤중에도 직원이 방문하나요?</summary><p>네. 야간에도 접수와 방문이 모두 가능합니다. 방문 직원은 검은 정장에 직원증을 지참하며, 직원증에는 이름 대신 두 글자의 직원명이 표기되어 있습니다.</p></details>
+      <details class="faq"><summary>접수증은 어떻게 사용하나요?</summary><p>접수증은 담당 직원에게 전달해 주시면 됩니다. 분실하셔도 접수 기록은 전산에 보관되니 걱정하지 않으셔도 됩니다.</p></details>
+      <details class="faq"><summary>49일이 지나면 어떻게 되나요?</summary><p>49일이 지나면 추모 프로그램이 종료됩니다. 종료 이후에는 연장이나 재접수가 불가하니 일정 안에 충분히 이용해 주시기 바랍니다.</p></details>
+      <div class="callbox"><div><b>지금 도움이 필요하세요?</b><span>상담사와 바로 대화할 수 있습니다.</span></div><button class="cta" data-go="#/support">고객센터 상담</button></div>
     </div>
-  </section>
-  <section class="notice">
-    <h3>공지사항</h3>
-    <ul>
-      <li><span>야간 접수 시간 안내 — 자정~새벽 4시 상담 집중 운영</span><em>2026.10.21</em></li>
-      <li><span>방문 직원 신원 확인 안내 (직원증 지참, 검은 정장 착용)</span><em>2026.10.14</em></li>
-      <li><span>49일 추모 프로그램 신청 안내</span><em>2026.10.02</em></li>
-      <li><span>영정사진 촬영 시 반사 현상 문의에 대한 안내</span><em>2026.09.19</em></li>
-    </ul>
-  </section>
+  </div>
+
+  <!-- 상조상품 -->
+  <div class="view" data-view="products">
+    <div class="pg">
+      <div class="crumb">홈 › 상조상품</div>
+      <h2>상조상품 안내</h2>
+      <p class="lead">상황에 맞는 상품을 고르실 수 있도록 세 가지로 구성했습니다. 어느 상품이든 24시간 접수와 49일 추모 프로그램은 기본으로 제공됩니다.</p>
+      <div class="plans">
+        <div class="plan">
+          <h3>마중</h3><p class="pd">꼭 필요한 절차를 담은 기본형</p>
+          <div class="price">2,900,000<small>원</small></div>
+          <ul><li>24시간 임종 접수</li><li>수습 · 운구 · 안치</li><li>3일장 기본 빈소 용품</li><li>입관 · 발인 진행</li><li>49일 추모 프로그램</li></ul>
+          <button class="btn-o" data-go="#/support">상담사와 상의하기</button>
+        </div>
+        <div class="plan hot">
+          <span class="badge">가장 많이 선택</span>
+          <h3>배웅</h3><p class="pd">유족 응대까지 함께하는 표준형</p>
+          <div class="price">4,800,000<small>원</small></div>
+          <ul><li>마중 상품 전 항목</li><li>조문객 응대 · 식사 전담 인력</li><li>영정사진 촬영 · 제작</li><li>유족 상담 월 4회</li><li>야간 방문 상담 우선 배정</li></ul>
+          <button class="cta" data-go="#/support">상담사와 상의하기</button>
+        </div>
+        <div class="plan">
+          <h3>동행</h3><p class="pd">49일 내내 곁을 지키는 프리미엄형</p>
+          <div class="price">7,400,000<small>원</small></div>
+          <ul><li>배웅 상품 전 항목</li><li>전담 상담사 1인 배정</li><li>야간 입회 서비스</li><li>49일 동행 케어</li><li>추모 기록 열람 서비스</li></ul>
+          <button class="btn-o" data-go="#/support">상담사와 상의하기</button>
+        </div>
+      </div>
+      <details class="faq terms"><summary>약관 요약 보기</summary>
+        <p>제1조 (계약의 효력) 계약은 임종 접수증 발급 시점부터 효력이 발생합니다.<br>제2조 (서비스 기간) 모든 서비스는 접수일로부터 49일간 제공되며, 기간 경과 후에는 연장되지 않습니다.<br>제3조 (해지) 접수 전에는 위약금 없이 해지할 수 있습니다. 접수 이후에는 진행된 절차에 해당하는 금액을 공제합니다.<br>제4조 (직원 신원) 방문 직원은 직원증을 소지하며, 확인되지 않는 경우 국번 없이 049로 문의해 주시기 바랍니다.</p>
+      </details>
+    </div>
+  </div>
+
+  <!-- 부고·추모 -->
+  <div class="view" data-view="obituary">
+    <div class="pg">
+      <div class="crumb">홈 › 부고·추모</div>
+      <h2>부고 · 추모관</h2>
+      <p class="lead">고인의 마지막 길에 함께해 주세요. 헌화와 추모의 말은 유족께 전해집니다. 괄호 안의 D-일수는 추모 프로그램이 종료되기까지 남은 기간입니다.</p>
+      <div class="obs" id="obitList"></div>
+    </div>
+  </div>
+
+  <!-- 고객센터 -->
+  <div class="view" data-view="support">
+    <div class="pg">
+      <div class="crumb">홈 › 고객센터</div>
+      <h2>고객센터 상담</h2>
+      <p class="lead">상담사를 선택해 바로 대화하실 수 있습니다. 전체 상담방에서는 상담팀 모두에게 한꺼번에 문의하실 수 있어요.</p>
+      <div class="chat" id="chat">
+        <aside class="rooms" id="rooms"></aside>
+        <section class="room">
+          <div class="empty" id="rempty">대화방을 선택해 주세요</div>
+          <header class="rh" id="rh" hidden>
+            <button class="rback" id="rback" aria-label="목록으로">‹</button>
+            <span id="rhav"></span>
+            <div class="rhi"><b id="rhname"></b><span id="rhsub"></span></div>
+            <button class="rclr" id="rclr">대화 비우기</button>
+          </header>
+          <div class="msgs" id="msgs" hidden></div>
+          <div class="chips" id="chips" hidden></div>
+          <form class="composer" id="composer" hidden>
+            <input id="cin" type="text" maxlength="200" autocomplete="off" placeholder="메시지를 입력하세요">
+            <button type="submit">전송</button>
+          </form>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- 공지 목록 -->
+  <div class="view" data-view="notices">
+    <div class="pg">
+      <div class="crumb">홈 › 공지사항</div>
+      <h2>공지사항</h2>
+      <p class="lead">도계복지원의 서비스와 운영 관련 안내입니다.</p>
+      <ul class="board" id="boardList"></ul>
+    </div>
+  </div>
+
+  <!-- 공지 상세 -->
+  <div class="view" data-view="notice">
+    <div class="pg" id="noticeView"></div>
+  </div>
+
   <footer class="ff">(재)도계복지원 | 이사장 □□□ | 사업자등록번호 049-49-00049<br>서울특별시 ○○구 경계로 49 | 상담 국번없이 049 | © Dogye Welfare Foundation</footer>
 </div>
 <div id="breach" aria-hidden="true"><pre id="bt"></pre></div>
@@ -530,7 +798,7 @@ async function breach(){
   box.classList.remove('on','fade');
   busy=false;
 }
-$('back').addEventListener('click',()=>location.reload());
+$('back').addEventListener('click',()=>{history.replaceState(null,'',location.pathname);location.reload()});
 
 /* 7) 히어로 패럴랙스 */
 const heroImg=$('heroImg');
@@ -538,6 +806,304 @@ if(!reduce)addEventListener('scroll',()=>{
   if(!main.classList.contains('on'))return;
   heroImg.style.transform='translateY('+(Math.min(scrollY,600)*.12)+'px)';
 },{passive:true});
+
+/* ===== 8) 상조 사이트: 라우팅 · 공지 · 부고 · 고객센터 ===== */
+const LS={
+  get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+};
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const tm=ts=>{const d=new Date(ts),h=d.getHours();return(h<12?'오전 ':'오후 ')+((h%12)||12)+':'+String(d.getMinutes()).padStart(2,'0')};
+
+/* ---------- 공지사항 ---------- */
+const NOTICES=[
+ {id:1,tag:'안내',title:'야간 접수 시간 안내 — 자정~새벽 4시 상담 집중 운영',date:'2026.10.21',views:1284,body:[
+  '(재)도계복지원은 연중무휴 24시간 접수를 운영하고 있으며, 자정부터 새벽 4시까지를 야간 집중 상담 시간으로 지정해 상담 인력을 증원 배치합니다.',
+  '야간에는 임종 접수가 특히 몰리는 경향이 있어 고객센터와 전화(국번 없이 049) 모두 동일하게 응대합니다.',
+  '야간 방문 상담은 사전 예약 없이 접수할 수 있으며, 방문 직원은 반드시 직원증을 지참합니다.']},
+ {id:2,tag:'안내',title:'방문 직원 신원 확인 안내 (직원증 지참, 검은 정장 착용)',date:'2026.10.14',views:2031,body:[
+  '방문 직원은 검은 정장을 착용하고 직원증을 소지합니다. 직원증에는 본명 대신 두 글자의 직원명이 표기되어 있습니다.',
+  '직원증이 확인되지 않으면 문을 열지 마시고 국번 없이 049로 확인해 주시기 바랍니다.',
+  '직원은 어떠한 경우에도 금전을 먼저 요구하지 않습니다.']},
+ {id:3,tag:'프로그램',title:'49일 추모 프로그램 신청 안내',date:'2026.10.02',views:1752,body:[
+  '49일 추모 프로그램은 계약 유족을 대상으로 사망일로부터 49일간 운영됩니다.',
+  '주 1회 추모 안내와 유족 상담이 진행되며, 49일째 되는 날에는 마무리 행사가 마련됩니다.',
+  '프로그램은 49일이 경과하면 종료되며, 종료 이후에는 연장 및 신규 신청이 불가합니다. 일정 안에 충분히 이용해 주시기 바랍니다.']},
+ {id:4,tag:'안내',title:'영정사진 촬영 시 반사 현상 문의에 대한 안내',date:'2026.09.19',views:3406,body:[
+  '일부 영정사진 촬영 과정에서 사진 속 유리면 또는 거울면에 반사광이 나타난다는 문의가 다수 접수되었습니다.',
+  '촬영 장비의 결함은 아니며, 화면 보호필름이 부착된 스마트폰으로 촬영할 때 빈도가 높은 것으로 확인되었습니다.',
+  '반사가 확인되면 촬영을 중단하고 현장 직원에게 「반사 확인」을 요청해 주세요. 직원이 현장에서 조치합니다.']},
+ {id:5,tag:'장애',title:'상담 전화(049) 연결 지연 안내',date:'2026.09.08',views:962,body:[
+  '야간 시간대 통화량 급증으로 상담 전화 연결이 지연되고 있습니다. 이용에 불편을 드려 죄송합니다.',
+  '대기가 길어질 경우 홈페이지 고객센터의 채팅 상담을 이용해 주시면 더 빠르게 응대해 드립니다.']},
+ {id:6,tag:'정책',title:'개인정보 처리방침 개정 안내',date:'2026.08.30',views:540,body:[
+  '개인정보 처리방침이 일부 개정되어 안내드립니다.',
+  '고인의 기록은 49일간 보관 후 파기하며, 유족 정보는 계약 종료 후 지체 없이 파기합니다.',
+  '자세한 내용은 고객센터로 문의해 주세요.']}
+];
+$('homeNotices').innerHTML=NOTICES.slice(0,4).map(n=>`<li><a href="#/notice/${n.id}"><span>${esc(n.title)}</span><em>${n.date}</em></a></li>`).join('');
+$('boardList').innerHTML=NOTICES.map(n=>`<li><a href="#/notice/${n.id}"><span class="bn">${n.id}</span><span class="bt"><span class="tag">${n.tag}</span>${esc(n.title)}</span><span class="bd">${n.date}</span><span class="bv">조회 ${n.views.toLocaleString()}</span></a></li>`).join('');
+function renderNotice(id){
+  const i=NOTICES.findIndex(n=>n.id===id),n=NOTICES[i];
+  if(!n){location.hash='#/notice';return}
+  const prev=NOTICES[i+1],next=NOTICES[i-1];
+  $('noticeView').innerHTML=`<div class="crumb">홈 › 공지사항</div>
+  <article class="post"><h2>${esc(n.title)}</h2>
+  <div class="post-meta"><span><span class="tag">${n.tag}</span></span><span>${n.date}</span><span>조회 ${n.views.toLocaleString()}</span><span>(재)도계복지원</span></div>
+  <div class="post-body">${n.body.map(p=>`<p>${esc(p)}</p>`).join('')}</div></article>
+  <div class="pn">${next?`<a href="#/notice/${next.id}"><span>다음글</span>${esc(next.title)}</a>`:''}${prev?`<a href="#/notice/${prev.id}"><span>이전글</span>${esc(prev.title)}</a>`:''}</div>
+  <a class="back-list" href="#/notice">목록으로</a>`;
+}
+
+/* ---------- 부고 · 추모 ---------- */
+const OBITS=[
+ {n:'故 김○○',age:79,days:1,where:'서울 ○○병원 장례식장 3호실',chief:'장남 김○○',flowers:12,memos:['삼가 고인의 명복을 빕니다.']},
+ {n:'故 이○○',age:64,days:4,where:'경기 ○○장례문화원 특1호',chief:'배우자 박○○',flowers:8,memos:['편히 쉬세요.','좋은 곳으로 가셨기를 바랍니다.']},
+ {n:'故 박○○',age:88,days:13,where:'부산 ○○병원 장례식장 1호실',chief:'차녀 박○○',flowers:31,memos:['오래도록 기억하겠습니다.']},
+ {n:'故 정○○',age:41,days:27,where:'대전 ○○장례식장 2호실',chief:'모친 정○○',flowers:19,memos:['너무 이른 이별이라 마음이 아픕니다.','잊지 않을게요.']},
+ {n:'故 최○○',age:70,days:43,where:'광주 ○○병원 장례식장 5호실',chief:'장녀 최○○',flowers:5,memos:['먼 길 편안히 가세요.']},
+ {n:'故 한○○',age:57,days:48,where:'서울 ○○장례식장 4호실',chief:'배우자 한○○',flowers:3,memos:['인사 전하지 못한 분들이 많습니다. 부디 편안하시길.']}
+];
+function renderObits(){
+  const today=new Date();today.setHours(0,0,0,0);
+  const mine=LS.get('dgc_fl_mine',{}),memos=LS.get('dgc_memos',{});
+  const f=d=>d.getFullYear()+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+String(d.getDate()).padStart(2,'0');
+  $('obitList').innerHTML=OBITS.map((o,i)=>{
+    const d=new Date(today);d.setDate(d.getDate()-o.days);
+    const out=new Date(d);out.setDate(out.getDate()+3);
+    const left=49-o.days,mm=memos[i]||[];
+    return `<article class="ob" data-i="${i}">
+      <div class="ob-top"><b>${o.n}<i>향년 ${o.age}세</i></b><span class="dchip ${left<=7?'warn':''}">49일까지 D-${left}</span></div>
+      <dl><dt>별세</dt><dd>${f(d)}</dd><dt>빈소</dt><dd>${o.where}</dd><dt>발인</dt><dd>${f(out)} ${out<=today?'(완료)':'(예정)'}</dd><dt>상주</dt><dd>${o.chief}</dd></dl>
+      <div class="ob-act"><button class="fl ${mine[i]?'on':''}" type="button">🏵 헌화 <span class="fc">${o.flowers+(mine[i]?1:0)}</span></button>
+      <details class="memo"><summary>추모의 말 <span class="mc">${o.memos.length+mm.length}</span></summary>
+        <ul>${o.memos.map(t=>`<li>${esc(t)}</li>`).join('')}${mm.map(t=>`<li>${esc(t)}<em>방문자</em></li>`).join('')}</ul>
+        <form><input maxlength="60" placeholder="추모의 말을 남겨 주세요"><button>남기기</button></form></details></div>
+    </article>`;
+  }).join('');
+}
+renderObits();
+$('obitList').addEventListener('click',e=>{
+  const b=e.target.closest('.fl');if(!b)return;
+  const i=b.closest('.ob').dataset.i,mine=LS.get('dgc_fl_mine',{});
+  mine[i]=!mine[i];LS.set('dgc_fl_mine',mine);
+  b.classList.toggle('on',!!mine[i]);
+  b.querySelector('.fc').textContent=OBITS[i].flowers+(mine[i]?1:0);
+});
+$('obitList').addEventListener('submit',e=>{
+  e.preventDefault();
+  const form=e.target,inp=form.querySelector('input'),t=inp.value.trim();if(!t)return;
+  const card=form.closest('.ob'),i=card.dataset.i,memos=LS.get('dgc_memos',{});
+  (memos[i]=memos[i]||[]).push(t);LS.set('dgc_memos',memos);
+  const li=document.createElement('li');li.textContent=t;
+  const em=document.createElement('em');em.textContent='방문자';li.appendChild(em);
+  card.querySelector('.memo ul').appendChild(li);
+  card.querySelector('.mc').textContent=OBITS[i].memos.length+memos[i].length;
+  inp.value='';
+});
+
+/* ---------- 고객센터 채팅 (규칙 기반 응답) ---------- */
+/* 캐릭터 설정: 새 캐릭터 정보가 정해지면 L(대사 풀)·greet 만 채우면 됩니다. L이 null이면 GEN(공통 대사)을 씁니다. */
+const CH={
+ onyu:{id:'onyu',name:'유',who:'온유',sub:'야간 접수 · 상담',color:'#d08a3c',mark:'유',img:'',
+  greet:['안녕하세요, 도계복지원 야간 상담을 맡고 있는 유입니다.','편하신 만큼만, 천천히 말씀해 주세요.'],
+  L:{
+   hello:['안녕하세요. 밤늦게 연락 주셨네요. 괜찮으시면 천천히 말씀해 주세요.','어서 오세요. 유라고 합니다. 무엇이든 편하게 물어봐 주세요.'],
+   who:['저는 야간 접수와 상담을 맡고 있는 유라고 합니다. 직원증은 정장 안쪽에 있어요.','유라고 불러 주세요. 이 일을 한 지는 꽤 오래됐어요. 벌써 스물여섯 해네요.'],
+   thanks:['별말씀을요. 도움이 되셨다니 다행이에요.','아니에요, 제가 할 일인걸요. 필요하실 때 또 불러 주세요.'],
+   bye:['살펴 가세요. 밤길 조심하시고요, 필요하시면 언제든 불러 주세요.','네, 안녕히 가세요. 저는 밤새 여기 있을게요.'],
+   service:['장례 절차는 임종 접수, 수습과 안치, 빈소 마련, 입관·발인, 그리고 49일 추모까지 다섯 단계예요. 「장례서비스」 메뉴에 자세히 적어 두었어요.','처음이시라 막막하시죠. 괜찮아요. 접수만 해 주시면 그다음은 저희가 하나씩 안내해 드릴게요.'],
+   price:['상품은 마중, 배웅, 동행 세 가지가 있어요. 금액은 「상조상품」 메뉴에서 보실 수 있고, 상황에 맞춰 같이 살펴봐 드릴게요.','비용이 걱정되시죠. 무리해서 고르지 않으셔도 돼요. 가장 기본형부터 천천히 말씀드릴게요.'],
+   d49:['49일은 고인이 떠나는 길을 마무리하는 기간이에요. 그동안 유족분들이 마음을 정리하실 수 있도록 곁을 지키는 게 저희 일이고요.','49일이 지나기 전에 꼭 인사를 건네 주세요. 늦지 않게요. …그게 제일 중요해요.'],
+   night:['야간 접수는 자정부터 새벽 네 시까지 집중 운영해요. 그 시간에 연락이 제일 많이 오거든요. 저는 그때가 가장 익숙해요.','밤에 찾아가는 건 괜찮아요. 검은 정장에 직원증을 꼭 확인해 주세요. 그게 저희예요.'],
+   ghost:['그런 이야기는 직원 교육에서 다루지 않는 걸로 되어 있어요. 다만, 무서운 일이 있으셨다면 말씀해 주세요. 옆에서 들을게요.','저는 사람이었던 분들이라고 생각해요. 무서워하지 않으셔도 돼요. 대부분은 그저 길을 몰라서 서 계실 뿐이거든요.'],
+   death:['가까운 분이 떠나셨나요. 먼저 이 말씀부터 드리고 싶어요. 많이 힘드셨죠.','괜찮으시면 천천히 말씀해 주세요. 지금 곁에 누가 계신지부터요. 급하지 않아요.'],
+   feel:['많이 지치셨나 봐요. 여기서는 괜찮은 척 안 하셔도 돼요.','그 마음, 조금은 알 것 같아요. 같이 있어 드릴게요. 하고 싶은 말을 천천히 해 주세요.'],
+   love:['네? 아, 저한테 그런 말씀은 처음 들어서요. 조금 부끄럽네요. 그래도 고마워요.','갑자기 그러시면 곤란해요. 귀가 뜨거워지잖아요. 그래도 좋은 말씀 감사합니다.'],
+   rain:['비 오는 날은 처마 밑에서 기다리게 돼요. 저는 금방 그치면 그냥 뛰어가도 괜찮아요. 우산은 필요하신 분께 드리고요.','비 오는 날 우산 없이 오신 분이 계시면 제 걸 드려요. 별일 아니에요.'],
+   lantern:['청사초롱이요? 밤길에 들고 다니는 등이에요. 길이 어두운 분들께는 그게 제일 좋거든요.','등불은 혼자 걷는 분이 길을 잃지 않게 하는 거예요. 제 일에서는 꽤 중요한 물건이에요.'],
+   hours:['상담은 24시간이에요. 전화는 국번 없이 049, 지금처럼 여기서 말씀해 주셔도 되고요.','언제든 괜찮아요. 새벽에도 제가 있어요.'],
+   help:['상담 신청이시군요. 고인과의 관계와 지금 계신 곳만 먼저 말씀해 주세요. 나머지는 제가 이어서 도와드릴게요.'],
+   etc:['음, 조금만 더 자세히 말씀해 주시겠어요? 천천히 기다릴게요.','제가 잘 이해했는지 모르겠어요. 한 번만 더 말씀해 주시겠어요?','그건 바로 답해 드리기 어려워서요. 장례 절차, 상품, 야간 방문 같은 걸 물어봐 주시면 더 잘 도와드릴 수 있어요.']
+  }},
+ bigak:{id:'bigak',name:'비각',sub:'상담사',color:'#4d5b8f',mark:'비',img:'',greet:['안녕하세요, 도계복지원 상담팀 비각입니다. 무엇을 도와드릴까요?'],L:null},
+ cheongyu:{id:'cheongyu',name:'청유',sub:'상담사',color:'#2f7f86',mark:'청',img:'',greet:['안녕하세요, 도계복지원 상담팀 청유입니다. 무엇을 도와드릴까요?'],L:null},
+ jeokhwi:{id:'jeokhwi',name:'적휘',sub:'상담사',color:'#9b2c3a',mark:'적',img:'',greet:['안녕하세요, 도계복지원 상담팀 적휘입니다. 무엇을 도와드릴까요?'],L:null}
+};
+const GEN={
+ hello:['안녕하세요, 도계복지원 상담입니다. 무엇을 도와드릴까요?'],
+ who:['도계복지원 상담팀 소속입니다. 장례 절차와 상품 관련 문의를 도와드리고 있습니다.'],
+ thanks:['도움이 되었다니 다행입니다.'],
+ bye:['안녕히 가세요. 필요하시면 언제든 다시 연락 주세요.'],
+ service:['장례 절차는 「장례서비스」 메뉴에서 단계별로 확인하실 수 있습니다.'],
+ price:['상품별 금액은 「상조상품」 메뉴에 안내되어 있습니다.'],
+ d49:['49일 추모 프로그램은 공지사항에 자세히 안내되어 있습니다. 49일이 지나면 종료되니 일정을 확인해 주세요.'],
+ night:['야간 접수는 자정부터 새벽 4시까지 집중 운영되며, 방문 직원은 직원증을 지참합니다.'],
+ ghost:['해당 문의는 접수 후 별도 확인이 필요합니다.'],
+ death:['상심이 크시겠습니다. 접수를 원하시면 계신 장소를 말씀해 주세요.'],
+ feel:['힘드신 시간이시겠습니다. 천천히 말씀해 주세요.'],
+ love:['업무 외 문의는 답변드리기 어렵습니다.'],
+ hours:['상담은 24시간 운영되며, 전화는 국번 없이 049입니다.'],
+ help:['상담을 도와드리겠습니다. 고인과의 관계와 계신 곳을 말씀해 주세요.'],
+ etc:['문의 내용을 접수했습니다. 담당자 확인 후 안내드리겠습니다.']
+};
+const INTENTS=[
+ ['bye',/안녕히|잘 ?가|수고하|다음에|이만|그만 ?할게/],
+ ['thanks',/고마|감사|땡큐/],
+ ['who',/누구|이름이|뭐하는|정체|담당자|상담사님/],
+ ['d49',/49|사십구/],
+ ['price',/가격|비용|요금|얼마|결제|값|돈/],
+ ['night',/야간|새벽|한밤|밤에|방문|찾아와|찾아오|직접/],
+ ['service',/장례|절차|빈소|발인|입관|상조|수습|안치/],
+ ['ghost',/귀신|원귀|요괴|물괴|괴물|유령|혼령|무서운|괴담|도깨비/],
+ ['death',/죽|사망|돌아가|임종|떠나|세상을 /],
+ ['feel',/힘들|우울|슬프|슬퍼|외로|지쳐|지쳤|무서|불안|울고|눈물/],
+ ['love',/좋아해|사랑|보고 ?싶|호감|애인|연애|결혼/],
+ ['rain',/비가|비 ?오|우산|처마|장마/],
+ ['lantern',/초롱|등불|랜턴/],
+ ['hours',/몇 ?시|영업|운영 ?시간|전화|번호|연락처|연락/],
+ ['help',/상담|도와|문의|신청|접수|예약/],
+ ['hello',/안녕|하이|헬로|hello|처음|계세요|여보세요|여기요/i]
+];
+const intentOf=t=>{for(const [k,re] of INTENTS)if(re.test(t))return k;return 'etc'};
+const lastPick={};
+function lineFor(c,k){
+  const pool=(c.L&&c.L[k])||GEN[k]||GEN.etc,key=c.id+k;
+  let i=Math.floor(Math.random()*pool.length);
+  if(pool.length>1&&i===lastPick[key])i=(i+1)%pool.length;
+  lastPick[key]=i;return pool[i];
+}
+const ROOMS=['all','onyu','bigak','cheongyu','jeokhwi'];
+const AVATARS=c=>`<span class="av{S}" style="--c:${c.color};${c.img?`background-image:url(${c.img})`:''}">${c.img?'':c.mark}</span>`;
+const avOf=(c,s)=>AVATARS(c).replace('{S}',s?' sm':'');
+const grpAv=s=>`<span class="av grp${s?' sm':''}">${Object.values(CH).map(c=>`<i style="background:${c.color}"></i>`).join('')}</span>`;
+const roomMeta=id=>id==='all'?{name:'상담팀 전체',sub:'상담사 4명 참여 중'}:{name:CH[id].name,sub:CH[id].sub+' · 상담 가능'};
+
+const chat={room:null,hist:LS.get('dgc_chat',{}),unread:{},typers:{},greeting:{},queue:Promise.resolve()};
+const saveHist=()=>LS.set('dgc_chat',chat.hist);
+const hist=id=>chat.hist[id]||(chat.hist[id]=[]);
+const mobile=()=>matchMedia('(max-width:700px)').matches;
+
+function renderList(){
+  $('rooms').innerHTML=ROOMS.map(id=>{
+    const h=hist(id),last=h[h.length-1],m=roomMeta(id);
+    const prev=last?(last.f==='me'?'나: ':(id==='all'&&last.f!=='sys'?CH[last.f].name+': ':''))+last.t:'대화를 시작해 보세요';
+    const u=chat.unread[id]||0;
+    return `<button class="rm ${chat.room===id?'on':''}" data-room="${id}">${id==='all'?grpAv():avOf(CH[id])}<div class="ri"><b>${m.name}</b><span>${esc(prev)}</span></div><div class="rt"><time>${last?tm(last.ts):''}</time>${u?`<em>${u}</em>`:''}</div></button>`;
+  }).join('');
+}
+function bubbleHTML(m,id){
+  if(m.f==='sys')return `<div class="sys">${esc(m.t)}</div>`;
+  if(m.f==='me')return `<div class="m me"><div class="mb"><div class="bb">${esc(m.t)}</div></div><time>${tm(m.ts)}</time></div>`;
+  const c=CH[m.f];
+  return `<div class="m ot">${avOf(c,1)}<div class="mb">${id==='all'?`<span class="mn">${c.name}</span>`:''}<div class="bb">${esc(m.t)}</div></div><time>${tm(m.ts)}</time></div>`;
+}
+function renderMsgs(){
+  const id=chat.room,box=$('msgs');
+  box.innerHTML=hist(id).map(m=>bubbleHTML(m,id)).join('');
+  const t=chat.typers[id];
+  if(t)box.insertAdjacentHTML('beforeend',`<div class="m ot typing" id="tbub">${avOf(CH[t],1)}<div class="mb"><div class="bb"><i></i><i></i><i></i></div></div></div>`);
+  box.scrollTop=box.scrollHeight;
+  $('rhsub').textContent=t?CH[t].name+' 입력 중…':roomMeta(id).sub;
+  $('rhsub').className=t?'typing-s':'';
+}
+function push(id,m){
+  hist(id).push(m);if(chat.hist[id].length>200)chat.hist[id].shift();saveHist();
+  if(chat.room===id)renderMsgs();else if(m.f!=='me')chat.unread[id]=(chat.unread[id]||0)+1;
+  renderList();
+}
+function setTyper(id,cid){
+  chat.typers[id]=cid;
+  if(chat.room===id)renderMsgs();
+}
+function chipsFor(id){
+  const base=['장례 절차가 궁금해요','상품 가격이 궁금해요','49일이 뭐예요?','야간에도 방문하나요?','무서운 일이 있었어요'];
+  $('chips').innerHTML=base.map(t=>`<button type="button">${t}</button>`).join('');
+}
+async function greet(id){
+  if(id==='all'){
+    push(id,{f:'sys',t:'상담팀 4명이 참여했습니다',ts:Date.now()});
+    await sleep(700);setTyper(id,'onyu');await sleep(1100);setTyper(id,null);
+    push(id,{f:'onyu',t:'안녕하세요, 야간 상담을 맡고 있는 유입니다. 편하게 말씀해 주세요.',ts:Date.now()});
+    return;
+  }
+  const c=CH[id];
+  for(const t of c.greet){
+    await sleep(500);setTyper(id,id);await sleep(Math.min(1800,600+t.length*35));setTyper(id,null);
+    push(id,{f:id,t,ts:Date.now()});
+  }
+}
+function openRoom(id){
+  chat.room=id;chat.unread[id]=0;
+  $('rempty').hidden=true;
+  ['rh','msgs','chips','composer'].forEach(x=>$(x).hidden=false);
+  const m=roomMeta(id);
+  $('rhav').innerHTML=id==='all'?grpAv():avOf(CH[id]);
+  $('rhname').textContent=m.name;
+  chipsFor(id);renderMsgs();renderList();
+  $('chat').classList.add('in-room');
+  if(!hist(id).length&&!chat.greeting[id]){chat.greeting[id]=1;chat.queue=chat.queue.then(()=>greet(id)).catch(()=>{}).then(()=>{chat.greeting[id]=0})}
+}
+function mentioned(text){
+  return Object.values(CH).filter(c=>[c.name,c.who].filter(Boolean).some(n=>new RegExp('(^|[\\s@])'+n+'(님|씨|야|아|,|\\s|$)').test(text)));
+}
+function pickGroup(text,k){
+  const ment=mentioned(text);
+  if(ment.length)return ment.slice(0,2).map(c=>c.id);
+  const pref=['ghost','death','feel','love','rain','lantern','night'].includes(k);
+  const ids=Object.keys(CH),first=pref?'onyu':ids[Math.floor(Math.random()*ids.length)];
+  const res=[first];
+  if(Math.random()<.45){const rest=ids.filter(x=>x!==first);res.push(rest[Math.floor(Math.random()*rest.length)])}
+  return res;
+}
+async function respond(id,text){
+  const k=intentOf(text),who=id==='all'?pickGroup(text,k):[id],said=[];
+  for(const cid of who){
+    const c=CH[cid],line=lineFor(c,k);
+    if(said.includes(line))continue;said.push(line);
+    await sleep(450+Math.random()*500);
+    setTyper(id,cid);
+    await sleep(Math.min(2600,700+line.length*36));
+    setTyper(id,null);
+    push(id,{f:cid,t:line,ts:Date.now()});
+  }
+}
+function send(text){
+  const id=chat.room;if(!id||!text)return;
+  push(id,{f:'me',t:text,ts:Date.now()});
+  chat.queue=chat.queue.then(()=>respond(id,text)).catch(()=>{});
+}
+$('rooms').addEventListener('click',e=>{const b=e.target.closest('[data-room]');if(b)openRoom(b.dataset.room)});
+$('chips').addEventListener('click',e=>{const b=e.target.closest('button');if(b)send(b.textContent)});
+$('composer').addEventListener('submit',e=>{e.preventDefault();const t=$('cin').value.trim();$('cin').value='';send(t)});
+$('rback').addEventListener('click',()=>{chat.room=null;$('chat').classList.remove('in-room');renderList()});
+$('rclr').addEventListener('click',()=>{
+  const id=chat.room;if(!id)return;
+  chat.hist[id]=[];saveHist();chat.typers[id]=null;renderMsgs();renderList();greet(id);
+});
+function openSupport(){
+  renderList();
+  if(!chat.room&&!mobile())openRoom('all');
+}
+
+/* ---------- 라우팅 ---------- */
+const VIEWS=[...document.querySelectorAll('#funeral .view')];
+function route(){
+  const [r,id]=(location.hash||'#/').replace(/^#\/?/,'').split('/');
+  let v='home';
+  if(['service','products','obituary','support'].includes(r))v=r;
+  else if(r==='notice'){v=id?'notice':'notices';if(id)renderNotice(+id)}
+  VIEWS.forEach(x=>x.classList.toggle('on',x.dataset.view===v));
+  document.querySelectorAll('.fh nav a').forEach(a=>a.classList.toggle('on',a.dataset.nav===v));
+  if(v==='support')openSupport();
+  if(v!=='home'||r)window.scrollTo(0,0);
+}
+addEventListener('hashchange',route);
+document.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g)location.hash=g.dataset.go});
+route();
+
+/* ---------- 바로 인트로 보기: 주소 뒤에 ?intro ---------- */
+if(/[?&]intro(=|&|$)/.test(location.search))startIntro();
 </script>
 </body>
 </html>
