@@ -199,13 +199,132 @@ input[type=search]{cursor:text}
 .panel.soon .nt{cursor:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2732%27%20height%3D%2732%27%20viewBox%3D%270%200%2032%2032%27%3E%3Cpolygon%20points%3D%2716.0%2C4.0%2019.1%2C11.8%2027.4%2C12.3%2020.9%2C17.6%2023.1%2C25.7%2016.0%2C21.2%208.9%2C25.7%2011.1%2C17.6%204.6%2C12.3%2012.9%2C11.8%27%20fill%3D%27%23E9CF8C%27%20stroke%3D%27%23060A18%27%20stroke-width%3D%271.6%27%20stroke-linejoin%3D%27round%27%2F%3E%3C%2Fsvg%3E") 16 16,default}
 #dust{position:fixed;inset:0;width:100vw;height:100vh;margin:0;padding:0;border:0;background:transparent;overflow:visible;pointer-events:none;z-index:9999}
 </style>
+<style>
+/* =========================================================
+   디자인 업그레이드 (2026-10) — 위 기본 스타일을 덮어써요
+   ========================================================= */
+/* 깊은 성운 배경 + 반짝이는 별 */
+body{background:
+  radial-gradient(70vmax 60vmax at 82% 0%,#1a2a5e 0,transparent 60%),
+  radial-gradient(50vmax 40vmax at 0% 30%,rgba(108,72,180,.18),transparent 70%),
+  radial-gradient(40vmax 30vmax at 100% 70%,rgba(40,120,160,.12),transparent 70%),
+  var(--bg)}
+.sky{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.sky i{position:absolute;width:var(--s);height:var(--s);border-radius:50%;background:#fff;box-shadow:0 0 6px 1px rgba(255,255,255,.55);opacity:.15;animation:tw var(--t) ease-in-out var(--dl) infinite}
+.sky i.g{background:var(--gold);box-shadow:0 0 8px 1px rgba(233,207,140,.6)}
+@keyframes tw{50%{opacity:.95;transform:scale(1.25)}}
+.sky b{position:absolute;top:var(--y);left:-10%;width:120px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.85));transform:rotate(-18deg);opacity:0;animation:shoot 11s linear var(--dl) infinite}
+@keyframes shoot{0%{opacity:0;translate:0 0}3%{opacity:1}9%{opacity:0;translate:70vw 22vw}100%{opacity:0;translate:70vw 22vw}}
+
+/* 히어로 */
+.eyebrow{display:inline-flex;align-items:center;gap:10px;margin-bottom:18px;color:var(--gold);font:600 12px/1 var(--f);letter-spacing:.32em}
+.eyebrow::before{content:"";width:28px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+h1{background:linear-gradient(175deg,#fff 20%,#F4E3B5 55%,#C9A65A 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 6px 30px rgba(233,207,140,.18))}
+.sub{display:inline-flex;align-items:center;gap:8px;font-weight:600}
+.sub::before{content:"";width:6px;height:6px;rotate:45deg;background:var(--gold);box-shadow:0 0 10px var(--gold)}
+.stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.stat{min-width:96px;padding:10px 16px;border-radius:14px;border:1px solid var(--line);background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.015))}
+.stat b{display:block;font:800 24px/1.1 var(--f);color:#fff;font-variant-numeric:tabular-nums}
+.stat span{font:500 12px var(--f);color:var(--muted)}
+.ticker{margin-top:18px;background:rgba(255,107,114,.06);border-color:rgba(255,107,114,.3)}
+.ticker b{box-shadow:0 0 12px rgba(255,107,114,.6);animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 2px rgba(255,107,114,.2)}}
+.notice{position:relative;margin-top:28px;padding:18px 22px;border:1px solid var(--line);border-left:2px solid var(--gold);border-radius:0 16px 16px 0;background:linear-gradient(120deg,rgba(233,207,140,.07),rgba(255,255,255,.02) 60%);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.notice h2{display:flex;align-items:center;gap:8px;color:var(--gold);letter-spacing:.24em;font-weight:700;font-size:12px}
+.notice h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(233,207,140,.4),transparent)}
+.btn{position:relative;background:linear-gradient(135deg,rgba(233,207,140,.16),rgba(233,207,140,.04));box-shadow:0 0 0 0 rgba(233,207,140,.4),0 10px 30px -12px rgba(233,207,140,.5);font-weight:600;transition:background .25s,color .25s,box-shadow .25s,transform .25s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 0 0 4px rgba(233,207,140,.12),0 14px 34px -10px rgba(233,207,140,.6)}
+
+/* 천체도 */
+.map{position:relative}
+.map::before{content:"";position:absolute;inset:8%;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--tint) 45%,transparent),transparent 68%);filter:blur(10px);z-index:-1;transition:background .7s}
+.map .core-t{fill:var(--gold);font:700 8px var(--f);letter-spacing:.3em}
+.map .core{transform-origin:200px 200px;animation:breathe 5s ease-in-out infinite}
+@keyframes breathe{50%{opacity:.55}}
+.map .halo{animation:glow 3.6s ease-in-out infinite}
+@keyframes glow{50%{fill-opacity:.12}}
+.map a.on .halo{animation:none}
+.cap{padding:4px 12px;border-radius:999px;width:fit-content;margin:8px auto 0;border:1px solid transparent;transition:border-color .3s}
+.map:hover .cap{border-color:var(--line)}
+
+/* 섹션 구분선 */
+.sec{display:flex;align-items:center;gap:14px;margin:10px 0 22px;color:var(--gold);font:700 12px var(--f);letter-spacing:.3em}
+.sec i{flex:1;height:1px;background:linear-gradient(90deg,rgba(233,207,140,.45),transparent)}
+.sec svg{width:14px;height:14px;flex:none}
+
+/* 왼쪽 목록 */
+.lc{padding:12px;border-radius:18px;border:1px solid var(--line);background:rgba(8,12,30,.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.lc input{padding-left:36px;background:rgba(255,255,255,.04) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23AAB3CF' stroke-width='1.8' stroke-linecap='round'%3E%3Ccircle cx='7' cy='7' r='5'/%3E%3Cpath d='m11 11 3.5 3.5'/%3E%3C/svg%3E") no-repeat 13px 50%;transition:border-color .2s,background-color .2s}
+.lc input:focus-visible{background-color:rgba(255,255,255,.07)}
+.chips button{transition:border-color .2s,color .2s,background .2s}
+.chips button.on{background:rgba(233,207,140,.12)}
+.side button{position:relative;transition:background .2s,padding .2s}
+.side button.on{box-shadow:inset 3px 0 0 var(--c);background:linear-gradient(90deg,color-mix(in srgb,var(--c) 16%,transparent),rgba(255,255,255,.03))}
+.side .cnt{margin-left:auto;flex:none;min-width:24px;padding:2px 7px;border-radius:999px;background:rgba(255,255,255,.06);color:var(--muted);font:600 11px/1.4 var(--f);text-align:center;font-variant-numeric:tabular-nums}
+.side button.on .cnt{background:color-mix(in srgb,var(--c) 30%,transparent);color:#fff}
+@media(max-width:820px){.lc{padding:10px}.side button.on{box-shadow:inset 0 -2px 0 var(--c)}}
+
+/* 패널 */
+.panel{position:relative;border-radius:20px;background:linear-gradient(170deg,rgba(255,255,255,.05),rgba(255,255,255,.015) 40%);box-shadow:0 30px 80px -40px color-mix(in srgb,var(--c) 60%,#000)}
+.panel::before{content:"";position:absolute;top:-1px;left:28px;right:28px;height:1px;background:linear-gradient(90deg,transparent,var(--c),transparent);opacity:.9}
+.panel h2 .num{text-shadow:0 0 18px rgba(233,207,140,.5)}
+.rowhead h3{display:flex;align-items:center;gap:8px}
+.rowhead h3::before{content:"";width:5px;height:5px;rotate:45deg;background:var(--c);box-shadow:0 0 8px var(--c)}
+
+/* 카드 등장 애니메이션 */
+.tags>*{animation:rise .5s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--d,0) * 35ms)}
+@keyframes rise{from{opacity:0;translate:0 10px}}
+
+/* 갤러리 카드 */
+.gc{border-radius:16px}
+.gc::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.22) 50%,transparent 65%);transform:translateX(-130%);transition:transform .9s ease}
+.gc:hover::after{transform:translateX(130%)}
+.gc::before{content:"";position:absolute;inset:5px;z-index:2;border-radius:12px;border:1px solid rgba(233,207,140,0);pointer-events:none;transition:border-color .3s}
+.gc:hover::before{border-color:rgba(233,207,140,.45)}
+.gcap{z-index:1}
+.gc:hover .gcap b{color:#fff}
+.nw{z-index:3;box-shadow:0 0 12px rgba(255,107,114,.7)}
+
+/* 목록 카드 */
+.nt{border-radius:14px;background:linear-gradient(135deg,rgba(255,255,255,.055),rgba(255,255,255,.02))}
+.nt:hover{box-shadow:0 12px 28px -14px color-mix(in srgb,var(--c) 70%,#000)}
+.th{box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 18%,transparent)}
+
+/* 세계관 그룹 블록 */
+.world-head b::before{content:"";display:inline-block;width:7px;height:7px;margin-right:9px;border-radius:50%;background:var(--c);box-shadow:0 0 10px var(--c);vertical-align:middle}
+
+/* 팝업 */
+dialog{border-color:color-mix(in srgb,var(--c,#E9CF8C) 40%,var(--line));background:linear-gradient(170deg,rgba(22,30,62,.86),rgba(10,14,32,.9))}
+dialog::before{content:"";position:sticky;top:0;display:block;height:2px;margin-bottom:-2px;z-index:4;background:linear-gradient(90deg,transparent,var(--c,#E9CF8C),transparent)}
+.frame{border-color:rgba(233,207,140,.3);background:rgba(255,255,255,.02)}
+.frame::before,.frame::after{content:"";position:absolute;width:14px;height:14px;border:1.5px solid var(--gold);z-index:3;pointer-events:none}
+.frame::before{top:-1px;left:-1px;border-right:0;border-bottom:0;border-radius:18px 0 0 0}
+.frame::after{bottom:-1px;right:-1px;border-left:0;border-top:0;border-radius:0 0 18px 0}
+.info h2{background:linear-gradient(175deg,#fff 30%,#F1DFAF);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pnav button{transition:border-color .2s,background .2s}
+.pnav button:hover{background:rgba(233,207,140,.12)}
+
+/* 맨 위로 */
+.top-btn{position:fixed;right:20px;bottom:22px;z-index:50;width:44px;height:44px;border-radius:50%;border:1px solid rgba(233,207,140,.5);background:rgba(8,12,30,.7);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:var(--gold);display:grid;place-items:center;opacity:0;translate:0 12px;pointer-events:none;transition:opacity .3s,translate .3s,background .2s}
+.top-btn.show{opacity:1;translate:0 0;pointer-events:auto}
+.top-btn:hover{background:rgba(233,207,140,.16)}
+.top-btn svg{width:18px;height:18px}
+
+/* 푸터 */
+footer{display:flex;flex-direction:column;align-items:center;gap:10px;padding-top:28px;border-top:1px solid var(--line);text-align:center}
+footer svg{width:120px;height:24px;opacity:.7}
+footer span{letter-spacing:.2em;font-size:12px}
+</style>
 </head>
 <body>
+<div class="sky" id="sky" aria-hidden="true"></div>
 <div class="wrap">
 <header>
   <div class="hl">
+    <p class="eyebrow">CREATOR · STAR CHART</p>
     <h1>Jin_K</h1>
     <p class="sub">선호 장르 : 가이드버스 / 오메가버스</p>
+    <div class="stats" id="stats"></div>
     <button class="ticker" id="tick" type="button" hidden aria-label="최근 추가된 작품 보기"></button>
     <div class="notice">
       <h2>NOTICE</h2>
@@ -217,9 +336,11 @@ input[type=search]{cursor:text}
   </div>
   <div class="map"><div id="map"></div><p class="cap" id="cap">별을 눌러 세계관을 열어보세요</p></div>
 </header>
+<div class="sec"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0 9.6 6.4 16 8 9.6 9.6 8 16 6.4 9.6 0 8 6.4 6.4Z" fill="#E9CF8C"/></svg>WORLD INDEX<i></i></div>
 <div class="layout" id="layout"><div class="lc"><input id="q" type="search" placeholder="이름·플랫폼 검색" aria-label="캐릭터·세계관·플랫폼 검색" autocomplete="off"><div class="chips" id="chips" aria-label="장르 필터"></div><div class="chips" id="pchips" aria-label="플랫폼 필터"></div><nav class="side" id="side" aria-label="세계관 목록"></nav></div><section class="panel" id="panel" aria-live="polite"></section></div>
-<footer>© Jin_K</footer>
+<footer><svg viewBox="0 0 120 24" aria-hidden="true"><polyline points="4,16 30,6 54,14 78,4 100,12 116,8" fill="none" stroke="#E9CF8C" stroke-opacity=".5"/><g fill="#E9CF8C"><circle cx="4" cy="16" r="2"/><circle cx="30" cy="6" r="2.4"/><circle cx="54" cy="14" r="1.8"/><circle cx="78" cy="4" r="2.6"/><circle cx="100" cy="12" r="2"/><circle cx="116" cy="8" r="1.6"/></g></svg><span>© Jin_K</span></footer>
 </div>
+<button class="top-btn" id="toTop" type="button" aria-label="맨 위로"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
 <canvas id="dust" popover="manual" aria-hidden="true"></canvas>
 <dialog id="dlg"><div class="pop" id="pop"></div></dialog>
 <script>
@@ -383,10 +504,6 @@ const PFMAP={
 "이시한":[WH],
 "레프":["Caveduck"],
  "권레오":[WH,TG,DM,PO,IC,"로판AI"],
-
-
-
-
 };
 /* 배열을 복사해서 넣어요 (A5 같은 공용 배열을 건드리지 않게) */
 CATS.forEach(c=>c.rows.forEach(r=>r.items.forEach(it=>{if(PFMAP[it[0]])it[4].pf=[...PFMAP[it[0]]];if(it[4].pf)it[4].pf=[...it[4].pf];if(DESC[it[0]])it[1]=DESC[it[0]]})));
@@ -501,11 +618,21 @@ function loadImg(box,url,alt,sk=true){
   });
   m.src=url;box.append(m);return m;
 }
+/* 반짝이는 배경 별 + 가끔 지나가는 별똥별 */
+(()=>{
+  const sky=document.getElementById("sky");let h="";
+  for(let i=0;i<70;i++){
+    const s=(Math.random()*1.8+.8).toFixed(1);
+    h+=`<i class="${Math.random()<.18?"g":""}" style="left:${(Math.random()*100).toFixed(2)}%;top:${(Math.random()*100).toFixed(2)}%;--s:${s}px;--t:${(Math.random()*4+3).toFixed(1)}s;--dl:${(Math.random()*-7).toFixed(1)}s"></i>`;
+  }
+  h+=`<b style="--y:12%;--dl:2s"></b><b style="--y:36%;--dl:7.5s"></b>`;
+  sky.innerHTML=h;
+})();
 /* 상단 세계관 천체도 */
 const L=CATS.map((c,j)=>[c,j]).filter(([c])=>!c.soon),n=L.length;
 const pts=L.map((_,i)=>{const a=i/n*Math.PI*2-Math.PI/2,r=62+48*(.5+.5*Math.sin(i*2.3));return [(200+r*Math.cos(a)).toFixed(1),(200+r*Math.sin(a)).toFixed(1)]});
 const map=document.getElementById("map"),cap=document.getElementById("cap");let CAP0="";
-map.innerHTML=`<svg viewBox="0 0 400 400" role="group" aria-label="세계관 천체도"><defs><path id="rp" d="M13 200a187 187 0 1 1 374 0a187 187 0 1 1-374 0"/></defs><g class="spin"><circle cx="200" cy="200" r="196" class="hair"/><circle cx="200" cy="200" r="178" class="hair"/><text><textPath href="#rp" textLength="1160" lengthAdjust="spacing">${L.map(([c])=>plain(c.name)).join("  ✦  ")}  ✦</textPath></text></g><circle cx="200" cy="200" r="150" class="tick"/><circle cx="200" cy="200" r="126" class="hair"/><polyline class="ln" pathLength="1" points="${pts.join(" ")}"/>${L.map(([c,j],i)=>{const[x,y]=pts[i];return `<a href="#c${j+1}" data-i="${j+1}" data-n="${plain(c.name)}" aria-label="${j+1}. ${plain(c.name)}"><circle class="hit" cx="${x}" cy="${y}" r="14"/><circle class="rg" cx="${x}" cy="${y}" r="15"/><circle class="halo" cx="${x}" cy="${y}" r="8" fill="${c.color}" fill-opacity=".32"/><circle class="pt" cx="${x}" cy="${y}" r="3.4" fill="${c.color}" stroke="#fff" stroke-width=".9"/><text class="nm" x="${x}" y="${y-12}" text-anchor="middle">${j+1}</text></a>`}).join("")}</svg>`;
+map.innerHTML=`<svg viewBox="0 0 400 400" role="group" aria-label="세계관 천체도"><defs><path id="rp" d="M13 200a187 187 0 1 1 374 0a187 187 0 1 1-374 0"/></defs><g class="spin"><circle cx="200" cy="200" r="196" class="hair"/><circle cx="200" cy="200" r="178" class="hair"/><text><textPath href="#rp" textLength="1160" lengthAdjust="spacing">${L.map(([c])=>plain(c.name)).join("  ✦  ")}  ✦</textPath></text></g><circle cx="200" cy="200" r="150" class="tick"/><circle cx="200" cy="200" r="126" class="hair"/><g class="core" aria-hidden="true"><circle cx="200" cy="200" r="30" class="hair"/><path d="M200 182 202.6 197.4 218 200 202.6 202.6 200 218 197.4 202.6 182 200 197.4 197.4Z" fill="#E9CF8C" fill-opacity=".85"/><text class="core-t" x="200" y="246" text-anchor="middle">JIN_K</text></g><polyline class="ln" pathLength="1" points="${pts.join(" ")}"/>${L.map(([c,j],i)=>{const[x,y]=pts[i];return `<a href="#c${j+1}" data-i="${j+1}" data-n="${plain(c.name)}" aria-label="${j+1}. ${plain(c.name)}"><circle class="hit" cx="${x}" cy="${y}" r="14"/><circle class="rg" cx="${x}" cy="${y}" r="15"/><circle class="halo" cx="${x}" cy="${y}" r="8" fill="${c.color}" fill-opacity=".32" style="animation-delay:${(-i*.4).toFixed(1)}s"/><circle class="pt" cx="${x}" cy="${y}" r="3.4" fill="${c.color}" stroke="#fff" stroke-width=".9"/><text class="nm" x="${x}" y="${y-12}" text-anchor="middle">${j+1}</text></a>`}).join("")}</svg>`;
 /* 캡션: 별에 올리면 대표 썸네일 + 세계관 이름 + 작품 수 */
 function capSet(text,img){
   cap.replaceChildren();
@@ -648,6 +775,14 @@ let sel=0,gen="",plat="",view="grid";const q=document.getElementById("q");
 try{if(localStorage.getItem("jk-view")==="list")view="list"}catch(e){}
 const PFC={WHIF:"wh",Tingle:"tg",Doomchk:"dm",Postype:"po","INK Chat":"ic","티팟":"tp","티키타":"tk","로판AI":"lp",Caveduck:"cd"};
 const PFL=[WH,TG,DM,PO,IC,TP,TK,"로판AI","Caveduck"];
+/* 헤더 숫자 요약 (자동 계산) */
+(()=>{
+  const st=document.getElementById("stats");
+  const works=CATS.reduce((a,c)=>a+countOf(c),0);
+  [[CATS.length,"세계관"],[works,"작품"],[PFL.length,"플랫폼"]].forEach(([v,t])=>{
+    const d=$("div","stat");d.append($("b",null,v),$("span",null,t));st.append(d);
+  });
+})();
 const pf=(n,name)=>{
   const url=name&&PLAT_LINKS[name]&&PLAT_LINKS[name][n];
   const el=url?$("a","pf "+(PFC[n]||""),n):$("span","pf "+(PFC[n]||""),n);
@@ -663,7 +798,7 @@ const pf=(n,name)=>{
 const sp=a=>[...a].sort((x,y)=>PFL.indexOf(x)-PFL.indexOf(y));
 function tag(e,i){
   const [name,desc,,img,o={}]=e.item;
-  const b=$("button","nt");b.type="button";b.style.setProperty("--c",e.cat.color);
+  const b=$("button","nt");b.type="button";b.style.setProperty("--c",e.cat.color);b.style.setProperty("--d",Math.min(i,14));
   const th=$("span","th");
   if(img)loadImg(th,img,"",false);else th.textContent=name.trim()[0];
   const top=$("span","top");top.append(th,$("b",null,name));
@@ -678,7 +813,7 @@ function tag(e,i){
 /* 갤러리 카드 */
 function gcard(e,i){
   const [name,desc,,img,o={}]=e.item;
-  const b=$("button","gc");b.type="button";b.style.setProperty("--c",e.cat.color);b.setAttribute("aria-label",name);
+  const b=$("button","gc");b.type="button";b.style.setProperty("--c",e.cat.color);b.style.setProperty("--d",Math.min(i,14));b.setAttribute("aria-label",name);
   const gi=$("span","gi");
   if(img)loadImg(gi,img,"");else gi.textContent=name.trim()[0];
   b.append(gi);
@@ -715,7 +850,7 @@ ALL.forEach((cat,i)=>{
   t.append($("b",null,cat.isNew?"NEW":cat.soon?"곧 공개됩니다":isHapjak?"합작":cat.name),$("small",null,cat.isNew?"최근 추가순":cat.tag&&!cat.soon?"["+cat.tag+"]":""));
   let numText = cat.isNew?"★":cat.soon?"…":isHapjak?"":i+".";
   if(isHapjak) numText = ""; // 합작은 번호 없음
-  b.append($("span","num",numText),t);
+  b.append($("span","num",numText),t,$("span","cnt",countOf(cat)));
   b.onclick=()=>show(i);side.appendChild(b);
 });
 /* 플랫폼 필터 칩 */
@@ -861,6 +996,13 @@ q.addEventListener("input",()=>results());
 const mh=location.hash.match(/^#c(\d+)(?:-(\d+))?$/);
 const h0=mh?+mh[1]:0;
 show(h0>=0&&h0<ALL.length?h0:0);
+/* 맨 위로 버튼 */
+(()=>{
+  const b=document.getElementById("toTop");
+  const f=()=>b.classList.toggle("show",scrollY>600);
+  addEventListener("scroll",f,{passive:true});f();
+  b.onclick=()=>scrollTo({top:0,behavior:"smooth"});
+})();
 /* 커서 별가루 */
 let dustUp=()=>{};
 (()=>{
