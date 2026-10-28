@@ -350,7 +350,7 @@ const PFMAP={
 "권주석":[WH,TG,DM,IC,TP],
 "윤태우":[WH,TG,IC],
 "서도훈":[WH,TG,DM,IC,TP,PO],
-"무서욱":A5,
+"무서욱":[WH,TG,DM,PO,IC],
 "임서준":[WH,TG],
 "로즈쿼츠 6인의 호스트":[WH,TG,DM,IC,TP],
 "박하인":[WH,TG,TP],
@@ -376,12 +376,17 @@ const PFMAP={
 "올리버 밀러":[WH,TG],
 "백연하":[TG,IC],
 "강태현":[WH,TG,DM,PO,IC],
-"백지한":[WH,TG,IC],
+"백지한":[WH,TG,IC,PO],
 "연다비":[WH,TG,DM,PO,IC,TP,"Caveduck"],
 "하은우 & 하은호":[WH,TG,DM,PO,IC,"Caveduck"],
 "백현조":[WH],
 "이시한":[WH],
-"레프":["Caveduck"]
+"레프":["Caveduck"],
+ "권레오":[WH,TG,DM,PO,IC,"로판AI"],
+
+
+
+
 };
 /* 배열을 복사해서 넣어요 (A5 같은 공용 배열을 건드리지 않게) */
 CATS.forEach(c=>c.rows.forEach(r=>r.items.forEach(it=>{if(PFMAP[it[0]])it[4].pf=[...PFMAP[it[0]]];if(it[4].pf)it[4].pf=[...it[4].pf];if(DESC[it[0]])it[1]=DESC[it[0]]})));
@@ -429,40 +434,40 @@ CATS.forEach(c=>c.rows.forEach(r=>r.items.forEach(it=>{
 /* 플랫폼 알약 버튼 클릭 시 이동할 링크 (작품명 → 플랫폼명 → URL) */
 const PLAT_LINKS = {
   "묵도": {"티키타": "https://tikita.ai/ko/story/KUYHYL72?referrer=MN9TUQ"},
-  "웨이청": {"WHIF": "https://www.whif.io/characters/641a076a-1c1c-44a0-a81f-fa320bc1e010"},
-  "링란 [翎蘭]": {"WHIF": "https://www.whif.io/characters/9f52f4fd-0d58-4a8b-a504-20bf43b25c38"},
+  "웨이청": {"WHIF": "https://www.whif.io/characters/641a076a-1c1c-44a0-a81f-fa320bc1e010", "Postype": "https://posty.pe/hkkx9vk"},
+  "링란 [翎蘭]": {"WHIF": "https://www.whif.io/characters/9f52f4fd-0d58-4a8b-a504-20bf43b25c38", "Postype": "https://posty.pe/h0j4kei"},
   "♍VIR-06 : 재난 생존": {"WHIF": "https://www.whif.io/characters/6d473e01-6176-434c-8963-c477deff9e29"},
   "니코": {"WHIF": "https://www.whif.io/characters/ccf5491e-e67f-4817-bc53-0fd5f03534d6"},
   "올리버 밀러": {"WHIF": "https://www.whif.io/characters/8eb9f0a4-d9ff-4e96-8863-895bb2e38f82"},
-  "에스텔 아카데미": {"WHIF": "https://www.whif.io/characters/33a6e68c-2958-46f1-85e9-d479178a941c"},
+  "에스텔 아카데미": {"WHIF": "https://www.whif.io/characters/33a6e68c-2958-46f1-85e9-d479178a941c", "Postype": "https://posty.pe/higi7pf"},
   "루시엘 발렌티누스 요한 12세": {"WHIF": "https://www.whif.io/characters/f2cf37a8-2419-4926-b048-6ed109d5ff8a"},
   "리엘 테라시아": {"WHIF": "https://www.whif.io/characters/d19a76ca-532a-4123-a916-eedcdea1dba1"},
   "드래곤 육아는 처음이라서요": {"WHIF": "https://www.whif.io/characters/89164879-875a-4752-a977-ad0664b5ebd1"},
   "권주석": {"WHIF": "https://www.whif.io/characters/55c108f9-4cfa-4761-b34d-f2498a4261ce"},
   "윤태우": {"WHIF": "https://www.whif.io/characters/dba06c04-06d7-459d-8362-a86d446245fb"},
-  "서도훈": {"WHIF": "https://www.whif.io/characters/05405b7f-1bf3-4e18-a8e5-b8b29a5e4b3d"},
+  "서도훈": {"WHIF": "https://www.whif.io/characters/05405b7f-1bf3-4e18-a8e5-b8b29a5e4b3d", "Postype": "https://posty.pe/hiv8r7g"},
   "아사히나 소우": {"WHIF": "https://www.whif.io/characters/f84092d7-c41d-4961-8466-d8c567df4329"},
   "수현오": {"WHIF": "https://www.whif.io/characters/7f2a6699-bb48-4d55-b419-3c5644c9d775"},
   "차설하": {"WHIF": "https://www.whif.io/characters/04dacd96-26f7-442d-912a-9637bf63e2f7"},
   "AER-100": {"WHIF": "https://www.whif.io/characters/09003497-7756-4bde-bd0a-4598a564b24d"},
   "자판기": {"WHIF": "https://www.whif.io/characters/5141cf3f-cde7-4c34-a2e9-e0bd339dd333"},
-  "무서욱": {"WHIF": "https://www.whif.io/characters/57fbde7f-d2b6-4182-b51b-a87ab8c09979"},
-  "강성욱": {"WHIF": "https://www.whif.io/characters/517e20a4-9844-496a-8ed9-6cbe3ba2c2c8"},
+  "무서욱": {"WHIF": "https://www.whif.io/characters/57fbde7f-d2b6-4182-b51b-a87ab8c09979", "Postype": "https://posty.pe/hac6xuf"},
+  "강성욱": {"WHIF": "https://www.whif.io/characters/517e20a4-9844-496a-8ed9-6cbe3ba2c2c8", "Postype": "https://posty.pe/hehkwht"},
   "nightmare": {"WHIF": "https://www.whif.io/characters/603df9f6-68cd-41ad-939f-ea3ba89be634"},
   "차선태": {"WHIF": "https://www.whif.io/characters/40f2f768-50fd-43ae-beaa-5a7496b3fc5c"},
-  "권레오": {"WHIF": "https://www.whif.io/characters/d209325f-fc41-4df5-9ebb-8872621bd7d9"}, // 세이프 우선
-  "백지한": {"WHIF": "https://www.whif.io/characters/fc7ecf85-490e-4da4-ac81-bb4ace118781"}, // 세이프 우선
-  "강태현": {"WHIF": "https://www.whif.io/characters/2035d2f6-0a20-49d4-9710-6c41d1dc5c7c"},
+  "권레오": {"WHIF": "https://www.whif.io/characters/d209325f-fc41-4df5-9ebb-8872621bd7d9", "Postype": "https://posty.pe/hpsn0ux", "로판AI": "https://rofan.ai/character/17622e04-a202-446a-8c35-ddbe4b15e164"}, // 세이프 우선
+  "백지한": {"WHIF": "https://www.whif.io/characters/fc7ecf85-490e-4da4-ac81-bb4ace118781", "Postype": "https://posty.pe/hm8y6kq"}, // 세이프 우선
+  "강태현": {"WHIF": "https://www.whif.io/characters/2035d2f6-0a20-49d4-9710-6c41d1dc5c7c", "Postype": "https://posty.pe/honv1o7"},
   "보육원게이트 시뮬레이션": {"WHIF": "https://www.whif.io/characters/3d715a03-35e4-42ac-9c73-a3829f925faf"},
-  "연다비": {"WHIF": "https://www.whif.io/characters/672dd402-6e7b-4676-8838-1cdc217d7041", "Caveduck": "https://ko.cvdk.io/c/v6uTQtSYTn2lx6451wxP0A?rc=c2uM69befK"}, // 20ver unsafe + Caveduck
+  "연다비": {"WHIF": "https://www.whif.io/characters/672dd402-6e7b-4676-8838-1cdc217d7041", "Caveduck": "https://ko.cvdk.io/c/v6uTQtSYTn2lx6451wxP0A?rc=c2uM69befK", "Postype": "https://posty.pe/h7wb683"}, // 20ver unsafe + Caveduck
   "나의 장례식": {"WHIF": "https://www.whif.io/characters/fec395f8-8770-47e9-8cda-02d8ea5aa189"},
   "연다비 l 하은우 l 하은호": {"WHIF": "https://www.whif.io/characters/6eec1c83-6470-430a-8311-06d72f538e09"},
   "X": {"WHIF": "https://www.whif.io/characters/39975967-52ce-41c2-ad97-921c71cb11cd"},
   "단임": {"WHIF": "https://www.whif.io/characters/41b65de3-8d40-4748-bbee-1194d954c054"},
-  "세가지": {"WHIF": "https://www.whif.io/characters/56a1ecd3-17b1-4bbd-8bb5-ac458c630d9e"},
-  "하은우 & 하은호": {"WHIF": "https://www.whif.io/characters/64826f5d-5c56-4dff-8db2-3d40669b9c7f", "Caveduck": "https://ko.cvdk.io/c/KYq8aNlwQGqp0FeA61ryiQ?rc=c2uM69befK"}, // 20ver + Caveduck
-  "정윤조": {"WHIF": "https://www.whif.io/characters/d1b00e14-1c60-48e2-b93b-3629ca3ee002"},
-  "심성훈": {"WHIF": "https://www.whif.io/characters/519c4d26-245e-4992-9ea1-aeb99e6d2efb"},
+  "세가지": {"WHIF": "https://www.whif.io/characters/56a1ecd3-17b1-4bbd-8bb5-ac458c630d9e", "Postype": "https://posty.pe/hs1cn9g"},
+  "하은우 & 하은호": {"WHIF": "https://www.whif.io/characters/64826f5d-5c56-4dff-8db2-3d40669b9c7f", "Caveduck": "https://ko.cvdk.io/c/KYq8aNlwQGqp0FeA61ryiQ?rc=c2uM69befK", "Postype": "https://posty.pe/hzo2if4"}, // 20ver + Caveduck
+  "정윤조": {"WHIF": "https://www.whif.io/characters/d1b00e14-1c60-48e2-b93b-3629ca3ee002", "Postype": "https://posty.pe/hurprq9"},
+  "심성훈": {"WHIF": "https://www.whif.io/characters/519c4d26-245e-4992-9ea1-aeb99e6d2efb", "Postype": "https://posty.pe/hbx06a0"},
   "로즈쿼츠 6인의 호스트": {"WHIF": "https://www.whif.io/characters/b511008e-8c07-4fe3-8880-0c57d4e636b9"},
   "임서준": {"WHIF": "https://www.whif.io/characters/5a08ff56-a4d0-4df5-8d3a-63b868b174d2"},
   "Pointer": {"WHIF": "https://www.whif.io/characters/c407a6a6-8400-4674-a42c-0c9dcd9d3139"},
@@ -471,8 +476,8 @@ const PLAT_LINKS = {
   "박하인": {"WHIF": "https://www.whif.io/characters/4b5bb060-254c-436c-9272-231ef1fb66e3"},
   "Afor": {"WHIF": "https://www.whif.io/characters/1e0ec6a5-f8eb-47a6-8252-046cdbb85650"},
   "하연수": {"WHIF": "https://www.whif.io/characters/ba2ce99c-3704-492f-9fcd-d1baee54a5dc"},
-  "강아지": {"WHIF": "https://www.whif.io/characters/ca9d69d5-dd8b-4779-8b06-a15a59b54f23"},
-  "강도훈": {"WHIF": "https://www.whif.io/characters/1dc7d5c6-257a-41d9-bc66-809183b08133"},
+  "강아지": {"WHIF": "https://www.whif.io/characters/ca9d69d5-dd8b-4779-8b06-a15a59b54f23", "Postype": "https://posty.pe/hc8dax7"},
+  "강도훈": {"WHIF": "https://www.whif.io/characters/1dc7d5c6-257a-41d9-bc66-809183b08133", "Postype": "https://posty.pe/he7g2c1"},
   "연우주": {"WHIF": "https://www.whif.io/characters/5c15f7ca-44c6-402c-ad5d-4f8ebe198a9c"},
   "NSI 제 7과": {"WHIF": "https://www.whif.io/characters/65696799-7f2d-46d3-a1cc-b183cce150e3"},
   "백현조": {"WHIF": "https://www.whif.io/characters/32d1c2d5-0184-4504-9d75-be7091da1db7"},
