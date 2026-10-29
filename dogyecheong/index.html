@@ -375,8 +375,8 @@ a.logo{text-decoration:none;color:#14213d}
 .sc em{display:inline-block;margin-top:5px;font-style:normal;font-size:.7rem;color:#2c7a4b;background:#e6f4ec;border-radius:999px;padding:1px 8px}
 @media(max-width:900px){.staff{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:420px){.staff{grid-template-columns:1fr}}
-.chat{display:grid;grid-template-columns:300px 1fr;height:min(660px,calc(100svh - 170px));min-height:480px;background:#fff;border:1px solid #dde3ee;border-radius:14px;overflow:hidden}
-.rooms{border-right:1px solid #dde3ee;overflow-y:auto;background:#fafbfd}
+.chat{display:grid;grid-template-columns:300px 1fr;grid-template-rows:minmax(0,1fr);height:min(660px,calc(100svh - 170px));min-height:480px;background:#fff;border:1px solid #dde3ee;border-radius:14px;overflow:hidden}
+.rooms{min-height:0;border-right:1px solid #dde3ee;overflow-y:auto;background:#fafbfd}
 .rm{display:flex;align-items:center;gap:12px;width:100%;padding:13px 16px;border:0;border-bottom:1px solid #eef1f6;background:none;text-align:left;cursor:pointer;font-family:inherit;color:#1d2b44}
 .rm:hover{background:#f0f3f9}
 .rm.on{background:#e8eef9}
@@ -389,7 +389,7 @@ a.logo{text-decoration:none;color:#14213d}
 .av.sm{width:34px;height:34px;font-size:.85rem}
 .av.grp{background:#e8edf5;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;place-items:stretch;gap:3px;padding:7px}
 .av.grp i{border-radius:50%;display:block}
-.room{display:flex;flex-direction:column;min-width:0;background:#eef2f8;position:relative}
+.room{display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden;background:#eef2f8;position:relative}
 .empty{margin:auto;color:#8895ad;font-size:.9rem}
 .rh{display:flex;align-items:center;gap:12px;padding:12px 16px;background:#fff;border-bottom:1px solid #dde3ee}
 .rh[hidden],.msgs[hidden],.chips[hidden],.composer[hidden]{display:none}
@@ -400,7 +400,7 @@ a.logo{text-decoration:none;color:#14213d}
 .rback{display:none;border:0;background:none;font-size:1.6rem;cursor:pointer;color:#14213d;padding:0 4px}
 .rclr{border:0;background:none;color:#9aa6bb;font-size:.74rem;cursor:pointer;font-family:inherit}
 .rclr:hover{color:#e5484d}
-.msgs{flex:1;overflow-y:auto;padding:18px 16px;display:flex;flex-direction:column;gap:12px}
+.msgs{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:18px 16px;display:flex;flex-direction:column;gap:12px}
 .sys{align-self:center;background:#d9e0ee;color:#55657f;font-size:.74rem;padding:4px 14px;border-radius:20px}
 .m{display:flex;gap:8px;align-items:flex-end;max-width:86%}
 .m.me{align-self:flex-end;flex-direction:row-reverse}
@@ -918,11 +918,11 @@ $('obitList').addEventListener('submit',e=>{
 /* ---------- 고객센터 채팅 (규칙 기반 응답) ---------- */
 /* 캐릭터 설정: 새 캐릭터 정보가 정해지면 L(대사 풀)·greet 만 채우면 됩니다. L이 null이면 GEN(공통 대사)을 씁니다. */
 const CH={
- onyu:{id:"onyu",name:"온유",who:"온유",sub:"야간 접수 · 상담",color:"#d08a3c",mark:"온유",img:'',
-  greet:["안녕하세요, 도계복지원 야간 상담을 맡고 있는 온유입니다.", "편하신 만큼만, 천천히 말씀해 주세요."],
+ onyu:{id:"onyu",name:"유",who:"온유",sub:"야간 접수 · 상담",color:"#d08a3c",mark:"유",img:'',
+  greet:["안녕하세요, 도계복지원 야간 상담을 맡고 있는 유입니다.", "편하신 만큼만, 천천히 말씀해 주세요."],
   L:{
-   hello:["안녕하세요. 밤늦게 연락 주셨네요. 괜찮으시면 천천히 말씀해 주세요.", "어서 오세요. 온유라고 합니다. 무엇이든 편하게 물어봐 주세요."],
-   who:["저는 야간 접수와 상담을 맡고 있는 온유라고 합니다. 직원증은 정장 안쪽에 있어요.", "온유라고 불러 주세요. 이 일을 한 지는 꽤 오래됐어요. 벌써 육십 해네요."],
+   hello:["안녕하세요. 밤늦게 연락 주셨네요. 괜찮으시면 천천히 말씀해 주세요.", "어서 오세요. 유라고 합니다. 무엇이든 편하게 물어봐 주세요."],
+   who:["저는 야간 접수와 상담을 맡고 있는 유라고 합니다. 직원증은 정장 안쪽에 있어요.", "유라고 불러 주세요. 이 일을 한 지는 꽤 오래됐어요. 벌써 육십 해네요."],
    age:["이 일을 한 지 육십 년째예요. 스무 살에 시작했으니, 손에 익을 만큼은 됐죠."],
    thanks:["별말씀을요. 도움이 되셨다니 다행이에요.", "아니에요, 제가 할 일인걸요. 필요하실 때 또 불러 주세요."],
    bye:["살펴 가세요. 밤길 조심하시고요, 필요하시면 언제든 불러 주세요.", "네, 안녕히 가세요. 저는 밤새 여기 있을게요."],
