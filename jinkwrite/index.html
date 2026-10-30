@@ -560,7 +560,7 @@ const PFMAP={
 "nightmare":[WH,TG,DM,IC],
 "레온하르트":[WH,TG],
 "AER-100":[WH,TG],
-"비행일지":[WH,TG,DM,IC],
+"비행일지":[TG,DM,IC],
 "차선태":[WH,TG],
 "자판기":[WH,TG],
 "나비인간":[DM],
@@ -683,6 +683,71 @@ const PLAT_LINKS = {
   "온유(溫流)": {"WHIF": "https://whif.io/characters/68dcbfc5-6c52-431e-999f-b130d4a6ba1e", "로판AI": "https://rofan.ai/character/25f7fad1-7576-40fe-a6fd-69c39dfa0155"},
   "레프": {"Caveduck":"https://ko.cvdk.io/c/WBs3w3TqQr6CaICccwmr9Q?rc=c2uM69befK"}
 };
+/* 팅글 링크 (작품명 → 주소). 여기만 고치면 Tingle 태그 링크가 바뀌어요 */
+const TINGLE_LINKS={
+  "에스텔 아카데미":"https://tingle.chat/chat/characters/58773",
+  "강성욱":"https://tingle.chat/chat/characters/58198",
+  "백연하":"https://tingle.chat/chat/characters/53296",
+  "웨이청":"https://tingle.chat/chat/characters/57487",
+  "링란 [翎蘭]":"https://tingle.chat/chat/characters/57018",
+  "보육원게이트 시뮬레이션":"https://tingle.chat/chat/characters/56733",
+  "올리버 밀러":"https://tingle.chat/chat/characters/55384",
+  "나의 장례식":"https://tingle.chat/chat/characters/55105",
+  "연다비 l 하은우 l 하은호":"https://tingle.chat/chat/characters/54672",
+  "수현오":"https://tingle.chat/chat/characters/54040",
+  "차설하":"https://tingle.chat/chat/characters/54029",
+  "루시엘 발렌티누스 요한 12세":"https://tingle.chat/chat/characters/54017",
+  "리엘 테라시아":"https://tingle.chat/chat/characters/54007",
+  "드래곤 육아는 처음이라서요":"https://tingle.chat/chat/characters/53993",
+  "윤태우":"https://tingle.chat/chat/characters/53984",
+  "권주석":"https://tingle.chat/chat/characters/53969",
+  "아사히나 소우":"https://tingle.chat/chat/characters/53955",
+  "서도훈":"https://tingle.chat/chat/characters/53904",
+  "AER-100":"https://tingle.chat/chat/characters/53868",
+  "자판기":"https://tingle.chat/chat/characters/53834",
+  "nightmare":"https://tingle.chat/chat/characters/53825",
+  "무서욱":"https://tingle.chat/chat/characters/53814",
+  "백지한":"https://tingle.chat/chat/characters/53634",
+  "권레오":"https://tingle.chat/chat/characters/53568",
+  "강태현":"https://tingle.chat/chat/characters/53526",
+  "단임":"https://tingle.chat/chat/characters/53506",
+  "X":"https://tingle.chat/chat/characters/53503",
+  "세가지":"https://tingle.chat/chat/characters/53494",
+  "유태석":"https://tingle.chat/chat/characters/53483",
+  "Afor":"https://tingle.chat/chat/characters/53478",
+  "정윤조":"https://tingle.chat/chat/characters/53345",
+  "하은우 & 하은호":"https://tingle.chat/chat/characters/53338",
+  "연다비":"https://tingle.chat/chat/characters/53334",
+  "심성훈":"https://tingle.chat/chat/characters/53333",
+  "비행일지":"https://tingle.chat/chat/characters/53328",
+  "Pointer":"https://tingle.chat/chat/characters/53125",
+  "레온하르트":"https://tingle.chat/chat/characters/53118",
+  "임서준":"https://tingle.chat/chat/characters/53101",
+  "로즈쿼츠 6인의 호스트":"https://tingle.chat/chat/characters/53094",
+  "박하인":"https://tingle.chat/chat/characters/53037",
+  "강아지":"https://tingle.chat/chat/characters/53036",
+  "강도훈":"https://tingle.chat/chat/characters/53035",
+  "연우주":"https://tingle.chat/chat/characters/53033",
+  "하연수":"https://tingle.chat/chat/characters/53030",
+  "NSI 제 7과":"https://tingle.chat/chat/characters/53026",
+  "차선태":"https://tingle.chat/chat/characters/52861"
+};
+/* 로판AI 링크 */
+const ROFAN_LINKS={
+  "정윤조":"https://rofan.ai/character/9a2ff077-bff2-4c03-a8ad-38c356d9877a",
+  "심성훈":"https://rofan.ai/character/bbc25c30-7b29-4581-819a-37f624ee170b",
+  "연다비":"https://rofan.ai/character/ecf26571-c580-4135-a044-33081140bab1"
+};
+/* 그 밖의 플랫폼 링크 추가분 */
+const EXTRA_LINKS={
+  "나의 장례식":{"Postype":"https://posty.pe/ph1vrx4sc"}
+};
+const addLinks=(map,plat)=>Object.entries(map).forEach(([n,u])=>{(PLAT_LINKS[n]=PLAT_LINKS[n]||{})[plat]=u});
+addLinks(TINGLE_LINKS,"Tingle");addLinks(ROFAN_LINKS,"로판AI");
+Object.entries(EXTRA_LINKS).forEach(([n,o])=>Object.assign(PLAT_LINKS[n]=PLAT_LINKS[n]||{},o));
+/* 팅글 14세 버전은 이름 옆 버전 알약으로 추가 */
+VER_LINKS["연다비"].push({label:"Tingle 14ver",url:"https://tingle.chat/chat/characters/52847"});
+VER_LINKS["하은우 & 하은호"].push({label:"Tingle 14ver",url:"https://tingle.chat/chat/characters/52857"});
 const $=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.textContent=h;return e};
 const plain=s=>s.replace(/^[^\wㄱ-힣]+/u,"");
 const countOf=c=>c.rows.reduce((a,r)=>a+r.items.length,0);
