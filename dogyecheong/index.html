@@ -438,6 +438,27 @@ a.logo{text-decoration:none;color:#14213d}
   .chat.in-room .room{display:flex}
   .rback{display:block}
 }
+
+/* ---- 입사하기 / 사원증 ---- */
+.category.join{grid-column:1/-1;min-height:0;display:flex;align-items:center;justify-content:center;gap:22px;flex-wrap:wrap;text-align:left;background:linear-gradient(135deg,#2a1d14,#150f0b);color:#ecd9a8;border-color:#b08a4a;padding:22px 26px}
+.category.join .hanja{color:#d9a35a;margin:0}
+.category.join .brush{font-size:clamp(1.5rem,3.2vw,2rem)}
+.category.join .hint{color:#bfa77a;margin:0;max-width:340px}
+.category.join .corner{color:#d9a35a}
+.category.join::before{border-color:#b08a4a55}
+.idc-doc{width:min(860px,100%)}
+.idc-wrap{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:28px;align-items:start}
+.idc-form{display:flex;flex-direction:column;gap:16px}
+.idc-form label{display:flex;flex-direction:column;gap:7px;font-size:.82rem;font-weight:700;color:#5a4128}
+.idc-form input[type=text]{font:inherit;font-size:1rem;padding:11px 13px;border:1px solid #8c7045;background:#f6ecd2;color:#2a1c12;outline:none}
+.idc-form input[type=text]:focus{border-color:#8e3026}
+.idc-form input[type=file]{font:inherit;font-size:.85rem;padding:9px;border:1px dashed #8c7045;background:#f6ecd266;color:#2a1c12}
+.idc-note{margin:0;font-size:.78rem;line-height:1.7;color:#6a5236}
+.idc-btn{align-self:flex-start;font:inherit;font-weight:800;padding:12px 26px;border:1px solid #6b2119;background:#8e3026;color:#f3e3bf;cursor:pointer;letter-spacing:.06em}
+.idc-btn:disabled{opacity:.4;cursor:not-allowed}
+.idc-btn:not(:disabled):hover{filter:brightness(1.12)}
+.idc-prev canvas{width:100%;height:auto;display:block;box-shadow:0 14px 34px #0007;border-radius:14px;background:#150f0b}
+@media(max-width:720px){.idc-wrap{grid-template-columns:1fr}.idc-prev{max-width:300px;margin:0 auto}}
 </style>
 </head>
 <body>
@@ -654,6 +675,7 @@ a.logo{text-decoration:none;color:#14213d}
       <button class="category" data-key="wongwi"><span class="corner">五</span><div class="hanja">怨鬼</div><div class="brush">원귀</div><div class="hint">등급 · 현장 징후 · 대응 절차</div></button>
       <button class="category" data-key="mulgoe"><span class="corner">六</span><div class="hanja">物怪</div><div class="brush">물괴</div><div class="hint">요괴 계통 · 정체 · 성향</div></button>
       <button class="category" data-key="factions"><span class="corner">七</span><div class="hanja">外部勢力</div><div class="brush">외부 세력</div><div class="hint">묵자리 · 열두거리회 · 해원회</div></button>
+      <button class="category join" id="joinBtn"><span class="corner">入</span><div class="hanja">入社 · 職員證</div><div class="brush">입사하기</div><div class="hint">사원증 발급 — 이름과 사진 한 장으로 나만의 직원증을 만듭니다</div></button>
     </div>
     <p class="footnote">※ 본 문서는 도계청 분청 보관본을 바탕으로 재구성되었음.</p>
   </div>
@@ -668,6 +690,24 @@ a.logo{text-decoration:none;color:#14213d}
     </div>
     <div class="doc-content" id="modalContent"></div>
     <div class="doc-seal-box"><div class="doc-seal">渡界廳 印</div></div>
+  </article>
+</div>
+
+<div class="modal" id="idModal" role="dialog" aria-modal="true" aria-labelledby="idTitle">
+  <article class="document idc-doc">
+    <div class="doc-top">
+      <div><div class="doc-kicker">渡界廳 · 人事課 入社受付</div><h2 class="doc-title" id="idTitle">사원증 발급</h2></div>
+      <button class="close" id="idClose" aria-label="닫기">×</button>
+    </div>
+    <div class="idc-wrap">
+      <form class="idc-form" id="idForm" autocomplete="off">
+        <label>캐릭터 이름<input id="idName" type="text" maxlength="12" placeholder="예) 온유"></label>
+        <label>사진 (1장)<input id="idFile" type="file" accept="image/*"></label>
+        <p class="idc-note" id="idNote">이름을 입력하고 사진을 올리면 미리보기에서 바로 확인할 수 있습니다. 사번과 발급일은 자동으로 부여됩니다.</p>
+        <button type="button" class="idc-btn" id="idSave" disabled>PNG로 저장</button>
+      </form>
+      <div class="idc-prev"><canvas id="idCanvas" width="640" height="1010"></canvas></div>
+    </div>
   </article>
 </div>
 
@@ -1228,6 +1268,103 @@ function openSupport(){
   renderList();
   if(!chat.room&&!mobile())openRoom('all');
 }
+
+
+/* ---------- 입사하기 · 사원증 PNG ---------- */
+(function(){
+  const m=$('idModal'),cv=$('idCanvas'),ctx=cv.getContext('2d'),nm=$('idName'),fl=$('idFile'),sv=$('idSave');
+  let img=null;
+  const W=cv.width,H=cv.height;
+  const hash=t=>{let h=2166136261;for(const c of t){h^=c.codePointAt(0);h=Math.imul(h,16777619)}return h>>>0};
+  const rr=(x,y,w,h,r)=>{ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()};
+  const GOLD='#d9b872',GOLD2='#8c6b36',INK='#1a1410';
+  function draw(){
+    const name=nm.value.trim();
+    ctx.clearRect(0,0,W,H);
+    // 바탕
+    let g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#241a13');g.addColorStop(1,'#0f0a07');
+    rr(0,0,W,H,34);ctx.fillStyle=g;ctx.fill();
+    ctx.save();rr(0,0,W,H,34);ctx.clip();
+    ctx.globalAlpha=.05;ctx.strokeStyle=GOLD;ctx.lineWidth=1;
+    for(let i=-H;i<W;i+=26){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i+H,H);ctx.stroke()}
+    ctx.globalAlpha=1;
+    ctx.restore();
+    // 테두리
+    rr(14,14,W-28,H-28,24);ctx.strokeStyle=GOLD2;ctx.lineWidth=3;ctx.stroke();
+    rr(24,24,W-48,H-48,18);ctx.strokeStyle='#d9b87255';ctx.lineWidth=1;ctx.stroke();
+    // 목걸이 구멍
+    rr(W/2-62,40,124,22,11);ctx.fillStyle='#000';ctx.fill();ctx.strokeStyle=GOLD2;ctx.lineWidth=2;ctx.stroke();
+    // 머리글
+    ctx.textAlign='center';ctx.fillStyle=GOLD;
+    ctx.font="700 64px 'Noto Serif TC','Noto Serif KR',serif";ctx.fillText('渡界廳',W/2,140);
+    ctx.font="600 20px 'Noto Serif KR','Nanum Myeongjo',serif";ctx.fillStyle='#bfa77a';
+    ctx.fillText('도 계 청   職 員 證',W/2,180);
+    // 사진
+    const px=130,py=210,pw=380,ph=440;
+    ctx.fillStyle='#000';ctx.fillRect(px,py,pw,ph);
+    if(img){
+      const r=Math.max(pw/img.width,ph/img.height),w=img.width*r,h=img.height*r;
+      ctx.save();ctx.beginPath();ctx.rect(px,py,pw,ph);ctx.clip();
+      ctx.drawImage(img,px+(pw-w)/2,py+(ph-h)/2,w,h);ctx.restore();
+    }else{
+      ctx.fillStyle='#4d3d2b';ctx.font="600 22px 'Noto Serif KR',serif";ctx.fillText('사진을 올려 주세요',W/2,py+ph/2);
+    }
+    ctx.strokeStyle=GOLD;ctx.lineWidth=4;ctx.strokeRect(px-6,py-6,pw+12,ph+12);
+    ctx.strokeStyle=GOLD2;ctx.lineWidth=1;ctx.strokeRect(px-14,py-14,pw+28,ph+28);
+    // 이름
+    const nameStr=name||'이 름';
+    let fs=68;ctx.font=`800 ${fs}px 'Nanum Myeongjo','Noto Serif KR',serif`;
+    while(ctx.measureText(nameStr).width>500&&fs>30){fs-=2;ctx.font=`800 ${fs}px 'Nanum Myeongjo','Noto Serif KR',serif`}
+    ctx.fillStyle=name?'#f3e3bf':'#5b4a36';ctx.fillText(nameStr,W/2,py+ph+88);
+    ctx.fillStyle=GOLD2;ctx.fillRect(W/2-90,py+ph+108,180,2);
+    // 정보
+    const seed=hash(name||'-'),no='DGC-'+String(seed%10000).padStart(4,'0')+'-'+String((seed>>>8)%100).padStart(2,'0');
+    const d=new Date(),ds=`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
+    const rows=[['소속','도계청 한반도분청'],['사번',no],['발급',ds]];
+    ctx.textAlign='left';let y=py+ph+156;
+    for(const [k,v] of rows){
+      ctx.font="600 20px 'Noto Serif KR',serif";ctx.fillStyle='#a58d62';ctx.fillText(k,110,y);
+      ctx.font="700 22px 'Noto Serif KR',serif";ctx.fillStyle='#ecd9a8';ctx.fillText(v,200,y);y+=36;
+    }
+    // 바코드
+    let bx=110;const by=H-110;ctx.fillStyle='#d9b872';
+    for(let i=0;i<46;i++){const w=1+((seed>>>(i%24))&3);if(i%2===0)ctx.fillRect(bx,by,w,34);bx+=w+2;if(bx>W-250)break}
+    ctx.textAlign='center';ctx.font="500 15px 'Noto Serif KR',serif";ctx.fillStyle='#8f7a55';
+    ctx.fillText('(재)도계복지원 직원증 겸용',W/2,H-48);
+    // 낙관
+    ctx.save();ctx.translate(W-120,H-125);ctx.rotate(-.18);
+    ctx.strokeStyle='#b23a2d';ctx.fillStyle='#b23a2d';ctx.lineWidth=4;
+    ctx.beginPath();ctx.arc(0,0,48,0,7);ctx.stroke();
+    ctx.globalAlpha=.9;ctx.font="700 24px 'Noto Serif TC','Noto Serif KR',serif";ctx.textAlign='center';
+    ctx.fillText('渡界',0,-4);ctx.fillText('廳印',0,24);ctx.restore();
+    sv.disabled=!(name&&img);
+  }
+  async function open(){
+    m.classList.add('show');
+    try{await Promise.all(["800 40px 'Nanum Myeongjo'","700 40px 'Noto Serif TC'","600 20px 'Noto Serif KR'","700 22px 'Noto Serif KR'"].map(f=>document.fonts.load(f,'渡界廳도계청0123')))}catch(e){}
+    draw();nm.focus();
+  }
+  const close=()=>m.classList.remove('show');
+  $('joinBtn').addEventListener('click',open);
+  $('idClose').addEventListener('click',close);
+  m.addEventListener('click',e=>{if(e.target===m)close()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&m.classList.contains('show'))close()});
+  nm.addEventListener('input',draw);
+  fl.addEventListener('change',()=>{
+    const f=fl.files[0];if(!f)return;
+    const u=URL.createObjectURL(f),i=new Image();
+    i.onload=()=>{img=i;draw();URL.revokeObjectURL(u)};
+    i.onerror=()=>{$('idNote').textContent='이미지를 불러오지 못했습니다. 다른 파일을 선택해 주세요.'};
+    i.src=u;
+  });
+  sv.addEventListener('click',()=>{
+    cv.toBlob(b=>{
+      const a=document.createElement('a');a.href=URL.createObjectURL(b);
+      a.download='사원증_'+(nm.value.trim()||'도계청')+'.png';
+      document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+    },'image/png');
+  });
+})();
 
 /* ---------- 라우팅 ---------- */
 const VIEWS=[...document.querySelectorAll('#funeral .view')];
