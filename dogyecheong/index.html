@@ -439,6 +439,10 @@ a.logo{text-decoration:none;color:#14213d}
   .rback{display:block}
 }
 
+.pro-banner{height:120px;margin:-28px calc(-1*clamp(20px,5vw,55px)) 22px;background:#2a1d14 url(https://i.ibb.co/F4Xq3SBB/1793149014376.jpg) center/cover;border-bottom:1px solid #8c7045}
+.prologue .pro-i{font-size:.86rem;color:#4a3826}
+.category-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:900px){.category-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 /* ---- 입사하기 / 사원증 ---- */
 .category.join{grid-column:1/-1;min-height:0;display:flex;align-items:center;justify-content:center;gap:22px;flex-wrap:wrap;text-align:left;background:linear-gradient(135deg,#2a1d14,#150f0b);color:#ecd9a8;border-color:#b08a4a;padding:22px 26px}
 .category.join .hanja{color:#d9a35a;margin:0}
@@ -510,7 +514,7 @@ a.logo{text-decoration:none;color:#14213d}
       <h2>장례서비스 안내</h2>
       <p class="lead">처음 겪는 일이라 막막하시겠지만, 접수 이후의 모든 절차는 담당 직원이 한 단계씩 안내해 드립니다.</p>
       <div class="steps">
-        <div class="step"><span class="n">1</span><div><b>임종 접수</b><small>24시간 · 국번없이 049</small><p>임종 직후 접수 번호로 연락 주시면 가장 가까운 지점에서 담당 직원이 출발합니다. 접수와 동시에 접수증이 영수증 형태로 자동 발급되며, 유효기간은 49일입니다.</p></div></div>
+        <div class="step"><span class="n">1</span><div><b>임종 접수</b><small>24시간 · 국번없이 049</small><p>임종 직후 접수 번호로 연락 주시면 가장 가까운 지점에서 담당 직원이 출발합니다. 접수와 동시에 접수 번호가 부여되며, 이후 절차는 모두 이 번호로 진행됩니다.</p></div></div>
         <div class="step"><span class="n">2</span><div><b>수습 · 안치</b><small>병원 · 자택 방문</small><p>검은 정장을 입은 직원이 병원 또는 자택을 방문해 고인을 모십니다. 유족께서는 고인 곁에 머무르셔도 좋습니다. 직원은 고인이 길을 잃지 않도록 끝까지 곁을 지킵니다.</p></div></div>
         <div class="step"><span class="n">3</span><div><b>빈소 마련</b><small>장례식장 연계</small><p>전국 병원 장례식장과 연계해 빈소와 접객 용품을 준비합니다. 조문객 응대와 식사 준비는 전담 인력이 맡습니다.</p></div></div>
         <div class="step"><span class="n">4</span><div><b>입관 · 발인</b><small>고인과의 마지막 인사</small><p>입관 시간에는 유족이 고인께 마지막 인사를 건넬 수 있도록 충분한 시간을 드립니다. 발인 후 운구와 안치까지 직원이 동행합니다.</p></div></div>
@@ -518,7 +522,7 @@ a.logo{text-decoration:none;color:#14213d}
       </div>
       <h3 class="sub-h">자주 묻는 질문</h3>
       <details class="faq"><summary>한밤중에도 직원이 방문하나요?</summary><p>네. 야간에도 접수와 방문이 모두 가능합니다. 방문 직원은 검은 정장에 직원증을 지참하며, 직원증에는 이름 대신 두 글자의 직원명이 표기되어 있습니다.</p></details>
-      <details class="faq"><summary>접수증은 어떻게 사용하나요?</summary><p>접수증은 담당 직원에게 전달해 주시면 됩니다. 분실하셔도 접수 기록은 전산에 보관되니 걱정하지 않으셔도 됩니다.</p></details>
+      <details class="faq"><summary>직원이 식사나 다과를 사양하는 이유가 있나요?</summary><p>방문 직원은 업무 중 음식과 다과를 받지 않는 것을 원칙으로 합니다. 마음만 감사히 받겠습니다. 직원 휴식은 재단이 마련한 거점에서 따로 이루어지니 별도로 챙겨 주시지 않아도 괜찮습니다.</p></details>
       <details class="faq"><summary>49일이 지나면 어떻게 되나요?</summary><p>49일이 지나면 추모 프로그램이 종료됩니다. 종료 이후에는 연장이나 재접수가 불가하니 일정 안에 충분히 이용해 주시기 바랍니다.</p></details>
       <div class="callbox"><div><b>지금 도움이 필요하세요?</b><span>상담사와 바로 대화할 수 있습니다.</span></div><button class="cta" data-go="#/support">고객센터 상담</button></div>
     </div>
@@ -547,12 +551,12 @@ a.logo{text-decoration:none;color:#14213d}
         <div class="plan">
           <h3>동행</h3><p class="pd">49일 내내 곁을 지키는 프리미엄형</p>
           <div class="price">7,400,000<small>원</small></div>
-          <ul><li>배웅 상품 전 항목</li><li>전담 상담사 1인 배정</li><li>야간 입회 서비스</li><li>49일 동행 케어</li><li>추모 기록 열람 서비스</li></ul>
+          <ul><li>배웅 상품 전 항목</li><li>전담 상담사 1인 배정</li><li>야간 입회 서비스</li><li>49일 동행 케어</li><li>49일 추모 기록 제공</li></ul>
           <button class="btn-o" data-go="#/support">상담사와 상의하기</button>
         </div>
       </div>
       <details class="faq terms"><summary>약관 요약 보기</summary>
-        <p>제1조 (계약의 효력) 계약은 임종 접수증 발급 시점부터 효력이 발생합니다.<br>제2조 (서비스 기간) 모든 서비스는 접수일로부터 49일간 제공되며, 기간 경과 후에는 연장되지 않습니다.<br>제3조 (해지) 접수 전에는 위약금 없이 해지할 수 있습니다. 접수 이후에는 진행된 절차에 해당하는 금액을 공제합니다.<br>제4조 (직원 신원) 방문 직원은 직원증을 소지하며, 확인되지 않는 경우 국번 없이 049로 문의해 주시기 바랍니다.</p>
+        <p>제1조 (계약의 효력) 계약은 임종 접수 번호 부여 시점부터 효력이 발생합니다.<br>제2조 (서비스 기간) 모든 서비스는 접수일로부터 49일간 제공되며, 기간 경과 후에는 연장되지 않습니다.<br>제3조 (해지) 접수 전에는 위약금 없이 해지할 수 있습니다. 접수 이후에는 진행된 절차에 해당하는 금액을 공제합니다.<br>제4조 (직원 신원) 방문 직원은 직원증을 소지하며, 확인되지 않는 경우 국번 없이 049로 문의해 주시기 바랍니다.</p>
       </details>
     </div>
   </div>
@@ -661,23 +665,20 @@ a.logo{text-decoration:none;color:#14213d}
   </header>
   <div class="archive">
     <section class="prologue">
-      <p>한 해 <strong>36만 명</strong>이 죽는다. 차사 정원은 조선 후기에 정한 수에서 거의 늘지 않았다.</p>
-      <p>아무도 데리러 오지 않은 혼은 이승에 남아 탁해지고, 탁해진 혼은 산 자를 해친다. 땅에 박아 두었던 봉인망은 터널과 지하철과 재개발에 끊겼고, 민담 속에서나 살던 것들이 다시 거리로 기어 나왔다.</p>
-      <p>죽은 자를 저승으로 인도하는 관청, 도계청. 그곳에 요괴를 맡는 부서는 없다. 떠맡는 것은 언제나 가장 가까이 있는 차사다.</p>
+      <div class="pro-banner"></div>
+      <p class="pro-i"><i>사람은 죽으면 이승과 저승 사이 잿길을 걷는다. 생전의 기억을 되돌아보며 이전 생의 미련을 떨치고, 시왕의 심판을 받을 준비를 한다. 이 과정은 반드시 49일 안에 이루어져야 하며, 49일을 넘긴 혼은 원귀가 되기 시작한다.</i></p>
+      <p>한 해 동안 생기는 망자는 약 <strong>36만 명</strong>이지만, 이들을 저승으로 인도하는 차사의 수는 몇백 년간 제자리였다. 인도받지 못한 채 이승에 남은 혼은 시간이 지날수록 점점 탁해져 산 자를 해쳤고, 건물들은 하루가 다르게 높아지며 지맥을 흔들었다. 급기야 민담 속에서나 불리던 것들이 다시 모습을 갖추니, 도계청(渡界廳)은 마침내 인력난에 부딪혔다.</p>
       <div class="stamp">機密<br>閱覽</div>
     </section>
     <h2 class="section-heading">— 열람 가능한 문서 —</h2>
     <div class="category-grid">
-      <button class="category" data-key="overview"><span class="corner">一</span><div class="hanja">槪要</div><div class="brush">한눈에 보기</div><div class="hint">배경 · 중심 갈등 · 핵심 기한</div></button>
-      <button class="category" data-key="rules"><span class="corner">二</span><div class="hanja">世界規則</div><div class="brush">세계 규칙</div><div class="hint">사후 흐름 · 잿길 · 49일</div></button>
-      <button class="category" data-key="office"><span class="corner">三</span><div class="hanja">渡界廳</div><div class="brush">도계청</div><div class="hint">조직 · 위장 · 명적 · 인력난</div></button>
-      <button class="category" data-key="chasas"><span class="corner">四</span><div class="hanja">差使</div><div class="brush">차사</div><div class="hint">임용 · 직군 · 권능 · 장구</div></button>
-      <button class="category" data-key="wongwi"><span class="corner">五</span><div class="hanja">怨鬼</div><div class="brush">원귀</div><div class="hint">등급 · 현장 징후 · 대응 절차</div></button>
-      <button class="category" data-key="mulgoe"><span class="corner">六</span><div class="hanja">物怪</div><div class="brush">물괴</div><div class="hint">요괴 계통 · 정체 · 성향</div></button>
-      <button class="category" data-key="factions"><span class="corner">七</span><div class="hanja">外部勢力</div><div class="brush">외부 세력</div><div class="hint">묵자리 · 열두거리회 · 해원회</div></button>
+      <button class="category" data-key="office"><span class="corner">一</span><div class="hanja">渡界廳</div><div class="brush">도계청</div><div class="hint">명부 산하 · 4방 · 명적</div></button>
+      <button class="category" data-key="chasas"><span class="corner">二</span><div class="hanja">差使</div><div class="brush">차사</div><div class="hint">임용 · 차사명 · 직군</div></button>
+      <button class="category" data-key="wongwi"><span class="corner">三</span><div class="hanja">怨鬼</div><div class="brush">원귀</div><div class="hint">1급 미련 ~ 5급 살</div></button>
+      <button class="category" data-key="mulgoe"><span class="corner">四</span><div class="hanja">物怪</div><div class="brush">물괴</div><div class="hint">눌은것 · 손탄것 · 묵은것 · 큰것</div></button>
       <button class="category join" id="joinBtn"><span class="corner">入</span><div class="hanja">入社 · 職員證</div><div class="brush">입사하기</div><div class="hint">사원증 발급 — 이름과 사진 한 장으로 나만의 직원증을 만듭니다</div></button>
     </div>
-    <p class="footnote">※ 본 문서는 도계청 분청 보관본을 바탕으로 재구성되었음.</p>
+    <p class="footnote">※ 본 문서는 도계청 보관본을 바탕으로 재구성되었음.</p>
   </div>
   <footer>渡界廳 · 이승과 저승 사이의 행정 집행 기관<button class="back" id="back">이승으로 돌아가기</button></footer>
 </main>
@@ -713,13 +714,10 @@ a.logo{text-decoration:none;color:#14213d}
 
 <script>
 const docs = {
-  overview:{hanja:'總覽 · 槪要',title:'한눈에 보기',html:`<h3>기본 개요</h3><ul><li><b>배경</b> — 현대 한국. 저승 행정의 집행 기관 도계청이 과로 중이다.</li><li><b>중심 갈등</b> — 밀린 혼의 원귀화와 봉인망 붕괴로 거리로 나온 요괴.</li><li><b>차사</b> — 죽은 자 중에서 뽑는 저승 공무원. 백년역 복무 후 환생한다.</li><li><b>49일</b> — 이 기한을 넘기면 혼이 굳어 원귀가 된다.</li></ul><h3>핵심 전제</h3><p>이 세계의 괴이는 단순한 퇴치 대상이 아니다. 원귀는 제때 인도되지 못한 사람이며, 물괴는 인간의 질서와 다른 오래된 존재다. 차사들은 행정 절차와 현장의 위험 사이에서 매일 선택을 강요받는다.</p>`},
-  rules:{hanja:'世界規則',title:'세계 규칙',html:`<h3>사후 흐름</h3><p><b>사망 → 차표 자동 발부 → 인차사 수거 → 잿길 인도 → 황천문 통과 → 명부</b><br>명부에서 시왕이 심판과 환생을 결정한다. 도계청의 관할은 황천문까지다.</p><h3>잿길</h3><p>이승과 저승 사이에 놓인 얇은 중간지대. 죽은 자만 걸을 수 있으며, 생전의 기억을 되감아 보여 준다. 미련이 남은 혼은 기억 앞에서 걸음을 멈춘다.</p><h3>설득 중심</h3><p>혼은 대개 자신이 죽었다는 사실을 모른다. 차사의 임무는 혼을 설득해 황천문까지 인도하는 것이다. 심판과 환생에는 관여할 수 없다.</p><h3>49일 기한</h3><p>기한을 넘긴 혼은 이승의 사물이나 장소에 들러붙어 굳는다. 이것이 원귀화의 시작이다. 모든 지부는 <b>‘49일 내 인도율’</b>로 평가받는다.</p><h3>산 자는 모른다</h3><p>원귀 사고는 가스 누출·노후 배관·집단 히스테리 등으로 처리된다. 적관이 언론과 수사 기록을 고쳐 쓰기 때문이다. 다만 CCTV와 휴대전화가 늘면서 은폐 성공률은 눈에 띄게 떨어지고 있다.</p>`},
-  office:{hanja:'渡界廳 組織案內',title:'도계청',html:`<h3>기관 개요</h3><p>명부 산하에서 이승의 사후 행정 집행을 맡는 관청. 심판은 명부가, 집행은 도계청이 나누어 맡는다.</p><table><tr><th>항목</th><th>내용</th></tr><tr><td>조직</td><td>한반도분청 → 광역시·도 지부 → 반</td></tr><tr><td>위장</td><td>(재)도계복지원이라는 장례·상조 재단 간판. 검은 정장으로 병원·장례식장·유족의 집을 드나든다.</td></tr><tr><td>명적</td><td>전 인구의 수명과 사인을 적은 장부. 전산화 완료.</td></tr><tr><td>인력난</td><td>사망자는 다섯 배 넘게 늘었지만 정원은 그대로다. 본청은 증원 대신 차표 자동발부 시스템으로 대응한다.</td></tr></table><h3>조직의 현실</h3><p>규정은 오래되었고, 현장은 변했다. 전산 시스템이 차표를 자동 발부해도 혼을 직접 찾아 설득하고 인도하는 일은 여전히 사람의 몫이다.</p>`},
-  chasas:{hanja:'差使 人事記錄',title:'차사',html:`<h3>차사란</h3><p>죽은 사람 중에서 뽑는 저승 공무원이다. 신도 귀신도 아니다. <b>백년역</b>이라는 복무 기간을 채우면 환생 자격을 얻는다.</p><h3>임용 기준</h3><p>선행보다 적성을 본다. 남의 말을 끝까지 듣는 자, 제 한에 잡아먹히지 않은 자, 겁이 적은 자를 고른다. 자살자와 횡사자를 배제하는 원칙은 인력난 이후 유명무실해졌다.</p><h3>차사명</h3><p>임용 때 받는 두 글자 이름. 성정에서 한 글자, 죽은 방식에서 한 글자를 딴다. 본명은 봉인되어 본인도 떠올리지 못하지만 얼굴과 지문은 생전 그대로다.</p><h3>직군</h3><table><tr><th>직군</th><th>하는 일</th><th>특징</th></tr><tr><td>인차사</td><td>혼 수거·잿길 인도</td><td>전체의 7할. 상시 인력난.</td></tr><tr><td>포차사</td><td>3급 이상 원귀 포박·소멸</td><td>체력·담력 중심. 사상률 높음.</td></tr><tr><td>감차사</td><td>차사 비위 감찰과 조사</td><td>동료에게 가장 미움받는 직군.</td></tr><tr><td>적관</td><td>명적 관리, 산 자 측 기록 은폐</td><td>내근직. 정보의 길목.</td></tr><tr><td>방인</td><td>계약으로 쓰는 산 자 외주 인력</td><td>차사가 아니다. 권능도 보호도 없다.</td></tr></table><h3>권능 — 명패에 실린 권한</h3><p>명패를 빼앗기면 보통 혼과 다를 바 없어진다.</p><table><tr><th>권능</th><th>효과</th><th>제약</th></tr><tr><td>은신</td><td>산 자의 눈에 보이지 않는다.</td><td>CCTV·사진에는 찍힌다.</td></tr><tr><td>보행</td><td>잿길로 이동한다. 환승역 사이를 몇 걸음에 건넌다.</td><td>잿길이 끊긴 곳에서는 불가.</td></tr><tr><td>촉혼</td><td>혼을 붙잡고 끌 수 있다.</td><td>산 자의 몸에는 닿지 못한다.</td></tr><tr><td>열람</td><td>명패를 대면 혼의 생전 기록을 읽는다.</td><td>산 자에게는 통하지 않는다.</td></tr></table><h3>장구</h3><table><tr><th>이름</th><th>설명</th></tr><tr><td>명패</td><td>검은 나무패. 신분과 권한의 표식. 요즘은 직원증 지갑에 끼워 다닌다.</td></tr><tr><td>차표</td><td>혼 1인 인도 영장. 영수증처럼 뽑혀 나오며 유효기간은 49일.</td></tr><tr><td>혼줄</td><td>혼을 묶는 희끗한 삼끈. 3급까지 유효.</td></tr><tr><td>업경편</td><td>손거울만 한 거울 조각. 혼의 탁도를 비춘다. 요즘은 스마트폰 액정에 덧대 쓴다.</td></tr></table>`},
-  wongwi:{hanja:'怨鬼 危險等級',title:'원귀',html:`<h3>정의</h3><p>원귀는 사람이었다. 포차사가 부수는 것은 괴물이 아니라 <b>49일 안에 아무도 데리러 오지 않은 사람</b>이다.</p><table><tr><th>등급</th><th>상태·현장 징후</th><th>대응</th></tr><tr><td>1급 미련</td><td>죽은 줄 모르고 생전 동선을 반복한다. 같은 시각의 소리, 국소 한기.</td><td>인차사 1인, 설득 인도.</td></tr><tr><td>2급 집념</td><td>죽은 줄 알지만 거부한다. 사람·장소에 고착되며 물건 이동, 가위눌림, 전자기기 오작동이 나타난다.</td><td>인차사 2인 + 혼줄.</td></tr><tr><td>3급 원귀</td><td>산 자를 적극적으로 해친다. 반복 사고, 접촉자의 급성 쇠약.</td><td>포차사반 출동, 포박 후 압송.</td></tr><tr><td>4급 역귀</td><td>전염성. 접촉자가 같은 원한을 앓다 죽어 새 원귀가 된다. 한 건물·한 부서의 연쇄 사망.</td><td>구역 봉쇄, 감차사 입회하 소각.</td></tr><tr><td>5급 살</td><td>여러 원귀가 한 덩어리로 응축된다. 지역 전체의 사고율·자살률이 급등한다.</td><td>본청 승인 후 소멸 처분.</td></tr></table><h3>현장 원칙</h3><p>등급이 높다고 해서 처음부터 소멸이 답은 아니다. 혼이 무엇에 매였는지, 누구를 기다리는지 확인하는 것이 우선이다. 단, 4급 이상은 현장 판단만으로 봉쇄를 해제할 수 없다.</p>`},
-  mulgoe:{hanja:'物怪 分類記錄',title:'물괴(요괴)',html:`<h3>정의</h3><p>물괴는 도계청 공문서에서 요괴를 부르는 말이다. 사람에게서 비롯되지 않은 존재라 원래 차사의 관할이 아니지만, 담당 부서가 없어 결국 현장의 차사가 떠맡는다.</p><table><tr><th>계통</th><th>정체·사례</th><th>성향</th></tr><tr><td>터주</td><td>땅·물·건물 자체에 든 것. 예: 어둑시니, 그슨대.</td><td>제자리를 벗어나지 않으면 온순하다.</td></tr><tr><td>묵은것</td><td>오래 쓰인 물건에 든 것. 예: 야광귀, 손말명.</td><td>소유자를 따라 옮겨 다닌다.</td></tr><tr><td>들것</td><td>짐승이 묵어 변한 것. 예: 창귀, 독각귀.</td><td>사람을 먹이로 인식한다.</td></tr><tr><td>큰것</td><td>사람 이전부터 있던 것. 예: 불가사리, 삼두구미, 영노.</td><td>교섭 대상. 토벌 불가.</td></tr></table><h3>현장 주의</h3><p>물괴의 행동을 인간의 선악 기준으로 단정하지 말 것. 특히 ‘큰것’은 토벌 대상으로 분류하지 않으며, 접촉 전 교섭 가능성과 봉인망의 영향을 먼저 확인한다.</p>`},
-  factions:{hanja:'外部勢力 機密附錄',title:'외부 세력',html:`<h3>묵자리</h3><p>큰것들의 느슨한 연합. 봉인망이 끊기면서 사람과 땅을 나눠 쓰던 오래된 약속도 함께 무너졌다고 본다. 교섭은 그슨대 계통의 전령 <b>검은 손님</b>을 거쳐서만 이뤄진다. 적이라기보다 거래 상대이며, 가장 예의 바르면서 가장 무섭다. 1998년 당시 분청장과 맺은 밀약이 분청 최고 기밀로 남아 있다.</p><h3>열두거리회</h3><p>도시화에서 살아남은 세습무 계열. 봉인망을 손보던 전통의 마지막 상속자지만, 그 방법을 온전히 아는 사람은 더 이상 없다. 도계청과 <b>방인 계약</b>을 맺고 인력을 대며, 보수는 현금 대신 <b>수명</b>으로 나간다. 이 조항은 계약서 뒷장에 있다.</p><h3>해원회</h3><p>2010년대 중반에 생긴 신흥 교단. 한을 풀어 준다며 유족을 모아 원한을 반복 낭송하고 기록하고 공유한다. 되풀이된 원한은 풀리기는커녕 더 짙어지고 번지지만, 교단도 도계청도 아직 이 사실을 모른다. 가장 빠르게 커지는 위협이다.</p><h3>관계 메모</h3><p>세 세력은 단순한 선악 구도로 묶이지 않는다. 묵자리는 오래된 약속을 지키려 하고, 열두거리회는 사라져 가는 기술을 붙들고 있으며, 해원회는 선의의 언어로 위험을 확산시킨다.</p>`}
+  office:{hanja:"渡界廳 組織案內",title:"도계청",html:"<p>시왕이 다스리는 명부 산하, 사람의 사후를 책임지는 관청. 4방으로 나뉘며 그 아래로 조를 둔다. 사람의 수명과 사인이 적힌 명적을 관리하며, 이승에서는 도계복지원이라는 상조 재단으로 활동한다.</p>"},
+  chasas:{hanja:"差使 人事記錄",title:"차사",html:"<p>이승과 저승을 오가는 도계청 소속 공무원. 임용식을 치른 뒤 두 글자의 차사명을 부여받으며, 백년역을 채우면 환생 자격을 얻는다. 얼굴은 생전 그대로지만 본명은 봉인돼 떠올리지 못한다. 검은 나무패 모양의 명패를 통해 권능을 발휘하며 무구는 각자의 성격과 개성에 따라 다르다. 일이 끝나면 사람들에게서 존재감과 기억을 자연스럽게 지울 수 있다. 이승에 잠시 머물 시 음식 맛은 느끼지 못하나 곳곳에 마련된 재단 소유 거점들에서 쉴 수 있다.</p><table><tr><th>직군</th><th>업무</th></tr><tr><td>인차사</td><td>혼의 사연을 듣고 잿길로 인도함</td></tr><tr><td>포차사</td><td>유일한 전투 인력, 3급 이상 원귀 포박·소멸 담당</td></tr><tr><td>감차사</td><td>현장을 뒤따르며 차사 복무를 감찰하고 조사함</td></tr><tr><td>적관</td><td>명적 관리, 원귀 사건을 인세에는 흔한 사고로 조작함</td></tr></table>"},
+  wongwi:{hanja:"怨鬼 危險等級",title:"원귀",html:"<p>죽은 뒤 49일이 지난 이들의 혼이 탁해져 변한 것</p><table><tr><th>등급</th><th>상태</th></tr><tr><td>1급 미련</td><td>죽은 줄 모르고 생전 동선을 되풀이하며 좁은 범위에 한기가 돈다.</td></tr><tr><td>2급 집념</td><td>죽은 줄 알면서도 떠나기를 거부하고 사람이나 장소에 들러붙는다. 가위눌림과 물건 이동, 전자기기 오작동을 동반한다.</td></tr><tr><td>3급 원귀</td><td>사람을 적극적으로 해친다. 같은 자리에서 사고가 반복되고 접촉한 이가 급격히 쇠약해진다.</td></tr><tr><td>4급 역귀</td><td>접촉한 사람이 같은 원한을 앓다 죽음에 이르게 한다. 한 건물이나 구역 단위로 원귀가 역병처럼 번진다.</td></tr><tr><td>5급 살</td><td>여러 원귀가 한 덩어리로 뭉친 재앙. 지역 전체의 사고율과 자살률이 치솟는다.</td></tr></table>"},
+  mulgoe:{hanja:"物怪 分類記錄",title:"물괴",html:"<p>혼에서 비롯되지 않은 것들로, 지결이 흔들리자 다시 인세로 흘러들었다. 본래 도계청 소관이 아니나 어쩔 수 없이 차사가 떠맡게 됐다.</p><table><tr><th>계통</th><th>성향</th></tr><tr><td>눌은것</td><td>땅·나무·무덤 등에 깃든 것(터주신, 수호목, 삼두구미). 평소에는 잠잠하지만 함부로 자리를 상하게 하면 동티를 내림</td></tr><tr><td>손탄것</td><td>손때나 피가 묻은 낡은 물건에서 생긴 것(도깨비). 밤이 되면 사람에게 장난을 치는 버릇이 있음</td></tr><tr><td>묵은것</td><td>짐승이 묵어 변한 것(구미호, 이무기, 지네). 사람을 먹이로 삼거나 목적을 위해 이용함</td></tr><tr><td>큰것</td><td>오래 되어 궤를 달리 하는 것(불가사리, 영노, 용). 차사의 무력으로 다룰 수 없어 의례와 교섭으로 상대함</td></tr></table>"}
 };
 
 const $=id=>document.getElementById(id);
@@ -788,12 +786,11 @@ $('doorHit').addEventListener('click',enterHall);
 /* 4) 실시간 상황 티커 (항목 클릭 시 관련 문서 열람) */
 const feed=[
   ['[긴급] 서울 2호선 지하철 터널 구간 1급 미련 혼 발생 — 인차사 제4반 수거 요청','wongwi'],
-  ['[통보] 금일 49일 경과 예정 혼 142건 (원귀화 위험 지정)','rules'],
-  ['[주의] 마포구 재개발 구역 봉인망 균열 감지 — 물괴 ‘그슨대’ 접근 주의','mulgoe'],
-  ['[공지] 적관실: 산 자 측 수사 기록 은폐 작업 89% 완료','chasas'],
-  ['[공지] 이번 분기 49일 내 인도율 — 부산지부 1위, 서울 3반 최하위','office'],
-  ['[민원] 장례식장 영정사진에 업경편 반사 문의 접수','chasas'],
-  ['[보고] 해원회 유족 모임 참석자 증가 — 감차사 모니터링 중','factions']
+  ['[통보] 금일 49일 경과 예정 혼 142건 (원귀화 위험 지정)','wongwi'],
+  ['[주의] 마포구 재개발 구역 지맥 동요 — 눌은것 동티 주의','mulgoe'],
+  ['[공지] 적관실: 인세 사고 기록 조작 작업 89% 완료','chasas'],
+  ['[공지] 이번 분기 49일 내 인도율 — 부산 1위, 서울 3반 최하위','office'],
+  ['[보고] 큰것 접촉 건 — 의례와 교섭 절차 준비 중','mulgoe']
 ];
 const tagCls={'긴급':'t1','주의':'t2','통보':'t3','공지':'t4','민원':'t5','보고':'t6'};
 const row=feed.map(([t,key])=>{
@@ -882,10 +879,10 @@ const NOTICES=[
   '49일 추모 프로그램은 계약 유족을 대상으로 사망일로부터 49일간 운영됩니다.',
   '주 1회 추모 안내와 유족 상담이 진행되며, 49일째 되는 날에는 마무리 행사가 마련됩니다.',
   '프로그램은 49일이 경과하면 종료되며, 종료 이후에는 연장 및 신규 신청이 불가합니다. 일정 안에 충분히 이용해 주시기 바랍니다.']},
- {id:4,tag:'안내',title:'영정사진 촬영 시 반사 현상 문의에 대한 안내',date:'2026.09.19',views:3406,body:[
-  '일부 영정사진 촬영 과정에서 사진 속 유리면 또는 거울면에 반사광이 나타난다는 문의가 다수 접수되었습니다.',
-  '촬영 장비의 결함은 아니며, 화면 보호필름이 부착된 스마트폰으로 촬영할 때 빈도가 높은 것으로 확인되었습니다.',
-  '반사가 확인되면 촬영을 중단하고 현장 직원에게 「반사 확인」을 요청해 주세요. 직원이 현장에서 조치합니다.']},
+ {id:4,tag:'안내',title:'방문 직원 식사·다과 사양 안내',date:'2026.09.19',views:3406,body:[
+  '방문 직원은 업무 중 유족께서 권하시는 식사와 다과를 정중히 사양하고 있습니다. 불편을 드리는 것 같아 송구하나, 재단 내부 방침이오니 너그러이 양해 부탁드립니다.',
+  '직원의 휴식과 식사는 재단이 마련한 거점에서 별도로 이루어지며, 접객 음식 준비는 전담 인력이 맡습니다.',
+  '기타 문의는 고객센터 또는 국번 없이 049로 연락해 주세요.']},
  {id:5,tag:'장애',title:'상담 전화(049) 연결 지연 안내',date:'2026.09.08',views:962,body:[
   '야간 시간대 통화량 급증으로 상담 전화 연결이 지연되고 있습니다. 이용에 불편을 드려 죄송합니다.',
   '대기가 길어질 경우 홈페이지 고객센터의 채팅 상담을 이용해 주시면 더 빠르게 응대해 드립니다.']},
@@ -1320,7 +1317,7 @@ function openSupport(){
     // 정보
     const seed=hash(name||'-'),no='DGC-'+String(seed%10000).padStart(4,'0')+'-'+String((seed>>>8)%100).padStart(2,'0');
     const d=new Date(),ds=`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
-    const rows=[['소속','도계청 한반도분청'],['사번',no],['발급',ds]];
+    const rows=[['소속','도계청'],['사번',no],['발급',ds]];
     ctx.textAlign='left';let y=py+ph+156;
     for(const [k,v] of rows){
       ctx.font="600 20px 'Noto Serif KR',serif";ctx.fillStyle='#a58d62';ctx.fillText(k,110,y);
