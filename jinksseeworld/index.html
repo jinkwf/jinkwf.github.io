@@ -705,6 +705,50 @@ details.quick-group-fold .quick-group-body{
   z-index:1;
 }
 </style>
+
+<style id="heroLayoutFix">
+/* 히어로 레이아웃 깨짐 수정 */
+.hero{
+  position:relative;
+  overflow:visible;
+  padding:28px 28px 22px;
+  min-height:auto;
+}
+.hero h1{
+  padding-right:220px;
+  word-break:keep-all;
+}
+.usage-counter{
+  position:absolute;
+  top:20px;
+  right:20px;
+  z-index:5;
+  max-width:280px;
+}
+.chips{
+  position:relative;
+  z-index:1;
+  margin-top:14px;
+  clear:both;
+}
+.eyebrow-row{
+  padding-right:200px;
+}
+@media(max-width:900px){
+  .hero h1{padding-right:0;}
+  .usage-counter{
+    position:static;
+    margin:10px 0 0 auto;
+    max-width:none;
+    width:fit-content;
+  }
+  .eyebrow-row{padding-right:0;}
+}
+@media(max-width:720px){
+  .hero{padding:18px 16px 16px;}
+  .usage-counter{transform:none;}
+}
+</style>
 </head>
 <style id="accessControlStyle">
 body.access-locked{overflow:hidden!important}
@@ -10847,6 +10891,93 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bindMode);
   else bindMode();
   setTimeout(bindMode, 800);
+})();
+</script>
+
+<!-- Right side pin navigation -->
+<style id="rightPinNavStyle">
+#rightPinNav{
+  position:fixed;
+  right:14px;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:8000;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  padding:10px 8px;
+  background:rgba(18,15,24,.88);
+  border:1px solid rgba(166,140,255,.28);
+  border-radius:16px;
+  backdrop-filter:blur(12px);
+  box-shadow:0 12px 32px rgba(0,0,0,.4);
+  max-height:70vh;
+  overflow-y:auto;
+}
+#rightPinNav a{
+  display:block;
+  padding:7px 10px;
+  border-radius:10px;
+  color:#cfc8df;
+  font-size:10px;
+  font-weight:800;
+  text-decoration:none;
+  white-space:nowrap;
+  transition:background .15s, color .15s;
+}
+#rightPinNav a:hover{
+  background:rgba(166,140,255,.18);
+  color:#efeaff;
+}
+#rightPinNav a.active{
+  background:rgba(166,140,255,.28);
+  color:#fff;
+}
+@media(max-width:900px){
+  #rightPinNav{display:none;}
+}
+</style>
+<nav id="rightPinNav" aria-label="섹션 이동">
+  <a href="#contentModePanel">모드</a>
+  <a href="#sceneCategoryPanel">장면</a>
+  <a href="#basicTagsPanel">기본 태그</a>
+  <a href="#slotPanel">랜덤 슬롯</a>
+  <a href="#quickEffectsPanel">빠른효과</a>
+  <a href="#novelPromptPanel">Novel</a>
+  <a href="#pixPromptPanel">Pix</a>
+  <a href="#nijiPromptPanel">Niji</a>
+</nav>
+<script id="rightPinNavScript">
+(()=>{
+  const nav = document.getElementById('rightPinNav');
+  if(!nav) return;
+  nav.querySelectorAll('a').forEach(a=>{
+    a.addEventListener('click', e=>{
+      e.preventDefault();
+      const id = a.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if(el){
+        el.scrollIntoView({behavior:'smooth', block:'start'});
+        nav.querySelectorAll('a').forEach(x=>x.classList.remove('active'));
+        a.classList.add('active');
+      }
+    });
+  });
+  // highlight current section on scroll
+  const links = [...nav.querySelectorAll('a')];
+  const sections = links.map(a=>document.getElementById(a.getAttribute('href').slice(1))).filter(Boolean);
+  function onScroll(){
+    let current = sections[0];
+    const y = window.scrollY + 120;
+    for(const s of sections){
+      if(s.offsetTop <= y) current = s;
+    }
+    if(current){
+      links.forEach(a=>a.classList.toggle('active', a.getAttribute('href')==='#'+current.id));
+    }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
 })();
 </script>
 </body></html>
