@@ -9605,10 +9605,7 @@ if(document.body.classList.contains('access-locked')){
     // ignore slot pickers inside cards
     if(d.matches('[data-slot-picker]')) return;
     const open=[...document.querySelectorAll('body[data-ui-mode="detail"] .page details[open]')].filter(x=>!x.matches('[data-slot-picker]') && x!==d);
-    while(open.length>=MAX_OPEN){
-      const first=open.shift();
-      if(first) first.open=false;
-    }
+    return;
   }, true);
 })();
 </script>
@@ -11121,13 +11118,7 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
 
 <script id="copyNoRollGuard">
 (()=>{
-  // 복사 버튼 클릭 시 랜덤 생성이 같이 실행되지 않도록 차단
-  document.addEventListener('click', function(e){
-    const copyBtn = e.target.closest('[id*="copy"], [id*="Copy"], .copy-btn, [data-copy]');
-    if(copyBtn){
-      e.stopPropagation();
-    }
-  }, true);
+  // 복사는 버튼 핸들러가 실행되어야 하므로 이벤트를 막지 않는다.
 })();
 </script>
 
@@ -11534,8 +11525,8 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
 
     // 그 외 모든 클릭에서 rollAll이 반응하지 않게
     // (빈 곳, 카드 여백, 패널 여백 포함)
-    const isControl = t.closest('button, a, input, select, textarea, summary, label.mini-prompt-check, .theme-chip, .mode-choice-btn, .workflow-mode-btn, [data-reroll], [data-lock], [data-toggle]');
-    if(!isControl){
+    const isControl = t.closest('button, a, input, select, textarea, summary, label, .theme-chip, .mode-choice-btn, .workflow-mode-btn, [data-reroll], [data-lock], [data-toggle], [data-slot-quick]');
+    if(!isControl && t.closest('#rollAll, #dockRollAll, #sideRollBtn')){
       e.stopImmediatePropagation();
     }
   }, true);
@@ -11636,8 +11627,6 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
   document.addEventListener('click', function(e){
     const inQuick = e.target.closest('#quickEffectsPanel, #quickEffectsDetails, .mini-prompt-check, .quick-group-fold, .prompt-quicktags, .prompt-quickgroup');
     if(!inQuick) return;
-    // 빠른태그 클릭은 여기서 끝. 상위로 안 올림
-    e.stopPropagation();
     const saved = read();
     if(saved){
       // 클릭으로 뭔가 바뀌었으면 바로 복구
@@ -11685,17 +11674,9 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
       const summary = panel.querySelector(':scope > summary');
       if(!summary || summary.dataset.safeBound === '1') return;
       summary.dataset.safeBound = '1';
-      summary.addEventListener('click', function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-        panel.open = !panel.open;
-        const saved = read();
-        if(saved){
-          setTimeout(()=>apply(saved), 0);
-          setTimeout(()=>apply(saved), 40);
-        }
-      }, true);
+      summary.addEventListener('click', function(){
+        // 기본 details 토글에 맡긴다. 막지 않음.
+      });
     });
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
@@ -11704,13 +11685,7 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
   setTimeout(bind, 1200);
 
   // 패널 내부 클릭(복사, 텍스트영역)도 랜덤/초기화로 안 가게
-  document.addEventListener('click', function(e){
-    if(e.target.closest('#novelPromptPanel, #negativePromptPanel, #pixPromptPanel, #nijiPromptPanel')){
-      if(!e.target.closest('#sideRollBtn, #rollAll, #dockRollAll')){
-        e.stopPropagation();
-      }
-    }
-  }, true);
+  document.addEventListener('click', function(){});
 })();
 </script>
 
@@ -11804,4 +11779,152 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
   }, 500);
 })();
 </script>
+
+<script id="noModeFlickerOnSlot">
+(()=>{
+  // 슬롯/빠른태그 조작 중에는 모드 변경 자체를 차단
+  let locked = false;
+  let savedNsfw = false;
+  let savedUi = 'simple';
+
+  function capture(){
+    savedNsfw = !!(document.getElementById('nsfwMode')?.checked);
+    savedUi = document.body.dataset.uiMode || 'simple';
+  }
+
+  function enforce(){
+    const check = document.getElementById('nsfwMode');
+    if(check && check.checked !== savedNsfw) check.checked = savedNsfw;
+    if(document.body.dataset.uiMode !== savedUi) document.body.dataset.uiMode = savedUi;
+    document.body.classList.toggle('nsfw-mode', savedNsfw);
+    document.body.classList.toggle('sfw-mode', !savedNsfw);
+    document.querySelectorAll('[data-content-mode]').forEach(b=>{
+      b.classList.toggle('active', b.dataset.contentMode === (savedNsfw?'nsfw':'sfw'));
+    });
+    document.querySelectorAll('[data-ui-mode-btn]').forEach(b=>{
+      b.classList.toggle('active', b.dataset.uiModeBtn === savedUi);
+    });
+  }
+
+  // 슬롯/빠른태그 영역 진입 시 잠금
+  document.addEventListener('pointerdown', function(e){
+    if(e.target.closest('#slotPanel, #cards, .card, #quickEffectsPanel, .mini-prompt-check')){
+      capture();
+      locked = true;
+    }
+  }, true);
+
+  document.addEventListener('click', function(e){
+    if(!e.target.closest('#slotPanel, #cards, .card, #quickEffectsPanel, .mini-prompt-check')){
+      locked = false;
+      return;
+    }
+    // 클릭 처리 중 모드가 바뀌려 하면 즉시 되돌림
+    enforce();
+    setTimeout(enforce, 0);
+    setTimeout(()=>{ enforce(); locked = false; }, 50);
+  }, true);
+
+  // nsfwMode 체크박스가 프로그래밍적으로 바뀌는 것도 감시
+  const check = document.getElementById('nsfwMode');
+  if(check){
+    const desc = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'checked');
+    // MutationObserver on body class
+    new MutationObserver(()=>{
+      if(locked && document.body.classList.contains('sfw-mode') && savedNsfw){
+        enforce();
+      }
+    }).observe(document.body, {attributes:true, attributeFilter:['class','data-ui-mode']});
+  }
+
+  setTimeout(capture, 800);
+})();
+</script>
+
+<script id="stableUiController">
+(()=>{
+  const check = document.getElementById('nsfwMode');
+  const proto = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'checked');
+  let lockedNsfw = !!(check && proto.get.call(check));
+  let lockedUi = document.body.dataset.uiMode || 'simple';
+  let allow = false;
+  let painting = false;
+
+  function paint(){
+    if(painting) return;
+    painting = true;
+    document.body.dataset.uiMode = lockedUi;
+    document.body.classList.toggle('nsfw-mode', lockedNsfw);
+    document.body.classList.toggle('sfw-mode', !lockedNsfw);
+    document.querySelectorAll('[data-content-mode]').forEach(b=>{
+      b.classList.toggle('active', b.dataset.contentMode === (lockedNsfw ? 'nsfw' : 'sfw'));
+    });
+    document.querySelectorAll('[data-ui-mode-btn]').forEach(b=>{
+      b.classList.toggle('active', b.dataset.uiModeBtn === lockedUi);
+    });
+    painting = false;
+  }
+
+  if(check && proto){
+    Object.defineProperty(check, 'checked', {
+      configurable: true,
+      get(){ return proto.get.call(this); },
+      set(v){
+        const next = !!v;
+        if(!allow && next !== lockedNsfw) return;
+        proto.set.call(this, next);
+        lockedNsfw = next;
+      }
+    });
+  }
+
+  document.addEventListener('pointerdown', function(e){
+    if(e.target.closest('[data-content-mode], [data-ui-mode-btn]')) allow = true;
+  }, true);
+
+  document.addEventListener('click', function(e){
+    const cBtn = e.target.closest('[data-content-mode]');
+    const uBtn = e.target.closest('[data-ui-mode-btn]');
+    if(cBtn){
+      allow = true;
+      lockedNsfw = cBtn.dataset.contentMode === 'nsfw';
+      if(check && proto) proto.set.call(check, lockedNsfw);
+      paint();
+      setTimeout(()=>{ allow = false; paint(); }, 30);
+      return;
+    }
+    if(uBtn){
+      allow = true;
+      lockedUi = uBtn.dataset.uiModeBtn || 'simple';
+      paint();
+      setTimeout(()=>{ allow = false; paint(); }, 30);
+      return;
+    }
+    // 복사 버튼은 원래 핸들러가 실행되게 두고, 모드만 유지
+    setTimeout(()=>{ if(!allow) paint(); }, 0);
+  }, true);
+
+  new MutationObserver(()=>{
+    if(allow || painting) return;
+    const wrong = document.body.classList.contains('nsfw-mode') !== lockedNsfw
+      || document.body.classList.contains('sfw-mode') === lockedNsfw
+      || document.body.dataset.uiMode !== lockedUi;
+    if(wrong) paint();
+  }).observe(document.body, {attributes:true, attributeFilter:['class','data-ui-mode']});
+
+  // 열린 details는 다른 details를 열어도 유지
+  document.addEventListener('toggle', function(e){
+    const d = e.target;
+    if(!(d instanceof HTMLDetailsElement) || !d.open) return;
+    const keep = d.dataset.keepSiblings === '1';
+    if(!keep) return;
+  }, true);
+
+  setTimeout(()=>{
+    lockedNsfw = !!(check && proto && proto.get.call(check));
+    lockedUi = document.body.dataset.uiMode || lockedUi;
+  }, 700);
+})();
+</script>
+
 </body></html>
