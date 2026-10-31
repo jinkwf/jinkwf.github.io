@@ -6712,7 +6712,7 @@ function guideverseGuideSummaryText(){const arr=guideverseGuideLabels();return a
 function guideverseEsperSummaryText(){const arr=guideverseEsperLabels();return arr.length?arr.join(' / '):'미지정'}
 function guideverseVisualSummaryText(){const arr=guideverseVisualLabels();return arr.length?arr.join(' / '):'미지정'}
 function updateGuideverseAbilityHint(){const host=$('guideverseAbilityStatus');if(!host)return;if(genre.value!=='guideverse'){host.textContent='현재 장르는 가이드버스가 아닙니다. 장르를 가이드버스로 바꾸면 GUIDE / ESPER / VISUAL 세부사항이 프롬프트에 반영됩니다.';return;}if(!panelApplyEnabled('guideverseAbilityPanel')){host.textContent=`가이드버스 능력 패널 OFF · 열기 · 적용을 누르면 GUIDE / ESPER / VISUAL 세부 설정을 프롬프트에 반영합니다.\n기본적으로는 가이딩 파장과 에스퍼 능력 이펙트가 보이도록 자동 보정됩니다.`;return;}host.textContent=`GUIDE · ${guideverseGuideSummaryText()}\nESPER · ${guideverseEsperSummaryText()}\nVISUAL · ${guideverseVisualSummaryText()}`}
-function updateGuideverseAbilityPanelVisibility(){const panel=$('guideverseAbilityPanel');if(!panel)return;const isOn=genre.value==='guideverse';panel.style.display=isOn?'':'none';panel.setAttribute('aria-hidden',isOn?'false':'true');const chip=q('[data-advanced-target="guideverse"]',$('advancedQuickLinks'));if(chip)chip.classList.toggle('hidden',!isOn)}
+function updateGuideverseAbilityPanelVisibility(){const panel=$('guideverseAbilityPanel');if(!panel)return;const isOn=genre.value==='guideverse';panel.style.display=isOn?'':'none';panel.setAttribute('aria-hidden',isOn?'false':'true');const chip=$('advancedQuickLinks')?.querySelector('[data-advanced-target="guideverse"]');if(chip)chip.classList.toggle('hidden',!isOn)}
 function refreshGuideverseAbilityOutputs(){updateGuideverseAbilityHint();buildPrompt();buildSummary();buildStats();saveSettings();}
 function resetGuideAbility(){GUIDE_ABILITY_FIELD_IDS.forEach(id=>{if($(id))$(id).value=''});refreshGuideverseAbilityOutputs();show('🧭 GUIDE 능력 설정을 초기화했습니다.');}
 function rerollGuideAbility(){GUIDE_ABILITY_FIELD_IDS.forEach(id=>{const el=$(id),opts=[...(el?.options||[])].filter(o=>o.value);if(el&&opts.length)el.value=rand(opts).value});refreshGuideverseAbilityOutputs();show('🎲 GUIDE 능력을 임의 생성했습니다.');}
@@ -10879,10 +10879,7 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
   // 하위 카테고리 클릭이 메인 패널을 닫지 않도록만 처리
   // 메인 제목 클릭은 정상 토글 허용
   document.addEventListener('click', function(e){
-    const innerGroup = e.target.closest('details.quick-group-fold');
-    if(innerGroup){
-      e.stopPropagation();
-    }
+    // (전파 차단 제거: 하위 그룹 안 버튼/체크가 동작하도록)
   }, true);
 
   // 메인이 의도치 않게 닫히면 다시 열기 (하위 클릭 직후에만)
@@ -11119,17 +11116,6 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
 })();
 </script>
 
-<script id="novelCopyNoRoll">
-(()=>{
-  document.addEventListener('click', function(e){
-    const inPrompt = e.target.closest('#novelPromptPanel, #pixPromptPanel, #nijiPromptPanel, #promptFloatPanel, #promptFloatDock, textarea.prompt, #prompt, #pixPrompt, #nijiPrompt');
-    const isCopy = e.target.closest('[id*="copy" i], [id*="Copy"], button');
-    if(inPrompt && (isCopy || e.target.closest('textarea, .prompt'))){
-      e.stopPropagation();
-    }
-  }, true);
-})();
-</script>
 
 <script id="updateNoteIsolate">
 (()=>{
@@ -11189,10 +11175,7 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
 
     // 버튼/입력/링크/summary/체크 등 인터랙티브가 아닌 곳
     const interactive = t.closest('button, a, input, select, textarea, summary, label, [role="button"]');
-    if(!interactive){
-      // 빈 곳 클릭 - roll 관련 어떤 것도 실행되지 않게 전파 차단
-      e.stopPropagation();
-    }
+    // (전파 차단 제거: 카드/칩 등 div 버튼까지 막던 문제 수정)
   }, true);
 
   // rollAll 함수 호출도 버튼 경유가 아니면 무시하도록 래핑
@@ -11367,4 +11350,58 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
   paint();
 })();
 </script>
+<style id="basicTagsLayoutV2">
+/* 02 · 기본 태그 레이아웃 정리 (상세 모드) */
+html body[data-ui-mode] #basicTagsPanel .advanced-options > .opt:has(#povStrength),
+html body[data-ui-mode] #basicTagsPanel .advanced-options > .opt:has(#povType),
+html body[data-ui-mode] #basicTagsPanel .advanced-options > .opt:has(#propCategoryMode),
+html body[data-ui-mode] #basicTagsPanel .advanced-options > .opt:has(#expressionCategoryMode){
+  display:none!important;
+}
+html body[data-ui-mode="detail"] #basicTagsPanel .advanced-options{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:12px!important;
+  align-items:stretch!important;
+}
+html body[data-ui-mode="detail"] #basicTagsPanel .advanced-options > .opt{
+  display:flex!important;flex-direction:column;gap:8px;
+  min-width:0;margin:0!important;height:auto!important;
+}
+html body[data-ui-mode="detail"] #basicTagsPanel .advanced-options > .opt > select{width:100%}
+html body[data-ui-mode="detail"] #basicTagsPanel .advanced-options > .opt .character-mode-hint,
+html body[data-ui-mode="detail"] #basicTagsPanel .advanced-options > .opt .match-hint,
+html body[data-ui-mode="detail"] #basicTagsPanel .advanced-options > .opt .style-preset-meta{margin-top:0}
+/* 순서: 1행 품질·스타일·화풍 / 2행 AI프리셋·강도·POV / 3행 관계·장면·의상 / 4행 충돌방지(전체폭) */
+#basicTagsPanel .advanced-options > .opt:has(#quality){order:1}
+#basicTagsPanel .advanced-options > .opt:has(#style){order:2}
+#basicTagsPanel .advanced-options > .opt:has(#artStyle){order:3}
+#basicTagsPanel .advanced-options > .opt:has(#aiStylePreset){order:4}
+#basicTagsPanel .advanced-options > .opt:has(#promptDetail){order:5}
+#basicTagsPanel .advanced-options > .opt:has(#povMode){order:6}
+#basicTagsPanel .advanced-options > .opt:has(#relationPreset){order:7}
+#basicTagsPanel .advanced-options > .opt:has(#scenePreset){order:8}
+#basicTagsPanel .advanced-options > .opt:has(#outfitMode){order:9}
+html body[data-ui-mode="detail"] #basicTagsPanel .advanced-options > .opt:has(#smartConflict){
+  order:10;grid-column:1 / -1;
+  flex-direction:row!important;align-items:center;flex-wrap:wrap;gap:10px 16px;
+}
+html body[data-ui-mode="detail"] #basicTagsPanel .advanced-options > .opt:has(#smartConflict) .character-mode-hint{flex:1 1 280px}
+/* 네거티브 태그 전체폭 */
+html body[data-ui-mode="detail"] #basicTagsPanel .advanced-basic-wrap > .custom-grid{grid-template-columns:1fr!important}
+html body[data-ui-mode="detail"] #basicTagsPanel #negativeBase{width:100%}
+@media (max-width:820px){
+  html body[data-ui-mode="detail"] #basicTagsPanel .advanced-options{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  html body[data-ui-mode="detail"] #basicTagsPanel .advanced-options > .opt:has(#outfitMode){grid-column:1 / -1}
+}
+@media (max-width:600px){
+  html body[data-ui-mode="detail"] #basicTagsPanel .advanced-options{grid-template-columns:1fr!important}
+}
+</style>
+<style id="rightNavNoOverlap">
+/* 우측 섹션 메뉴(rightPinNav)가 본문 버튼(간편/상세 등)을 덮지 않도록 좌우 여백 확보 */
+@media (min-width:901px){
+  .page, body[data-ui-mode] .page{width:min(1220px, calc(100% - 230px))!important}
+}
+</style>
 </body></html>
