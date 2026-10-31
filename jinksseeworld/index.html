@@ -11572,4 +11572,108 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
   }, 600);
 })();
 </script>
+
+<script id="quickTagNoReset">
+(()=>{
+  // 3.5 빠른태그 영역 클릭은 모드/설정을 절대 초기화하지 않음
+  const KEY = 'assetGachaModeLockV3';
+  function read(){
+    try{ return JSON.parse(sessionStorage.getItem(KEY)||'null'); }catch(_){ return null; }
+  }
+  function apply(data){
+    if(!data) return;
+    document.body.dataset.uiMode = data.ui || 'simple';
+    const check = document.getElementById('nsfwMode');
+    if(check) check.checked = !!data.nsfw;
+    document.body.classList.toggle('nsfw-mode', !!data.nsfw);
+    document.body.classList.toggle('sfw-mode', !data.nsfw);
+    document.querySelectorAll('[data-ui-mode-btn]').forEach(b=>{
+      b.classList.toggle('active', b.dataset.uiModeBtn === data.ui);
+    });
+    document.querySelectorAll('[data-content-mode]').forEach(b=>{
+      b.classList.toggle('active', b.dataset.contentMode === (data.nsfw?'nsfw':'sfw'));
+    });
+  }
+
+  document.addEventListener('click', function(e){
+    const inQuick = e.target.closest('#quickEffectsPanel, #quickEffectsDetails, .mini-prompt-check, .quick-group-fold, .prompt-quicktags, .prompt-quickgroup');
+    if(!inQuick) return;
+    // 빠른태그 클릭은 여기서 끝. 상위로 안 올림
+    e.stopPropagation();
+    const saved = read();
+    if(saved){
+      // 클릭으로 뭔가 바뀌었으면 바로 복구
+      setTimeout(()=>apply(saved), 0);
+      setTimeout(()=>apply(saved), 30);
+      setTimeout(()=>apply(saved), 100);
+    }
+  }, true);
+
+  // 체크박스 변경도 모드에 영향 없게
+  document.addEventListener('change', function(e){
+    if(!e.target.closest('#quickEffectsPanel, .mini-prompt-check')) return;
+    const saved = read();
+    if(saved) setTimeout(()=>apply(saved), 0);
+  }, true);
+})();
+</script>
+
+<script id="promptPanelOpenSafe">
+(()=>{
+  const PANEL_IDS = ['novelPromptPanel','negativePromptPanel','pixPromptPanel','nijiPromptPanel'];
+  const KEY = 'assetGachaModeLockV3';
+  function read(){
+    try{ return JSON.parse(sessionStorage.getItem(KEY)||'null'); }catch(_){ return null; }
+  }
+  function apply(data){
+    if(!data) return;
+    document.body.dataset.uiMode = data.ui || 'simple';
+    const check = document.getElementById('nsfwMode');
+    if(check) check.checked = !!data.nsfw;
+    document.body.classList.toggle('nsfw-mode', !!data.nsfw);
+    document.body.classList.toggle('sfw-mode', !data.nsfw);
+    document.querySelectorAll('[data-ui-mode-btn]').forEach(b=>{
+      b.classList.toggle('active', b.dataset.uiModeBtn === data.ui);
+    });
+    document.querySelectorAll('[data-content-mode]').forEach(b=>{
+      b.classList.toggle('active', b.dataset.contentMode === (data.nsfw?'nsfw':'sfw'));
+    });
+  }
+
+  function bind(){
+    PANEL_IDS.forEach(id=>{
+      const panel = document.getElementById(id);
+      if(!panel) return;
+      const summary = panel.querySelector(':scope > summary');
+      if(!summary || summary.dataset.safeBound === '1') return;
+      summary.dataset.safeBound = '1';
+      summary.addEventListener('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        panel.open = !panel.open;
+        const saved = read();
+        if(saved){
+          setTimeout(()=>apply(saved), 0);
+          setTimeout(()=>apply(saved), 40);
+        }
+      }, true);
+    });
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
+  else bind();
+  setTimeout(bind, 400);
+  setTimeout(bind, 1200);
+
+  // 패널 내부 클릭(복사, 텍스트영역)도 랜덤/초기화로 안 가게
+  document.addEventListener('click', function(e){
+    if(e.target.closest('#novelPromptPanel, #negativePromptPanel, #pixPromptPanel, #nijiPromptPanel')){
+      if(!e.target.closest('#sideRollBtn, #rollAll, #dockRollAll')){
+        e.stopPropagation();
+      }
+    }
+  }, true);
+})();
+</script>
 </body></html>
+\`\`\`
