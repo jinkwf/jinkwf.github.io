@@ -7764,6 +7764,10 @@ function rollSceneOnce(opts={}){
   enforceSemanticQuality();
 }
 function rollAll(record=true, opts={}){
+  // 모드 상태 보존
+  const savedUiMode = document.body.dataset.uiMode || 'simple';
+  const savedNsfw = !!(document.getElementById('nsfwMode')?.checked);
+
   const keepCategory=opts.keepCategory===true;
   const picked=keepCategory?category.value:'';
   rollSceneOnce(opts);
@@ -10814,53 +10818,32 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
 
 <script id="defaultSfwSimple">
 (()=>{
-  // 처음 진입 시 SFW + 간편 모드를 기본으로 강제
-  function applyDefault(){
-    // 1. UI 모드: 간편
+  const DEFAULT_APPLIED_KEY = 'assetGachaDefaultAppliedV1';
+  function applyDefaultOnce(){
+    try{
+      if(localStorage.getItem(DEFAULT_APPLIED_KEY) === '1') return;
+    }catch(_){}
+    // 처음 한 번만 SFW + 간편으로 설정
     if(typeof setUiMode === 'function'){
-      setUiMode('simple', {save:false});
+      setUiMode('simple', {save:true});
     } else {
       document.body.dataset.uiMode = 'simple';
-      document.querySelectorAll('[data-ui-mode-btn]').forEach(btn=>{
-        const active = btn.dataset.uiModeBtn === 'simple';
-        btn.classList.toggle('active', active);
-        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
-      });
     }
-
-    // 2. 콘텐츠 모드: SFW
-    const sfwRadio = document.querySelector('input[name="contentMode"][value="sfw"]');
-    const nsfwRadio = document.querySelector('input[name="contentMode"][value="nsfw"]');
-    const nsfwCheck = document.getElementById('nsfwMode');
-    if(sfwRadio) sfwRadio.checked = true;
-    if(nsfwRadio) nsfwRadio.checked = false;
-    if(nsfwCheck) nsfwCheck.checked = false;
-
     if(typeof setContentMode === 'function'){
       setContentMode('sfw');
     } else {
-      document.querySelectorAll('[data-content-mode]').forEach(btn=>{
-        btn.classList.toggle('active', btn.dataset.contentMode === 'sfw');
-      });
+      const check = document.getElementById('nsfwMode');
+      if(check) check.checked = false;
+      document.body.classList.remove('nsfw-mode');
+      document.body.classList.add('sfw-mode');
     }
-
-    // body class 동기화
-    document.body.classList.remove('nsfw-mode');
-    document.body.classList.add('sfw-mode');
-    if(window.__updateModeClasses) window.__updateModeClasses();
-  }
-
-  // 페이지 로드 후 한 번 적용 (인증 게이트 통과 후에도)
-  function schedule(){
-    setTimeout(applyDefault, 100);
-    setTimeout(applyDefault, 600);
+    try{ localStorage.setItem(DEFAULT_APPLIED_KEY, '1'); }catch(_){}
   }
   if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', schedule);
+    document.addEventListener('DOMContentLoaded', ()=>setTimeout(applyDefaultOnce, 200));
   } else {
-    schedule();
+    setTimeout(applyDefaultOnce, 200);
   }
-  window.addEventListener('nsfw-auth-ready', ()=>setTimeout(applyDefault, 200));
 })();
 </script>
 
@@ -10978,6 +10961,114 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
   }
   window.addEventListener('scroll', onScroll, {passive:true});
   onScroll();
+})();
+</script>
+
+<script id="preserveModeOnRoll">
+(()=>{
+  const origRoll = window.rollAll;
+  // intercept button clicks instead
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('#rollAll, #dockRollAll, [data-reroll]');
+    if(!btn) return;
+    const uiMode = document.body.dataset.uiMode;
+    const nsfw = document.getElementById('nsfwMode')?.checked;
+    setTimeout(()=>{
+      if(uiMode && document.body.dataset.uiMode !== uiMode){
+        if(typeof setUiMode === 'function') setUiMode(uiMode, {save:false});
+        else document.body.dataset.uiMode = uiMode;
+      }
+      const check = document.getElementById('nsfwMode');
+      if(check && check.checked !== nsfw){
+        check.checked = nsfw;
+        if(typeof setContentMode === 'function') setContentMode(nsfw ? 'nsfw' : 'sfw');
+        document.body.classList.toggle('nsfw-mode', !!nsfw);
+        document.body.classList.toggle('sfw-mode', !nsfw);
+      }
+    }, 50);
+    setTimeout(()=>{
+      // double-check after longer operations
+      if(uiMode) document.body.dataset.uiMode = uiMode;
+      const check = document.getElementById('nsfwMode');
+      if(check) check.checked = !!nsfw;
+      document.body.classList.toggle('nsfw-mode', !!nsfw);
+      document.body.classList.toggle('sfw-mode', !nsfw);
+      document.querySelectorAll('[data-content-mode]').forEach(b=>{
+        b.classList.toggle('active', b.dataset.contentMode === (nsfw?'nsfw':'sfw'));
+      });
+      document.querySelectorAll('[data-ui-mode-btn]').forEach(b=>{
+        b.classList.toggle('active', b.dataset.uiModeBtn === uiMode);
+      });
+    }, 300);
+  }, true);
+})();
+</script>
+
+<script id="copyNoRollGuard">
+(()=>{
+  // 복사 버튼 클릭 시 랜덤 생성이 같이 실행되지 않도록 차단
+  document.addEventListener('click', function(e){
+    const copyBtn = e.target.closest('[id*="copy"], [id*="Copy"], .copy-btn, [data-copy]');
+    if(copyBtn){
+      e.stopPropagation();
+    }
+  }, true);
+})();
+</script>
+
+<script id="buttonIndependence">
+(()=>{
+  // 각 버튼/선택이 서로 초기화하지 않도록 상태 보존
+  let lastUiMode = document.body.dataset.uiMode || 'simple';
+  let lastNsfw = false;
+
+  function snapshot(){
+    lastUiMode = document.body.dataset.uiMode || 'simple';
+    lastNsfw = !!(document.getElementById('nsfwMode')?.checked);
+  }
+  function restoreIfNeeded(){
+    // UI 모드가 의도치 않게 바뀌었으면 복구
+    if(document.body.dataset.uiMode !== lastUiMode){
+      document.body.dataset.uiMode = lastUiMode;
+      document.querySelectorAll('[data-ui-mode-btn]').forEach(b=>{
+        b.classList.toggle('active', b.dataset.uiModeBtn === lastUiMode);
+      });
+    }
+    // NSFW 상태가 의도치 않게 바뀌었으면 복구
+    const check = document.getElementById('nsfwMode');
+    if(check && check.checked !== lastNsfw){
+      check.checked = lastNsfw;
+      document.body.classList.toggle('nsfw-mode', lastNsfw);
+      document.body.classList.toggle('sfw-mode', !lastNsfw);
+      document.querySelectorAll('[data-content-mode]').forEach(b=>{
+        b.classList.toggle('active', b.dataset.contentMode === (lastNsfw?'nsfw':'sfw'));
+      });
+    }
+  }
+
+  // 모드 버튼 클릭 시에는 해당 모드만 변경하고 스냅샷 갱신
+  document.addEventListener('click', function(e){
+    const uiBtn = e.target.closest('[data-ui-mode-btn]');
+    const contentBtn = e.target.closest('[data-content-mode]');
+    if(uiBtn){
+      lastUiMode = uiBtn.dataset.uiModeBtn;
+      setTimeout(snapshot, 30);
+      return;
+    }
+    if(contentBtn){
+      lastNsfw = contentBtn.dataset.contentMode === 'nsfw';
+      setTimeout(snapshot, 30);
+      return;
+    }
+    // 그 외 클릭(슬롯, 빠른효과, 복사 등) 후에는 모드가 유지되는지 확인
+    if(!e.target.closest('#rollAll, #dockRollAll')){
+      setTimeout(restoreIfNeeded, 40);
+    }
+  }, true);
+
+  // 초기 스냅샷
+  setTimeout(snapshot, 500);
+  setTimeout(snapshot, 1500);
 })();
 </script>
 </body></html>
