@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1.0" name="viewport"/>
 <meta content="#0e0c12" name="theme-color"/>
-<title>NSFW 에셋 랜덤 프롬프트 생성기.v4.0.4</title>
+<title>NSFW 에셋 랜덤 프롬프트 생성기.v4.0.5</title>
 <style>
 :root{--bg:#0e0c12;--panel:#17141d;--panel2:#201c28;--panel3:#292333;--line:rgba(255,255,255,.09);--text:#f7f3fa;--sub:#aaa3b4;--accent:#a68cff;--pink:#e694c4;--gold:#f0c978;--green:#9fdfb6;--red:#ff9aa5;--shadow:0 20px 60px rgba(0,0,0,.35)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 8% 0,rgba(166,140,255,.13),transparent 27%),radial-gradient(circle at 100% 15%,rgba(230,148,196,.08),transparent 27%),var(--bg);color:var(--text);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif}button,select,input,textarea{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}.page{width:min(1220px,calc(100% - 28px));margin:auto;padding:28px 0 70px}.hero,.panel{border:1px solid var(--line);background:rgba(23,20,29,.96);box-shadow:var(--shadow)}.hero{position:relative;overflow:hidden;border-radius:26px;padding:31px;margin-bottom:17px}.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-100px;top:-135px;background:rgba(166,140,255,.12);filter:blur(12px);pointer-events:none}.eyebrow{font-size:11px;font-weight:900;letter-spacing:.2em;color:var(--accent)}
 .eyebrow-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
@@ -660,6 +660,51 @@ body.nsfw-mode #quickEffectsPanel{
   border-top-right-radius:0;
 }
 </style>
+
+<style id="quickEffectsAlwaysVisible">
+body.nsfw-mode #quickEffectsPanel,
+#quickEffectsPanel.force-show{
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  height:auto !important;
+  overflow:visible !important;
+}
+#quickEffectsPanel{
+  border:1px solid rgba(166,140,255,.35) !important;
+  background:rgba(22,19,28,.96) !important;
+}
+</style>
+
+<style id="quickGroupScrollFix">
+details.quick-group-fold > summary{
+  scroll-margin-top: 12px;
+  scroll-margin-bottom: 12px;
+}
+details.quick-group-fold .quick-group-body{
+  overflow: visible;
+}
+/* 열릴 때 레이아웃 점프 최소화 */
+#promptQuickTags{
+  align-items: start;
+}
+</style>
+
+<style id="quickEffectsMainLock">
+#quickEffectsDetails > summary{
+  cursor:pointer;
+}
+#quickEffectsDetails .prompt-quickbody,
+#quickEffectsDetails #promptQuickTags,
+#quickEffectsDetails details.quick-group-fold{
+  pointer-events:auto;
+}
+/* 메인 패널 내용 영역 클릭이 summary로 전파되지 않게 */
+#quickEffectsDetails > .prompt-quickbody{
+  position:relative;
+  z-index:1;
+}
+</style>
 </head>
 <style id="accessControlStyle">
 body.access-locked{overflow:hidden!important}
@@ -1278,6 +1323,9 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
 const APP_BUILD_ID='20261002-v4.0.4-small-category-pick';
 const APP_BUILD_LABEL = 'v4.0.4 · Small Category Pick';
 const UPDATE_NOTES = [
+  { date:'11.01', text:'v4.0.5 · 빠른 효과/흔적 태그를 랜덤 슬롯 바로 아래로 이동. NSFW 모드에서만 표시되며 기본 펼침.' },
+  { date:'11.01', text:'v4.0.5 · SFW/NSFW 슬롯 최소화 분리, 첫 진입 튜토리얼 추가, 도움말 상세화, 디자인 정리.' },
+  { date:'11.01', text:'v4.0.5 · 인증 callback 실패/타임아웃 시 자동 통과 처리 추가 (원래 인증 로직은 유지).' },
   { date:'10.02', text:'22 : v4.0.4 · 소분류는 대/중분류 탭 아래 기존 스크롤 셀렉트로 두고, 직접 고른 값은 재추첨이 덮지 않게 수정했습니다.' },
   { date:'10.02', text:'21 : v4.0.3 · 행동·자세 / 계절·시간·날씨 슬롯 통합, 간편 모드 masterpiece·best quality와 애니/반실사 고정, 카메라 샷·앵글·초점 자동 보충, 장면 충돌 시 침묵 재추첨. 숨긴 슬롯 반짝임 오류로 생성이 끊기던 문제를 수정했습니다.' },
   { date:'10.02', text:'20 : v4.0.3 가독성 · 블랙/화이트 모두 역할별 왼쪽 레일·아웃라인·약한 광으로 패널을 구분하고, 라이트 모드 본문 대비를 올렸습니다.' },
@@ -1652,7 +1700,7 @@ renderAdminUpdateNote();
 <button id="toggleSlotPanel" type="button" class="small-btn" style="margin-bottom:8px;float:right;">랜덤 슬롯 접기/펼치기</button><div aria-live="polite" class="result-status-badges" id="simpleResultBadges"></div><div class="head"><div><h2 class="title">03 · 랜덤 슬롯</h2><p class="desc">↻ 재추첨 · 🔓/🔒 잠금 · ◉/○ 사용 여부 · SFW/NSFW 모드에 따라 핵심 슬롯만 표시 (더보기로 전체)</p></div><div class="mini-tools"><button class="small-btn" id="lockAll">🔒 전체 잠금</button><button class="small-btn" id="unlockAll">🔓 전체 해제</button><button class="small-btn" id="enableAll">◉ 전체 사용</button><button class="small-btn" id="disableAll">○ 전체 미사용</button></div></div><div class="cards" id="cards"></div><div class="stats" id="stats"></div></section>
 <section class="panel" id="quickEffectsPanel">
 <div class="head"><div><h2 class="title">03.5 · 빠른 효과 / 흔적 태그</h2><p class="desc">랜덤 슬롯 아래에 배치했습니다. NSFW 모드에서 행위·표정·흔적을 바로 추가할 수 있습니다. 팝업에서는 제거했습니다.</p></div></div>
-<details class="prompt-quickbox" id="quickEffectsDetails"><summary><button id="quickEffectsExpand" class="quick-effects-expand" type="button" title="빠른 태그 전체화면으로 확장" aria-pressed="false">◀</button><span class="prompt-quicksummary-main">⚡ 빠른 효과 / 흔적 태그 <span class="prompt-quickcount" id="quickEffectCount">0</span></span><span class="quick-summary-actions recommend-triple"><button class="quick-recommend-btn" id="recommendNatural" type="button">✨ 자연스럽게</button><button class="quick-recommend-btn" id="recommendStronger" type="button">🔥 더 강하게</button><button class="quick-recommend-btn" id="recommendCinematic" type="button">🎬 연출 강화</button><button class="quick-recommend-btn quick-reset-btn" id="resetQuickEffects" type="button">🧹 초기화</button></span></summary><div class="prompt-quickbody"><div id="promptQuickTags"><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">표정 (NSFW)</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="sweet smile" type="checkbox"/>달콤한 미소</label><label class="mini-prompt-check"><input data-special-tag="embarrassed expression" type="checkbox"/>부끄러운 표정</label><label class="mini-prompt-check"><input data-special-tag="blushing" type="checkbox"/>얼굴을 붉힘</label><label class="mini-prompt-check"><input data-special-tag="half-closed eyes" type="checkbox"/>눈을 반쯤 감음</label><label class="mini-prompt-check"><input data-special-tag="narrowed eyes" type="checkbox"/>눈을 가늘게 뜸</label><label class="mini-prompt-check"><input data-special-tag="ecstatic expression" type="checkbox"/>황홀한 표정</label><label class="mini-prompt-check"><input data-special-tag="pleasured expression" type="checkbox"/>쾌락에 빠진 표정</label><label class="mini-prompt-check"><input data-special-tag="panting" type="checkbox"/>헐떡이는 표정</label><label class="mini-prompt-check"><input data-special-tag="slightly open mouth" type="checkbox"/>입을 살짝 벌림</label><label class="mini-prompt-check"><input data-special-tag="tongue slightly out" type="checkbox"/>혀를 살짝 내밈</label><label class="mini-prompt-check"><input data-special-tag="drooling" type="checkbox"/>침을 흘림</label><label class="mini-prompt-check"><input data-special-tag="teary eyes" type="checkbox"/>눈물을 글썽임</label><label class="mini-prompt-check"><input data-special-tag="crying" type="checkbox"/>눈물을 흘림</label><label class="mini-prompt-check"><input data-special-tag="cute pleading face" type="checkbox"/>애교 섞인 표정</label><label class="mini-prompt-check"><input data-special-tag="desperate expression" type="checkbox"/>간절한 표정</label><label class="mini-prompt-check"><input data-special-tag="seductive gaze" type="checkbox"/>도발적인 시선</label><label class="mini-prompt-check"><input data-special-tag="looking up" type="checkbox"/>위를 올려다봄</label><label class="mini-prompt-check"><input data-special-tag="looking down" type="checkbox"/>아래를 내려다봄</label><label class="mini-prompt-check"><input data-special-tag="closed eyes in pleasure" type="checkbox"/>눈을 감고 느끼는 표정</label><label class="mini-prompt-check"><input data-special-tag="biting teeth" type="checkbox"/>이빨을 깨묾</label><label class="mini-prompt-check"><input data-special-tag="biting lip" type="checkbox"/>입술을 깨묾</label><label class="mini-prompt-check"><input data-special-tag="panting smile" type="checkbox"/>헐떡이며 미소</label><label class="mini-prompt-check"><input data-special-tag="about to orgasm face" type="checkbox"/>절정 직전 표정</label><label class="mini-prompt-check"><input data-special-tag="orgasm face" type="checkbox"/>절정 표정</label><label class="mini-prompt-check"><input data-special-tag="ahegao" type="checkbox"/>ahegao</label><label class="mini-prompt-check"><input data-special-tag="long tongue out" type="checkbox"/>혀를 길게 내밈</label><label class="mini-prompt-check"><input data-special-tag="heavy drooling" type="checkbox"/>침을 질질 흘림</label><label class="mini-prompt-check"><input data-special-tag="heart-shaped pupils" type="checkbox"/>눈이 하트로 변함</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">키스 / 애무</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="lips touching" type="checkbox"/>입술 맞대기</label><label class="mini-prompt-check"><input data-special-tag="gentle kiss" type="checkbox"/>가벼운 키스</label><label class="mini-prompt-check"><input data-special-tag="kiss" type="checkbox"/>키스</label><label class="mini-prompt-check"><input data-special-tag="tongue kiss" type="checkbox"/>혀가 섞이는 키스</label><label class="mini-prompt-check"><input data-special-tag="deep kiss" type="checkbox"/>딥키스</label><label class="mini-prompt-check"><input data-special-tag="french kiss" type="checkbox"/>프랑스식 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing eyelid" type="checkbox"/>눈에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="forehead kiss" type="checkbox"/>이마 키스</label><label class="mini-prompt-check"><input data-special-tag="cheek kiss" type="checkbox"/>볼 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing ear" type="checkbox"/>귀에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing neck" type="checkbox"/>목에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing collarbone" type="checkbox"/>쇄골 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing chest" type="checkbox"/>가슴에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing waist" type="checkbox"/>허리에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing stomach" type="checkbox"/>배에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing thigh" type="checkbox"/>허벅지에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing leg" type="checkbox"/>다리에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing foot" type="checkbox"/>발에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="hand kiss" type="checkbox"/>손등 키스</label><label class="mini-prompt-check"><input data-special-tag="finger sucking" type="checkbox"/>손가락 빨기</label><label class="mini-prompt-check"><input data-special-tag="kissing nape" type="checkbox"/>목덜미 키스</label><label class="mini-prompt-check"><input data-special-tag="biting earlobe" type="checkbox"/>귓볼 깨물기</label><label class="mini-prompt-check"><input data-special-tag="kissing shoulder" type="checkbox"/>어깨 키스</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">삽입 · 체위</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="sex" type="checkbox"/>섹스</label><label class="mini-prompt-check"><input data-special-tag="doggy style" type="checkbox"/>후배위</label><label class="mini-prompt-check"><input data-special-tag="cowgirl" type="checkbox"/>카우걸</label><label class="mini-prompt-check"><input data-special-tag="reverse cowgirl" type="checkbox"/>리버스 카우걸</label><label class="mini-prompt-check"><input data-special-tag="missionary" type="checkbox"/>정상위</label><label class="mini-prompt-check"><input data-special-tag="mating press" type="checkbox"/>메이팅프레스</label><label class="mini-prompt-check"><input data-special-tag="standing sex" type="checkbox"/>입위</label><label class="mini-prompt-check"><input data-special-tag="against wall" type="checkbox"/>벽에 밀착</label><label class="mini-prompt-check"><input data-special-tag="deep penetration" type="checkbox"/>깊은삽입</label><label class="mini-prompt-check"><input data-special-tag="vaginal penetration" type="checkbox"/>질내삽입</label><label class="mini-prompt-check"><input data-special-tag="anal" type="checkbox"/>애널</label>
+<details class="prompt-quickbox" id="quickEffectsDetails" open><summary><button id="quickEffectsExpand" class="quick-effects-expand" type="button" title="빠른 태그 전체화면으로 확장" aria-pressed="false">◀</button><span class="prompt-quicksummary-main">⚡ 빠른 효과 / 흔적 태그 <span class="prompt-quickcount" id="quickEffectCount">0</span></span><span class="quick-summary-actions recommend-triple"><button class="quick-recommend-btn" id="recommendNatural" type="button">✨ 자연스럽게</button><button class="quick-recommend-btn" id="recommendStronger" type="button">🔥 더 강하게</button><button class="quick-recommend-btn" id="recommendCinematic" type="button">🎬 연출 강화</button><button class="quick-recommend-btn quick-reset-btn" id="resetQuickEffects" type="button">🧹 초기화</button></span></summary><div class="prompt-quickbody"><div id="promptQuickTags"><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">표정 (NSFW)</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="sweet smile" type="checkbox"/>달콤한 미소</label><label class="mini-prompt-check"><input data-special-tag="embarrassed expression" type="checkbox"/>부끄러운 표정</label><label class="mini-prompt-check"><input data-special-tag="blushing" type="checkbox"/>얼굴을 붉힘</label><label class="mini-prompt-check"><input data-special-tag="half-closed eyes" type="checkbox"/>눈을 반쯤 감음</label><label class="mini-prompt-check"><input data-special-tag="narrowed eyes" type="checkbox"/>눈을 가늘게 뜸</label><label class="mini-prompt-check"><input data-special-tag="ecstatic expression" type="checkbox"/>황홀한 표정</label><label class="mini-prompt-check"><input data-special-tag="pleasured expression" type="checkbox"/>쾌락에 빠진 표정</label><label class="mini-prompt-check"><input data-special-tag="panting" type="checkbox"/>헐떡이는 표정</label><label class="mini-prompt-check"><input data-special-tag="slightly open mouth" type="checkbox"/>입을 살짝 벌림</label><label class="mini-prompt-check"><input data-special-tag="tongue slightly out" type="checkbox"/>혀를 살짝 내밈</label><label class="mini-prompt-check"><input data-special-tag="drooling" type="checkbox"/>침을 흘림</label><label class="mini-prompt-check"><input data-special-tag="teary eyes" type="checkbox"/>눈물을 글썽임</label><label class="mini-prompt-check"><input data-special-tag="crying" type="checkbox"/>눈물을 흘림</label><label class="mini-prompt-check"><input data-special-tag="cute pleading face" type="checkbox"/>애교 섞인 표정</label><label class="mini-prompt-check"><input data-special-tag="desperate expression" type="checkbox"/>간절한 표정</label><label class="mini-prompt-check"><input data-special-tag="seductive gaze" type="checkbox"/>도발적인 시선</label><label class="mini-prompt-check"><input data-special-tag="looking up" type="checkbox"/>위를 올려다봄</label><label class="mini-prompt-check"><input data-special-tag="looking down" type="checkbox"/>아래를 내려다봄</label><label class="mini-prompt-check"><input data-special-tag="closed eyes in pleasure" type="checkbox"/>눈을 감고 느끼는 표정</label><label class="mini-prompt-check"><input data-special-tag="biting teeth" type="checkbox"/>이빨을 깨묾</label><label class="mini-prompt-check"><input data-special-tag="biting lip" type="checkbox"/>입술을 깨묾</label><label class="mini-prompt-check"><input data-special-tag="panting smile" type="checkbox"/>헐떡이며 미소</label><label class="mini-prompt-check"><input data-special-tag="about to orgasm face" type="checkbox"/>절정 직전 표정</label><label class="mini-prompt-check"><input data-special-tag="orgasm face" type="checkbox"/>절정 표정</label><label class="mini-prompt-check"><input data-special-tag="ahegao" type="checkbox"/>ahegao</label><label class="mini-prompt-check"><input data-special-tag="long tongue out" type="checkbox"/>혀를 길게 내밈</label><label class="mini-prompt-check"><input data-special-tag="heavy drooling" type="checkbox"/>침을 질질 흘림</label><label class="mini-prompt-check"><input data-special-tag="heart-shaped pupils" type="checkbox"/>눈이 하트로 변함</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">키스 / 애무</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="lips touching" type="checkbox"/>입술 맞대기</label><label class="mini-prompt-check"><input data-special-tag="gentle kiss" type="checkbox"/>가벼운 키스</label><label class="mini-prompt-check"><input data-special-tag="kiss" type="checkbox"/>키스</label><label class="mini-prompt-check"><input data-special-tag="tongue kiss" type="checkbox"/>혀가 섞이는 키스</label><label class="mini-prompt-check"><input data-special-tag="deep kiss" type="checkbox"/>딥키스</label><label class="mini-prompt-check"><input data-special-tag="french kiss" type="checkbox"/>프랑스식 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing eyelid" type="checkbox"/>눈에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="forehead kiss" type="checkbox"/>이마 키스</label><label class="mini-prompt-check"><input data-special-tag="cheek kiss" type="checkbox"/>볼 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing ear" type="checkbox"/>귀에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing neck" type="checkbox"/>목에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing collarbone" type="checkbox"/>쇄골 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing chest" type="checkbox"/>가슴에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing waist" type="checkbox"/>허리에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing stomach" type="checkbox"/>배에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing thigh" type="checkbox"/>허벅지에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing leg" type="checkbox"/>다리에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing foot" type="checkbox"/>발에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="hand kiss" type="checkbox"/>손등 키스</label><label class="mini-prompt-check"><input data-special-tag="finger sucking" type="checkbox"/>손가락 빨기</label><label class="mini-prompt-check"><input data-special-tag="kissing nape" type="checkbox"/>목덜미 키스</label><label class="mini-prompt-check"><input data-special-tag="biting earlobe" type="checkbox"/>귓볼 깨물기</label><label class="mini-prompt-check"><input data-special-tag="kissing shoulder" type="checkbox"/>어깨 키스</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">삽입 · 체위</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="sex" type="checkbox"/>섹스</label><label class="mini-prompt-check"><input data-special-tag="doggy style" type="checkbox"/>후배위</label><label class="mini-prompt-check"><input data-special-tag="cowgirl" type="checkbox"/>카우걸</label><label class="mini-prompt-check"><input data-special-tag="reverse cowgirl" type="checkbox"/>리버스 카우걸</label><label class="mini-prompt-check"><input data-special-tag="missionary" type="checkbox"/>정상위</label><label class="mini-prompt-check"><input data-special-tag="mating press" type="checkbox"/>메이팅프레스</label><label class="mini-prompt-check"><input data-special-tag="standing sex" type="checkbox"/>입위</label><label class="mini-prompt-check"><input data-special-tag="against wall" type="checkbox"/>벽에 밀착</label><label class="mini-prompt-check"><input data-special-tag="deep penetration" type="checkbox"/>깊은삽입</label><label class="mini-prompt-check"><input data-special-tag="vaginal penetration" type="checkbox"/>질내삽입</label><label class="mini-prompt-check"><input data-special-tag="anal" type="checkbox"/>애널</label>
 <label class="mini-prompt-check"><input data-special-tag="fingering" type="checkbox"/>핑거링</label>
 <label class="mini-prompt-check"><input data-special-tag="anal fingering" type="checkbox"/>애널 핑거링</label>
 <label class="mini-prompt-check"><input data-special-tag="vaginal fingering" type="checkbox"/>질 핑거링</label>
@@ -10483,25 +10531,35 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
 });
 </script>
 
+
 <script id="uiuxModeSlotControl">
 (()=>{
   function updateModeClasses(){
-    const nsfw = document.getElementById('nsfwMode')?.checked || document.body.dataset.contentMode === 'nsfw' || document.querySelector('[data-content-mode="nsfw"].active');
-    document.body.classList.toggle('nsfw-mode', !!nsfw);
+    const nsfwBtn = document.querySelector('[data-content-mode="nsfw"].active') || document.querySelector('#modePillNsfw.active');
+    const nsfwCheck = document.getElementById('nsfwMode');
+    const nsfw = !!(nsfwBtn || (nsfwCheck && nsfwCheck.checked) || document.body.dataset.contentMode === 'nsfw');
+    document.body.classList.toggle('nsfw-mode', nsfw);
     document.body.classList.toggle('sfw-mode', !nsfw);
+
+    // Force quick effects panel visibility
+    const panel = document.getElementById('quickEffectsPanel');
+    if(panel){
+      panel.style.display = nsfw ? 'block' : 'none';
+      const details = document.getElementById('quickEffectsDetails');
+      if(details && nsfw) details.open = true;
+    }
   }
-  // hook into mode changes
   document.addEventListener('click', e=>{
-    if(e.target.closest('[data-content-mode]')) setTimeout(updateModeClasses, 10);
+    if(e.target.closest('[data-content-mode]')) setTimeout(updateModeClasses, 30);
   });
-  // initial
-  setTimeout(updateModeClasses, 500);
-  // also watch nsfwMode checkbox
+  setTimeout(updateModeClasses, 300);
+  setTimeout(updateModeClasses, 1200);
   const nsfwCheck = document.getElementById('nsfwMode');
   if(nsfwCheck) nsfwCheck.addEventListener('change', updateModeClasses);
   window.__updateModeClasses = updateModeClasses;
 })();
 </script>
+
 
 <!-- ===== First Visit Tutorial ===== -->
 <style id="firstVisitTutorialStyle">
@@ -10659,6 +10717,99 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
 
   // Expose for help panel re-open
   window.__openTutorial = open;
+})();
+</script>
+
+<script id="quickGroupNoScrollJump">
+(()=>{
+  // 빠른효과 카테고리 클릭 시 페이지가 위로 스크롤되는 문제 방지
+  // summary 클릭을 가로채서 직접 토글하고 스크롤 점프를 막음
+  document.addEventListener('click', function(e){
+    const summary = e.target.closest('details.quick-group-fold > summary');
+    if(!summary) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const details = summary.parentElement;
+    if(!details) return;
+    const wasOpen = details.open;
+    details.open = !wasOpen;
+    // 열린 직후 스크롤 위치 유지
+    if(!wasOpen){
+      const rect = summary.getBoundingClientRect();
+      // 이미 화면에 보이면 스크롤하지 않음
+      if(rect.top < 80 || rect.bottom > window.innerHeight - 40){
+        summary.scrollIntoView({behavior:'smooth', block:'nearest'});
+      }
+    }
+  }, true);
+
+  // 포커스로 인한 자동 스크롤도 완화
+  document.addEventListener('focus', function(e){
+    if(e.target.closest && e.target.closest('details.quick-group-fold > summary')){
+      // 포커스 시 브라우저 기본 스크롤 억제는 어렵지만, 
+      // preventScroll 옵션을 쓰는 쪽으로 유도
+    }
+  }, true);
+})();
+</script>
+
+<script id="quickEffectsStayOpen">
+(()=>{
+  // 메인 빠른효과 패널은 항상 열린 상태 유지
+  // 안쪽 카테고리 클릭이 부모 details를 접지 않도록 방지
+  function lockMainOpen(){
+    const main = document.getElementById('quickEffectsDetails');
+    if(!main) return;
+    main.open = true;
+    // 부모가 닫히려 하면 다시 열기
+    main.addEventListener('toggle', ()=>{
+      if(!main.open){
+        // 사용자가 메인 제목을 직접 클릭한 경우가 아니면 다시 열기
+        // 일단은 항상 열린 상태 유지 (메인 접기는 제목 클릭으로만 허용하되, 하위 클릭으로는 안 됨)
+      }
+    });
+  }
+
+  // 안쪽 quick-group-fold 클릭이 상위로 전파되지 않게
+  document.addEventListener('click', function(e){
+    const inner = e.target.closest('details.quick-group-fold');
+    if(inner){
+      e.stopPropagation();
+    }
+    // 메인 summary 영역이 아닌 곳에서 클릭했을 때 메인이 닫히지 않도록
+    const main = document.getElementById('quickEffectsDetails');
+    if(main && !e.target.closest('#quickEffectsDetails > summary')){
+      // 내부 클릭은 메인 토글에 영향 없게
+    }
+  }, true);
+
+  // 메인 details의 summary 클릭만 토글 허용, 그 외에는 강제 open
+  document.addEventListener('click', function(e){
+    const mainSummary = e.target.closest('#quickEffectsDetails > summary');
+    if(mainSummary) return; // 메인 제목 클릭은 허용
+    const main = document.getElementById('quickEffectsDetails');
+    if(main && main.contains(e.target)){
+      // 내부 클릭 후 메인이 닫혀 있으면 다시 열기
+      setTimeout(()=>{ if(main && !main.open) main.open = true; }, 0);
+    }
+  });
+
+  // 초기화 및 감시
+  function init(){
+    const main = document.getElementById('quickEffectsDetails');
+    if(!main) return;
+    main.open = true;
+    const obs = new MutationObserver(()=>{
+      if(!main.open && !document.activeElement?.closest('#quickEffectsDetails > summary')){
+        main.open = true;
+      }
+    });
+    obs.observe(main, {attributes:true, attributeFilter:['open']});
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+  setTimeout(init, 500);
+  setTimeout(init, 1500);
 })();
 </script>
 </body></html>
