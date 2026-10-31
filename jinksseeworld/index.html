@@ -11036,6 +11036,8 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
       const rect = btn.getBoundingClientRect();
       const x = e.clientX, y = e.clientY;
       // 실제 버튼 영역 밖이면 무시 (혹시 확장된 히트영역 대비)
+      // 코드로 호출된 click()(사이드/하단/팝업 주사위)은 좌표가 0,0이므로 검사하지 않음
+      if(!e.isTrusted || e.detail === 0) return;
       if(x < rect.left || x > rect.right || y < rect.top || y > rect.bottom){
         e.stopImmediatePropagation();
         e.preventDefault();
