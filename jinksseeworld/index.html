@@ -825,6 +825,44 @@ label:has(+ #expressionCategoryMode),
   display:none !important;
 }
 </style>
+
+<style id="povForceHide">
+/* POV 강도 / POV 타입 강제 숨김 */
+#povStrength,
+#povType,
+label[for="povStrength"],
+label[for="povType"],
+.opt:has(#povStrength),
+.opt:has(#povType),
+div.opt:has(select#povStrength),
+div.opt:has(select#povType){
+  display:none !important;
+  visibility:hidden !important;
+  height:0 !important;
+  overflow:hidden !important;
+  padding:0 !important;
+  margin:0 !important;
+  border:0 !important;
+}
+</style>
+<script id="povForceHideJS">
+(()=>{
+  function hidePovExtra(){
+    ['povStrength','povType'].forEach(id=>{
+      const el = document.getElementById(id);
+      if(!el) return;
+      const opt = el.closest('.opt') || el.parentElement;
+      if(opt) opt.style.display = 'none';
+      el.style.display = 'none';
+    });
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', hidePovExtra);
+  else hidePovExtra();
+  setTimeout(hidePovExtra, 300);
+  setTimeout(hidePovExtra, 1000);
+  setTimeout(hidePovExtra, 2000);
+})();
+</script>
 </head>
 <style id="accessControlStyle">
 body.access-locked{overflow:hidden!important}
@@ -11767,4 +11805,3 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
 })();
 </script>
 </body></html>
-
