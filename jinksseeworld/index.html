@@ -6402,7 +6402,7 @@ function createCards(){cards.innerHTML='';const CORE_SLOTS=new Set(['background'
 const NSFW_CORE=new Set(['outfit','expression','action','mood','prop']); // minimized for NSFW
 const SFW_CORE=new Set(['background','outfit','expression','weather','mood','composition']);
 const MERGED_HIDDEN=new Set(['pose','season']);
-Object.entries(SLOTS).forEach(([k,t])=>{if(MERGED_HIDDEN.has(k))return;const el=document.createElement('article');el.className='card';el.id='card-'+k;el.dataset.slotKey=k;el.dataset.slotCore=CORE_SLOTS.has(k)?'1':'0';el.dataset.nsfwCore=NSFW_CORE.has(k)?'1':'0';el.dataset.sfwCore=SFW_CORE.has(k)?'1':'0';el.innerHTML=`<div class="card-top"><div class="card-title">${t}</div><div class="card-actions"><button class="icon" data-toggle="${k}" title="프롬프트 사용/제외">◉</button><button class="icon" data-reroll="${k}" title="이 항목만 재추첨">↻</button><button class="icon" data-lock="${k}" title="잠금">🔓</button></div></div><div class="ko" id="ko-${k}">-</div><div class="en" id="en-${k}">-</div><div class="slot-source" id="source-${k}"></div><div class="lock-note">🔒 이 결과는 고정되어 있습니다.</div><details class="slot-detail-picker" data-slot-picker="${k}"><summary><span>직접 선택 · 등록 후보</span><span>⌄</span></summary><div class="slot-picker-body"><input class="slot-picker-search" data-slot-search="${k}" type="search" placeholder="${t} 후보 검색"><div class="slot-picker-list" data-slot-list="${k}"><div class="slot-picker-empty">등록 후보를 불러오는 중...</div></div><select class="slot-picker-select" data-slot-select="${k}" size="6"></select><div class="slot-picker-meta" data-slot-meta="${k}">상세 모드에서 현재 장면에 등록된 후보를 직접 선택할 수 있습니다.</div></div></details>`;cards.appendChild(el)})}
+Object.entries(SLOTS).forEach(([k,t])=>{if(MERGED_HIDDEN.has(k))return;const el=document.createElement('article');el.className='card';el.id='card-'+k;el.dataset.slotKey=k;el.dataset.slotCore=CORE_SLOTS.has(k)?'1':'0';el.dataset.nsfwCore=NSFW_CORE.has(k)?'1':'0';el.dataset.sfwCore=SFW_CORE.has(k)?'1':'0';el.innerHTML=`<div class="card-top"><div class="card-title">${t}</div><div class="card-actions"><button class="icon" data-toggle="${k}" title="프롬프트 사용/제외">◉</button><button class="icon" data-reroll="${k}" title="이 항목만 재추첨">↻</button><button class="icon" data-lock="${k}" title="잠금">🔓</button><button class="icon" data-slot-quick="${k}" title="3.5 빠른효과 태그 열기">⚡</button></div></div><div class="ko" id="ko-${k}">-</div><div class="en" id="en-${k}">-</div><div class="slot-source" id="source-${k}"></div><div class="lock-note">🔒 이 결과는 고정되어 있습니다.</div><details class="slot-detail-picker" data-slot-picker="${k}"><summary><span>직접 선택 · 등록 후보</span><span>⌄</span></summary><div class="slot-picker-body"><input class="slot-picker-search" data-slot-search="${k}" type="search" placeholder="${t} 후보 검색"><div class="slot-picker-list" data-slot-list="${k}"><div class="slot-picker-empty">등록 후보를 불러오는 중...</div></div><select class="slot-picker-select" data-slot-select="${k}" size="6"></select><div class="slot-picker-meta" data-slot-meta="${k}">상세 모드에서 현재 장면에 등록된 후보를 직접 선택할 수 있습니다.</div></div></details>`;cards.appendChild(el)})}
 function loadCategories(keep=false){
   const oldCategory=category.value;
   const oldMiddle=middleCategoryValue();
@@ -11675,5 +11675,96 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
   }, true);
 })();
 </script>
+
+<script id="slotQuickToPanel">
+(()=>{
+  function openQuickPanel(){
+    const panel = document.getElementById('quickEffectsPanel');
+    const details = document.getElementById('quickEffectsDetails');
+    if(details) details.open = true;
+    if(panel){
+      panel.style.display = 'block';
+      panel.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+  }
+
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('[data-slot-quick]');
+    if(!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+    openQuickPanel();
+  }, true);
+})();
+</script>
+
+<script id="modeLockOnSlotClick">
+(()=>{
+  const KEY = 'assetGachaModeLockV3';
+  function read(){
+    try{ return JSON.parse(sessionStorage.getItem(KEY)||'null'); }catch(_){ return null; }
+  }
+  function write(ui, nsfw){
+    try{ sessionStorage.setItem(KEY, JSON.stringify({ui, nsfw})); }catch(_){}
+  }
+  function apply(data){
+    if(!data) return;
+    document.body.dataset.uiMode = data.ui || 'simple';
+    const check = document.getElementById('nsfwMode');
+    if(check) check.checked = !!data.nsfw;
+    document.body.classList.toggle('nsfw-mode', !!data.nsfw);
+    document.body.classList.toggle('sfw-mode', !data.nsfw);
+    document.querySelectorAll('[data-ui-mode-btn]').forEach(b=>{
+      b.classList.toggle('active', b.dataset.uiModeBtn === data.ui);
+    });
+    document.querySelectorAll('[data-content-mode]').forEach(b=>{
+      b.classList.toggle('active', b.dataset.contentMode === (data.nsfw?'nsfw':'sfw'));
+    });
+    const sfwR = document.querySelector('input[name="contentMode"][value="sfw"]');
+    const nsfwR = document.querySelector('input[name="contentMode"][value="nsfw"]');
+    if(sfwR) sfwR.checked = !data.nsfw;
+    if(nsfwR) nsfwR.checked = !!data.nsfw;
+  }
+
+  // 슬롯 카드 / 슬롯 패널 / 그 하위 어떤 클릭이든 모드 유지
+  document.addEventListener('click', function(e){
+    const inSlot = e.target.closest('#slotPanel, #cards, .card, [data-slot-quick], [data-reroll], [data-lock], [data-toggle], [data-slot-picker], .slot-picker-item');
+    const inQuick = e.target.closest('#quickEffectsPanel, .mini-prompt-check, .quick-group-fold');
+    if(!inSlot && !inQuick) return;
+
+    const saved = read();
+    if(saved){
+      // 클릭 직후 모드가 바뀌었으면 즉시 복구
+      setTimeout(()=>apply(saved), 0);
+      setTimeout(()=>apply(saved), 20);
+      setTimeout(()=>apply(saved), 80);
+      setTimeout(()=>apply(saved), 200);
+    }
+  }, true);
+
+  // 모드 버튼을 직접 누른 경우만 저장 갱신
+  document.addEventListener('click', function(e){
+    const uiBtn = e.target.closest('[data-ui-mode-btn]');
+    const cBtn = e.target.closest('[data-content-mode]');
+    if(uiBtn || cBtn){
+      setTimeout(()=>{
+        const ui = uiBtn ? uiBtn.dataset.uiModeBtn : (document.body.dataset.uiMode || 'simple');
+        const nsfw = cBtn ? cBtn.dataset.contentMode === 'nsfw' : !!(document.getElementById('nsfwMode')?.checked);
+        write(ui, nsfw);
+        apply({ui, nsfw});
+      }, 10);
+    }
+  }, true);
+
+  // 초기
+  setTimeout(()=>{
+    if(!read()){
+      const nsfw = !!(document.getElementById('nsfwMode')?.checked);
+      write(document.body.dataset.uiMode || 'simple', nsfw);
+    }
+  }, 500);
+})();
+</script>
 </body></html>
-\`\`\`
+
