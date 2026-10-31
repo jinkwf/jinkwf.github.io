@@ -863,6 +863,7 @@ div.opt:has(select#povType){
   setTimeout(hidePovExtra, 2000);
 })();
 </script>
+<script id="globalConflictFallback">function conflictPreventionOn(){return document.getElementById('smartConflict')?.checked!==false}</script>
 </head>
 <style id="accessControlStyle">
 body.access-locked{overflow:hidden!important}
@@ -1450,7 +1451,7 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
 .match-hint{margin-top:6px;color:#918999;font-size:9px;line-height:1.45}.match-hint.on{color:#cbbdff}
 @media(max-width:720px){.slot-source{font-size:8px;margin-top:5px}}
 </style>
-<body class="access-locked" data-ui-mode="simple" data-content-mode="sfw">
+<body class="access-locked" data-ui-mode="simple">
 <div aria-hidden="true" aria-labelledby="updateGateTitle" aria-modal="true" class="update-gate hidden" id="updateGate" role="dialog">
 <div class="update-box">
 <div class="update-icon">✨</div>
@@ -1478,7 +1479,7 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
    - 새 항목은 배열 맨 위에 추가하세요.
 ========================================================= */
 /* 빌드 ID가 바뀌면 성인/접속코드 인증보다 먼저 새로고침 팝업을 띄웁니다. 매 배포 시 반드시 이 값을 새 고유값으로 변경하세요. */
-const APP_BUILD_ID='20261002-v4.1-small-category-pick';
+const APP_BUILD_ID='20261101-v4.1.1-mode-fix';
 const APP_BUILD_LABEL = 'v4.1 · Small Category Pick';
 const UPDATE_NOTES = [
   { date:'11.01', text:'v4.1 · 빠른 효과/흔적 태그를 랜덤 슬롯 바로 아래로 이동. NSFW 모드에서만 표시되며 기본 펼침.' },
@@ -1784,7 +1785,7 @@ renderAdminUpdateNote();
 })();
 </script>
 <div class="page">
-<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span><label class="mini-prompt-check"><input data-special-tag="prone bone" type="checkbox"/>프론본</label><label class="mini-prompt-check"><input data-special-tag="full nelson" type="checkbox"/>풀 넬슨</label><label class="mini-prompt-check"><input data-special-tag="standing sex from behind" type="checkbox"/>뒤에서 선 체위</label><label class="mini-prompt-check"><input data-special-tag="lotus position" type="checkbox"/>로터스</label><label class="mini-prompt-check"><input data-special-tag="suspended congress" type="checkbox"/>매달려 섹스</label><label class="mini-prompt-check"><input data-special-tag="rough sex" type="checkbox"/>거친 섹스</label><label class="mini-prompt-check"><input data-special-tag="gentle sex" type="checkbox"/>부드러운 섹스</label></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v4.1</span></div><h1>NSFW 에셋 랜덤 프롬프트 생성기 v4.1</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며, 상세 설정과 빠른효과/흔적 태그로 장면 강도를 조절할 수 있습니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span>
+<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v4.1</span></div><h1>NSFW 에셋 랜덤 프롬프트 생성기 v4.1</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며, 상세 설정과 빠른효과/흔적 태그로 장면 강도를 조절할 수 있습니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span>
 <div id="themeModeToggle" class="theme-mode-toggle" role="group" aria-label="화면 테마 선택" data-current-mode="dark">
 <button type="button" class="theme-mode-btn active" data-theme-mode-btn="dark" aria-pressed="true">블랙</button>
 <button type="button" class="theme-mode-btn" data-theme-mode-btn="light" aria-pressed="false">화이트</button>
@@ -1872,7 +1873,7 @@ renderAdminUpdateNote();
 <label class="mini-prompt-check"><input data-special-tag="hair pulling" type="checkbox"/>머리채 잡기</label>
 <label class="mini-prompt-check"><input data-special-tag="choking" type="checkbox"/>목 조르기</label>
 <label class="mini-prompt-check"><input data-special-tag="breeding" type="checkbox"/>브리딩</label>
-<label class="mini-prompt-check"><input data-special-tag="facial" type="checkbox"/>페이셜</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">오럴 · 자위 · 토이</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="oral" type="checkbox"/>오럴</label><label class="mini-prompt-check"><input data-special-tag="fellatio" type="checkbox"/>펠라치오</label><label class="mini-prompt-check"><input data-special-tag="cunnilingus" type="checkbox"/>커닐링구스</label><label class="mini-prompt-check"><input data-special-tag="deepthroat" type="checkbox"/>딥스로트</label><label class="mini-prompt-check"><input data-special-tag="irrumatio" type="checkbox"/>이라마치오</label><label class="mini-prompt-check"><input data-special-tag="masturbation" type="checkbox"/>자위</label><label class="mini-prompt-check"><input data-special-tag="female masturbation" type="checkbox"/>여성자위</label><label class="mini-prompt-check"><input data-special-tag="male masturbation" type="checkbox"/>남성자위</label><label class="mini-prompt-check"><input data-special-tag="mutual masturbation" type="checkbox"/>상호자위</label><label class="mini-prompt-check"><input data-special-tag="vibrator" type="checkbox"/>바이브레이터</label><label class="mini-prompt-check"><input data-special-tag="remote vibrator" type="checkbox"/>리모컨바이브</label><label class="mini-prompt-check"><input data-special-tag="dildo" type="checkbox"/>딜도</label><label class="mini-prompt-check"><input data-special-tag="anal beads" type="checkbox"/>애널비즈</label><label class="mini-prompt-check"><input data-special-tag="butt plug" type="checkbox"/>버트플러그</label><label class="mini-prompt-check"><input data-special-tag="deepthroat" type="checkbox"/>딥스로트</label><label class="mini-prompt-check"><input data-special-tag="face fucking" type="checkbox"/>페이스 퍼킹</label><label class="mini-prompt-check"><input data-special-tag="paizuri" type="checkbox"/>파이즈리</label><label class="mini-prompt-check"><input data-special-tag="footjob" type="checkbox"/>풋잡</label><label class="mini-prompt-check"><input data-special-tag="thighjob" type="checkbox"/>허벅지잡</label><label class="mini-prompt-check"><input data-special-tag="double penetration" type="checkbox"/>더블 페네트레이션</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">BDSM · 구속 / 도구</div><div class="prompt-quicktags">
+<label class="mini-prompt-check"><input data-special-tag="facial" type="checkbox"/>페이셜</label><label class="mini-prompt-check"><input data-special-tag="prone bone" type="checkbox"/>프론본</label><label class="mini-prompt-check"><input data-special-tag="full nelson" type="checkbox"/>풀 넬슨</label><label class="mini-prompt-check"><input data-special-tag="standing sex from behind" type="checkbox"/>뒤에서 선 체위</label><label class="mini-prompt-check"><input data-special-tag="lotus position" type="checkbox"/>로터스</label><label class="mini-prompt-check"><input data-special-tag="suspended congress" type="checkbox"/>매달려 섹스</label><label class="mini-prompt-check"><input data-special-tag="gentle sex" type="checkbox"/>부드러운 섹스</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">오럴 · 자위 · 토이</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="oral" type="checkbox"/>오럴</label><label class="mini-prompt-check"><input data-special-tag="fellatio" type="checkbox"/>펠라치오</label><label class="mini-prompt-check"><input data-special-tag="cunnilingus" type="checkbox"/>커닐링구스</label><label class="mini-prompt-check"><input data-special-tag="deepthroat" type="checkbox"/>딥스로트</label><label class="mini-prompt-check"><input data-special-tag="irrumatio" type="checkbox"/>이라마치오</label><label class="mini-prompt-check"><input data-special-tag="masturbation" type="checkbox"/>자위</label><label class="mini-prompt-check"><input data-special-tag="female masturbation" type="checkbox"/>여성자위</label><label class="mini-prompt-check"><input data-special-tag="male masturbation" type="checkbox"/>남성자위</label><label class="mini-prompt-check"><input data-special-tag="mutual masturbation" type="checkbox"/>상호자위</label><label class="mini-prompt-check"><input data-special-tag="vibrator" type="checkbox"/>바이브레이터</label><label class="mini-prompt-check"><input data-special-tag="remote vibrator" type="checkbox"/>리모컨바이브</label><label class="mini-prompt-check"><input data-special-tag="dildo" type="checkbox"/>딜도</label><label class="mini-prompt-check"><input data-special-tag="anal beads" type="checkbox"/>애널비즈</label><label class="mini-prompt-check"><input data-special-tag="butt plug" type="checkbox"/>버트플러그</label><label class="mini-prompt-check"><input data-special-tag="deepthroat" type="checkbox"/>딥스로트</label><label class="mini-prompt-check"><input data-special-tag="face fucking" type="checkbox"/>페이스 퍼킹</label><label class="mini-prompt-check"><input data-special-tag="paizuri" type="checkbox"/>파이즈리</label><label class="mini-prompt-check"><input data-special-tag="footjob" type="checkbox"/>풋잡</label><label class="mini-prompt-check"><input data-special-tag="thighjob" type="checkbox"/>허벅지잡</label><label class="mini-prompt-check"><input data-special-tag="double penetration" type="checkbox"/>더블 페네트레이션</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">BDSM · 구속 / 도구</div><div class="prompt-quicktags">
 <label class="mini-prompt-check"><input data-special-tag="bondage" type="checkbox"/>구속</label>
 <label class="mini-prompt-check"><input data-special-tag="rope bondage" type="checkbox"/>로프바인딩</label>
 <label class="mini-prompt-check"><input data-special-tag="silk rope bondage" type="checkbox"/>실크로프</label>
@@ -10692,33 +10693,6 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
 </script>
 
 
-<script id="uiuxModeSlotControl">
-(()=>{
-  function updateModeClasses(){
-    const nsfwBtn = document.querySelector('[data-content-mode="nsfw"].active') || document.querySelector('#modePillNsfw.active');
-    const nsfwCheck = document.getElementById('nsfwMode');
-    const nsfw = !!(nsfwBtn || (nsfwCheck && nsfwCheck.checked) || document.body.dataset.contentMode === 'nsfw');
-    document.body.classList.toggle('nsfw-mode', nsfw);
-    document.body.classList.toggle('sfw-mode', !nsfw);
-
-    // Force quick effects panel visibility
-    const panel = document.getElementById('quickEffectsPanel');
-    if(panel){
-      panel.style.display = nsfw ? 'block' : 'none';
-      const details = document.getElementById('quickEffectsDetails');
-      if(details && nsfw) details.open = true;
-    }
-  }
-  document.addEventListener('click', e=>{
-    if(e.target.closest('[data-content-mode]')) setTimeout(updateModeClasses, 30);
-  });
-  setTimeout(updateModeClasses, 300);
-  setTimeout(updateModeClasses, 1200);
-  const nsfwCheck = document.getElementById('nsfwMode');
-  if(nsfwCheck) nsfwCheck.addEventListener('change', updateModeClasses);
-  window.__updateModeClasses = updateModeClasses;
-})();
-</script>
 
 
 <!-- ===== First Visit Tutorial ===== -->
@@ -10928,66 +10902,7 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
 })();
 </script>
 
-<script id="defaultSfwSimple">
-(()=>{
-  const DEFAULT_APPLIED_KEY = 'assetGachaDefaultAppliedV1';
-  function applyDefaultOnce(){
-    try{
-      if(localStorage.getItem(DEFAULT_APPLIED_KEY) === '1') return;
-    }catch(_){}
-    // 처음 한 번만 SFW + 간편으로 설정
-    if(typeof setUiMode === 'function'){
-      setUiMode('simple', {save:true});
-    } else {
-      document.body.dataset.uiMode = 'simple';
-    }
-    if(typeof setContentMode === 'function'){
-      setContentMode('sfw');
-    } else {
-      const check = document.getElementById('nsfwMode');
-      if(check) check.checked = false;
-      document.body.classList.remove('nsfw-mode');
-      document.body.classList.add('sfw-mode');
-    }
-    try{ localStorage.setItem(DEFAULT_APPLIED_KEY, '1'); }catch(_){}
-  }
-  if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', ()=>setTimeout(applyDefaultOnce, 200));
-  } else {
-    setTimeout(applyDefaultOnce, 200);
-  }
-})();
-</script>
 
-<script id="contentModeClickFix">
-(()=>{
-  function bindMode(){
-    document.querySelectorAll('[data-content-mode]').forEach(btn=>{
-      btn.addEventListener('click', function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        const mode = this.dataset.contentMode;
-        if(typeof setContentMode === 'function'){
-          setContentMode(mode);
-        } else {
-          const nsfw = mode === 'nsfw';
-          const check = document.getElementById('nsfwMode');
-          if(check) check.checked = nsfw;
-          document.querySelectorAll('[data-content-mode]').forEach(b=>{
-            b.classList.toggle('active', b.dataset.contentMode === mode);
-          });
-          document.body.classList.toggle('nsfw-mode', nsfw);
-          document.body.classList.toggle('sfw-mode', !nsfw);
-          if(window.__updateModeClasses) window.__updateModeClasses();
-        }
-      });
-    });
-  }
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bindMode);
-  else bindMode();
-  setTimeout(bindMode, 800);
-})();
-</script>
 
 <!-- Right side pin navigation -->
 <style id="rightPinNavStyle">
@@ -11076,45 +10991,6 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
 })();
 </script>
 
-<script id="preserveModeOnRoll">
-(()=>{
-  const origRoll = window.rollAll;
-  // intercept button clicks instead
-  document.addEventListener('click', function(e){
-    const btn = e.target.closest('#rollAll, #dockRollAll, [data-reroll]');
-    if(!btn) return;
-    const uiMode = document.body.dataset.uiMode;
-    const nsfw = document.getElementById('nsfwMode')?.checked;
-    setTimeout(()=>{
-      if(uiMode && document.body.dataset.uiMode !== uiMode){
-        if(typeof setUiMode === 'function') setUiMode(uiMode, {save:false});
-        else document.body.dataset.uiMode = uiMode;
-      }
-      const check = document.getElementById('nsfwMode');
-      if(check && check.checked !== nsfw){
-        check.checked = nsfw;
-        if(typeof setContentMode === 'function') setContentMode(nsfw ? 'nsfw' : 'sfw');
-        document.body.classList.toggle('nsfw-mode', !!nsfw);
-        document.body.classList.toggle('sfw-mode', !nsfw);
-      }
-    }, 50);
-    setTimeout(()=>{
-      // double-check after longer operations
-      if(uiMode) document.body.dataset.uiMode = uiMode;
-      const check = document.getElementById('nsfwMode');
-      if(check) check.checked = !!nsfw;
-      document.body.classList.toggle('nsfw-mode', !!nsfw);
-      document.body.classList.toggle('sfw-mode', !nsfw);
-      document.querySelectorAll('[data-content-mode]').forEach(b=>{
-        b.classList.toggle('active', b.dataset.contentMode === (nsfw?'nsfw':'sfw'));
-      });
-      document.querySelectorAll('[data-ui-mode-btn]').forEach(b=>{
-        b.classList.toggle('active', b.dataset.uiModeBtn === uiMode);
-      });
-    }, 300);
-  }, true);
-})();
-</script>
 
 <script id="copyNoRollGuard">
 (()=>{
@@ -11122,164 +10998,25 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
 })();
 </script>
 
-<script id="buttonIndependence">
+
+<script id="summaryScrollGuard">
 (()=>{
-  let lastUiMode = 'simple';
-  let lastNsfw = false;
-  let userHasChosen = false;
-
-  function snapshot(){
-    lastUiMode = document.body.dataset.uiMode || 'simple';
-    lastNsfw = !!(document.getElementById('nsfwMode')?.checked);
-  }
-
-  function forceRestore(){
-    // UI 모드 강제 복구
-    if(document.body.dataset.uiMode !== lastUiMode){
-      document.body.dataset.uiMode = lastUiMode;
-    }
-    document.querySelectorAll('[data-ui-mode-btn]').forEach(b=>{
-      b.classList.toggle('active', b.dataset.uiModeBtn === lastUiMode);
-      b.setAttribute('aria-pressed', b.dataset.uiModeBtn === lastUiMode ? 'true' : 'false');
-    });
-    // NSFW 강제 복구
-    const check = document.getElementById('nsfwMode');
-    if(check) check.checked = lastNsfw;
-    document.body.classList.toggle('nsfw-mode', lastNsfw);
-    document.body.classList.toggle('sfw-mode', !lastNsfw);
-    document.querySelectorAll('[data-content-mode]').forEach(b=>{
-      const on = b.dataset.contentMode === (lastNsfw ? 'nsfw' : 'sfw');
-      b.classList.toggle('active', on);
-    });
-    const sfwRadio = document.querySelector('input[name="contentMode"][value="sfw"]');
-    const nsfwRadio = document.querySelector('input[name="contentMode"][value="nsfw"]');
-    if(sfwRadio) sfwRadio.checked = !lastNsfw;
-    if(nsfwRadio) nsfwRadio.checked = lastNsfw;
-  }
-
-  // 사용자가 모드를 직접 고른 경우만 스냅샷 갱신
+  // 빈 앵커 점프 방지
   document.addEventListener('click', function(e){
-    const uiBtn = e.target.closest('[data-ui-mode-btn]');
-    const contentBtn = e.target.closest('[data-content-mode]');
-    if(uiBtn){
-      userHasChosen = true;
-      lastUiMode = uiBtn.dataset.uiModeBtn || 'simple';
-      setTimeout(snapshot, 20);
-      return;
-    }
-    if(contentBtn){
-      userHasChosen = true;
-      lastNsfw = contentBtn.dataset.contentMode === 'nsfw';
-      setTimeout(snapshot, 20);
-      return;
-    }
-
-    // 슬롯 관련 클릭 (카드, 재추첨, 잠금, 피커, 카테고리)
-    const isSlot = e.target.closest('#slotPanel, #cards, .card, [data-reroll], [data-lock], [data-toggle], [data-slot-picker], [data-slot-pick], .slot-picker-item');
-    const isQuick = e.target.closest('#quickEffectsPanel, .mini-prompt-check, .quick-group-fold');
-    const isNav = e.target.closest('#rightPinNav');
-    const isCopy = e.target.closest('[id*="copy" i], [id*="Copy"]');
-
-    if(isSlot || isQuick || isNav || isCopy){
-      // 클릭 직후와 약간 뒤에 두 번 복구
-      setTimeout(forceRestore, 10);
-      setTimeout(forceRestore, 80);
-      setTimeout(forceRestore, 250);
-    }
+    if(e.target.closest('a[href="#"], a[href=""]')) e.preventDefault();
   }, true);
-
-  // 초기
-  setTimeout(()=>{ snapshot(); }, 400);
-  setTimeout(()=>{ snapshot(); }, 1200);
-})();
-</script>
-
-<script id="noResetNoScrollTop">
-(()=>{
-  // ===== 모드 상태 완전 고정 =====
-  const MODE_KEY = 'assetGachaUserModeV2';
-  function saveMode(){
-    const data = {
-      ui: document.body.dataset.uiMode || 'simple',
-      nsfw: !!(document.getElementById('nsfwMode')?.checked)
-    };
-    try{ sessionStorage.setItem(MODE_KEY, JSON.stringify(data)); }catch(_){}
-    return data;
-  }
-  function loadMode(){
-    try{
-      const raw = sessionStorage.getItem(MODE_KEY);
-      return raw ? JSON.parse(raw) : null;
-    }catch(_){ return null; }
-  }
-  function applyMode(data){
-    if(!data) return;
-    document.body.dataset.uiMode = data.ui || 'simple';
-    document.querySelectorAll('[data-ui-mode-btn]').forEach(b=>{
-      const on = b.dataset.uiModeBtn === data.ui;
-      b.classList.toggle('active', on);
-      b.setAttribute('aria-pressed', on?'true':'false');
-    });
-    const check = document.getElementById('nsfwMode');
-    if(check) check.checked = !!data.nsfw;
-    document.body.classList.toggle('nsfw-mode', !!data.nsfw);
-    document.body.classList.toggle('sfw-mode', !data.nsfw);
-    document.querySelectorAll('[data-content-mode]').forEach(b=>{
-      b.classList.toggle('active', b.dataset.contentMode === (data.nsfw?'nsfw':'sfw'));
-    });
-    const sfwR = document.querySelector('input[name="contentMode"][value="sfw"]');
-    const nsfwR = document.querySelector('input[name="contentMode"][value="nsfw"]');
-    if(sfwR) sfwR.checked = !data.nsfw;
-    if(nsfwR) nsfwR.checked = !!data.nsfw;
-  }
-
-  // 사용자가 모드를 직접 바꿀 때만 저장
-  document.addEventListener('click', function(e){
-    if(e.target.closest('[data-ui-mode-btn], [data-content-mode]')){
-      setTimeout(saveMode, 30);
-    }
-  }, true);
-
-  // 그 외 어떤 클릭이든 모드가 바뀌었으면 즉시 복구
-  document.addEventListener('click', function(e){
-    if(e.target.closest('[data-ui-mode-btn], [data-content-mode]')) return;
-    const saved = loadMode();
-    if(!saved) return;
-    setTimeout(()=>applyMode(saved), 0);
-    setTimeout(()=>applyMode(saved), 50);
-    setTimeout(()=>applyMode(saved), 200);
-  }, false);
-
-  // ===== 맨 위로 스크롤되는 것 방지 =====
-  let lastScrollY = 0;
-  window.addEventListener('scroll', ()=>{ lastScrollY = window.scrollY; }, {passive:true});
-
-  document.addEventListener('click', function(e){
-    // a[href="#"] 나 빈 앵커로 인한 점프 방지
-    const a = e.target.closest('a[href="#"], a[href=""]');
-    if(a){ e.preventDefault(); }
-  }, true);
-
-  // details/summary 클릭 시 스크롤 점프 방지
+  // details/summary 클릭 시 맨 위로 튀는 것 방지
   document.addEventListener('click', function(e){
     const summary = e.target.closest('summary');
     if(!summary) return;
     const y = window.scrollY;
     setTimeout(()=>{
-      if(Math.abs(window.scrollY - y) > 80 && window.scrollY < y){
-        window.scrollTo({top: y, behavior:'instant'});
-      }
+      if(Math.abs(window.scrollY - y) > 80 && window.scrollY < y) window.scrollTo({top:y, behavior:'instant'});
     }, 0);
     setTimeout(()=>{
-      if(window.scrollY < 50 && y > 100){
-        window.scrollTo({top: y, behavior:'instant'});
-      }
+      if(window.scrollY < 50 && y > 100) window.scrollTo({top:y, behavior:'instant'});
     }, 30);
   }, true);
-
-  // 초기 저장
-  setTimeout(saveMode, 800);
-  setTimeout(saveMode, 2000);
 })();
 </script>
 <script id="rollButtonGuard">
@@ -11533,117 +11270,7 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
 })();
 </script>
 
-<script id="modeHardLock">
-(()=>{
-  const KEY = 'assetGachaModeLockV3';
-  function read(){
-    try{ return JSON.parse(sessionStorage.getItem(KEY) || 'null'); }catch(_){ return null; }
-  }
-  function write(ui, nsfw){
-    try{ sessionStorage.setItem(KEY, JSON.stringify({ui, nsfw})); }catch(_){}
-  }
-  function current(){
-    return {
-      ui: document.body.dataset.uiMode || 'simple',
-      nsfw: !!(document.getElementById('nsfwMode')?.checked)
-    };
-  }
-  function apply(data){
-    if(!data) return;
-    document.body.dataset.uiMode = data.ui;
-    const check = document.getElementById('nsfwMode');
-    if(check) check.checked = !!data.nsfw;
-    document.body.classList.toggle('nsfw-mode', !!data.nsfw);
-    document.body.classList.toggle('sfw-mode', !data.nsfw);
-    document.querySelectorAll('[data-ui-mode-btn]').forEach(b=>{
-      b.classList.toggle('active', b.dataset.uiModeBtn === data.ui);
-    });
-    document.querySelectorAll('[data-content-mode]').forEach(b=>{
-      b.classList.toggle('active', b.dataset.contentMode === (data.nsfw ? 'nsfw' : 'sfw'));
-    });
-    const sfwR = document.querySelector('input[name="contentMode"][value="sfw"]');
-    const nsfwR = document.querySelector('input[name="contentMode"][value="nsfw"]');
-    if(sfwR) sfwR.checked = !data.nsfw;
-    if(nsfwR) nsfwR.checked = !!data.nsfw;
-  }
 
-  // 모드 버튼을 직접 누른 경우만 저장
-  document.addEventListener('click', function(e){
-    const uiBtn = e.target.closest('[data-ui-mode-btn]');
-    const cBtn = e.target.closest('[data-content-mode]');
-    if(uiBtn || cBtn){
-      setTimeout(()=>{
-        const c = current();
-        if(uiBtn) c.ui = uiBtn.dataset.uiModeBtn;
-        if(cBtn) c.nsfw = cBtn.dataset.contentMode === 'nsfw';
-        write(c.ui, c.nsfw);
-        apply(c);
-      }, 20);
-      return;
-    }
-    // 그 외 모든 클릭(여백 포함) → 저장된 모드로 강제 복구
-    const saved = read();
-    if(saved){
-      setTimeout(()=>apply(saved), 0);
-      setTimeout(()=>apply(saved), 40);
-      setTimeout(()=>apply(saved), 150);
-    }
-  }, true);
-
-  // 초기값 저장 (없으면 현재 상태)
-  setTimeout(()=>{
-    if(!read()){
-      const c = current();
-      write(c.ui, c.nsfw);
-    } else {
-      apply(read());
-    }
-  }, 600);
-})();
-</script>
-
-<script id="quickTagNoReset">
-(()=>{
-  // 3.5 빠른태그 영역 클릭은 모드/설정을 절대 초기화하지 않음
-  const KEY = 'assetGachaModeLockV3';
-  function read(){
-    try{ return JSON.parse(sessionStorage.getItem(KEY)||'null'); }catch(_){ return null; }
-  }
-  function apply(data){
-    if(!data) return;
-    document.body.dataset.uiMode = data.ui || 'simple';
-    const check = document.getElementById('nsfwMode');
-    if(check) check.checked = !!data.nsfw;
-    document.body.classList.toggle('nsfw-mode', !!data.nsfw);
-    document.body.classList.toggle('sfw-mode', !data.nsfw);
-    document.querySelectorAll('[data-ui-mode-btn]').forEach(b=>{
-      b.classList.toggle('active', b.dataset.uiModeBtn === data.ui);
-    });
-    document.querySelectorAll('[data-content-mode]').forEach(b=>{
-      b.classList.toggle('active', b.dataset.contentMode === (data.nsfw?'nsfw':'sfw'));
-    });
-  }
-
-  document.addEventListener('click', function(e){
-    const inQuick = e.target.closest('#quickEffectsPanel, #quickEffectsDetails, .mini-prompt-check, .quick-group-fold, .prompt-quicktags, .prompt-quickgroup');
-    if(!inQuick) return;
-    const saved = read();
-    if(saved){
-      // 클릭으로 뭔가 바뀌었으면 바로 복구
-      setTimeout(()=>apply(saved), 0);
-      setTimeout(()=>apply(saved), 30);
-      setTimeout(()=>apply(saved), 100);
-    }
-  }, true);
-
-  // 체크박스 변경도 모드에 영향 없게
-  document.addEventListener('change', function(e){
-    if(!e.target.closest('#quickEffectsPanel, .mini-prompt-check')) return;
-    const saved = read();
-    if(saved) setTimeout(()=>apply(saved), 0);
-  }, true);
-})();
-</script>
 
 <script id="promptPanelOpenSafe">
 (()=>{
@@ -11712,219 +11339,32 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
 })();
 </script>
 
-<script id="modeLockOnSlotClick">
+
+
+
+<script id="modeSyncSingle">
 (()=>{
-  const KEY = 'assetGachaModeLockV3';
-  function read(){
-    try{ return JSON.parse(sessionStorage.getItem(KEY)||'null'); }catch(_){ return null; }
-  }
-  function write(ui, nsfw){
-    try{ sessionStorage.setItem(KEY, JSON.stringify({ui, nsfw})); }catch(_){}
-  }
-  function apply(data){
-    if(!data) return;
-    document.body.dataset.uiMode = data.ui || 'simple';
-    const check = document.getElementById('nsfwMode');
-    if(check) check.checked = !!data.nsfw;
-    document.body.classList.toggle('nsfw-mode', !!data.nsfw);
-    document.body.classList.toggle('sfw-mode', !data.nsfw);
-    document.querySelectorAll('[data-ui-mode-btn]').forEach(b=>{
-      b.classList.toggle('active', b.dataset.uiModeBtn === data.ui);
-    });
-    document.querySelectorAll('[data-content-mode]').forEach(b=>{
-      b.classList.toggle('active', b.dataset.contentMode === (data.nsfw?'nsfw':'sfw'));
-    });
-    const sfwR = document.querySelector('input[name="contentMode"][value="sfw"]');
-    const nsfwR = document.querySelector('input[name="contentMode"][value="nsfw"]');
-    if(sfwR) sfwR.checked = !data.nsfw;
-    if(nsfwR) nsfwR.checked = !!data.nsfw;
-  }
-
-  // 슬롯 카드 / 슬롯 패널 / 그 하위 어떤 클릭이든 모드 유지
-  document.addEventListener('click', function(e){
-    const inSlot = e.target.closest('#slotPanel, #cards, .card, [data-slot-quick], [data-reroll], [data-lock], [data-toggle], [data-slot-picker], .slot-picker-item');
-    const inQuick = e.target.closest('#quickEffectsPanel, .mini-prompt-check, .quick-group-fold');
-    if(!inSlot && !inQuick) return;
-
-    const saved = read();
-    if(saved){
-      // 클릭 직후 모드가 바뀌었으면 즉시 복구
-      setTimeout(()=>apply(saved), 0);
-      setTimeout(()=>apply(saved), 20);
-      setTimeout(()=>apply(saved), 80);
-      setTimeout(()=>apply(saved), 200);
-    }
-  }, true);
-
-  // 모드 버튼을 직접 누른 경우만 저장 갱신
-  document.addEventListener('click', function(e){
-    const uiBtn = e.target.closest('[data-ui-mode-btn]');
-    const cBtn = e.target.closest('[data-content-mode]');
-    if(uiBtn || cBtn){
-      setTimeout(()=>{
-        const ui = uiBtn ? uiBtn.dataset.uiModeBtn : (document.body.dataset.uiMode || 'simple');
-        const nsfw = cBtn ? cBtn.dataset.contentMode === 'nsfw' : !!(document.getElementById('nsfwMode')?.checked);
-        write(ui, nsfw);
-        apply({ui, nsfw});
-      }, 10);
-    }
-  }, true);
-
-  // 초기
-  setTimeout(()=>{
-    if(!read()){
-      const nsfw = !!(document.getElementById('nsfwMode')?.checked);
-      write(document.body.dataset.uiMode || 'simple', nsfw);
-    }
-  }, 500);
-})();
-</script>
-
-<script id="noModeFlickerOnSlot">
-(()=>{
-  // 슬롯/빠른태그 조작 중에는 모드 변경 자체를 차단
-  let locked = false;
-  let savedNsfw = false;
-  let savedUi = 'simple';
-
-  function capture(){
-    savedNsfw = !!(document.getElementById('nsfwMode')?.checked);
-    savedUi = document.body.dataset.uiMode || 'simple';
-  }
-
-  function enforce(){
-    const check = document.getElementById('nsfwMode');
-    if(check && check.checked !== savedNsfw) check.checked = savedNsfw;
-    if(document.body.dataset.uiMode !== savedUi) document.body.dataset.uiMode = savedUi;
-    document.body.classList.toggle('nsfw-mode', savedNsfw);
-    document.body.classList.toggle('sfw-mode', !savedNsfw);
-    document.querySelectorAll('[data-content-mode]').forEach(b=>{
-      b.classList.toggle('active', b.dataset.contentMode === (savedNsfw?'nsfw':'sfw'));
-    });
-    document.querySelectorAll('[data-ui-mode-btn]').forEach(b=>{
-      b.classList.toggle('active', b.dataset.uiModeBtn === savedUi);
-    });
-  }
-
-  // 슬롯/빠른태그 영역 진입 시 잠금
-  document.addEventListener('pointerdown', function(e){
-    if(e.target.closest('#slotPanel, #cards, .card, #quickEffectsPanel, .mini-prompt-check')){
-      capture();
-      locked = true;
-    }
-  }, true);
-
-  document.addEventListener('click', function(e){
-    if(!e.target.closest('#slotPanel, #cards, .card, #quickEffectsPanel, .mini-prompt-check')){
-      locked = false;
-      return;
-    }
-    // 클릭 처리 중 모드가 바뀌려 하면 즉시 되돌림
-    enforce();
-    setTimeout(enforce, 0);
-    setTimeout(()=>{ enforce(); locked = false; }, 50);
-  }, true);
-
-  // nsfwMode 체크박스가 프로그래밍적으로 바뀌는 것도 감시
-  const check = document.getElementById('nsfwMode');
-  if(check){
-    const desc = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'checked');
-    // MutationObserver on body class
-    new MutationObserver(()=>{
-      if(locked && document.body.classList.contains('sfw-mode') && savedNsfw){
-        enforce();
-      }
-    }).observe(document.body, {attributes:true, attributeFilter:['class','data-ui-mode']});
-  }
-
-  setTimeout(capture, 800);
-})();
-</script>
-
-<script id="stableUiController">
-(()=>{
-  const check = document.getElementById('nsfwMode');
-  const proto = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'checked');
-  let lockedNsfw = !!(check && proto.get.call(check));
-  let lockedUi = document.body.dataset.uiMode || 'simple';
-  let allow = false;
-  let painting = false;
-
+  // 예전 패치가 남긴 잘못된 저장값 제거
+  try{
+    sessionStorage.removeItem('assetGachaModeLockV3');
+    sessionStorage.removeItem('assetGachaUserModeV2');
+  }catch(_){}
   function paint(){
-    if(painting) return;
-    painting = true;
-    document.body.dataset.uiMode = lockedUi;
-    document.body.classList.toggle('nsfw-mode', lockedNsfw);
-    document.body.classList.toggle('sfw-mode', !lockedNsfw);
-    document.querySelectorAll('[data-content-mode]').forEach(b=>{
-      b.classList.toggle('active', b.dataset.contentMode === (lockedNsfw ? 'nsfw' : 'sfw'));
-    });
-    document.querySelectorAll('[data-ui-mode-btn]').forEach(b=>{
-      b.classList.toggle('active', b.dataset.uiModeBtn === lockedUi);
-    });
-    painting = false;
-  }
-
-  if(check && proto){
-    Object.defineProperty(check, 'checked', {
-      configurable: true,
-      get(){ return proto.get.call(this); },
-      set(v){
-        const next = !!v;
-        if(!allow && next !== lockedNsfw) return;
-        proto.set.call(this, next);
-        lockedNsfw = next;
-      }
-    });
-  }
-
-  document.addEventListener('pointerdown', function(e){
-    if(e.target.closest('[data-content-mode], [data-ui-mode-btn]')) allow = true;
-  }, true);
-
-  document.addEventListener('click', function(e){
-    const cBtn = e.target.closest('[data-content-mode]');
-    const uBtn = e.target.closest('[data-ui-mode-btn]');
-    if(cBtn){
-      allow = true;
-      lockedNsfw = cBtn.dataset.contentMode === 'nsfw';
-      if(check && proto) proto.set.call(check, lockedNsfw);
-      paint();
-      setTimeout(()=>{ allow = false; paint(); }, 30);
-      return;
+    const nsfw = !!document.getElementById('nsfwMode')?.checked;
+    document.body.classList.toggle('nsfw-mode', nsfw);
+    document.body.classList.toggle('sfw-mode', !nsfw);
+    const panel = document.getElementById('quickEffectsPanel');
+    if(panel) panel.style.removeProperty('display');
+    if(nsfw){
+      const d = document.getElementById('quickEffectsDetails');
+      if(d) d.open = true;
     }
-    if(uBtn){
-      allow = true;
-      lockedUi = uBtn.dataset.uiModeBtn || 'simple';
-      paint();
-      setTimeout(()=>{ allow = false; paint(); }, 30);
-      return;
-    }
-    // 복사 버튼은 원래 핸들러가 실행되게 두고, 모드만 유지
-    setTimeout(()=>{ if(!allow) paint(); }, 0);
-  }, true);
-
-  new MutationObserver(()=>{
-    if(allow || painting) return;
-    const wrong = document.body.classList.contains('nsfw-mode') !== lockedNsfw
-      || document.body.classList.contains('sfw-mode') === lockedNsfw
-      || document.body.dataset.uiMode !== lockedUi;
-    if(wrong) paint();
-  }).observe(document.body, {attributes:true, attributeFilter:['class','data-ui-mode']});
-
-  // 열린 details는 다른 details를 열어도 유지
-  document.addEventListener('toggle', function(e){
-    const d = e.target;
-    if(!(d instanceof HTMLDetailsElement) || !d.open) return;
-    const keep = d.dataset.keepSiblings === '1';
-    if(!keep) return;
-  }, true);
-
-  setTimeout(()=>{
-    lockedNsfw = !!(check && proto && proto.get.call(check));
-    lockedUi = document.body.dataset.uiMode || lockedUi;
-  }, 700);
+  }
+  document.getElementById('nsfwMode')?.addEventListener('change', paint);
+  // loadSettings()가 저장된 NSFW 상태를 복원한 뒤 반영
+  window.addEventListener('nsfw-auth-ready', ()=>setTimeout(paint, 0));
+  window.__updateModeClasses = paint;
+  paint();
 })();
 </script>
-
 </body></html>
