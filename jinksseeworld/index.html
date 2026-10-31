@@ -11018,57 +11018,73 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
 
 <script id="buttonIndependence">
 (()=>{
-  // 각 버튼/선택이 서로 초기화하지 않도록 상태 보존
-  let lastUiMode = document.body.dataset.uiMode || 'simple';
+  let lastUiMode = 'simple';
   let lastNsfw = false;
+  let userHasChosen = false;
 
   function snapshot(){
     lastUiMode = document.body.dataset.uiMode || 'simple';
     lastNsfw = !!(document.getElementById('nsfwMode')?.checked);
   }
-  function restoreIfNeeded(){
-    // UI 모드가 의도치 않게 바뀌었으면 복구
+
+  function forceRestore(){
+    // UI 모드 강제 복구
     if(document.body.dataset.uiMode !== lastUiMode){
       document.body.dataset.uiMode = lastUiMode;
-      document.querySelectorAll('[data-ui-mode-btn]').forEach(b=>{
-        b.classList.toggle('active', b.dataset.uiModeBtn === lastUiMode);
-      });
     }
-    // NSFW 상태가 의도치 않게 바뀌었으면 복구
+    document.querySelectorAll('[data-ui-mode-btn]').forEach(b=>{
+      b.classList.toggle('active', b.dataset.uiModeBtn === lastUiMode);
+      b.setAttribute('aria-pressed', b.dataset.uiModeBtn === lastUiMode ? 'true' : 'false');
+    });
+    // NSFW 강제 복구
     const check = document.getElementById('nsfwMode');
-    if(check && check.checked !== lastNsfw){
-      check.checked = lastNsfw;
-      document.body.classList.toggle('nsfw-mode', lastNsfw);
-      document.body.classList.toggle('sfw-mode', !lastNsfw);
-      document.querySelectorAll('[data-content-mode]').forEach(b=>{
-        b.classList.toggle('active', b.dataset.contentMode === (lastNsfw?'nsfw':'sfw'));
-      });
-    }
+    if(check) check.checked = lastNsfw;
+    document.body.classList.toggle('nsfw-mode', lastNsfw);
+    document.body.classList.toggle('sfw-mode', !lastNsfw);
+    document.querySelectorAll('[data-content-mode]').forEach(b=>{
+      const on = b.dataset.contentMode === (lastNsfw ? 'nsfw' : 'sfw');
+      b.classList.toggle('active', on);
+    });
+    const sfwRadio = document.querySelector('input[name="contentMode"][value="sfw"]');
+    const nsfwRadio = document.querySelector('input[name="contentMode"][value="nsfw"]');
+    if(sfwRadio) sfwRadio.checked = !lastNsfw;
+    if(nsfwRadio) nsfwRadio.checked = lastNsfw;
   }
 
-  // 모드 버튼 클릭 시에는 해당 모드만 변경하고 스냅샷 갱신
+  // 사용자가 모드를 직접 고른 경우만 스냅샷 갱신
   document.addEventListener('click', function(e){
     const uiBtn = e.target.closest('[data-ui-mode-btn]');
     const contentBtn = e.target.closest('[data-content-mode]');
     if(uiBtn){
-      lastUiMode = uiBtn.dataset.uiModeBtn;
-      setTimeout(snapshot, 30);
+      userHasChosen = true;
+      lastUiMode = uiBtn.dataset.uiModeBtn || 'simple';
+      setTimeout(snapshot, 20);
       return;
     }
     if(contentBtn){
+      userHasChosen = true;
       lastNsfw = contentBtn.dataset.contentMode === 'nsfw';
-      setTimeout(snapshot, 30);
+      setTimeout(snapshot, 20);
       return;
     }
-    // 그 외 클릭(슬롯, 빠른효과, 복사 등) 후에는 모드가 유지되는지 확인
-    if(!e.target.closest('#rollAll, #dockRollAll')){
-      setTimeout(restoreIfNeeded, 40);
+
+    // 슬롯 관련 클릭 (카드, 재추첨, 잠금, 피커, 카테고리)
+    const isSlot = e.target.closest('#slotPanel, #cards, .card, [data-reroll], [data-lock], [data-toggle], [data-slot-picker], [data-slot-pick], .slot-picker-item');
+    const isQuick = e.target.closest('#quickEffectsPanel, .mini-prompt-check, .quick-group-fold');
+    const isNav = e.target.closest('#rightPinNav');
+    const isCopy = e.target.closest('[id*="copy" i], [id*="Copy"]');
+
+    if(isSlot || isQuick || isNav || isCopy){
+      // 클릭 직후와 약간 뒤에 두 번 복구
+      setTimeout(forceRestore, 10);
+      setTimeout(forceRestore, 80);
+      setTimeout(forceRestore, 250);
     }
   }, true);
 
-  // 초기 스냅샷
-  setTimeout(snapshot, 500);
-  setTimeout(snapshot, 1500);
+  // 초기
+  setTimeout(()=>{ snapshot(); }, 400);
+  setTimeout(()=>{ snapshot(); }, 1200);
 })();
 </script>
 </body></html>
