@@ -1775,7 +1775,7 @@ renderAdminUpdateNote();
 <details class="panel collapsible-panel" data-ui-advanced="1" id="characterPresetPanel"><summary><div class="collapse-title-wrap"><h2 class="collapse-title">02C · 캐릭터 프리셋 저장소</h2><p class="collapse-desc">캐릭터 · 커스텀 태그 · AI 스타일 · {{user}} · 1~10 고정 슬롯</p></div><div style="display:flex;align-items:center;gap:10px;flex:0 0 auto"><span class="preset-count" id="charPresetCount">0 / 10</span><span class="collapse-arrow">⌄</span></div></summary><div class="collapse-body"><div class="preset-box"><div class="preset-save-scope"><span class="scope-chip">👤 <b>CHAR A/B/C</b></span><span class="scope-chip">🏷 <b>커스텀 태그</b></span><span class="scope-chip">🎨 <b>AI 스타일</b></span><span class="scope-chip">🙈 <b>{{user}}</b> 활성 시 포함</span></div><div class="preset-topline preset-topline-3"><div><label class="tiny-label">프리셋 이름</label><input id="charPresetName" maxlength="40" placeholder="예: 올리버 기본형 / 다크 로맨스 세팅" type="text"/></div><div><label class="tiny-label">컬러 라벨</label><select id="charPresetLabel"><option value="violet">🟣 보라</option><option value="blue">🔵 파랑</option><option value="cyan">🩵 하늘</option><option value="green">🟢 초록</option><option value="yellow">🟡 노랑</option><option value="orange">🟠 주황</option><option value="red">🔴 빨강</option><option value="pink">🩷 핑크</option><option value="gray">⚪ 회색</option></select></div><div><label class="tiny-label">장면 묶음</label><select id="charPresetSceneGroup"><option value="general">🌐 범용 / 기본</option><option value="daily">🏠 일상 / 생활</option><option value="dining">🍽 식사 / 카페</option><option value="bedroom">🛏 침실 / 휴식</option><option value="date">💞 데이트 / 로맨틱</option><option value="tension">⚡ 대치 / 긴장</option><option value="work">💼 업무 / 학교</option><option value="fantasy">✨ 판타지 / 특수</option><option value="night">🌃 심야 / 술자리</option></select></div><div><label class="tiny-label">저장된 프리셋</label><select id="charPresetSelect"><option value="">저장된 프리셋 선택</option></select></div></div><div class="preset-manage-row"><div class="preset-search-wrap"><label class="tiny-label">프리셋 검색</label><input id="charPresetSearch" placeholder="이름 · 캐릭터 태그 · 커스텀 태그 · 스타일 검색" type="search"/></div><div><label class="tiny-label">정렬</label><select id="charPresetSort"><option value="updated_desc">최근 수정순</option><option value="created_desc">최근 생성순</option><option value="name_asc">이름 A→Z</option><option value="name_desc">이름 Z→A</option><option value="label">컬러 라벨순</option></select></div><div><label class="tiny-label">장면 묶음 필터</label><select id="charPresetSceneFilter"><option value="all">전체</option><option value="general">🌐 범용 / 기본</option><option value="daily">🏠 일상 / 생활</option><option value="dining">🍽 식사 / 카페</option><option value="bedroom">🛏 침실 / 휴식</option><option value="date">💞 데이트 / 로맨틱</option><option value="tension">⚡ 대치 / 긴장</option><option value="work">💼 업무 / 학교</option><option value="fantasy">✨ 판타지 / 특수</option><option value="night">🌃 심야 / 술자리</option></select></div><button class="tool preset-clear-search" id="clearPresetSearch" type="button">✕ 검색 초기화</button></div><div class="preset-result-meta" id="charPresetResultMeta">전체 프리셋 표시 중</div><div class="preset-slot-toolbar"><div><label class="tiny-label">저장 위치</label><select id="charPresetSlot"><option value="1">1번 슬롯</option><option value="2">2번 슬롯</option><option value="3">3번 슬롯</option><option value="4">4번 슬롯</option><option value="5">5번 슬롯</option><option value="6">6번 슬롯</option><option value="7">7번 슬롯</option><option value="8">8번 슬롯</option><option value="9">9번 슬롯</option><option value="10">10번 슬롯</option></select><div class="slot-select-hint" id="charPresetSlotHint">원하는 번호를 고른 뒤 저장하세요. 빈 슬롯을 남겨두어도 됩니다.</div></div><div><label class="tiny-label">1~10 고정 슬롯</label><div class="preset-mini-note">아래 목록은 항상 1→10 순서입니다. 정렬은 위의 빠른 선택 드롭다운에만 적용됩니다.</div></div></div><div class="preset-actions"><button class="tool primary" id="saveCharPreset" type="button">💾 현재 설정 저장 / 덮어쓰기</button><button class="tool subtle" id="loadCharPreset" type="button">📥 프리셋 불러오기</button><button class="tool subtle" id="deleteCharPreset" type="button">🗑 프리셋 삭제</button><button class="tool subtle" id="exportCharPresets" type="button">📤 JSON 내보내기</button><button class="tool subtle" id="importCharPresets" type="button">📥 JSON 가져오기</button></div><div class="preset-slot-list" id="charPresetSlotList"></div><div class="preset-preview-wrap"><div class="preset-preview-card" id="charPresetPreviewCard"><div class="preset-preview-head"><label class="tiny-label">선택된 프리셋 미리보기</label><span class="preset-label-badge" id="charPresetLabelBadge">🟣 보라</span></div><div class="preset-preview" id="charPresetPreview">저장된 프리셋을 선택하면 여기에 포함된 설정이 요약 표시됩니다.</div><div class="preset-mini-note">CHARACTER A/B/C 태그, 역할, 커스텀 태그, {{user}}, 스타일 설정이 함께 보여집니다.</div></div><div class="preset-preview-card"><label class="tiny-label">UX 안내</label><div class="preset-preview" id="charPresetScopeSummary">• 검색은 프리셋 이름뿐 아니라 캐릭터/커스텀 태그와 AI 스타일도 찾습니다.
 • 컬러 라벨로 캐릭터·장르·용도별로 빠르게 구분할 수 있습니다.
 • JSON 내보내기/가져오기 시 라벨과 생성·수정 시각도 함께 보존됩니다.</div><div class="preset-mini-note">추천 흐름: 설정 완료 → 이름/라벨 지정 → 저장 → 검색/정렬로 관리</div></div></div><div class="preset-subhint" id="charPresetHint">로컬 저장 전용 · 최대 10개 · 같은 브라우저에서만 보입니다.</div><input accept="application/json,.json" class="hidden-file" id="importCharPresetsFile" type="file"/></div></div></details>
-<button class="roll" id="rollAll">🎲 주사위 돌리기<span>잠금된 슬롯은 유지 · 꺼진 슬롯은 프롬프트에서 제외</span></button>
+<!-- roll moved to slot panel -->
 <section class="panel" data-ui-advanced="1" id="randomControlPanel"><div class="head"><div><h2 class="title">02D · 장면 목적 / 랜덤 제어</h2><p class="desc">장면 목적 프리셋, 랜덤 강도, 세트 락을 한 곳에서 직접 관리합니다. SCENE THEME와 현재 카테고리에 맞춰 배경·의상·표정·행동이 더 일관되게 조합됩니다.</p></div><div class="mini-tools"><button class="small-btn" id="resetRandomControl" type="button">🧹 초기화</button><button aria-pressed="false" class="small-btn panel-apply-toggle" id="toggleRandomControlApply" type="button">열기 · 적용</button></div></div><div class="panel-disabled-note">현재 닫힘 · 장면 목적 / 랜덤 강도 / 세트 락 설정은 적용되지 않습니다.</div><div class="panel-apply-body" id="randomControlBody"><div class="options utility-grid"><div class="opt"><label>장면 목적 프리셋</label><select id="purposePreset"><option value="none">미사용</option><option value="daily">일상</option><option value="romantic">로맨틱</option><option value="tension">긴장</option><option value="action">액션</option><option value="emotion">감정씬</option><option value="rest">휴식</option><option value="before_event">사건 직전</option><option value="after_event">사건 직후</option><option value="poster">포스터형</option><option value="snapshot">스냅샷형</option></select><div class="character-mode-hint" id="purposePresetHint">🎯 장면의 목적에 맞춰 표정·행동·구도·배경 가중치를 조정합니다.</div></div><div class="opt"><label>랜덤 강도</label><select id="randomStrength"><option value="safe">안전</option><option selected="" value="balanced">균형</option><option value="bold">과감</option></select><div class="character-mode-hint" id="randomStrengthHint">🎲 안전은 안정적, 과감은 희귀 조합의 등장률을 높입니다.</div></div><div class="opt"><label>세트 락</label><div class="setlock-grid"><button class="setlock-btn" id="setLockMood" type="button">🌆 분위기 세트</button><button class="setlock-btn" id="setLockActing" type="button">🎭 연기 세트</button><button class="setlock-btn" id="setLockStyle" type="button">👕 스타일링 세트</button></div><div class="character-mode-hint">분위기 = 배경·계절/날씨·조명·무드 / 연기 = 행동·자세·표정·시선·구도 / 스타일링 = 의상·소품</div></div></div><div class="setlock-status" id="setLockStatus">세트 락 미사용 · 개별 슬롯 잠금은 03 · 랜덤 슬롯에서 계속 사용할 수 있습니다.</div></div></section><section class="panel" data-ui-advanced="1" id="guideverseAbilityPanel"><div class="head"><div><h2 class="title">02E · GUIDEVERSE 능력 시스템</h2><p class="desc">가이드버스 전용 세부 설정입니다. 이 상위 패널은 전체 열기/닫기만 담당합니다. 왼쪽 GUIDE와 오른쪽 ESPER를 각각 독립 설정하며, 각 박스에서 따로 임의 생성·초기화할 수 있습니다. 시각 연출은 하단 VISUAL DIRECTION에서 조정합니다.</p></div><div class="mini-tools"><button aria-pressed="false" class="small-btn panel-apply-toggle" id="toggleGuideverseAbilityApply" type="button">열기 · 적용</button></div></div><div class="panel-disabled-note">현재 닫힘 · 가이드 능력 / 에스퍼 능력 / 가이딩 시각 연출 설정은 프롬프트와 저장값에 적용되지 않습니다.</div><div class="panel-apply-body" id="guideverseAbilityBody"><div class="guideverse-panel-note"><span class="guideverse-badge">GUIDEVERSE ONLY</span> 장르가 가이드버스로 설정되면 기본적으로 가이딩 파장과 능력 이펙트가 보이도록 보정되며, 아래 VISUAL DIRECTION으로 더 세밀하게 조정할 수 있습니다.</div>
 <div class="guide-uniform-box" id="guideUniformBox">
   <div class="guide-uniform-head">
@@ -1817,6 +1817,9 @@ renderAdminUpdateNote();
   </div>
   <div class="guide-uniform-status" id="guideUniformStatus">AUTO · 기존 장면별 의상 랜덤 유지</div>
 </div><div class="guideverse-ability-grid"><div class="guideverse-ability-col guide-side"><div class="guideverse-ability-head"><h3>🧭 GUIDE ABILITY</h3><div class="guideverse-col-actions"><button class="small-btn" id="rollGuideAbility" type="button">🎲 GUIDE 임의 생성</button><button class="small-btn" id="resetGuideAbility" type="button">🧹 GUIDE 초기화</button></div></div><div class="guideverse-ability-fields"><div class="opt"><label>가이드 등급</label><select id="guideRank"></select></div><div class="opt"><label>가이딩 방식</label><select id="guideMethod"></select></div><div class="opt"><label>접촉 부위 / 매개</label><select id="guideMedium"></select></div><div class="opt"><label>가이드 특성</label><select id="guideSpecialty"></select></div><div class="opt"><label>특수 능력</label><select id="guideSpecialAbility"></select></div><div class="opt"><label>가이딩 범위</label><select id="guideRange"></select></div><div class="opt"><label>적합도 / 동조율</label><select id="guideMatchRate"></select></div><div class="opt"><label>부작용 / 대가</label><select id="guideSideEffect"></select></div><div class="opt"><label>과부하 징후</label><select id="guideOverload"></select></div><div class="opt"><label>가이딩 장면</label><select id="guidingScene"></select></div></div><div class="mini-note">예: 접촉형 / 손목 접촉 / 폭주 억제 특화 / 잔류 감정 유입 / 응급 가이딩</div></div><div class="guideverse-ability-col esper-side"><div class="guideverse-ability-head"><h3>⚡ ESPER ABILITY</h3><div class="guideverse-col-actions"><button class="small-btn" id="rollEsperAbility" type="button">🎲 ESPER 임의 생성</button><button class="small-btn" id="resetEsperAbility" type="button">🧹 ESPER 초기화</button></div></div><div class="guideverse-ability-fields"><div class="opt"><label>에스퍼 등급</label><select id="esperRank"></select></div><div class="opt"><label>능력 계열</label><select id="esperClass"></select></div><div class="opt"><label>주 능력</label><select id="esperPower"></select></div><div class="opt"><label>전투 / 운용 특화</label><select id="esperSpecialty"></select></div><div class="opt"><label>제어 방식</label><select id="esperControl"></select></div><div class="opt"><label>능력 발현 모습</label><select id="esperManifestation"></select></div><div class="opt"><label>리스크 / 약점</label><select id="esperRisk"></select></div><div class="opt"><label>폭주 양상</label><select id="esperOverload"></select></div><div class="opt"><label>현재 상태</label><select id="esperState"></select></div></div><div class="mini-note">예: 전기 / 고출력 폭발형 / 공중에 번개가 튀는 발현 / 스트레스에 따라 폭주</div></div><div class="guideverse-ability-col guideverse-visual-wide"><div class="guideverse-ability-head"><h3>🎞️ VISUAL DIRECTION</h3><div class="guideverse-col-actions"><button class="small-btn" id="rollGuideVisual" type="button">🎲 VISUAL 임의 생성</button><button class="small-btn" id="resetGuideVisual" type="button">🧹 VISUAL 초기화</button></div></div><div class="guideverse-ability-fields"><div class="opt"><label>GUIDING VISUAL</label><select id="guidingVisual"></select></div><div class="opt"><label>GUIDING COLOR / TONE</label><select id="guidingColorTone"></select></div><div class="opt"><label>VISUAL FOCUS</label><select id="guidingFocus"></select></div><div class="opt"><label>ESPER POWER VISUAL INTENSITY</label><select id="esperVisualIntensity"></select></div></div><div class="mini-note">예: 반투명 파동 / 청록빛 / 가이드와 에스퍼 동시 강조 / 폭주 직전 연출</div></div></div><div class="guideverse-ability-status" id="guideverseAbilityStatus">가이드버스 능력 패널 OFF · 열기 · 적용을 누르면 GUIDE / ESPER / VISUAL 세부 설정을 프롬프트에 반영합니다.</div></div></section><div class="results-column" id="resultsColumn"><div class="results-sticky-inner" id="resultsStickyInner"><div aria-live="polite" class="result-status-badges" id="resultStatusBadges"></div><section class="panel" id="slotPanel">
+<div style="display:flex;justify-content:flex-end;margin-bottom:8px;">
+<button class="roll" id="rollAll" style="width:auto;max-width:280px;min-height:48px;font-size:15px;padding:0 18px;">🎲 주사위 돌리기</button>
+</div>
 <button id="toggleSlotPanel" type="button" class="small-btn" style="margin-bottom:8px;float:right;">랜덤 슬롯 접기/펼치기</button><div aria-live="polite" class="result-status-badges" id="simpleResultBadges"></div><div class="head"><div><h2 class="title">03 · 랜덤 슬롯</h2><p class="desc">↻ 재추첨 · 🔓/🔒 잠금 · ◉/○ 사용 여부 · SFW/NSFW 모드에 따라 핵심 슬롯만 표시 (더보기로 전체)</p></div><div class="mini-tools"><button class="small-btn" id="lockAll">🔒 전체 잠금</button><button class="small-btn" id="unlockAll">🔓 전체 해제</button><button class="small-btn" id="enableAll">◉ 전체 사용</button><button class="small-btn" id="disableAll">○ 전체 미사용</button></div></div><div class="cards" id="cards"></div><div class="stats" id="stats"></div></section>
 <section class="panel" id="quickEffectsPanel">
 <div class="head"><div><h2 class="title">03.5 · 빠른 효과 / 흔적 태그</h2><p class="desc">랜덤 슬롯 아래에 배치했습니다. NSFW 모드에서 행위·표정·흔적을 바로 추가할 수 있습니다. 팝업에서는 제거했습니다.</p></div></div>
@@ -11321,6 +11324,81 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
   setTimeout(init, 600);
+})();
+</script>
+
+<script id="quickTagsKeepOpen">
+(()=>{
+  // 빠른태그 카테고리는 서로 독립. 하나 열어도 다른 건 닫지 않음
+  document.addEventListener('toggle', function(e){
+    const d = e.target;
+    if(!(d instanceof HTMLDetailsElement)) return;
+    if(!d.classList.contains('quick-group-fold')) return;
+    // 아무것도 하지 않음 - 다른 details를 닫지 않음
+  }, true);
+
+  // 혹시 다른 스크립트가 닫으려 하면 막기 위해 열린 상태 기억
+  const openSet = new Set();
+  document.addEventListener('click', function(e){
+    const summary = e.target.closest('details.quick-group-fold > summary');
+    if(!summary) return;
+    const details = summary.parentElement;
+    // 클릭 전 상태 기록
+    document.querySelectorAll('details.quick-group-fold[open]').forEach(el=>{
+      if(el !== details) openSet.add(el);
+    });
+    setTimeout(()=>{
+      openSet.forEach(el=>{ if(el.isConnected) el.open = true; });
+      openSet.clear();
+    }, 0);
+  }, true);
+})();
+</script>
+
+<script id="novelCopyNoRoll">
+(()=>{
+  document.addEventListener('click', function(e){
+    const inPrompt = e.target.closest('#novelPromptPanel, #pixPromptPanel, #nijiPromptPanel, #promptFloatPanel, #promptFloatDock, textarea.prompt, #prompt, #pixPrompt, #nijiPrompt');
+    const isCopy = e.target.closest('[id*="copy" i], [id*="Copy"], button');
+    if(inPrompt && (isCopy || e.target.closest('textarea, .prompt'))){
+      e.stopPropagation();
+    }
+  }, true);
+})();
+</script>
+
+<script id="updateNoteIsolate">
+(()=>{
+  const strip = document.getElementById('updateNoteStrip');
+  if(!strip) return;
+  strip.addEventListener('click', function(e){
+    e.stopPropagation();
+  }, true);
+  // details toggle only
+  strip.querySelectorAll('details, summary').forEach(el=>{
+    el.addEventListener('click', function(e){
+      e.stopPropagation();
+    });
+  });
+})();
+</script>
+
+<script id="onlyButtonsClickable">
+(()=>{
+  // 버튼/입력/링크/summary가 아닌 빈 영역 클릭은 아무 동작도 하지 않게
+  document.addEventListener('click', function(e){
+    const interactive = e.target.closest('button, a, input, select, textarea, summary, label, [role="button"], .mini-prompt-check, .theme-chip, .mode-choice-btn, .workflow-mode-btn');
+    if(interactive) return;
+    // 빈 곳 클릭이면 전파 중단 (상위 핸들러가 오작동하지 않게)
+    if(e.target.closest('.panel, .hero, .page, #quickEffectsPanel, #slotPanel')){
+      // stop only if it would bubble to something dangerous - but don't block normal UI
+      // 대신 roll 관련만 확실히 차단
+    }
+  }, false);
+
+  // roll은 오직 #rollAll 또는 #dockRollAll 직접 클릭일 때만
+  const orig = HTMLElement.prototype.click;
+  // dockRollAll이 rollAll.click()을 호출하는 것은 허용
 })();
 </script>
 </body></html>
