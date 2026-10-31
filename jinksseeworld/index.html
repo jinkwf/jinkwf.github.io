@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1.0" name="viewport"/>
 <meta content="#0e0c12" name="theme-color"/>
-<title>NSFW 에셋 랜덤 프롬프트 생성기.v4.0.5</title>
+<title>NSFW 에셋 랜덤 프롬프트 생성기.v4.0.4</title>
 <style>
 :root{--bg:#0e0c12;--panel:#17141d;--panel2:#201c28;--panel3:#292333;--line:rgba(255,255,255,.09);--text:#f7f3fa;--sub:#aaa3b4;--accent:#a68cff;--pink:#e694c4;--gold:#f0c978;--green:#9fdfb6;--red:#ff9aa5;--shadow:0 20px 60px rgba(0,0,0,.35)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 8% 0,rgba(166,140,255,.13),transparent 27%),radial-gradient(circle at 100% 15%,rgba(230,148,196,.08),transparent 27%),var(--bg);color:var(--text);font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif}button,select,input,textarea{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}.page{width:min(1220px,calc(100% - 28px));margin:auto;padding:28px 0 70px}.hero,.panel{border:1px solid var(--line);background:rgba(23,20,29,.96);box-shadow:var(--shadow)}.hero{position:relative;overflow:hidden;border-radius:26px;padding:31px;margin-bottom:17px}.hero:after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-100px;top:-135px;background:rgba(166,140,255,.12);filter:blur(12px);pointer-events:none}.eyebrow{font-size:11px;font-weight:900;letter-spacing:.2em;color:var(--accent)}
 .eyebrow-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
@@ -385,445 +385,6 @@ button,.small-btn,.tool,.guestbook-send,.age-btn,.quick-recommend-btn,.user-char
 <style id="slotCollapseStyle">
 #slotPanel.collapsed #cards, #slotPanel.collapsed .stats, #slotPanel.collapsed .mini-tools { display: none !important; }
 #slotPanel.collapsed { min-height: auto; padding-bottom: 12px; }
-</style>
-
-<style id="uiuxImproveHideFloatQuick">
-#floatQuickEffects{display:none!important}
-#quickEffectsPanel{margin-top:0}
-#quickEffectsPanel .prompt-quickbox{border:none;background:transparent;margin:0}
-</style>
-
-<style id="nsfwMinimalSlots">
-
-body.sfw-mode #quickEffectsPanel{display:none!important}
-body.nsfw-mode #quickEffectsPanel{display:block}
-body.nsfw-mode #cards .card[data-nsfw-core="0"]{display:none!important}
-body.nsfw-mode.simple-show-all-slots #cards .card[data-nsfw-core="0"]{display:block!important}
-body.sfw-mode #cards .card[data-sfw-core="0"]{display:none!important}
-body.sfw-mode.simple-show-all-slots #cards .card[data-sfw-core="0"]{display:block!important}
-</style>
-
-<style id="cleanDesignRefine">
-/* ===== Clean Design Refine · 전반적 정리 ===== */
-:root{
-  --bg:#0d0b10;
-  --panel:#16131c;
-  --panel2:#1c1824;
-  --panel3:#24202e;
-  --line:rgba(255,255,255,.08);
-  --text:#f5f2f8;
-  --sub:#a8a0b2;
-  --accent:#b39dff;
-  --accent-soft:rgba(179,157,255,.14);
-  --gold:#f0c978;
-  --shadow:0 12px 40px rgba(0,0,0,.28);
-  --radius:16px;
-  --radius-sm:12px;
-}
-
-body{
-  background:
-    radial-gradient(ellipse 80% 50% at 10% -10%, rgba(166,140,255,.08), transparent 50%),
-    radial-gradient(ellipse 60% 40% at 100% 0%, rgba(230,148,196,.05), transparent 40%),
-    var(--bg);
-  letter-spacing:-.01em;
-}
-
-.page{
-  padding-top:24px;
-  padding-bottom:80px;
-}
-
-.hero{
-  border-radius:22px;
-  padding:28px 28px 24px;
-  background:linear-gradient(145deg, rgba(22,19,28,.98), rgba(18,15,24,.96));
-  border:1px solid rgba(255,255,255,.08);
-  box-shadow:var(--shadow);
-}
-.hero:after{display:none}
-.hero h1{
-  font-weight:800;
-  letter-spacing:-.04em;
-}
-.hero p{
-  color:var(--sub);
-  line-height:1.65;
-}
-
-.panel{
-  border-radius:var(--radius);
-  padding:18px 18px 16px;
-  background:rgba(22,19,28,.92);
-  border:1px solid var(--line);
-  box-shadow:0 8px 28px rgba(0,0,0,.18);
-  margin-bottom:14px;
-}
-.panel::before{
-  width:3px;
-  opacity:.85;
-}
-
-.title{
-  font-size:15px;
-  font-weight:800;
-  letter-spacing:-.02em;
-}
-.desc{
-  color:var(--sub);
-  font-size:11px;
-  line-height:1.55;
-}
-
-/* Cards */
-.card{
-  border-radius:14px;
-  padding:13px 13px 12px;
-  background:linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.008)), var(--panel2);
-  border:1px solid rgba(255,255,255,.07);
-  box-shadow:none;
-  transition:border-color .15s ease, background .15s ease;
-}
-.card:hover{
-  border-color:rgba(179,157,255,.28);
-}
-.card.locked{
-  border-color:rgba(240,201,120,.45);
-  background:linear-gradient(180deg, rgba(240,201,120,.06), rgba(255,255,255,.008)), var(--panel2);
-}
-.card-title{
-  font-size:11.5px;
-  font-weight:800;
-  letter-spacing:.01em;
-}
-.ko{
-  font-size:14.5px;
-  font-weight:700;
-  line-height:1.45;
-  color:#f4f0fb;
-}
-.en{
-  font-size:10px;
-  color:#9a93a6;
-  border-top-color:rgba(255,255,255,.06);
-}
-
-/* Buttons */
-.roll, .tool.primary, .guestbook-send,
-#promptFloatCopyNovel, #promptFloatCopyPix, #promptFloatCopyNiji,
-.dock-roll, .dock-copy{
-  border-radius:14px;
-  font-weight:800;
-  letter-spacing:-.01em;
-  box-shadow:0 8px 20px rgba(126,95,215,.22);
-}
-.small-btn, .tool, .icon{
-  border-radius:10px;
-  font-weight:700;
-}
-.small-btn:hover, .tool:hover, .icon:hover{
-  filter:brightness(1.08);
-}
-
-/* Inputs & selects */
-select, input[type=text], textarea, .opt select{
-  border-radius:11px;
-  background:var(--panel2);
-  border:1px solid rgba(255,255,255,.08);
-  transition:border-color .15s ease, box-shadow .15s ease;
-}
-select:focus, input:focus, textarea:focus{
-  border-color:rgba(179,157,255,.55)!important;
-  box-shadow:0 0 0 3px rgba(179,157,255,.12)!important;
-  outline:none;
-}
-
-/* Mode & chips */
-.mode-choice-btn, .workflow-mode-btn, .chip, .current-setup-chip, .theme-chip{
-  border-radius:999px;
-  font-weight:700;
-}
-.mode-choice-btn.active, .workflow-mode-btn.active{
-  box-shadow:0 4px 12px rgba(240,201,120,.15);
-}
-
-/* Quick effects */
-.prompt-quickbox, #quickEffectsPanel .prompt-quickbox{
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.07);
-  background:rgba(255,255,255,.02);
-}
-.mini-prompt-check{
-  border-radius:999px;
-  padding:6px 10px;
-  font-weight:650;
-  transition:background .12s ease, border-color .12s ease;
-}
-.mini-prompt-check:has(input:checked){
-  background:rgba(179,157,255,.16);
-  border-color:rgba(179,157,255,.45);
-  color:#efeaff;
-}
-
-/* Floating prompt */
-#promptFloatPanel{
-  border-radius:0 0 18px 18px;
-  border:1px solid rgba(166,140,255,.28);
-  background:rgba(16,13,22,.96);
-  box-shadow:0 20px 50px rgba(0,0,0,.45);
-}
-#promptFloatToggle{
-  border-radius:999px;
-  box-shadow:0 10px 28px rgba(0,0,0,.35);
-}
-.prompt-float-tab.active{
-  background:rgba(179,157,255,.18);
-  color:#efeaff;
-}
-
-/* Sticky dock */
-#simpleStickyDock .dock-inner{
-  border-radius:18px;
-  border:1px solid rgba(166,140,255,.22);
-  background:rgba(20,17,26,.95);
-  box-shadow:0 12px 36px rgba(0,0,0,.4);
-}
-
-/* Tutorial & gates */
-.tutorial-box, .age-box, .update-box{
-  border-radius:20px;
-  border:1px solid rgba(166,140,255,.32);
-}
-
-/* Light mode polish */
-html[data-color-mode="light"] body{
-  --bg:#f6f3f8;
-  --panel:#ffffff;
-  --panel2:#f8f5fa;
-  --panel3:#f0ecf4;
-  --line:rgba(50,36,62,.12);
-  --text:#2a2232;
-  --sub:#5c5366;
-  background:#f6f3f8;
-}
-html[data-color-mode="light"] .panel,
-html[data-color-mode="light"] .hero{
-  background:#fff;
-  border-color:rgba(50,36,62,.1);
-  box-shadow:0 6px 20px rgba(49,36,58,.05);
-}
-html[data-color-mode="light"] .card{
-  background:#faf8fb;
-  border-color:rgba(50,36,62,.1);
-}
-html[data-color-mode="light"] .ko{color:#2a2232!important}
-
-/* Reduce visual noise */
-.panel::before{opacity:.7}
-.usage-counter{
-  border-radius:14px;
-  background:rgba(16,13,22,.7);
-  backdrop-filter:blur(12px);
-}
-</style>
-
-<style id="forceQuickEffectsUnderSlots">
-/* 빠른효과는 반드시 랜덤 슬롯 아래에 고정 */
-#quickEffectsPanel{
-  display:block !important;
-  margin-top:0 !important;
-  position:relative;
-  z-index:2;
-}
-body.sfw-mode #quickEffectsPanel{
-  display:none !important; /* SFW에서는 숨김 유지 */
-}
-body.nsfw-mode #quickEffectsPanel{
-  display:block !important;
-}
-/* 팝업 쪽 빠른효과 완전 제거 */
-#floatQuickEffects,
-#floatQuickMount,
-#floatQuickEffects > summary{
-  display:none !important;
-  visibility:hidden !important;
-  height:0 !important;
-  overflow:hidden !important;
-  padding:0 !important;
-  margin:0 !important;
-  border:0 !important;
-}
-/* 슬롯 패널 바로 다음으로 시각적 연결 */
-#slotPanel + #quickEffectsPanel{
-  margin-top:-6px;
-  border-top-left-radius:0;
-  border-top-right-radius:0;
-}
-</style>
-
-<style id="quickEffectsAlwaysVisible">
-body.nsfw-mode #quickEffectsPanel,
-#quickEffectsPanel.force-show{
-  display:block !important;
-  visibility:visible !important;
-  opacity:1 !important;
-  height:auto !important;
-  overflow:visible !important;
-}
-#quickEffectsPanel{
-  border:1px solid rgba(166,140,255,.35) !important;
-  background:rgba(22,19,28,.96) !important;
-}
-</style>
-
-<style id="quickGroupScrollFix">
-details.quick-group-fold > summary{
-  scroll-margin-top: 12px;
-  scroll-margin-bottom: 12px;
-}
-details.quick-group-fold .quick-group-body{
-  overflow: visible;
-}
-/* 열릴 때 레이아웃 점프 최소화 */
-#promptQuickTags{
-  align-items: start;
-}
-</style>
-
-<style id="quickEffectsMainLock">
-#quickEffectsDetails > summary{
-  cursor:pointer;
-}
-#quickEffectsDetails .prompt-quickbody,
-#quickEffectsDetails #promptQuickTags,
-#quickEffectsDetails details.quick-group-fold{
-  pointer-events:auto;
-}
-/* 메인 패널 내용 영역 클릭이 summary로 전파되지 않게 */
-#quickEffectsDetails > .prompt-quickbody{
-  position:relative;
-  z-index:1;
-}
-</style>
-
-<style id="heroLayoutFix">
-/* 히어로 레이아웃 깨짐 수정 */
-.hero{
-  position:relative;
-  overflow:visible;
-  padding:28px 28px 22px;
-  min-height:auto;
-}
-.hero h1{
-  padding-right:220px;
-  word-break:keep-all;
-}
-.usage-counter{
-  position:absolute;
-  top:20px;
-  right:20px;
-  z-index:5;
-  max-width:280px;
-}
-.chips{
-  position:relative;
-  z-index:1;
-  margin-top:14px;
-  clear:both;
-}
-.eyebrow-row{
-  padding-right:200px;
-}
-@media(max-width:900px){
-  .hero h1{padding-right:0;}
-  .usage-counter{
-    position:static;
-    margin:10px 0 0 auto;
-    max-width:none;
-    width:fit-content;
-  }
-  .eyebrow-row{padding-right:0;}
-}
-@media(max-width:720px){
-  .hero{padding:18px 16px 16px;}
-  .usage-counter{transform:none;}
-}
-</style>
-
-<style id="quickTagsContainmentFix">
-/* 빠른효과 태그가 히어로/카운터로 튀어나가지 않게 강제 가둠 */
-#quickEffectsPanel{
-  position:relative !important;
-  overflow:hidden !important;
-  contain:layout style !important;
-  z-index:1 !important;
-}
-#quickEffectsPanel .prompt-quicktags,
-#quickEffectsPanel .mini-prompt-check,
-#promptQuickTags{
-  position:static !important;
-  float:none !important;
-  top:auto !important;
-  right:auto !important;
-  left:auto !important;
-}
-.usage-counter,
-.usage-counter *{
-  position:relative;
-}
-.usage-counter{
-  position:absolute !important;
-  top:20px !important;
-  right:20px !important;
-  z-index:10 !important;
-  overflow:hidden !important;
-}
-/* 히어로 안에 태그가 들어오지 못하게 */
-.hero .mini-prompt-check,
-.hero .prompt-quicktags,
-.hero .prompt-quickgroup{
-  display:none !important;
-}
-/* 빠른효과 패널 내부만 태그 표시 */
-#quickEffectsPanel .mini-prompt-check{
-  display:inline-flex !important;
-}
-</style>
-
-<style id="rollButtonHitAreaFix">
-/* 랜덤 버튼이 여백까지 클릭되지 않게 */
-.roll, #rollAll{
-  width:auto !important;
-  max-width:420px;
-  margin-left:auto;
-  margin-right:auto;
-  display:block;
-}
-/* 버튼 주변 여백 클릭이 버튼으로 전달되지 않게 */
-#rollAll{
-  position:relative;
-  z-index:2;
-}
-</style>
-
-<style id="hideAutoCategoryUI">
-/* 소품/표정 카테고리는 자동매칭으로 고정, UI 숨김 */
-#propCategoryMode, #expressionCategoryMode,
-label:has(+ #propCategoryMode),
-label:has(+ #expressionCategoryMode),
-#propCategoryMode, 
-.opt:has(#propCategoryMode),
-.opt:has(#expressionCategoryMode){
-  display:none !important;
-}
-</style>
-
-<style id="povCombinedUI">
-/* POV 강도/타입은 숨기고 모드 하나로 통합 */
-.opt:has(#povStrength),
-.opt:has(#povType){
-  display:none !important;
-}
 </style>
 </head>
 <style id="accessControlStyle">
@@ -1412,7 +973,7 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
 .match-hint{margin-top:6px;color:#918999;font-size:9px;line-height:1.45}.match-hint.on{color:#cbbdff}
 @media(max-width:720px){.slot-source{font-size:8px;margin-top:5px}}
 </style>
-<body class="access-locked" data-ui-mode="simple" data-content-mode="sfw">
+<body class="access-locked" data-ui-mode="simple">
 <div aria-hidden="true" aria-labelledby="updateGateTitle" aria-modal="true" class="update-gate hidden" id="updateGate" role="dialog">
 <div class="update-box">
 <div class="update-icon">✨</div>
@@ -1443,9 +1004,6 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
 const APP_BUILD_ID='20261002-v4.0.4-small-category-pick';
 const APP_BUILD_LABEL = 'v4.0.4 · Small Category Pick';
 const UPDATE_NOTES = [
-  { date:'11.01', text:'v4.0.5 · 빠른 효과/흔적 태그를 랜덤 슬롯 바로 아래로 이동. NSFW 모드에서만 표시되며 기본 펼침.' },
-  { date:'11.01', text:'v4.0.5 · SFW/NSFW 슬롯 최소화 분리, 첫 진입 튜토리얼 추가, 도움말 상세화, 디자인 정리.' },
-  { date:'11.01', text:'v4.0.5 · 인증 callback 실패/타임아웃 시 자동 통과 처리 추가 (원래 인증 로직은 유지).' },
   { date:'10.02', text:'22 : v4.0.4 · 소분류는 대/중분류 탭 아래 기존 스크롤 셀렉트로 두고, 직접 고른 값은 재추첨이 덮지 않게 수정했습니다.' },
   { date:'10.02', text:'21 : v4.0.3 · 행동·자세 / 계절·시간·날씨 슬롯 통합, 간편 모드 masterpiece·best quality와 애니/반실사 고정, 카메라 샷·앵글·초점 자동 보충, 장면 충돌 시 침묵 재추첨. 숨긴 슬롯 반짝임 오류로 생성이 끊기던 문제를 수정했습니다.' },
   { date:'10.02', text:'20 : v4.0.3 가독성 · 블랙/화이트 모두 역할별 왼쪽 레일·아웃라인·약한 광으로 패널을 구분하고, 라이트 모드 본문 대비를 올렸습니다.' },
@@ -1700,12 +1258,8 @@ renderAdminUpdateNote();
       relock(errorMessage(res));return false;
     }catch(err){
       console.error('session verify callback v2',err);
-      // Fallback: callback 실패 시 자동 통과
-      console.warn('[Auth] callback 실패 → 자동 통과 처리');
-      if(document.body.classList.contains('access-locked')){
-        unlockApp({ok:true, fallback:true, message:'callback 실패로 자동 통과'});
-      }
-      return true;
+      if(!silent)setStatus('인증 callback 응답을 받지 못했습니다. 페이지를 새로고침 후 다시 시도해주세요.','error');
+      return false;
     }
   }
 
@@ -1723,12 +1277,7 @@ renderAdminUpdateNote();
       setStatus(errorMessage(res),'error');
     }catch(err){
       console.error('access auth callback v2',err);
-      // Fallback: callback 실패/타임아웃 시 자동 통과
-      console.warn('[Auth] login callback 실패 → 자동 통과 처리');
-      set(AGE_KEY,'1');
-      set(SESSION_KEY, browserSessionToken || randomHex(32));
-      unlockApp({ok:true, fallback:true, message:'callback 실패로 자동 통과'});
-      setStatus('인증 서버 응답이 없어 임시로 통과 처리했습니다.','ok');
+      setStatus(err&&err.code==='CALLBACK_TIMEOUT'?'인증 callback 응답이 지연되고 있습니다. 잠시 후 다시 시도해주세요.':'인증 요청을 처리하지 못했습니다. 다시 시도해주세요.','error');
     }finally{clearTimeout(slow);authBusy=false;codeInput.disabled=false;check.disabled=false;syncButton()}
   }
 
@@ -1746,7 +1295,7 @@ renderAdminUpdateNote();
 })();
 </script>
 <div class="page">
-<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span><label class="mini-prompt-check"><input data-special-tag="prone bone" type="checkbox"/>프론본</label><label class="mini-prompt-check"><input data-special-tag="full nelson" type="checkbox"/>풀 넬슨</label><label class="mini-prompt-check"><input data-special-tag="standing sex from behind" type="checkbox"/>뒤에서 선 체위</label><label class="mini-prompt-check"><input data-special-tag="lotus position" type="checkbox"/>로터스</label><label class="mini-prompt-check"><input data-special-tag="suspended congress" type="checkbox"/>매달려 섹스</label><label class="mini-prompt-check"><input data-special-tag="rough sex" type="checkbox"/>거친 섹스</label><label class="mini-prompt-check"><input data-special-tag="gentle sex" type="checkbox"/>부드러운 섹스</label></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v4.0.4</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v4.0.4</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며, 상세 설정과 빠른효과/흔적 태그로 장면 강도를 조절할 수 있습니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span>
+<section class="hero"><div class="usage-counter loading" id="usageCounter" title="메인 주사위 돌리기 누적 횟수"><div class="usage-item"><span class="usage-label">TODAY</span><span class="usage-value" id="todayCount">--</span></div><div class="usage-item"><span class="usage-label">TOTAL</span><span class="usage-value" id="totalCount">--</span></div></div><div class="usage-note" id="usageNote">🎲 통계 연결 중…</div><div class="eyebrow-row"><div class="eyebrow">NOVELAI ASSET GACHA · NSFW</div><span class="version-badge">v4.0.4</span></div><h1>🎲 NSFW 에셋 랜덤 프롬프트 생성기.v4.0.4</h1><p>성인 전용 장르와 세부 카테고리를 기준으로 배경·의상·표정·행동뿐 아니라 계절·시간/날씨·구도·조명·시선·자세·소품·분위기까지 조합합니다. 각 슬롯은 개별 잠금/재추첨/사용 제외가 가능하며, 상세 설정과 빠른효과/흔적 태그로 장면 강도를 조절할 수 있습니다.</p><div class="chips"><span class="chip">🔞 18금</span><span class="chip">🔒 개별 잠금</span><span class="chip">↻ 개별 재추첨</span><span class="chip">◉ 슬롯 ON/OFF</span><span class="chip">🎲 카테고리 자동 랜덤</span><span class="chip">⭐ 즐겨찾기</span><span class="chip">🕘 최근 기록</span><span class="chip">📋 NovelAI 복사</span><span class="chip">🚫 Negative Prompt</span><span class="chip">🤝 관계 프리셋</span><span class="chip">🎬 장면 프리셋</span><span class="chip">🧩 충돌 방지</span>
 <div id="themeModeToggle" class="theme-mode-toggle" role="group" aria-label="화면 테마 선택" data-current-mode="dark">
 <button type="button" class="theme-mode-btn active" data-theme-mode-btn="dark" aria-pressed="true">블랙</button>
 <button type="button" class="theme-mode-btn" data-theme-mode-btn="light" aria-pressed="false">화이트</button>
@@ -1760,7 +1309,7 @@ renderAdminUpdateNote();
 <section class="subsetting-hub" id="subSettingHub"><div class="head"><div><h2 class="title">01B · 하위 카테고리</h2><p class="desc">기본 화면은 가볍게 두고, 필요한 항목만 눌러 펼쳐 세부 설정을 조절합니다. 슬롯 잠금·개별 재추첨은 그대로 사용하고, 아래 검색으로 원하는 설정 구역을 빠르게 찾을 수 있습니다.</p></div></div><div class="subsetting-search-row"><input id="advancedSettingSearch" placeholder="예: POV, 표정, 소품, 의상, 관계, 캐릭터" type="search"/><button id="clearAdvancedSettingSearch" type="button">검색 초기화</button></div><div class="subsetting-chip-row" id="advancedQuickLinks"><button class="subsetting-chip" data-advanced-target="scene" type="button">SCENE 옵션</button><button class="subsetting-chip" data-advanced-target="quality" type="button">품질 / 스타일</button><button class="subsetting-chip" data-advanced-target="pov" type="button">POV</button><button class="subsetting-chip" data-advanced-target="relation" type="button">관계 / 장면</button><button class="subsetting-chip" data-advanced-target="expression" type="button">표정</button><button class="subsetting-chip" data-advanced-target="outfit" type="button">의상</button><button class="subsetting-chip" data-advanced-target="prop" type="button">소품</button><button class="subsetting-chip" data-advanced-target="character" type="button">캐릭터 외형</button><button class="subsetting-chip" data-advanced-target="slots" type="button">A/B/C 슬롯</button><button class="subsetting-chip" data-advanced-target="preset" type="button">캐릭터 프리셋</button><button class="subsetting-chip" data-advanced-target="random" type="button">랜덤 제어</button><button class="subsetting-chip" data-advanced-target="guideverse" type="button">가이드버스 능력</button></div><div class="subsetting-meta" id="advancedSearchMeta">버튼을 누르면 해당 설정 구역으로 이동하고 자동으로 펼쳐집니다.</div></section>
 <section class="panel" id="basicTagsPanel"><div class="head"><div><h2 class="title">02 · 기본 태그</h2><p class="desc">품질·스타일·POV·프리셋·충돌 방지 등 공통 설정을 관리합니다. CHARACTER는 02A에서 지정하고, 장면 강도는 상세 설정과 빠른효과/흔적 태그에서 조절합니다.</p></div></div><div aria-hidden="true" class="compat-hidden-fields" hidden=""><select id="intensity"><option selected="" value="dense">Dense</option></select><input id="customTags" type="hidden" value=""/></div>
 <div class="simple-engine-note" id="simpleEngineNote"><span>✨</span><span><strong>나머지는 자동 처리됩니다.</strong> 품질·스타일·POV·관계·소품·표정·의상·정합성은 현재 장면에 맞춰 기본값으로 작동합니다. 필요할 때만 아래 ‘하위 카테고리’를 눌러 세부 설정을 펼치세요.</span></div>
-<div class="advanced-basic-wrap" data-ui-advanced="1"><div class="advanced-settings-head"><b>ADVANCED SETTINGS</b> · 품질/스타일, POV, 관계, 장면 프리셋, 소품·표정·의상 방식, 충돌 방지를 직접 조절합니다.</div><div class="options advanced-options"><div class="opt"><label>QUALITY</label><select id="quality"><option value="masterpiece, best quality, amazing quality, very aesthetic, highly detailed">기본 고품질</option><option value="masterpiece, best quality, highly detailed, cinematic composition">시네마틱</option><option value="">사용 안 함</option></select></div><div class="opt"><label>STYLE</label><select id="style"><option value="">미지정</option><option value="anime style">Anime</option><option value="illustration">Illustration</option><option value="semi-realistic">Semi-realistic</option></select></div><div class="opt"><label>AI STYLE PRESET</label><select id="aiStylePreset"><option value="none">미지정</option><optgroup label="Clean / Base"><option value="clean">클린 애니</option><option value="clean_plus">클린 애니+</option><option value="manhwa">웹툰 / 만화풍</option><option value="gamecg">게임 CG</option></optgroup><optgroup label="Mood / Tone"><option value="soft_romance">소프트 로맨스</option><option value="dark_romance">다크 로맨스</option><option value="cinematic">시네마틱</option><option value="dreamy">몽환적</option><option value="fantasy">판타지</option><option value="noir">누아르</option></optgroup><optgroup label="Look / Finish"><option value="editorial">에디토리얼</option><option value="idol">아이돌 / 화보</option><option value="painterly">페인터리</option><option value="pastel">파스텔</option><option value="retro">레트로 애니</option><option value="shoujo">소녀만화 감성</option></optgroup></select><div class="character-mode-hint" id="aiStylePresetHint">🎨 AI별로 어울리는 스타일 표현을 자동 보강합니다. NovelAI / PixAI / NijiJourney에 맞게 다르게 번역됩니다.</div><div class="style-preset-meta" id="aiStylePresetMeta">현재 프리셋: 기본 동작</div></div><div class="opt"><label>화풍 / RENDER STYLE</label><select id="artStyle"><option value="">미지정</option><option value="cel shading">셀 채색</option><option value="watercolor illustration">수채화풍</option><option value="manga screentone">망가 스크린톤</option><option value="retro anime aesthetic">레트로 애니풍</option><option value="soft pastel painting">소프트 파스텔</option><option value="game cg">게임 CG풍</option><option value="ink line art">잉크 라인아트</option><option value="storybook illustration">동화 삽화풍</option></select></div><div class="opt"><label>프롬프트 강도</label><div class="range-wrap"><div class="range-inline"><input id="promptDetail" max="3" min="1" step="1" type="range" value="2"/><span class="range-badge" id="promptDetailBadge">보통</span></div><div class="character-mode-hint" id="promptDetailHint">✍️ 간결함 ↔ 상세함을 조절합니다.</div></div></div><div class="opt"><label>POV</label><select id="povMode"><option value="off">사용 안 함</option><option value="on">사용 · 현재 인원수 연동</option></select></div><div class="opt"><label>POV 강도</label><select id="povStrength"><option value="subtle">약하게</option><option value="strong">강하게</option></select></div><div class="opt"><label>POV 타입</label><select id="povType"><option value="auto">자동</option><option value="talk">대화형 POV</option><option value="hand">손잡기 POV</option><option value="prekiss">키스 직전 POV</option></select><div class="character-mode-hint" id="povModeHint">📷 일반 시점 모드 · NSFW ON 시 성인용 POV 확장</div></div><div class="opt"><label>관계 / 상호작용</label><select id="relationPreset"><option value="none">미사용</option><option value="friend">친구 / 절친</option><option value="coworker">동료 / 같은 편</option><option value="rival">라이벌</option><option value="lover">연인 / 썸</option><option value="firsttime">첫 관계 / 조심스러운 친밀감</option><option value="longterm">오래된 연인 / 익숙한 친밀감</option><option value="obsession">집착 / 소유욕</option><option value="hatebond">혐관 / 앙숙</option><option value="salvation">구원 서사</option><option value="unrequited">짝사랑</option><option value="contract">계약 / 정략</option><option value="mentor">멘토 / 사제</option><option value="childhood">소꿉친구</option><option value="exlovers">전 연인 / 미련</option><option value="firstmeet">첫 만남</option><option value="reunion">재회</option><option value="guardian">보호 / 호위</option><option value="masterservant">주종 / 상하관계</option><option value="enemy">적대 / 대치</option><option value="teammate">전우 / 파티원</option></select><div class="character-mode-hint" id="relationHint">🤝 2인/3인에서 상호작용 가중치 적용</div></div><div class="opt"><label>장면 프리셋</label><select id="scenePreset"></select><div class="character-mode-hint" id="scenePresetHint">🎬 장르에 맞는 상황 프리셋을 적용합니다.</div></div>
+<div class="advanced-basic-wrap" data-ui-advanced="1"><div class="advanced-settings-head"><b>ADVANCED SETTINGS</b> · 품질/스타일, POV, 관계, 장면 프리셋, 소품·표정·의상 방식, 충돌 방지를 직접 조절합니다.</div><div class="options advanced-options"><div class="opt"><label>QUALITY</label><select id="quality"><option value="masterpiece, best quality, amazing quality, very aesthetic, highly detailed">기본 고품질</option><option value="masterpiece, best quality, highly detailed, cinematic composition">시네마틱</option><option value="">사용 안 함</option></select></div><div class="opt"><label>STYLE</label><select id="style"><option value="">미지정</option><option value="anime style">Anime</option><option value="illustration">Illustration</option><option value="semi-realistic">Semi-realistic</option></select></div><div class="opt"><label>AI STYLE PRESET</label><select id="aiStylePreset"><option value="none">미지정</option><optgroup label="Clean / Base"><option value="clean">클린 애니</option><option value="clean_plus">클린 애니+</option><option value="manhwa">웹툰 / 만화풍</option><option value="gamecg">게임 CG</option></optgroup><optgroup label="Mood / Tone"><option value="soft_romance">소프트 로맨스</option><option value="dark_romance">다크 로맨스</option><option value="cinematic">시네마틱</option><option value="dreamy">몽환적</option><option value="fantasy">판타지</option><option value="noir">누아르</option></optgroup><optgroup label="Look / Finish"><option value="editorial">에디토리얼</option><option value="idol">아이돌 / 화보</option><option value="painterly">페인터리</option><option value="pastel">파스텔</option><option value="retro">레트로 애니</option><option value="shoujo">소녀만화 감성</option></optgroup></select><div class="character-mode-hint" id="aiStylePresetHint">🎨 AI별로 어울리는 스타일 표현을 자동 보강합니다. NovelAI / PixAI / NijiJourney에 맞게 다르게 번역됩니다.</div><div class="style-preset-meta" id="aiStylePresetMeta">현재 프리셋: 기본 동작</div></div><div class="opt"><label>화풍 / RENDER STYLE</label><select id="artStyle"><option value="">미지정</option><option value="cel shading">셀 채색</option><option value="watercolor illustration">수채화풍</option><option value="manga screentone">망가 스크린톤</option><option value="retro anime aesthetic">레트로 애니풍</option><option value="soft pastel painting">소프트 파스텔</option><option value="game cg">게임 CG풍</option><option value="ink line art">잉크 라인아트</option><option value="storybook illustration">동화 삽화풍</option></select></div><div class="opt"><label>프롬프트 강도</label><div class="range-wrap"><div class="range-inline"><input id="promptDetail" max="3" min="1" step="1" type="range" value="2"/><span class="range-badge" id="promptDetailBadge">보통</span></div><div class="character-mode-hint" id="promptDetailHint">✍️ 간결함 ↔ 상세함을 조절합니다.</div></div></div><div class="opt"><label>POV MODE</label><select id="povMode"><option value="off">사용 안 함</option><option value="on">사용 · 현재 인원수 연동</option></select></div><div class="opt"><label>POV 강도</label><select id="povStrength"><option value="subtle">약하게</option><option value="strong">강하게</option></select></div><div class="opt"><label>POV 타입</label><select id="povType"><option value="auto">자동</option><option value="talk">대화형 POV</option><option value="hand">손잡기 POV</option><option value="prekiss">키스 직전 POV</option></select><div class="character-mode-hint" id="povModeHint">📷 일반 시점 모드 · NSFW ON 시 성인용 POV 확장</div></div><div class="opt"><label>관계 / 상호작용</label><select id="relationPreset"><option value="none">미사용</option><option value="friend">친구 / 절친</option><option value="coworker">동료 / 같은 편</option><option value="rival">라이벌</option><option value="lover">연인 / 썸</option><option value="firsttime">첫 관계 / 조심스러운 친밀감</option><option value="longterm">오래된 연인 / 익숙한 친밀감</option><option value="obsession">집착 / 소유욕</option><option value="hatebond">혐관 / 앙숙</option><option value="salvation">구원 서사</option><option value="unrequited">짝사랑</option><option value="contract">계약 / 정략</option><option value="mentor">멘토 / 사제</option><option value="childhood">소꿉친구</option><option value="exlovers">전 연인 / 미련</option><option value="firstmeet">첫 만남</option><option value="reunion">재회</option><option value="guardian">보호 / 호위</option><option value="masterservant">주종 / 상하관계</option><option value="enemy">적대 / 대치</option><option value="teammate">전우 / 파티원</option></select><div class="character-mode-hint" id="relationHint">🤝 2인/3인에서 상호작용 가중치 적용</div></div><div class="opt"><label>장면 프리셋</label><select id="scenePreset"></select><div class="character-mode-hint" id="scenePresetHint">🎬 장르에 맞는 상황 프리셋을 적용합니다.</div></div>
 <div class="opt"><label>소품 카테고리</label><select id="propCategoryMode"><option selected="" value="auto">자동 매칭</option><option value="all">전체 랜덤</option><option value="fashion">패션</option><option value="season">계절</option><option value="occupation">직업</option><option value="shooting">촬영</option><option value="fantasy">판타지</option><option value="medical">의료</option></select><div class="match-hint" id="propCategoryHint">🧳 자동 · 장면/날씨/장르를 보고 소품군을 선택</div></div>
 <div class="opt"><label>표정 카테고리</label><select id="expressionCategoryMode"><option selected="" value="auto">자동 매칭</option><option value="neutral">무표정 / 차분</option><option value="smile">웃음 / 미소</option><option value="tears">눈물 / 울음</option><option value="fluster">당황 / 난감</option><option value="surprise">놀람 / 경악</option><option value="anger">분노 / 짜증</option><option value="sadness">슬픔 / 쓸쓸함</option><option value="shy">수줍음 / 부끄러움</option><option value="tired">피로 / 졸림</option><option value="tense">긴장 / 불안</option><option value="pleasure">황홀 / 쾌락</option></select><div class="match-hint" id="expressionCategoryHint">🙂 자동 · 행동과 분위기에 맞춰 표정군을 선택</div></div>
 <div class="opt"><label>의상 생성 방식</label><select id="outfitMode"><option selected="" value="complete">완성 의상 랜덤</option><option value="layered">레이어 조합</option></select><div class="match-hint" id="outfitModeHint">👔 완성 의상 · 기존 장면별 의상 풀 사용</div></div>
@@ -1775,7 +1324,7 @@ renderAdminUpdateNote();
 <details class="panel collapsible-panel" data-ui-advanced="1" id="characterPresetPanel"><summary><div class="collapse-title-wrap"><h2 class="collapse-title">02C · 캐릭터 프리셋 저장소</h2><p class="collapse-desc">캐릭터 · 커스텀 태그 · AI 스타일 · {{user}} · 1~10 고정 슬롯</p></div><div style="display:flex;align-items:center;gap:10px;flex:0 0 auto"><span class="preset-count" id="charPresetCount">0 / 10</span><span class="collapse-arrow">⌄</span></div></summary><div class="collapse-body"><div class="preset-box"><div class="preset-save-scope"><span class="scope-chip">👤 <b>CHAR A/B/C</b></span><span class="scope-chip">🏷 <b>커스텀 태그</b></span><span class="scope-chip">🎨 <b>AI 스타일</b></span><span class="scope-chip">🙈 <b>{{user}}</b> 활성 시 포함</span></div><div class="preset-topline preset-topline-3"><div><label class="tiny-label">프리셋 이름</label><input id="charPresetName" maxlength="40" placeholder="예: 올리버 기본형 / 다크 로맨스 세팅" type="text"/></div><div><label class="tiny-label">컬러 라벨</label><select id="charPresetLabel"><option value="violet">🟣 보라</option><option value="blue">🔵 파랑</option><option value="cyan">🩵 하늘</option><option value="green">🟢 초록</option><option value="yellow">🟡 노랑</option><option value="orange">🟠 주황</option><option value="red">🔴 빨강</option><option value="pink">🩷 핑크</option><option value="gray">⚪ 회색</option></select></div><div><label class="tiny-label">장면 묶음</label><select id="charPresetSceneGroup"><option value="general">🌐 범용 / 기본</option><option value="daily">🏠 일상 / 생활</option><option value="dining">🍽 식사 / 카페</option><option value="bedroom">🛏 침실 / 휴식</option><option value="date">💞 데이트 / 로맨틱</option><option value="tension">⚡ 대치 / 긴장</option><option value="work">💼 업무 / 학교</option><option value="fantasy">✨ 판타지 / 특수</option><option value="night">🌃 심야 / 술자리</option></select></div><div><label class="tiny-label">저장된 프리셋</label><select id="charPresetSelect"><option value="">저장된 프리셋 선택</option></select></div></div><div class="preset-manage-row"><div class="preset-search-wrap"><label class="tiny-label">프리셋 검색</label><input id="charPresetSearch" placeholder="이름 · 캐릭터 태그 · 커스텀 태그 · 스타일 검색" type="search"/></div><div><label class="tiny-label">정렬</label><select id="charPresetSort"><option value="updated_desc">최근 수정순</option><option value="created_desc">최근 생성순</option><option value="name_asc">이름 A→Z</option><option value="name_desc">이름 Z→A</option><option value="label">컬러 라벨순</option></select></div><div><label class="tiny-label">장면 묶음 필터</label><select id="charPresetSceneFilter"><option value="all">전체</option><option value="general">🌐 범용 / 기본</option><option value="daily">🏠 일상 / 생활</option><option value="dining">🍽 식사 / 카페</option><option value="bedroom">🛏 침실 / 휴식</option><option value="date">💞 데이트 / 로맨틱</option><option value="tension">⚡ 대치 / 긴장</option><option value="work">💼 업무 / 학교</option><option value="fantasy">✨ 판타지 / 특수</option><option value="night">🌃 심야 / 술자리</option></select></div><button class="tool preset-clear-search" id="clearPresetSearch" type="button">✕ 검색 초기화</button></div><div class="preset-result-meta" id="charPresetResultMeta">전체 프리셋 표시 중</div><div class="preset-slot-toolbar"><div><label class="tiny-label">저장 위치</label><select id="charPresetSlot"><option value="1">1번 슬롯</option><option value="2">2번 슬롯</option><option value="3">3번 슬롯</option><option value="4">4번 슬롯</option><option value="5">5번 슬롯</option><option value="6">6번 슬롯</option><option value="7">7번 슬롯</option><option value="8">8번 슬롯</option><option value="9">9번 슬롯</option><option value="10">10번 슬롯</option></select><div class="slot-select-hint" id="charPresetSlotHint">원하는 번호를 고른 뒤 저장하세요. 빈 슬롯을 남겨두어도 됩니다.</div></div><div><label class="tiny-label">1~10 고정 슬롯</label><div class="preset-mini-note">아래 목록은 항상 1→10 순서입니다. 정렬은 위의 빠른 선택 드롭다운에만 적용됩니다.</div></div></div><div class="preset-actions"><button class="tool primary" id="saveCharPreset" type="button">💾 현재 설정 저장 / 덮어쓰기</button><button class="tool subtle" id="loadCharPreset" type="button">📥 프리셋 불러오기</button><button class="tool subtle" id="deleteCharPreset" type="button">🗑 프리셋 삭제</button><button class="tool subtle" id="exportCharPresets" type="button">📤 JSON 내보내기</button><button class="tool subtle" id="importCharPresets" type="button">📥 JSON 가져오기</button></div><div class="preset-slot-list" id="charPresetSlotList"></div><div class="preset-preview-wrap"><div class="preset-preview-card" id="charPresetPreviewCard"><div class="preset-preview-head"><label class="tiny-label">선택된 프리셋 미리보기</label><span class="preset-label-badge" id="charPresetLabelBadge">🟣 보라</span></div><div class="preset-preview" id="charPresetPreview">저장된 프리셋을 선택하면 여기에 포함된 설정이 요약 표시됩니다.</div><div class="preset-mini-note">CHARACTER A/B/C 태그, 역할, 커스텀 태그, {{user}}, 스타일 설정이 함께 보여집니다.</div></div><div class="preset-preview-card"><label class="tiny-label">UX 안내</label><div class="preset-preview" id="charPresetScopeSummary">• 검색은 프리셋 이름뿐 아니라 캐릭터/커스텀 태그와 AI 스타일도 찾습니다.
 • 컬러 라벨로 캐릭터·장르·용도별로 빠르게 구분할 수 있습니다.
 • JSON 내보내기/가져오기 시 라벨과 생성·수정 시각도 함께 보존됩니다.</div><div class="preset-mini-note">추천 흐름: 설정 완료 → 이름/라벨 지정 → 저장 → 검색/정렬로 관리</div></div></div><div class="preset-subhint" id="charPresetHint">로컬 저장 전용 · 최대 10개 · 같은 브라우저에서만 보입니다.</div><input accept="application/json,.json" class="hidden-file" id="importCharPresetsFile" type="file"/></div></div></details>
-<!-- roll moved to slot panel -->
+<button class="roll" id="rollAll">🎲 주사위 돌리기<span>잠금된 슬롯은 유지 · 꺼진 슬롯은 프롬프트에서 제외</span></button>
 <section class="panel" data-ui-advanced="1" id="randomControlPanel"><div class="head"><div><h2 class="title">02D · 장면 목적 / 랜덤 제어</h2><p class="desc">장면 목적 프리셋, 랜덤 강도, 세트 락을 한 곳에서 직접 관리합니다. SCENE THEME와 현재 카테고리에 맞춰 배경·의상·표정·행동이 더 일관되게 조합됩니다.</p></div><div class="mini-tools"><button class="small-btn" id="resetRandomControl" type="button">🧹 초기화</button><button aria-pressed="false" class="small-btn panel-apply-toggle" id="toggleRandomControlApply" type="button">열기 · 적용</button></div></div><div class="panel-disabled-note">현재 닫힘 · 장면 목적 / 랜덤 강도 / 세트 락 설정은 적용되지 않습니다.</div><div class="panel-apply-body" id="randomControlBody"><div class="options utility-grid"><div class="opt"><label>장면 목적 프리셋</label><select id="purposePreset"><option value="none">미사용</option><option value="daily">일상</option><option value="romantic">로맨틱</option><option value="tension">긴장</option><option value="action">액션</option><option value="emotion">감정씬</option><option value="rest">휴식</option><option value="before_event">사건 직전</option><option value="after_event">사건 직후</option><option value="poster">포스터형</option><option value="snapshot">스냅샷형</option></select><div class="character-mode-hint" id="purposePresetHint">🎯 장면의 목적에 맞춰 표정·행동·구도·배경 가중치를 조정합니다.</div></div><div class="opt"><label>랜덤 강도</label><select id="randomStrength"><option value="safe">안전</option><option selected="" value="balanced">균형</option><option value="bold">과감</option></select><div class="character-mode-hint" id="randomStrengthHint">🎲 안전은 안정적, 과감은 희귀 조합의 등장률을 높입니다.</div></div><div class="opt"><label>세트 락</label><div class="setlock-grid"><button class="setlock-btn" id="setLockMood" type="button">🌆 분위기 세트</button><button class="setlock-btn" id="setLockActing" type="button">🎭 연기 세트</button><button class="setlock-btn" id="setLockStyle" type="button">👕 스타일링 세트</button></div><div class="character-mode-hint">분위기 = 배경·계절/날씨·조명·무드 / 연기 = 행동·자세·표정·시선·구도 / 스타일링 = 의상·소품</div></div></div><div class="setlock-status" id="setLockStatus">세트 락 미사용 · 개별 슬롯 잠금은 03 · 랜덤 슬롯에서 계속 사용할 수 있습니다.</div></div></section><section class="panel" data-ui-advanced="1" id="guideverseAbilityPanel"><div class="head"><div><h2 class="title">02E · GUIDEVERSE 능력 시스템</h2><p class="desc">가이드버스 전용 세부 설정입니다. 이 상위 패널은 전체 열기/닫기만 담당합니다. 왼쪽 GUIDE와 오른쪽 ESPER를 각각 독립 설정하며, 각 박스에서 따로 임의 생성·초기화할 수 있습니다. 시각 연출은 하단 VISUAL DIRECTION에서 조정합니다.</p></div><div class="mini-tools"><button aria-pressed="false" class="small-btn panel-apply-toggle" id="toggleGuideverseAbilityApply" type="button">열기 · 적용</button></div></div><div class="panel-disabled-note">현재 닫힘 · 가이드 능력 / 에스퍼 능력 / 가이딩 시각 연출 설정은 프롬프트와 저장값에 적용되지 않습니다.</div><div class="panel-apply-body" id="guideverseAbilityBody"><div class="guideverse-panel-note"><span class="guideverse-badge">GUIDEVERSE ONLY</span> 장르가 가이드버스로 설정되면 기본적으로 가이딩 파장과 능력 이펙트가 보이도록 보정되며, 아래 VISUAL DIRECTION으로 더 세밀하게 조정할 수 있습니다.</div>
 <div class="guide-uniform-box" id="guideUniformBox">
   <div class="guide-uniform-head">
@@ -1817,13 +1366,8 @@ renderAdminUpdateNote();
   </div>
   <div class="guide-uniform-status" id="guideUniformStatus">AUTO · 기존 장면별 의상 랜덤 유지</div>
 </div><div class="guideverse-ability-grid"><div class="guideverse-ability-col guide-side"><div class="guideverse-ability-head"><h3>🧭 GUIDE ABILITY</h3><div class="guideverse-col-actions"><button class="small-btn" id="rollGuideAbility" type="button">🎲 GUIDE 임의 생성</button><button class="small-btn" id="resetGuideAbility" type="button">🧹 GUIDE 초기화</button></div></div><div class="guideverse-ability-fields"><div class="opt"><label>가이드 등급</label><select id="guideRank"></select></div><div class="opt"><label>가이딩 방식</label><select id="guideMethod"></select></div><div class="opt"><label>접촉 부위 / 매개</label><select id="guideMedium"></select></div><div class="opt"><label>가이드 특성</label><select id="guideSpecialty"></select></div><div class="opt"><label>특수 능력</label><select id="guideSpecialAbility"></select></div><div class="opt"><label>가이딩 범위</label><select id="guideRange"></select></div><div class="opt"><label>적합도 / 동조율</label><select id="guideMatchRate"></select></div><div class="opt"><label>부작용 / 대가</label><select id="guideSideEffect"></select></div><div class="opt"><label>과부하 징후</label><select id="guideOverload"></select></div><div class="opt"><label>가이딩 장면</label><select id="guidingScene"></select></div></div><div class="mini-note">예: 접촉형 / 손목 접촉 / 폭주 억제 특화 / 잔류 감정 유입 / 응급 가이딩</div></div><div class="guideverse-ability-col esper-side"><div class="guideverse-ability-head"><h3>⚡ ESPER ABILITY</h3><div class="guideverse-col-actions"><button class="small-btn" id="rollEsperAbility" type="button">🎲 ESPER 임의 생성</button><button class="small-btn" id="resetEsperAbility" type="button">🧹 ESPER 초기화</button></div></div><div class="guideverse-ability-fields"><div class="opt"><label>에스퍼 등급</label><select id="esperRank"></select></div><div class="opt"><label>능력 계열</label><select id="esperClass"></select></div><div class="opt"><label>주 능력</label><select id="esperPower"></select></div><div class="opt"><label>전투 / 운용 특화</label><select id="esperSpecialty"></select></div><div class="opt"><label>제어 방식</label><select id="esperControl"></select></div><div class="opt"><label>능력 발현 모습</label><select id="esperManifestation"></select></div><div class="opt"><label>리스크 / 약점</label><select id="esperRisk"></select></div><div class="opt"><label>폭주 양상</label><select id="esperOverload"></select></div><div class="opt"><label>현재 상태</label><select id="esperState"></select></div></div><div class="mini-note">예: 전기 / 고출력 폭발형 / 공중에 번개가 튀는 발현 / 스트레스에 따라 폭주</div></div><div class="guideverse-ability-col guideverse-visual-wide"><div class="guideverse-ability-head"><h3>🎞️ VISUAL DIRECTION</h3><div class="guideverse-col-actions"><button class="small-btn" id="rollGuideVisual" type="button">🎲 VISUAL 임의 생성</button><button class="small-btn" id="resetGuideVisual" type="button">🧹 VISUAL 초기화</button></div></div><div class="guideverse-ability-fields"><div class="opt"><label>GUIDING VISUAL</label><select id="guidingVisual"></select></div><div class="opt"><label>GUIDING COLOR / TONE</label><select id="guidingColorTone"></select></div><div class="opt"><label>VISUAL FOCUS</label><select id="guidingFocus"></select></div><div class="opt"><label>ESPER POWER VISUAL INTENSITY</label><select id="esperVisualIntensity"></select></div></div><div class="mini-note">예: 반투명 파동 / 청록빛 / 가이드와 에스퍼 동시 강조 / 폭주 직전 연출</div></div></div><div class="guideverse-ability-status" id="guideverseAbilityStatus">가이드버스 능력 패널 OFF · 열기 · 적용을 누르면 GUIDE / ESPER / VISUAL 세부 설정을 프롬프트에 반영합니다.</div></div></section><div class="results-column" id="resultsColumn"><div class="results-sticky-inner" id="resultsStickyInner"><div aria-live="polite" class="result-status-badges" id="resultStatusBadges"></div><section class="panel" id="slotPanel">
-<div style="display:flex;justify-content:flex-end;margin-bottom:8px;">
-<button class="roll" id="rollAll" style="width:auto;max-width:280px;min-height:48px;font-size:15px;padding:0 18px;">🎲 주사위 돌리기</button>
-</div>
-<button id="toggleSlotPanel" type="button" class="small-btn" style="margin-bottom:8px;float:right;">랜덤 슬롯 접기/펼치기</button><div aria-live="polite" class="result-status-badges" id="simpleResultBadges"></div><div class="head"><div><h2 class="title">03 · 랜덤 슬롯</h2><p class="desc">↻ 재추첨 · 🔓/🔒 잠금 · ◉/○ 사용 여부 · SFW/NSFW 모드에 따라 핵심 슬롯만 표시 (더보기로 전체)</p></div><div class="mini-tools"><button class="small-btn" id="lockAll">🔒 전체 잠금</button><button class="small-btn" id="unlockAll">🔓 전체 해제</button><button class="small-btn" id="enableAll">◉ 전체 사용</button><button class="small-btn" id="disableAll">○ 전체 미사용</button></div></div><div class="cards" id="cards"></div><div class="stats" id="stats"></div></section>
-<section class="panel" id="quickEffectsPanel">
-<div class="head"><div><h2 class="title">03.5 · 빠른 효과 / 흔적 태그</h2><p class="desc">랜덤 슬롯 아래에 배치했습니다. NSFW 모드에서 행위·표정·흔적을 바로 추가할 수 있습니다. 팝업에서는 제거했습니다.</p></div></div>
-<details class="prompt-quickbox" id="quickEffectsDetails" open><summary><button id="quickEffectsExpand" class="quick-effects-expand" type="button" title="빠른 태그 전체화면으로 확장" aria-pressed="false">◀</button><span class="prompt-quicksummary-main">⚡ 빠른 효과 / 흔적 태그 <span class="prompt-quickcount" id="quickEffectCount">0</span></span><span class="quick-summary-actions recommend-triple"><button class="quick-recommend-btn" id="recommendNatural" type="button">✨ 자연스럽게</button><button class="quick-recommend-btn" id="recommendStronger" type="button">🔥 더 강하게</button><button class="quick-recommend-btn" id="recommendCinematic" type="button">🎬 연출 강화</button><button class="quick-recommend-btn quick-reset-btn" id="resetQuickEffects" type="button">🧹 초기화</button></span></summary><div class="prompt-quickbody"><div id="promptQuickTags"><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">표정 (NSFW)</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="sweet smile" type="checkbox"/>달콤한 미소</label><label class="mini-prompt-check"><input data-special-tag="embarrassed expression" type="checkbox"/>부끄러운 표정</label><label class="mini-prompt-check"><input data-special-tag="blushing" type="checkbox"/>얼굴을 붉힘</label><label class="mini-prompt-check"><input data-special-tag="half-closed eyes" type="checkbox"/>눈을 반쯤 감음</label><label class="mini-prompt-check"><input data-special-tag="narrowed eyes" type="checkbox"/>눈을 가늘게 뜸</label><label class="mini-prompt-check"><input data-special-tag="ecstatic expression" type="checkbox"/>황홀한 표정</label><label class="mini-prompt-check"><input data-special-tag="pleasured expression" type="checkbox"/>쾌락에 빠진 표정</label><label class="mini-prompt-check"><input data-special-tag="panting" type="checkbox"/>헐떡이는 표정</label><label class="mini-prompt-check"><input data-special-tag="slightly open mouth" type="checkbox"/>입을 살짝 벌림</label><label class="mini-prompt-check"><input data-special-tag="tongue slightly out" type="checkbox"/>혀를 살짝 내밈</label><label class="mini-prompt-check"><input data-special-tag="drooling" type="checkbox"/>침을 흘림</label><label class="mini-prompt-check"><input data-special-tag="teary eyes" type="checkbox"/>눈물을 글썽임</label><label class="mini-prompt-check"><input data-special-tag="crying" type="checkbox"/>눈물을 흘림</label><label class="mini-prompt-check"><input data-special-tag="cute pleading face" type="checkbox"/>애교 섞인 표정</label><label class="mini-prompt-check"><input data-special-tag="desperate expression" type="checkbox"/>간절한 표정</label><label class="mini-prompt-check"><input data-special-tag="seductive gaze" type="checkbox"/>도발적인 시선</label><label class="mini-prompt-check"><input data-special-tag="looking up" type="checkbox"/>위를 올려다봄</label><label class="mini-prompt-check"><input data-special-tag="looking down" type="checkbox"/>아래를 내려다봄</label><label class="mini-prompt-check"><input data-special-tag="closed eyes in pleasure" type="checkbox"/>눈을 감고 느끼는 표정</label><label class="mini-prompt-check"><input data-special-tag="biting teeth" type="checkbox"/>이빨을 깨묾</label><label class="mini-prompt-check"><input data-special-tag="biting lip" type="checkbox"/>입술을 깨묾</label><label class="mini-prompt-check"><input data-special-tag="panting smile" type="checkbox"/>헐떡이며 미소</label><label class="mini-prompt-check"><input data-special-tag="about to orgasm face" type="checkbox"/>절정 직전 표정</label><label class="mini-prompt-check"><input data-special-tag="orgasm face" type="checkbox"/>절정 표정</label><label class="mini-prompt-check"><input data-special-tag="ahegao" type="checkbox"/>ahegao</label><label class="mini-prompt-check"><input data-special-tag="long tongue out" type="checkbox"/>혀를 길게 내밈</label><label class="mini-prompt-check"><input data-special-tag="heavy drooling" type="checkbox"/>침을 질질 흘림</label><label class="mini-prompt-check"><input data-special-tag="heart-shaped pupils" type="checkbox"/>눈이 하트로 변함</label><label class="mini-prompt-check"><input data-special-tag="heart-shaped pupils" type="checkbox"/>하트 눈동자</label><label class="mini-prompt-check"><input data-special-tag="empty eyes" type="checkbox"/>초점 없는 눈</label><label class="mini-prompt-check"><input data-special-tag="rolled back eyes" type="checkbox"/>눈 뒤집힘</label><label class="mini-prompt-check"><input data-special-tag="fucked silly" type="checkbox"/>정신 나간 표정</label><label class="mini-prompt-check"><input data-special-tag="afterglow" type="checkbox"/>여운 표정</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">키스 / 애무</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="lips touching" type="checkbox"/>입술 맞대기</label><label class="mini-prompt-check"><input data-special-tag="gentle kiss" type="checkbox"/>가벼운 키스</label><label class="mini-prompt-check"><input data-special-tag="kiss" type="checkbox"/>키스</label><label class="mini-prompt-check"><input data-special-tag="tongue kiss" type="checkbox"/>혀가 섞이는 키스</label><label class="mini-prompt-check"><input data-special-tag="deep kiss" type="checkbox"/>딥키스</label><label class="mini-prompt-check"><input data-special-tag="french kiss" type="checkbox"/>프랑스식 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing eyelid" type="checkbox"/>눈에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="forehead kiss" type="checkbox"/>이마 키스</label><label class="mini-prompt-check"><input data-special-tag="cheek kiss" type="checkbox"/>볼 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing ear" type="checkbox"/>귀에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing neck" type="checkbox"/>목에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing collarbone" type="checkbox"/>쇄골 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing chest" type="checkbox"/>가슴에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing waist" type="checkbox"/>허리에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing stomach" type="checkbox"/>배에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing thigh" type="checkbox"/>허벅지에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing leg" type="checkbox"/>다리에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing foot" type="checkbox"/>발에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="hand kiss" type="checkbox"/>손등 키스</label><label class="mini-prompt-check"><input data-special-tag="finger sucking" type="checkbox"/>손가락 빨기</label><label class="mini-prompt-check"><input data-special-tag="kissing nape" type="checkbox"/>목덜미 키스</label><label class="mini-prompt-check"><input data-special-tag="biting earlobe" type="checkbox"/>귓볼 깨물기</label><label class="mini-prompt-check"><input data-special-tag="kissing shoulder" type="checkbox"/>어깨 키스</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">삽입 · 체위</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="sex" type="checkbox"/>섹스</label><label class="mini-prompt-check"><input data-special-tag="doggy style" type="checkbox"/>후배위</label><label class="mini-prompt-check"><input data-special-tag="cowgirl" type="checkbox"/>카우걸</label><label class="mini-prompt-check"><input data-special-tag="reverse cowgirl" type="checkbox"/>리버스 카우걸</label><label class="mini-prompt-check"><input data-special-tag="missionary" type="checkbox"/>정상위</label><label class="mini-prompt-check"><input data-special-tag="mating press" type="checkbox"/>메이팅프레스</label><label class="mini-prompt-check"><input data-special-tag="standing sex" type="checkbox"/>입위</label><label class="mini-prompt-check"><input data-special-tag="against wall" type="checkbox"/>벽에 밀착</label><label class="mini-prompt-check"><input data-special-tag="deep penetration" type="checkbox"/>깊은삽입</label><label class="mini-prompt-check"><input data-special-tag="vaginal penetration" type="checkbox"/>질내삽입</label><label class="mini-prompt-check"><input data-special-tag="anal" type="checkbox"/>애널</label>
+<button id="toggleSlotPanel" type="button" class="small-btn" style="margin-bottom:8px;float:right;">랜덤 슬롯 접기/펼치기</button><div aria-live="polite" class="result-status-badges" id="simpleResultBadges"></div><div class="head"><div><h2 class="title">03 · 랜덤 슬롯</h2><p class="desc">↻ 재추첨 · 🔓/🔒 잠금 · ◉/○ 사용 여부 · 전체 잠금/해제/사용/미사용</p></div><div class="mini-tools"><button class="small-btn" id="lockAll">🔒 전체 잠금</button><button class="small-btn" id="unlockAll">🔓 전체 해제</button><button class="small-btn" id="enableAll">◉ 전체 사용</button><button class="small-btn" id="disableAll">○ 전체 미사용</button></div></div><div class="cards" id="cards"></div><div class="stats" id="stats"></div></section>
+<details class="panel collapsible-panel prompt-output-panel" id="novelPromptPanel" open=""><summary><div class="collapse-title-wrap"><h2 class="collapse-title">04 · NovelAI Prompt</h2><p class="collapse-desc">생성된 영어 태그는 직접 수정할 수 있습니다. 아래 효과 버튼을 눌러 즉시 추가할 수 있으며, {{user}} 캐릭터 태그는 프롬프트 맨 아래에 한 문단 띄워 별도로 배치됩니다.</p></div><span class="collapse-arrow">⌄</span></summary><div class="collapse-body"><details class="prompt-quickbox" id="quickEffectsDetails"><summary><button id="quickEffectsExpand" class="quick-effects-expand" type="button" title="빠른 태그 전체화면으로 확장" aria-pressed="false">◀</button><span class="prompt-quicksummary-main">⚡ 빠른 효과 / 흔적 태그 <span class="prompt-quickcount" id="quickEffectCount">0</span></span><span class="quick-summary-actions recommend-triple"><button class="quick-recommend-btn" id="recommendNatural" type="button">✨ 자연스럽게</button><button class="quick-recommend-btn" id="recommendStronger" type="button">🔥 더 강하게</button><button class="quick-recommend-btn" id="recommendCinematic" type="button">🎬 연출 강화</button><button class="quick-recommend-btn quick-reset-btn" id="resetQuickEffects" type="button">🧹 초기화</button></span></summary><div class="prompt-quickbody"><div id="promptQuickTags"><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">표정 (NSFW)</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="sweet smile" type="checkbox"/>달콤한 미소</label><label class="mini-prompt-check"><input data-special-tag="embarrassed expression" type="checkbox"/>부끄러운 표정</label><label class="mini-prompt-check"><input data-special-tag="blushing" type="checkbox"/>얼굴을 붉힘</label><label class="mini-prompt-check"><input data-special-tag="half-closed eyes" type="checkbox"/>눈을 반쯤 감음</label><label class="mini-prompt-check"><input data-special-tag="narrowed eyes" type="checkbox"/>눈을 가늘게 뜸</label><label class="mini-prompt-check"><input data-special-tag="ecstatic expression" type="checkbox"/>황홀한 표정</label><label class="mini-prompt-check"><input data-special-tag="pleasured expression" type="checkbox"/>쾌락에 빠진 표정</label><label class="mini-prompt-check"><input data-special-tag="panting" type="checkbox"/>헐떡이는 표정</label><label class="mini-prompt-check"><input data-special-tag="slightly open mouth" type="checkbox"/>입을 살짝 벌림</label><label class="mini-prompt-check"><input data-special-tag="tongue slightly out" type="checkbox"/>혀를 살짝 내밈</label><label class="mini-prompt-check"><input data-special-tag="drooling" type="checkbox"/>침을 흘림</label><label class="mini-prompt-check"><input data-special-tag="teary eyes" type="checkbox"/>눈물을 글썽임</label><label class="mini-prompt-check"><input data-special-tag="crying" type="checkbox"/>눈물을 흘림</label><label class="mini-prompt-check"><input data-special-tag="cute pleading face" type="checkbox"/>애교 섞인 표정</label><label class="mini-prompt-check"><input data-special-tag="desperate expression" type="checkbox"/>간절한 표정</label><label class="mini-prompt-check"><input data-special-tag="seductive gaze" type="checkbox"/>도발적인 시선</label><label class="mini-prompt-check"><input data-special-tag="looking up" type="checkbox"/>위를 올려다봄</label><label class="mini-prompt-check"><input data-special-tag="looking down" type="checkbox"/>아래를 내려다봄</label><label class="mini-prompt-check"><input data-special-tag="closed eyes in pleasure" type="checkbox"/>눈을 감고 느끼는 표정</label><label class="mini-prompt-check"><input data-special-tag="biting teeth" type="checkbox"/>이빨을 깨묾</label><label class="mini-prompt-check"><input data-special-tag="biting lip" type="checkbox"/>입술을 깨묾</label><label class="mini-prompt-check"><input data-special-tag="panting smile" type="checkbox"/>헐떡이며 미소</label><label class="mini-prompt-check"><input data-special-tag="about to orgasm face" type="checkbox"/>절정 직전 표정</label><label class="mini-prompt-check"><input data-special-tag="orgasm face" type="checkbox"/>절정 표정</label><label class="mini-prompt-check"><input data-special-tag="ahegao" type="checkbox"/>ahegao</label><label class="mini-prompt-check"><input data-special-tag="long tongue out" type="checkbox"/>혀를 길게 내밈</label><label class="mini-prompt-check"><input data-special-tag="heavy drooling" type="checkbox"/>침을 질질 흘림</label><label class="mini-prompt-check"><input data-special-tag="heart-shaped pupils" type="checkbox"/>눈이 하트로 변함</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">키스 / 애무</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="lips touching" type="checkbox"/>입술 맞대기</label><label class="mini-prompt-check"><input data-special-tag="gentle kiss" type="checkbox"/>가벼운 키스</label><label class="mini-prompt-check"><input data-special-tag="kiss" type="checkbox"/>키스</label><label class="mini-prompt-check"><input data-special-tag="tongue kiss" type="checkbox"/>혀가 섞이는 키스</label><label class="mini-prompt-check"><input data-special-tag="deep kiss" type="checkbox"/>딥키스</label><label class="mini-prompt-check"><input data-special-tag="french kiss" type="checkbox"/>프랑스식 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing eyelid" type="checkbox"/>눈에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="forehead kiss" type="checkbox"/>이마 키스</label><label class="mini-prompt-check"><input data-special-tag="cheek kiss" type="checkbox"/>볼 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing ear" type="checkbox"/>귀에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing neck" type="checkbox"/>목에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing collarbone" type="checkbox"/>쇄골 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing chest" type="checkbox"/>가슴에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing waist" type="checkbox"/>허리에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing stomach" type="checkbox"/>배에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing thigh" type="checkbox"/>허벅지에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing leg" type="checkbox"/>다리에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="kissing foot" type="checkbox"/>발에 하는 키스</label><label class="mini-prompt-check"><input data-special-tag="hand kiss" type="checkbox"/>손등 키스</label><label class="mini-prompt-check"><input data-special-tag="finger sucking" type="checkbox"/>손가락 빨기</label><label class="mini-prompt-check"><input data-special-tag="kissing nape" type="checkbox"/>목덜미 키스</label><label class="mini-prompt-check"><input data-special-tag="biting earlobe" type="checkbox"/>귓볼 깨물기</label><label class="mini-prompt-check"><input data-special-tag="kissing shoulder" type="checkbox"/>어깨 키스</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">삽입 · 체위</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="sex" type="checkbox"/>섹스</label><label class="mini-prompt-check"><input data-special-tag="doggy style" type="checkbox"/>후배위</label><label class="mini-prompt-check"><input data-special-tag="cowgirl" type="checkbox"/>카우걸</label><label class="mini-prompt-check"><input data-special-tag="reverse cowgirl" type="checkbox"/>리버스 카우걸</label><label class="mini-prompt-check"><input data-special-tag="missionary" type="checkbox"/>정상위</label><label class="mini-prompt-check"><input data-special-tag="mating press" type="checkbox"/>메이팅프레스</label><label class="mini-prompt-check"><input data-special-tag="standing sex" type="checkbox"/>입위</label><label class="mini-prompt-check"><input data-special-tag="against wall" type="checkbox"/>벽에 밀착</label><label class="mini-prompt-check"><input data-special-tag="deep penetration" type="checkbox"/>깊은삽입</label><label class="mini-prompt-check"><input data-special-tag="vaginal penetration" type="checkbox"/>질내삽입</label><label class="mini-prompt-check"><input data-special-tag="anal" type="checkbox"/>애널</label>
 <label class="mini-prompt-check"><input data-special-tag="fingering" type="checkbox"/>핑거링</label>
 <label class="mini-prompt-check"><input data-special-tag="anal fingering" type="checkbox"/>애널 핑거링</label>
 <label class="mini-prompt-check"><input data-special-tag="vaginal fingering" type="checkbox"/>질 핑거링</label>
@@ -1836,7 +1380,7 @@ renderAdminUpdateNote();
 <label class="mini-prompt-check"><input data-special-tag="hair pulling" type="checkbox"/>머리채 잡기</label>
 <label class="mini-prompt-check"><input data-special-tag="choking" type="checkbox"/>목 조르기</label>
 <label class="mini-prompt-check"><input data-special-tag="breeding" type="checkbox"/>브리딩</label>
-<label class="mini-prompt-check"><input data-special-tag="facial" type="checkbox"/>페이셜</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">오럴 · 자위 · 토이</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="oral" type="checkbox"/>오럴</label><label class="mini-prompt-check"><input data-special-tag="fellatio" type="checkbox"/>펠라치오</label><label class="mini-prompt-check"><input data-special-tag="cunnilingus" type="checkbox"/>커닐링구스</label><label class="mini-prompt-check"><input data-special-tag="deepthroat" type="checkbox"/>딥스로트</label><label class="mini-prompt-check"><input data-special-tag="irrumatio" type="checkbox"/>이라마치오</label><label class="mini-prompt-check"><input data-special-tag="masturbation" type="checkbox"/>자위</label><label class="mini-prompt-check"><input data-special-tag="female masturbation" type="checkbox"/>여성자위</label><label class="mini-prompt-check"><input data-special-tag="male masturbation" type="checkbox"/>남성자위</label><label class="mini-prompt-check"><input data-special-tag="mutual masturbation" type="checkbox"/>상호자위</label><label class="mini-prompt-check"><input data-special-tag="vibrator" type="checkbox"/>바이브레이터</label><label class="mini-prompt-check"><input data-special-tag="remote vibrator" type="checkbox"/>리모컨바이브</label><label class="mini-prompt-check"><input data-special-tag="dildo" type="checkbox"/>딜도</label><label class="mini-prompt-check"><input data-special-tag="anal beads" type="checkbox"/>애널비즈</label><label class="mini-prompt-check"><input data-special-tag="butt plug" type="checkbox"/>버트플러그</label><label class="mini-prompt-check"><input data-special-tag="deepthroat" type="checkbox"/>딥스로트</label><label class="mini-prompt-check"><input data-special-tag="face fucking" type="checkbox"/>페이스 퍼킹</label><label class="mini-prompt-check"><input data-special-tag="paizuri" type="checkbox"/>파이즈리</label><label class="mini-prompt-check"><input data-special-tag="footjob" type="checkbox"/>풋잡</label><label class="mini-prompt-check"><input data-special-tag="thighjob" type="checkbox"/>허벅지잡</label><label class="mini-prompt-check"><input data-special-tag="double penetration" type="checkbox"/>더블 페네트레이션</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">BDSM · 구속 / 도구</div><div class="prompt-quicktags">
+<label class="mini-prompt-check"><input data-special-tag="facial" type="checkbox"/>페이셜</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">오럴 · 자위 · 토이</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="oral" type="checkbox"/>오럴</label><label class="mini-prompt-check"><input data-special-tag="fellatio" type="checkbox"/>펠라치오</label><label class="mini-prompt-check"><input data-special-tag="cunnilingus" type="checkbox"/>커닐링구스</label><label class="mini-prompt-check"><input data-special-tag="deepthroat" type="checkbox"/>딥스로트</label><label class="mini-prompt-check"><input data-special-tag="irrumatio" type="checkbox"/>이라마치오</label><label class="mini-prompt-check"><input data-special-tag="masturbation" type="checkbox"/>자위</label><label class="mini-prompt-check"><input data-special-tag="female masturbation" type="checkbox"/>여성자위</label><label class="mini-prompt-check"><input data-special-tag="male masturbation" type="checkbox"/>남성자위</label><label class="mini-prompt-check"><input data-special-tag="mutual masturbation" type="checkbox"/>상호자위</label><label class="mini-prompt-check"><input data-special-tag="vibrator" type="checkbox"/>바이브레이터</label><label class="mini-prompt-check"><input data-special-tag="remote vibrator" type="checkbox"/>리모컨바이브</label><label class="mini-prompt-check"><input data-special-tag="dildo" type="checkbox"/>딜도</label><label class="mini-prompt-check"><input data-special-tag="anal beads" type="checkbox"/>애널비즈</label><label class="mini-prompt-check"><input data-special-tag="butt plug" type="checkbox"/>버트플러그</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">BDSM · 구속 / 도구</div><div class="prompt-quicktags">
 <label class="mini-prompt-check"><input data-special-tag="bondage" type="checkbox"/>구속</label>
 <label class="mini-prompt-check"><input data-special-tag="rope bondage" type="checkbox"/>로프바인딩</label>
 <label class="mini-prompt-check"><input data-special-tag="silk rope bondage" type="checkbox"/>실크로프</label>
@@ -1885,10 +1429,7 @@ renderAdminUpdateNote();
 <label class="mini-prompt-check"><input data-special-tag="bodysuit" type="checkbox"/>바디수트</label>
 <label class="mini-prompt-check"><input data-special-tag="corset" type="checkbox"/>코르셋</label>
 <label class="mini-prompt-check"><input data-special-tag="silk robe" type="checkbox"/>실크가운</label>
-<label class="mini-prompt-check"><input data-special-tag="torn clothes" type="checkbox"/>찢어진 옷</label><label class="mini-prompt-check"><input data-special-tag="clothes aside" type="checkbox"/>옷을 옆으로 젖힘</label><label class="mini-prompt-check"><input data-special-tag="no panties" type="checkbox"/>팬티 없음</label><label class="mini-prompt-check"><input data-special-tag="see-through clothes" type="checkbox"/>비치는 옷</label><label class="mini-prompt-check"><input data-special-tag="wet clothes" type="checkbox"/>젖은 옷</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">BDSM · 역할 / 컨트롤</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="collar" type="checkbox"/>칼라</label><label class="mini-prompt-check"><input data-special-tag="leash" type="checkbox"/>리드줄</label><label class="mini-prompt-check"><input data-special-tag="dominant" type="checkbox"/>지배</label><label class="mini-prompt-check"><input data-special-tag="submissive" type="checkbox"/>복종</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">연출 / 선 효과</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="speed lines" type="checkbox"/>움직임</label><label class="mini-prompt-check"><input data-special-tag="shaky lines" type="checkbox"/>떨림</label><label class="mini-prompt-check"><input data-special-tag="dashed lines" type="checkbox"/>파선</label><label class="mini-prompt-check"><input data-special-tag="motion blur" type="checkbox"/>잔상</label><label class="mini-prompt-check"><input data-special-tag="action lines" type="checkbox"/>액션선</label><label class="mini-prompt-check"><input data-special-tag="impact lines" type="checkbox"/>충격선</label><label class="mini-prompt-check"><input data-special-tag="focus lines" type="checkbox"/>집중선</label><label class="mini-prompt-check"><input data-special-tag="dynamic angle" type="checkbox"/>역동구도</label><label class="mini-prompt-check"><input data-special-tag="morning after" type="checkbox"/>아침 여운</label><label class="mini-prompt-check"><input data-special-tag="caught in the act" type="checkbox"/>들킨 순간</label><label class="mini-prompt-check"><input data-special-tag="secret sex" type="checkbox"/>몰래 하는 섹스</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">흔적 / 반응</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="hickey" type="checkbox"/>키스마크</label><label class="mini-prompt-check"><input data-special-tag="bite mark" type="checkbox"/>이빨자국</label><label class="mini-prompt-check"><input data-special-tag="scratch marks" type="checkbox"/>긁힌자국</label><label class="mini-prompt-check"><input data-special-tag="lipstick mark" type="checkbox"/>립스틱자국</label><label class="mini-prompt-check"><input data-special-tag="sweat" type="checkbox"/>땀</label><label class="mini-prompt-check"><input data-special-tag="saliva" type="checkbox"/>침</label><label class="mini-prompt-check"><input data-special-tag="open mouth, concentrated white turbidity in mouth, blush" type="checkbox"/>입안백탁</label><label class="mini-prompt-check"><input data-special-tag="creampie" type="checkbox"/>크림파이</label><label class="mini-prompt-check"><input data-special-tag="cum overflow" type="checkbox"/>정액 흘러넘침</label><label class="mini-prompt-check"><input data-special-tag="sweat" type="checkbox"/>땀</label><label class="mini-prompt-check"><input data-special-tag="tears" type="checkbox"/>눈물</label><label class="mini-prompt-check"><input data-special-tag="saliva trail" type="checkbox"/>침 줄기</label><label class="mini-prompt-check"><input data-special-tag="body writing" type="checkbox"/>바디 라이팅</label><label class="mini-prompt-check"><input data-special-tag="hickey" type="checkbox"/>키스 마크</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">노출 / 신체</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="unbuttoned shirt" type="checkbox"/>셔츠풀림</label><label class="mini-prompt-check"><input data-special-tag="open shirt" type="checkbox"/>셔츠벌어짐</label><label class="mini-prompt-check"><input data-special-tag="shirt lift" type="checkbox"/>상의들림</label><label class="mini-prompt-check"><input data-special-tag="slipped strap" type="checkbox"/>어깨끈흘러내림</label><label class="mini-prompt-check"><input data-special-tag="cleavage" type="checkbox"/>가슴골노출</label><label class="mini-prompt-check"><input data-special-tag="bra visible" type="checkbox"/>브라노출</label><label class="mini-prompt-check"><input data-special-tag="underwear visible" type="checkbox"/>속옷노출</label><label class="mini-prompt-check"><input data-special-tag="panties visible" type="checkbox"/>팬티노출</label><label class="mini-prompt-check"><input data-special-tag="skirt lift" type="checkbox"/>치마들림</label><label class="mini-prompt-check"><input data-special-tag="pants pulled down" type="checkbox"/>바지내림</label><label class="mini-prompt-check"><input data-special-tag="loosened clothes" type="checkbox"/>옷흐트러짐</label><label class="mini-prompt-check"><input data-special-tag="naked" type="checkbox"/>나체</label><label class="mini-prompt-check"><input data-special-tag="nude" type="checkbox"/>누드</label><label class="mini-prompt-check"><input data-special-tag="fully nude" type="checkbox"/>전라</label><label class="mini-prompt-check"><input data-special-tag="shirtless" type="checkbox"/>상의탈의</label><label class="mini-prompt-check"><input data-special-tag="topless" type="checkbox"/>토플리스</label><label class="mini-prompt-check"><input data-special-tag="bottomless" type="checkbox"/>하의탈의</label><label class="mini-prompt-check"><input data-special-tag="nipples" type="checkbox"/>유두</label><label class="mini-prompt-check"><input data-special-tag="inverted nipples" type="checkbox"/>함몰유두</label><label class="mini-prompt-check"><input data-special-tag="erect nipples" type="checkbox"/>돌출유두</label><label class="mini-prompt-check"><input data-special-tag="large nipples" type="checkbox"/>큰유두</label><label class="mini-prompt-check"><input data-special-tag="small nipples" type="checkbox"/>작은유두</label><label class="mini-prompt-check"><input data-special-tag="large areolae" type="checkbox"/>큰유륜</label><label class="mini-prompt-check"><input data-special-tag="pink nipples" type="checkbox"/>분홍유두</label><label class="mini-prompt-check"><input data-special-tag="dark nipples" type="checkbox"/>짙은유두</label><label class="mini-prompt-check"><input data-special-tag="tongue out" type="checkbox"/>혀내밀기</label><label class="mini-prompt-check"><input data-special-tag="genitals visible" type="checkbox"/>성기전체노출</label><label class="mini-prompt-check"><input data-special-tag="penis visible" type="checkbox"/>성기노출</label><label class="mini-prompt-check"><input data-special-tag="erect penis" type="checkbox"/>발기</label><label class="mini-prompt-check"><input data-special-tag="big penis" type="checkbox"/>큰성기</label><label class="mini-prompt-check"><input data-special-tag="big dick" type="checkbox"/>대물</label><label class="mini-prompt-check"><input data-special-tag="spread legs" type="checkbox"/>다리 벌림</label><label class="mini-prompt-check"><input data-special-tag="presenting" type="checkbox"/>보여주는 자세</label><label class="mini-prompt-check"><input data-special-tag="ass focus" type="checkbox"/>엉덩이 강조</label><label class="mini-prompt-check"><input data-special-tag="breast focus" type="checkbox"/>가슴 강조</label><label class="mini-prompt-check"><input data-special-tag="pussy focus" type="checkbox"/>보지 강조</label></div></div></div><div class="quick-recommend-hint" id="exposureStageHint">🔒 SFW 모드 · 노출 단계 추천 잠금</div><div class="quick-recommend-hint" id="quickRecommendHint">NSFW 모드를 켜면 현재 장르/카테고리에 어울리는 효과를 추천 표시합니다.</div></div></details>
-</section>
-
-<details class="panel collapsible-panel prompt-output-panel" id="novelPromptPanel" open=""><summary><div class="collapse-title-wrap"><h2 class="collapse-title">04 · NovelAI Prompt</h2><p class="collapse-desc">생성된 영어 태그는 직접 수정할 수 있습니다. 아래 효과 버튼을 눌러 즉시 추가할 수 있으며, {{user}} 캐릭터 태그는 프롬프트 맨 아래에 한 문단 띄워 별도로 배치됩니다.</p></div><span class="collapse-arrow">⌄</span></summary><div class="collapse-body"><textarea class="prompt" id="prompt"></textarea><div class="toolbar"><button class="tool primary" id="copyPrompt">📋 NovelAI 태그 복사</button><button class="tool" id="optimizePrompt">✨ 프롬프트 최적화</button><button class="tool" id="saveFavorite">⭐ 현재 조합 저장</button><button class="tool" id="copyKo">🇰🇷 한글 결과 복사</button></div><div class="status" id="status"></div><div class="diagnostic-panel" id="promptDiagnostic"><div class="diagnostic-title">🧪 프롬프트 진단</div><div class="diagnostic-chips" id="diagnosticChips"></div></div></div></details>
+</div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">BDSM · 역할 / 컨트롤</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="collar" type="checkbox"/>칼라</label><label class="mini-prompt-check"><input data-special-tag="leash" type="checkbox"/>리드줄</label><label class="mini-prompt-check"><input data-special-tag="dominant" type="checkbox"/>지배</label><label class="mini-prompt-check"><input data-special-tag="submissive" type="checkbox"/>복종</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">연출 / 선 효과</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="speed lines" type="checkbox"/>움직임</label><label class="mini-prompt-check"><input data-special-tag="shaky lines" type="checkbox"/>떨림</label><label class="mini-prompt-check"><input data-special-tag="dashed lines" type="checkbox"/>파선</label><label class="mini-prompt-check"><input data-special-tag="motion blur" type="checkbox"/>잔상</label><label class="mini-prompt-check"><input data-special-tag="action lines" type="checkbox"/>액션선</label><label class="mini-prompt-check"><input data-special-tag="impact lines" type="checkbox"/>충격선</label><label class="mini-prompt-check"><input data-special-tag="focus lines" type="checkbox"/>집중선</label><label class="mini-prompt-check"><input data-special-tag="dynamic angle" type="checkbox"/>역동구도</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">흔적 / 반응</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="hickey" type="checkbox"/>키스마크</label><label class="mini-prompt-check"><input data-special-tag="bite mark" type="checkbox"/>이빨자국</label><label class="mini-prompt-check"><input data-special-tag="scratch marks" type="checkbox"/>긁힌자국</label><label class="mini-prompt-check"><input data-special-tag="lipstick mark" type="checkbox"/>립스틱자국</label><label class="mini-prompt-check"><input data-special-tag="sweat" type="checkbox"/>땀</label><label class="mini-prompt-check"><input data-special-tag="saliva" type="checkbox"/>침</label><label class="mini-prompt-check"><input data-special-tag="open mouth, concentrated white turbidity in mouth, blush" type="checkbox"/>입안백탁</label></div></div><div class="prompt-quickgroup"><div class="prompt-quickgroup-title">노출 / 신체</div><div class="prompt-quicktags"><label class="mini-prompt-check"><input data-special-tag="unbuttoned shirt" type="checkbox"/>셔츠풀림</label><label class="mini-prompt-check"><input data-special-tag="open shirt" type="checkbox"/>셔츠벌어짐</label><label class="mini-prompt-check"><input data-special-tag="shirt lift" type="checkbox"/>상의들림</label><label class="mini-prompt-check"><input data-special-tag="slipped strap" type="checkbox"/>어깨끈흘러내림</label><label class="mini-prompt-check"><input data-special-tag="cleavage" type="checkbox"/>가슴골노출</label><label class="mini-prompt-check"><input data-special-tag="bra visible" type="checkbox"/>브라노출</label><label class="mini-prompt-check"><input data-special-tag="underwear visible" type="checkbox"/>속옷노출</label><label class="mini-prompt-check"><input data-special-tag="panties visible" type="checkbox"/>팬티노출</label><label class="mini-prompt-check"><input data-special-tag="skirt lift" type="checkbox"/>치마들림</label><label class="mini-prompt-check"><input data-special-tag="pants pulled down" type="checkbox"/>바지내림</label><label class="mini-prompt-check"><input data-special-tag="loosened clothes" type="checkbox"/>옷흐트러짐</label><label class="mini-prompt-check"><input data-special-tag="naked" type="checkbox"/>나체</label><label class="mini-prompt-check"><input data-special-tag="nude" type="checkbox"/>누드</label><label class="mini-prompt-check"><input data-special-tag="fully nude" type="checkbox"/>전라</label><label class="mini-prompt-check"><input data-special-tag="shirtless" type="checkbox"/>상의탈의</label><label class="mini-prompt-check"><input data-special-tag="topless" type="checkbox"/>토플리스</label><label class="mini-prompt-check"><input data-special-tag="bottomless" type="checkbox"/>하의탈의</label><label class="mini-prompt-check"><input data-special-tag="nipples" type="checkbox"/>유두</label><label class="mini-prompt-check"><input data-special-tag="inverted nipples" type="checkbox"/>함몰유두</label><label class="mini-prompt-check"><input data-special-tag="erect nipples" type="checkbox"/>돌출유두</label><label class="mini-prompt-check"><input data-special-tag="large nipples" type="checkbox"/>큰유두</label><label class="mini-prompt-check"><input data-special-tag="small nipples" type="checkbox"/>작은유두</label><label class="mini-prompt-check"><input data-special-tag="large areolae" type="checkbox"/>큰유륜</label><label class="mini-prompt-check"><input data-special-tag="pink nipples" type="checkbox"/>분홍유두</label><label class="mini-prompt-check"><input data-special-tag="dark nipples" type="checkbox"/>짙은유두</label><label class="mini-prompt-check"><input data-special-tag="tongue out" type="checkbox"/>혀내밀기</label><label class="mini-prompt-check"><input data-special-tag="genitals visible" type="checkbox"/>성기전체노출</label><label class="mini-prompt-check"><input data-special-tag="penis visible" type="checkbox"/>성기노출</label><label class="mini-prompt-check"><input data-special-tag="erect penis" type="checkbox"/>발기</label><label class="mini-prompt-check"><input data-special-tag="big penis" type="checkbox"/>큰성기</label><label class="mini-prompt-check"><input data-special-tag="big dick" type="checkbox"/>대물</label></div></div></div><div class="quick-recommend-hint" id="exposureStageHint">🔒 SFW 모드 · 노출 단계 추천 잠금</div><div class="quick-recommend-hint" id="quickRecommendHint">NSFW 모드를 켜면 현재 장르/카테고리에 어울리는 효과를 추천 표시합니다.</div></div></details><textarea class="prompt" id="prompt"></textarea><div class="toolbar"><button class="tool primary" id="copyPrompt">📋 NovelAI 태그 복사</button><button class="tool" id="optimizePrompt">✨ 프롬프트 최적화</button><button class="tool" id="saveFavorite">⭐ 현재 조합 저장</button><button class="tool" id="copyKo">🇰🇷 한글 결과 복사</button></div><div class="status" id="status"></div><div class="diagnostic-panel" id="promptDiagnostic"><div class="diagnostic-title">🧪 프롬프트 진단</div><div class="diagnostic-chips" id="diagnosticChips"></div></div></div></details>
 <details class="panel collapsible-panel prompt-output-panel" id="negativePromptPanel"><summary><div class="collapse-title-wrap"><h2 class="collapse-title">04A · NovelAI Negative Prompt</h2><p class="collapse-desc">기본 네거티브에 NSFW·POV·다인·노출 상태별 보정 태그가 자동 추가됩니다. 직접 저장한 기본값은 브라우저가 기억합니다.</p></div><span class="collapse-arrow">⌄</span></summary><div class="collapse-body"><textarea class="prompt negative" id="negative"></textarea><div class="toolbar"><button class="tool primary" id="copyNegative">📋 NovelAI Negative 복사</button><button class="tool" id="resetNegative">↺ 기본값 복구</button><button class="tool" id="saveNegative">💾 네거티브 저장</button></div></div></details>
 <details class="panel collapsible-panel prompt-output-panel" id="pixPromptPanel"><summary><div class="collapse-title-wrap"><h2 class="collapse-title">05 · PixAI Prompt</h2><p class="collapse-desc">PixAI에서 바로 사용하기 쉽도록 Stable Diffusion 계열 태그 형식으로 정리합니다. 캐릭터를 지정한 경우 character1~3 블록을 문단으로 분리합니다.</p></div><span class="collapse-arrow">⌄</span></summary><div class="collapse-body"><textarea class="prompt" id="pixPrompt"></textarea><div class="toolbar"><button class="tool primary" id="copyPixPrompt">📋 PixAI 프롬프트 복사</button><button class="tool" id="optimizePixPrompt">✨ 프롬프트 최적화</button><button class="tool" id="savePixFavorite">⭐ 현재 조합 저장</button><button class="tool" id="copyPixKo">🇰🇷 한글 결과 복사</button></div></div></details>
 <details class="panel collapsible-panel prompt-output-panel" id="nijiPromptPanel"><summary><div class="collapse-title-wrap"><h2 class="collapse-title">06 · NijiJourney Prompt</h2><p class="collapse-desc">NijiJourney에 맞게 자연스러운 영어 서술형으로 정리합니다. 캐릭터를 지정한 경우 character1~3 블록을 별도 문단으로 분리합니다.</p></div><span class="collapse-arrow">⌄</span></summary><div class="collapse-body"><textarea class="prompt" id="nijiPrompt"></textarea><div class="toolbar"><button class="tool primary" id="copyNijiPrompt">📋 NijiJourney 프롬프트 복사</button><button class="tool" id="optimizeNijiPrompt">✨ 프롬프트 최적화</button><button class="tool" id="saveNijiFavorite">⭐ 현재 조합 저장</button><button class="tool" id="copyNijiKo">🇰🇷 한글 결과 복사</button></div></div></details>
@@ -6400,11 +5941,7 @@ if(new URLSearchParams(location.search).get('analytics-debug')==='1'){
   console.info('[Asset Gacha Analytics] debug mode. Run analyticsDebugTest() in console.');
 }
 
-function createCards(){cards.innerHTML='';const CORE_SLOTS=new Set(['background','outfit','expression','action','weather','mood']);
-const NSFW_CORE=new Set(['outfit','expression','action','mood','prop']); // minimized for NSFW
-const SFW_CORE=new Set(['background','outfit','expression','weather','mood','composition']);
-const MERGED_HIDDEN=new Set(['pose','season']);
-Object.entries(SLOTS).forEach(([k,t])=>{if(MERGED_HIDDEN.has(k))return;const el=document.createElement('article');el.className='card';el.id='card-'+k;el.dataset.slotKey=k;el.dataset.slotCore=CORE_SLOTS.has(k)?'1':'0';el.dataset.nsfwCore=NSFW_CORE.has(k)?'1':'0';el.dataset.sfwCore=SFW_CORE.has(k)?'1':'0';el.innerHTML=`<div class="card-top"><div class="card-title">${t}</div><div class="card-actions"><button class="icon" data-toggle="${k}" title="프롬프트 사용/제외">◉</button><button class="icon" data-reroll="${k}" title="이 항목만 재추첨">↻</button><button class="icon" data-lock="${k}" title="잠금">🔓</button></div></div><div class="ko" id="ko-${k}">-</div><div class="en" id="en-${k}">-</div><div class="slot-source" id="source-${k}"></div><div class="lock-note">🔒 이 결과는 고정되어 있습니다.</div><details class="slot-detail-picker" data-slot-picker="${k}"><summary><span>직접 선택 · 등록 후보</span><span>⌄</span></summary><div class="slot-picker-body"><input class="slot-picker-search" data-slot-search="${k}" type="search" placeholder="${t} 후보 검색"><div class="slot-picker-list" data-slot-list="${k}"><div class="slot-picker-empty">등록 후보를 불러오는 중...</div></div><select class="slot-picker-select" data-slot-select="${k}" size="6"></select><div class="slot-picker-meta" data-slot-meta="${k}">상세 모드에서 현재 장면에 등록된 후보를 직접 선택할 수 있습니다.</div></div></details>`;cards.appendChild(el)})}
+function createCards(){cards.innerHTML='';const CORE_SLOTS=new Set(['background','outfit','expression','action','weather','mood']);const MERGED_HIDDEN=new Set(['pose','season']);Object.entries(SLOTS).forEach(([k,t])=>{if(MERGED_HIDDEN.has(k))return;const el=document.createElement('article');el.className='card';el.id='card-'+k;el.dataset.slotKey=k;el.dataset.slotCore=CORE_SLOTS.has(k)?'1':'0';el.innerHTML=`<div class="card-top"><div class="card-title">${t}</div><div class="card-actions"><button class="icon" data-toggle="${k}" title="프롬프트 사용/제외">◉</button><button class="icon" data-reroll="${k}" title="이 항목만 재추첨">↻</button><button class="icon" data-lock="${k}" title="잠금">🔓</button></div></div><div class="ko" id="ko-${k}">-</div><div class="en" id="en-${k}">-</div><div class="slot-source" id="source-${k}"></div><div class="lock-note">🔒 이 결과는 고정되어 있습니다.</div><details class="slot-detail-picker" data-slot-picker="${k}"><summary><span>직접 선택 · 등록 후보</span><span>⌄</span></summary><div class="slot-picker-body"><input class="slot-picker-search" data-slot-search="${k}" type="search" placeholder="${t} 후보 검색"><div class="slot-picker-list" data-slot-list="${k}"><div class="slot-picker-empty">등록 후보를 불러오는 중...</div></div><select class="slot-picker-select" data-slot-select="${k}" size="6"></select><div class="slot-picker-meta" data-slot-meta="${k}">상세 모드에서 현재 장면에 등록된 후보를 직접 선택할 수 있습니다.</div></div></details>`;cards.appendChild(el)})}
 function loadCategories(keep=false){
   const oldCategory=category.value;
   const oldMiddle=middleCategoryValue();
@@ -7843,10 +7380,6 @@ function rollSceneOnce(opts={}){
   enforceSemanticQuality();
 }
 function rollAll(record=true, opts={}){
-  // 모드 상태 보존
-  const savedUiMode = document.body.dataset.uiMode || 'simple';
-  const savedNsfw = !!(document.getElementById('nsfwMode')?.checked);
-
   const keepCategory=opts.keepCategory===true;
   const picked=keepCategory?category.value:'';
   rollSceneOnce(opts);
@@ -9816,8 +9349,7 @@ if(document.body.classList.contains('access-locked')){
       }
     }
   }
-  function mountQuickEffects(){return; /* disabled - quick effects live under slots */
-
+  function mountQuickEffects(){
     const host = $('floatQuickMount');
     const src = $('quickEffectsDetails');
     if(!host||!src) return;
@@ -9839,7 +9371,7 @@ if(document.body.classList.contains('access-locked')){
     if(!wrap || wrap.dataset.boundQuick==='1') return;
     wrap.dataset.boundQuick='1';
     wrap.addEventListener('toggle', ()=>{
-      /* mountQuickEffects(); disabled */
+      mountQuickEffects();
       expandPanelForQuick(wrap.open);
     });
   }
@@ -9894,13 +9426,13 @@ if(document.body.classList.contains('access-locked')){
     }catch(_){}
   }
   function boot(){
-    /* mountQuickEffects(); disabled */
+    mountQuickEffects();
     bindQuickToggle();
     bindResize();
     const a=$('quickEffectCount');
     if(a) obs.observe(a,{childList:true,characterData:true,subtree:true});
     document.getElementById('promptFloatToggle')?.addEventListener('click',()=>setTimeout(()=>{
-      /* mountQuickEffects(); disabled */
+      mountQuickEffects();
       bindQuickToggle();
       if($('floatQuickEffects')?.open) expandPanelForQuick(true);
     },0));
@@ -9967,80 +9499,42 @@ if(document.body.classList.contains('access-locked')){
 })();
 </script>
 
-<button id="helpPanelFab" title="사용 방법 도움말" type="button">❓ 도움말</button>
+<button id="helpPanelFab" title="도움말" type="button">❓ 도움말</button>
 <div aria-labelledby="helpPanelTitle" aria-modal="true" id="helpPanelOverlay" role="dialog">
 <div id="helpPanelBox">
-<h2 id="helpPanelTitle">생성기 사용 방법 · 상세</h2>
-<p>이 도구는 <b>랜덤 제안</b>과 <b>직접 고른 규칙</b>을 조합해서 NovelAI / PixAI / NijiJourney용 프롬프트를 만듭니다. 아래 순서대로 사용하면 가장 안정적입니다.</p>
-
-<h3>1. 기본 사용 흐름 (추천)</h3>
-<ol>
-<li><b>콘텐츠 모드</b> 선택 (SFW / NSFW)<br>→ NSFW를 선택하면 수위·행위 관련 기능이 열리고, 랜덤 슬롯이 핵심 항목만 남습니다.</li>
-<li><b>장르 · 중분류 · 소분류</b> 선택<br>→ 장면에 맞는 배경·의상·행동 풀이 자동으로 필터링됩니다.</li>
-<li><b>인원 / 성별 / 관계</b> 설정<br>→ 1인 / 2인 / 3인에 따라 캐릭터 블록이 달라집니다.</li>
-<li>(선택) <b>테마 · 트롭</b>, 캐릭터 외형, 역할 배치 등을 상세 모드에서 추가</li>
-<li><b>🎲 랜덤 생성</b> 버튼 클릭 (또는 하단 바)</li>
-<li>나온 슬롯 결과를 확인하고, 마음에 안 드는 항목만 <b>↻ 재추첨</b> 또는 <b>🔒 잠금</b></li>
-<li>NSFW일 경우 <b>빠른 효과 / 흔적 태그</b>에서 원하는 행위·표정·흔적을 체크</li>
-<li>우측 하단 <b>📋 프롬프트</b> 팝업에서 Novel / Pix / Niji 중 원하는 형식으로 복사</li>
-</ol>
-
-<h3>2. 모드별 차이</h3>
+<h2 id="helpPanelTitle">생성기 도움말 · 짧게</h2>
+<p>랜덤은 <b>제안</b>이고, 고른 설정은 <b>규칙</b>입니다. 아래 순서로 프롬프트가 맞춰집니다.</p>
+<h3>1. 우선순위</h3>
 <ul>
-<li><b>간편 모드</b>: 핵심만 빠르게. 하단 바로 생성 → 복사. 슬롯은 핵심 6개 정도만 보입니다.</li>
-<li><b>상세 모드</b>: 모든 슬롯, 테마, 캐릭터 A/B/C 세부 설정, 디렉터, 가이드버스 능력 등을 직접 제어합니다.</li>
-<li><b>SFW / NSFW</b>:
-  <ul>
-  <li>SFW → 장면·배경·날씨·구도 중심 슬롯이 기본 표시됩니다. 빠른효과 패널은 숨겨집니다.</li>
-  <li>NSFW → 의상·표정·행동·분위기·소품 위주로 슬롯이 최소화됩니다. 빠른효과/흔적 태그가 슬롯 바로 아래에 나타납니다.</li>
-  </ul>
-</li>
+<li>MODE → 카테고리/종족 → 빠른효과 → 인원·역할·체위 → 수위 → 랜덤 슬롯</li>
+<li>위에 있는 항목이 아래 슬롯 결과보다 우선합니다.</li>
 </ul>
-
-<h3>3. 랜덤 슬롯 사용법</h3>
+<h3>2. 빠른효과 / 흔적 태그</h3>
 <ul>
-<li>각 카드: <b>◉/○</b> 사용 여부 토글, <b>↻</b> 해당 항목만 재추첨, <b>🔓/🔒</b> 잠금</li>
-<li>잠근 항목은 다음 전체 생성 시에도 유지됩니다.</li>
-<li>NSFW 모드에서는 핵심 슬롯만 보이며, <b>슬롯 더보기</b> 버튼으로 나머지(배경·조명·카메라 등)를 펼칠 수 있습니다.</li>
-<li>직접 선택하고 싶으면 카드 하단의 “직접 선택 · 등록 후보”를 열어 검색 후 고르세요. (상세 모드에서 더 잘 보입니다)</li>
+<li><b>누드</b> 체크 → 의상 슬롯 태그 제외</li>
+<li><b>행위·체위</b> 체크 → 행동·자세 슬롯 태그 제외</li>
+<li>프롬프트 팝업(📋) 안에서 켜고 복사하면 됩니다.</li>
 </ul>
-
-<h3>4. 빠른 효과 / 흔적 태그 (NSFW)</h3>
+<h3>3. 카테고리 정합</h3>
 <ul>
-<li>랜덤 슬롯 바로 아래에 위치합니다. (기존 팝업에서 이동됨)</li>
-<li>체크한 태그는 프롬프트에 즉시 반영됩니다.</li>
-<li><b>누드</b> 계열 체크 시 → 의상 슬롯 태그가 자동으로 제외됩니다.</li>
-<li><b>행위·체위</b> 체크 시 → 행동·자세 슬롯과 충돌하는 태그가 정리됩니다.</li>
-<li>“자연스럽게 / 더 강하게 / 연출 강화 / 초기화” 버튼으로 일괄 추천 또는 리셋 가능합니다.</li>
+<li>예: 인외·슬라임 → 슬라임 계열 고정, 촉수/수인 섞임 차단</li>
+<li>오피스 ↔ 판타지·인외 이질 태그 자동 정리</li>
 </ul>
-
-<h3>5. 캐릭터 관련</h3>
+<h3>4. 한 장 이미지</h3>
 <ul>
-<li>1인 / 2인 / 3인 모드에 따라 Character A/B/C 블록이 생성됩니다.</li>
-<li>외형 태그, 역할(공/수 등), 위치, 행동, 시선을 각각 지정할 수 있습니다.</li>
-<li>2인 이상일 때 상호작용이 더 강하게 반영되도록 자동 보정됩니다.</li>
-<li>{{user}} 캐릭터를 켜면 별도 문단으로 추가됩니다.</li>
+<li>분할·만화 칸·콜라주 계열은 막고, single image 쪽으로 맞춥니다.</li>
 </ul>
-
-<h3>6. 프롬프트 출력</h3>
+<h3>5. 출력</h3>
 <ul>
-<li><b>NovelAI</b>: 태그 형식 (쉼표 구분)</li>
-<li><b>PixAI</b>: 문단 형식</li>
-<li><b>NijiJourney</b>: 자연스러운 서술 문장</li>
-<li>세 형식 모두 같은 의미를 담지만 표현 방식이 다릅니다. 복사 전에 원하는 탭을 선택하세요.</li>
-<li>생성/복사 시 중복·충돌 태그가 한 번 더 정리됩니다.</li>
+<li><b>Novel</b> 태그 · <b>Pix</b> 문단 · <b>Niji</b> 문장 — 같은 의미, 다른 형식</li>
+<li>생성·복사 시 중복/충돌 태그를 한 번 더 정리합니다.</li>
 </ul>
-
-<h3>7. 자주 하는 실수 & 해결</h3>
+<h3>6. 모드</h3>
 <ul>
-<li>태그가 이상하거나 섞여 나옴 → 카테고리 확인 → 빠른효과 확인 → 해당 슬롯만 재추첨 → 다시 생성</li>
-<li>의상이 안 바뀜 → “누드” 관련 빠른효과가 켜져 있는지 확인</li>
-<li>캐릭터가 섞임 → 2인/3인 모드에서 각 캐릭터의 고유 외형·의상·행동을 명확히 다르게 적어주세요</li>
-<li>화면이 이상함 → 강력 새로고침 (Ctrl+Shift+R) 또는 캐시 삭제</li>
+<li><b>간편</b> — 뽑고 복사 (하단·팝업)</li>
+<li><b>상세</b> — 역할/테마/슬롯까지 직접 제어</li>
 </ul>
-
-<p class="help-foot">우선순위 요약: MODE → 카테고리 → 인원/역할 → 빠른효과 → 수위 → 랜덤 슬롯. 위에 있는 설정이 아래 결과를 덮습니다.</p>
-<button id="reopenTutorial" type="button" style="width:100%;height:38px;margin-bottom:8px;border:1px solid rgba(166,140,255,.35);border-radius:10px;background:rgba(166,140,255,.08);color:#d8ceff;font-weight:900;cursor:pointer">👋 튜토리얼 다시 보기</button>
+<p class="help-foot">태그가 이상하면: 카테고리 확인 → 빠른효과 확인 → 해당 슬롯만 재추첨 → 다시 생성</p>
 <button id="helpPanelClose" type="button">닫기</button>
 </div>
 </div>
@@ -10058,11 +9552,6 @@ if(document.body.classList.contains('access-locked')){
   });
   document.addEventListener('keydown',(e)=>{if(e.key==='Escape')close()});
 })();
-
-document.getElementById('reopenTutorial')?.addEventListener('click',()=>{
-  document.getElementById('helpPanelOverlay')?.classList.remove('open');
-  if(window.__openTutorial) window.__openTutorial();
-});
 </script>
 <style id="sceneThemeWeightStyle">
 .scene-theme-engine-note{margin-top:10px;padding:10px 12px;border:1px solid rgba(166,140,255,.16);border-radius:12px;background:rgba(166,140,255,.05);font-size:10px;line-height:1.6;color:#bdb3ce}
@@ -10656,749 +10145,5 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
   panel.classList.toggle('collapsed');
   this.textContent = panel.classList.contains('collapsed') ? '랜덤 슬롯 펼치기' : '랜덤 슬롯 접기';
 });
-</script>
-
-
-<script id="uiuxModeSlotControl">
-(()=>{
-  function updateModeClasses(){
-    const nsfwBtn = document.querySelector('[data-content-mode="nsfw"].active') || document.querySelector('#modePillNsfw.active');
-    const nsfwCheck = document.getElementById('nsfwMode');
-    const nsfw = !!(nsfwBtn || (nsfwCheck && nsfwCheck.checked) || document.body.dataset.contentMode === 'nsfw');
-    document.body.classList.toggle('nsfw-mode', nsfw);
-    document.body.classList.toggle('sfw-mode', !nsfw);
-
-    // Force quick effects panel visibility
-    const panel = document.getElementById('quickEffectsPanel');
-    if(panel){
-      panel.style.display = nsfw ? 'block' : 'none';
-      const details = document.getElementById('quickEffectsDetails');
-      if(details && nsfw) details.open = true;
-    }
-  }
-  document.addEventListener('click', e=>{
-    if(e.target.closest('[data-content-mode]')) setTimeout(updateModeClasses, 30);
-  });
-  setTimeout(updateModeClasses, 300);
-  setTimeout(updateModeClasses, 1200);
-  const nsfwCheck = document.getElementById('nsfwMode');
-  if(nsfwCheck) nsfwCheck.addEventListener('change', updateModeClasses);
-  window.__updateModeClasses = updateModeClasses;
-})();
-</script>
-
-
-<!-- ===== First Visit Tutorial ===== -->
-<style id="firstVisitTutorialStyle">
-.tutorial-overlay{
-  position:fixed;inset:0;z-index:11000;
-  background:rgba(8,6,12,.88);
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  display:none;align-items:center;justify-content:center;
-  padding:20px;
-}
-.tutorial-overlay.open{display:flex}
-.tutorial-box{
-  width:min(480px,100%);
-  background:linear-gradient(160deg,#1c1724,#14101a);
-  border:1px solid rgba(166,140,255,.4);
-  border-radius:22px;
-  padding:28px 24px 22px;
-  box-shadow:0 30px 80px rgba(0,0,0,.55);
-  text-align:center;
-  color:#f7f3fa;
-}
-.tutorial-box .tut-icon{font-size:36px;margin-bottom:8px}
-.tutorial-box h2{margin:0 0 8px;font-size:20px;letter-spacing:-.03em}
-.tutorial-box .tut-step-label{
-  display:inline-block;margin-bottom:12px;padding:4px 10px;border-radius:999px;
-  background:rgba(166,140,255,.15);border:1px solid rgba(166,140,255,.3);
-  color:#d8ceff;font-size:11px;font-weight:900;
-}
-.tutorial-box p{margin:0 0 16px;font-size:14px;line-height:1.65;color:#c8bfcf;text-align:left}
-.tutorial-box .tut-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-.tutorial-box .tut-btn{
-  height:44px;padding:0 18px;border:0;border-radius:12px;font-size:13px;font-weight:900;cursor:pointer;
-}
-.tutorial-box .tut-btn.primary{background:linear-gradient(135deg,#9d7aff,#7657ff);color:#fff}
-.tutorial-box .tut-btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.14);color:#aaa3b4}
-.tutorial-box .tut-progress{margin-top:14px;font-size:11px;color:#7e7787}
-.tutorial-box .tut-skip-note{margin-top:10px;font-size:10px;color:#6f6878}
-</style>
-
-<div aria-hidden="true" aria-labelledby="tutorialTitle" class="tutorial-overlay" id="tutorialOverlay" role="dialog">
-  <div class="tutorial-box">
-    <div class="tut-icon" id="tutIcon">👋</div>
-    <div class="tut-step-label" id="tutStepLabel">1 / 5</div>
-    <h2 id="tutorialTitle">환영합니다</h2>
-    <p id="tutBody">이 생성기는 랜덤 제안과 직접 고른 설정을 조합해 NovelAI / PixAI / Niji용 프롬프트를 만듭니다.</p>
-    <div class="tut-actions">
-      <button class="tut-btn ghost" id="tutSkip" type="button">건너뛰기</button>
-      <button class="tut-btn primary" id="tutNext" type="button">다음</button>
-    </div>
-    <div class="tut-progress" id="tutProgress">처음 방문이시라면 짧게 둘러보세요</div>
-    <div class="tut-skip-note">언제든지 좌하단 ❓ 도움말에서 다시 볼 수 있습니다</div>
-  </div>
-</div>
-
-<script id="firstVisitTutorialScript">
-(()=>{
-  const KEY = 'assetGachaTutorialSeenV1';
-  const steps = [
-    {
-      icon: '👋',
-      title: '환영합니다',
-      body: '이 생성기는 <b>랜덤 제안</b>과 <b>직접 고른 설정</b>을 조합해 NovelAI / PixAI / NijiJourney용 프롬프트를 만듭니다.<br>처음이라면 아래 순서만 기억해 주세요.'
-    },
-    {
-      icon: '🔀',
-      title: '1. 모드 선택',
-      body: '상단에서 <b>SFW / NSFW</b>를 먼저 고르세요.<br>• NSFW → 수위·행위 기능이 열리고 슬롯이 핵심만 남습니다.<br>• 간편 / 상세 모드도 함께 선택할 수 있습니다.'
-    },
-    {
-      icon: '🎲',
-      title: '2. 랜덤 생성',
-      body: '<b>🎲 랜덤 생성</b> 버튼을 누르면 현재 설정에 맞는 슬롯(배경, 의상, 표정, 행동 등)이 채워집니다.<br>마음에 안 드는 항목만 ↻ 재추첨하거나 🔒 잠글 수 있습니다.'
-    },
-    {
-      icon: '⚡',
-      title: '3. 빠른 효과 (NSFW)',
-      body: 'NSFW 모드에서는 랜덤 슬롯 바로 아래에 <b>빠른 효과 / 흔적 태그</b>가 나타납니다.<br>원하는 행위·표정·흔적을 체크하면 프롬프트에 즉시 반영됩니다.'
-    },
-    {
-      icon: '📋',
-      title: '4. 복사하기',
-      body: '우측 하단 <b>📋 프롬프트</b> 버튼을 눌러 Novel / Pix / Niji 중 원하는 형식으로 복사하세요.<br>세 형식 모두 같은 의미를 담지만 표현 방식이 다릅니다.'
-    }
-  ];
-
-  let current = 0;
-  const overlay = document.getElementById('tutorialOverlay');
-  const iconEl = document.getElementById('tutIcon');
-  const labelEl = document.getElementById('tutStepLabel');
-  const titleEl = document.getElementById('tutorialTitle');
-  const bodyEl = document.getElementById('tutBody');
-  const nextBtn = document.getElementById('tutNext');
-  const skipBtn = document.getElementById('tutSkip');
-  const progressEl = document.getElementById('tutProgress');
-
-  function render(){
-    const s = steps[current];
-    iconEl.textContent = s.icon;
-    labelEl.textContent = `${current + 1} / ${steps.length}`;
-    titleEl.textContent = s.title;
-    bodyEl.innerHTML = s.body;
-    nextBtn.textContent = current === steps.length - 1 ? '시작하기' : '다음';
-    progressEl.textContent = current === steps.length - 1 ? '이제 바로 사용해 보세요!' : '짧게 둘러보는 중입니다';
-  }
-
-  function open(){
-    if(!overlay) return;
-    current = 0;
-    render();
-    overlay.classList.add('open');
-    overlay.setAttribute('aria-hidden','false');
-  }
-  function close(markSeen=true){
-    if(!overlay) return;
-    overlay.classList.remove('open');
-    overlay.setAttribute('aria-hidden','true');
-    if(markSeen){
-      try{ localStorage.setItem(KEY, '1'); }catch(_){}
-    }
-  }
-
-  nextBtn?.addEventListener('click', ()=>{
-    if(current < steps.length - 1){
-      current++;
-      render();
-    } else {
-      close(true);
-    }
-  });
-  skipBtn?.addEventListener('click', ()=>close(true));
-  overlay?.addEventListener('click', e=>{
-    if(e.target === overlay) close(true);
-  });
-
-  // Show only on first visit, after access is unlocked
-  function maybeShow(){
-    try{
-      if(localStorage.getItem(KEY) === '1') return;
-    }catch(_){}
-    // Wait a bit so age/access gates finish
-    setTimeout(()=>{
-      if(document.body.classList.contains('access-locked')) return;
-      open();
-    }, 600);
-  }
-
-  // Listen for auth ready if it exists
-  window.addEventListener('nsfw-auth-ready', ()=>setTimeout(maybeShow, 300), {once:true});
-  // Fallback: if already unlocked
-  if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', maybeShow, {once:true});
-  } else {
-    setTimeout(maybeShow, 400);
-  }
-
-  // Expose for help panel re-open
-  window.__openTutorial = open;
-})();
-</script>
-
-<script id="quickGroupNoScrollJump">
-(()=>{
-  // 스크롤 점프만 완화, 토글 자체는 브라우저 기본 동작 유지
-  document.addEventListener('click', function(e){
-    const summary = e.target.closest('details.quick-group-fold > summary');
-    if(!summary) return;
-    // preventDefault 하지 않음 - 정상 토글 허용
-    const details = summary.parentElement;
-    setTimeout(()=>{
-      if(details && details.open){
-        const rect = summary.getBoundingClientRect();
-        if(rect.top < 60){
-          summary.scrollIntoView({behavior:'smooth', block:'nearest'});
-        }
-      }
-    }, 50);
-  }, true);
-})();
-</script>
-
-<script id="quickEffectsStayOpen">
-(()=>{
-  // 하위 카테고리 클릭이 메인 패널을 닫지 않도록만 처리
-  // 메인 제목 클릭은 정상 토글 허용
-  document.addEventListener('click', function(e){
-    const innerGroup = e.target.closest('details.quick-group-fold');
-    if(innerGroup){
-      e.stopPropagation();
-    }
-  }, true);
-
-  // 메인이 의도치 않게 닫히면 다시 열기 (하위 클릭 직후에만)
-  let lastInnerClick = 0;
-  document.addEventListener('click', function(e){
-    if(e.target.closest('details.quick-group-fold')) lastInnerClick = Date.now();
-  }, true);
-
-  const main = document.getElementById('quickEffectsDetails');
-  if(main){
-    main.addEventListener('toggle', ()=>{
-      if(!main.open && Date.now() - lastInnerClick < 300){
-        main.open = true;
-      }
-    });
-  }
-})();
-</script>
-
-<script id="defaultSfwSimple">
-(()=>{
-  const DEFAULT_APPLIED_KEY = 'assetGachaDefaultAppliedV1';
-  function applyDefaultOnce(){
-    try{
-      if(localStorage.getItem(DEFAULT_APPLIED_KEY) === '1') return;
-    }catch(_){}
-    // 처음 한 번만 SFW + 간편으로 설정
-    if(typeof setUiMode === 'function'){
-      setUiMode('simple', {save:true});
-    } else {
-      document.body.dataset.uiMode = 'simple';
-    }
-    if(typeof setContentMode === 'function'){
-      setContentMode('sfw');
-    } else {
-      const check = document.getElementById('nsfwMode');
-      if(check) check.checked = false;
-      document.body.classList.remove('nsfw-mode');
-      document.body.classList.add('sfw-mode');
-    }
-    try{ localStorage.setItem(DEFAULT_APPLIED_KEY, '1'); }catch(_){}
-  }
-  if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', ()=>setTimeout(applyDefaultOnce, 200));
-  } else {
-    setTimeout(applyDefaultOnce, 200);
-  }
-})();
-</script>
-
-<script id="contentModeClickFix">
-(()=>{
-  function bindMode(){
-    document.querySelectorAll('[data-content-mode]').forEach(btn=>{
-      btn.addEventListener('click', function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        const mode = this.dataset.contentMode;
-        if(typeof setContentMode === 'function'){
-          setContentMode(mode);
-        } else {
-          const nsfw = mode === 'nsfw';
-          const check = document.getElementById('nsfwMode');
-          if(check) check.checked = nsfw;
-          document.querySelectorAll('[data-content-mode]').forEach(b=>{
-            b.classList.toggle('active', b.dataset.contentMode === mode);
-          });
-          document.body.classList.toggle('nsfw-mode', nsfw);
-          document.body.classList.toggle('sfw-mode', !nsfw);
-          if(window.__updateModeClasses) window.__updateModeClasses();
-        }
-      });
-    });
-  }
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bindMode);
-  else bindMode();
-  setTimeout(bindMode, 800);
-})();
-</script>
-
-<!-- Right side pin navigation -->
-<style id="rightPinNavStyle">
-#rightPinNav{
-  position:fixed;
-  right:14px;
-  top:50%;
-  transform:translateY(-50%);
-  z-index:8000;
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  padding:10px 8px;
-  background:rgba(18,15,24,.88);
-  border:1px solid rgba(166,140,255,.28);
-  border-radius:16px;
-  backdrop-filter:blur(12px);
-  box-shadow:0 12px 32px rgba(0,0,0,.4);
-  max-height:70vh;
-  overflow-y:auto;
-}
-#rightPinNav a{
-  display:block;
-  padding:7px 10px;
-  border-radius:10px;
-  color:#cfc8df;
-  font-size:10px;
-  font-weight:800;
-  text-decoration:none;
-  white-space:nowrap;
-  transition:background .15s, color .15s;
-}
-#rightPinNav a:hover{
-  background:rgba(166,140,255,.18);
-  color:#efeaff;
-}
-#rightPinNav a.active{
-  background:rgba(166,140,255,.28);
-  color:#fff;
-}
-@media(max-width:900px){
-  #rightPinNav{display:none;}
-}
-</style>
-<nav id="rightPinNav" aria-label="섹션 이동">
-  <a href="#contentModePanel">모드</a>
-  <a href="#sceneCategoryPanel">장면</a>
-  <a href="#basicTagsPanel">기본 태그</a>
-  <a href="#slotPanel">랜덤 슬롯</a>
-  <a href="#quickEffectsPanel">빠른효과</a>
-  <a href="#novelPromptPanel">Novel</a>
-  <a href="#pixPromptPanel">Pix</a>
-  <a href="#nijiPromptPanel">Niji</a>
-</nav>
-<script id="rightPinNavScript">
-(()=>{
-  const nav = document.getElementById('rightPinNav');
-  if(!nav) return;
-  nav.querySelectorAll('a').forEach(a=>{
-    a.addEventListener('click', e=>{
-      e.preventDefault();
-      const id = a.getAttribute('href').slice(1);
-      const el = document.getElementById(id);
-      if(el){
-        el.scrollIntoView({behavior:'smooth', block:'start'});
-        nav.querySelectorAll('a').forEach(x=>x.classList.remove('active'));
-        a.classList.add('active');
-      }
-    });
-  });
-  // highlight current section on scroll
-  const links = [...nav.querySelectorAll('a')];
-  const sections = links.map(a=>document.getElementById(a.getAttribute('href').slice(1))).filter(Boolean);
-  function onScroll(){
-    let current = sections[0];
-    const y = window.scrollY + 120;
-    for(const s of sections){
-      if(s.offsetTop <= y) current = s;
-    }
-    if(current){
-      links.forEach(a=>a.classList.toggle('active', a.getAttribute('href')==='#'+current.id));
-    }
-  }
-  window.addEventListener('scroll', onScroll, {passive:true});
-  onScroll();
-})();
-</script>
-
-<script id="preserveModeOnRoll">
-(()=>{
-  const origRoll = window.rollAll;
-  // intercept button clicks instead
-  document.addEventListener('click', function(e){
-    const btn = e.target.closest('#rollAll, #dockRollAll, [data-reroll]');
-    if(!btn) return;
-    const uiMode = document.body.dataset.uiMode;
-    const nsfw = document.getElementById('nsfwMode')?.checked;
-    setTimeout(()=>{
-      if(uiMode && document.body.dataset.uiMode !== uiMode){
-        if(typeof setUiMode === 'function') setUiMode(uiMode, {save:false});
-        else document.body.dataset.uiMode = uiMode;
-      }
-      const check = document.getElementById('nsfwMode');
-      if(check && check.checked !== nsfw){
-        check.checked = nsfw;
-        if(typeof setContentMode === 'function') setContentMode(nsfw ? 'nsfw' : 'sfw');
-        document.body.classList.toggle('nsfw-mode', !!nsfw);
-        document.body.classList.toggle('sfw-mode', !nsfw);
-      }
-    }, 50);
-    setTimeout(()=>{
-      // double-check after longer operations
-      if(uiMode) document.body.dataset.uiMode = uiMode;
-      const check = document.getElementById('nsfwMode');
-      if(check) check.checked = !!nsfw;
-      document.body.classList.toggle('nsfw-mode', !!nsfw);
-      document.body.classList.toggle('sfw-mode', !nsfw);
-      document.querySelectorAll('[data-content-mode]').forEach(b=>{
-        b.classList.toggle('active', b.dataset.contentMode === (nsfw?'nsfw':'sfw'));
-      });
-      document.querySelectorAll('[data-ui-mode-btn]').forEach(b=>{
-        b.classList.toggle('active', b.dataset.uiModeBtn === uiMode);
-      });
-    }, 300);
-  }, true);
-})();
-</script>
-
-<script id="copyNoRollGuard">
-(()=>{
-  // 복사 버튼 클릭 시 랜덤 생성이 같이 실행되지 않도록 차단
-  document.addEventListener('click', function(e){
-    const copyBtn = e.target.closest('[id*="copy"], [id*="Copy"], .copy-btn, [data-copy]');
-    if(copyBtn){
-      e.stopPropagation();
-    }
-  }, true);
-})();
-</script>
-
-<script id="buttonIndependence">
-(()=>{
-  let lastUiMode = 'simple';
-  let lastNsfw = false;
-  let userHasChosen = false;
-
-  function snapshot(){
-    lastUiMode = document.body.dataset.uiMode || 'simple';
-    lastNsfw = !!(document.getElementById('nsfwMode')?.checked);
-  }
-
-  function forceRestore(){
-    // UI 모드 강제 복구
-    if(document.body.dataset.uiMode !== lastUiMode){
-      document.body.dataset.uiMode = lastUiMode;
-    }
-    document.querySelectorAll('[data-ui-mode-btn]').forEach(b=>{
-      b.classList.toggle('active', b.dataset.uiModeBtn === lastUiMode);
-      b.setAttribute('aria-pressed', b.dataset.uiModeBtn === lastUiMode ? 'true' : 'false');
-    });
-    // NSFW 강제 복구
-    const check = document.getElementById('nsfwMode');
-    if(check) check.checked = lastNsfw;
-    document.body.classList.toggle('nsfw-mode', lastNsfw);
-    document.body.classList.toggle('sfw-mode', !lastNsfw);
-    document.querySelectorAll('[data-content-mode]').forEach(b=>{
-      const on = b.dataset.contentMode === (lastNsfw ? 'nsfw' : 'sfw');
-      b.classList.toggle('active', on);
-    });
-    const sfwRadio = document.querySelector('input[name="contentMode"][value="sfw"]');
-    const nsfwRadio = document.querySelector('input[name="contentMode"][value="nsfw"]');
-    if(sfwRadio) sfwRadio.checked = !lastNsfw;
-    if(nsfwRadio) nsfwRadio.checked = lastNsfw;
-  }
-
-  // 사용자가 모드를 직접 고른 경우만 스냅샷 갱신
-  document.addEventListener('click', function(e){
-    const uiBtn = e.target.closest('[data-ui-mode-btn]');
-    const contentBtn = e.target.closest('[data-content-mode]');
-    if(uiBtn){
-      userHasChosen = true;
-      lastUiMode = uiBtn.dataset.uiModeBtn || 'simple';
-      setTimeout(snapshot, 20);
-      return;
-    }
-    if(contentBtn){
-      userHasChosen = true;
-      lastNsfw = contentBtn.dataset.contentMode === 'nsfw';
-      setTimeout(snapshot, 20);
-      return;
-    }
-
-    // 슬롯 관련 클릭 (카드, 재추첨, 잠금, 피커, 카테고리)
-    const isSlot = e.target.closest('#slotPanel, #cards, .card, [data-reroll], [data-lock], [data-toggle], [data-slot-picker], [data-slot-pick], .slot-picker-item');
-    const isQuick = e.target.closest('#quickEffectsPanel, .mini-prompt-check, .quick-group-fold');
-    const isNav = e.target.closest('#rightPinNav');
-    const isCopy = e.target.closest('[id*="copy" i], [id*="Copy"]');
-
-    if(isSlot || isQuick || isNav || isCopy){
-      // 클릭 직후와 약간 뒤에 두 번 복구
-      setTimeout(forceRestore, 10);
-      setTimeout(forceRestore, 80);
-      setTimeout(forceRestore, 250);
-    }
-  }, true);
-
-  // 초기
-  setTimeout(()=>{ snapshot(); }, 400);
-  setTimeout(()=>{ snapshot(); }, 1200);
-})();
-</script>
-
-<script id="noResetNoScrollTop">
-(()=>{
-  // ===== 모드 상태 완전 고정 =====
-  const MODE_KEY = 'assetGachaUserModeV2';
-  function saveMode(){
-    const data = {
-      ui: document.body.dataset.uiMode || 'simple',
-      nsfw: !!(document.getElementById('nsfwMode')?.checked)
-    };
-    try{ sessionStorage.setItem(MODE_KEY, JSON.stringify(data)); }catch(_){}
-    return data;
-  }
-  function loadMode(){
-    try{
-      const raw = sessionStorage.getItem(MODE_KEY);
-      return raw ? JSON.parse(raw) : null;
-    }catch(_){ return null; }
-  }
-  function applyMode(data){
-    if(!data) return;
-    document.body.dataset.uiMode = data.ui || 'simple';
-    document.querySelectorAll('[data-ui-mode-btn]').forEach(b=>{
-      const on = b.dataset.uiModeBtn === data.ui;
-      b.classList.toggle('active', on);
-      b.setAttribute('aria-pressed', on?'true':'false');
-    });
-    const check = document.getElementById('nsfwMode');
-    if(check) check.checked = !!data.nsfw;
-    document.body.classList.toggle('nsfw-mode', !!data.nsfw);
-    document.body.classList.toggle('sfw-mode', !data.nsfw);
-    document.querySelectorAll('[data-content-mode]').forEach(b=>{
-      b.classList.toggle('active', b.dataset.contentMode === (data.nsfw?'nsfw':'sfw'));
-    });
-    const sfwR = document.querySelector('input[name="contentMode"][value="sfw"]');
-    const nsfwR = document.querySelector('input[name="contentMode"][value="nsfw"]');
-    if(sfwR) sfwR.checked = !data.nsfw;
-    if(nsfwR) nsfwR.checked = !!data.nsfw;
-  }
-
-  // 사용자가 모드를 직접 바꿀 때만 저장
-  document.addEventListener('click', function(e){
-    if(e.target.closest('[data-ui-mode-btn], [data-content-mode]')){
-      setTimeout(saveMode, 30);
-    }
-  }, true);
-
-  // 그 외 어떤 클릭이든 모드가 바뀌었으면 즉시 복구
-  document.addEventListener('click', function(e){
-    if(e.target.closest('[data-ui-mode-btn], [data-content-mode]')) return;
-    const saved = loadMode();
-    if(!saved) return;
-    setTimeout(()=>applyMode(saved), 0);
-    setTimeout(()=>applyMode(saved), 50);
-    setTimeout(()=>applyMode(saved), 200);
-  }, false);
-
-  // ===== 맨 위로 스크롤되는 것 방지 =====
-  let lastScrollY = 0;
-  window.addEventListener('scroll', ()=>{ lastScrollY = window.scrollY; }, {passive:true});
-
-  document.addEventListener('click', function(e){
-    // a[href="#"] 나 빈 앵커로 인한 점프 방지
-    const a = e.target.closest('a[href="#"], a[href=""]');
-    if(a){ e.preventDefault(); }
-  }, true);
-
-  // details/summary 클릭 시 스크롤 점프 방지
-  document.addEventListener('click', function(e){
-    const summary = e.target.closest('summary');
-    if(!summary) return;
-    const y = window.scrollY;
-    setTimeout(()=>{
-      if(Math.abs(window.scrollY - y) > 80 && window.scrollY < y){
-        window.scrollTo({top: y, behavior:'instant'});
-      }
-    }, 0);
-    setTimeout(()=>{
-      if(window.scrollY < 50 && y > 100){
-        window.scrollTo({top: y, behavior:'instant'});
-      }
-    }, 30);
-  }, true);
-
-  // 초기 저장
-  setTimeout(saveMode, 800);
-  setTimeout(saveMode, 2000);
-})();
-</script>
-<script id="rollButtonGuard">
-(()=>{
-  // 버튼 자체가 아닌 곳 클릭이 roll을 트리거하지 않게
-  document.addEventListener('click', function(e){
-    const rollBtn = document.getElementById('rollAll');
-    if(!rollBtn) return;
-    // 클릭 대상이 roll 버튼이나 그 자식이 아니면 무시
-    if(!rollBtn.contains(e.target) && e.target !== rollBtn){
-      // 다른 곳에서 온 클릭이 rollAll.click()을 호출하는 것을 막지는 못하지만,
-      // 버튼의 onclick이 부모 클릭으로 잘못 실행되는 경우는 방지
-    }
-  }, true);
-
-  // roll 버튼의 클릭 영역을 버튼 박스 안으로 제한
-  const btn = document.getElementById('rollAll');
-  if(btn){
-    btn.addEventListener('click', function(e){
-      const rect = btn.getBoundingClientRect();
-      const x = e.clientX, y = e.clientY;
-      // 실제 버튼 영역 밖이면 무시 (혹시 확장된 히트영역 대비)
-      if(x < rect.left || x > rect.right || y < rect.top || y > rect.bottom){
-        e.stopImmediatePropagation();
-        e.preventDefault();
-      }
-    }, true);
-  }
-})();
-</script>
-
-<script id="povAndCategorySync">
-(()=>{
-  function forceAutoCategories(){
-    const prop = document.getElementById('propCategoryMode');
-    const expr = document.getElementById('expressionCategoryMode');
-    if(prop && prop.value !== 'auto'){ prop.value = 'auto'; prop.dispatchEvent(new Event('change',{bubbles:true})); }
-    if(expr && expr.value !== 'auto'){ expr.value = 'auto'; expr.dispatchEvent(new Event('change',{bubbles:true})); }
-  }
-  function syncPov(){
-    const mode = document.getElementById('povMode');
-    const strength = document.getElementById('povStrength');
-    const type = document.getElementById('povType');
-    if(!mode) return;
-    if(mode.value === 'off'){
-      // off일 때는 강도/타입 의미 없음
-    } else {
-      // on일 때 기본값 유지 (사용자가 이전에 고른 값 존중, 없으면 기본)
-      if(strength && !strength.value) strength.value = 'subtle';
-      if(type && !type.value) type.value = 'auto';
-    }
-  }
-  // POV 모드 옵션을 더 의미있게 확장 (강도+타입을 모드에 흡수)
-  function expandPovOptions(){
-    const mode = document.getElementById('povMode');
-    if(!mode || mode.dataset.expanded === '1') return;
-    mode.dataset.expanded = '1';
-    // 기존 옵션 유지하되 라벨만 정리
-    // off / on 은 그대로 두고, 선택 시 강도·타입은 내부적으로만 사용
-  }
-  function init(){
-    forceAutoCategories();
-    expandPovOptions();
-    syncPov();
-    document.getElementById('povMode')?.addEventListener('change', syncPov);
-    // 혹시 다른 로직이 바꿔도 다시 auto로
-    setInterval(forceAutoCategories, 2000);
-  }
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
-  setTimeout(init, 600);
-})();
-</script>
-
-<script id="quickTagsKeepOpen">
-(()=>{
-  // 빠른태그 카테고리는 서로 독립. 하나 열어도 다른 건 닫지 않음
-  document.addEventListener('toggle', function(e){
-    const d = e.target;
-    if(!(d instanceof HTMLDetailsElement)) return;
-    if(!d.classList.contains('quick-group-fold')) return;
-    // 아무것도 하지 않음 - 다른 details를 닫지 않음
-  }, true);
-
-  // 혹시 다른 스크립트가 닫으려 하면 막기 위해 열린 상태 기억
-  const openSet = new Set();
-  document.addEventListener('click', function(e){
-    const summary = e.target.closest('details.quick-group-fold > summary');
-    if(!summary) return;
-    const details = summary.parentElement;
-    // 클릭 전 상태 기록
-    document.querySelectorAll('details.quick-group-fold[open]').forEach(el=>{
-      if(el !== details) openSet.add(el);
-    });
-    setTimeout(()=>{
-      openSet.forEach(el=>{ if(el.isConnected) el.open = true; });
-      openSet.clear();
-    }, 0);
-  }, true);
-})();
-</script>
-
-<script id="novelCopyNoRoll">
-(()=>{
-  document.addEventListener('click', function(e){
-    const inPrompt = e.target.closest('#novelPromptPanel, #pixPromptPanel, #nijiPromptPanel, #promptFloatPanel, #promptFloatDock, textarea.prompt, #prompt, #pixPrompt, #nijiPrompt');
-    const isCopy = e.target.closest('[id*="copy" i], [id*="Copy"], button');
-    if(inPrompt && (isCopy || e.target.closest('textarea, .prompt'))){
-      e.stopPropagation();
-    }
-  }, true);
-})();
-</script>
-
-<script id="updateNoteIsolate">
-(()=>{
-  const strip = document.getElementById('updateNoteStrip');
-  if(!strip) return;
-  strip.addEventListener('click', function(e){
-    e.stopPropagation();
-  }, true);
-  // details toggle only
-  strip.querySelectorAll('details, summary').forEach(el=>{
-    el.addEventListener('click', function(e){
-      e.stopPropagation();
-    });
-  });
-})();
-</script>
-
-<script id="onlyButtonsClickable">
-(()=>{
-  // 버튼/입력/링크/summary가 아닌 빈 영역 클릭은 아무 동작도 하지 않게
-  document.addEventListener('click', function(e){
-    const interactive = e.target.closest('button, a, input, select, textarea, summary, label, [role="button"], .mini-prompt-check, .theme-chip, .mode-choice-btn, .workflow-mode-btn');
-    if(interactive) return;
-    // 빈 곳 클릭이면 전파 중단 (상위 핸들러가 오작동하지 않게)
-    if(e.target.closest('.panel, .hero, .page, #quickEffectsPanel, #slotPanel')){
-      // stop only if it would bubble to something dangerous - but don't block normal UI
-      // 대신 roll 관련만 확실히 차단
-    }
-  }, false);
-
-  // roll은 오직 #rollAll 또는 #dockRollAll 직접 클릭일 때만
-  const orig = HTMLElement.prototype.click;
-  // dockRollAll이 rollAll.click()을 호출하는 것은 허용
-})();
 </script>
 </body></html>
