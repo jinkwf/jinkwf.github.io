@@ -1292,7 +1292,7 @@ body[data-ui-mode="detail"] .current-setup-detail{display:none}
 .match-hint{margin-top:6px;color:#918999;font-size:9px;line-height:1.45}.match-hint.on{color:#cbbdff}
 @media(max-width:720px){.slot-source{font-size:8px;margin-top:5px}}
 </style>
-<body class="access-locked" data-ui-mode="simple">
+<body class="access-locked" data-ui-mode="simple" data-content-mode="sfw">
 <div aria-hidden="true" aria-labelledby="updateGateTitle" aria-modal="true" class="update-gate hidden" id="updateGate" role="dialog">
 <div class="update-box">
 <div class="update-icon">✨</div>
@@ -10810,6 +10810,58 @@ document.getElementById('toggleSlotPanel')?.addEventListener('click', function()
   else init();
   setTimeout(init, 500);
   setTimeout(init, 1500);
+})();
+</script>
+
+<script id="defaultSfwSimple">
+(()=>{
+  // 처음 진입 시 SFW + 간편 모드를 기본으로 강제
+  function applyDefault(){
+    // 1. UI 모드: 간편
+    if(typeof setUiMode === 'function'){
+      setUiMode('simple', {save:false});
+    } else {
+      document.body.dataset.uiMode = 'simple';
+      document.querySelectorAll('[data-ui-mode-btn]').forEach(btn=>{
+        const active = btn.dataset.uiModeBtn === 'simple';
+        btn.classList.toggle('active', active);
+        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+    }
+
+    // 2. 콘텐츠 모드: SFW
+    const sfwRadio = document.querySelector('input[name="contentMode"][value="sfw"]');
+    const nsfwRadio = document.querySelector('input[name="contentMode"][value="nsfw"]');
+    const nsfwCheck = document.getElementById('nsfwMode');
+    if(sfwRadio) sfwRadio.checked = true;
+    if(nsfwRadio) nsfwRadio.checked = false;
+    if(nsfwCheck) nsfwCheck.checked = false;
+
+    if(typeof setContentMode === 'function'){
+      setContentMode('sfw');
+    } else {
+      document.querySelectorAll('[data-content-mode]').forEach(btn=>{
+        btn.classList.toggle('active', btn.dataset.contentMode === 'sfw');
+      });
+    }
+
+    // body class 동기화
+    document.body.classList.remove('nsfw-mode');
+    document.body.classList.add('sfw-mode');
+    if(window.__updateModeClasses) window.__updateModeClasses();
+  }
+
+  // 페이지 로드 후 한 번 적용 (인증 게이트 통과 후에도)
+  function schedule(){
+    setTimeout(applyDefault, 100);
+    setTimeout(applyDefault, 600);
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', schedule);
+  } else {
+    schedule();
+  }
+  window.addEventListener('nsfw-auth-ready', ()=>setTimeout(applyDefault, 200));
 })();
 </script>
 </body></html>
