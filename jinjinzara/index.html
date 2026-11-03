@@ -122,6 +122,14 @@ kbd,code{font-family:var(--mono);font-size:.88em;background:var(--tone);padding:
 .mock .tabsm span.hl{background:var(--sheet);color:var(--ink);outline:2px solid var(--blue);outline-offset:1px}
 .mock .fake-btn{justify-self:start;padding:6px 12px;border-radius:7px;background:var(--sheet);border:1px solid var(--line)}
 .mock .fake-btn.hl{outline:2.5px solid var(--blue);outline-offset:3px;border-radius:7px}
+.mock-menu{max-width:300px}
+.mock-menu .fake-btn{justify-self:stretch}
+.mm-top{display:flex;justify-content:flex-end;align-items:center;gap:8px}
+.mm-anlas{font:500 12px var(--mono);padding:3px 8px;border-radius:6px;background:var(--tone)}
+.mm-burger{display:grid;place-items:center;width:28px;height:28px;border-radius:6px;background:var(--sheet);border:1px solid var(--line);outline:2.5px solid var(--blue);outline-offset:2px}
+.mm-user{display:grid;line-height:1.3;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.mm-user span{font-size:12px;color:var(--muted)}
+.mm-sec{font-size:11px;font-weight:600;color:var(--muted);margin-top:2px}
 .mock .tok{font-family:var(--mono);background:var(--sheet);border:1px dashed var(--line);padding:6px 9px;border-radius:6px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 /* connect */
@@ -290,13 +298,13 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
       <p><a href="https://novelai.net/image" target="_blank" rel="noopener">novelai.net/image</a>에 접속해 평소 쓰는 계정으로 로그인해요.</p>
     </div></li>
     <li><div>
-      <h3>사용자 설정 열기</h3>
-      <p>이미지 생성 화면에서 <b>톱니바퀴 아이콘(User Settings)</b>을 눌러 설정 창을 열어요.</p>
-      <div class="mock"><div class="bar"><i></i><i></i><i></i></div><div class="tabsm"><span>AI Settings</span><span>Interface</span><span class="hl">Account</span><span>Text to Speech</span></div><span class="muted">설정 창 위쪽 탭 중 <b>Account</b>를 고릅니다</span></div>
+      <h3>Account Settings 열기</h3>
+      <p>이미지 생성 화면 <b>오른쪽 위 ☰ 메뉴</b>를 누르면 계정 메뉴가 열려요. 맨 위 Account 항목의 <b>Account Settings</b>를 눌러요.</p>
+      <div class="mock mock-menu"><div class="mm-top"><span class="mm-anlas">Anlas: 10004</span><span class="mm-burger hl" aria-hidden="true">☰</span></div><div class="mm-user"><b>Author</b><span>Opus Tier</span></div><span class="mm-sec">Account</span><div class="fake-btn hl">⚙ Account Settings</div><div class="fake-btn">Logout</div><span class="mm-sec">Other</span><div class="fake-btn">Explore</div><div class="fake-btn">Director Tools</div></div>
     </div></li>
     <li><div>
       <h3>Get Persistent API Token 누르기</h3>
-      <p>Account 탭 안에서 <b>Get Persistent API Token</b> 버튼을 눌러요.</p>
+      <p>Account Settings 창 안에서 <b>Get Persistent API Token</b> 버튼을 찾아 눌러요.</p>
       <div class="mock"><span class="muted">Account</span><div class="fake-btn">Change Email</div><div class="fake-btn hl">Get Persistent API Token</div></div>
     </div></li>
     <li><div>
@@ -671,7 +679,14 @@ function updateChip(){
 }
 async function fetchSub(){
   if (!S.token) return null;
-  const r = await fetch(API_HOST + '/user/subscription', { headers:{ Authorization:'Bearer '+S.token } });
+  // api.novelai.net blocks requests from other sites (CORS); image/text hosts serve the same endpoint and allow them
+  const hosts = [...new Set([(P.settings.host||DEFAULT_HOST).replace(/\/+$/,''), DEFAULT_HOST, 'https://text.novelai.net', API_HOST])];
+  let r, lastErr;
+  for (const host of hosts){
+    try{ r = await fetch(host + '/user/subscription', { headers:{ Authorization:'Bearer '+S.token } }); break; }
+    catch(e){ lastErr = e; }
+  }
+  if (!r) throw lastErr;
   if (r.status===401 || r.status===403){ S.sub='bad'; updateChip(); throw new Error('토큰이 올바르지 않거나 만료됐어요. 새로 발급한 토큰을 붙여넣어 주세요.'); }
   if (!r.ok) throw new Error('구독 정보를 불러오지 못했어요 (HTTP '+r.status+').');
   const j = await r.json();
@@ -703,7 +718,9 @@ function bindConnect(){
       else { msg.textContent = sub.opus ? '연결됐어요. Opus라서 기본 크기 컷은 무료예요.' : '연결됐어요. 컷마다 Anlas가 차감돼요.'; msg.style.color='var(--ok)'; }
     }catch(e){
       msg.style.color='var(--bad)';
-      msg.textContent = e instanceof TypeError ? 'NovelAI 서버에 연결하지 못했어요. 인터넷 연결이나 광고 차단 확장 프로그램을 확인해 주세요.' : e.message;
+      msg.textContent = e instanceof TypeError
+        ? (location.protocol==='file:' ? 'NovelAI 서버에 연결하지 못했어요. 파일을 직접 열면 막히는 브라우저가 있어요. 깃허브 페이지 주소로 열어 주세요.' : 'NovelAI 서버에 연결하지 못했어요. 인터넷 연결이나 광고 차단 확장 프로그램을 확인해 주세요.')
+        : e.message;
       renderSub();
     }
   };
