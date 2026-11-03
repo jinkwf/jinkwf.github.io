@@ -222,6 +222,11 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
 .seg button.on{background:var(--blue-soft);color:var(--ink);font-weight:600}
 .bt-row select{width:auto;padding:5px 8px;font-size:13px}
 .bt-gap{flex:1}
+.cast-alert{border:1.5px solid var(--bad);background:color-mix(in srgb,var(--bad) 8%,var(--sheet));border-radius:var(--r);padding:12px 14px;display:grid;gap:8px;font-size:14px}
+.cast-alert ul{margin:4px 0 0;padding-left:18px}
+.castcard.need{border-color:var(--bad)}
+.castcard.need textarea{border-color:var(--bad)}
+.need-hint{font-size:12px;color:var(--bad)}
 .promptbox{font:12px/1.55 var(--mono);background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:9px;white-space:pre-wrap;word-break:break-word;color:var(--muted);margin-top:6px}
 .empty-state{text-align:center;padding:40px 16px;color:var(--muted)}
 .empty-state h3{color:var(--ink);font-size:22px;margin-bottom:6px}
@@ -387,6 +392,7 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
     <p>제작실 <b>등장인물</b> 탭에서 인물을 추가하고 이름과 <b>외형 태그</b>(영어 Danbooru 태그)를 적어요. 이 태그가 그 인물이 나오는 모든 컷에 들어가서 외형이 유지돼요.</p>
     <ul>
       <li><b>NovelAI로 뽑은 PNG</b>를 올리면 그림 속에 저장된 프롬프트를 읽어 외형 태그를 자동으로 채워요.</li>
+      <li><b>대본에 나오는 인물은 모두 외형 태그가 있어야 생성돼요.</b> 등록 안 된 이름이나 태그가 빈 인물이 있으면 원고 위에 빨간 안내가 뜨고 생성 버튼이 잠겨요. 안내의 <b>등장인물에 추가</b>를 누르면 빠진 이름이 바로 등록돼요. (<code>???</code>처럼 정체를 숨긴 화자는 검사하지 않아요.)</li>
       <li><b>캐릭터 레퍼런스</b>를 켜면 올린 이미지를 NovelAI V4.5의 캐릭터 레퍼런스로 함께 보내 얼굴과 옷을 더 비슷하게 맞춰요. 대신 컷마다 Anlas가 추가로 들어요(Opus도 무료 대상 아님).</li>
     </ul>
   </section>
@@ -421,12 +427,16 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
     <h3 style="font-size:18px;margin:18px 0 8px">캐릭터 채팅 플레이 로그가 있다면</h3>
     <p>대본 탭의 <b>플레이 로그 변환</b>을 누르고 채팅 로그를 붙여넣으세요.</p>
     <ul>
-      <li><b>바로 변환</b>: 사이트에서 즉시 대본으로 나눠요. "큰따옴표"는 말풍선, ‘작은따옴표’·(괄호)는 생각, 서술은 나레이션(앞부분만 짧게), [대괄호 한 줄]과 <code>```</code> 백틱 세 개로 감싼 부분은 상태창(여러 줄 그대로)이 돼요. 대사 앞뒤 서술에 나온 이름으로 화자를 찾아요. 장면 태그는 기본값만 들어가니 배경·구도를 손봐 주세요.</li>
-      <li><b>AI 변환 요청문 복사</b>: 각색 규칙과 등장인물 태그를 담은 요청문을 복사해요. Claude·ChatGPT에 붙여넣으면 장면 태그까지 채운 대본을 받아요. 로그가 길거나 서술이 많으면 이쪽이 결과가 좋아요.</li>
-      <li><b>이름 연결</b>에서 로그 속 이름이나 <code>{{user}}</code>를 등장인물 이름으로 바꿀 수 있어요.</li>
+      <li><b>NovelAI로 각색 (추천)</b>: 연결한 토큰으로 NovelAI 텍스트 AI(GLM)가 로그를 웹툰 대본으로 각색해요. 핵심 사건·감정이 꺾이는 지점·결정적 대사는 살리고, 눈에 보이는 행동과 배경은 그림 태그로, 속마음만 나레이션으로 옮겨요. 컷마다 구도(와이드·카우보이샷·클로즈업)를 바꿔 리듬을 만들고, 장소·시간 태그를 컷마다 이어 붙여요. 구독 중이면 텍스트 생성은 Anlas가 들지 않아요. 긴 로그는 나눠서 처리해서 1~2분 걸릴 수 있어요.</li>
+      <li><b>바로 변환</b>: 사이트 안에서 규칙으로 즉시 나눠요. 이름만 있는 줄은 다음 대사의 화자로, "그/그녀"·성 뺀 이름(지한)·별칭도 인물로 알아봐요. 달빛·골목·비·눈물·어깨를 붙잡다 같은 한국어 묘사를 태그로 바꾸고, 보이는 행동만 있는 문장은 나레이션에서 빼고 그림에 넣어요.</li>
+      <li><b>다른 AI용 요청문 복사</b>: 같은 각색 규칙을 Claude·ChatGPT에 붙여넣을 수 있게 복사해요.</li>
+      <li>"큰따옴표"는 말풍선, ‘작은따옴표’·(괄호)는 생각, [대괄호 한 줄]과 <code>```</code> 백틱 세 개로 감싼 부분은 상태창(여러 줄 그대로)이 돼요. 외쳤다·속삭였다·떨리는 목소리 같은 서술이 붙은 대사는 외침·속삭임·떨림 풍선으로 바뀌어요.</li>
+      <li><b>이름 연결</b>에서 로그 속 이름이나 <code>{{user}}</code>를 등장인물로 바꿀 수 있어요. 자주 쓰는 호칭은 등장인물 카드의 <b>별칭</b>에 적어 두면 대본과 로그 모두에서 그 인물로 인식해요.</li>
     </ul>
     <h3 style="font-size:18px;margin:18px 0 8px">줄글 스토리만 있다면</h3>
-    <p><b>AI 콘티 프롬프트 복사</b> 버튼을 누르고 스토리를 붙여넣으면, 등장인물 목록과 형식 규칙이 들어간 요청문이 복사돼요. Claude나 ChatGPT에 그대로 붙여넣고, 돌아온 대본을 대본 탭에 붙여넣으면 됩니다.</p>
+    <p><b>스토리로 대본 만들기</b>를 누르고 스토리를 붙여넣은 뒤 <b>NovelAI로 대본 만들기</b>를 누르면 같은 규칙으로 각색해요. 다른 AI를 쓰고 싶으면 요청문을 복사할 수도 있어요.</p>
+    <h3 style="font-size:18px;margin:18px 0 8px">이미지 프롬프트 자동 보정</h3>
+    <p>생성할 때 장면 태그에 인원 태그(1boy·2boys·1girl, 1boy 등)가 없으면 등장인물 외형 태그의 성별로 채우고, 인물이 있는데 <code>no humans</code>가 들어 있으면 빼요. 구도 태그가 없으면 인원에 맞춰 upper body나 cowboy shot을 붙여요. 등장인물 외형 태그에 <code>1boy</code>나 <code>1girl</code>을 꼭 넣어 두세요.</p>
   </section>
 
   <section>
@@ -436,6 +446,7 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
       <thead><tr><th>설정</th><th>Opus 구독</th><th>그 외 구독</th></tr></thead>
       <tbody>
         <tr><td>기본 크기(832×1216 등), 28스텝 이하</td><td>0 Anlas</td><td>컷당 약 17 Anlas</td></tr>
+        <tr><td>V5 Full / V5 Curated 모델</td><td>무료 한도 안에서 0, 한도 소진 시 차감</td><td>컷당 약 20 Anlas</td></tr>
         <tr><td>캐릭터 레퍼런스 사용</td><td>컷당 약 5 Anlas 추가</td><td>컷당 약 5 Anlas 추가</td></tr>
       </tbody>
     </table></div>
@@ -503,7 +514,7 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
         <div class="row">
           <button class="btn blue sm" id="applyScript" type="button">대본으로 컷 만들기</button>
           <button class="btn ghost sm" id="logOpen" type="button">플레이 로그 변환</button>
-          <button class="btn ghost sm" id="aiConti" type="button">AI 콘티 프롬프트 복사</button>
+          <button class="btn ghost sm" id="aiConti" type="button">스토리로 대본 만들기</button>
           <button class="btn ghost sm" id="sampleScript" type="button">예시 대본</button>
         </div>
         <textarea class="code" id="scriptBox" rows="22" spellcheck="false" placeholder="# 컷&#10;장면: 1boy, rooftop, night, upper body&#10;서진(serious): 결국 여기까지 왔네."></textarea>
@@ -516,6 +527,8 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
             <option value="nai-diffusion-4-5-full">V4.5 Full (추천)</option>
             <option value="nai-diffusion-4-5-curated">V4.5 Curated</option>
             <option value="nai-diffusion-4-full">V4 Full</option>
+            <option value="nai-diffusion-5-full">V5 Full (Opus 무료 한도 차감)</option>
+            <option value="nai-diffusion-5-curated">V5 Curated (Opus 무료 한도 차감)</option>
           </select></label>
         <label class="f"><span>모델 ID 직접 입력 <small>(새 모델이 나왔을 때만, 비우면 위 선택 사용)</small></span><input type="text" id="s-custom" placeholder="예: nai-diffusion-…" spellcheck="false"></label>
         <label class="f"><span>공통 화풍 태그 <small>(모든 컷 앞에 붙음)</small></span><textarea id="s-style" rows="2" placeholder="예: cel shading, soft lighting, detailed background"></textarea></label>
@@ -551,6 +564,7 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
     </aside>
 
     <div class="board">
+      <div class="cast-alert" id="castAlert" role="alert" hidden></div>
       <div class="card runbar" id="runbar">
         <button class="btn blue" id="runAll" type="button">전체 생성</button>
         <button class="btn ghost" id="stopAll" type="button" hidden>멈추기</button>
@@ -565,16 +579,18 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
 <div class="modal" id="logModal" hidden>
   <div class="card" role="dialog" aria-modal="true" aria-labelledby="logTitle">
     <h3 id="logTitle" style="font-size:22px">플레이 로그로 대본 만들기</h3>
-    <p class="small muted" style="margin:0">캐릭터 채팅에서 복사한 로그를 붙여넣으세요. "따옴표 대사"는 말풍선, ‘작은따옴표’나 (괄호)는 생각 풍선, 나머지 서술은 나레이션, [대괄호 한 줄]과 ``` 백틱으로 감싼 부분은 상태창이 돼요.</p>
+    <p class="small muted" style="margin:0">캐릭터 채팅에서 복사한 로그를 붙여넣으세요. "따옴표 대사"는 말풍선, ‘작은따옴표’나 (괄호)는 생각 풍선, NovelAI로 각색하면 보이는 행동은 그림으로, 속마음은 나레이션으로 옮기고 결정적 대사를 살려 대본을 만들어요.</p>
     <label class="f"><span>플레이 로그</span><textarea id="logIn" rows="9" placeholder="도현은 책을 내밀며 웃었다. &quot;다 읽으면 감상 들려줄래요?&quot;&#10;윤서: ...다음 주 같은 시간에요."></textarea></label>
     <div><b class="small">이름 연결</b> <span class="small muted">로그 속 이름·{{user}}를 등장인물로 바꿔요</span><div id="logMap" class="maplist"></div></div>
     <div class="grid2">
       <label class="f"><span>모든 컷에 붙일 장면 태그 <small>(선택)</small></span><input type="text" id="logExtra" placeholder="예: library, sunset"></label>
-      <label class="f"><span>AI 변환 시 컷 수 <small>(대략)</small></span><input type="number" id="logCount" min="3" max="80" value="12"></label>
+      <label class="f"><span>각색 컷 수 <small>(대략)</small></span><input type="number" id="logCount" min="3" max="80" value="12"></label>
     </div>
     <div class="row">
-      <button class="btn" id="logQuick" type="button">바로 변환</button>
-      <button class="btn ghost" id="logAi" type="button">AI 변환 요청문 복사</button>
+      <button class="btn blue" id="logNai" type="button">NovelAI로 각색 (추천)</button>
+      <button class="btn ghost" id="logCancel" type="button" hidden>멈추기</button>
+      <button class="btn ghost" id="logQuick" type="button">바로 변환</button>
+      <button class="btn ghost" id="logAi" type="button">다른 AI용 요청문 복사</button>
       <button class="btn ghost" id="logClose" type="button">닫기</button>
     </div>
     <span class="small" id="logMsg"></span>
@@ -588,12 +604,14 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
 
 <div class="modal" id="contiModal" hidden>
   <div class="card" role="dialog" aria-modal="true" aria-labelledby="contiTitle">
-    <h3 id="contiTitle" style="font-size:22px">AI 콘티 프롬프트 만들기</h3>
+    <h3 id="contiTitle" style="font-size:22px">스토리로 대본 만들기</h3>
     <p class="small muted" style="margin:0">줄글 스토리를 붙여넣으면 등장인물 목록과 대본 형식 규칙을 넣은 요청문을 만들어 복사해요. Claude·ChatGPT에 붙여넣고, 받은 결과를 대본 탭에 붙여넣으세요.</p>
     <label class="f"><span>스토리</span><textarea id="contiStory" rows="10" placeholder="비 오는 밤, 서진은 옥상에서 하람을 기다린다…"></textarea></label>
     <label class="f"><span>원하는 컷 수 <small>(대략)</small></span><input type="number" id="contiCount" min="3" max="80" value="12"></label>
-    <textarea id="contiOut" rows="6" class="code" readonly hidden></textarea>
-    <div class="row"><button class="btn" id="contiCopy" type="button">요청문 복사</button><button class="btn ghost" id="contiClose" type="button">닫기</button><span class="small" id="contiMsg"></span></div>
+    <div class="row"><button class="btn blue" id="contiNai" type="button">NovelAI로 대본 만들기 (추천)</button><button class="btn ghost" id="contiCancel" type="button" hidden>멈추기</button><button class="btn ghost" id="contiCopy" type="button">다른 AI용 요청문 복사</button><button class="btn ghost" id="contiClose" type="button">닫기</button></div>
+    <span class="small" id="contiMsg"></span>
+    <textarea id="contiOut" rows="10" class="code" hidden spellcheck="false"></textarea>
+    <div class="row" id="contiPut" hidden><button class="btn blue" id="contiReplace" type="button">대본 바꾸고 컷 만들기</button><button class="btn ghost" id="contiAppend" type="button">기존 대본 뒤에 붙이기</button></div>
   </div>
 </div>
 
@@ -682,7 +700,14 @@ function getImg(src){
   return im.complete && im.naturalWidth ? im : null;
 }
 const castById = id => P.cast.find(c=>c.id===id);
-const castByName = name => P.cast.find(c=>c.name.trim()===name.trim());
+/* names a character answers to: full name, user aliases, and for 3-syllable Korean names the given name ("백지한" → "지한") */
+function castAliases(c){
+  const n = (c.name||'').trim(); if (!n) return [];
+  const out = [n, ...(c.alias||'').split(',').map(s=>s.trim()).filter(Boolean)];
+  if (/^[가-힣]{3}$/.test(n)){ const g = n.slice(1); if (!P.cast.some(o=>o!==c && ((o.name||'').trim()===g || (/^[가-힣]{3}$/.test((o.name||'').trim()) && o.name.trim().slice(1)===g)))) out.push(g); }
+  return [...new Set(out)];
+}
+const castByName = name => { name = (name||'').trim(); if (!name) return undefined; return P.cast.find(c=>c.name.trim()===name) || P.cast.find(c=>castAliases(c).includes(name)); };
 
 /* ================= sample ================= */
 const SAMPLE_SCRIPT = `# 컷 1
@@ -867,7 +892,7 @@ function parseScript(text){
   items.forEach(x=>{ if (x.fence!=null){ cur.push(x); return; } if (hasSep ? sepRe.test(x.l) : !x.l.trim()) flush(); else cur.push(x); });
   flush();
   const warns=[];
-  const names = P.cast.map(c=>c.name.trim()).filter(Boolean).sort((a,b)=>b.length-a.length);
+  const names = P.cast.flatMap(castAliases).sort((a,b)=>b.length-a.length);
   const panels = blocks.map((bl, bi)=>{
     const pn = { ratio:'portrait', scene:'', chars:[], lines:[] };
     for (const {l, n, fence} of bl){
@@ -892,13 +917,20 @@ function parseScript(text){
       const m2 = rest.match(new RegExp('^\\s*(' + KIND_ALT + ')?\\s*(?:\\(([^)]*)\\))?\\s*(' + KIND_ALT + ')?\\s*(?:[:：]\\s*(.*))?$'));
       if (!m2){ warns.push(`${n}번째 줄 형식을 확인해 주세요: "${s.slice(0,30)}"`); continue; }
       const kindWord = m2[1]||m2[3]; const tags = (m2[2]||'').trim(); const said = (m2[4]||'').trim();
-      const cast = castByName(name);
+      const cast = castByName(name) || castByName(name.replace(/[이아야]$/,''));
+      if (cast) name = cast.name.trim();
       if (cast){
         let ch = pn.chars.find(c=>c.castId===cast.id);
         if (!ch){ ch = {castId:cast.id, action:''}; pn.chars.push(ch); }
         ch.action = joinTags(ch.action, tags);
-      } else if (!said){ warns.push(`${n}번째 줄: "${name}"은(는) 등장인물 탭에 없는 이름이에요.`); continue; }
-      else if (!warns.some(w=>w.includes(`"${name}"`))) warns.push(`"${name}"은(는) 등장인물 탭에 없어서 그림에는 넣지 않고 대사만 붙였어요.`);
+      } else {
+        if (!/^[?？]+$/.test(name)){   // "???" = anonymous voice, not a character to draw
+          pn.unknown = pn.unknown || [];
+          let u = pn.unknown.find(x=>x.name===name); if (!u){ u = {name, action:''}; pn.unknown.push(u); }
+          u.action = joinTags(u.action, tags);
+        }
+        if (!said) continue;
+      }
       if (said) pn.lines.push({type: KIND[kindWord]||'speech', who:name, text:said});
     }
     if (!pn.scene && !pn.chars.length && pn.lines.length) warns.push(`컷 ${bi+1}에 장면 태그가 없어요. 그림이 엉뚱하게 나올 수 있어요.`);
@@ -906,7 +938,7 @@ function parseScript(text){
   });
   return { panels, warns };
 }
-function sig(pn){ return JSON.stringify([pn.ratio, pn.scene, pn.chars.map(c=>[c.castId,c.action])]); }
+function sig(pn){ return JSON.stringify([pn.ratio, pn.scene, pn.chars.map(c=>[c.castId,c.action]), (pn.unknown||[]).map(u=>[u.name,u.action])]); }
 function autoPlace(pn){
   let k = -1, boxes = 0;
   const centers = centersFor(pn.chars.length);
@@ -929,10 +961,10 @@ function buildPanels(parsed, old){
   return parsed.map((np, i)=>{
     const o = old[i];
     const same = o && sig(o)===sig(np);
-    const pn = { id: same ? o.id : uid(), ratio:np.ratio, scene:np.scene, chars:np.chars,
+    const pn = { id: same ? o.id : uid(), ratio:np.ratio, scene:np.scene, chars:np.chars, unknown: np.unknown || [],
       lines: np.lines.map(l=>{
         const ol = o && o.lines.find(x=>x.type===l.type && x.who===l.who && x.text===l.text);
-        return { id:uid(), ...l, ...(ol ? {x:ol.x, y:ol.y, w:ol.w} : {}) };
+        return { id:uid(), ...l, ...(ol ? {x:ol.x, y:ol.y, w:ol.w, tail:ol.tail} : {}) };
       }),
       img: same ? o.img : '', seed: same ? o.seed : null, status: same ? o.status : 'idle', error:'' };
     if (pn.status==='run') pn.status = pn.img ? 'done' : 'idle';
@@ -947,7 +979,13 @@ function refFor(pn){ for (const c of pn.chars){ const cs=castById(c.castId); if 
 function buildRequest(pn){
   const st = P.settings, model = modelId();
   const [width, height] = RES[pn.ratio] || RES.portrait;
-  const base = joinTags(st.style, pn.scene);
+  let base = joinTags(st.style, pn.scene);
+  const names = pn.chars.map(c=>castById(c.castId)?.name).filter(Boolean);
+  if (names.length){
+    base = base.replace(/(^|,\s*)no humans(?=\s*,|$)/gi, '').replace(/^\s*,\s*/,'');
+    if (!/\b\d+\s*(boy|girl|other)s?\b/i.test(base)){ const ct = countTagsFor(names); if (ct) base = joinTags(ct, base); }
+    if (!SHOT_RE.test(base)) base = joinTags(base, names.length>1 ? 'cowboy shot' : 'upper body');
+  } else if (!/\b(no humans|\d+\s*(boy|girl|other)s?)\b/i.test(base)) base = joinTags('no humans', base, /scenery/i.test(base) ? '' : 'scenery');
   const input = st.quality && QUALITY[model] ? joinTags(base, QUALITY[model]) : base;
   const preset = +st.uc >= 0 ? (UC_PRESET[model]?.[+st.uc] || '') : '';
   const neg = joinTags(preset, WEBTOON_UC, st.neg);
@@ -975,11 +1013,11 @@ function buildRequest(pn){
   }
   return { input, model, action:'generate', parameters:params };
 }
-function estCost(pn){
+function estCost(pn, ignoreOpus=false){
   const st=P.settings; const [w,h]=RES[pn.ratio]||RES.portrait; const steps=+st.steps;
   let res = Math.max(w*h, 65536); if (res > 832*1216 && res <= 1024*1024) res = 832*1216;
   let per = Math.max(Math.ceil(2951823174884865e-21*res + 5753298233447344e-22*res*steps), 2);
-  const opusFree = S.sub && S.sub.opus && steps<=28 && res<=1024*1024;
+  const opusFree = !ignoreOpus && S.sub && S.sub.opus && steps<=28 && res<=1024*1024;
   let cost = opusFree ? 0 : per;
   if (refFor(pn)) cost += 5;
   return cost;
@@ -1036,11 +1074,68 @@ async function generatePanel(pn, {newSeed=false}={}){
     }
   }
 }
+/* ===== every character named in the script needs appearance tags before generating ===== */
+function panelIssues(pn){
+  const out = [];
+  for (const c of pn.chars){ const cs = castById(c.castId); if (cs && !(cs.tags||'').trim()) out.push({name: cs.name || '(이름 없음)', kind:'empty', id: cs.id}); }
+  for (const u of pn.unknown||[]) out.push({name: u.name, kind:'unreg'});
+  return out;
+}
+function allIssues(panels = P.panels){
+  const m = new Map();
+  panels.forEach(pn=>panelIssues(pn).forEach(x=>{ const k=x.kind+'|'+x.name; if (!m.has(k)) m.set(k, {...x, cuts:[]}); m.get(k).cuts.push(P.panels.indexOf(pn)+1); }));
+  return [...m.values()];
+}
+function issueText(list){ return list.map(x=>`${x.name}(${x.kind==='unreg'?'등록 안 됨':'외형 태그 비어 있음'})`).join(', '); }
+/* once a missing name is registered, move it from "unknown" into the panel's drawn characters */
+function relinkCast(){
+  let changed = false;
+  for (const pn of P.panels){
+    // characters whose cast entry was deleted fall back to unknown names
+    pn.chars = pn.chars.filter(c=>{ if (castById(c.castId)) return true; changed = true; return false; });
+    pn.unknown = (pn.unknown||[]).filter(u=>{
+      const cs = castByName(u.name); if (!cs) return true;
+      if (!pn.chars.some(c=>c.castId===cs.id)) pn.chars.push({castId: cs.id, action: u.action});
+      changed = true; return false;
+    });
+  }
+  return changed;
+}
+function refreshIssueUI(){
+  const issues = allIssues();
+  const box = $('#castAlert'); box.textContent='';
+  box.hidden = !issues.length;
+  if (issues.length){
+    const unreg = issues.filter(x=>x.kind==='unreg');
+    box.append(h('div',{}, h('b',{text:'외형 태그가 없는 인물이 있어서 생성할 수 없어요'}),
+      h('ul',{}, ...issues.map(x=>h('li',{}, h('b',{text:x.name}), ` · ${x.kind==='unreg' ? '등장인물 탭에 등록 안 됨' : '외형 태그 비어 있음'} · 컷 ${x.cuts.join(', ')}`)))),
+      h('div',{class:'row'},
+        unreg.length ? h('button',{class:'btn sm', type:'button', text:`${unreg.map(x=>x.name).join(', ')} 등장인물에 추가`, onclick:()=>{
+          unreg.forEach(x=>{ if (!castByName(x.name)) P.cast.push({id:uid(), name:x.name, tags:'', uc:'', img:'', ref:'', useRef:false}); });
+          relinkCast(); save(); renderCast(); openCastTab(); refreshIssueUI(); }}) : null,
+        h('button',{class:'btn ghost sm', type:'button', text:'외형 태그 입력하러 가기', onclick:openCastTab})));
+  }
+  // cast cards: mark the ones the script needs
+  const needIds = new Set(issues.filter(x=>x.kind==='empty').map(x=>x.id));
+  $$('#castList .castcard').forEach(card=>{ const need = needIds.has(card.dataset.id); card.classList.toggle('need', need); const hint = card.querySelector('.need-hint'); if (hint) hint.hidden = !need; });
+  // panels whose blocked state changed get re-rendered
+  P.panels.forEach(pn=>{ const v = views.get(pn.id); const blocked = panelIssues(pn).length>0; if (v && v.blocked!==blocked) rerenderPanel(pn); });
+}
+function openCastTab(){
+  $$('.stabs button').find(b=>b.dataset.t==='cast')?.click();
+  if (matchMedia('(max-width:900px)').matches) $('#mswitch button[data-m="edit"]').click();
+  const card = $('#castList .castcard.need') || $$('#castList .castcard').find(c=>!c.querySelector('textarea').value.trim());
+  if (card){ card.scrollIntoView({block:'center'}); card.querySelector('textarea')?.focus(); }
+}
+const onCastChanged = debounce(()=>{ if (relinkCast()) save(); refreshIssueUI(); updateRunStat(); }, 350);
+
 async function runAll(){
   if (S.running) return;
   if (!S.token){ toast('먼저 NovelAI 토큰을 연결해 주세요.'); location.hash='#connect'; return; }
   const todo = P.panels.filter(p=>!p.img);
   if (!todo.length){ toast('모든 컷에 그림이 있어요. 다시 뽑을 컷은 컷 위의 "새 버전"을 눌러 주세요.'); return; }
+  const issues = allIssues(todo);
+  if (issues.length){ refreshIssueUI(); $('#castAlert').scrollIntoView({block:'nearest'}); toast(`외형 태그를 먼저 입력해 주세요: ${issueText(issues)}`, 4200); return; }
   S.running=true; S.stop=false; setRunUI();
   let fails=0;
   for (const pn of todo){
@@ -1060,7 +1155,10 @@ function updateRunStat(){
   $('#meter').style.width = total ? (done/total*100)+'%' : '0';
   const todo = P.panels.filter(p=>!p.img);
   const cost = todo.reduce((a,p)=>a+estCost(p),0);
-  const costTxt = !S.sub || S.sub==='bad' ? '예상 Anlas는 토큰 연결 후 표시' : `남은 컷 예상 ${cost.toLocaleString()} Anlas`;
+  const v5 = /^nai-diffusion-5/.test(modelId());
+  const costTxt = !S.sub || S.sub==='bad' ? '예상 Anlas는 토큰 연결 후 표시'
+    : v5 && S.sub.opus ? `V5는 Opus 무료 한도에서 차감 (한도 소진 시 컷당 약 ${estCost({ratio:'portrait', chars:[]}, true)} Anlas)`
+    : `남은 컷 예상 ${cost.toLocaleString()} Anlas`;
   $('#runStat').textContent = `컷 ${done} / ${total} 완료 · ${costTxt}`;
 }
 
@@ -1270,12 +1368,14 @@ function renderCast(){
     const imgBox = h('div',{class:'castimg'+(c.img?' has':''), role:'button', tabindex:'0', title:'이미지 올리기', style: c.img ? `background-image:url("${c.img}")` : ''}, h('span',{text:'이미지 올리기'}));
     imgBox.onclick = imgBox.onkeydown = (e)=>{ if (e.type==='keydown' && e.key!=='Enter' && e.key!==' ') return; pickCastImage(c); };
     const found = h('div',{class:'meta-found', hidden: !c._meta, text: c._meta||''});
-    box.append(h('div',{class:'castcard'}, imgBox,
+    box.append(h('div',{class:'castcard', 'data-id':c.id}, imgBox,
       h('div',{class:'fields'},
         h('div',{class:'namerow'},
-          h('input',{type:'text', value:c.name, placeholder:'이름 (대본과 같게)', 'aria-label':'이름', oninput:e=>{ c.name=e.target.value; save(); }}),
-          h('button',{class:'btn danger sm', type:'button', text:'삭제', onclick:()=>{ P.cast=P.cast.filter(x=>x!==c); renderCast(); save(); }})),
-        h('textarea',{rows:'3', placeholder:'외형 태그: 1boy, black hair, grey eyes, black coat', 'aria-label':'외형 태그', value:c.tags, oninput:e=>{ c.tags=e.target.value; save(); updateRunStat(); }}),
+          h('input',{type:'text', value:c.name, placeholder:'이름 (대본과 같게)', 'aria-label':'이름', oninput:e=>{ c.name=e.target.value; save(); onCastChanged(); }}),
+          h('button',{class:'btn danger sm', type:'button', text:'삭제', onclick:()=>{ P.panels.forEach(pn=>pn.chars.forEach(ch=>{ if (ch.castId===c.id && c.name.trim()){ pn.unknown=pn.unknown||[]; if (!pn.unknown.some(u=>u.name===c.name.trim())) pn.unknown.push({name:c.name.trim(), action:ch.action}); } })); P.cast=P.cast.filter(x=>x!==c); relinkCast(); renderCast(); save(); refreshIssueUI(); }})),
+        h('input',{type:'text', placeholder:'별칭·호칭 (쉼표로 구분, 예: 지한, 선배)', 'aria-label':'별칭', value:c.alias||'', oninput:e=>{ c.alias=e.target.value; save(); onCastChanged(); }}),
+        h('textarea',{rows:'3', placeholder:'외형 태그: 1boy, black hair, grey eyes, black coat', 'aria-label':'외형 태그', value:c.tags, oninput:e=>{ c.tags=e.target.value; save(); onCastChanged(); }}),
+        h('div',{class:'need-hint', hidden:true, text:'대본에 나오는 인물이에요. 외형 태그를 입력해야 생성할 수 있어요.'}),
         h('input',{type:'text', placeholder:'이 인물 제외 태그 (선택)', 'aria-label':'제외 태그', value:c.uc||'', oninput:e=>{ c.uc=e.target.value; save(); }}),
         found,
         h('label',{class:'toggle', title: c.img ? '' : '이미지를 먼저 올려 주세요'},
@@ -1283,6 +1383,7 @@ function renderCast(){
           '캐릭터 레퍼런스 사용 (컷당 +5 Anlas)')
       )));
   });
+  if (P.panels.length) requestAnimationFrame(refreshIssueUI);
 }
 let castTarget=null;
 function pickCastImage(c){ castTarget=c; $('#castFile').value=''; $('#castFile').click(); }
@@ -1327,7 +1428,7 @@ function renderBoard(){
     updateRunStat(); return;
   }
   P.panels.forEach((pn, i)=>col.append(panelView(pn, i)));
-  updateRunStat(); requestAnimationFrame(redrawAll);
+  updateRunStat(); requestAnimationFrame(refreshIssueUI); requestAnimationFrame(redrawAll);
 }
 function statusPill(pn){
   const map = { idle:['대기',''], run:['생성 중','run'], done:['완료','done'], err:['실패','err'] };
@@ -1337,8 +1438,10 @@ function panelView(pn, i){
   const canvas = h('canvas',{'aria-label':`컷 ${i+1} 미리보기`});
   const stage = h('div',{class:'stage'}, canvas);
   const cost = estCost(pn);
-  const genBtn = h('button',{class:'btn sm', type:'button', text: pn.img ? '다시 생성' : '생성', disabled: pn.status==='run' || S.running, onclick:()=>singleGen(pn,false)});
-  const newBtn = h('button',{class:'btn ghost sm', type:'button', text:'새 버전', title:'시드를 바꿔 다른 그림으로', disabled: pn.status==='run' || S.running, onclick:()=>singleGen(pn,true)});
+  const blocked = panelIssues(pn);
+  const blockTitle = blocked.length ? `외형 태그 필요: ${issueText(blocked)}` : null;
+  const genBtn = h('button',{class:'btn sm', type:'button', text: pn.img ? '다시 생성' : '생성', title: blockTitle, 'data-blocked': blocked.length ? '1' : null, disabled: pn.status==='run' || S.running || blocked.length>0, onclick:()=>singleGen(pn,false)});
+  const newBtn = h('button',{class:'btn ghost sm', type:'button', text:'새 버전', title: blockTitle || '시드를 바꿔 다른 그림으로', 'data-blocked': blocked.length ? '1' : null, disabled: pn.status==='run' || S.running || blocked.length>0, onclick:()=>singleGen(pn,true)});
   const more = h('div',{class:'menu'});
   const pop = h('div',{class:'pop', hidden:true},
     h('button',{type:'button', text:'말풍선 추가', onclick:()=>{ addLine(pn,'speech'); pop.hidden=true; }}),
@@ -1353,7 +1456,7 @@ function panelView(pn, i){
     h('button',{type:'button', text:'컷 삭제', style:'color:var(--bad)', onclick:()=>{ P.panels=P.panels.filter(x=>x!==pn); save(); renderBoard(); }}));
   more.append(h('button',{class:'btn ghost sm', type:'button', text:'⋯', 'aria-label':'컷 메뉴', onclick:(e)=>{ e.stopPropagation(); closePops(pop); pop.hidden=!pop.hidden; }}), pop);
   const bar = h('div',{class:'pv-bar'},
-    h('span',{class:'lbl'}, `컷 ${String(i+1).padStart(2,'0')} · ${RATIO_LABEL[pn.ratio]}`, statusPill(pn), (S.sub && S.sub!=='bad') ? h('span',{class:'pill', text: cost ? `${cost} Anlas` : '무료'}) : null),
+    h('span',{class:'lbl'}, `컷 ${String(i+1).padStart(2,'0')} · ${RATIO_LABEL[pn.ratio]}`, statusPill(pn), blocked.length ? h('button',{class:'pill err', type:'button', style:'border:0;cursor:pointer', title: blockTitle, text:'외형 태그 필요', onclick:openCastTab}) : null, (S.sub && S.sub!=='bad') ? h('span',{class:'pill', text: cost ? `${cost} Anlas` : '무료'}) : null),
     genBtn, newBtn, more);
   const err = pn.error ? h('div',{class:'small', style:`color:${pn.status==='err'?'var(--bad)':'var(--warn)'}`, text:pn.error}) : null;
   const lines = h('div',{class:'lines'});
@@ -1366,7 +1469,7 @@ function panelView(pn, i){
   const det = h('details',{}, h('summary',{text:`대사 편집 (${pn.lines.length}) · 프롬프트`}), lines, h('div',{class:'promptbox', text:promptTxt}));
   const tools = buildTools(pn);
   const el = h('div',{class:'pv', id:'pv-'+pn.id}, bar, err, stage, tools, det);
-  const v = { el, canvas, stage, tools, layouts:{}, W:0, H:0, idx:i };
+  const v = { el, canvas, stage, tools, layouts:{}, W:0, H:0, idx:i, blocked: blocked.length>0 };
   views.set(pn.id, v);
   bindCanvas(pn, v);
   return el;
@@ -1434,11 +1537,13 @@ function replaceImage(pn){
 }
 async function singleGen(pn, newSeed){
   if (!S.token){ toast('먼저 NovelAI 토큰을 연결해 주세요.'); location.hash='#connect'; return; }
+  const issues = panelIssues(pn);
+  if (issues.length){ toast(`이 컷은 외형 태그가 필요해요: ${issueText(issues)}`, 4200); openCastTab(); return; }
   if (S.running) return;
   S.running = true; setRunUI(); $$('.pv-bar .btn').forEach(b=>b.disabled=true);
   await generatePanel(pn, {newSeed});
   S.running = false; setRunUI(); rerenderPanel(pn); updateRunStat(); fetchSub().then(()=>updateRunStat()).catch(()=>{});
-  $$('.pv-bar .btn').forEach(b=>b.disabled=false);
+  $$('.pv-bar .btn').forEach(b=>b.disabled = b.dataset.blocked==='1');
 }
 function rerenderPanel(pn, openDetails=false){
   const v = views.get(pn.id); if (!v) return renderBoard();
@@ -1592,50 +1697,218 @@ async function loadProjFile(f){
 }
 
 /* ================= AI conti ================= */
+/* ================= shared adaptation rules (used by NovelAI text AI and by the copy-to-other-AI prompts) ================= */
+function castListText(){
+  return P.cast.filter(c=>c.name.trim()).map(c=>{
+    const al = castAliases(c).slice(1);
+    return `- ${c.name.trim()}${al.length?` (별칭: ${al.join(', ')})`:''}: ${c.tags.trim()||'(외형 태그 없음)'}`;
+  }).join('\n') || '- (등장인물 미등록: 원문 속 이름을 그대로 쓰세요)';
+}
+const SCRIPT_RULES = `[각색 원칙: 글을 "장면"으로 바꾸기]
+1. 원문의 핵심 사건, 감정이 꺾이는 지점, 결정적 대사는 반드시 살린다. 대사는 원문 표현을 최대한 그대로 쓰고, 길면 풍선 여러 개로 나눈다. 사소한 묘사와 반복은 줄인다.
+2. 눈에 보이는 것(행동·표정·자세·시선·접촉·배경·날씨·조명)은 나레이션으로 쓰지 말고 그림 태그로 옮긴다.
+3. 나레이션은 그림으로 못 보여주는 것(시간 경과, 속마음, 감각, 의미 부여)만 한두 문장으로 짧게. 인물의 속마음은 "이름 생각:" 또는 "독백:"으로.
+4. 한 컷은 한 순간이다. 컷마다 구도를 바꿔 리듬을 만든다.
+   - 장소가 바뀌거나 첫 컷: 가로 비율 + wide shot (배경을 보여주기)
+   - 두 사람의 접촉·대치: cowboy shot 또는 upper body, 두 사람 모두 그림에 넣기
+   - 감정이 폭발하는 대사, 결정적 한마디: 정사각 비율 + close-up, portrait
+   - 손·물건·작은 행동 강조: close-up + hands 등 부위 태그
+   - 같은 구도를 세 컷 연속 쓰지 않는다
+5. 감정의 정점(클라이맥스)은 짧은 대사 + 클로즈업 + 효과음·연출로 크게 보여준다. 정적이 흐르는 순간은 대사 없는 컷을 써도 좋다.
+
+[태그 규칙: NovelAI/Danbooru 영어 태그, 쉼표 구분]
+- "장면:" 순서: 인원 태그, 구도, 카메라 각도, 장소, 시간·날씨·조명, 분위기 연출
+  예) 장면: 2boys, cowboy shot, from side, rooftop, night, moonlight, wind, dramatic lighting
+- 인원 태그는 그 컷 그림 속 인물 수·성별과 정확히 맞춘다 (등장인물 외형 태그의 1boy/1girl 참고). 아무도 없으면 no humans.
+- 장소·시간·날씨는 바뀌기 전까지 매 컷 반복해서 적는다(배경이 이어지도록).
+- "이름(태그)" 괄호에는 그 순간의 표정·시선·행동·자세만 3~6개 (예: crying, clenched teeth, looking at another, grabbing another's shoulder). 머리색·옷 같은 외형은 쓰지 않는다.
+- 상대에게 하는 행동은 another's 형태로 쓴다 (hand on another's cheek, holding another's wrist, hug, kiss, forehead to forehead).
+- 대사가 없어도 그림에 나오는 인물은 "이름(태그)" 줄로 적는다.
+
+[출력 형식: 이것만 출력, 설명·인사·마크다운 금지]
+# 컷
+비율: 가로 | 정사각   (세로면 이 줄 생략)
+장면: 태그들
+나레이션: 서술 · 독백: 회상·독백 · 자막: 장소·시간
+이름(태그): 대사
+이름(태그) 생각: 속마음 · 외침: 큰 소리 · 속삭임: 작은 목소리 · 떨림: 떨리는 말 · 전화: 전화·기계 너머
+이름(태그)        ← 대사 없이 등장
+상태창: 시스템 메시지 한 줄 (여러 줄이면 백틱 세 개 줄로 위아래를 감싸 그대로)
+효과음: 의성어
+
+[이름 규칙]
+- 인물 이름은 아래 등장인물 이름과 글자 하나까지 똑같이 쓴다. 원문의 별칭·호칭·성 뺀 이름·"그/그녀"는 문맥으로 실제 인물을 판단해 바꾼다.
+- 한 컷에 그림 속 인물 최대 3명, 풍선·상자 최대 3개. 풍선 하나는 25자 안팎.`;
+const SCRIPT_EXAMPLE = `# 컷
+비율: 가로
+장면: 1boy, full body, wide shot, from behind, alley, night, moonlight, silhouette
+나레이션: 그늘 속에 있던 남자가 모습을 드러냈다.
+
+# 컷
+장면: 2boys, cowboy shot, alley, night, moonlight
+지한(trembling, reaching out, grabbing another's shoulder, looking at another)
+시언(surprised, looking back)
+
+# 컷
+비율: 정사각
+장면: 1boy, close-up, portrait, night, moonlight, dramatic lighting
+지한(clenched teeth, glaring, tears) 떨림: …이제 와서.`;
 function buildContiPrompt(story, count){
-  const castLines = P.cast.filter(c=>c.name.trim()).map(c=>`- ${c.name.trim()}: ${c.tags.trim()||'(외형 태그 없음)'}`).join('\n') || '- (등장인물 미등록: 스토리 속 이름을 그대로 쓰세요)';
-  return `너는 세로 스크롤 웹툰 콘티 작가야. 아래 스토리를 약 ${count}컷으로 나누고, 반드시 아래 "출력 형식"만 사용해서 출력해. 설명이나 다른 말은 쓰지 마.
+  return `너는 한국 세로 스크롤 웹툰의 콘티 작가이자 NovelAI 이미지 프롬프트 전문가야. 아래 스토리를 약 ${count}컷 웹툰 대본으로 각색해.
+
+${SCRIPT_RULES}
 
 [등장인물과 외형 태그]
-${castLines}
-
-[출력 형식]
-# 컷
-비율: 세로 | 가로 | 정사각   (넓은 배경·전환 컷은 가로, 얼굴 클로즈업은 정사각, 나머지는 세로. 세로면 생략 가능)
-장면: 인원 태그, 배경, 시간·날씨, 구도, 연출 태그 (NovelAI/Danbooru 영어 태그, 쉼표 구분)
-이름(표정·행동 영어 태그): 한국어 대사
-이름(표정·행동 영어 태그)          ← 대사 없이 등장만
-이름(태그) 생각: 속마음 대사
-이름(태그) 외침: 큰 소리 대사
-이름(태그) 속삭임: 작은 목소리 대사
-이름(태그) 떨림: 떨리거나 겁먹은 대사
-이름(태그) 전화: 전화·스피커·기계 너머 대사
-나레이션: 한국어 서술 (흰 상자)
-독백: 인물의 회상·독백 서술 (검은 상자)
-자막: 장소·시간 (예: 서울, 오후 6시)
-상태창: 게임 시스템 메시지 한 줄 (헌터물·회귀물일 때만)
-여러 줄 상태창은 백틱 세 개(\`\`\`) 줄로 위아래를 감싸서 그대로 써
-효과음: 한국어 의성어
-
-[규칙]
-1. "장면:" 맨 앞에 인원 태그를 넣어 (no humans / 1boy / 1girl / 2boys / 1boy, 1girl 등). 그 컷에 나오는 인물 줄 수와 맞춰.
-2. "장면:"에 구도 태그를 꼭 넣어 (close-up, portrait, upper body, cowboy shot, full body, wide shot, from above, from below, from behind 등).
-3. 인물 이름은 위 등장인물 이름과 글자 하나까지 똑같이 써. 괄호 속 태그에는 외형(머리색·옷)은 쓰지 말고 표정·행동·포즈만 영어 태그로 써.
-4. 한 컷에 그림 속 인물은 최대 3명, 대사 풍선은 최대 3개.
-5. 대사는 짧게(한 풍선 25자 안팎). 긴 대사는 다음 컷으로 나눠.
-6. 컷 사이 흐름이 자연스럽게, 첫 컷은 배경을 보여주는 가로 컷으로 시작해도 좋아.
+${castListText()}
 
 [스토리]
 ${story.trim()}`;
 }
-/* ================= play log → script ================= */
+function buildLogPrompt(log, count, extra){
+  return `너는 한국 세로 스크롤 웹툰의 콘티 작가이자 NovelAI 이미지 프롬프트 전문가야. 아래는 AI 캐릭터 채팅의 플레이 로그야. 약 ${count}컷 웹툰 대본으로 각색해. OOC·시간 표시·재생성 같은 채팅 잡음은 버리고, {{user}}·{{char}} 같은 자리표시자는 알맞은 등장인물 이름으로 바꿔.
+
+${SCRIPT_RULES}
+
+[등장인물과 외형 태그]
+${castListText()}
+${extra ? `\n[모든 컷 장면에 넣을 태그]\n${extra}\n` : ''}
+[플레이 로그]
+${log.trim()}`;
+}
+
+/* ================= NovelAI text AI (GLM) ================= */
+const TEXT_HOST = 'https://text.novelai.net';
+async function naiChat(messages, {max=2048, temperature=.55, signal}={}){
+  if (!S.token) throw new Error('NovelAI 토큰을 먼저 연결해 주세요. (토큰 연결 화면)');
+  let lastErr;
+  for (const model of ['glm-4-6','glm-4-5']){
+    let r;
+    try{ r = await fetch(TEXT_HOST + '/oa/v1/chat/completions', { method:'POST', signal, headers:{ 'Content-Type':'application/json', Authorization:'Bearer '+S.token }, body: JSON.stringify({ model, messages, max_tokens:max, temperature }) }); }
+    catch(e){ if (e.name==='AbortError') throw e; throw new Error('NovelAI 텍스트 서버에 연결하지 못했어요. 인터넷 연결을 확인해 주세요.'); }
+    if (r.status===404){ lastErr = new Error('텍스트 모델을 찾지 못했어요.'); continue; }
+    if (!r.ok){
+      let d=''; try{ const t=await r.text(); try{ d=JSON.parse(t).message||t; }catch(_){ d=t; } }catch(_){}
+      if (r.status===401) throw new Error('토큰이 거부됐어요. 토큰을 다시 연결해 주세요.');
+      if (r.status===402 || r.status===403) throw new Error('이 구독으로는 텍스트 AI를 쓸 수 없어요. ' + String(d).slice(0,120));
+      if (r.status===429) throw Object.assign(new Error('NovelAI가 잠시 요청을 제한했어요. 잠시 후 다시 시도할게요.'), {retry:true});
+      throw new Error(`텍스트 생성 요청이 거부됐어요 (HTTP ${r.status}). ` + String(d).slice(0,160));
+    }
+    const j = await r.json();
+    const c = j.choices?.[0]?.message?.content ?? j.choices?.[0]?.text ?? '';
+    return String(c).replace(/<think>[\s\S]*?<\/think>/g,'').trim();
+  }
+  throw lastErr;
+}
+function chunkText(t, size){
+  const paras = t.replace(/\r/g,'').split(/\n(?=\s*\n)|\n/); const out=[]; let cur='';
+  for (const p of paras){ if (cur && (cur.length + p.length) > size){ out.push(cur); cur=''; } cur += (cur?'\n':'') + p; }
+  if (cur.trim()) out.push(cur);
+  return out;
+}
+function cleanScript(txt){
+  const m = txt.match(/^```[a-z]*\n([\s\S]*?)\n```\s*$/i);
+  if (m && /^\s*#/m.test(m[1])) txt = m[1];
+  const i = txt.search(/^\s*#/m);   // drop any chatter before the first panel
+  return (i > 0 ? txt.slice(i) : txt).trim();
+}
+function renumber(script){
+  let n = 0, inFence = false;
+  return script.split('\n').map(l=>{
+    if (/^\s*```/.test(l) && !/^\s*```.*```\s*$/.test(l)) { inFence = !inFence; return l; }
+    if (!inFence && /^\s*#/.test(l)) return `# 컷 ${++n}`;
+    return l;
+  }).join('\n');
+}
+async function naiAdapt(source, {kind='log', count=12, extra='', onProgress=()=>{}, signal}={}){
+  const chunks = chunkText(source.trim(), 1500);
+  const total = chunks.reduce((a,c)=>a+c.length, 0) || 1;
+  const sys = `너는 한국 세로 스크롤 웹툰의 콘티 작가이자 NovelAI 이미지 프롬프트 전문가야. 사용자가 주는 원문을 웹툰 대본으로 각색한다. 대본 형식 외의 말은 절대 쓰지 않는다.
+
+${SCRIPT_RULES}
+
+[등장인물과 외형 태그]
+${castListText()}
+${extra ? `\n[모든 컷 장면에 넣을 태그]\n${extra}\n` : ''}
+[출력 예시 (형식 참고용, 내용은 따라 하지 말 것)]
+${SCRIPT_EXAMPLE}`;
+  const parts = []; let tail = '';
+  for (let i=0; i<chunks.length; i++){
+    const n = Math.max(2, Math.round(count * chunks[i].length / total));
+    onProgress(i, chunks.length);
+    const head = kind==='log'
+      ? `아래는 캐릭터 채팅 플레이 로그${chunks.length>1?`의 ${i+1}/${chunks.length}번째 부분`:''}이야. OOC·시간 표시·재생성 같은 채팅 잡음은 버리고, {{user}}·{{char}}는 알맞은 등장인물 이름으로 바꿔.`
+      : `아래는 스토리${chunks.length>1?`의 ${i+1}/${chunks.length}번째 부분`:''}이야.`;
+    const user = `${head}\n이 부분을 약 ${n}컷으로 각색해.${tail ? `\n\n[바로 앞 컷: 흐름만 참고하고 다시 쓰지 마]\n${tail}` : ''}\n\n[원문]\n${chunks[i]}`;
+    let txt = '';
+    for (let attempt=0; attempt<3; attempt++){
+      try{
+        txt = cleanScript(await naiChat([{role:'system', content:sys}, {role:'user', content:user}], {signal}));
+        if (/^\s*#/m.test(txt)) break;
+      }catch(e){ if (e.retry && attempt<2){ await sleep(4000*(attempt+1)); continue; } throw e; }
+    }
+    if (!/^\s*#/m.test(txt)) throw new Error(`${i+1}번째 부분을 대본 형식으로 받지 못했어요. 다시 시도해 주세요.`);
+    parts.push(txt);
+    const lastHash = txt.lastIndexOf('\n#'); tail = (lastHash>=0 ? txt.slice(lastHash+1) : txt).slice(0, 400);
+  }
+  onProgress(chunks.length, chunks.length);
+  return renumber(parts.join('\n\n'));
+}
+
+/* ================= quick (rule-based) play log → script ================= */
 const QUOTE_RE = /“([^”]+)”|"([^"\n]+)"|「([^」]+)」|『([^』]+)』|‘([^’]+)’|\(([^()\n]+)\)|\*([^*\n]+)\*/g;
+function genderOf(c){
+  const t = (c?.tags||'').toLowerCase(); const m = t.match(/\b\d+\s*(boy|girl|other)s?\b/);
+  if (m) return m[1]; if (/\b(female|woman|girl)\b/.test(t)) return 'girl'; if (/\b(male|man|boy)\b/.test(t)) return 'boy'; return '';
+}
+function countTagsFor(names, anon={}){
+  const cnt = {girl:anon.girl||0, boy:anon.boy||0, other:0};
+  for (const n of names){ const g = genderOf(castByName(n)); if (g) cnt[g]++; }
+  return ['girl','boy','other'].filter(k=>cnt[k]).map(k=>`${cnt[k]}${k}${cnt[k]>1?'s':''}`).join(', ');
+}
+/* Korean description → Danbooru tags. kind: place/time/weather replace the running setting; scene adds to this panel;
+   char/contact attach to the sentence's subject (contact also pulls the other person into the panel) */
+const DICT = [
+  [/옥상/,'rooftop','place'],[/교실/,'classroom','place'],[/복도/,'hallway','place'],[/도서관|서가|책장/,'library, bookshelf','place'],
+  [/카페/,'cafe','place'],[/골목/,'alley','place'],[/길거리|거리를|거리에|도로/,'street','place'],[/공원/,'park','place'],[/숲/,'forest','place'],
+  [/바다|해변|파도/,'beach, ocean','place'],[/강가|강변/,'river','place'],[/침대/,'bed, bedroom','place'],[/침실/,'bedroom','place'],[/부엌|주방/,'kitchen','place'],
+  [/거실/,'living room','place'],[/사무실/,'office','place'],[/병실|병원/,'hospital','place'],[/계단/,'stairs','place'],[/창가|창문/,'window','scene'],
+  [/궁궐|궁전|왕궁/,'palace','place'],[/정원|화원/,'garden','place'],[/성당|교회/,'church','place'],[/무대/,'stage','place'],[/술집|바 안|칵테일/,'bar (place)','place'],
+  [/편의점/,'convenience store','place'],[/엘리베이터/,'elevator','place'],[/욕실|화장실/,'bathroom','place'],[/전장|전쟁터/,'battlefield','place'],
+  [/던전/,'dungeon','place'],[/폐허/,'ruins','place'],[/차 안|운전석|조수석/,'car interior','place'],[/지하철|역 플랫폼|승강장/,'train station','place'],
+  [/연무장|훈련장/,'training ground','place'],[/집무실|서재/,'study (room)','place'],[/감옥|지하실/,'prison','place'],[/학교/,'school','place'],
+  [/달빛/,'night, moonlight','time'],[/새벽/,'dawn','time'],[/노을|해 질|해질녘|석양/,'sunset','time'],[/저녁/,'evening','time'],[/아침/,'morning','time'],
+  [/한밤|밤이|밤에|밤하늘|오늘 밤|깊은 밤/,'night','time'],[/한낮|대낮|햇살|햇빛/,'day, sunlight','time'],[/별빛|별이 쏟/,'night, starry sky','time'],
+  [/빗줄기|빗속|빗물|비가|비를 맞|장대비|소나기|빗방울/,'rain','weather'],[/눈이 내|눈송이|함박눈|눈발/,'snow, snowing','weather'],[/안개/,'fog','weather'],
+  [/천둥|번개/,'lightning, storm','weather'],[/벚꽃/,'cherry blossoms','weather'],[/낙엽/,'autumn leaves','weather'],[/바람이|바람에/,'wind','scene'],
+  [/그늘|그림자/,'shadow','scene'],[/어둠|어두운|캄캄/,'dark','scene'],[/촛불/,'candlelight','scene'],[/가로등/,'streetlight','scene'],[/네온/,'neon lights','scene'],
+  [/형체|실루엣/,'silhouette','scene'],[/피투성이|피가 흐|피를 흘|핏자국/,'blood','scene'],[/불길|화염|불타/,'fire','scene'],
+  [/눈물|울었|울먹|흐느|울고|오열/,'tears, crying','char'],[/미소|웃었|웃으|웃음|싱긋|빙긋/,'smile','char'],[/비웃|조소|피식/,'smirk','char'],
+  [/놀라|눈이 커|흠칫|움찔/,'surprised, wide-eyed','char'],[/붉어|홍조|빨개|달아오/,'blush','char'],[/노려/,'glaring','char'],[/화가 나|분노|격분/,'angry','feel'],
+  [/원망/,'frown, glaring','feel'],[/떨리|떨렸|떨며|떨고|파르르/,'trembling','char'],[/슬픈|슬프|슬픔|씁쓸/,'sad','feel'],[/당황/,'flustered','feel'],
+  [/무표정|담담/,'expressionless','char'],[/지친|피곤|기진/,'tired','char'],[/이를 악물|이를 갈/,'clenched teeth','char'],[/한숨/,'sigh','char'],
+  [/식은땀/,'sweat','char'],[/긴장/,'nervous','feel'],[/겁에 질/,'scared','char'],[/두려움|공포/,'scared','feel'],[/미간을 찌푸|인상을 쓰|찡그/,'frown','char'],[/입술을 깨물/,'biting lip','char'],
+  [/고개를 숙|고개를 떨/,'head down, looking down','char'],[/올려다/,'looking up','char'],[/내려다/,'looking down','char'],[/돌아보|뒤돌아/,'looking back','char'],
+  [/시선을 피|눈을 피|고개를 돌/,'looking away','char'],[/눈을 감/,'closed eyes','char'],[/눈을 마주|마주 보|바라보|응시/,'looking at another','char'],
+  [/손을 뻗|팔을 뻗/,'reaching out','char'],[/무릎을 꿇/,'kneeling','char'],[/주저앉/,'sitting on floor','char'],[/달려|뛰어가|뛰어왔/,'running','char'],
+  [/걸어|걷고|걸음을/,'walking','char'],[/팔짱/,'crossed arms','char'],[/주먹을 쥐|주먹을 꽉/,'clenched hand','char'],[/담배/,'cigarette, smoking','char'],
+  [/술잔|와인잔|잔을 들/,'holding cup','char'],[/검을|칼을|검집/,'holding sword','char'],[/총을|총구/,'holding gun','char'],[/우산/,'holding umbrella','char'],
+  [/책을/,'holding book','char'],[/휴대폰|핸드폰|전화를 들/,'holding phone','char'],[/상처|다친/,'injury','char'],[/붕대/,'bandages','char'],
+  [/어깨를 (와락 )?(붙잡|붙들|잡|움켜)/,"hand on another's shoulder, grabbing another's shoulder",'contact'],[/손을 (꼭 )?(잡|맞잡|붙잡)/,'holding hands','contact'],
+  [/손목을 (잡|붙잡|낚아)/,"holding another's wrist",'contact'],[/끌어안|껴안|포옹|품에 안|와락 안/,'hug','contact'],[/뒤에서 안/,'hug from behind','contact'],
+  [/키스|입맞|입술을 겹|입술이 닿/,'kiss','contact'],[/이마를 맞/,'forehead to forehead','contact'],[/뺨을 (감싸|쓰다듬)|볼을 (감싸|쓰다듬)|얼굴을 감싸/,"hand on another's cheek",'contact'],
+  [/머리를 쓰다듬/,'headpat','contact'],[/멱살/,"grabbing another's collar",'contact'],[/벽으로 밀|벽에 밀어|벽에 몰/,'against wall','contact'],[/뺨을 때|따귀/,'slapping','contact'],
+  [/(남자|사내)(가|는|의|를)/,'boy','anon'],[/(여자|소녀)(가|는|의|를)/,'girl','anon']
+];
+const INTERIOR_RE = /(것 같|것만 같|듯했|듯이|처럼|느껴|느꼈|생각|마음|기억|떠올|몰랐|알았|깨달|싶었|그리웠|후회|그날|아직도|여전히|이제야|결국|비로소|순간)/;
+const SPEECH_KIND = [[/(외쳤|소리쳤|소리를 질|고함|버럭|악을 썼|절규)/,'shout'],[/(속삭|귓가에|나지막|작게 말|낮게 속)/,'whisper'],[/(떨리는 목소리|목소리가 떨|말을 더듬|더듬거)/,'tremble'],[/(전화 너머|수화기|스피커|무전)/,'phone']];
+const KIND_WORD = { thought:' 생각', shout:' 외침', whisper:' 속삭임', tremble:' 떨림', phone:' 전화', speech:'' };
+const SHOT_RE = /\b(close-up|portrait|upper body|cowboy shot|full body|wide shot|lower body|scenery)\b/i;
 function detectLogNames(text){
   const names = new Map();
-  const add = n => { n = n.trim(); if (!n || n.length>15 || /^\d+$/.test(n) || /^(오전|오후|AM|PM|http|https)$/i.test(n)) return; names.set(n, (names.get(n)||0)+1); };
+  const add = n => { n = n.trim(); if (!n || n.length>15 || /^\d+$/.test(n) || /^(오전|오후|AM|PM|http|https)$/i.test(n) || castByName(n)) return; names.set(n, (names.get(n)||0)+1); };
   for (const m of text.matchAll(/^\s*\[?([^\s:：\[\]"“”*()]{1,15}?)\]?\s*[:：]/gm)) add(m[1]);
+  for (const m of text.matchAll(/^\s*[\[【*]*([가-힣A-Za-z]{2,8})[\]】*]*\s*$/gm)) if (text.split('\n').filter(l=>l.trim()===m[0].trim()).length>1) add(m[1]);
   for (const m of text.matchAll(/\{\{\s*(?:user|char)\s*\}\}|<(?:user|char)>/gi)) add(m[0]);
-  for (const c of P.cast) if (c.name.trim() && text.includes(c.name.trim())) names.delete(c.name.trim());
   return [...names.entries()].sort((a,b)=>b[1]-a[1]).map(x=>x[0]).slice(0,8);
 }
 function applyNameMap(text, map){
@@ -1643,181 +1916,224 @@ function applyNameMap(text, map){
   return text;
 }
 function splitSentences(t){ return t.split(/(?<=[.!?…~。])\s+/).map(s=>s.trim()).filter(Boolean); }
-function shortNarration(t){
-  const ss = splitSentences(t); let out='';
-  for (const s of ss){ if (out && (out+' '+s).length > 70) break; out = out ? out+' '+s : s; }
-  if (out.length > 90) out = out.slice(0, 88).trim() + '…';
-  return out;
-}
-function countTagsFor(names){
-  const cnt = {};
-  for (const n of names){ const c = castByName(n); const m = c && (c.tags||'').trim().match(/^(\d+)\s*(boy|girl|other)s?\b/i); if (m){ const k=m[2].toLowerCase(); cnt[k]=(cnt[k]||0)+(+m[1]); } }
-  return Object.entries(cnt).map(([k,v])=>`${v}${k}${v>1?'s':''}`).join(', ');
-}
 function convertLog(raw, {map={}, extra=''}={}){
   const text = applyNameMap(raw.replace(/\r/g,''), map);
-  const castNames = P.cast.map(c=>c.name.trim()).filter(Boolean).sort((a,b)=>b.length-a.length);
-  const panels = []; let cur = null, lastSpeaker = '';
-  const flush = ()=>{ if (cur && (cur.nar || cur.lines.length || cur.sys)) panels.push(cur); cur = null; };
-  const ensure = ()=>{ if (!cur) cur = { nar:'', sys:'', lines:[] }; return cur; };
-  const speakerFrom = (before, after, prefix)=>{
-    let best='', pos=-1;
-    for (const n of castNames){ const i = before.lastIndexOf(n); if (i>pos){ pos=i; best=n; } }
-    if (!best){ pos=Infinity; for (const n of castNames){ const i = after.indexOf(n); if (i>=0 && i<pos){ pos=i; best=n; } } }
-    return best || prefix || lastSpeaker || '???';
+  const AL = P.cast.flatMap(c=>castAliases(c).map(a=>({a, n:c.name.trim()}))).sort((x,y)=>y.a.length-x.a.length);
+  const namesIn = t => { const hits=[]; for (const {a,n} of AL){ const i=t.indexOf(a); if (i>=0 && !hits.some(h=>h.n===n)) hits.push({n,i}); } return hits.sort((x,y)=>x.i-y.i).map(h=>h.n); };
+  const subjectOf = t => {   // the name carrying a subject particle wins, else the first name
+    let best='', pos=Infinity;
+    for (const {a,n} of AL){ const m = t.match(new RegExp(a.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + '(은|는|이|가|께서|도)(?=[\\s,.]|$)')); if (m && m.index<pos){ pos=m.index; best=n; } }
+    return best;
   };
-  const mentioned = t => castNames.filter(n=>t.includes(n));
-  const addSay = (who, kind, said)=>{
-    const parts = said.length > 45 ? splitSentences(said) : [said];
-    for (const s of parts){ const c = ensure(); if (c.lines.length >= 2){ flush(); ensure(); } cur.lines.push({who, kind, text:s}); }
-    if (kind!=='thought') lastSpeaker = who;
+  const whoIn = t => subjectOf(t) || pronoun(t) || namesIn(t)[0] || '';
+  let stage = [];
+  const onStage = n => { if (castByName(n)) stage = [n, ...stage.filter(x=>x!==n)].slice(0,3); };
+  const pronoun = t => {
+    if (/(^|[\s"“])그녀(는|가|의|를|도|에게)/.test(t)) return stage.find(n=>genderOf(castByName(n))==='girl') || '';
+    if (/(^|[\s"“])그(는|가|의|를|도|에게)\s/.test(t)) return stage.find(n=>genderOf(castByName(n))==='boy') || stage[0] || '';
+    return '';
   };
-  const sysPanel = t => { t = t.trim(); if (!t) return; flush(); ensure().sys = t; flush(); };
-  let fence = null;
-  const lines = [];
+  const ctx = { place:'', time:'', weather:'' };
+  const panels = []; let cur = null, lastSpeaker = '', pending = '';
+  const newPanel = ()=>({ nar:[], lines:[], sys:'', who:[], acts:{}, scene:[], anon:{}, contact:false, placeChanged:false });
+  const ensure = ()=> cur || (cur = newPanel());
+  const flush = ()=>{ if (cur && (cur.nar.length || cur.lines.length || cur.sys || cur.who.length || cur.scene.length || Object.keys(cur.anon).length)){ cur.ctx = {...ctx}; cur.stage = stage.slice(); panels.push(cur); } cur = null; };
+  const addWho = (p, n) => { if (n && castByName(n) && !p.who.includes(n)) p.who.push(n); };
+  const addAct = (p, n, tags) => { addWho(p, n); p.acts[n] = [...new Set([...(p.acts[n]||[]), ...tags])]; };
+  const analyze = (s, p) => {
+    const names = namesIn(s); const subj = whoIn(s);
+    let visible = false;
+    for (const [re, tags, kind] of DICT){
+      if (!re.test(s)) continue;
+      if (kind==='place'){ if (ctx.place !== tags){ ctx.place = tags; p.placeChanged = true; } }
+      else if (kind==='time') ctx.time = tags;
+      else if (kind==='weather') ctx.weather = tags;
+      else if (kind==='scene'){ if (!p.scene.includes(tags)) p.scene.push(tags); }
+      else if (kind==='anon'){ if (!names.length && !subj) p.anon[tags] = 1; }
+      else {
+        const who = subj || stage[0];
+        if (!who) continue;
+        addAct(p, who, tags.split(', ')); if (kind!=='feel') visible = true;
+        if (kind==='contact'){ p.contact = true; const other = names.find(n=>n!==who) || stage.find(n=>n!==who); if (other) addWho(p, other); }
+      }
+    }
+    names.forEach(n=>{ addWho(p, n); onStage(n); });
+    if (subj){ addWho(p, subj); onStage(subj); }
+    return INTERIOR_RE.test(s) || !visible;   // visible actions become drawing tags; inner states stay as text
+  };
+  // fenced / bracket status windows and plain lines
+  const items = []; let fence = null;
   for (const rawLine of text.split('\n')){
     const t = rawLine.trim();
-    if (fence){
-      const close = t.lastIndexOf('```');
-      if (close >= 0){ const before = t.slice(0, close).trim(); if (before) fence.push(before); lines.push({sys: fence.join('\n')}); fence = null; }
-      else fence.push(rawLine.replace(/\s+$/,''));
-      continue;
-    }
+    if (fence){ const c = t.lastIndexOf('```'); if (c>=0){ const b=t.slice(0,c).trim(); if (b) fence.push(b); items.push({sys:fence.join('\n')}); fence=null; } else fence.push(rawLine.replace(/\s+$/,'')); continue; }
     const op = t.match(FENCE_OPEN);
     if (op && !/```[\s\S]*```/.test(t)){ fence = fenceLabel(op[1]) ? [] : [op[1].trim()]; continue; }
-    // inline ```...``` inside a line: split into text / status parts
-    t.split(/```([\s\S]*?)```/).forEach((part, k)=>{ if (k%2) lines.push({sys: part}); else if (part.trim()) lines.push({text: part}); });
-    if (!t) lines.push({text:''});
+    t.split(/```([\s\S]*?)```/).forEach((part,k)=>{ if (k%2) items.push({sys:part}); else if (part.trim()) items.push({text:part}); });
   }
-  if (fence) lines.push({sys: fence.join('\n')});
-  for (const item of lines){
-    if (item.sys!=null){ sysPanel(item.sys); continue; }
-    let line = item.text.trim();
-    if (!line || /^(오전|오후)?\s*\d{1,2}:\d{2}(:\d{2})?$/.test(line) || /^(재생성|다시 생성|편집|복사|삭제|regenerate|edit)$/i.test(line)) continue;
+  if (fence) items.push({sys:fence.join('\n')});
+  for (const item of items){
+    if (item.sys!=null){ if (item.sys.trim()){ flush(); ensure().sys = item.sys.trim(); flush(); } continue; }
+    const line = item.text.trim();
+    if (!line || /^(오전|오후)?\s*\d{1,2}:\d{2}(:\d{2})?$/.test(line) || /^(재생성|다시 생성|편집|복사|삭제|regenerate|edit|continue|계속)$/i.test(line)) continue;
     if (/^\[[^\]]+\]$/.test(line) || /^【[^】]+】$/.test(line)){ flush(); ensure().sys = line; flush(); continue; }
+    // a line holding only a name = speaker label for the next line (common in chat exports)
+    const bare = line.replace(/^[\[【*#\s]+|[\]】*:：\s]+$/g,'');
+    if (bare.length<=12 && castByName(bare) && !/[“"「『‘(]/.test(line)){ pending = castByName(bare).name.trim(); continue; }
     let prefix = '', body = line;
     const pm = line.match(/^\[?([^\s:：\[\]"“”*()]{1,15}?)\]?\s*[:：]\s*(.*)$/);
-    if (pm && !/^\d+$/.test(pm[1])){ prefix = pm[1]; body = pm[2]; }
-    if (prefix && !/[“"「『‘(*]/.test(body)){ flush(); addSay(prefix, 'speech', body); continue; }
-    // walk quotes / thoughts / actions in order
-    let last = 0, narBuf = '', seen = '';
-    const pushNar = t => { t = t.replace(/\s+/g,' ').trim(); if (t) narBuf = narBuf ? narBuf+' '+t : t; };
-    const emitNar = ()=>{ if (narBuf){ if (cur && (cur.lines.length || cur.nar)) flush(); const c=ensure(); c.nar = shortNarration(narBuf); c.cast = mentioned(narBuf); seen += narBuf; narBuf=''; } };
+    if (pm && !/^\d+$/.test(pm[1])){ prefix = castByName(pm[1])?.name.trim() || pm[1]; body = pm[2]; }
+    const speakerBase = pending || prefix; pending = '';
+    if (speakerBase && body && !/[“"「『‘(*]/.test(body)){ flush(); const p=ensure(); p.lines.push({who:speakerBase, kind:'speech', text:body}); addWho(p, speakerBase); onStage(speakerBase); lastSpeaker=speakerBase; continue; }
+    let last = 0, lastSentence = '';
+    const narr = chunk => {
+      for (const s of splitSentences(chunk.replace(/\s+/g,' ').trim())){
+        if (cur && cur.lines.length) flush();
+        const p = ensure(); if (analyze(s, p)) p.nar.push(s);
+        lastSentence = s;
+      }
+    };
     QUOTE_RE.lastIndex = 0; let m;
     while ((m = QUOTE_RE.exec(body))){
-      pushNar(body.slice(last, m.index)); last = QUOTE_RE.lastIndex;
+      narr(body.slice(last, m.index)); last = QUOTE_RE.lastIndex;
       const [ , q1, q2, q3, q4, th1, th2, act ] = m;
+      if (act){ narr(act); continue; }
+      if (th2 && /^(ooc|사담)/i.test(th2)) continue;
       const said = (q1||q2||q3||q4||'').trim(), thought = (th1||th2||'').trim();
-      if (act){ pushNar(act); continue; }
-      if (th2 && /^(ooc|OOC|사담)/.test(th2)) continue;
-      const before = seen + ' ' + narBuf;
+      if (!said && !thought) continue;
       const nextQ = body.slice(last).search(/[“"「『‘(*]/);
       const after = nextQ<0 ? body.slice(last) : body.slice(last, last+nextQ);
-      emitNar();
-      const who = speakerFrom(before, after, prefix);
-      if (said) addSay(who, 'speech', said);
-      else if (thought) addSay(who, 'thought', thought);
+      const who = speakerBase || (lastSentence && whoIn(lastSentence)) || subjectOf(after) || lastSpeaker || '???';
+      let kind = thought ? 'thought' : 'speech';
+      if (said){ const c = lastSentence + ' ' + after.slice(0, 50); for (const [re,k] of SPEECH_KIND) if (re.test(c)){ kind = k; break; } if (kind==='speech' && /!{2,}|[!?]{3,}/.test(said)) kind = 'shout'; }
+      const parts = (said||thought).length > 45 ? splitSentences(said||thought) : [said||thought];
+      for (const t of parts){ const p = ensure(); if (p.lines.length >= 2){ flush(); ensure(); } cur.lines.push({who, kind, text:t}); addWho(cur, who); }
+      onStage(who); if (kind!=='thought') lastSpeaker = who;
     }
-    pushNar(body.slice(last)); emitNar(); flush();
+    narr(body.slice(last)); flush();
   }
   flush();
-  const out = panels.map((p,i)=>{
-    const who = [...new Set([...p.lines.map(l=>l.who), ...(p.lines.length ? [] : (p.cast||[]))])].filter(n=>castByName(n));
-    const count = countTagsFor(who);
-    const shot = who.length ? (who.length>1 ? 'cowboy shot' : 'upper body') : (p.sys ? '' : 'scenery, wide shot');
+  // write the script: shot choice follows the beat, avoiding three identical shots in a row
+  const shots = [];
+  const out = panels.map((p, i)=>{
+    let who = p.who.filter(n=>castByName(n));
+    if (!who.length && !p.sys && !Object.keys(p.anon).length && i>0 && p.stage.length && p.nar.length) who = [p.stage[0]];
+    const speakers = new Set(p.lines.map(l=>l.who));
+    let shot, ratio = '';
+    const crowd = who.length + Object.keys(p.anon).length;
+    if (!crowd){ shot = p.sys ? '' : 'scenery, wide shot'; ratio = p.sys ? '' : '가로'; }
+    else if (i===0 || p.placeChanged){ shot = 'full body, wide shot'; ratio = '가로'; }
+    else if (p.contact) shot = 'cowboy shot';
+    else if (p.lines.some(l=>l.kind==='thought') || (p.lines.length===1 && p.lines[0].text.length<=14 && /[?!…]/.test(p.lines[0].text))){ shot = 'close-up, portrait'; if (who.length<=1) ratio = '정사각'; }
+    else shot = who.length>1 ? 'upper body' : 'upper body';
+    if (shot && shots.length>=2 && shots[shots.length-1]===shot && shots[shots.length-2]===shot){
+      shot = shot==='upper body' ? 'cowboy shot' : shot==='cowboy shot' ? 'upper body' : 'upper body'; if (ratio==='정사각') ratio='';
+    }
+    shots.push(shot);
+    const scene = joinTags(countTagsFor(who, p.anon) || (crowd ? '' : 'no humans'), shot, p.ctx.place, p.ctx.time, p.ctx.weather, p.scene.join(', '), extra);
     const rows = [`# 컷 ${i+1}`];
-    if (!who.length && !p.sys) rows.push('비율: 가로');
-    rows.push('장면: ' + joinTags(count || (who.length ? '' : 'no humans'), shot, extra));
-    if (p.nar) rows.push('나레이션: ' + p.nar);
+    if (ratio) rows.push('비율: ' + ratio);
+    rows.push('장면: ' + scene);
+    if (p.nar.length){
+      const ranked = p.nar.map((s,k)=>({s,k,in:INTERIOR_RE.test(s)})).sort((a,b)=>(b.in-a.in)||(a.k-b.k));
+      let keep=[], len=0; for (const r of ranked){ if (keep.length && len + r.s.length > (p.lines.length ? 55 : 85)) break; keep.push(r); len += r.s.length; }
+      let t = keep.sort((a,b)=>a.k-b.k).map(r=>r.s).join(' ');
+      if (t.length > 95) t = t.slice(0, 93).trim() + '…';
+      rows.push((INTERIOR_RE.test(t) && /(생각|마음|기억|후회|그리웠)/.test(t) ? '독백: ' : '나레이션: ') + t);
+    }
     if (p.sys) rows.push(p.sys.includes('\n') ? '```\n' + p.sys + '\n```' : '상태창: ' + p.sys);
-    if (!p.lines.length) who.forEach(n=>rows.push(n));
-    for (const l of p.lines) rows.push(`${l.who}${l.kind==='thought' ? ' 생각' : ''}: ${l.text}`);
+    const tagged = new Set();
+    const tagsFor = n => {
+      if (tagged.has(n) || !castByName(n)) return ''; tagged.add(n);
+      const t = [...(p.acts[n]||[])];
+      if (who.length>1 && !t.some(x=>/looking/.test(x))) t.push('looking at another');
+      return t.length ? `(${t.join(', ')})` : '';
+    };
+    who.filter(n=>!speakers.has(n)).forEach(n=>rows.push(n + tagsFor(n)));
+    for (const l of p.lines) rows.push(`${l.who}${tagsFor(l.who)}${KIND_WORD[l.kind]||''}: ${l.text}`);
     return rows.join('\n');
   });
   return { script: out.join('\n\n'), panels: panels.length };
 }
-function buildLogPrompt(log, count, extra){
-  const castLines = P.cast.filter(c=>c.name.trim()).map(c=>`- ${c.name.trim()}: ${c.tags.trim()||'(외형 태그 없음)'}`).join('\n') || '- (등장인물 미등록: 로그 속 이름을 그대로 쓰세요)';
-  return `너는 웹툰 각색 작가야. 아래는 AI 캐릭터 채팅의 플레이 로그야. 이걸 약 ${count}컷짜리 세로 스크롤 웹툰 대본으로 각색해서, 반드시 아래 "출력 형식"만 사용해 출력해. 설명이나 다른 말은 쓰지 마.
 
-[각색 규칙]
-1. 로그의 사건 순서와 핵심 대사는 살리고, 반복되거나 늘어지는 서술은 줄여.
-2. 행동·표정 묘사는 그림(장면 태그와 괄호 속 태그)으로 옮기고, 꼭 필요한 서술만 나레이션·독백으로 남겨.
-3. 대사는 한 풍선 25자 안팎으로 다듬어. 긴 대사는 나눠서 다음 컷으로.
-4. 로그 속 인물 이름은 아래 등장인물 이름으로 맞춰 써. {{user}}·{{char}} 같은 자리표시자도 알맞은 이름으로 바꿔.
-5. OOC, 시스템 안내, 시간 표시 같은 채팅 잡음은 버려. 단, 이야기 속 상태창·시스템 메시지(로그에서 \`\`\` 로 감싼 부분 포함)는 살려서, 한 줄이면 "상태창:"으로, 여러 줄이면 \`\`\` 로 감싼 그대로 옮겨.
-
-[등장인물과 외형 태그]
-${castLines}
-${extra ? `\n[모든 컷 공통 장면 태그]\n${extra}\n` : ''}
-[출력 형식]
-# 컷
-비율: 세로 | 가로 | 정사각   (넓은 배경·전환 컷은 가로, 얼굴 클로즈업은 정사각, 세로면 생략)
-장면: 인원 태그, 배경, 시간·날씨, 구도, 연출 (NovelAI/Danbooru 영어 태그)
-이름(표정·행동 영어 태그): 대사
-이름(태그) 생각: 속마음 · 외침: 큰 소리 · 속삭임: 작은 목소리 · 떨림: 떨리는 말 · 전화: 전화·기계 너머
-나레이션: 서술 · 독백: 회상·독백 · 자막: 장소·시간 · 상태창: 시스템 메시지 · 효과음: 의성어
-여러 줄 상태창은 백틱 세 개(\`\`\`) 줄로 위아래를 감싸서 내용을 그대로 써
-
-[형식 규칙]
-- "장면:" 맨 앞에 인원 태그(no humans / 1boy / 1girl / 2boys / 1boy, 1girl 등)와 구도 태그(close-up, upper body, cowboy shot, full body, wide shot 등)를 꼭 넣어.
-- 괄호 속 태그에는 외형(머리색·옷)은 쓰지 말고 표정·행동·포즈만 써.
-- 한 컷에 그림 속 인물 최대 3명, 풍선·상자 최대 3개.
-
-[플레이 로그]
-${log.trim()}`;
+/* ================= modal wiring ================= */
+function putScript(sc, append, modal){
+  sc = (sc||'').trim(); if (!sc) return;
+  if (!append && P.script.trim() && !confirmInline('지금 대본을 새 대본으로 바꿀까요?')) return;
+  P.script = append && P.script.trim() ? P.script.trimEnd() + '\n\n' + sc : sc;
+  $('#scriptBox').value = P.script; save(); modal.hidden = true;
+  $$('.stabs button').find(b=>b.dataset.t==='script')?.click();
+  $('#applyScript').click();
+}
+let adaptCtl = null;
+async function runAdapt({source, kind, count, extra, msgEl, outEl, putEl, btn, cancelBtn}){
+  if (!S.token){ msgEl.textContent = 'NovelAI 토큰을 먼저 연결해 주세요. (상단 "토큰 연결")'; return; }
+  btn.disabled = true; cancelBtn.hidden = false; putEl.hidden = true;
+  adaptCtl = new AbortController();
+  msgEl.style.color = 'var(--muted)';
+  try{
+    const sc = await naiAdapt(source, { kind, count, extra, signal: adaptCtl.signal,
+      onProgress:(i,n)=>{ msgEl.textContent = i<n ? `NovelAI가 각색하는 중… (${i+1}/${n}${n>1?' 부분':''}) 긴 글은 1~2분 걸릴 수 있어요.` : '정리하는 중…'; } });
+    outEl.value = sc; outEl.hidden = false; outEl.readOnly = false; putEl.hidden = false;
+    const {panels, warns} = parseScript(sc);
+    msgEl.style.color = 'var(--ok)';
+    msgEl.textContent = `컷 ${panels.length}개로 각색했어요. 마음에 안 드는 줄은 아래에서 바로 고친 뒤 넣으세요.` + (warns.length ? ` (확인할 줄 ${warns.length}개)` : '');
+  }catch(e){
+    msgEl.style.color = e.name==='AbortError' ? 'var(--muted)' : 'var(--bad)';
+    msgEl.textContent = e.name==='AbortError' ? '각색을 멈췄어요.' : e.message;
+  }finally{ btn.disabled = false; cancelBtn.hidden = true; adaptCtl = null; }
 }
 function bindLog(){
-  const m = $('#logModal'); let names = [];
+  const m = $('#logModal');
   const renderMap = ()=>{
     const box = $('#logMap'); box.textContent='';
-    names = detectLogNames($('#logIn').value);
-    if (!names.length){ box.append(h('p',{class:'small muted', style:'margin:0', text:'바꿀 이름이 없어요. 로그 속 이름이 등장인물 이름과 같으면 그대로 연결돼요.'})); return; }
+    const names = detectLogNames($('#logIn').value);
+    if (!names.length){ box.append(h('p',{class:'small muted', style:'margin:0', text:'바꿀 이름이 없어요. 로그 속 이름·별칭이 등장인물과 같으면 그대로 연결돼요.'})); return; }
     names.forEach(n=>box.append(h('label',{class:'maprow'}, h('code',{text:n}), h('span',{class:'muted', text:'→'}),
       h('select',{'data-from':n, 'aria-label':`${n}을(를) 바꿀 이름`}, h('option',{value:'', text:'그대로 두기'}), ...P.cast.filter(c=>c.name.trim()).map(c=>h('option',{value:c.name.trim(), text:c.name.trim()}))))));
   };
   const mapNow = ()=>Object.fromEntries($$('#logMap select').map(s=>[s.dataset.from, s.value]));
+  const need = ()=>{ const log = $('#logIn').value; if (!log.trim()){ $('#logMsg').textContent='플레이 로그를 먼저 붙여넣어 주세요.'; return null; } return applyNameMap(log, mapNow()); };
   $('#logOpen').onclick = ()=>{ m.hidden=false; $('#logOut').hidden=true; $('#logPut').hidden=true; $('#logMsg').textContent=''; renderMap(); $('#logIn').focus(); };
-  $('#logClose').onclick = ()=>{ m.hidden=true; };
-  m.addEventListener('click', e=>{ if (e.target===m) m.hidden=true; });
+  $('#logClose').onclick = ()=>{ adaptCtl?.abort(); m.hidden=true; };
+  m.addEventListener('click', e=>{ if (e.target===m && !adaptCtl) m.hidden=true; });
   $('#logIn').addEventListener('input', debounce(renderMap, 400));
-  $('#logQuick').onclick = ()=>{
-    const log = $('#logIn').value; if (!log.trim()){ $('#logMsg').textContent='플레이 로그를 먼저 붙여넣어 주세요.'; return; }
-    const {script, panels} = convertLog(log, {map:mapNow(), extra:$('#logExtra').value.trim()});
+  $('#logNai').onclick = ()=>{ const src = need(); if (!src) return;
+    runAdapt({ source:src, kind:'log', count:+$('#logCount').value||12, extra:$('#logExtra').value.trim(), msgEl:$('#logMsg'), outEl:$('#logOut'), putEl:$('#logPut'), btn:$('#logNai'), cancelBtn:$('#logCancel') }); };
+  $('#logCancel').onclick = ()=>adaptCtl?.abort();
+  $('#logQuick').onclick = ()=>{ const src = need(); if (!src) return;
+    const {script, panels} = convertLog(src, {extra:$('#logExtra').value.trim()});
     const out = $('#logOut'); out.value = script; out.hidden = false; out.readOnly = false;
-    $('#logPut').hidden = !panels;
-    $('#logMsg').textContent = panels ? `컷 ${panels}개로 나눴어요. 장면 태그는 기본값이라 배경·구도를 직접 손보면 그림이 좋아져요.` : '대사나 서술을 찾지 못했어요.';
+    $('#logPut').hidden = !panels; $('#logMsg').style.color='var(--muted)';
+    $('#logMsg').textContent = panels ? `컷 ${panels}개로 나눴어요. 보이는 행동은 그림 태그로, 속마음은 나레이션으로 옮겼어요. 더 자연스러운 각색은 "NovelAI로 각색"을 써 보세요.` : '대사나 서술을 찾지 못했어요.';
   };
-  $('#logAi').onclick = async ()=>{
-    const log = $('#logIn').value; if (!log.trim()){ $('#logMsg').textContent='플레이 로그를 먼저 붙여넣어 주세요.'; return; }
-    const txt = buildLogPrompt(applyNameMap(log, mapNow()), +$('#logCount').value||12, $('#logExtra').value.trim());
+  $('#logAi').onclick = async ()=>{ const src = need(); if (!src) return;
+    const txt = buildLogPrompt(src, +$('#logCount').value||12, $('#logExtra').value.trim());
     const out = $('#logOut'); out.value = txt; out.hidden = false; out.readOnly = true; $('#logPut').hidden = true;
     try{ await navigator.clipboard.writeText(txt); $('#logMsg').textContent='요청문을 복사했어요. Claude나 ChatGPT에 붙여넣고, 받은 대본을 대본 탭에 붙여넣으세요.'; }
     catch(e){ out.focus(); out.select(); $('#logMsg').textContent='자동 복사가 막혀서 아래 글을 선택해 두었어요. Ctrl+C로 복사해 주세요.'; }
   };
-  const put = (append)=>{
-    const sc = $('#logOut').value.trim(); if (!sc) return;
-    if (!append && P.script.trim() && !confirmInline('지금 대본을 변환한 대본으로 바꿀까요?')) return;
-    P.script = append && P.script.trim() ? P.script.trimEnd() + '\n\n' + sc : sc;
-    $('#scriptBox').value = P.script; save(); m.hidden = true;
-    $$('.stabs button').find(b=>b.dataset.t==='script')?.click();
-    $('#applyScript').click();
-  };
-  $('#logReplace').onclick = ()=>put(false);
-  $('#logAppend').onclick = ()=>put(true);
+  $('#logReplace').onclick = ()=>putScript($('#logOut').value, false, m);
+  $('#logAppend').onclick = ()=>putScript($('#logOut').value, true, m);
 }
 function bindConti(){
   const m = $('#contiModal');
-  $('#aiConti').onclick = ()=>{ m.hidden=false; $('#contiOut').hidden=true; $('#contiMsg').textContent=''; $('#contiStory').focus(); };
-  $('#contiClose').onclick = ()=>{ m.hidden=true; };
-  m.addEventListener('click', e=>{ if (e.target===m) m.hidden=true; });
+  $('#aiConti').onclick = ()=>{ m.hidden=false; $('#contiOut').hidden=true; $('#contiPut').hidden=true; $('#contiMsg').textContent=''; $('#contiStory').focus(); };
+  $('#contiClose').onclick = ()=>{ adaptCtl?.abort(); m.hidden=true; };
+  m.addEventListener('click', e=>{ if (e.target===m && !adaptCtl) m.hidden=true; });
+  $('#contiNai').onclick = ()=>{
+    const story = $('#contiStory').value; if (!story.trim()){ $('#contiMsg').textContent='스토리를 먼저 붙여넣어 주세요.'; return; }
+    runAdapt({ source:story, kind:'story', count:+$('#contiCount').value||12, extra:'', msgEl:$('#contiMsg'), outEl:$('#contiOut'), putEl:$('#contiPut'), btn:$('#contiNai'), cancelBtn:$('#contiCancel') });
+  };
+  $('#contiCancel').onclick = ()=>adaptCtl?.abort();
   $('#contiCopy').onclick = async ()=>{
     const story = $('#contiStory').value; if (!story.trim()){ $('#contiMsg').textContent='스토리를 먼저 붙여넣어 주세요.'; return; }
     const txt = buildContiPrompt(story, +$('#contiCount').value||12);
-    const out = $('#contiOut'); out.value = txt; out.hidden=false;
+    const out = $('#contiOut'); out.value = txt; out.hidden=false; out.readOnly = true; $('#contiPut').hidden = true;
     try{ await navigator.clipboard.writeText(txt); $('#contiMsg').textContent='복사했어요. Claude나 ChatGPT에 붙여넣으세요.'; }
     catch(e){ out.focus(); out.select(); $('#contiMsg').textContent='자동 복사가 막혀서 아래 글을 선택해 두었어요. Ctrl+C로 복사해 주세요.'; }
   };
+  $('#contiReplace').onclick = ()=>putScript($('#contiOut').value, false, m);
+  $('#contiAppend').onclick = ()=>putScript($('#contiOut').value, true, m);
 }
 
 /* ================= wiring ================= */
@@ -1829,7 +2145,7 @@ function bindStudio(){
   $$('.stabs button').forEach(b=>b.onclick=()=>{ $$('.stabs button').forEach(x=>x.classList.toggle('on', x===b)); ['cast','script','settings'].forEach(t=>$('#p-'+t).hidden = t!==b.dataset.t); });
   $$('#mswitch button').forEach(b=>b.onclick=()=>{ $$('#mswitch button').forEach(x=>x.classList.toggle('on',x===b)); const st=$('#studio'); st.classList.toggle('show-edit', b.dataset.m==='edit'); st.classList.toggle('show-board', b.dataset.m==='board'); requestAnimationFrame(redrawAll); });
   $('#projTitle').oninput = e=>{ P.title=e.target.value; save(); };
-  $('#addCast').onclick = ()=>{ P.cast.push({id:uid(), name:'', tags:'', uc:'', img:'', ref:'', useRef:false}); renderCast(); save(); const ins=$$('#castList .namerow input'); ins[ins.length-1]?.focus(); };
+  $('#addCast').onclick = ()=>{ P.cast.push({id:uid(), name:'', tags:'', uc:'', img:'', ref:'', useRef:false}); renderCast(); save(); onCastChanged(); const ins=$$('#castList .namerow input'); ins[ins.length-1]?.focus(); };
   $('#castFile').addEventListener('change', onCastFile);
   $('#scriptBox').oninput = e=>{ P.script=e.target.value; save(); };
   $('#sampleScript').onclick = ()=>{
@@ -1845,8 +2161,10 @@ function bindStudio(){
     const kept = P.panels;
     P.panels = buildPanels(panels, kept);
     const reused = P.panels.filter(p=>p.img).length;
-    save(); renderBoard();
-    toast(`컷 ${P.panels.length}개를 만들었어요${reused?` (그림 ${reused}개 유지)`:''}.`);
+    save(); renderBoard(); refreshIssueUI();
+    const iss = allIssues();
+    if (iss.length) toast(`컷 ${P.panels.length}개를 만들었어요. 생성 전에 외형 태그가 필요해요: ${issueText(iss)}`, 4500);
+    else toast(`컷 ${P.panels.length}개를 만들었어요${reused?` (그림 ${reused}개 유지)`:''}.`);
     if (matchMedia('(max-width:900px)').matches) $('#mswitch button[data-m="board"]').click();
   };
   $('#runAll').onclick = runAll;
