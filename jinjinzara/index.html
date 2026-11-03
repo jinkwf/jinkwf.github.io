@@ -181,7 +181,7 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
 .runbar .meter i{display:block;height:100%;width:0;background:var(--blue);transition:width .3s}
 .runbar .stat{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
 .menu{position:relative}
-.menu .pop{position:absolute;right:0;top:calc(100% + 6px);background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:6px;display:grid;min-width:210px;z-index:10;box-shadow:0 10px 28px rgba(0,0,0,.14)}
+.menu .pop{max-height:min(70vh,560px);overflow:auto;position:absolute;right:0;top:calc(100% + 6px);background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:6px;display:grid;min-width:210px;z-index:10;box-shadow:0 10px 28px rgba(0,0,0,.14)}
 .menu .pop button{text-align:left;border:0;background:transparent;padding:8px 10px;border-radius:7px;cursor:pointer;font-size:14px}
 .menu .pop button:hover{background:var(--tone)}
 .menu .pop hr{border:0;border-top:1px solid var(--line);margin:4px 0}
@@ -227,6 +227,33 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
 .castcard.need{border-color:var(--bad)}
 .castcard.need textarea{border-color:var(--bad)}
 .need-hint{font-size:12px;color:var(--bad)}
+.vstrip{display:flex;gap:6px;align-items:center;overflow-x:auto;padding:2px 0 4px}
+.vthumb{flex:0 0 auto;width:52px;height:64px;padding:0;border:2px solid var(--line);border-radius:7px;overflow:hidden;background:var(--paper);cursor:pointer}
+.vthumb img{width:100%;height:100%;object-fit:cover;display:block}
+.vthumb.on{border-color:var(--blue);box-shadow:0 0 0 2px var(--blue-soft)}
+.vinfo{font:500 12px var(--mono);color:var(--muted);margin:0 4px;white-space:nowrap}
+.bt-range{width:110px;accent-color:var(--blue)}
+.bt-val{font:500 12px var(--mono);color:var(--muted);min-width:38px}
+.btn.on{background:var(--blue-soft);border-color:var(--blue);color:var(--ink)}
+.swatches{display:inline-flex;gap:4px}
+.sw{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--line);background:var(--sw,var(--sheet));cursor:pointer;font:700 11px var(--body);color:var(--ink);padding:0}
+.sw.on{outline:2px solid var(--blue);outline-offset:2px}
+.pop-lbl{font-size:11px;font-weight:700;color:var(--muted);padding:4px 10px 2px;letter-spacing:.04em}
+.outfits{border:1px dashed var(--line);border-radius:8px;padding:6px 8px;font-size:13px}
+.outfits summary{cursor:pointer;color:var(--muted);font-weight:600}
+.outlist{display:grid;gap:6px;margin-top:6px}
+.outrow{display:grid;grid-template-columns:84px minmax(0,1fr) auto;gap:6px}
+.outrow input{padding:6px 8px;font-size:13px}
+.outrow .x{border:0;background:transparent;color:var(--muted);cursor:pointer}
+.outlist select{width:auto;padding:5px 8px;font-size:13px}
+.costlist{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:0;font-size:14px}
+.costlist dt{color:var(--muted)}
+.costlist dd{margin:0;font-weight:600;font-variant-numeric:tabular-nums}
+.projlist{display:grid;gap:8px;max-height:50vh;overflow:auto}
+.projrow{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:10px 12px;border:1px solid var(--line);border-radius:10px}
+.projrow.cur{border-color:var(--blue);background:var(--blue-soft)}
+.projmeta{display:grid;min-width:0}
+.projmeta b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .promptbox{font:12px/1.55 var(--mono);background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:9px;white-space:pre-wrap;word-break:break-word;color:var(--muted);margin-top:6px}
 .empty-state{text-align:center;padding:40px 16px;color:var(--muted)}
 .empty-state h3{color:var(--ink);font-size:22px;margin-bottom:6px}
@@ -256,6 +283,10 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
   .side{top:0}
 }
 @media (max-width:640px){
+  .btools{position:static;box-shadow:none}
+  .bt-type{width:66px}
+  .bt-type img{width:54px;height:33px}
+  .bt-range{width:90px}
   .steps3,.facts,.subinfo{grid-template-columns:1fr}
   .grid2{grid-template-columns:1fr}
   .lineitem{grid-template-columns:1fr 1fr auto}
@@ -393,6 +424,7 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
     <ul>
       <li><b>NovelAI로 뽑은 PNG</b>를 올리면 그림 속에 저장된 프롬프트를 읽어 외형 태그를 자동으로 채워요.</li>
       <li><b>대본에 나오는 인물은 모두 외형 태그가 있어야 생성돼요.</b> 등록 안 된 이름이나 태그가 빈 인물이 있으면 원고 위에 빨간 안내가 뜨고 생성 버튼이 잠겨요. 안내의 <b>등장인물에 추가</b>를 누르면 빠진 이름이 바로 등록돼요. (<code>???</code>처럼 정체를 숨긴 화자는 검사하지 않아요.)</li>
+      <li><b>의상 세트</b>에 교복·사복처럼 옷 태그 묶음을 저장해 두고, 대본에서 <code>이름[교복]</code>으로 골라요. 기본 의상을 정해 두면 고르지 않은 컷은 그 옷을 입어요. 외형 태그에는 얼굴·머리처럼 바뀌지 않는 것만 두는 게 좋아요.</li>
       <li><b>캐릭터 레퍼런스</b>를 켜면 올린 이미지를 NovelAI V4.5의 캐릭터 레퍼런스로 함께 보내 얼굴과 옷을 더 비슷하게 맞춰요. 대신 컷마다 Anlas가 추가로 들어요(Opus도 무료 대상 아님).</li>
     </ul>
   </section>
@@ -408,6 +440,7 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
         <tr><td><code>비율: 가로</code></td><td>컷 모양: 세로(기본) · 가로 · 정사각</td></tr>
         <tr><td><code>서진(smile, looking at viewer): 늦었잖아.</code></td><td>인물 등장 + 표정·행동 태그 + 말풍선</td></tr>
         <tr><td><code>서진(back to viewer)</code></td><td>대사 없이 등장만</td></tr>
+        <tr><td><code>서진[교복](smile): 안녕.</code></td><td>의상 세트 고르기 (등장인물 카드의 의상 세트 이름)</td></tr>
         <tr><td><code>서진 생각: 이번엔 안 놓쳐.</code></td><td>생각 풍선 (구름 모양)</td></tr>
         <tr><td><code>서진 외침: 기다려!</code></td><td>외침 풍선 (뾰족한 모양)</td></tr>
         <tr><td><code>서진 속삭임: 쉿.</code></td><td>속삭임 풍선 (점선)</td></tr>
@@ -421,6 +454,9 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
         <tr><td><code>상태창: [퀘스트] 첫 만남</code></td><td>게임 상태창 스타일 상자</td></tr>
         <tr><td><code>```</code><br><code>[상태창]</code><br><code>호감도: 10 → 20</code><br><code>```</code></td><td>백틱 세 개로 감싼 여러 줄 상태창 (줄바꿈 그대로)</td></tr>
         <tr><td><code>효과음: 쾅</code></td><td>그림 위에 얹는 큰 글자</td></tr>
+        <tr><td><code>컷: 검은 화면</code> / <code>컷: 흰 화면</code></td><td>그림 없이 단색 배경에 글자만 얹는 연출 컷 (생성하지 않음)</td></tr>
+        <tr><td><code>필터: 흑백</code> / <code>세피아</code> / <code>회상</code></td><td>그림에 색 필터 (회상은 바랜 색 + 가장자리 흰빛)</td></tr>
+        <tr><td><code>간격: 붙이기</code> / <code>좁게</code> / <code>넓게</code> / <code>아주 넓게</code></td><td>이 컷 아래 여백 (호흡 조절)</td></tr>
       </tbody>
     </table></div>
     <p class="small muted">인물 이름은 등장인물 탭에 등록한 이름과 정확히 같아야 그 인물의 외형 태그가 붙어요. 한 컷에 인물은 3명까지가 안정적이에요. <code>장면:</code> 맨 앞에 <code>1boy</code>, <code>2boys</code>, <code>1girl, 1boy</code> 같은 인원 태그를 넣으면 인물 수가 정확해져요.</p>
@@ -441,6 +477,8 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
 
   <section>
     <h2>3. 컷 만들기와 생성</h2>
+    <p>설정 탭의 <b>컷당 후보 수</b>(1~4장)만큼 그려서 그중 하나를 골라요. 그림 아래 버전 목록에서 눌러 바꾸고, 필요 없는 버전은 지울 수 있어요. <b>새 후보</b>는 다른 시드로 더 그리고, <b>다시 그리기</b>는 고른 그림과 같은 시드로 다시 그려서 태그만 고친 결과를 비교할 때 좋아요. 컷마다 최근 6장까지 보관해요.</p>
+    <p><b>전체 생성</b>을 누르면 생성할 컷 수, 후보 수, 모델, 레퍼런스, 예상 Anlas와 남은 Anlas를 먼저 보여주고 확인을 받아요.</p>
     <p><b>대본으로 컷 만들기</b>를 누르면 오른쪽 원고에 컷이 깔려요. <b>전체 생성</b>은 아직 그림이 없는 컷을 위에서부터 한 장씩 생성하고, 각 컷의 <b>생성</b>·<b>새 버전</b> 버튼으로 하나씩 다시 뽑을 수도 있어요. 대본을 고쳐서 다시 적용해도 내용이 바뀌지 않은 컷의 그림과 말풍선 위치는 그대로 남아요.</p>
     <div class="tbl"><table>
       <thead><tr><th>설정</th><th>Opus 구독</th><th>그 외 구독</th></tr></thead>
@@ -460,7 +498,10 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
       <li><b>두 번 클릭(모바일은 두 번 탭)</b>하면 글자를 바로 고칠 수 있어요. 선택한 상태에서 <kbd>Delete</kbd>로 지워요.</li>
       <li>말풍선을 <b>선택하면 컷 아래에 도구 막대</b>가 나와요. 미리보기 그림을 눌러 말풍선·상자 종류를 바로 바꾸고, 꼬리 방향(자동·왼쪽·가운데·오른쪽·없음)과 화자를 고르고, 복제·삭제할 수 있어요.</li>
       <li>종류는 말풍선·각진 말풍선·속삭임·생각·외침·떨리는 말·전화·기계음·글자만, 상자는 나레이션·독백·자막·상태창, 그리고 효과음까지 13가지예요.</li>
+      <li>도구 막대 둘째 줄에서 풍선마다 <b>글자 크기</b>, <b>굵게</b>, <b>글자색</b>을 바꾸고, 효과음·글자만은 <b>기울기</b>도 조절해요.</li>
       <li>각 컷 아래 <b>대사 편집</b>에서도 종류와 화자를 바꾸거나 새로 추가할 수 있어요.</li>
+      <li>원고에서 고친 내용은 대본 탭의 <b>원고 → 대본 반영</b>으로 대본 글에 옮길 수 있어요. 그다음 대본을 다시 적용해도 그림과 말풍선 위치가 그대로 남아요.</li>
+      <li>컷 메뉴(⋯)의 <b>연출</b>에서 검은·흰 화면 컷, 흑백·세피아·회상 필터, 컷 아래 간격을 바꿔요.</li>
     </ul>
   </section>
 
@@ -469,7 +510,9 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
     <ul>
       <li><b>긴 PNG 한 장</b>: 원고 전체를 세로로 이어 붙인 이미지</li>
       <li><b>분할 PNG ZIP</b>: 플랫폼 업로드용으로 정해진 높이씩 자른 이미지 묶음 (설정 탭에서 높이 지정)</li>
-      <li><b>프로젝트 파일(.json)</b>: 그림과 말풍선을 모두 담은 작업 파일. 다른 기기에서 이어서 작업할 때 불러와요.</li>
+      <li><b>웹툰 뷰어(HTML)</b>: 브라우저에서 세로로 넘겨 보는 페이지 한 장. 깃허브에 올리면 링크로 공유할 수 있어요.</li>
+      <li><b>프로젝트 파일(.json)</b>: 그림과 말풍선을 모두 담은 작업 파일. 다른 기기에서 이어서 작업할 때 불러와요. 불러오면 새 원고로 추가돼요.</li>
+      <li><b>원고 목록</b>: 화마다 원고를 따로 저장하고 오가요. <b>새 화 만들기</b>는 등장인물·의상·설정을 이어받아 다음 화를 시작해요.</li>
     </ul>
     <p class="small muted">작업 내용은 이 브라우저에 자동 저장되지만, 브라우저 데이터를 지우면 사라져요. 중요한 원고는 프로젝트 파일로도 받아 두세요.</p>
   </section>
@@ -480,18 +523,20 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
 <section class="wrap" id="v-studio" hidden>
   <div class="studio-head">
     <input class="title" id="projTitle" type="text" aria-label="작품 제목">
+    <button class="btn ghost sm" id="projBtn" type="button">원고 목록</button>
     <div class="menu" id="fileMenu">
       <button class="btn ghost sm" id="fileBtn" type="button">파일 ▾</button>
       <div class="pop" hidden>
         <button type="button" data-act="exportLong">긴 PNG 한 장 저장</button>
         <button type="button" data-act="exportSplit">분할 PNG ZIP 저장</button>
         <button type="button" data-act="exportPanels">컷별 PNG ZIP 저장</button>
+        <button type="button" data-act="exportViewer">웹툰 뷰어(HTML) 저장</button>
         <hr>
         <button type="button" data-act="saveProj">프로젝트 파일 저장 (.json)</button>
         <button type="button" data-act="loadProj">프로젝트 파일 불러오기</button>
         <hr>
-        <button type="button" data-act="loadSample">예시 원고 불러오기</button>
-        <button type="button" data-act="newProj">새 원고 시작</button>
+        <button type="button" data-act="projects">원고 목록 · 새 화</button>
+        <button type="button" data-act="loadSample">예시 원고 열기</button>
       </div>
     </div>
     <input type="file" id="projFile" accept=".json,application/json" hidden>
@@ -516,6 +561,7 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
           <button class="btn ghost sm" id="logOpen" type="button">플레이 로그 변환</button>
           <button class="btn ghost sm" id="aiConti" type="button">스토리로 대본 만들기</button>
           <button class="btn ghost sm" id="sampleScript" type="button">예시 대본</button>
+          <button class="btn ghost sm" id="syncScript" type="button" title="원고에서 고친 대사·풍선 종류·연출을 대본 글로 옮겨요">원고 → 대본 반영</button>
         </div>
         <textarea class="code" id="scriptBox" rows="22" spellcheck="false" placeholder="# 컷&#10;장면: 1boy, rooftop, night, upper body&#10;서진(serious): 결국 여기까지 왔네."></textarea>
         <ul class="warnlist" id="scriptWarn" hidden></ul>
@@ -547,9 +593,11 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
             <option value="0">Heavy</option><option value="1">Light</option><option value="-1">사용 안 함</option></select></label>
         </div>
         <label class="toggle"><input type="checkbox" id="s-quality"> 품질 태그 자동 추가</label>
+        <label class="f"><span>컷당 후보 수 <small>(생성할 때마다 몇 장 그려서 고를지)</small></span><select id="s-cands"><option value="1">1장</option><option value="2">2장</option><option value="3">3장</option><option value="4">4장</option></select></label>
         <hr style="border:0;border-top:1px solid var(--line);margin:2px 0">
         <b class="small">캐릭터 레퍼런스</b>
         <label class="toggle"><input type="checkbox" id="s-refstyle"> 그림체까지 참고 (character&amp;style)</label>
+        <label class="toggle"><input type="checkbox" id="s-multiref"> 한 컷에 여러 인물 레퍼런스 보내기 (최대 3명, 실험적)</label>
         <label class="f"><span>충실도 <small id="s-fidv"></small></span><input type="range" id="s-fid" min="0" max="1" step="0.05"></label>
         <hr style="border:0;border-top:1px solid var(--line);margin:2px 0">
         <b class="small">원고·저장</b>
@@ -575,6 +623,25 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
   </div>
 </section>
 </main>
+
+<div class="modal" id="runModal" hidden>
+  <div class="card" role="dialog" aria-modal="true" aria-labelledby="runTitle">
+    <h3 id="runTitle" style="font-size:22px">생성 전 확인</h3>
+    <div id="runBody"></div>
+    <label class="toggle" id="runSkipRow"><input type="checkbox" id="runSkip"> 무료일 때는 다시 묻지 않기</label>
+    <div class="row"><button class="btn blue" id="runGo" type="button">생성 시작</button><button class="btn ghost" id="runCancel" type="button">취소</button></div>
+  </div>
+</div>
+
+<div class="modal" id="projModal" hidden>
+  <div class="card" role="dialog" aria-modal="true" aria-labelledby="projHead">
+    <h3 id="projHead" style="font-size:22px">원고 목록</h3>
+    <p class="small muted" style="margin:0">이 브라우저에 저장된 원고예요. 화마다 따로 저장되고, 새 화는 등장인물과 설정을 이어받아요. 브라우저 데이터를 지우면 함께 사라지니 중요한 원고는 프로젝트 파일로도 받아 두세요.</p>
+    <div class="row"><button class="btn" id="projNewEp" type="button">새 화 만들기 (등장인물·설정 이어받기)</button><button class="btn ghost" id="projNewBlank" type="button">빈 원고</button></div>
+    <div id="projList" class="projlist"></div>
+    <div class="row"><button class="btn ghost" id="projClose" type="button">닫기</button></div>
+  </div>
+</div>
 
 <div class="modal" id="logModal" hidden>
   <div class="card" role="dialog" aria-modal="true" aria-labelledby="logTitle">
@@ -654,7 +721,8 @@ const IDB = {
   db:null,
   open(){ return this.db ? Promise.resolve(this.db) : new Promise((res,rej)=>{ const r=indexedDB.open('kankan',1); r.onupgradeneeded=()=>r.result.createObjectStore('kv'); r.onsuccess=()=>{this.db=r.result; res(this.db);}; r.onerror=()=>rej(r.error); }); },
   async get(k){ try{ const db=await this.open(); return await new Promise((res,rej)=>{ const q=db.transaction('kv').objectStore('kv').get(k); q.onsuccess=()=>res(q.result); q.onerror=()=>rej(q.error); }); }catch(e){ return null; } },
-  async set(k,v){ try{ const db=await this.open(); await new Promise((res,rej)=>{ const t=db.transaction('kv','readwrite'); t.objectStore('kv').put(v,k); t.oncomplete=res; t.onerror=()=>rej(t.error); }); }catch(e){ console.warn('save failed', e); } }
+  async set(k,v){ try{ const db=await this.open(); await new Promise((res,rej)=>{ const t=db.transaction('kv','readwrite'); t.objectStore('kv').put(v,k); t.oncomplete=res; t.onerror=()=>rej(t.error); }); }catch(e){ console.warn('save failed', e); toast('브라우저 저장 공간에 저장하지 못했어요. 프로젝트 파일로 백업해 주세요.', 4000); } },
+  async del(k){ try{ const db=await this.open(); await new Promise((res,rej)=>{ const t=db.transaction('kv','readwrite'); t.objectStore('kv').delete(k); t.oncomplete=res; t.onerror=()=>rej(t.error); }); }catch(e){} }
 };
 function download(blob, name){ const a=h('a',{href:URL.createObjectURL(blob), download:name}); document.body.append(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href); a.remove();}, 4000); }
 function safeName(s){ return (s||'webtoon').replace(/[\\/:*?"<>|]+/g,'_').trim() || 'webtoon'; }
@@ -688,16 +756,45 @@ function centersFor(n){ if (CENTERS[n]) return CENTERS[n]; return Array.from({le
 /* ================= state ================= */
 const S = { token:'', sub:null, running:false, stop:false, selected:null };
 const DEFAULT_SETTINGS = { model:'nai-diffusion-4-5-full', custom:'', style:'', neg:'', steps:28, scale:5, sampler:'k_euler_ancestral', uc:0, quality:true,
-  refStyle:true, fidelity:1, expW:800, split:1280, gutter:0.08, fontScale:0.042, host:DEFAULT_HOST };
-function blankProject(){ return { v:1, title:'제목 없는 원고', cast:[], script:'', panels:[], settings:{...DEFAULT_SETTINGS} }; }
+  refStyle:true, fidelity:1, expW:800, split:1280, gutter:0.08, fontScale:0.042, host:DEFAULT_HOST,
+  cands:1, multiRef:false, skipFreeConfirm:false };
+function blankProject(){ return { v:2, id:uid(), title:'제목 없는 원고', cast:[], script:'', panels:[], settings:{...DEFAULT_SETTINGS} }; }
 let P = blankProject();
-const save = debounce(()=>IDB.set('project', P), 600);
+/* several episodes live side by side: "index" lists them, each is stored under "proj:<id>" */
+async function saveNow(){
+  if (!P.id) P.id = uid();
+  await IDB.set('proj:'+P.id, P);
+  const idx = (await IDB.get('index')) || [];
+  const meta = { id:P.id, title:P.title, updated:Date.now(), cuts:P.panels.length, done:P.panels.filter(p=>p.img).length };
+  const i = idx.findIndex(x=>x.id===P.id); if (i>=0) idx[i] = meta; else idx.push(meta);
+  await IDB.set('index', idx); await IDB.set('current', P.id);
+}
+const save = debounce(()=>saveNow(), 600);
 const imgCache = new Map(); // dataURL -> HTMLImageElement
 function getImg(src){
   if (!src) return null;
   let im = imgCache.get(src);
   if (!im){ im = new Image(); im.onload = ()=>redrawAll(); im.src = src; imgCache.set(src, im); }
   return im.complete && im.naturalWidth ? im : null;
+}
+/* each panel keeps up to MAX_VERSIONS drawings; pn.img is the chosen one */
+const MAX_VERSIONS = 6;
+function normPanel(pn){
+  if (!Array.isArray(pn.versions)) pn.versions = pn.img ? [{img:pn.img, seed:pn.seed}] : [];
+  if (pn.vi==null || pn.vi>=pn.versions.length) pn.vi = pn.versions.length-1;
+  if (!pn.kind) pn.kind = 'image';
+  if (pn.status==='run') pn.status = pn.img ? 'done' : 'idle';
+  return pn;
+}
+function addVersion(pn, img, seed){
+  normPanel(pn); pn.versions.push({img, seed});
+  if (pn.versions.length > MAX_VERSIONS) pn.versions.splice(0, pn.versions.length - MAX_VERSIONS);
+  pn.vi = pn.versions.length-1; pn.img = img; pn.seed = seed; pn.status = 'done';
+}
+function pickVersion(pn, i){ const v = pn.versions[i]; if (!v) return; pn.vi = i; pn.img = v.img; pn.seed = v.seed; pn.status = 'done'; }
+function dropVersion(pn, i){
+  pn.versions.splice(i, 1);
+  if (!pn.versions.length){ pn.vi = -1; pn.img = ''; pn.status = 'idle'; } else pickVersion(pn, Math.min(i, pn.versions.length-1));
 }
 const castById = id => P.cast.find(c=>c.id===id);
 /* names a character answers to: full name, user aliases, and for 3-syllable Korean names the given name ("백지한" → "지한") */
@@ -862,7 +959,11 @@ const KIND = { '생각':'thought', '속마음':'thought', '외침':'shout', '소
 const KIND_ALT = Object.keys(KIND).sort((a,b)=>b.length-a.length).join('|');
 const BOXKW = { '나레이션':'narration', '내레이션':'narration', 'narration':'narration', '독백':'mono', '자막':'caption',
   '상태창':'system', '시스템':'system', '효과음':'sfx', 'sfx':'sfx' };
-const KW = new RegExp('^(장면|배경|scene|비율|ratio|' + Object.keys(BOXKW).join('|') + ')\\s*[:：]\\s*(.*)$', 'i');
+const KW = new RegExp('^(장면|배경|scene|비율|ratio|컷|필터|간격|' + Object.keys(BOXKW).join('|') + ')\\s*[:：]\\s*(.*)$', 'i');
+const FILTER_LABEL = { '':'없음', mono:'흑백', sepia:'세피아', memory:'회상' };
+const GAPS = [[0,'붙이기'],[.5,'좁게'],[null,'기본'],[2,'넓게'],[3,'아주 넓게']];
+const gapLabel = g => (GAPS.find(x=>x[0]===g)||GAPS[2])[1];
+const KIND_LABEL = { image:'그림', black:'검은 화면', white:'흰 화면' };
 /* ``` code fences = 상태창 (status window). opening line may carry a label like ```status */
 const FENCE_OPEN = /^\s*```(.*)$/;
 const fenceLabel = t => /^[A-Za-z0-9_-]*$|^(상태창|시스템|status|system)$/i.test(t.trim());
@@ -894,7 +995,7 @@ function parseScript(text){
   const warns=[];
   const names = P.cast.flatMap(castAliases).sort((a,b)=>b.length-a.length);
   const panels = blocks.map((bl, bi)=>{
-    const pn = { ratio:'portrait', scene:'', chars:[], lines:[] };
+    const pn = { ratio:'portrait', scene:'', chars:[], lines:[], kind:'image', filter:'', gap:null }; let ratioSet = false;
     for (const {l, n, fence} of bl){
       if (fence!=null){ if (fence) pn.lines.push({type:'system', who:'', text:fence}); continue; }
       const s = l.trim(); if (!s) continue;
@@ -902,27 +1003,31 @@ function parseScript(text){
       if (kw){
         const k = kw[1].toLowerCase(), v = kw[2].trim();
         if (k==='장면'||k==='배경'||k==='scene') pn.scene = joinTags(pn.scene, v);
-        else if (k==='비율'||k==='ratio') pn.ratio = /가로|land|wide/i.test(v) ? 'landscape' : /정사|square/i.test(v) ? 'square' : 'portrait';
+        else if (k==='비율'||k==='ratio'){ pn.ratio = /가로|land|wide/i.test(v) ? 'landscape' : /정사|square/i.test(v) ? 'square' : 'portrait'; ratioSet = true; }
+        else if (k==='컷') pn.kind = /검|black|암전/i.test(v) ? 'black' : /흰|하얀|white/i.test(v) ? 'white' : 'image';
+        else if (k==='필터') pn.filter = /흑백|mono|gray|grey/i.test(v) ? 'mono' : /세피아|sepia/i.test(v) ? 'sepia' : /회상|memory|flashback/i.test(v) ? 'memory' : '';
+        else if (k==='간격') pn.gap = /붙|없|^0/.test(v) ? 0 : /좁/.test(v) ? .5 : /아주|매우|크게/.test(v) ? 3 : /넓/.test(v) ? 2 : null;
         else pn.lines.push({type: BOXKW[k] || BOXKW[kw[1]] || 'narration', who:'', text:v});
         continue;
       }
-      let name = names.find(nm => s.startsWith(nm) && new RegExp('^[\\s(:：]|^$|^(' + KIND_ALT + ')').test(s.slice(nm.length)));
+      let name = names.find(nm => s.startsWith(nm) && new RegExp('^[\\s(:：\\[]|^$|^(' + KIND_ALT + ')').test(s.slice(nm.length)));
       let rest;
       if (name){ rest = s.slice(name.length); }
       else {
-        const m = s.match(/^([^(:：]{1,20}?)\s*(?=[(:：])/);
+        const m = s.match(/^([^(:：\[]{1,20}?)\s*(?=[(:：\[])/);
         if (!m){ warns.push(`${n}번째 줄을 이해하지 못했어요: "${s.slice(0,30)}"`); continue; }
         name = m[1].trim(); rest = s.slice(m[0].length);
       }
-      const m2 = rest.match(new RegExp('^\\s*(' + KIND_ALT + ')?\\s*(?:\\(([^)]*)\\))?\\s*(' + KIND_ALT + ')?\\s*(?:[:：]\\s*(.*))?$'));
+      const m2 = rest.match(new RegExp('^\\s*(?:\\[([^\\]]*)\\])?\\s*(' + KIND_ALT + ')?\\s*(?:\\(([^)]*)\\))?\\s*(' + KIND_ALT + ')?\\s*(?:[:：]\\s*(.*))?$'));
       if (!m2){ warns.push(`${n}번째 줄 형식을 확인해 주세요: "${s.slice(0,30)}"`); continue; }
-      const kindWord = m2[1]||m2[3]; const tags = (m2[2]||'').trim(); const said = (m2[4]||'').trim();
+      const outfit = (m2[1]||'').trim(); const kindWord = m2[2]||m2[4]; const tags = (m2[3]||'').trim(); const said = (m2[5]||'').trim();
       const cast = castByName(name) || castByName(name.replace(/[이아야]$/,''));
       if (cast) name = cast.name.trim();
       if (cast){
         let ch = pn.chars.find(c=>c.castId===cast.id);
         if (!ch){ ch = {castId:cast.id, action:''}; pn.chars.push(ch); }
         ch.action = joinTags(ch.action, tags);
+        if (outfit){ ch.outfit = outfit; if (!(cast.outfits||[]).some(o=>o.name===outfit)) warns.push(`${n}번째 줄: ${name}에게 "${outfit}" 의상 세트가 없어요. 등장인물 탭에서 추가해 주세요.`); }
       } else {
         if (!/^[?？]+$/.test(name)){   // "???" = anonymous voice, not a character to draw
           pn.unknown = pn.unknown || [];
@@ -933,12 +1038,13 @@ function parseScript(text){
       }
       if (said) pn.lines.push({type: KIND[kindWord]||'speech', who:name, text:said});
     }
-    if (!pn.scene && !pn.chars.length && pn.lines.length) warns.push(`컷 ${bi+1}에 장면 태그가 없어요. 그림이 엉뚱하게 나올 수 있어요.`);
+    if (pn.kind!=='image' && !ratioSet) pn.ratio = 'landscape';
+    if (pn.kind==='image' && !pn.scene && !pn.chars.length && pn.lines.length) warns.push(`컷 ${bi+1}에 장면 태그가 없어요. 그림이 엉뚱하게 나올 수 있어요.`);
     return pn;
   });
   return { panels, warns };
 }
-function sig(pn){ return JSON.stringify([pn.ratio, pn.scene, pn.chars.map(c=>[c.castId,c.action]), (pn.unknown||[]).map(u=>[u.name,u.action])]); }
+function sig(pn){ return JSON.stringify([pn.kind||'image', pn.ratio, pn.scene, pn.chars.map(c=>[c.castId,c.action,c.outfit||'']), (pn.unknown||[]).map(u=>[u.name,u.action])]); }
 function autoPlace(pn){
   let k = -1, boxes = 0;
   const centers = centersFor(pn.chars.length);
@@ -962,21 +1068,59 @@ function buildPanels(parsed, old){
     const o = old[i];
     const same = o && sig(o)===sig(np);
     const pn = { id: same ? o.id : uid(), ratio:np.ratio, scene:np.scene, chars:np.chars, unknown: np.unknown || [],
+      kind: np.kind||'image', filter: np.filter||'', gap: np.gap ?? null,
       lines: np.lines.map(l=>{
-        const ol = o && o.lines.find(x=>x.type===l.type && x.who===l.who && x.text===l.text);
-        return { id:uid(), ...l, ...(ol ? {x:ol.x, y:ol.y, w:ol.w, tail:ol.tail} : {}) };
+        const ol = o && o.lines.find(x=>x.type===l.type && (x.who||'???')===(l.who||'???') && x.text===l.text);
+        return { id:uid(), ...l, ...(ol ? {x:ol.x, y:ol.y, w:ol.w, tail:ol.tail, fsx:ol.fsx, bold:ol.bold, color:ol.color, rot:ol.rot} : {}) };
       }),
-      img: same ? o.img : '', seed: same ? o.seed : null, status: same ? o.status : 'idle', error:'' };
-    if (pn.status==='run') pn.status = pn.img ? 'done' : 'idle';
+      img: same ? o.img : '', seed: same ? o.seed : null, status: same ? o.status : 'idle', error:'',
+      versions: same ? (o.versions||[]) : [], vi: same ? o.vi : -1 };
+    normPanel(pn);
     autoPlace(pn);
     return pn;
   });
 }
 
+/* ================= manuscript → script (so edits made on the panels are not lost on the next apply) ================= */
+const KIND_OUT = { speech:'', thought:' 생각', shout:' 외침', whisper:' 속삭임', tremble:' 떨림', phone:' 전화', speechRect:' 각진', plain:' 글자' };
+const BOX_OUT = { narration:'나레이션', mono:'독백', caption:'자막', sfx:'효과음' };
+function scriptFromPanels(){
+  return P.panels.map((pn,i)=>{
+    const rows = [`# 컷 ${i+1}`];
+    if ((pn.kind||'image')!=='image') rows.push('컷: ' + KIND_LABEL[pn.kind]);
+    if (pn.ratio!=='portrait') rows.push('비율: ' + RATIO_LABEL[pn.ratio]);
+    if (pn.filter) rows.push('필터: ' + FILTER_LABEL[pn.filter]);
+    if (pn.gap!=null) rows.push('간격: ' + gapLabel(pn.gap));
+    if (pn.scene) rows.push('장면: ' + pn.scene);
+    const tagged = new Set();
+    const tok = name => {
+      const ch = pn.chars.find(c=>castById(c.castId)?.name===name), u = (pn.unknown||[]).find(x=>x.name===name), src = ch || u;
+      if (!src || tagged.has(name)) return name; tagged.add(name);
+      return name + (ch && ch.outfit ? `[${ch.outfit}]` : '') + (src.action ? `(${src.action})` : '');
+    };
+    // every drawn character gets a presence line first, in panel order, so re-applying keeps positions and pictures
+    if ((pn.kind||'image')==='image'){
+      pn.chars.forEach(c=>{ const n = castById(c.castId)?.name; if (n) rows.push(tok(n)); });
+      (pn.unknown||[]).forEach(u=>rows.push(tok(u.name)));
+    }
+    for (const l of pn.lines){
+      if (l.type==='system'){ rows.push(String(l.text).includes('\n') ? '```\n' + l.text + '\n```' : '상태창: ' + l.text); continue; }
+      if (BOX_OUT[l.type]){ rows.push(`${BOX_OUT[l.type]}: ${String(l.text).replace(/\n/g,' ')}`); continue; }
+      rows.push(`${tok(l.who || '???')}${KIND_OUT[l.type]||''}: ${String(l.text).replace(/\n/g,' ')}`);
+    }
+    return rows.join('\n');
+  }).join('\n\n');
+}
+
 /* ================= request building & cost ================= */
 function modelId(){ return (P.settings.custom||'').trim() || P.settings.model; }
-function refFor(pn){ for (const c of pn.chars){ const cs=castById(c.castId); if (cs && cs.useRef && cs.ref) return cs; } return null; }
-function buildRequest(pn){
+function refsFor(pn){
+  const out = []; for (const c of pn.chars){ const cs=castById(c.castId); if (cs && cs.useRef && cs.ref) out.push(cs); }
+  return P.settings.multiRef ? out.slice(0,3) : out.slice(0,1);
+}
+function refFor(pn){ return refsFor(pn)[0] || null; }
+function outfitTags(cs, ch){ const name = (ch && ch.outfit) || cs?.defOutfit; return name ? ((cs?.outfits||[]).find(o=>o.name===name)?.tags || '') : ''; }
+function buildRequest(pn, seed){
   const st = P.settings, model = modelId();
   const [width, height] = RES[pn.ratio] || RES.portrait;
   let base = joinTags(st.style, pn.scene);
@@ -990,44 +1134,45 @@ function buildRequest(pn){
   const preset = +st.uc >= 0 ? (UC_PRESET[model]?.[+st.uc] || '') : '';
   const neg = joinTags(preset, WEBTOON_UC, st.neg);
   const centers = centersFor(pn.chars.length);
-  const chars = pn.chars.map((c,i)=>{ const cs=castById(c.castId); return { prompt: joinTags(cs?.tags, c.action) || '1person', uc: (cs?.uc||'').trim() || 'lowres, aliasing', center: centers[i], enabled:true }; });
+  const chars = pn.chars.map((c,i)=>{ const cs=castById(c.castId); return { prompt: joinTags(cs?.tags, outfitTags(cs, c), c.action) || '1person', uc: (cs?.uc||'').trim() || 'lowres, aliasing', center: centers[i], enabled:true }; });
   const useCoords = chars.length > 1;
-  if (pn.seed==null) pn.seed = Math.floor(Math.random()*4294967288);
+  if (seed==null){ if (pn.seed==null) pn.seed = Math.floor(Math.random()*4294967288); seed = pn.seed; }
   const params = {
     params_version:3, width, height, scale:+st.scale, sampler:st.sampler, steps:+st.steps, n_samples:1, ucPreset:0, qualityToggle:false,
     autoSmea:false, dynamic_thresholding:false, controlnet_strength:1, legacy:false, add_original_image:true, cfg_rescale:0,
     noise_schedule:'karras', legacy_v3_extend:false, skip_cfg_above_sigma:null, use_coords:useCoords, legacy_uc:false,
-    normalize_reference_strength_multiple:true, seed:pn.seed, negative_prompt:neg,
+    normalize_reference_strength_multiple:true, seed, negative_prompt:neg,
     characterPrompts: chars,
     v4_prompt:{ caption:{ base_caption:input, char_captions: chars.map(c=>({char_caption:c.prompt, centers:[c.center]})) }, use_coords:useCoords, use_order:true },
     v4_negative_prompt:{ caption:{ base_caption:neg, char_captions: chars.map(c=>({char_caption:c.uc, centers:[c.center]})) }, legacy_uc:false },
     deliberate_euler_ancestral_bug:false, prefer_brownian:true
   };
-  const ref = refFor(pn);
-  if (ref){
-    params.director_reference_images = [ref.ref];
-    params.director_reference_descriptions = [{ caption:{ base_caption: st.refStyle ? 'character&style' : 'character', char_captions:[] }, legacy_uc:false }];
-    params.director_reference_information_extracted = [1];
-    params.director_reference_strength_values = [1];
-    params.director_reference_secondary_strength_values = [+(1 - st.fidelity).toFixed(2)];
+  const refs = refsFor(pn);
+  if (refs.length){
+    params.director_reference_images = refs.map(r=>r.ref);
+    params.director_reference_descriptions = refs.map(()=>({ caption:{ base_caption: st.refStyle ? 'character&style' : 'character', char_captions:[] }, legacy_uc:false }));
+    params.director_reference_information_extracted = refs.map(()=>1);
+    params.director_reference_strength_values = refs.map(()=>1);
+    params.director_reference_secondary_strength_values = refs.map(()=>+(1 - st.fidelity).toFixed(2));
   }
   return { input, model, action:'generate', parameters:params };
 }
 function estCost(pn, ignoreOpus=false){
+  if (pn.kind && pn.kind!=='image') return 0;
   const st=P.settings; const [w,h]=RES[pn.ratio]||RES.portrait; const steps=+st.steps;
   let res = Math.max(w*h, 65536); if (res > 832*1216 && res <= 1024*1024) res = 832*1216;
   let per = Math.max(Math.ceil(2951823174884865e-21*res + 5753298233447344e-22*res*steps), 2);
   const opusFree = !ignoreOpus && S.sub && S.sub.opus && steps<=28 && res<=1024*1024;
   let cost = opusFree ? 0 : per;
-  if (refFor(pn)) cost += 5;
+  cost += 5 * refsFor(pn).length;
   return cost;
 }
 
 /* ================= NovelAI call ================= */
 class NaiError extends Error { constructor(msg, retry=false){ super(msg); this.retry=retry; } }
-async function callNai(pn, signal){
+async function callNai(pn, signal, seed){
   if (!S.token) throw new NaiError('NovelAI 토큰이 연결되지 않았어요. "토큰 연결"에서 먼저 연결해 주세요.');
-  const body = buildRequest(pn);
+  const body = buildRequest(pn, seed);
   const host = (P.settings.host||DEFAULT_HOST).replace(/\/+$/,'');
   let r;
   try{
@@ -1054,29 +1199,42 @@ async function callNai(pn, signal){
     if (!f) throw new NaiError('응답에 이미지가 없어요.');
     png = await f.async('blob');
   } else png = new Blob([buf], {type: r.headers.get('content-type') || 'image/png'});
-  return await blobToDataURL(png.type ? png : new Blob([png],{type:'image/png'}));
+  return await toJpeg(await blobToDataURL(png.type ? png : new Blob([png],{type:'image/png'})));
 }
+/* generated PNGs are ~1.5MB; a high-quality JPEG keeps several versions per panel within browser storage */
+function toJpeg(url){ return new Promise(res=>{ const im = new Image(); im.onload = ()=>{ const c = h('canvas',{width:im.naturalWidth, height:im.naturalHeight}); c.getContext('2d').drawImage(im,0,0); try{ res(c.toDataURL('image/jpeg', .93)); }catch(e){ res(url); } }; im.onerror = ()=>res(url); im.src = url; }); }
 function blobToDataURL(b){ return new Promise((res,rej)=>{ const fr=new FileReader(); fr.onload=()=>res(fr.result); fr.onerror=()=>rej(fr.error); fr.readAsDataURL(b); }); }
 
 let abortCtl = null;
-async function generatePanel(pn, {newSeed=false}={}){
-  if (newSeed) pn.seed = null;
-  pn.status='run'; pn.error=''; refreshPanel(pn);
+/* count = how many candidates to draw; sameSeed redraws the chosen version's seed (after editing tags) */
+async function generatePanel(pn, {count=1, sameSeed=false}={}){
+  normPanel(pn);
   abortCtl = new AbortController();
-  for (let attempt=0; attempt<3; attempt++){
-    try{
-      const url = await callNai(pn, abortCtl.signal);
-      pn.img = url; pn.status='done'; refreshPanel(pn); save(); return true;
-    }catch(e){
-      if (e.name==='AbortError'){ pn.status = pn.img?'done':'idle'; refreshPanel(pn); return false; }
-      if (e.retry && attempt<2 && !S.stop){ pn.error = e.message; refreshPanel(pn); await sleep(3500*(attempt+1)); continue; }
-      pn.status='err'; pn.error=e.message; refreshPanel(pn); save(); return false;
+  let made = 0;
+  for (let k=0; k<count; k++){
+    if (S.stop) break;
+    const seed = sameSeed && k===0 && pn.seed!=null ? pn.seed : Math.floor(Math.random()*4294967288);
+    pn.status='run'; pn.error=''; pn.progress = count>1 ? `${k+1}/${count}` : ''; refreshPanel(pn);
+    let ok = false;
+    for (let attempt=0; attempt<3; attempt++){
+      try{
+        const url = await callNai(pn, abortCtl.signal, seed);
+        addVersion(pn, url, seed); ok = true; made++; save(); break;
+      }catch(e){
+        if (e.name==='AbortError'){ pn.status = pn.img?'done':'idle'; pn.progress=''; refreshPanel(pn); return made>0; }
+        if (e.retry && attempt<2 && !S.stop){ pn.error = e.message; refreshPanel(pn); await sleep(3500*(attempt+1)); continue; }
+        pn.error = e.message; break;
+      }
     }
+    if (!ok){ pn.status = made ? 'done' : 'err'; pn.progress=''; refreshPanel(pn); save(); return made>0; }
+    if (k<count-1) await sleep(500);
   }
+  pn.progress=''; pn.status = pn.img ? 'done' : 'idle'; refreshPanel(pn); return made>0;
 }
 /* ===== every character named in the script needs appearance tags before generating ===== */
 function panelIssues(pn){
   const out = [];
+  if (pn.kind && pn.kind!=='image') return out;
   for (const c of pn.chars){ const cs = castById(c.castId); if (cs && !(cs.tags||'').trim()) out.push({name: cs.name || '(이름 없음)', kind:'empty', id: cs.id}); }
   for (const u of pn.unknown||[]) out.push({name: u.name, kind:'unreg'});
   return out;
@@ -1132,15 +1290,17 @@ const onCastChanged = debounce(()=>{ if (relinkCast()) save(); refreshIssueUI();
 async function runAll(){
   if (S.running) return;
   if (!S.token){ toast('먼저 NovelAI 토큰을 연결해 주세요.'); location.hash='#connect'; return; }
-  const todo = P.panels.filter(p=>!p.img);
-  if (!todo.length){ toast('모든 컷에 그림이 있어요. 다시 뽑을 컷은 컷 위의 "새 버전"을 눌러 주세요.'); return; }
+  const todo = P.panels.filter(p=>!p.img && (p.kind||'image')==='image');
+  if (!todo.length){ toast('그림이 필요한 컷이 모두 채워져 있어요. 다시 뽑을 컷은 컷 위의 "새 버전"을 눌러 주세요.'); return; }
   const issues = allIssues(todo);
   if (issues.length){ refreshIssueUI(); $('#castAlert').scrollIntoView({block:'nearest'}); toast(`외형 태그를 먼저 입력해 주세요: ${issueText(issues)}`, 4200); return; }
+  const cands = Math.max(1, Math.min(4, +P.settings.cands||1));
+  if (!(await confirmRun(todo, cands))) return;
   S.running=true; S.stop=false; setRunUI();
   let fails=0;
   for (const pn of todo){
     if (S.stop) break;
-    const ok = await generatePanel(pn);
+    const ok = await generatePanel(pn, {count:cands});
     if (!ok && !S.stop){ fails++; if (/토큰|Anlas|구독/.test(pn.error)) break; }
     updateRunStat();
     if (!S.stop) await sleep(600);
@@ -1149,17 +1309,42 @@ async function runAll(){
   fetchSub().catch(()=>{});
   toast(S.stop ? '생성을 멈췄어요.' : fails ? `완료. ${fails}개 컷은 실패했어요. 컷 위 메시지를 확인해 주세요.` : '모든 컷을 생성했어요.');
 }
+/* cost check before a batch: panels, candidates, model, references, estimated Anlas */
+function confirmRun(todo, cands){
+  const est = todo.reduce((a,p)=>a+estCost(p),0) * cands;
+  const v5 = /^nai-diffusion-5/.test(modelId());
+  const refCuts = todo.filter(p=>refsFor(p).length).length;
+  const free = est===0 && !v5;
+  if (free && P.settings.skipFreeConfirm) return Promise.resolve(true);
+  const m = $('#runModal'), body = $('#runBody'); body.textContent='';
+  const rows = [
+    ['생성할 컷', todo.length===1 ? `컷 ${P.panels.indexOf(todo[0])+1}` : `${todo.length}컷`], ['컷당 후보', `${cands}장`], ['총 이미지', `${todo.length*cands}장`],
+    ['모델', ($('#s-model option[value="'+modelId()+'"]')?.textContent) || modelId()],
+    ['캐릭터 레퍼런스', refCuts ? `${refCuts}컷에서 사용 (컷당 +5 Anlas씩)` : '사용 안 함'],
+    ['예상 Anlas', S.sub && S.sub!=='bad' ? (v5 && S.sub.opus ? `Opus 무료 한도에서 차감 (한도 소진 시 장당 약 ${estCost({ratio:'portrait', chars:[]}, true)})` : (est ? `${est.toLocaleString()} Anlas` : '0 (무료)')) : '토큰 확인 후 표시'],
+    ['남은 Anlas', S.sub && S.sub!=='bad' ? `${S.sub.anlas.toLocaleString()}` : '-']
+  ];
+  body.append(h('dl',{class:'costlist'}, ...rows.flatMap(([k,v])=>[h('dt',{text:k}), h('dd',{text:v})])));
+  if (S.sub && S.sub!=='bad' && est > S.sub.anlas) body.append(h('p',{class:'note warn', text:'예상 Anlas가 남은 Anlas보다 많아요. 중간에 멈출 수 있어요.'}));
+  $('#runSkip').checked = !!P.settings.skipFreeConfirm; $('#runSkipRow').hidden = !free;
+  m.hidden = false; $('#runGo').focus();
+  return new Promise(res=>{
+    const done = v => { m.hidden = true; $('#runGo').onclick = $('#runCancel').onclick = null; if (v && free){ P.settings.skipFreeConfirm = $('#runSkip').checked; save(); } res(v); };
+    $('#runGo').onclick = ()=>done(true); $('#runCancel').onclick = ()=>done(false);
+  });
+}
 function setRunUI(){ $('#runAll').hidden = S.running; $('#stopAll').hidden = !S.running; }
 function updateRunStat(){
-  const total=P.panels.length, done=P.panels.filter(p=>p.img).length;
+  const imgPanels = P.panels.filter(p=>(p.kind||'image')==='image');
+  const total=imgPanels.length, done=imgPanels.filter(p=>p.img).length;
   $('#meter').style.width = total ? (done/total*100)+'%' : '0';
-  const todo = P.panels.filter(p=>!p.img);
-  const cost = todo.reduce((a,p)=>a+estCost(p),0);
+  const todo = imgPanels.filter(p=>!p.img);
+  const cost = todo.reduce((a,p)=>a+estCost(p),0) * Math.max(1, +P.settings.cands||1);
   const v5 = /^nai-diffusion-5/.test(modelId());
   const costTxt = !S.sub || S.sub==='bad' ? '예상 Anlas는 토큰 연결 후 표시'
     : v5 && S.sub.opus ? `V5는 Opus 무료 한도에서 차감 (한도 소진 시 컷당 약 ${estCost({ratio:'portrait', chars:[]}, true)} Anlas)`
     : `남은 컷 예상 ${cost.toLocaleString()} Anlas`;
-  $('#runStat').textContent = `컷 ${done} / ${total} 완료 · ${costTxt}`;
+  $('#runStat').textContent = `그림 컷 ${done} / ${total} 완료 · 후보 ${Math.max(1,+P.settings.cands||1)}장씩 · ${costTxt}`;
 }
 
 /* ================= canvas drawing ================= */
@@ -1203,7 +1388,7 @@ function wrapText(ctx, text, maxW){
   return out;
 }
 function layoutLine(ctx, ln, W, H, base){
-  const fs = Math.max(8, (base ?? P.settings.fontScale * W) * (SIZE[ln.type]||1));
+  const fs = Math.max(8, (base ?? P.settings.fontScale * W) * (SIZE[ln.type]||1) * (base==null ? (ln.fsx||1) : 1));
   ctx.font = fontFor(ln.type, fs);
   const [padX, padY] = padFor(ln.type, fs);
   const maxW = Math.max(fs*2, ln.w*W - padX*2);
@@ -1299,22 +1484,33 @@ function drawBubble(ctx, pn, ln, L, W, H){
     textColor='#e9f8ff'; align='left';
   }
   // text
+  const dark = pn && pn.kind==='black';
   ctx.font = fontFor(t, fs); ctx.textBaseline='middle'; ctx.textAlign = align;
   const y0 = cy - (L.lines.length-1)*L.lh/2;
   const x0 = align==='left' ? L.rect.x + L.padX : cx;
-  if (t==='sfx'){
-    ctx.translate(cx, cy); ctx.rotate(-0.14);
-    ctx.lineWidth = fs*.16; ctx.strokeStyle='#fff';
-    L.lines.forEach((s,i)=>{ const y=-(L.lines.length-1)*L.lh/2 + i*L.lh; ctx.strokeText(s,0,y); ctx.fillStyle=INK; ctx.fillText(s,0,y); });
-  } else if (t==='plain'){
-    ctx.lineWidth = fs*.24; ctx.strokeStyle='#fff';
-    L.lines.forEach((s,i)=>{ ctx.strokeText(s, x0, y0+i*L.lh); ctx.fillStyle=INK; ctx.fillText(s, x0, y0+i*L.lh); });
+  if (t==='sfx' || t==='plain'){
+    const col = ln.color || (dark ? '#ffffff' : INK);
+    const edge = lum(col) > .6 ? INK : '#ffffff';
+    const deg = t==='sfx' ? (ln.rot ?? -8) : (ln.rot || 0);
+    const ew = fs*(t==='sfx' ? .16 : .24);
+    ctx.translate(cx, cy); ctx.rotate(deg*Math.PI/180); ctx.textAlign='center';
+    L.lines.forEach((s,i)=>{
+      const y = -(L.lines.length-1)*L.lh/2 + i*L.lh;
+      ctx.lineWidth = ew; ctx.strokeStyle = edge; ctx.strokeText(s,0,y);
+      if (ln.bold){ ctx.lineWidth = fs*.06; ctx.strokeStyle = col; ctx.strokeText(s,0,y); }
+      ctx.fillStyle = col; ctx.fillText(s,0,y);
+    });
   } else {
-    ctx.fillStyle = textColor;
-    L.lines.forEach((s,i)=>ctx.fillText(s, x0, y0+i*L.lh));
+    const col = ln.color || textColor;
+    L.lines.forEach((s,i)=>{
+      const y = y0 + i*L.lh;
+      if (ln.bold){ ctx.lineWidth = fs*.07; ctx.strokeStyle = col; ctx.strokeText(s, x0, y); }
+      ctx.fillStyle = col; ctx.fillText(s, x0, y);
+    });
   }
   ctx.restore();
 }
+function lum(hex){ const m = /^#?([0-9a-f]{6})$/i.exec(hex||''); if (!m) return 0; const n = parseInt(m[1],16); return ((n>>16&255)*.299 + (n>>8&255)*.587 + (n&255)*.114)/255; }
 /* small previews for the type picker, drawn with the same renderer as the manuscript */
 const iconCache = new Map();
 function typeIcon(k){
@@ -1335,16 +1531,38 @@ function drawPlaceholder(ctx, pn, W, H, idx){
   ctx.fillStyle='#4a5864'; ctx.textAlign='center'; ctx.textBaseline='middle';
   const fs = W*.034;
   ctx.font = `600 ${fs}px "IBM Plex Sans KR", sans-serif`;
-  const msg = pn.status==='run' ? '그리는 중…' : pn.status==='err' ? '생성 실패 · 컷 위 메시지 확인' : '아직 그림이 없어요';
+  const msg = pn.status==='run' ? `그리는 중… ${pn.progress||''}` : pn.status==='err' ? '생성 실패 · 컷 위 메시지 확인' : '아직 그림이 없어요';
   ctx.fillText(`컷 ${idx+1} · ${msg}`, W/2, H*.42);
   ctx.font = `400 ${fs*.78}px "IBM Plex Mono", monospace`;
   const desc = [pn.scene, ...pn.chars.map(c=>castById(c.castId)?.name).filter(Boolean)].filter(Boolean).join(' · ');
   wrapTextSimple(ctx, desc, W*.8).slice(0,3).forEach((t,i)=>ctx.fillText(t, W/2, H*.42 + fs*1.8 + i*fs*1.25));
 }
 function wrapTextSimple(ctx, text, maxW){ const out=[]; let line=''; for (const ch of String(text)){ if (ctx.measureText(line+ch).width>maxW){ out.push(line); line=ch; } else line+=ch; } if (line) out.push(line); return out; }
+/* black & white "directing" panels, and mono / sepia / flashback filters (cached per panel+size) */
+const filterCache = new Map();
+function filtered(pn, im, W, H){
+  if (!pn.filter) return null;
+  const key = `${pn.vi}|${pn.img.length}|${pn.filter}|${W}x${H}`;
+  const hit = filterCache.get(pn.id); if (hit && hit.key===key) return hit.cv;
+  const cv = h('canvas',{width:W, height:H}), c = cv.getContext('2d');
+  c.drawImage(im, 0, 0, W, H);
+  const d = c.getImageData(0,0,W,H), a = d.data, f = pn.filter;
+  for (let i=0; i<a.length; i+=4){
+    const y = .299*a[i] + .587*a[i+1] + .114*a[i+2];
+    if (f==='mono'){ a[i]=a[i+1]=a[i+2]=y; continue; }
+    let R = y*1.07+20, G = y*.95+8, B = y*.78-6;
+    if (f==='memory'){ R = R*.72+66; G = G*.72+62; B = B*.72+56; }
+    a[i] = R>255?255:R; a[i+1] = G>255?255:G; a[i+2] = B<0?0:B>255?255:B;
+  }
+  c.putImageData(d,0,0);
+  if (f==='memory'){ const g = c.createRadialGradient(W/2,H/2,Math.min(W,H)*.28, W/2,H/2, Math.hypot(W,H)*.55); g.addColorStop(0,'rgba(255,255,255,0)'); g.addColorStop(1,'rgba(255,255,255,.9)'); c.fillStyle = g; c.fillRect(0,0,W,H); }
+  filterCache.set(pn.id, {key, cv}); return cv;
+}
 function drawPanel(ctx, pn, W, H, idx, {selectedId=null}={}){
-  const im = getImg(pn.img);
-  if (im) ctx.drawImage(im, 0, 0, W, H); else drawPlaceholder(ctx, pn, W, H, idx);
+  const kind = pn.kind || 'image';
+  if (kind==='black'){ ctx.fillStyle = '#0c0d0f'; ctx.fillRect(0,0,W,H); }
+  else if (kind==='white'){ ctx.fillStyle = '#ffffff'; ctx.fillRect(0,0,W,H); }
+  else { const im = getImg(pn.img); if (im) ctx.drawImage(filtered(pn, im, W, H) || im, 0, 0, W, H); else drawPlaceholder(ctx, pn, W, H, idx); }
   const layouts = {};
   for (const ln of pn.lines){
     if (!ln.text) continue;
@@ -1377,6 +1595,7 @@ function renderCast(){
         h('textarea',{rows:'3', placeholder:'외형 태그: 1boy, black hair, grey eyes, black coat', 'aria-label':'외형 태그', value:c.tags, oninput:e=>{ c.tags=e.target.value; save(); onCastChanged(); }}),
         h('div',{class:'need-hint', hidden:true, text:'대본에 나오는 인물이에요. 외형 태그를 입력해야 생성할 수 있어요.'}),
         h('input',{type:'text', placeholder:'이 인물 제외 태그 (선택)', 'aria-label':'제외 태그', value:c.uc||'', oninput:e=>{ c.uc=e.target.value; save(); }}),
+        outfitEditor(c),
         found,
         h('label',{class:'toggle', title: c.img ? '' : '이미지를 먼저 올려 주세요'},
           h('input',{type:'checkbox', checked: !!c.useRef, disabled: !c.img, onchange:e=>{ c.useRef=e.target.checked; save(); updateRunStat(); }}),
@@ -1384,6 +1603,26 @@ function renderCast(){
       )));
   });
   if (P.panels.length) requestAnimationFrame(refreshIssueUI);
+}
+/* outfit sets: name + tags, picked in the script as 이름[의상](표정): 대사 */
+function outfitEditor(c){
+  const box = h('details',{class:'outfits', open: (c.outfits||[]).length>0});
+  const render = ()=>{
+    const wasOpen = box.open; box.textContent='';
+    box.append(h('summary',{text:`의상 세트 (${(c.outfits||[]).length})${c.defOutfit ? ` · 기본: ${c.defOutfit}` : ''}`}));
+    const list = h('div',{class:'outlist'});
+    (c.outfits||[]).forEach(o=>list.append(h('div',{class:'outrow'},
+      h('input',{type:'text', value:o.name, placeholder:'이름 (예: 교복)', 'aria-label':'의상 이름', oninput:e=>{ const old=o.name; o.name=e.target.value.trim(); if (c.defOutfit===old) c.defOutfit=o.name; save(); }, onchange:render}),
+      h('input',{type:'text', value:o.tags, placeholder:'school uniform, red necktie', 'aria-label':'의상 태그', oninput:e=>{ o.tags=e.target.value; save(); }}),
+      h('button',{type:'button', class:'x', text:'✕', 'aria-label':'의상 삭제', onclick:()=>{ c.outfits=c.outfits.filter(x=>x!==o); if (c.defOutfit===o.name) c.defOutfit=''; save(); render(); }}))));
+    list.append(h('div',{class:'row'},
+      h('button',{type:'button', class:'btn ghost sm', text:'+ 의상 추가', onclick:()=>{ (c.outfits = c.outfits||[]).push({name:'', tags:''}); render(); box.open=true; const rows = box.querySelectorAll('.outrow'); rows[rows.length-1]?.querySelector('input')?.focus(); }}),
+      (c.outfits||[]).length ? h('select',{'aria-label':'기본 의상', onchange:e=>{ c.defOutfit=e.target.value; save(); render(); }},
+        h('option',{value:'', text:'기본 의상 없음'}), ...(c.outfits||[]).filter(o=>o.name).map(o=>h('option',{value:o.name, text:'기본: '+o.name, selected: c.defOutfit===o.name}))) : null));
+    list.append(h('p',{class:'small muted', style:'margin:0', text:`대본에서 ${c.name||'이름'}[의상이름](표정): 대사 처럼 고르면 그 컷만 그 옷을 입어요. 고르지 않으면 기본 의상을 써요.`}));
+    box.append(list); box.open = wasOpen || box.open;
+  };
+  render(); return box;
 }
 let castTarget=null;
 function pickCastImage(c){ castTarget=c; $('#castFile').value=''; $('#castFile').click(); }
@@ -1424,7 +1663,7 @@ function renderBoard(){
   if (!P.panels.length){
     col.append(h('div',{class:'empty-state'}, h('h3',{text:'원고가 비어 있어요'}),
       h('p',{text:'대본 탭에 대본을 쓰고 "대본으로 컷 만들기"를 누르면 이곳에 컷이 깔려요.'}),
-      h('button',{class:'btn ghost', type:'button', text:'예시 원고 불러오기', onclick:()=>{ sampleProject(); renderAll(); }})));
+      h('button',{class:'btn ghost', type:'button', text:'예시 원고 불러오기', onclick:async ()=>{ await saveNow(); sampleProject(); P.panels.forEach(normPanel); renderAll(); await saveNow(); }})));
     updateRunStat(); return;
   }
   P.panels.forEach((pn, i)=>col.append(panelView(pn, i)));
@@ -1432,7 +1671,7 @@ function renderBoard(){
 }
 function statusPill(pn){
   const map = { idle:['대기',''], run:['생성 중','run'], done:['완료','done'], err:['실패','err'] };
-  const [t,c] = map[pn.status]||map.idle; return h('span',{class:'pill '+c, text:t});
+  const [t,c] = map[pn.status]||map.idle; return h('span',{class:'pill '+c, text: pn.status==='run' && pn.progress ? `${t} ${pn.progress}` : t});
 }
 function panelView(pn, i){
   const canvas = h('canvas',{'aria-label':`컷 ${i+1} 미리보기`});
@@ -1440,23 +1679,33 @@ function panelView(pn, i){
   const cost = estCost(pn);
   const blocked = panelIssues(pn);
   const blockTitle = blocked.length ? `외형 태그 필요: ${issueText(blocked)}` : null;
-  const genBtn = h('button',{class:'btn sm', type:'button', text: pn.img ? '다시 생성' : '생성', title: blockTitle, 'data-blocked': blocked.length ? '1' : null, disabled: pn.status==='run' || S.running || blocked.length>0, onclick:()=>singleGen(pn,false)});
-  const newBtn = h('button',{class:'btn ghost sm', type:'button', text:'새 버전', title: blockTitle || '시드를 바꿔 다른 그림으로', 'data-blocked': blocked.length ? '1' : null, disabled: pn.status==='run' || S.running || blocked.length>0, onclick:()=>singleGen(pn,true)});
+  const isImg = (pn.kind||'image')==='image';
+  const cands = Math.max(1, +P.settings.cands||1);
+  const busy = pn.status==='run' || S.running || blocked.length>0;
+  const genBtn = !isImg ? null : pn.img
+    ? h('button',{class:'btn ghost sm', type:'button', text:'다시 그리기', title: blockTitle || '고른 그림과 같은 시드로 다시 그려요 (태그를 고친 뒤에 쓰기 좋아요)', 'data-blocked': blocked.length ? '1' : null, disabled: busy, onclick:()=>singleGen(pn,'same')})
+    : h('button',{class:'btn sm', type:'button', text: cands>1 ? `생성 ×${cands}` : '생성', title: blockTitle, 'data-blocked': blocked.length ? '1' : null, disabled: busy, onclick:()=>singleGen(pn,'new')});
+  const newBtn = !isImg || !pn.img ? null : h('button',{class:'btn sm', type:'button', text: cands>1 ? `새 후보 ×${cands}` : '새 후보', title: blockTitle || '다른 시드로 후보를 더 그려요. 이전 그림은 아래 버전 목록에 남아요.', 'data-blocked': blocked.length ? '1' : null, disabled: busy, onclick:()=>singleGen(pn,'new')});
   const more = h('div',{class:'menu'});
   const pop = h('div',{class:'pop', hidden:true},
     h('button',{type:'button', text:'말풍선 추가', onclick:()=>{ addLine(pn,'speech'); pop.hidden=true; }}),
     h('button',{type:'button', text:'나레이션 추가', onclick:()=>{ addLine(pn,'narration'); pop.hidden=true; }}),
     h('hr'),
     ...['portrait','landscape','square'].map(r=>h('button',{type:'button', text:`비율: ${RATIO_LABEL[r]}${pn.ratio===r?' ✓':''}`, onclick:()=>{ if (pn.ratio!==r){ pn.ratio=r; if (pn.img && !confirmInline(`비율을 바꾸면 다음 생성부터 적용돼요. 지금 그림은 유지할까요?`)) pn.img=''; } pop.hidden=true; save(); rerenderPanel(pn); }})),
-    h('button',{type:'button', text:'내 이미지로 교체', onclick:()=>{ pop.hidden=true; replaceImage(pn); }}),
-    h('button',{type:'button', text:'그림 지우기', onclick:()=>{ pn.img=''; pn.status='idle'; pop.hidden=true; save(); rerenderPanel(pn); }}),
+    h('button',{type:'button', text:'내 이미지 넣기', onclick:()=>{ pop.hidden=true; replaceImage(pn); }}),
+    h('button',{type:'button', text:'그림 버전 모두 지우기', onclick:()=>{ if (pn.versions.length>1 && !confirmInline(`그림 ${pn.versions.length}장을 모두 지울까요?`)) return; pn.versions=[]; pn.vi=-1; pn.img=''; pn.status='idle'; pop.hidden=true; save(); rerenderPanel(pn); updateRunStat(); }}),
+    h('hr'),
+    h('div',{class:'pop-lbl', text:'연출'}),
+    ...['image','black','white'].map(k=>h('button',{type:'button', text:`컷: ${KIND_LABEL[k]}${(pn.kind||'image')===k?' ✓':''}`, onclick:()=>{ pn.kind=k; if (k!=='image' && !pn.img && pn.ratio==='portrait') pn.ratio='landscape'; pop.hidden=true; save(); rerenderPanel(pn); updateRunStat(); refreshIssueUI(); }})),
+    ...['','mono','sepia','memory'].map(f=>h('button',{type:'button', text:`필터: ${FILTER_LABEL[f]}${(pn.filter||'')===f?' ✓':''}`, onclick:()=>{ pn.filter=f; pop.hidden=true; save(); rerenderPanel(pn); }})),
+    ...GAPS.map(([g,t])=>h('button',{type:'button', text:`아래 간격: ${t}${(pn.gap??null)===g?' ✓':''}`, onclick:()=>{ pn.gap=g; pop.hidden=true; save(); rerenderPanel(pn); }})),
     h('hr'),
     h('button',{type:'button', text:'위로 이동', disabled:i===0, onclick:()=>{ movePanel(pn,-1); }}),
     h('button',{type:'button', text:'아래로 이동', disabled:i===P.panels.length-1, onclick:()=>{ movePanel(pn,1); }}),
     h('button',{type:'button', text:'컷 삭제', style:'color:var(--bad)', onclick:()=>{ P.panels=P.panels.filter(x=>x!==pn); save(); renderBoard(); }}));
   more.append(h('button',{class:'btn ghost sm', type:'button', text:'⋯', 'aria-label':'컷 메뉴', onclick:(e)=>{ e.stopPropagation(); closePops(pop); pop.hidden=!pop.hidden; }}), pop);
   const bar = h('div',{class:'pv-bar'},
-    h('span',{class:'lbl'}, `컷 ${String(i+1).padStart(2,'0')} · ${RATIO_LABEL[pn.ratio]}`, statusPill(pn), blocked.length ? h('button',{class:'pill err', type:'button', style:'border:0;cursor:pointer', title: blockTitle, text:'외형 태그 필요', onclick:openCastTab}) : null, (S.sub && S.sub!=='bad') ? h('span',{class:'pill', text: cost ? `${cost} Anlas` : '무료'}) : null),
+    h('span',{class:'lbl'}, `컷 ${String(i+1).padStart(2,'0')} · ${RATIO_LABEL[pn.ratio]}${isImg?'':' · '+KIND_LABEL[pn.kind]}${pn.filter?' · '+FILTER_LABEL[pn.filter]:''}`, isImg ? statusPill(pn) : h('span',{class:'pill', text:'연출 컷'}), blocked.length ? h('button',{class:'pill err', type:'button', style:'border:0;cursor:pointer', title: blockTitle, text:'외형 태그 필요', onclick:openCastTab}) : null, (isImg && S.sub && S.sub!=='bad') ? h('span',{class:'pill', text: cost ? `${cost*cands} Anlas` : '무료'}) : null),
     genBtn, newBtn, more);
   const err = pn.error ? h('div',{class:'small', style:`color:${pn.status==='err'?'var(--bad)':'var(--warn)'}`, text:pn.error}) : null;
   const lines = h('div',{class:'lines'});
@@ -1465,10 +1714,15 @@ function panelView(pn, i){
     h('button',{class:'btn ghost sm', type:'button', text:'+ 말풍선', onclick:()=>addLine(pn,'speech')}),
     h('button',{class:'btn ghost sm', type:'button', text:'+ 상자', onclick:()=>addLine(pn,'narration')}),
     h('button',{class:'btn ghost sm', type:'button', text:'+ 효과음', onclick:()=>addLine(pn,'sfx')})));
-  let promptTxt=''; try{ const rq=buildRequest(pn); promptTxt = `기본: ${rq.input}\n` + rq.parameters.characterPrompts.map((c,k)=>`인물${k+1}: ${c.prompt}`).join('\n') + (refFor(pn)?`\n레퍼런스: ${refFor(pn).name}`:'') + `\n시드: ${pn.seed}`; }catch(e){}
+  let promptTxt=''; if (isImg) try{ const rq=buildRequest(pn, pn.seed ?? 0); promptTxt = `기본: ${rq.input}\n` + rq.parameters.characterPrompts.map((c,k)=>`인물${k+1}: ${c.prompt}`).join('\n') + (refsFor(pn).length?`\n레퍼런스: ${refsFor(pn).map(r=>r.name).join(', ')}`:'') + (pn.seed!=null?`\n시드: ${pn.seed}`:''); }catch(e){}
   const det = h('details',{}, h('summary',{text:`대사 편집 (${pn.lines.length}) · 프롬프트`}), lines, h('div',{class:'promptbox', text:promptTxt}));
   const tools = buildTools(pn);
-  const el = h('div',{class:'pv', id:'pv-'+pn.id}, bar, err, stage, tools, det);
+  const strip = isImg && pn.versions.length ? h('div',{class:'vstrip', 'aria-label':'그림 버전'},
+    ...pn.versions.map((v,k)=>h('button',{type:'button', class:'vthumb'+(k===pn.vi?' on':''), 'aria-pressed':String(k===pn.vi), title:`버전 ${k+1}${v.seed!=null?' · 시드 '+v.seed:''}`, onclick:()=>{ pickVersion(pn,k); save(); rerenderPanel(pn); }}, h('img',{src:v.img, alt:`버전 ${k+1}`}))),
+    h('span',{class:'vinfo', text:`${pn.vi+1} / ${pn.versions.length}`}),
+    pn.versions.length>1 ? h('button',{type:'button', class:'btn ghost sm', text:'이 버전 삭제', onclick:()=>{ dropVersion(pn, pn.vi); save(); rerenderPanel(pn); updateRunStat(); }}) : null) : null;
+  const el = h('div',{class:'pv', id:'pv-'+pn.id}, bar, err, stage, strip, tools, det);
+  const gapMul = pn.gap ?? 1; if (gapMul!==1) el.style.marginBottom = `${Math.round(22*(gapMul-1))}px`;
   const v = { el, canvas, stage, tools, layouts:{}, W:0, H:0, idx:i, blocked: blocked.length>0 };
   views.set(pn.id, v);
   bindCanvas(pn, v);
@@ -1525,23 +1779,35 @@ function buildTools(pn){
     h('button',{class:'btn ghost sm', type:'button', text:'복제', onclick:()=>{ const c={...ln, id:uid(), x:clamp(ln.x+.05,0,1), y:clamp(ln.y+.07,0,1)}; pn.lines.push(c); S.selected={p:pn.id,l:c.id}; save(); rerenderPanel(pn); }}),
     h('button',{class:'btn danger sm', type:'button', text:'삭제', onclick:()=>{ pn.lines=pn.lines.filter(x=>x!==ln); S.selected=null; save(); rerenderPanel(pn); }}),
     h('button',{class:'btn ghost sm', type:'button', text:'선택 해제', onclick:()=>{ S.selected=null; markSel(); drawOne(pn); }}));
-  box.append(types, row);
+  const sizeOut = h('span',{class:'bt-val', text: Math.round((ln.fsx||1)*100)+'%'});
+  const row2 = h('div',{class:'bt-row'},
+    h('span',{class:'bt-lbl', text:'크기'}),
+    h('input',{type:'range', min:'0.6', max:'2', step:'0.05', value:String(ln.fsx||1), 'aria-label':'글자 크기', class:'bt-range', oninput:e=>{ ln.fsx=+e.target.value; sizeOut.textContent=Math.round(ln.fsx*100)+'%'; drawOne(pn); }, onchange:()=>save()}), sizeOut,
+    h('button',{type:'button', class:'btn ghost sm'+(ln.bold?' on':''), 'aria-pressed':String(!!ln.bold), text:'굵게', onclick:()=>{ ln.bold=!ln.bold; save(); drawOne(pn); refreshTools(pn); }}),
+    h('span',{class:'bt-lbl', text:'글자색'}),
+    h('div',{class:'swatches', role:'group', 'aria-label':'글자색'}, ...SWATCHES.map(([c,label])=>h('button',{type:'button', class:'sw'+((ln.color||'')===c?' on':''), title:label, 'aria-label':'글자색 '+label, 'aria-pressed':String((ln.color||'')===c), style:c?`--sw:${c}`:'', text:c?'':'A', onclick:()=>{ ln.color=c; save(); drawOne(pn); refreshTools(pn); }}))),
+    (ln.type==='sfx'||ln.type==='plain') ? h('span',{class:'bt-lbl', text:'기울기'}) : null,
+    (ln.type==='sfx'||ln.type==='plain') ? h('input',{type:'range', min:'-30', max:'30', step:'1', class:'bt-range', 'aria-label':'기울기', value:String(ln.type==='sfx' ? (ln.rot ?? -8) : (ln.rot||0)), oninput:e=>{ ln.rot=+e.target.value; drawOne(pn); }, onchange:()=>save()}) : null);
+  box.append(types, row2, row);
   return box;
 }
+const SWATCHES = [['','기본'],['#d62828','빨강'],['#1f5fbf','파랑'],['#7a3fb8','보라'],['#1f7a45','초록'],['#ffffff','흰색'],['#8a8f96','회색']];
 function refreshTools(pn){ const v=views.get(pn.id); if (!v) return; const n=buildTools(pn); v.tools.replaceWith(n); v.tools=n; }
 function movePanel(pn, d){ const i=P.panels.indexOf(pn), j=i+d; if (j<0||j>=P.panels.length) return; [P.panels[i],P.panels[j]]=[P.panels[j],P.panels[i]]; save(); renderBoard(); }
 function replaceImage(pn){
   const inp = h('input',{type:'file', accept:'image/*'});
-  inp.onchange = async ()=>{ const f=inp.files[0]; if (!f) return; pn.img = await shrinkImage(f, 1600); pn.status='done'; pn.error=''; save(); rerenderPanel(pn); };
+  inp.onchange = async ()=>{ const f=inp.files[0]; if (!f) return; addVersion(pn, await shrinkImage(f, 1600), null); pn.kind='image'; pn.error=''; save(); rerenderPanel(pn); updateRunStat(); };
   inp.click();
 }
-async function singleGen(pn, newSeed){
+async function singleGen(pn, mode){
   if (!S.token){ toast('먼저 NovelAI 토큰을 연결해 주세요.'); location.hash='#connect'; return; }
   const issues = panelIssues(pn);
   if (issues.length){ toast(`이 컷은 외형 태그가 필요해요: ${issueText(issues)}`, 4200); openCastTab(); return; }
   if (S.running) return;
+  const count = mode==='same' ? 1 : Math.max(1, Math.min(4, +P.settings.cands||1));
+  if ((estCost(pn) > 0 || /^nai-diffusion-5/.test(modelId())) && !(await confirmRun([pn], count))) return;
   S.running = true; setRunUI(); $$('.pv-bar .btn').forEach(b=>b.disabled=true);
-  await generatePanel(pn, {newSeed});
+  await generatePanel(pn, mode==='same' ? {count:1, sameSeed:true} : {count});
   S.running = false; setRunUI(); rerenderPanel(pn); updateRunStat(); fetchSub().then(()=>updateRunStat()).catch(()=>{});
   $$('.pv-bar .btn').forEach(b=>b.disabled = b.dataset.blocked==='1');
 }
@@ -1634,6 +1900,8 @@ function bindSettings(){
   ];
   map.forEach(([sel,key,conv])=>{ $(sel).addEventListener('input', e=>{ st()[key] = conv ? conv(e.target.value) : e.target.value; save(); updateRunStat(); }); });
   $('#s-quality').onchange = e=>{ st().quality = e.target.checked; save(); };
+  $('#s-cands').onchange = e=>{ st().cands = +e.target.value; save(); updateRunStat(); renderBoard(); };
+  $('#s-multiref').onchange = e=>{ st().multiRef = e.target.checked; save(); updateRunStat(); renderBoard(); };
   $('#s-refstyle').onchange = e=>{ st().refStyle = e.target.checked; save(); };
   $('#s-fid').oninput = e=>{ st().fidelity = +e.target.value; $('#s-fidv').textContent = (+e.target.value).toFixed(2); save(); };
   $('#s-gut').oninput = e=>{ st().gutter = +e.target.value; $('#s-gutv').textContent = Math.round(+e.target.value*100)+'%'; save(); };
@@ -1643,7 +1911,7 @@ function fillSettings(){
   const s = P.settings = {...DEFAULT_SETTINGS, ...P.settings};
   $('#s-model').value=s.model; $('#s-custom').value=s.custom; $('#s-style').value=s.style; $('#s-neg').value=s.neg;
   $('#s-steps').value=s.steps; $('#s-scale').value=s.scale; $('#s-sampler').value=s.sampler; $('#s-uc').value=String(s.uc);
-  $('#s-quality').checked=s.quality; $('#s-refstyle').checked=s.refStyle; $('#s-fid').value=s.fidelity; $('#s-fidv').textContent=(+s.fidelity).toFixed(2);
+  $('#s-quality').checked=s.quality; $('#s-refstyle').checked=s.refStyle; $('#s-cands').value=String(s.cands||1); $('#s-multiref').checked=!!s.multiRef; $('#s-fid').value=s.fidelity; $('#s-fidv').textContent=(+s.fidelity).toFixed(2);
   $('#s-expw').value=String(s.expW); $('#s-split').value=String(s.split); $('#s-gut').value=s.gutter; $('#s-gutv').textContent=Math.round(s.gutter*100)+'%';
   $('#s-fs').value=s.fontScale; $('#s-fsv').textContent=Math.round(s.fontScale*1000)/10+'%'; $('#s-host').value=s.host;
 }
@@ -1655,28 +1923,31 @@ async function renderPanelsAt(W){
   return P.panels.map((pn,i)=>{ const H=Math.round(W*panelAspect(pn)); const cv=h('canvas',{width:W,height:H}); drawPanel(cv.getContext('2d'), pn, W, H, i); return cv; });
 }
 const toBlob = cv => new Promise(r=>cv.toBlob(r,'image/png'));
+const gapAfter = (pn, W) => Math.round(W * P.settings.gutter * (pn.gap ?? 1));
+/* y position of every panel in the stitched strip */
+function stripLayout(cvs, W){ let y = Math.round(W*P.settings.gutter); const ys = cvs.map((c,i)=>{ const at = y; y += c.height + gapAfter(P.panels[i], W); return at; }); return { ys, total: y }; }
 async function exportLong(){
   if (!P.panels.length) return toast('원고에 컷이 없어요.');
-  const W = P.settings.expW, gap = Math.round(W*P.settings.gutter);
+  const W = P.settings.expW;
   const cvs = await renderPanelsAt(W);
-  const total = cvs.reduce((a,c)=>a+c.height,0) + gap*(cvs.length+1);
+  const {ys, total} = stripLayout(cvs, W);
   if (total > 30000){ toast('원고가 너무 길어 한 장으로 저장할 수 없어요. 분할 ZIP으로 저장해 주세요.', 4000); return; }
   const out = h('canvas',{width:W, height:total}); const ctx = out.getContext('2d');
   ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,total);
-  let y=gap; cvs.forEach(c=>{ ctx.drawImage(c,0,y); y+=c.height+gap; });
+  cvs.forEach((c,i)=>ctx.drawImage(c, 0, ys[i]));
   download(await toBlob(out), safeName(P.title)+'.png'); toast('긴 PNG를 저장했어요.');
 }
 async function exportSplit(){
   if (!P.panels.length) return toast('원고에 컷이 없어요.');
-  const W = P.settings.expW, gap = Math.round(W*P.settings.gutter), maxH = P.settings.split;
+  const W = P.settings.expW, maxH = P.settings.split;
   const cvs = await renderPanelsAt(W);
-  const total = cvs.reduce((a,c)=>a+c.height,0) + gap*(cvs.length+1);
+  const {ys, total} = stripLayout(cvs, W);
   // draw onto slices without allocating one giant canvas
   const zip = new JSZip(); let n=0;
   for (let top=0; top<total; top+=maxH){
     const hh = Math.min(maxH, total-top); const s = h('canvas',{width:W,height:hh}); const ctx=s.getContext('2d');
     ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,hh);
-    let y=gap; for (const c of cvs){ if (y+c.height>top && y<top+hh) ctx.drawImage(c, 0, y-top); y+=c.height+gap; }
+    cvs.forEach((c,i)=>{ const y = ys[i]; if (y+c.height>top && y<top+hh) ctx.drawImage(c, 0, y-top); });
     zip.file(`${String(++n).padStart(3,'0')}.png`, await toBlob(s));
   }
   download(await zip.generateAsync({type:'blob'}), safeName(P.title)+'_분할.zip'); toast(`${n}장으로 나눠 저장했어요.`);
@@ -1687,12 +1958,55 @@ async function exportPanels(){
   for (let i=0;i<cvs.length;i++) zip.file(`컷${String(i+1).padStart(2,'0')}.png`, await toBlob(cvs[i]));
   download(await zip.generateAsync({type:'blob'}), safeName(P.title)+'_컷별.zip'); toast('컷별 PNG를 저장했어요.');
 }
+/* one self-contained HTML page: vertical-scroll reader with the panels embedded as JPEG */
+async function exportViewer(){
+  if (!P.panels.length) return toast('원고에 컷이 없어요.');
+  toast('뷰어 페이지를 만드는 중…', 6000);
+  const W = Math.max(720, P.settings.expW);
+  const cvs = await renderPanelsAt(W);
+  const esc = t => String(t).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const top = (P.settings.gutter*100).toFixed(2);
+  const parts = cvs.map((c,i)=>`<img src="${c.toDataURL('image/jpeg', .9)}" width="${c.width}" height="${c.height}" alt="컷 ${i+1}" loading="lazy" style="margin-bottom:${(P.settings.gutter*(P.panels[i].gap ?? 1)*100).toFixed(2)}%">`).join('\n');
+  const html = `<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${esc(P.title)}</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;600&display=swap">
+<style>
+:root{color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:#141518;color:#e8eaed;font:15px/1.6 "IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+#bar{position:fixed;inset:0 0 auto;height:3px;background:#5dbbea;transform-origin:0 50%;transform:scaleX(0);z-index:2}
+header{max-width:720px;margin:0 auto;padding:40px 16px 22px;text-align:center}
+h1{margin:0;font:400 clamp(26px,6vw,38px)/1.2 "Black Han Sans","IBM Plex Sans KR",sans-serif;letter-spacing:.01em}
+header p{margin:8px 0 0;color:#9aa3ab;font-size:13px}
+main{max-width:720px;margin:0 auto;background:#fff;padding-top:${top}%}
+main img{display:block;width:100%;height:auto}
+footer{max-width:720px;margin:0 auto;padding:28px 16px 60px;text-align:center;color:#8a9199;font-size:12px}
+#top{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));border:0;border-radius:999px;padding:10px 14px;background:#2a2d33;color:#e8eaed;font:600 13px inherit;cursor:pointer;opacity:0;transition:opacity .2s}
+#top.on{opacity:.92}
+</style></head><body>
+<div id="bar"></div>
+<header><h1>${esc(P.title)}</h1><p>${P.panels.length}컷 · 세로 스크롤</p></header>
+<main>
+${parts}
+</main>
+<footer>진진자라 웹툰공방으로 만들었어요</footer>
+<button id="top" type="button" aria-label="맨 위로">맨 위로</button>
+<script>
+const bar=document.getElementById('bar'),top=document.getElementById('top');
+addEventListener('scroll',()=>{const m=document.documentElement;const p=m.scrollTop/(m.scrollHeight-m.clientHeight||1);bar.style.transform='scaleX('+p+')';top.classList.toggle('on',m.scrollTop>600);},{passive:true});
+top.onclick=()=>scrollTo({top:0,behavior:'smooth'});
+<\/script>
+</body></html>`;
+  download(new Blob([html], {type:'text/html'}), safeName(P.title)+'.html');
+  toast('웹툰 뷰어 페이지를 저장했어요. 깃허브에 올리면 링크로 볼 수 있어요.', 4000);
+}
 function saveProj(){
   const data = JSON.parse(JSON.stringify(P)); data.cast.forEach(c=>delete c._meta);
   download(new Blob([JSON.stringify(data)],{type:'application/json'}), safeName(P.title)+'.jinjinjara.json'); toast('프로젝트 파일을 저장했어요.');
 }
 async function loadProjFile(f){
-  try{ const d = JSON.parse(await f.text()); if (!d || !Array.isArray(d.panels) || !Array.isArray(d.cast)) throw 0; P = d; P.settings={...DEFAULT_SETTINGS, ...(d.settings||{})}; renderAll(); save(); toast('프로젝트를 불러왔어요.'); }
+  try{ const d = JSON.parse(await f.text()); if (!d || !Array.isArray(d.panels) || !Array.isArray(d.cast)) throw 0; await saveNow(); d.id = uid(); loadIntoP(d); renderAll(); await saveNow(); toast('프로젝트를 새 원고로 불러왔어요. 원고 목록에서 이전 원고로 돌아갈 수 있어요.', 4000); }
   catch(e){ toast('진진자라 프로젝트 파일(.json)이 아니에요.'); }
 }
 
@@ -1701,7 +2015,8 @@ async function loadProjFile(f){
 function castListText(){
   return P.cast.filter(c=>c.name.trim()).map(c=>{
     const al = castAliases(c).slice(1);
-    return `- ${c.name.trim()}${al.length?` (별칭: ${al.join(', ')})`:''}: ${c.tags.trim()||'(외형 태그 없음)'}`;
+    const of = (c.outfits||[]).filter(o=>o.name).map(o=>o.name);
+    return `- ${c.name.trim()}${al.length?` (별칭: ${al.join(', ')})`:''}: ${c.tags.trim()||'(외형 태그 없음)'}${of.length?` / 의상 세트: ${of.join(', ')}${c.defOutfit?` (기본 ${c.defOutfit})`:''}`:''}`;
   }).join('\n') || '- (등장인물 미등록: 원문 속 이름을 그대로 쓰세요)';
 }
 const SCRIPT_RULES = `[각색 원칙: 글을 "장면"으로 바꾸기]
@@ -1735,6 +2050,10 @@ const SCRIPT_RULES = `[각색 원칙: 글을 "장면"으로 바꾸기]
 이름(태그)        ← 대사 없이 등장
 상태창: 시스템 메시지 한 줄 (여러 줄이면 백틱 세 개 줄로 위아래를 감싸 그대로)
 효과음: 의성어
+이름[의상세트](태그): 대사   ← 등장인물에 의상 세트가 있고 원문에서 옷이 바뀔 때만
+컷: 검은 화면 | 흰 화면     ← 그림 없이 글자만 띄우는 호흡 컷 (암전, 시간 경과, 독백)
+필터: 흑백 | 세피아 | 회상   ← 회상·과거 장면일 때
+간격: 좁게 | 넓게 | 아주 넓게 ← 이 컷 아래 여백 (장면 전환·여운은 넓게)
 
 [이름 규칙]
 - 인물 이름은 아래 등장인물 이름과 글자 하나까지 똑같이 쓴다. 원문의 별칭·호칭·성 뺀 이름·"그/그녀"는 문맥으로 실제 인물을 판단해 바꾼다.
@@ -2136,6 +2455,42 @@ function bindConti(){
   $('#contiAppend').onclick = ()=>putScript($('#contiOut').value, true, m);
 }
 
+/* ================= episodes ================= */
+function loadIntoP(d){
+  P = d; P.settings = {...DEFAULT_SETTINGS, ...(d.settings||{})}; if (!P.id) P.id = uid();
+  P.cast = P.cast || []; P.panels = (P.panels||[]).map(normPanel); S.selected = null; filterCache.clear();
+}
+function nextTitle(t){ const m = String(t).match(/(\d+)\s*화/); return m ? t.replace(m[0], `${+m[1]+1}화`) : `${t} 2화`; }
+async function newEpisode(inherit){
+  await saveNow(); const prev = P, np = blankProject();
+  if (inherit){ np.cast = JSON.parse(JSON.stringify(prev.cast)); np.settings = {...prev.settings}; np.title = nextTitle(prev.title); }
+  loadIntoP(np); renderAll(); await saveNow(); $('#projModal').hidden = true;
+  toast(inherit ? '새 화를 만들었어요. 등장인물과 설정을 이어받았어요.' : '빈 원고를 만들었어요.');
+}
+async function switchProject(id){
+  if (id===P.id){ $('#projModal').hidden = true; return; }
+  await saveNow(); const d = await IDB.get('proj:'+id);
+  if (!d){ toast('원고를 불러오지 못했어요.'); return; }
+  loadIntoP(d); renderAll(); await IDB.set('current', P.id); $('#projModal').hidden = true; toast(`"${P.title}"을 열었어요.`);
+}
+async function renderProjects(){
+  const list = $('#projList'); list.textContent = '';
+  const idx = ((await IDB.get('index'))||[]).sort((a,b)=>b.updated-a.updated);
+  const fmt = t => new Date(t).toLocaleString('ko-KR', {month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit'});
+  idx.forEach(x=>list.append(h('div',{class:'projrow'+(x.id===P.id?' cur':'')},
+    h('div',{class:'projmeta'}, h('b',{text:x.title||'제목 없는 원고'}), h('span',{class:'small muted', text:`${x.cuts||0}컷 · 그림 ${x.done||0}개 · ${fmt(x.updated)}${x.id===P.id?' · 지금 여는 원고':''}`})),
+    h('div',{class:'row'},
+      h('button',{class:'btn sm', type:'button', text:'열기', disabled: x.id===P.id, onclick:()=>switchProject(x.id)}),
+      h('button',{class:'btn ghost sm', type:'button', text:'복제', onclick:async ()=>{ await saveNow(); const d = await IDB.get('proj:'+x.id); if (!d) return; d.id = uid(); d.title = (d.title||'원고') + ' (복사본)'; await IDB.set('proj:'+d.id, d); const ix = (await IDB.get('index'))||[]; ix.push({id:d.id, title:d.title, updated:Date.now(), cuts:d.panels.length, done:d.panels.filter(p=>p.img).length}); await IDB.set('index', ix); renderProjects(); }}),
+      h('button',{class:'btn danger sm', type:'button', text:'삭제', onclick:async ()=>{
+        if (!confirmInline(`"${x.title}" 원고를 지울까요? 되돌릴 수 없어요.`)) return;
+        await IDB.del('proj:'+x.id); const ix = ((await IDB.get('index'))||[]).filter(y=>y.id!==x.id); await IDB.set('index', ix);
+        if (x.id===P.id){ const next = ix.sort((a,b)=>b.updated-a.updated)[0]; if (next){ const d = await IDB.get('proj:'+next.id); if (d){ loadIntoP(d); renderAll(); await IDB.set('current', P.id); } } else { loadIntoP(blankProject()); renderAll(); await saveNow(); } }
+        renderProjects(); toast('원고를 지웠어요.');
+      }})))));
+}
+async function openProjects(){ if (S.running){ toast('생성이 끝난 뒤에 원고를 바꿀 수 있어요.'); return; } await saveNow(); await renderProjects(); $('#projModal').hidden = false; }
+
 /* ================= wiring ================= */
 function renderAll(){
   $('#projTitle').value = P.title; $('#scriptBox').value = P.script;
@@ -2168,6 +2523,18 @@ function bindStudio(){
     if (matchMedia('(max-width:900px)').matches) $('#mswitch button[data-m="board"]').click();
   };
   $('#runAll').onclick = runAll;
+  $('#projBtn').onclick = openProjects;
+  $('#projClose').onclick = ()=>{ $('#projModal').hidden = true; };
+  $('#projModal').addEventListener('click', e=>{ if (e.target.id==='projModal') e.target.hidden = true; });
+  $('#projNewEp').onclick = ()=>newEpisode(true);
+  $('#projNewBlank').onclick = ()=>newEpisode(false);
+  $('#syncScript').onclick = ()=>{
+    if (!P.panels.length){ toast('원고에 컷이 없어요.'); return; }
+    if (P.script.trim() && !confirmInline('지금 대본을 원고 내용으로 다시 쓸까요? 원고에서 고친 대사·말풍선 종류·연출·의상이 대본에 반영돼요.')) return;
+    P.script = scriptFromPanels(); $('#scriptBox').value = P.script; save();
+    toast('원고 내용으로 대본을 다시 썼어요. 그림과 말풍선 위치는 그대로예요.');
+  };
+  document.addEventListener('keydown', e=>{ if (e.key!=='Escape') return; const open = $$('.modal').find(m=>!m.hidden); if (!open) return; if (open.id==='runModal') $('#runCancel').click(); else if (!adaptCtl) open.hidden = true; });
   $('#stopAll').onclick = ()=>{ S.stop=true; abortCtl?.abort(); };
   $('#fileBtn').onclick = (e)=>{ e.stopPropagation(); const pop=$('#fileMenu .pop'); closePops(pop); pop.hidden=!pop.hidden; };
   $$('#fileMenu .pop button').forEach(b=>b.onclick=async ()=>{
@@ -2177,10 +2544,11 @@ function bindStudio(){
       if (a==='exportLong') await exportLong();
       else if (a==='exportSplit') await exportSplit();
       else if (a==='exportPanels') await exportPanels();
+      else if (a==='exportViewer') await exportViewer();
+      else if (a==='projects') await openProjects();
       else if (a==='saveProj') saveProj();
       else if (a==='loadProj'){ $('#projFile').value=''; $('#projFile').click(); }
-      else if (a==='loadSample'){ if (P.panels.some(p=>p.img) && !confirmInline('지금 원고를 예시로 바꿀까요? 먼저 프로젝트 파일로 저장해 두는 걸 권해요.')) return; sampleProject(); renderAll(); save(); }
-      else if (a==='newProj'){ if ((P.panels.length||P.cast.length) && !confirmInline('새 원고를 시작할까요? 지금 원고는 사라져요.')) return; P=blankProject(); renderAll(); save(); }
+      else if (a==='loadSample'){ if (S.running){ toast('생성이 끝난 뒤에 열 수 있어요.'); return; } await saveNow(); sampleProject(); P.panels.forEach(normPanel); renderAll(); await saveNow(); toast('예시 원고를 새 원고로 열었어요. 원래 원고는 원고 목록에 있어요.', 3800); }
     }catch(e){ console.error(e); toast('저장 중 문제가 생겼어요: '+(e.message||e)); }
   });
   $('#projFile').onchange = e=>{ const f=e.target.files[0]; if (f) loadProjFile(f); };
@@ -2188,9 +2556,16 @@ function bindStudio(){
 
 (async function init(){
   loadToken(); updateChip(); bindConnect(); bindSettings(); bindStudio(); bindConti(); bindLog();
-  const saved = await IDB.get('project');
-  if (saved && Array.isArray(saved.panels)){ P = saved; P.settings = {...DEFAULT_SETTINGS, ...(saved.settings||{})}; P.panels.forEach(p=>{ if (p.status==='run') p.status = p.img?'done':'idle'; }); }
-  else sampleProject();
+  let loaded = false;
+  const idx = await IDB.get('index');
+  if (!idx){   // first run of the multi-episode version: move the old single project into the list
+    const legacy = await IDB.get('project');
+    if (legacy && Array.isArray(legacy.panels)){ loadIntoP(legacy); await saveNow(); await IDB.del('project'); loaded = true; }
+  } else {
+    const cur = await IDB.get('current'); const id = cur || (idx.sort((a,b)=>b.updated-a.updated)[0]||{}).id;
+    const d = id && await IDB.get('proj:'+id); if (d){ loadIntoP(d); loaded = true; }
+  }
+  if (!loaded){ sampleProject(); P.panels.forEach(normPanel); await saveNow(); }
   renderAll(); route();
   if (S.token) fetchSub().then(()=>{ renderSub(); updateRunStat(); renderBoard(); }).catch(()=>{ renderSub(); });
   if (document.fonts) document.fonts.ready.then(()=>{ iconCache.clear(); redrawAll(); P.panels.forEach(p=>{ if (S.selected&&S.selected.p===p.id) refreshTools(p); }); });
