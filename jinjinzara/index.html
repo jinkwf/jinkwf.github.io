@@ -202,11 +202,26 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
 .pv details{font-size:13px}
 .pv summary{cursor:pointer;color:var(--muted);padding:2px 0}
 .lines{display:grid;gap:6px;margin-top:6px}
-.lineitem{display:grid;grid-template-columns:86px 92px minmax(0,1fr) auto;gap:6px;align-items:start}
+.lineitem{display:grid;grid-template-columns:112px 88px minmax(0,1fr) auto;gap:6px;align-items:start}
 .lineitem select,.lineitem input,.lineitem textarea{padding:5px 7px;font-size:13px}
 .lineitem textarea{min-height:32px}
 .lineitem button{border:0;background:transparent;color:var(--muted);cursor:pointer;padding:6px}
 .lineitem.sel textarea{border-color:var(--blue)}
+.btools{position:sticky;bottom:calc(env(safe-area-inset-bottom,0px) + 10px);z-index:4;background:var(--sheet);border:1px solid var(--line);border-radius:12px;padding:10px;display:grid;gap:9px;box-shadow:0 10px 28px rgba(0,0,0,.16)}
+.bt-types{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+.bt-type{flex:0 0 auto;display:grid;justify-items:center;gap:2px;width:80px;padding:6px 4px 5px;border:1.5px solid var(--line);border-radius:9px;background:#e9eff3;cursor:pointer;font-size:11px;line-height:1.2;color:#34404a}
+.bt-type img{width:68px;height:41px;object-fit:contain}
+.bt-type:hover{border-color:var(--muted)}
+.bt-type.on{border-color:var(--blue);box-shadow:0 0 0 2px var(--blue-soft);color:#0f3c55;font-weight:700}
+.bt-type span{white-space:nowrap}
+.bt-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.bt-lbl{color:var(--muted);font-size:12px;font-weight:600}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{border:0;background:transparent;padding:5px 9px;font-size:12px;cursor:pointer;color:var(--muted)}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button.on{background:var(--blue-soft);color:var(--ink);font-weight:600}
+.bt-row select{width:auto;padding:5px 8px;font-size:13px}
+.bt-gap{flex:1}
 .promptbox{font:12px/1.55 var(--mono);background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:9px;white-space:pre-wrap;word-break:break-word;color:var(--muted);margin-top:6px}
 .empty-state{text-align:center;padding:40px 16px;color:var(--muted)}
 .empty-state h3{color:var(--ink);font-size:22px;margin-bottom:6px}
@@ -385,7 +400,15 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
         <tr><td><code>서진(back to viewer)</code></td><td>대사 없이 등장만</td></tr>
         <tr><td><code>서진 생각: 이번엔 안 놓쳐.</code></td><td>생각 풍선 (구름 모양)</td></tr>
         <tr><td><code>서진 외침: 기다려!</code></td><td>외침 풍선 (뾰족한 모양)</td></tr>
-        <tr><td><code>나레이션: 그날 밤.</code></td><td>네모 나레이션 박스</td></tr>
+        <tr><td><code>서진 속삭임: 쉿.</code></td><td>속삭임 풍선 (점선)</td></tr>
+        <tr><td><code>서진 떨림: 괜, 괜찮아…</code></td><td>떨리는 말 (물결 테두리)</td></tr>
+        <tr><td><code>서진 전화: 여보세요?</code></td><td>전화·기계음 (이중 테두리 네모)</td></tr>
+        <tr><td><code>서진 각진: 알겠어.</code></td><td>각진 말풍선 (둥근 네모)</td></tr>
+        <tr><td><code>서진 글자: 하아…</code></td><td>풍선 없이 글자만</td></tr>
+        <tr><td><code>나레이션: 그날 밤.</code></td><td>흰 나레이션 상자</td></tr>
+        <tr><td><code>독백: 그때 알았어야 했다.</code></td><td>검은 독백 상자</td></tr>
+        <tr><td><code>자막: 서울, 오후 6시</code></td><td>장소·시간 자막</td></tr>
+        <tr><td><code>상태창: [퀘스트] 첫 만남</code></td><td>게임 상태창 스타일 상자</td></tr>
         <tr><td><code>효과음: 쾅</code></td><td>그림 위에 얹는 큰 글자</td></tr>
       </tbody>
     </table></div>
@@ -412,7 +435,9 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
     <ul>
       <li>말풍선을 <b>끌어서</b> 옮기고(모바일은 한 번 탭해 선택한 뒤 끌기), 선택하면 나오는 오른쪽 아래 <b>파란 점</b>을 끌어 폭을 조절해요.</li>
       <li><b>두 번 클릭(모바일은 두 번 탭)</b>하면 글자를 바로 고칠 수 있어요. 선택한 상태에서 <kbd>Delete</kbd>로 지워요.</li>
-      <li>각 컷 아래 <b>대사 편집</b>을 열면 풍선 종류(말·생각·외침·나레이션·효과음)와 화자를 바꾸거나 새로 추가할 수 있어요.</li>
+      <li>말풍선을 <b>선택하면 컷 아래에 도구 막대</b>가 나와요. 미리보기 그림을 눌러 말풍선·상자 종류를 바로 바꾸고, 꼬리 방향(자동·왼쪽·가운데·오른쪽·없음)과 화자를 고르고, 복제·삭제할 수 있어요.</li>
+      <li>종류는 말풍선·각진 말풍선·속삭임·생각·외침·떨리는 말·전화·기계음·글자만, 상자는 나레이션·독백·자막·상태창, 그리고 효과음까지 13가지예요.</li>
+      <li>각 컷 아래 <b>대사 편집</b>에서도 종류와 화자를 바꾸거나 새로 추가할 수 있어요.</li>
     </ul>
   </section>
 
@@ -757,8 +782,25 @@ function extractNaiTags(meta){
 }
 
 /* ================= script parser ================= */
-const KIND = { '생각':'thought', '속마음':'thought', '외침':'shout', '소리침':'shout', '고함':'shout' };
-const KW = /^(장면|배경|scene|비율|ratio|나레이션|내레이션|narration|효과음|sfx)\s*[:：]\s*(.*)$/i;
+/* bubble & box types. g: 말 = spoken by a character, 상자 = caption boxes, 효과 = lettering */
+const TYPES = [
+  {k:'speech', t:'말풍선', g:'말'}, {k:'speechRect', t:'각진 말풍선', g:'말'}, {k:'whisper', t:'속삭임', g:'말'},
+  {k:'thought', t:'생각', g:'말'}, {k:'shout', t:'외침', g:'말'}, {k:'tremble', t:'떨리는 말', g:'말'},
+  {k:'phone', t:'전화·기계음', g:'말'}, {k:'plain', t:'글자만', g:'말'},
+  {k:'narration', t:'나레이션', g:'상자'}, {k:'mono', t:'독백 상자', g:'상자'}, {k:'caption', t:'자막', g:'상자'}, {k:'system', t:'상태창', g:'상자'},
+  {k:'sfx', t:'효과음', g:'효과'}
+];
+const TYPE_LABEL = Object.fromEntries(TYPES.map(x=>[x.k,x.t]));
+const BOX = new Set(['narration','mono','caption','system']);
+const TAILED = new Set(['speech','speechRect','whisper','thought','shout','tremble','phone']);
+const spoken = t => !BOX.has(t) && t!=='sfx';
+const KIND = { '생각':'thought', '속마음':'thought', '외침':'shout', '소리침':'shout', '고함':'shout',
+  '속삭임':'whisper', '귓속말':'whisper', '떨림':'tremble', '전화':'phone', '기계음':'phone', '통신':'phone',
+  '각진':'speechRect', '글자':'plain' };
+const KIND_ALT = Object.keys(KIND).sort((a,b)=>b.length-a.length).join('|');
+const BOXKW = { '나레이션':'narration', '내레이션':'narration', 'narration':'narration', '독백':'mono', '자막':'caption',
+  '상태창':'system', '시스템':'system', '효과음':'sfx', 'sfx':'sfx' };
+const KW = new RegExp('^(장면|배경|scene|비율|ratio|' + Object.keys(BOXKW).join('|') + ')\\s*[:：]\\s*(.*)$', 'i');
 function parseScript(text){
   const raw = (text||'').replace(/\r/g,'').split('\n');
   const sepRe = /^\s*(#|-{3,}|={3,})/;
@@ -778,11 +820,10 @@ function parseScript(text){
         const k = kw[1].toLowerCase(), v = kw[2].trim();
         if (k==='장면'||k==='배경'||k==='scene') pn.scene = joinTags(pn.scene, v);
         else if (k==='비율'||k==='ratio') pn.ratio = /가로|land|wide/i.test(v) ? 'landscape' : /정사|square/i.test(v) ? 'square' : 'portrait';
-        else if (/효과|sfx/i.test(k)) pn.lines.push({type:'sfx', who:'', text:v});
-        else pn.lines.push({type:'narration', who:'', text:v});
+        else pn.lines.push({type: BOXKW[k] || BOXKW[kw[1]] || 'narration', who:'', text:v});
         continue;
       }
-      let name = names.find(nm => s.startsWith(nm) && /^[\s(:：]|^$|^(생각|속마음|외침|소리침|고함)/.test(s.slice(nm.length)));
+      let name = names.find(nm => s.startsWith(nm) && new RegExp('^[\\s(:：]|^$|^(' + KIND_ALT + ')').test(s.slice(nm.length)));
       let rest;
       if (name){ rest = s.slice(name.length); }
       else {
@@ -790,7 +831,7 @@ function parseScript(text){
         if (!m){ warns.push(`${n}번째 줄을 이해하지 못했어요: "${s.slice(0,30)}"`); continue; }
         name = m[1].trim(); rest = s.slice(m[0].length);
       }
-      const m2 = rest.match(/^\s*(생각|속마음|외침|소리침|고함)?\s*(?:\(([^)]*)\))?\s*(생각|속마음|외침|소리침|고함)?\s*(?:[:：]\s*(.*))?$/);
+      const m2 = rest.match(new RegExp('^\\s*(' + KIND_ALT + ')?\\s*(?:\\(([^)]*)\\))?\\s*(' + KIND_ALT + ')?\\s*(?:[:：]\\s*(.*))?$'));
       if (!m2){ warns.push(`${n}번째 줄 형식을 확인해 주세요: "${s.slice(0,30)}"`); continue; }
       const kindWord = m2[1]||m2[3]; const tags = (m2[2]||'').trim(); const said = (m2[4]||'').trim();
       const cast = castByName(name);
@@ -809,17 +850,21 @@ function parseScript(text){
 }
 function sig(pn){ return JSON.stringify([pn.ratio, pn.scene, pn.chars.map(c=>[c.castId,c.action])]); }
 function autoPlace(pn){
-  let k = -1;
+  let k = -1, boxes = 0;
   const centers = centersFor(pn.chars.length);
+  const topBoxes = pn.lines.filter(l=>BOX.has(l.type) && l.type!=='system').length;
+  const speechTop = .1 + topBoxes*.1;
   for (const ln of pn.lines){
-    if (ln.type!=='narration' && ln.type!=='sfx') k++;
+    if (spoken(ln.type)) k++;
     if (ln.x!=null) continue;
-    if (ln.type==='narration'){ ln.x=.34; ln.y=.07; ln.w=.6; continue; }
+    if (BOX.has(ln.type)){
+      if (ln.type==='system'){ ln.x=.5; ln.y= pn.lines.length>1 ? .86 : .5; ln.w=.72; continue; }
+      ln.x = ln.type==='caption' ? .26 : .34; ln.y = .05 + boxes*.1; ln.w = ln.type==='caption' ? .46 : .6; boxes++; continue;
+    }
     if (ln.type==='sfx'){ ln.x=.7; ln.y=.82; ln.w=.55; continue; }
     const ci = pn.chars.findIndex(c=>castById(c.castId)?.name===ln.who);
     const cx = ci>=0 ? centers[ci].x : .5;
-    const hasNar = pn.lines.some(l=>l.type==='narration');
-    ln.x = clamp(cx, .27, .73); ln.y = clamp((hasNar?.2:.1) + k*.17, .08, .9); ln.w = .44;
+    ln.x = clamp(cx, .27, .73); ln.y = clamp(speechTop + k*.17, .08, .9); ln.w = .44;
   }
 }
 function buildPanels(parsed, old){
@@ -963,9 +1008,27 @@ function updateRunStat(){
 
 /* ================= canvas drawing ================= */
 const INK = '#15171a';
-const FONT = { speech:'800 {s}px "Nanum Gothic", sans-serif', thought:'700 {s}px "Gaegu", "Nanum Gothic", sans-serif', shout:'800 {s}px "Nanum Gothic", sans-serif', narration:'700 {s}px "Nanum Myeongjo", serif', sfx:'{s}px "Black Han Sans", sans-serif' };
-const SIZE = { speech:1, thought:1.12, shout:1.12, narration:.9, sfx:2.6 };
+const FONT = {
+  speech:'800 {s}px "Nanum Gothic", sans-serif', speechRect:'800 {s}px "Nanum Gothic", sans-serif',
+  whisper:'700 {s}px "Nanum Gothic", sans-serif', thought:'700 {s}px "Gaegu", "Nanum Gothic", sans-serif',
+  shout:'800 {s}px "Nanum Gothic", sans-serif', tremble:'800 {s}px "Nanum Gothic", sans-serif',
+  phone:'700 {s}px "Nanum Gothic", sans-serif', plain:'800 {s}px "Nanum Gothic", sans-serif',
+  narration:'700 {s}px "Nanum Myeongjo", serif', mono:'700 {s}px "Nanum Myeongjo", serif',
+  caption:'800 {s}px "Nanum Gothic", sans-serif', system:'600 {s}px "IBM Plex Sans KR", "Nanum Gothic", sans-serif',
+  sfx:'{s}px "Black Han Sans", sans-serif'
+};
+const SIZE = { speech:1, speechRect:1, whisper:.92, thought:1.12, shout:1.12, tremble:1, phone:.95, plain:1.05,
+  narration:.9, mono:.92, caption:.78, system:.88, sfx:2.6 };
 function panelAspect(pn){ const im=getImg(pn.img); if (im) return im.naturalHeight/im.naturalWidth; const [w,hh]=RES[pn.ratio]||RES.portrait; return hh/w; }
+const fontFor = (t, fs) => (FONT[t]||FONT.speech).replace('{s}', fs.toFixed(1));
+function padFor(t, fs){
+  if (t==='sfx' || t==='plain') return [fs*.15, fs*.1];
+  if (t==='caption') return [fs*.95, fs*.45];
+  if (t==='system') return [fs*1.0, fs*.8];
+  if (BOX.has(t)) return [fs*.7, fs*.55];
+  if (t==='speechRect' || t==='phone') return [fs*.95, fs*.7];
+  return [fs*1.15, fs*.85];
+}
 function wrapText(ctx, text, maxW){
   const out=[];
   for (const para of String(text).split('\n')){
@@ -973,7 +1036,7 @@ function wrapText(ctx, text, maxW){
     for (const w of words){
       const t = line + w;
       if (ctx.measureText(t).width <= maxW || !line.trim()){
-        if (ctx.measureText(t).width > maxW && !line.trim()){ // single long word: break by char
+        if (ctx.measureText(t).width > maxW && !line.trim()){
           let chunk=''; for (const ch of w){ if (ctx.measureText(chunk+ch).width>maxW && chunk){ out.push(chunk); chunk=ch; } else chunk+=ch; } line=chunk;
         } else line = t;
       } else { out.push(line.trimEnd()); line = w.trimStart(); }
@@ -982,68 +1045,128 @@ function wrapText(ctx, text, maxW){
   }
   return out.filter((l,i,a)=>l || a.length===1);
 }
-function layoutLine(ctx, ln, W, H){
-  const fs = Math.max(8, P.settings.fontScale * W * (SIZE[ln.type]||1));
-  ctx.font = FONT[ln.type].replace('{s}', fs.toFixed(1));
-  const isBox = ln.type==='narration', isSfx = ln.type==='sfx';
-  const padX = isSfx ? 0 : isBox ? fs*.7 : fs*1.15, padY = isSfx ? 0 : isBox ? fs*.55 : fs*.85;
+function layoutLine(ctx, ln, W, H, base){
+  const fs = Math.max(8, (base ?? P.settings.fontScale * W) * (SIZE[ln.type]||1));
+  ctx.font = fontFor(ln.type, fs);
+  const [padX, padY] = padFor(ln.type, fs);
   const maxW = Math.max(fs*2, ln.w*W - padX*2);
   const lines = wrapText(ctx, ln.text||' ', maxW);
-  const lh = fs*(isSfx?1.05:1.38);
+  const lh = fs*(ln.type==='sfx'?1.05:1.38);
   const tw = Math.max(...lines.map(l=>ctx.measureText(l).width), fs);
   const bw = tw + padX*2, bh = lines.length*lh + padY*2;
-  let cx = ln.x*W, cy = ln.y*H;
-  cx = clamp(cx, bw/2+2, W-bw/2-2); cy = clamp(cy, bh/2+2, H-bh/2-2);
-  return { fs, lines, lh, tw, bw, bh, cx, cy, rect:{x:cx-bw/2, y:cy-bh/2, w:bw, h:bh} };
+  let cx = clamp(ln.x*W, bw/2+2, W-bw/2-2), cy = clamp(ln.y*H, bh/2+2, H-bh/2-2);
+  return { fs, lines, lh, tw, bw, bh, cx, cy, padX, padY, rect:{x:cx-bw/2, y:cy-bh/2, w:bw, h:bh} };
 }
-function drawBubble(ctx, pn, ln, L, W, H){
-  const lw = Math.max(1.6, W*0.0028);
-  ctx.lineWidth = lw; ctx.strokeStyle = INK; ctx.fillStyle='#fff'; ctx.lineJoin='round';
-  const {cx, cy, bw, bh} = L;
-  if (ln.type==='speech' || ln.type==='shout' || ln.type==='thought'){
-    const rx = bw/2*1.07, ry = bh/2*1.1;
-    // tail direction toward speaker
+/* where the tail points: auto = toward the speaking character's position in the panel */
+function tailOf(pn, ln, cx, cy, W, H){
+  if (!TAILED.has(ln.type)) return null;
+  const mode = ln.tail || 'auto';
+  if (mode==='none') return null;
+  let dir = 0;
+  if (mode==='left') dir=-1; else if (mode==='right') dir=1; else if (mode==='down') dir=0;
+  else {
     const centers = centersFor(pn.chars.length);
     const ci = pn.chars.findIndex(c=>castById(c.castId)?.name===ln.who);
     const sx = ci>=0 ? centers[ci].x*W : cx;
-    const dir = Math.abs(sx-cx) < W*.04 ? 0 : (sx < cx ? -1 : 1);
-    const below = cy < H*.75;
-    const th0 = (below ? Math.PI/2 : -Math.PI/2) + (below ? -dir : dir)*0.45;
-    if (ln.type==='speech'){
-      const d = 0.17, a1 = th0-d, a2 = th0+d, tl = L.fs*1.9;
-      const tip = { x: cx + Math.cos(th0)*(rx+tl) + dir*L.fs*.9, y: cy + Math.sin(th0)*(ry+tl) };
-      ctx.beginPath(); ctx.ellipse(cx, cy, rx, ry, 0, a2, a1 + Math.PI*2, false); ctx.lineTo(tip.x, tip.y); ctx.closePath(); ctx.fill(); ctx.stroke();
-    } else if (ln.type==='shout'){
-      const n = 22; ctx.beginPath();
-      for (let i=0;i<n;i++){ const a=i/n*Math.PI*2, k = i%2 ? 1.0 : 1.2; const x=cx+Math.cos(a)*rx*k*1.04, y=cy+Math.sin(a)*ry*k*1.08; i?ctx.lineTo(x,y):ctx.moveTo(x,y); }
-      ctx.closePath(); ctx.fill(); ctx.lineWidth = lw*1.2; ctx.stroke();
-    } else {
-      const n = 14, pts=[];
-      for (let i=0;i<n;i++){ const a=i/n*Math.PI*2; pts.push({x:cx+Math.cos(a)*rx, y:cy+Math.sin(a)*ry, r: Math.min(rx,ry)*0.42}); }
-      ctx.beginPath(); pts.forEach(p=>{ ctx.moveTo(p.x+p.r,p.y); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); }); ctx.stroke();
-      ctx.beginPath(); pts.forEach(p=>{ ctx.moveTo(p.x+p.r,p.y); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); }); ctx.fill();
-      ctx.beginPath(); ctx.ellipse(cx,cy,rx,ry,0,0,Math.PI*2); ctx.fill();
-      for (let i=1;i<=2;i++){ const r=L.fs*(.38-i*.1)*1.6, x=cx+Math.cos(th0)*(rx+L.fs*(i*1.05)) + dir*L.fs*.5*i, y=cy+Math.sin(th0)*(ry+L.fs*(i*1.05)); ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); ctx.stroke(); }
-    }
-    ctx.fillStyle = INK; ctx.textAlign='center'; ctx.textBaseline='middle';
-    ctx.font = FONT[ln.type].replace('{s}', L.fs.toFixed(1));
-    const y0 = cy - (L.lines.length-1)*L.lh/2;
-    L.lines.forEach((t,i)=>ctx.fillText(t, cx, y0 + i*L.lh));
-  } else if (ln.type==='narration'){
-    const r = L.rect;
-    ctx.fillStyle='#fff'; ctx.fillRect(r.x, r.y, r.w, r.h); ctx.lineWidth = lw*.85; ctx.strokeRect(r.x, r.y, r.w, r.h);
-    ctx.fillStyle = INK; ctx.textAlign='left'; ctx.textBaseline='middle';
-    ctx.font = FONT.narration.replace('{s}', L.fs.toFixed(1));
-    const y0 = cy - (L.lines.length-1)*L.lh/2;
-    L.lines.forEach((t,i)=>ctx.fillText(t, r.x + L.fs*.7, y0 + i*L.lh));
-  } else if (ln.type==='sfx'){
-    ctx.save(); ctx.translate(cx, cy); ctx.rotate(-0.14);
-    ctx.font = FONT.sfx.replace('{s}', L.fs.toFixed(1)); ctx.textAlign='center'; ctx.textBaseline='middle';
-    ctx.lineWidth = L.fs*.16; ctx.strokeStyle='#fff'; ctx.lineJoin='round';
-    const y0 = -(L.lines.length-1)*L.lh/2;
-    L.lines.forEach((t,i)=>{ ctx.strokeText(t, 0, y0+i*L.lh); ctx.fillStyle=INK; ctx.fillText(t, 0, y0+i*L.lh); });
-    ctx.restore();
+    dir = Math.abs(sx-cx) < W*.04 ? 0 : (sx < cx ? -1 : 1);
   }
+  const below = mode==='auto' ? cy < H*.75 : true;
+  const th0 = (below ? Math.PI/2 : -Math.PI/2) + (below ? -dir : dir)*0.45;
+  return { dir, below, th0 };
+}
+function rrectPath(ctx, x, y, w, h, r){
+  r = Math.min(r, w/2, h/2);
+  ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath();
+}
+function shapePath(ctx, kind, cx, cy, rx, ry, inset, fs){
+  ctx.beginPath();
+  if (kind==='ellipse'){ ctx.ellipse(cx, cy, Math.max(1,rx-inset), Math.max(1,ry-inset), 0, 0, Math.PI*2); }
+  else if (kind==='rrect'){ rrectPath(ctx, cx-rx+inset, cy-ry+inset, (rx-inset)*2, (ry-inset)*2, fs*.9); }
+  else if (kind==='wavy'){
+    const n=120; for (let i=0;i<=n;i++){ const a=i/n*Math.PI*2, k=1+0.022*Math.sin(a*30); const x=cx+Math.cos(a)*(rx*k-inset), y=cy+Math.sin(a)*(ry*k-inset); i?ctx.lineTo(x,y):ctx.moveTo(x,y); } ctx.closePath();
+  } else if (kind==='spiky'){
+    const n=22; for (let i=0;i<n;i++){ const a=i/n*Math.PI*2, k=i%2?1.0:1.2; const x=cx+Math.cos(a)*(rx*k*1.04-inset), y=cy+Math.sin(a)*(ry*k*1.08-inset); i?ctx.lineTo(x,y):ctx.moveTo(x,y); } ctx.closePath();
+  }
+}
+function tailPath(ctx, cx, cy, rx, ry, T, fs, inner=.72){
+  const d=.2, a1=T.th0-d, a2=T.th0+d, tl=fs*1.9;
+  ctx.beginPath();
+  ctx.moveTo(cx+Math.cos(a1)*rx*inner, cy+Math.sin(a1)*ry*inner);
+  ctx.lineTo(cx+Math.cos(T.th0)*(rx+tl) + T.dir*fs*.9, cy+Math.sin(T.th0)*(ry+tl));
+  ctx.lineTo(cx+Math.cos(a2)*rx*inner, cy+Math.sin(a2)*ry*inner);
+}
+function drawBubble(ctx, pn, ln, L, W, H){
+  const t = ln.type, lw = Math.max(1.6, W*0.0028);
+  const {cx, cy, bw, bh, fs} = L;
+  ctx.save();
+  ctx.lineWidth = lw; ctx.strokeStyle = INK; ctx.fillStyle = '#fff'; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+  let textColor = INK, align = 'center';
+  const T = tailOf(pn, ln, cx, cy, W, H);
+  const outlined = { speech:'ellipse', whisper:'ellipse', shout:'spiky', tremble:'wavy', speechRect:'rrect', phone:'rrect' }[t];
+  if (outlined){
+    const isRect = outlined==='rrect';
+    const rx = isRect ? bw/2 : bw/2*1.07, ry = isRect ? bh/2 : bh/2*1.1;
+    if (t==='whisper') ctx.setLineDash([lw*2.6, lw*2.2]);
+    if (t==='shout') ctx.lineWidth = lw*1.25;
+    shapePath(ctx, outlined, cx, cy, rx, ry, 0, fs); ctx.fill(); ctx.stroke();
+    if (T){
+      tailPath(ctx, cx, cy, rx, ry, T, fs, isRect ? .55 : .72); ctx.fill(); ctx.stroke();
+      shapePath(ctx, outlined, cx, cy, rx, ry, ctx.lineWidth*1.1, fs); ctx.fill();   // hide tail edges inside the bubble
+    }
+    if (t==='phone'){   // machine/phone voice: second inner frame
+      ctx.setLineDash([]); ctx.lineWidth = lw*.55;
+      shapePath(ctx, 'rrect', cx, cy, rx, ry, fs*.28, fs); ctx.stroke();
+    }
+    ctx.setLineDash([]);
+  } else if (t==='thought'){
+    const rx = bw/2*1.07, ry = bh/2*1.1, n = 14, pts=[];
+    for (let i=0;i<n;i++){ const a=i/n*Math.PI*2; pts.push({x:cx+Math.cos(a)*rx, y:cy+Math.sin(a)*ry, r: Math.min(rx,ry)*0.42}); }
+    ctx.beginPath(); pts.forEach(p=>{ ctx.moveTo(p.x+p.r,p.y); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); }); ctx.stroke();
+    ctx.beginPath(); pts.forEach(p=>{ ctx.moveTo(p.x+p.r,p.y); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); }); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(cx,cy,rx,ry,0,0,Math.PI*2); ctx.fill();
+    if (T) for (let i=1;i<=2;i++){ const r=fs*(.38-i*.1)*1.6, x=cx+Math.cos(T.th0)*(rx+fs*(i*1.05)) + T.dir*fs*.5*i, y=cy+Math.sin(T.th0)*(ry+fs*(i*1.05)); ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); ctx.stroke(); }
+  } else if (t==='narration'){
+    const r=L.rect; ctx.fillRect(r.x, r.y, r.w, r.h); ctx.lineWidth = lw*.85; ctx.strokeRect(r.x, r.y, r.w, r.h); align='left';
+  } else if (t==='mono'){
+    const r=L.rect; ctx.fillStyle=INK; ctx.fillRect(r.x, r.y, r.w, r.h); textColor='#fff'; align='left';
+  } else if (t==='caption'){
+    const r=L.rect; ctx.fillStyle='rgba(255,255,255,.93)'; ctx.fillRect(r.x, r.y, r.w, r.h);
+    ctx.fillStyle=INK; ctx.fillRect(r.x, r.y, fs*.32, r.h); align='left';
+  } else if (t==='system'){
+    const r=L.rect;
+    ctx.shadowColor='rgba(80,200,255,.75)'; ctx.shadowBlur=fs*.9;
+    ctx.beginPath(); rrectPath(ctx, r.x, r.y, r.w, r.h, fs*.35); ctx.fillStyle='rgba(8,20,38,.9)'; ctx.fill();
+    ctx.shadowBlur=0; ctx.strokeStyle='#62d2ff'; ctx.lineWidth=lw*.9; ctx.stroke();
+    const c=fs*.75; ctx.lineWidth=lw*1.6; ctx.strokeStyle='#bdf0ff';
+    [[r.x,r.y,1,1],[r.x+r.w,r.y,-1,1],[r.x,r.y+r.h,1,-1],[r.x+r.w,r.y+r.h,-1,-1]].forEach(([x,y,sx,sy])=>{ ctx.beginPath(); ctx.moveTo(x+sx*c,y+sy*lw); ctx.lineTo(x+sx*lw,y+sy*lw); ctx.lineTo(x+sx*lw,y+sy*c); ctx.stroke(); });
+    textColor='#e9f8ff'; align='left';
+  }
+  // text
+  ctx.font = fontFor(t, fs); ctx.textBaseline='middle'; ctx.textAlign = align;
+  const y0 = cy - (L.lines.length-1)*L.lh/2;
+  const x0 = align==='left' ? L.rect.x + L.padX : cx;
+  if (t==='sfx'){
+    ctx.translate(cx, cy); ctx.rotate(-0.14);
+    ctx.lineWidth = fs*.16; ctx.strokeStyle='#fff';
+    L.lines.forEach((s,i)=>{ const y=-(L.lines.length-1)*L.lh/2 + i*L.lh; ctx.strokeText(s,0,y); ctx.fillStyle=INK; ctx.fillText(s,0,y); });
+  } else if (t==='plain'){
+    ctx.lineWidth = fs*.24; ctx.strokeStyle='#fff';
+    L.lines.forEach((s,i)=>{ ctx.strokeText(s, x0, y0+i*L.lh); ctx.fillStyle=INK; ctx.fillText(s, x0, y0+i*L.lh); });
+  } else {
+    ctx.fillStyle = textColor;
+    L.lines.forEach((s,i)=>ctx.fillText(s, x0, y0+i*L.lh));
+  }
+  ctx.restore();
+}
+/* small previews for the type picker, drawn with the same renderer as the manuscript */
+const iconCache = new Map();
+function typeIcon(k){
+  if (iconCache.has(k)) return iconCache.get(k);
+  const W=170, H=104, cv=h('canvas',{width:W,height:H}), ctx=cv.getContext('2d');
+  const ln = { type:k, text: k==='sfx'?'쾅!':k==='system'?'Lv.1':k==='caption'?'6시':k==='plain'?'하아':'가나', x:.5, y: TAILED.has(k)?.38:.5, w:.9, tail: TAILED.has(k)?'down':'none' };
+  const L = layoutLine(ctx, ln, W, H, k==='sfx'?19:23);
+  drawBubble(ctx, {chars:[]}, ln, L, W, H);
+  const url = cv.toDataURL(); iconCache.set(k, url); return url;
 }
 function drawPlaceholder(ctx, pn, W, H, idx){
   ctx.fillStyle='#eef3f6'; ctx.fillRect(0,0,W,H);
@@ -1177,13 +1300,14 @@ function panelView(pn, i){
   const lines = h('div',{class:'lines'});
   pn.lines.forEach(ln=>lines.append(lineEditor(pn, ln)));
   lines.append(h('div',{class:'row'},
-    h('button',{class:'btn ghost sm', type:'button', text:'+ 말', onclick:()=>addLine(pn,'speech')}),
-    h('button',{class:'btn ghost sm', type:'button', text:'+ 나레이션', onclick:()=>addLine(pn,'narration')}),
+    h('button',{class:'btn ghost sm', type:'button', text:'+ 말풍선', onclick:()=>addLine(pn,'speech')}),
+    h('button',{class:'btn ghost sm', type:'button', text:'+ 상자', onclick:()=>addLine(pn,'narration')}),
     h('button',{class:'btn ghost sm', type:'button', text:'+ 효과음', onclick:()=>addLine(pn,'sfx')})));
   let promptTxt=''; try{ const rq=buildRequest(pn); promptTxt = `기본: ${rq.input}\n` + rq.parameters.characterPrompts.map((c,k)=>`인물${k+1}: ${c.prompt}`).join('\n') + (refFor(pn)?`\n레퍼런스: ${refFor(pn).name}`:'') + `\n시드: ${pn.seed}`; }catch(e){}
   const det = h('details',{}, h('summary',{text:`대사 편집 (${pn.lines.length}) · 프롬프트`}), lines, h('div',{class:'promptbox', text:promptTxt}));
-  const el = h('div',{class:'pv', id:'pv-'+pn.id}, bar, err, stage, det);
-  const v = { el, canvas, stage, layouts:{}, W:0, H:0, idx:i };
+  const tools = buildTools(pn);
+  const el = h('div',{class:'pv', id:'pv-'+pn.id}, bar, err, stage, tools, det);
+  const v = { el, canvas, stage, tools, layouts:{}, W:0, H:0, idx:i };
   views.set(pn.id, v);
   bindCanvas(pn, v);
   return el;
@@ -1192,18 +1316,57 @@ function confirmInline(msg){ try{ return window.confirm(msg); }catch(e){ return 
 function closePops(except){ $$('.menu .pop').forEach(p=>{ if (p!==except) p.hidden=true; }); }
 document.addEventListener('click', e=>{ if (!e.target.closest('.menu')) closePops(); });
 function lineEditor(pn, ln){
-  const typeSel = h('select',{'aria-label':'종류', onchange:e=>{ ln.type=e.target.value; if (ln.type==='narration'||ln.type==='sfx') ln.who=''; save(); rerenderPanel(pn); }},
-    ...[['speech','말'],['thought','생각'],['shout','외침'],['narration','나레이션'],['sfx','효과음']].map(([v,t])=>h('option',{value:v, text:t, selected: ln.type===v})));
-  const who = h('input',{type:'text', value:ln.who||'', placeholder:'화자', 'aria-label':'화자', disabled: ln.type==='narration'||ln.type==='sfx', oninput:e=>{ ln.who=e.target.value; save(); drawOne(pn); }});
-  const txt = h('textarea',{rows:'1', value:ln.text, 'aria-label':'대사', oninput:e=>{ ln.text=e.target.value; save(); drawOne(pn); }, onfocus:()=>{ S.selected={p:pn.id,l:ln.id}; drawOne(pn); }});
-  const del = h('button',{type:'button', text:'✕', 'aria-label':'대사 삭제', onclick:()=>{ pn.lines=pn.lines.filter(x=>x!==ln); save(); rerenderPanel(pn); }});
+  const typeSel = h('select',{'aria-label':'종류', onchange:e=>setType(pn, ln, e.target.value)},
+    ...['말','상자','효과'].map(g=>h('optgroup',{label:g}, ...TYPES.filter(x=>x.g===g).map(x=>h('option',{value:x.k, text:x.t, selected: ln.type===x.k})))));
+  const who = h('input',{type:'text', value:ln.who||'', placeholder:'화자', 'aria-label':'화자', disabled: !spoken(ln.type), oninput:e=>{ ln.who=e.target.value; save(); drawOne(pn); }});
+  const txt = h('textarea',{rows:'1', value:ln.text, 'aria-label':'대사', oninput:e=>{ ln.text=e.target.value; save(); drawOne(pn); }, onfocus:()=>{ S.selected={p:pn.id,l:ln.id}; markSel(); drawOne(pn); }});
+  const del = h('button',{type:'button', text:'✕', 'aria-label':'대사 삭제', onclick:()=>{ pn.lines=pn.lines.filter(x=>x!==ln); if (S.selected&&S.selected.l===ln.id) S.selected=null; save(); rerenderPanel(pn); }});
   return h('div',{class:'lineitem'+(S.selected&&S.selected.l===ln.id?' sel':''), 'data-l':ln.id}, typeSel, who, txt, del);
 }
 function addLine(pn, type){
-  const ln = { id:uid(), type, who:'', text: type==='sfx' ? '쾅' : type==='narration' ? '나레이션' : '대사', x:null };
-  if (type==='speech'){ const c = pn.chars[0] && castById(pn.chars[0].castId); ln.who = c ? c.name : ''; }
+  const ln = { id:uid(), type, who:'', text: type==='sfx' ? '쾅' : BOX.has(type) ? '나레이션' : '대사', x:null, tail:'auto' };
+  if (spoken(type)){ const c = pn.chars[0] && castById(pn.chars[0].castId); ln.who = c ? c.name : ''; }
   pn.lines.push(ln); autoPlace(pn); S.selected={p:pn.id,l:ln.id}; save(); rerenderPanel(pn, true);
 }
+function setType(pn, ln, k){
+  const wasSpoken = spoken(ln.type);
+  ln.type = k;
+  if (!spoken(k)) ln.who = '';
+  else if (!wasSpoken && !ln.who){ const c = pn.chars[0] && castById(pn.chars[0].castId); ln.who = c ? c.name : ''; }
+  if (k==='sfx' && ln.w < .4) ln.w = .55;
+  if (k==='system' && ln.w < .5) ln.w = .7;
+  S.selected = {p:pn.id, l:ln.id};
+  save(); rerenderPanel(pn);
+}
+/* toolbar shown under a panel while one of its bubbles is selected */
+function buildTools(pn){
+  const ln = S.selected && S.selected.p===pn.id ? pn.lines.find(l=>l.id===S.selected.l) : null;
+  const box = h('div',{class:'btools', hidden: !ln});
+  if (!ln) return box;
+  const types = h('div',{class:'bt-types', 'aria-label':'말풍선·상자 종류'},
+    ...TYPES.map(T=>h('button',{type:'button', class:'bt-type'+(ln.type===T.k?' on':''), 'aria-pressed':String(ln.type===T.k), title:T.t, onclick:()=>setType(pn, ln, T.k)},
+      h('img',{src:typeIcon(T.k), alt:''}), h('span',{text:T.t}))));
+  const row = h('div',{class:'bt-row'});
+  if (TAILED.has(ln.type)){
+    row.append(h('span',{class:'bt-lbl', text:'꼬리'}),
+      h('div',{class:'seg', role:'group', 'aria-label':'꼬리 방향'}, ...[['auto','자동'],['left','왼쪽'],['down','가운데'],['right','오른쪽'],['none','없음']].map(([v,t])=>
+        h('button',{type:'button', class:(ln.tail||'auto')===v?'on':'', 'aria-pressed':String((ln.tail||'auto')===v), text:t, onclick:()=>{ ln.tail=v; save(); drawOne(pn); refreshTools(pn); }}))));
+  }
+  if (spoken(ln.type)){
+    const names = [...new Set([...pn.chars.map(c=>castById(c.castId)?.name), ln.who].filter(Boolean))];
+    row.append(h('span',{class:'bt-lbl', text:'화자'}),
+      h('select',{'aria-label':'화자', onchange:e=>{ ln.who=e.target.value; save(); drawOne(pn); }},
+        h('option',{value:'', text:'(없음)'}), ...names.map(n=>h('option',{value:n, text:n, selected: ln.who===n}))));
+  }
+  row.append(h('span',{class:'bt-gap'}),
+    h('button',{class:'btn ghost sm', type:'button', text:'글자 수정', onclick:()=>{ const v=views.get(pn.id); if (v) openEditor(pn, v, ln); }}),
+    h('button',{class:'btn ghost sm', type:'button', text:'복제', onclick:()=>{ const c={...ln, id:uid(), x:clamp(ln.x+.05,0,1), y:clamp(ln.y+.07,0,1)}; pn.lines.push(c); S.selected={p:pn.id,l:c.id}; save(); rerenderPanel(pn); }}),
+    h('button',{class:'btn danger sm', type:'button', text:'삭제', onclick:()=>{ pn.lines=pn.lines.filter(x=>x!==ln); S.selected=null; save(); rerenderPanel(pn); }}),
+    h('button',{class:'btn ghost sm', type:'button', text:'선택 해제', onclick:()=>{ S.selected=null; markSel(); drawOne(pn); }}));
+  box.append(types, row);
+  return box;
+}
+function refreshTools(pn){ const v=views.get(pn.id); if (!v) return; const n=buildTools(pn); v.tools.replaceWith(n); v.tools=n; }
 function movePanel(pn, d){ const i=P.panels.indexOf(pn), j=i+d; if (j<0||j>=P.panels.length) return; [P.panels[i],P.panels[j]]=[P.panels[j],P.panels[i]]; save(); renderBoard(); }
 function replaceImage(pn){
   const inp = h('input',{type:'file', accept:'image/*'});
@@ -1273,7 +1436,11 @@ function bindCanvas(pn, v){
 function markSel(pn){
   $$('.lineitem').forEach(el=>el.classList.toggle('sel', !!(S.selected && el.dataset.l===S.selected.l)));
   // touch: page scrolls over panels until a bubble is selected; then that panel captures drags
-  views.forEach((v,id)=>{ v.canvas.style.touchAction = S.selected && S.selected.p===id ? 'none' : 'pan-y'; });
+  views.forEach((v,id)=>{
+    v.canvas.style.touchAction = S.selected && S.selected.p===id ? 'none' : 'pan-y';
+    const p = P.panels.find(x=>x.id===id);
+    if (p && (!v.tools.hidden || (S.selected && S.selected.p===id))) refreshTools(p);
+  });
 }
 function openEditor(pn, v, ln){
   const L = v.layouts[ln.id]; if (!L || v.stage.querySelector('textarea.edit')) return;
@@ -1381,7 +1548,13 @@ ${castLines}
 이름(표정·행동 영어 태그)          ← 대사 없이 등장만
 이름(태그) 생각: 속마음 대사
 이름(태그) 외침: 큰 소리 대사
-나레이션: 한국어 서술
+이름(태그) 속삭임: 작은 목소리 대사
+이름(태그) 떨림: 떨리거나 겁먹은 대사
+이름(태그) 전화: 전화·스피커·기계 너머 대사
+나레이션: 한국어 서술 (흰 상자)
+독백: 인물의 회상·독백 서술 (검은 상자)
+자막: 장소·시간 (예: 서울, 오후 6시)
+상태창: 게임 시스템 메시지 (헌터물·회귀물일 때만)
 효과음: 한국어 의성어
 
 [규칙]
@@ -1464,7 +1637,7 @@ function bindStudio(){
   else sampleProject();
   renderAll(); route();
   if (S.token) fetchSub().then(()=>{ renderSub(); updateRunStat(); renderBoard(); }).catch(()=>{ renderSub(); });
-  if (document.fonts) document.fonts.ready.then(redrawAll);
+  if (document.fonts) document.fonts.ready.then(()=>{ iconCache.clear(); redrawAll(); P.panels.forEach(p=>{ if (S.selected&&S.selected.p===p.id) refreshTools(p); }); });
 })();
 </script>
 </body>
