@@ -7,7 +7,7 @@
 <meta name="description" content="NovelAI 토큰 하나로 캐릭터와 대본을 세로 스크롤 웹툰으로 만드는 도구">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Nanum+Gothic:wght@700;800&family=Nanum+Myeongjo:wght@700&family=Gaegu:wght@700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Nanum+Gothic:wght@700;800&family=Nanum+Myeongjo:wght@700&family=Gaegu:wght@700&family=Do+Hyeon&family=Jua&family=Gowun+Dodum&family=Nanum+Pen+Script&display=swap">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <style>
 /* Layout: 원고지 위 '논포토 블루' 스케치 선. 상단 탭 + 화면별 단일 칼럼, 제작실만 편집/원고 2단 */
@@ -233,6 +233,11 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
 .vthumb.on{border-color:var(--blue);box-shadow:0 0 0 2px var(--blue-soft)}
 .vinfo{font:500 12px var(--mono);color:var(--muted);margin:0 4px;white-space:nowrap}
 .bt-range{width:110px;accent-color:var(--blue)}
+.bt-font{width:auto !important;max-width:170px;padding:5px 8px !important;font-size:13px !important}
+.fmt-b{font-weight:800}
+.fmt-i{font-style:italic}
+.seg button svg{display:block}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .bt-val{font:500 12px var(--mono);color:var(--muted);min-width:38px}
 .btn.on{background:var(--blue-soft);border-color:var(--blue);color:var(--ink)}
 .swatches{display:inline-flex;gap:4px}
@@ -499,7 +504,8 @@ textarea.streaming{border-color:var(--blue);background:color-mix(in srgb,var(--b
       <li><b>두 번 클릭(모바일은 두 번 탭)</b>하면 글자를 바로 고칠 수 있어요. 선택한 상태에서 <kbd>Delete</kbd>로 지워요.</li>
       <li>말풍선을 <b>선택하면 컷 아래에 도구 막대</b>가 나와요. 미리보기 그림을 눌러 말풍선·상자 종류를 바로 바꾸고, 꼬리 방향(자동·왼쪽·가운데·오른쪽·없음)과 화자를 고르고, 복제·삭제할 수 있어요.</li>
       <li>종류는 말풍선·각진 말풍선·속삭임·생각·외침·떨리는 말·전화·기계음·글자만, 상자는 나레이션·독백·자막·상태창, 그리고 효과음까지 13가지예요.</li>
-      <li>도구 막대 둘째 줄에서 풍선마다 <b>글자 크기</b>, <b>굵게</b>, <b>글자색</b>을 바꾸고, 효과음·글자만은 <b>기울기</b>도 조절해요.</li>
+      <li>도구 막대에서 풍선마다 <b>글꼴</b>(나눔고딕·나눔명조·고운돋움·도현·주아·검은고딕·손글씨 2종), <b>크기</b>, <b>굵게</b>, <b>기울임</b>, <b>정렬</b>(왼쪽·가운데·오른쪽), <b>줄간격</b>, <b>자간</b>, <b>글자색</b>을 바꾸고, 효과음·글자만은 <b>기울기</b>도 조절해요.</li>
+      <li>마음에 드는 서식은 <b>이 서식을 모든 "말풍선"에 적용</b>으로 같은 종류 풍선 전체에 한 번에 입히고, <b>서식 초기화</b>로 되돌려요.</li>
       <li>각 컷 아래 <b>대사 편집</b>에서도 종류와 화자를 바꾸거나 새로 추가할 수 있어요.</li>
       <li>원고에서 고친 내용은 대본 탭의 <b>원고 → 대본 반영</b>으로 대본 글에 옮길 수 있어요. 그다음 대본을 다시 적용해도 그림과 말풍선 위치가 그대로 남아요.</li>
       <li>컷 메뉴(⋯)의 <b>연출</b>에서 검은·흰 화면 컷, 흑백·세피아·회상 필터, 컷 아래 간격을 바꿔요.</li>
@@ -1072,7 +1078,7 @@ function buildPanels(parsed, old){
       kind: np.kind||'image', filter: np.filter||'', gap: np.gap ?? null,
       lines: np.lines.map(l=>{
         const ol = o && o.lines.find(x=>x.type===l.type && (x.who||'???')===(l.who||'???') && x.text===l.text);
-        return { id:uid(), ...l, ...(ol ? {x:ol.x, y:ol.y, w:ol.w, tail:ol.tail, fsx:ol.fsx, bold:ol.bold, color:ol.color, rot:ol.rot} : {}) };
+        return { id:uid(), ...l, ...(ol ? {x:ol.x, y:ol.y, w:ol.w, tail:ol.tail, rot:ol.rot, ...Object.fromEntries(STYLE_KEYS.map(k=>[k, ol[k]]))} : {}) };
       }),
       img: same ? o.img : '', seed: same ? o.seed : null, status: same ? o.status : 'idle', error:'',
       versions: same ? (o.versions||[]) : [], vi: same ? o.vi : -1 };
@@ -1362,7 +1368,22 @@ const FONT = {
 const SIZE = { speech:1, speechRect:1, whisper:.92, thought:1.12, shout:1.12, tremble:1, phone:.95, plain:1.05,
   narration:.9, mono:.92, caption:.78, system:.88, sfx:2.6 };
 function panelAspect(pn){ const im=getImg(pn.img); if (im) return im.naturalHeight/im.naturalWidth; const [w,hh]=RES[pn.ratio]||RES.portrait; return hh/w; }
-const fontFor = (t, fs) => (FONT[t]||FONT.speech).replace('{s}', fs.toFixed(1));
+/* per-bubble font choice; '' = the bubble type's own font */
+const FONTS = [
+  ['', '기본 (종류별 글꼴)', null], ['gothic','나눔고딕','800 {s}px "Nanum Gothic"'], ['myeongjo','나눔명조','700 {s}px "Nanum Myeongjo"'],
+  ['gowun','고운돋움','400 {s}px "Gowun Dodum"'], ['dohyeon','도현','400 {s}px "Do Hyeon"'], ['jua','주아','400 {s}px "Jua"'],
+  ['blackhan','검은고딕','400 {s}px "Black Han Sans"'], ['gaegu','개구 (손글씨)','700 {s}px "Gaegu"'], ['pen','나눔펜 (손글씨)','400 {s}px "Nanum Pen Script"']
+];
+const FONT_BY = Object.fromEntries(FONTS.map(f=>[f[0], f]));
+const STYLE_KEYS = ['font','fsx','bold','italic','align','lh','ls','color'];
+function fontFor(ln, fs){
+  const o = typeof ln==='object' ? ln : null, t = o ? o.type : ln;
+  const f = o && o.font && FONT_BY[o.font];
+  const css = (f && f[2] ? f[2] + ', "Nanum Gothic", sans-serif' : (FONT[t]||FONT.speech)).replace('{s}', fs.toFixed(1));
+  return (o && o.italic ? 'italic ' : '') + css;
+}
+const canSpace = (()=>{ try{ return 'letterSpacing' in document.createElement('canvas').getContext('2d'); }catch(e){ return false; } })();
+const spacing = (ctx, ln, fs) => { if (canSpace) ctx.letterSpacing = (ln.ls ? (ln.ls*fs).toFixed(2) : 0) + 'px'; };
 function padFor(t, fs){
   if (t==='sfx' || t==='plain') return [fs*.15, fs*.1];
   if (t==='caption') return [fs*.95, fs*.45];
@@ -1390,12 +1411,13 @@ function wrapText(ctx, text, maxW){
 }
 function layoutLine(ctx, ln, W, H, base){
   const fs = Math.max(8, (base ?? P.settings.fontScale * W) * (SIZE[ln.type]||1) * (base==null ? (ln.fsx||1) : 1));
-  ctx.font = fontFor(ln.type, fs);
+  ctx.font = fontFor(ln, fs); spacing(ctx, ln, fs);
   const [padX, padY] = padFor(ln.type, fs);
   const maxW = Math.max(fs*2, ln.w*W - padX*2);
   const lines = wrapText(ctx, ln.text||' ', maxW);
-  const lh = fs*(ln.type==='sfx'?1.05:1.38);
+  const lh = fs*(ln.lh || (ln.type==='sfx'?1.05:1.38));
   const tw = Math.max(...lines.map(l=>ctx.measureText(l).width), fs);
+  if (canSpace) ctx.letterSpacing = '0px';
   const bw = tw + padX*2, bh = lines.length*lh + padY*2;
   let cx = clamp(ln.x*W, bw/2+2, W-bw/2-2), cy = clamp(ln.y*H, bh/2+2, H-bh/2-2);
   return { fs, lines, lh, tw, bw, bh, cx, cy, padX, padY, rect:{x:cx-bw/2, y:cy-bh/2, w:bw, h:bh} };
@@ -1486,20 +1508,22 @@ function drawBubble(ctx, pn, ln, L, W, H){
   }
   // text
   const dark = pn && pn.kind==='black';
-  ctx.font = fontFor(t, fs); ctx.textBaseline='middle'; ctx.textAlign = align;
+  const al = ln.align || align;
+  ctx.font = fontFor(ln, fs); spacing(ctx, ln, fs); ctx.textBaseline='middle'; ctx.textAlign = al;
   const y0 = cy - (L.lines.length-1)*L.lh/2;
-  const x0 = align==='left' ? L.rect.x + L.padX : cx;
+  const x0 = al==='left' ? L.rect.x + L.padX : al==='right' ? L.rect.x + L.rect.w - L.padX : cx;
   if (t==='sfx' || t==='plain'){
     const col = ln.color || (dark ? '#ffffff' : INK);
     const edge = lum(col) > .6 ? INK : '#ffffff';
     const deg = t==='sfx' ? (ln.rot ?? -8) : (ln.rot || 0);
     const ew = fs*(t==='sfx' ? .16 : .24);
-    ctx.translate(cx, cy); ctx.rotate(deg*Math.PI/180); ctx.textAlign='center';
+    ctx.translate(cx, cy); ctx.rotate(deg*Math.PI/180);
+    const xr = al==='left' ? -L.tw/2 : al==='right' ? L.tw/2 : 0;
     L.lines.forEach((s,i)=>{
       const y = -(L.lines.length-1)*L.lh/2 + i*L.lh;
-      ctx.lineWidth = ew; ctx.strokeStyle = edge; ctx.strokeText(s,0,y);
-      if (ln.bold){ ctx.lineWidth = fs*.06; ctx.strokeStyle = col; ctx.strokeText(s,0,y); }
-      ctx.fillStyle = col; ctx.fillText(s,0,y);
+      ctx.lineWidth = ew; ctx.strokeStyle = edge; ctx.strokeText(s,xr,y);
+      if (ln.bold){ ctx.lineWidth = fs*.06; ctx.strokeStyle = col; ctx.strokeText(s,xr,y); }
+      ctx.fillStyle = col; ctx.fillText(s,xr,y);
     });
   } else {
     const col = ln.color || textColor;
@@ -1780,17 +1804,49 @@ function buildTools(pn){
     h('button',{class:'btn ghost sm', type:'button', text:'복제', onclick:()=>{ const c={...ln, id:uid(), x:clamp(ln.x+.05,0,1), y:clamp(ln.y+.07,0,1)}; pn.lines.push(c); S.selected={p:pn.id,l:c.id}; save(); rerenderPanel(pn); }}),
     h('button',{class:'btn danger sm', type:'button', text:'삭제', onclick:()=>{ pn.lines=pn.lines.filter(x=>x!==ln); S.selected=null; save(); rerenderPanel(pn); }}),
     h('button',{class:'btn ghost sm', type:'button', text:'선택 해제', onclick:()=>{ S.selected=null; markSel(); drawOne(pn); }}));
+  const val = (el, t) => { el.textContent = t; };
   const sizeOut = h('span',{class:'bt-val', text: Math.round((ln.fsx||1)*100)+'%'});
-  const row2 = h('div',{class:'bt-row'},
+  const lhDef = ln.type==='sfx' ? 1.05 : 1.38;
+  const lhOut = h('span',{class:'bt-val', text: (ln.lh||lhDef).toFixed(2)});
+  const lsOut = h('span',{class:'bt-val', text: Math.round((ln.ls||0)*100)+'%'});
+  const defAlign = BOX.has(ln.type) ? 'left' : 'center';
+  const live = (k, v) => { ln[k] = v; drawOne(pn); };
+  const rowFmt = h('div',{class:'bt-row'},
+    h('span',{class:'bt-lbl', text:'글꼴'}),
+    h('select',{'aria-label':'글꼴', class:'bt-font', onchange:e=>{ ln.font=e.target.value; save(); drawOne(pn); }},
+      ...FONTS.map(([k,label])=>h('option',{value:k, text:label, selected:(ln.font||'')===k, style: k && FONT_BY[k][2] ? `font-family:${FONT_BY[k][2].replace(/^\d+ \{s\}px /,'')}` : null}))),
     h('span',{class:'bt-lbl', text:'크기'}),
-    h('input',{type:'range', min:'0.6', max:'2', step:'0.05', value:String(ln.fsx||1), 'aria-label':'글자 크기', class:'bt-range', oninput:e=>{ ln.fsx=+e.target.value; sizeOut.textContent=Math.round(ln.fsx*100)+'%'; drawOne(pn); }, onchange:()=>save()}), sizeOut,
-    h('button',{type:'button', class:'btn ghost sm'+(ln.bold?' on':''), 'aria-pressed':String(!!ln.bold), text:'굵게', onclick:()=>{ ln.bold=!ln.bold; save(); drawOne(pn); refreshTools(pn); }}),
+    h('input',{type:'range', min:'0.6', max:'2', step:'0.05', value:String(ln.fsx||1), 'aria-label':'글자 크기', class:'bt-range', oninput:e=>{ live('fsx', +e.target.value); val(sizeOut, Math.round(ln.fsx*100)+'%'); }, onchange:()=>save()}), sizeOut,
+    h('button',{type:'button', class:'btn ghost sm fmt-b'+(ln.bold?' on':''), 'aria-pressed':String(!!ln.bold), title:'굵게', text:'굵게', onclick:()=>{ ln.bold=!ln.bold; save(); drawOne(pn); refreshTools(pn); }}),
+    h('button',{type:'button', class:'btn ghost sm fmt-i'+(ln.italic?' on':''), 'aria-pressed':String(!!ln.italic), title:'기울임', text:'기울임', onclick:()=>{ ln.italic=!ln.italic; save(); drawOne(pn); refreshTools(pn); }}),
+    h('div',{class:'seg', role:'group', 'aria-label':'정렬'}, ...[['left','왼쪽'],['center','가운데'],['right','오른쪽']].map(([v,t])=>
+      h('button',{type:'button', class:(ln.align||defAlign)===v?'on':'', 'aria-pressed':String((ln.align||defAlign)===v), title:`${t} 정렬`, onclick:()=>{ ln.align = v===defAlign ? '' : v; save(); drawOne(pn); refreshTools(pn); }}, alignIcon(v), h('span',{class:'sr', text:`${t} 정렬`})))));
+  const rowSpace = h('div',{class:'bt-row'},
+    h('span',{class:'bt-lbl', text:'줄간격'}),
+    h('input',{type:'range', min:'0.9', max:'2.2', step:'0.02', value:String(ln.lh||lhDef), 'aria-label':'줄간격', class:'bt-range', oninput:e=>{ live('lh', +e.target.value); val(lhOut, ln.lh.toFixed(2)); }, onchange:()=>save()}), lhOut,
+    canSpace ? h('span',{class:'bt-lbl', text:'자간'}) : null,
+    canSpace ? h('input',{type:'range', min:'-0.1', max:'0.4', step:'0.01', value:String(ln.ls||0), 'aria-label':'자간', class:'bt-range', oninput:e=>{ live('ls', +e.target.value); val(lsOut, Math.round(ln.ls*100)+'%'); }, onchange:()=>save()}) : null, canSpace ? lsOut : null,
     h('span',{class:'bt-lbl', text:'글자색'}),
     h('div',{class:'swatches', role:'group', 'aria-label':'글자색'}, ...SWATCHES.map(([c,label])=>h('button',{type:'button', class:'sw'+((ln.color||'')===c?' on':''), title:label, 'aria-label':'글자색 '+label, 'aria-pressed':String((ln.color||'')===c), style:c?`--sw:${c}`:'', text:c?'':'A', onclick:()=>{ ln.color=c; save(); drawOne(pn); refreshTools(pn); }}))),
     (ln.type==='sfx'||ln.type==='plain') ? h('span',{class:'bt-lbl', text:'기울기'}) : null,
-    (ln.type==='sfx'||ln.type==='plain') ? h('input',{type:'range', min:'-30', max:'30', step:'1', class:'bt-range', 'aria-label':'기울기', value:String(ln.type==='sfx' ? (ln.rot ?? -8) : (ln.rot||0)), oninput:e=>{ ln.rot=+e.target.value; drawOne(pn); }, onchange:()=>save()}) : null);
-  box.append(types, row2, row);
+    (ln.type==='sfx'||ln.type==='plain') ? h('input',{type:'range', min:'-30', max:'30', step:'1', class:'bt-range', 'aria-label':'기울기', value:String(ln.type==='sfx' ? (ln.rot ?? -8) : (ln.rot||0)), oninput:e=>{ live('rot', +e.target.value); }, onchange:()=>save()}) : null);
+  const styled = STYLE_KEYS.some(k=>ln[k]!=null && ln[k]!=='' && ln[k]!==false);
+  const rowStyle = h('div',{class:'bt-row'},
+    h('button',{type:'button', class:'btn ghost sm', text:'서식 초기화', disabled:!styled, onclick:()=>{ STYLE_KEYS.forEach(k=>delete ln[k]); save(); drawOne(pn); refreshTools(pn); }}),
+    h('button',{type:'button', class:'btn ghost sm', text:`이 서식을 모든 "${TYPE_LABEL[ln.type]}"에 적용`, onclick:()=>{
+      let n = 0;
+      P.panels.forEach(p=>p.lines.forEach(l=>{ if (l!==ln && l.type===ln.type){ STYLE_KEYS.forEach(k=>{ if (ln[k]==null || ln[k]==='' ) delete l[k]; else l[k]=ln[k]; }); n++; } }));
+      save(); redrawAll(); toast(n ? `"${TYPE_LABEL[ln.type]}" ${n}개에 같은 서식을 적용했어요.` : `다른 "${TYPE_LABEL[ln.type]}"이 없어요.`);
+    }}));
+  box.append(types, rowFmt, rowSpace, row, rowStyle);
   return box;
+}
+function alignIcon(v){
+  const ns = 'http://www.w3.org/2000/svg', svg = document.createElementNS(ns,'svg');
+  svg.setAttribute('viewBox','0 0 16 16'); svg.setAttribute('width','16'); svg.setAttribute('height','16'); svg.setAttribute('aria-hidden','true');
+  [[14,3],[9,7],[12,11]].forEach(([w,y],k)=>{ const r = document.createElementNS(ns,'rect'); const ww = k===1 ? 9 : k===2 ? 12 : 14;
+    const x = v==='left' ? 1 : v==='right' ? 15-ww : (16-ww)/2; r.setAttribute('x',x); r.setAttribute('y',y); r.setAttribute('width',ww); r.setAttribute('height','2'); r.setAttribute('rx','1'); r.setAttribute('fill','currentColor'); svg.append(r); });
+  return svg;
 }
 const SWATCHES = [['','기본'],['#d62828','빨강'],['#1f5fbf','파랑'],['#7a3fb8','보라'],['#1f7a45','초록'],['#ffffff','흰색'],['#8a8f96','회색']];
 function refreshTools(pn){ const v=views.get(pn.id); if (!v) return; const n=buildTools(pn); v.tools.replaceWith(n); v.tools=n; }
@@ -1876,11 +1932,13 @@ function markSel(pn){
 function openEditor(pn, v, ln){
   const L = v.layouts[ln.id]; if (!L || v.stage.querySelector('textarea.edit')) return;
   const k = v.stage.clientWidth / v.W;
-  const ta = h('textarea',{class:'edit', value:ln.text});
+  const ta = h('textarea',{class:'edit', value:ln.text, 'aria-label':'말풍선 글자'});
   const w = Math.max(160, L.rect.w*k), hh = Math.max(44, L.rect.h*k);
   ta.style.cssText = `left:${clamp(L.rect.x*k, 0, v.stage.clientWidth-w)}px;top:${L.rect.y*k}px;width:${w}px;height:${hh}px`;
+  ta.style.font = fontFor(ln, Math.max(13, Math.min(22, L.fs*k))); ta.style.textAlign = ln.align || (BOX.has(ln.type) ? 'left' : 'center'); ta.style.color = '#14171a';
   v.stage.append(ta); ta.focus(); ta.select();
-  const done = (keep)=>{ if (!ta.isConnected) return; if (keep){ ln.text = ta.value; save(); } ta.remove(); rerenderPanel(pn); };
+  let finished = false;   // removing the box fires blur; handle the first close only
+  const done = (keep)=>{ if (finished || !ta.isConnected) return; finished = true; if (keep){ ln.text = ta.value; save(); } ta.remove(); rerenderPanel(pn); };
   ta.addEventListener('blur', ()=>done(true));
   ta.addEventListener('keydown', e=>{ if (e.key==='Escape'){ e.preventDefault(); done(false); } if (e.key==='Enter' && (e.ctrlKey||e.metaKey)){ e.preventDefault(); ta.blur(); } });
 }
@@ -1918,7 +1976,7 @@ function fillSettings(){
 }
 
 /* ================= export ================= */
-async function ensureFonts(){ try{ await Promise.all(['800 20px "Nanum Gothic"','700 20px "Nanum Myeongjo"','700 20px "Gaegu"','20px "Black Han Sans"'].map(f=>document.fonts.load(f, '가나다'))); }catch(e){} }
+async function ensureFonts(){ try{ await Promise.all(['800 20px "Nanum Gothic"','700 20px "Nanum Myeongjo"','700 20px "Gaegu"','20px "Black Han Sans"', ...FONTS.filter(f=>f[2]).map(f=>f[2].replace('{s}','20'))].map(f=>document.fonts.load(f, '가나다'))); }catch(e){} }
 async function renderPanelsAt(W){
   await ensureFonts();
   return P.panels.map((pn,i)=>{ const H=Math.round(W*panelAspect(pn)); const cv=h('canvas',{width:W,height:H}); drawPanel(cv.getContext('2d'), pn, W, H, i); return cv; });
@@ -2630,6 +2688,7 @@ function bindStudio(){
   if (!loaded){ sampleProject(); P.panels.forEach(normPanel); await saveNow(); }
   renderAll(); route();
   if (S.token) fetchSub().then(()=>{ renderSub(); updateRunStat(); renderBoard(); }).catch(()=>{ renderSub(); });
+  ensureFonts().then(()=>redrawAll());
   if (document.fonts) document.fonts.ready.then(()=>{ iconCache.clear(); redrawAll(); P.panels.forEach(p=>{ if (S.selected&&S.selected.p===p.id) refreshTools(p); }); });
 })();
 </script>
