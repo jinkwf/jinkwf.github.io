@@ -227,6 +227,10 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
 .empty-state h3{color:var(--ink);font-size:22px;margin-bottom:6px}
 .mobile-switch{display:none}
 .modal{position:fixed;inset:0;background:rgba(10,12,14,.45);z-index:40;display:grid;place-items:center;padding:16px}
+.maplist{display:grid;gap:6px;margin-top:6px}
+.maprow{display:flex;align-items:center;gap:8px;font-size:13px}
+.maprow code{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:45%}
+.maprow select{width:auto;flex:1;min-width:0;padding:5px 8px}
 .modal .card{width:min(640px,100%);max-height:calc(100vh - 32px);overflow:auto;padding:20px;display:grid;gap:12px}
 
 @media (max-width:900px){
@@ -409,10 +413,18 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
         <tr><td><code>독백: 그때 알았어야 했다.</code></td><td>검은 독백 상자</td></tr>
         <tr><td><code>자막: 서울, 오후 6시</code></td><td>장소·시간 자막</td></tr>
         <tr><td><code>상태창: [퀘스트] 첫 만남</code></td><td>게임 상태창 스타일 상자</td></tr>
+        <tr><td><code>```</code><br><code>[상태창]</code><br><code>호감도: 10 → 20</code><br><code>```</code></td><td>백틱 세 개로 감싼 여러 줄 상태창 (줄바꿈 그대로)</td></tr>
         <tr><td><code>효과음: 쾅</code></td><td>그림 위에 얹는 큰 글자</td></tr>
       </tbody>
     </table></div>
     <p class="small muted">인물 이름은 등장인물 탭에 등록한 이름과 정확히 같아야 그 인물의 외형 태그가 붙어요. 한 컷에 인물은 3명까지가 안정적이에요. <code>장면:</code> 맨 앞에 <code>1boy</code>, <code>2boys</code>, <code>1girl, 1boy</code> 같은 인원 태그를 넣으면 인물 수가 정확해져요.</p>
+    <h3 style="font-size:18px;margin:18px 0 8px">캐릭터 채팅 플레이 로그가 있다면</h3>
+    <p>대본 탭의 <b>플레이 로그 변환</b>을 누르고 채팅 로그를 붙여넣으세요.</p>
+    <ul>
+      <li><b>바로 변환</b>: 사이트에서 즉시 대본으로 나눠요. "큰따옴표"는 말풍선, ‘작은따옴표’·(괄호)는 생각, 서술은 나레이션(앞부분만 짧게), [대괄호 한 줄]과 <code>```</code> 백틱 세 개로 감싼 부분은 상태창(여러 줄 그대로)이 돼요. 대사 앞뒤 서술에 나온 이름으로 화자를 찾아요. 장면 태그는 기본값만 들어가니 배경·구도를 손봐 주세요.</li>
+      <li><b>AI 변환 요청문 복사</b>: 각색 규칙과 등장인물 태그를 담은 요청문을 복사해요. Claude·ChatGPT에 붙여넣으면 장면 태그까지 채운 대본을 받아요. 로그가 길거나 서술이 많으면 이쪽이 결과가 좋아요.</li>
+      <li><b>이름 연결</b>에서 로그 속 이름이나 <code>{{user}}</code>를 등장인물 이름으로 바꿀 수 있어요.</li>
+    </ul>
     <h3 style="font-size:18px;margin:18px 0 8px">줄글 스토리만 있다면</h3>
     <p><b>AI 콘티 프롬프트 복사</b> 버튼을 누르고 스토리를 붙여넣으면, 등장인물 목록과 형식 규칙이 들어간 요청문이 복사돼요. Claude나 ChatGPT에 그대로 붙여넣고, 돌아온 대본을 대본 탭에 붙여넣으면 됩니다.</p>
   </section>
@@ -490,6 +502,7 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
       <div class="pane" id="p-script" hidden>
         <div class="row">
           <button class="btn blue sm" id="applyScript" type="button">대본으로 컷 만들기</button>
+          <button class="btn ghost sm" id="logOpen" type="button">플레이 로그 변환</button>
           <button class="btn ghost sm" id="aiConti" type="button">AI 콘티 프롬프트 복사</button>
           <button class="btn ghost sm" id="sampleScript" type="button">예시 대본</button>
         </div>
@@ -548,6 +561,30 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
   </div>
 </section>
 </main>
+
+<div class="modal" id="logModal" hidden>
+  <div class="card" role="dialog" aria-modal="true" aria-labelledby="logTitle">
+    <h3 id="logTitle" style="font-size:22px">플레이 로그로 대본 만들기</h3>
+    <p class="small muted" style="margin:0">캐릭터 채팅에서 복사한 로그를 붙여넣으세요. "따옴표 대사"는 말풍선, ‘작은따옴표’나 (괄호)는 생각 풍선, 나머지 서술은 나레이션, [대괄호 한 줄]과 ``` 백틱으로 감싼 부분은 상태창이 돼요.</p>
+    <label class="f"><span>플레이 로그</span><textarea id="logIn" rows="9" placeholder="도현은 책을 내밀며 웃었다. &quot;다 읽으면 감상 들려줄래요?&quot;&#10;윤서: ...다음 주 같은 시간에요."></textarea></label>
+    <div><b class="small">이름 연결</b> <span class="small muted">로그 속 이름·{{user}}를 등장인물로 바꿔요</span><div id="logMap" class="maplist"></div></div>
+    <div class="grid2">
+      <label class="f"><span>모든 컷에 붙일 장면 태그 <small>(선택)</small></span><input type="text" id="logExtra" placeholder="예: library, sunset"></label>
+      <label class="f"><span>AI 변환 시 컷 수 <small>(대략)</small></span><input type="number" id="logCount" min="3" max="80" value="12"></label>
+    </div>
+    <div class="row">
+      <button class="btn" id="logQuick" type="button">바로 변환</button>
+      <button class="btn ghost" id="logAi" type="button">AI 변환 요청문 복사</button>
+      <button class="btn ghost" id="logClose" type="button">닫기</button>
+    </div>
+    <span class="small" id="logMsg"></span>
+    <textarea id="logOut" rows="10" class="code" hidden spellcheck="false"></textarea>
+    <div class="row" id="logPut" hidden>
+      <button class="btn blue" id="logReplace" type="button">대본 바꾸고 컷 만들기</button>
+      <button class="btn ghost" id="logAppend" type="button">기존 대본 뒤에 붙이기</button>
+    </div>
+  </div>
+</div>
 
 <div class="modal" id="contiModal" hidden>
   <div class="card" role="dialog" aria-modal="true" aria-labelledby="contiTitle">
@@ -801,19 +838,40 @@ const KIND_ALT = Object.keys(KIND).sort((a,b)=>b.length-a.length).join('|');
 const BOXKW = { '나레이션':'narration', '내레이션':'narration', 'narration':'narration', '독백':'mono', '자막':'caption',
   '상태창':'system', '시스템':'system', '효과음':'sfx', 'sfx':'sfx' };
 const KW = new RegExp('^(장면|배경|scene|비율|ratio|' + Object.keys(BOXKW).join('|') + ')\\s*[:：]\\s*(.*)$', 'i');
+/* ``` code fences = 상태창 (status window). opening line may carry a label like ```status */
+const FENCE_OPEN = /^\s*```(.*)$/;
+const fenceLabel = t => /^[A-Za-z0-9_-]*$|^(상태창|시스템|status|system)$/i.test(t.trim());
 function parseScript(text){
   const raw = (text||'').replace(/\r/g,'').split('\n');
   const sepRe = /^\s*(#|-{3,}|={3,})/;
-  const hasSep = raw.some(l=>sepRe.test(l));
+  // mark fenced lines first so a "# ..." or blank line inside a status window never splits panels
+  const items = []; let fence = null;
+  raw.forEach((l,i)=>{
+    const t = l.trim();
+    if (fence){
+      const close = t.lastIndexOf('```');
+      if (close >= 0){ const before = t.slice(0, close).trim(); if (before) fence.buf.push(before); items.push({fence: fence.buf.join('\n').trim(), n: fence.n}); fence = null; }
+      else fence.buf.push(l.replace(/\s+$/,''));
+      return;
+    }
+    const one = t.match(/^```([\s\S]+?)```$/);
+    if (one){ items.push({fence: one[1].trim(), n:i+1}); return; }
+    const op = t.match(FENCE_OPEN);
+    if (op){ fence = {n:i+1, buf: fenceLabel(op[1]) ? [] : [op[1].trim()]}; return; }
+    items.push({l, n:i+1});
+  });
+  if (fence) items.push({fence: fence.buf.join('\n').trim(), n: fence.n});
+  const hasSep = items.some(x=>x.l!=null && sepRe.test(x.l));
   const blocks=[]; let cur=[];
-  const flush=()=>{ if (cur.some(x=>x.l.trim())) blocks.push(cur); cur=[]; };
-  raw.forEach((l,i)=>{ if (hasSep ? sepRe.test(l) : !l.trim()) flush(); else cur.push({l, n:i+1}); });
+  const flush=()=>{ if (cur.some(x=>x.fence || (x.l||'').trim())) blocks.push(cur); cur=[]; };
+  items.forEach(x=>{ if (x.fence!=null){ cur.push(x); return; } if (hasSep ? sepRe.test(x.l) : !x.l.trim()) flush(); else cur.push(x); });
   flush();
   const warns=[];
   const names = P.cast.map(c=>c.name.trim()).filter(Boolean).sort((a,b)=>b.length-a.length);
   const panels = blocks.map((bl, bi)=>{
     const pn = { ratio:'portrait', scene:'', chars:[], lines:[] };
-    for (const {l, n} of bl){
+    for (const {l, n, fence} of bl){
+      if (fence!=null){ if (fence) pn.lines.push({type:'system', who:'', text:fence}); continue; }
       const s = l.trim(); if (!s) continue;
       const kw = s.match(KW);
       if (kw){
@@ -1043,7 +1101,8 @@ function wrapText(ctx, text, maxW){
     }
     out.push(line.trimEnd());
   }
-  return out.filter((l,i,a)=>l || a.length===1);
+  while (out.length>1 && !out[out.length-1]) out.pop();   // keep blank lines between paragraphs, drop trailing ones
+  return out;
 }
 function layoutLine(ctx, ln, W, H, base){
   const fs = Math.max(8, (base ?? P.settings.fontScale * W) * (SIZE[ln.type]||1));
@@ -1554,7 +1613,8 @@ ${castLines}
 나레이션: 한국어 서술 (흰 상자)
 독백: 인물의 회상·독백 서술 (검은 상자)
 자막: 장소·시간 (예: 서울, 오후 6시)
-상태창: 게임 시스템 메시지 (헌터물·회귀물일 때만)
+상태창: 게임 시스템 메시지 한 줄 (헌터물·회귀물일 때만)
+여러 줄 상태창은 백틱 세 개(\`\`\`) 줄로 위아래를 감싸서 그대로 써
 효과음: 한국어 의성어
 
 [규칙]
@@ -1567,6 +1627,184 @@ ${castLines}
 
 [스토리]
 ${story.trim()}`;
+}
+/* ================= play log → script ================= */
+const QUOTE_RE = /“([^”]+)”|"([^"\n]+)"|「([^」]+)」|『([^』]+)』|‘([^’]+)’|\(([^()\n]+)\)|\*([^*\n]+)\*/g;
+function detectLogNames(text){
+  const names = new Map();
+  const add = n => { n = n.trim(); if (!n || n.length>15 || /^\d+$/.test(n) || /^(오전|오후|AM|PM|http|https)$/i.test(n)) return; names.set(n, (names.get(n)||0)+1); };
+  for (const m of text.matchAll(/^\s*\[?([^\s:：\[\]"“”*()]{1,15}?)\]?\s*[:：]/gm)) add(m[1]);
+  for (const m of text.matchAll(/\{\{\s*(?:user|char)\s*\}\}|<(?:user|char)>/gi)) add(m[0]);
+  for (const c of P.cast) if (c.name.trim() && text.includes(c.name.trim())) names.delete(c.name.trim());
+  return [...names.entries()].sort((a,b)=>b[1]-a[1]).map(x=>x[0]).slice(0,8);
+}
+function applyNameMap(text, map){
+  for (const [from,to] of Object.entries(map||{})) if (to && to!==from) text = text.split(from).join(to);
+  return text;
+}
+function splitSentences(t){ return t.split(/(?<=[.!?…~。])\s+/).map(s=>s.trim()).filter(Boolean); }
+function shortNarration(t){
+  const ss = splitSentences(t); let out='';
+  for (const s of ss){ if (out && (out+' '+s).length > 70) break; out = out ? out+' '+s : s; }
+  if (out.length > 90) out = out.slice(0, 88).trim() + '…';
+  return out;
+}
+function countTagsFor(names){
+  const cnt = {};
+  for (const n of names){ const c = castByName(n); const m = c && (c.tags||'').trim().match(/^(\d+)\s*(boy|girl|other)s?\b/i); if (m){ const k=m[2].toLowerCase(); cnt[k]=(cnt[k]||0)+(+m[1]); } }
+  return Object.entries(cnt).map(([k,v])=>`${v}${k}${v>1?'s':''}`).join(', ');
+}
+function convertLog(raw, {map={}, extra=''}={}){
+  const text = applyNameMap(raw.replace(/\r/g,''), map);
+  const castNames = P.cast.map(c=>c.name.trim()).filter(Boolean).sort((a,b)=>b.length-a.length);
+  const panels = []; let cur = null, lastSpeaker = '';
+  const flush = ()=>{ if (cur && (cur.nar || cur.lines.length || cur.sys)) panels.push(cur); cur = null; };
+  const ensure = ()=>{ if (!cur) cur = { nar:'', sys:'', lines:[] }; return cur; };
+  const speakerFrom = (before, after, prefix)=>{
+    let best='', pos=-1;
+    for (const n of castNames){ const i = before.lastIndexOf(n); if (i>pos){ pos=i; best=n; } }
+    if (!best){ pos=Infinity; for (const n of castNames){ const i = after.indexOf(n); if (i>=0 && i<pos){ pos=i; best=n; } } }
+    return best || prefix || lastSpeaker || '???';
+  };
+  const mentioned = t => castNames.filter(n=>t.includes(n));
+  const addSay = (who, kind, said)=>{
+    const parts = said.length > 45 ? splitSentences(said) : [said];
+    for (const s of parts){ const c = ensure(); if (c.lines.length >= 2){ flush(); ensure(); } cur.lines.push({who, kind, text:s}); }
+    if (kind!=='thought') lastSpeaker = who;
+  };
+  const sysPanel = t => { t = t.trim(); if (!t) return; flush(); ensure().sys = t; flush(); };
+  let fence = null;
+  const lines = [];
+  for (const rawLine of text.split('\n')){
+    const t = rawLine.trim();
+    if (fence){
+      const close = t.lastIndexOf('```');
+      if (close >= 0){ const before = t.slice(0, close).trim(); if (before) fence.push(before); lines.push({sys: fence.join('\n')}); fence = null; }
+      else fence.push(rawLine.replace(/\s+$/,''));
+      continue;
+    }
+    const op = t.match(FENCE_OPEN);
+    if (op && !/```[\s\S]*```/.test(t)){ fence = fenceLabel(op[1]) ? [] : [op[1].trim()]; continue; }
+    // inline ```...``` inside a line: split into text / status parts
+    t.split(/```([\s\S]*?)```/).forEach((part, k)=>{ if (k%2) lines.push({sys: part}); else if (part.trim()) lines.push({text: part}); });
+    if (!t) lines.push({text:''});
+  }
+  if (fence) lines.push({sys: fence.join('\n')});
+  for (const item of lines){
+    if (item.sys!=null){ sysPanel(item.sys); continue; }
+    let line = item.text.trim();
+    if (!line || /^(오전|오후)?\s*\d{1,2}:\d{2}(:\d{2})?$/.test(line) || /^(재생성|다시 생성|편집|복사|삭제|regenerate|edit)$/i.test(line)) continue;
+    if (/^\[[^\]]+\]$/.test(line) || /^【[^】]+】$/.test(line)){ flush(); ensure().sys = line; flush(); continue; }
+    let prefix = '', body = line;
+    const pm = line.match(/^\[?([^\s:：\[\]"“”*()]{1,15}?)\]?\s*[:：]\s*(.*)$/);
+    if (pm && !/^\d+$/.test(pm[1])){ prefix = pm[1]; body = pm[2]; }
+    if (prefix && !/[“"「『‘(*]/.test(body)){ flush(); addSay(prefix, 'speech', body); continue; }
+    // walk quotes / thoughts / actions in order
+    let last = 0, narBuf = '', seen = '';
+    const pushNar = t => { t = t.replace(/\s+/g,' ').trim(); if (t) narBuf = narBuf ? narBuf+' '+t : t; };
+    const emitNar = ()=>{ if (narBuf){ if (cur && (cur.lines.length || cur.nar)) flush(); const c=ensure(); c.nar = shortNarration(narBuf); c.cast = mentioned(narBuf); seen += narBuf; narBuf=''; } };
+    QUOTE_RE.lastIndex = 0; let m;
+    while ((m = QUOTE_RE.exec(body))){
+      pushNar(body.slice(last, m.index)); last = QUOTE_RE.lastIndex;
+      const [ , q1, q2, q3, q4, th1, th2, act ] = m;
+      const said = (q1||q2||q3||q4||'').trim(), thought = (th1||th2||'').trim();
+      if (act){ pushNar(act); continue; }
+      if (th2 && /^(ooc|OOC|사담)/.test(th2)) continue;
+      const before = seen + ' ' + narBuf;
+      const nextQ = body.slice(last).search(/[“"「『‘(*]/);
+      const after = nextQ<0 ? body.slice(last) : body.slice(last, last+nextQ);
+      emitNar();
+      const who = speakerFrom(before, after, prefix);
+      if (said) addSay(who, 'speech', said);
+      else if (thought) addSay(who, 'thought', thought);
+    }
+    pushNar(body.slice(last)); emitNar(); flush();
+  }
+  flush();
+  const out = panels.map((p,i)=>{
+    const who = [...new Set([...p.lines.map(l=>l.who), ...(p.lines.length ? [] : (p.cast||[]))])].filter(n=>castByName(n));
+    const count = countTagsFor(who);
+    const shot = who.length ? (who.length>1 ? 'cowboy shot' : 'upper body') : (p.sys ? '' : 'scenery, wide shot');
+    const rows = [`# 컷 ${i+1}`];
+    if (!who.length && !p.sys) rows.push('비율: 가로');
+    rows.push('장면: ' + joinTags(count || (who.length ? '' : 'no humans'), shot, extra));
+    if (p.nar) rows.push('나레이션: ' + p.nar);
+    if (p.sys) rows.push(p.sys.includes('\n') ? '```\n' + p.sys + '\n```' : '상태창: ' + p.sys);
+    if (!p.lines.length) who.forEach(n=>rows.push(n));
+    for (const l of p.lines) rows.push(`${l.who}${l.kind==='thought' ? ' 생각' : ''}: ${l.text}`);
+    return rows.join('\n');
+  });
+  return { script: out.join('\n\n'), panels: panels.length };
+}
+function buildLogPrompt(log, count, extra){
+  const castLines = P.cast.filter(c=>c.name.trim()).map(c=>`- ${c.name.trim()}: ${c.tags.trim()||'(외형 태그 없음)'}`).join('\n') || '- (등장인물 미등록: 로그 속 이름을 그대로 쓰세요)';
+  return `너는 웹툰 각색 작가야. 아래는 AI 캐릭터 채팅의 플레이 로그야. 이걸 약 ${count}컷짜리 세로 스크롤 웹툰 대본으로 각색해서, 반드시 아래 "출력 형식"만 사용해 출력해. 설명이나 다른 말은 쓰지 마.
+
+[각색 규칙]
+1. 로그의 사건 순서와 핵심 대사는 살리고, 반복되거나 늘어지는 서술은 줄여.
+2. 행동·표정 묘사는 그림(장면 태그와 괄호 속 태그)으로 옮기고, 꼭 필요한 서술만 나레이션·독백으로 남겨.
+3. 대사는 한 풍선 25자 안팎으로 다듬어. 긴 대사는 나눠서 다음 컷으로.
+4. 로그 속 인물 이름은 아래 등장인물 이름으로 맞춰 써. {{user}}·{{char}} 같은 자리표시자도 알맞은 이름으로 바꿔.
+5. OOC, 시스템 안내, 시간 표시 같은 채팅 잡음은 버려. 단, 이야기 속 상태창·시스템 메시지(로그에서 \`\`\` 로 감싼 부분 포함)는 살려서, 한 줄이면 "상태창:"으로, 여러 줄이면 \`\`\` 로 감싼 그대로 옮겨.
+
+[등장인물과 외형 태그]
+${castLines}
+${extra ? `\n[모든 컷 공통 장면 태그]\n${extra}\n` : ''}
+[출력 형식]
+# 컷
+비율: 세로 | 가로 | 정사각   (넓은 배경·전환 컷은 가로, 얼굴 클로즈업은 정사각, 세로면 생략)
+장면: 인원 태그, 배경, 시간·날씨, 구도, 연출 (NovelAI/Danbooru 영어 태그)
+이름(표정·행동 영어 태그): 대사
+이름(태그) 생각: 속마음 · 외침: 큰 소리 · 속삭임: 작은 목소리 · 떨림: 떨리는 말 · 전화: 전화·기계 너머
+나레이션: 서술 · 독백: 회상·독백 · 자막: 장소·시간 · 상태창: 시스템 메시지 · 효과음: 의성어
+여러 줄 상태창은 백틱 세 개(\`\`\`) 줄로 위아래를 감싸서 내용을 그대로 써
+
+[형식 규칙]
+- "장면:" 맨 앞에 인원 태그(no humans / 1boy / 1girl / 2boys / 1boy, 1girl 등)와 구도 태그(close-up, upper body, cowboy shot, full body, wide shot 등)를 꼭 넣어.
+- 괄호 속 태그에는 외형(머리색·옷)은 쓰지 말고 표정·행동·포즈만 써.
+- 한 컷에 그림 속 인물 최대 3명, 풍선·상자 최대 3개.
+
+[플레이 로그]
+${log.trim()}`;
+}
+function bindLog(){
+  const m = $('#logModal'); let names = [];
+  const renderMap = ()=>{
+    const box = $('#logMap'); box.textContent='';
+    names = detectLogNames($('#logIn').value);
+    if (!names.length){ box.append(h('p',{class:'small muted', style:'margin:0', text:'바꿀 이름이 없어요. 로그 속 이름이 등장인물 이름과 같으면 그대로 연결돼요.'})); return; }
+    names.forEach(n=>box.append(h('label',{class:'maprow'}, h('code',{text:n}), h('span',{class:'muted', text:'→'}),
+      h('select',{'data-from':n, 'aria-label':`${n}을(를) 바꿀 이름`}, h('option',{value:'', text:'그대로 두기'}), ...P.cast.filter(c=>c.name.trim()).map(c=>h('option',{value:c.name.trim(), text:c.name.trim()}))))));
+  };
+  const mapNow = ()=>Object.fromEntries($$('#logMap select').map(s=>[s.dataset.from, s.value]));
+  $('#logOpen').onclick = ()=>{ m.hidden=false; $('#logOut').hidden=true; $('#logPut').hidden=true; $('#logMsg').textContent=''; renderMap(); $('#logIn').focus(); };
+  $('#logClose').onclick = ()=>{ m.hidden=true; };
+  m.addEventListener('click', e=>{ if (e.target===m) m.hidden=true; });
+  $('#logIn').addEventListener('input', debounce(renderMap, 400));
+  $('#logQuick').onclick = ()=>{
+    const log = $('#logIn').value; if (!log.trim()){ $('#logMsg').textContent='플레이 로그를 먼저 붙여넣어 주세요.'; return; }
+    const {script, panels} = convertLog(log, {map:mapNow(), extra:$('#logExtra').value.trim()});
+    const out = $('#logOut'); out.value = script; out.hidden = false; out.readOnly = false;
+    $('#logPut').hidden = !panels;
+    $('#logMsg').textContent = panels ? `컷 ${panels}개로 나눴어요. 장면 태그는 기본값이라 배경·구도를 직접 손보면 그림이 좋아져요.` : '대사나 서술을 찾지 못했어요.';
+  };
+  $('#logAi').onclick = async ()=>{
+    const log = $('#logIn').value; if (!log.trim()){ $('#logMsg').textContent='플레이 로그를 먼저 붙여넣어 주세요.'; return; }
+    const txt = buildLogPrompt(applyNameMap(log, mapNow()), +$('#logCount').value||12, $('#logExtra').value.trim());
+    const out = $('#logOut'); out.value = txt; out.hidden = false; out.readOnly = true; $('#logPut').hidden = true;
+    try{ await navigator.clipboard.writeText(txt); $('#logMsg').textContent='요청문을 복사했어요. Claude나 ChatGPT에 붙여넣고, 받은 대본을 대본 탭에 붙여넣으세요.'; }
+    catch(e){ out.focus(); out.select(); $('#logMsg').textContent='자동 복사가 막혀서 아래 글을 선택해 두었어요. Ctrl+C로 복사해 주세요.'; }
+  };
+  const put = (append)=>{
+    const sc = $('#logOut').value.trim(); if (!sc) return;
+    if (!append && P.script.trim() && !confirmInline('지금 대본을 변환한 대본으로 바꿀까요?')) return;
+    P.script = append && P.script.trim() ? P.script.trimEnd() + '\n\n' + sc : sc;
+    $('#scriptBox').value = P.script; save(); m.hidden = true;
+    $$('.stabs button').find(b=>b.dataset.t==='script')?.click();
+    $('#applyScript').click();
+  };
+  $('#logReplace').onclick = ()=>put(false);
+  $('#logAppend').onclick = ()=>put(true);
 }
 function bindConti(){
   const m = $('#contiModal');
@@ -1631,7 +1869,7 @@ function bindStudio(){
 }
 
 (async function init(){
-  loadToken(); updateChip(); bindConnect(); bindSettings(); bindStudio(); bindConti();
+  loadToken(); updateChip(); bindConnect(); bindSettings(); bindStudio(); bindConti(); bindLog();
   const saved = await IDB.get('project');
   if (saved && Array.isArray(saved.panels)){ P = saved; P.settings = {...DEFAULT_SETTINGS, ...(saved.settings||{})}; P.panels.forEach(p=>{ if (p.status==='run') p.status = p.img?'done':'idle'; }); }
   else sampleProject();
