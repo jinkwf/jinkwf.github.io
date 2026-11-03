@@ -206,6 +206,18 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
 .stage{position:relative;line-height:0}
 .stage canvas{touch-action:pan-y}
 .stage.small{width:64%}
+.fxtools{border:1px solid var(--line);border-radius:12px;padding:12px;display:grid;gap:10px;background:var(--sheet)}
+.fx-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.fx-chips{display:flex;flex-wrap:wrap;gap:6px}
+.fx-chip{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.fx-chip.on{border-color:var(--blue);background:var(--blue-soft)}
+.fx-chip button{border:0;background:none;padding:4px 10px;font:inherit;font-size:13px;color:inherit;cursor:pointer}
+.fx-chip .fx-x{padding:4px 8px;color:var(--muted)}
+.fx-ctl{display:grid;gap:6px;padding:10px;border-radius:10px;background:var(--tone)}
+.fx-add{display:grid;gap:6px}
+.fx-grp{display:flex;flex-wrap:wrap;align-items:center;gap:5px}
+.fx-grp .bt-lbl{min-width:44px}
+.fx-add-b.on{border-color:var(--blue);color:var(--blue-ink)}
 .prompt-pre{white-space:pre-wrap;word-break:break-word;margin:0;max-height:160px;overflow:auto;font-size:12.5px}
 .themes{display:flex;flex-wrap:wrap;gap:5px}
 .themes .th{width:24px;height:24px;border-radius:50%;border:2px solid var(--line);background:linear-gradient(135deg,var(--thf,#fff) 0 55%,var(--ths,#15171a) 55%);cursor:pointer;padding:0}
@@ -494,7 +506,7 @@ hr.sep{border:0;border-top:1px solid var(--line);margin:4px 0;width:100%}
         <tr><td><code>컷: 검은 화면</code> / <code>컷: 흰 화면</code></td><td>그림 없이 단색 배경에 글자만 얹는 연출 컷 (생성하지 않음)</td></tr>
         <tr><td><code>필터: 흑백</code> / <code>세피아</code> / <code>회상</code></td><td>그림에 색 필터 (회상은 바랜 색 + 가장자리 흰빛)</td></tr>
         <tr><td><code>간격: 붙이기</code> / <code>좁게</code> / <code>넓게</code> / <code>아주 넓게</code></td><td>이 컷 아래 여백 (호흡 조절)</td></tr>
-        <tr><td><code>연출: 집중선, 반짝임</code></td><td>그림 위에 얹는 만화 효과 (여러 개 가능): 집중선 · 속도선 · 반짝임 · 빛번짐 · 비네팅 · 섬광 · 충격 번개 · 하트 · 꽃잎 · 스크린톤 · 사선 그늘 · 검은 오라 · 노을빛 · 푸른빛 · 분홍빛</td></tr>
+        <tr><td><code>연출: 섬광, 노이즈</code></td><td>그림 위에 얹는 효과를 직접 적을 때 (보통은 원고의 <b>효과</b> 버튼으로 얹어요). AI 각색과 바로 변환은 이 줄을 넣지 않아요.</td></tr>
         <tr><td><code>틀: 작게 가운데</code></td><td>컷 크기·테두리: 꽉 차게(기본) · 테두리 · 작게 왼쪽/가운데/오른쪽 (손끝 같은 디테일 컷)</td></tr>
       </tbody>
     </table></div>
@@ -524,6 +536,7 @@ hr.sep{border:0;border-top:1px solid var(--line);margin:4px 0;width:100%}
     <h3 style="font-size:18px;margin:18px 0 8px">이미지 프롬프트 자동 보정</h3>
     <p>생성할 때 장면 태그에 인원 태그(1boy·2boys·1girl, 1boy 등)가 없으면 등장인물 외형 태그의 성별로 채우고, 인물이 있는데 <code>no humans</code>가 들어 있으면 빼요. 구도 태그가 없으면 인원에 맞춰 upper body나 cowboy shot을 붙여요. 등장인물 외형 태그에 <code>1boy</code>나 <code>1girl</code>을 꼭 넣어 두세요.</p>
     <ul>
+      <li><b>화면 효과는 그림에 넣지 않아요</b>: light particles, lens flare, 집중선(speed lines), 아웃포커스(depth of field, blurry) 같은 태그는 보내기 전에 빼고 제외 태그에 넣어요. 이런 효과는 원고의 효과 도구로 얹어요. 설정 탭의 "그림에 화면 효과 넣지 않기"로 끌 수 있어요.</li>
       <li><b>순서</b>: 컷 내용(인원 → 구도 → 장소·시간·분위기) → 공통 화풍 → 품질 태그 순으로 보내요. 앞쪽 태그가 더 세게 먹어서, 화풍이 컷 내용을 덮지 않게 했어요.</li>
       <li><b>두 인물 사이의 행동</b>: hug·kiss·hand on another's cheek 같은 태그는 NovelAI 형식(<code>source#hug</code> / <code>target#hug</code> / <code>mutual#holding hands</code>)으로 바꿔서 누가 누구에게 하는지 알려 줘요. 이런 컷은 인물 위치를 고정하지 않고 AI가 붙여 그리게 해요.</li>
       <li><b>V5·직접 입력 모델</b>도 V4.5의 품질 태그와 제외 프리셋을 써요.</li>
@@ -556,6 +569,13 @@ hr.sep{border:0;border-top:1px solid var(--line);margin:4px 0;width:100%}
       <li>말풍선을 <b>선택하면 컷 아래에 도구 막대</b>가 나와요. 미리보기 그림을 눌러 말풍선·상자 종류를 바로 바꾸고, 꼬리 방향(자동·왼쪽·가운데·오른쪽·없음)과 화자를 고르고, 복제·삭제할 수 있어요.</li>
       <li>종류는 말풍선·각진 말풍선·속삭임·생각·외침·떨리는 말·전화·기계음·글자만, 상자는 나레이션·독백·자막·상태창, 그리고 효과음까지 13가지예요.</li>
       <li>도구 막대에서 풍선마다 <b>글꼴</b>(나눔고딕·나눔명조·고운돋움·도현·주아·검은고딕·손글씨 2종), <b>크기</b>, <b>굵게</b>, <b>기울임</b>, <b>정렬</b>(왼쪽·가운데·오른쪽), <b>줄간격</b>, <b>자간</b>, <b>글자색</b>을 바꾸고, 효과음·글자만은 <b>기울기</b>도 조절해요.</li>
+      <li><b>효과</b> 버튼(컷 위쪽)을 누르면 효과 편집 도구가 열려요. 말풍선을 고치듯 컷마다 효과를 얹고, 세기·색·방향·중심을 조절하고, 지울 수 있어요.
+        <ul>
+          <li>빛: 섬광 · 빛번짐 · 빛샘 · 반짝임 / 선: 집중선 · 속도선(가로·세로·사선) · 충격 번개 / 그래픽: 스크린톤 · 사선 그늘 · 글리치 · 하트 · 꽃잎</li>
+          <li>색·톤: 그라데이션(색·방향) · 노을빛 · 푸른빛 · 분홍빛 · 비네팅 · 검은 오라 / 질감: 노이즈(흑백·컬러) / 초점: 아웃포커스(가장자리·위아래·전체)</li>
+          <li>섬광·집중선·빛번짐·아웃포커스는 <b>그림에서 찍기</b>를 누르고 그림을 눌러 중심을 정해요.</li>
+          <li>효과는 그림 위에만 얹고 NovelAI로 보내지 않아서, 효과를 바꿔도 다시 생성할 필요가 없어요. 대본을 고쳐 다시 적용해도 효과 설정은 남아요.</li>
+        </ul></li>
       <li><b>색상</b>: 모양은 그대로 두고 칠만 바꿔요. 먹색·벚꽃·복숭아·레몬·민트·하늘·라일락·빛바랜 종이·밤하늘·핏빛·황금·반투명 12가지. 독백 상자는 반전색, 상태창은 그 색으로 빛나요.</li>
       <li><b>효과</b>: 그림자 · 빛나는 후광 · 테두리 없이 부드럽게 · 굵은 테두리 · 이중 테두리 · 점선 · 그라데이션 · 흔들림 잔상 · 반짝이 · 찢긴 가장자리(나레이션·독백·편지). 효과음 글자에도 같은 효과가 들어가요.</li>
       <li>마음에 드는 서식은 <b>이 서식을 모든 "말풍선"에 적용</b>으로 같은 종류 풍선 전체에 한 번에 입히고, <b>서식 초기화</b>로 되돌려요.</li>
@@ -669,10 +689,10 @@ hr.sep{border:0;border-top:1px solid var(--line);margin:4px 0;width:100%}
         <label class="f"><span>화풍 프리셋 <small>(고르면 아래 화풍 태그를 채워요)</small></span><select id="s-preset">
           <option value="">직접 입력</option>
           <option value="flat color, cel shading, clean lineart, soft lighting, detailed background">웹툰 컬러 (기본)</option>
-          <option value="soft lighting, pastel colors, detailed eyes, shiny hair, glowing, depth of field, detailed background">로맨스 판타지</option>
+          <option value="soft lighting, pastel colors, detailed eyes, shiny hair, detailed background">로맨스 판타지</option>
           <option value="flat color, bright colors, clean lineart, sunlight, detailed background">청춘·일상</option>
           <option value="high contrast, dramatic lighting, cinematic lighting, muted colors, dark">느와르·스릴러</option>
-          <option value="watercolor (medium), soft colors, pastel colors, light particles">감성 수채화</option>
+          <option value="watercolor (medium), soft colors, pastel colors">감성 수채화</option>
           <option value="monochrome, greyscale, ink (medium), lineart">흑백 출판 만화</option>
         </select></label>
         <label class="f"><span>공통 화풍 태그 <small>(각 컷 내용 뒤에 붙음)</small></span><textarea id="s-style" rows="2" placeholder="예: cel shading, soft lighting, detailed background"></textarea></label>
@@ -691,6 +711,7 @@ hr.sep{border:0;border-top:1px solid var(--line);margin:4px 0;width:100%}
             <option value="0">Heavy</option><option value="1">Light</option><option value="-1">사용 안 함</option></select></label>
         </div>
         <label class="toggle"><input type="checkbox" id="s-quality"> 품질 태그 자동 추가</label>
+        <label class="toggle"><input type="checkbox" id="s-nofx"> 그림에 화면 효과 넣지 않기 <small class="muted">(빛 입자·렌즈 플레어·집중선·아웃포커스 등은 원고의 "효과" 버튼으로 따로 얹어요)</small></label>
         <label class="f"><span>컷당 후보 수 <small>(생성할 때마다 몇 장 그려서 고를지)</small></span><select id="s-cands"><option value="1">1장</option><option value="2">2장</option><option value="3">3장</option><option value="4">4장</option></select></label>
         <hr style="border:0;border-top:1px solid var(--line);margin:2px 0">
         <b class="small">캐릭터 레퍼런스</b>
@@ -887,6 +908,7 @@ function normPanel(pn){
   if (pn.vi==null || pn.vi>=pn.versions.length) pn.vi = pn.versions.length-1;
   if (!pn.kind) pn.kind = 'image';
   if (!Array.isArray(pn.fx)) pn.fx = []; if (pn.frame==null) pn.frame = '';
+  pn.fx = pn.fx.map(f=>typeof f==='string' ? {k:f} : f).filter(f=>f && FX_DEF[f.k]);
   if (pn.status==='run') pn.status = pn.img ? 'done' : 'idle';
   return pn;
 }
@@ -1180,7 +1202,7 @@ function buildPanels(parsed, old){
     const o = old[i];
     const same = o && sig(o)===sig(np);
     const pn = { id: same ? o.id : uid(), ratio:np.ratio, scene:np.scene, chars:np.chars, unknown: np.unknown || [],
-      kind: np.kind||'image', filter: np.filter||'', gap: np.gap ?? null, fx: np.fx||[], frame: np.frame||'',
+      kind: np.kind||'image', filter: np.filter||'', gap: np.gap ?? null, fx: (np.fx||[]).map(f=>{ const k = fxKey(f), was = o && (o.fx||[]).map(fxNorm).find(x=>x.k===k); return was ? {...was} : {k}; }), frame: np.frame||'',
       lines: np.lines.map(l=>{
         const ol = o && o.lines.find(x=>x.type===l.type && (x.who||'???')===(l.who||'???') && x.text===l.text);
         return { id:uid(), ...l, ...(ol ? {x:ol.x, y:ol.y, w:ol.w, tail:ol.tail, rot:ol.rot, ...Object.fromEntries(STYLE_KEYS.map(k=>[k, ol[k]]))} : {}) };
@@ -1203,7 +1225,7 @@ function scriptFromPanels(){
     if (pn.ratio!=='portrait') rows.push('비율: ' + RATIO_LABEL[pn.ratio]);
     if (pn.filter) rows.push('필터: ' + FILTER_LABEL[pn.filter]);
     if (pn.gap!=null) rows.push('간격: ' + gapLabel(pn.gap));
-    if ((pn.fx||[]).length) rows.push('연출: ' + pn.fx.map(k=>FX[k]).join(', '));
+    if ((pn.fx||[]).length) rows.push('연출: ' + pn.fx.map(f=>FX[fxKey(f)]).filter(Boolean).join(', '));
     if (pn.frame) rows.push('틀: ' + FRAMES[pn.frame]);
     if (pn.scene) rows.push('장면: ' + pn.scene);
     const tagged = new Set();
@@ -1236,6 +1258,9 @@ function refFor(pn){ return refsFor(pn)[0] || null; }
 function outfitTags(cs, ch){ const name = (ch && ch.outfit) || cs?.defOutfit; return name ? ((cs?.outfits||[]).find(o=>o.name===name)?.tags || '') : ''; }
 /* character-to-character actions for V4+: "source#hug" on the one doing it, "target#hug" on the one receiving,
    "mutual#holding hands" on both. This is what makes NovelAI actually draw the touch between the right people. */
+/* screen effects belong to the effect tool, not to the generated picture */
+const EFFECT_TAG_RE = /^(light particles|lens flare|sparkle|sparkles|sparkling|glowing|glint|bloom|light rays|god rays|light leaks?|speed lines|emphasis lines|motion lines|motion blur|depth of field|blurry|blurry background|blurry foreground|bokeh|film grain|noise|chromatic aberration|gradient|gradient background|glitch|vignetting|flash|screentone|halftone|lens blur|out of focus)$/i;
+const FX_UC = 'lens flare, light particles, speed lines, emphasis lines, motion lines, motion blur, chromatic aberration';
 const MUTUAL_ACT = new Set(['holding hands','forehead to forehead','cheek-to-cheek','eye contact','hug','kiss','imminent kiss','interlocked fingers','back-to-back','face-to-face','arm hug']);
 const INTERACT_RE = /another's|^(hug|hug from behind|kiss|kiss on forehead|kiss on cheek|imminent kiss|headpat|princess carry|carrying|piggyback|arms around neck|leaning on another|slapping|against wall|holding hands|forehead to forehead|cheek-to-cheek|eye contact|interlocked fingers|back-to-back|face-to-face|arm hug|wall slam|pinned|lap pillow|sitting on lap|whispering)$/i;
 function charCaption(tags){   // character prompts start with "boy"/"girl", not the count tag
@@ -1269,7 +1294,9 @@ function buildRequest(pn, seed){
   const st = P.settings, model = modelId();
   const [width, height] = RES[pn.ratio] || RES.portrait;
   // the panel's own content first (count, framing, place, mood), the shared art style after it, quality last
-  let base = joinTags(pn.scene, st.style);
+  const noFx = st.noFxTags !== false;
+  const dropFx = t => noFx ? t.split(',').map(x=>x.trim()).filter(x=>x && !EFFECT_TAG_RE.test(x)).join(', ') : t;
+  let base = dropFx(joinTags(pn.scene, st.style));
   const names = pn.chars.map(c=>castById(c.castId)?.name).filter(Boolean);
   if (names.length){
     base = base.replace(/(^|,\s*)no humans(?=\s*,|$)/gi, '').replace(/^\s*,\s*/,'');
@@ -1279,12 +1306,12 @@ function buildRequest(pn, seed){
   const fam = QUALITY[model] ? model : /curated/.test(model) ? 'nai-diffusion-4-5-curated' : 'nai-diffusion-4-5-full';   // V5 / custom IDs borrow the V4.5 presets
   const input = st.quality ? joinTags(base, QUALITY[fam]) : base;
   const preset = +st.uc >= 0 ? (UC_PRESET[fam]?.[+st.uc] || '') : '';
-  const neg = joinTags(preset, WEBTOON_UC, st.neg);
+  const neg = joinTags(preset, WEBTOON_UC, noFx ? FX_UC : '', st.neg);
   const centers = centersFor(pn.chars.length);
   const inter = interactionTags(pn);
   const chars = pn.chars.map((c,i)=>{
     const cs = castById(c.castId), look = charCaption(String(cs?.tags||'').trim());
-    return { prompt: joinTags(look, outfitTags(cs, c), inter.acts[i].join(', ')) || 'person', uc: (cs?.uc||'').trim() || 'lowres, aliasing', center: centers[i], enabled:true };
+    return { prompt: dropFx(joinTags(look, outfitTags(cs, c), inter.acts[i].join(', '))) || 'person', uc: (cs?.uc||'').trim() || 'lowres, aliasing', center: centers[i], enabled:true };
   });
   // fixed left/right slots keep two people apart, which fights hugs and kisses: let the model place them when they touch
   const useCoords = chars.length > 1 && !inter.any;
@@ -1835,12 +1862,38 @@ function filtered(pn, im, W, H){
   if (f==='memory'){ const g = c.createRadialGradient(W/2,H/2,Math.min(W,H)*.28, W/2,H/2, Math.hypot(W,H)*.55); g.addColorStop(0,'rgba(255,255,255,0)'); g.addColorStop(1,'rgba(255,255,255,.9)'); c.fillStyle = g; c.fillRect(0,0,W,H); }
   filterCache.set(pn.id, {key, cv}); return cv;
 }
-/* ===== comic license: overlay effects and panel frames ===== */
-const FX = { focus:'집중선', speed:'속도선', sparkle:'반짝임', bloom:'빛번짐', vignette:'비네팅', flash:'섬광', shock:'충격 번개',
-  heart:'하트', petal:'꽃잎', tone:'스크린톤', hatch:'사선 그늘', aura:'검은 오라', warm:'노을빛', cold:'푸른빛', rose:'분홍빛' };
+/* ===== panel effects: drawn on top of the picture, edited with the effect tool (never sent to NovelAI) ===== */
+const FX_DEF = {
+  flash:   {t:'섬광',       g:'빛',    p:['pos','color'], d:{amt:.75, x:.5, y:.42, color:'#ffffff'}},
+  bloom:   {t:'빛번짐',     g:'빛',    p:['pos','color'], d:{amt:.6,  x:.5, y:.3,  color:'#ffecd2'}},
+  leak:    {t:'빛샘',       g:'빛',    p:['dir','color'], d:{amt:.6,  dir:'top', color:'#ffb36b'}},
+  sparkle: {t:'반짝임',     g:'빛',    p:[],              d:{amt:.8}},
+  focus:   {t:'집중선',     g:'선',    p:['pos'],         d:{amt:.7,  x:.5, y:.5}},
+  speed:   {t:'속도선',     g:'선',    p:['line'],        d:{amt:.7,  dir:'h'}},
+  shock:   {t:'충격 번개',  g:'선',    p:[],              d:{amt:.9}},
+  tone:    {t:'스크린톤',   g:'그래픽', p:[],             d:{amt:.7}},
+  hatch:   {t:'사선 그늘',  g:'그래픽', p:[],             d:{amt:.7}},
+  glitch:  {t:'글리치',     g:'그래픽', p:[],             d:{amt:.5}},
+  heart:   {t:'하트',       g:'그래픽', p:[],             d:{amt:.85}},
+  petal:   {t:'꽃잎',       g:'그래픽', p:[],             d:{amt:.85}},
+  grad:    {t:'그라데이션', g:'색·톤', p:['dir','color'], d:{amt:.55, dir:'top', color:'#ff8fb3'}},
+  warm:    {t:'노을빛',     g:'색·톤', p:[],              d:{amt:.8}},
+  cold:    {t:'푸른빛',     g:'색·톤', p:[],              d:{amt:.8}},
+  rose:    {t:'분홍빛',     g:'색·톤', p:[],              d:{amt:.8}},
+  vignette:{t:'비네팅',     g:'색·톤', p:[],              d:{amt:.7}},
+  aura:    {t:'검은 오라',  g:'색·톤', p:[],              d:{amt:.8}},
+  noise:   {t:'노이즈',     g:'질감',  p:['mono'],        d:{amt:.35, mono:true}},
+  blur:    {t:'아웃포커스', g:'초점',  p:['blur','pos'],  d:{amt:.5,  mode:'edge', x:.5, y:.45}}
+};
+const FX = Object.fromEntries(Object.entries(FX_DEF).map(([k,v])=>[k, v.t]));
+const FX_GROUPS = ['빛','선','그래픽','색·톤','질감','초점'];
+const FX_LAYER = { blur:0, grad:1, warm:1, cold:1, rose:1, vignette:2, aura:2, hatch:2, tone:2, focus:3, speed:3, shock:3, leak:4, bloom:4, flash:4, sparkle:4, heart:5, petal:5, glitch:6, noise:7 };
 const FX_FROM = [[/집중/, 'focus'], [/속도|스피드/, 'speed'], [/반짝|빛가루|입자/, 'sparkle'], [/비네|어둡게|가장자리/, 'vignette'], [/빛번|번짐|블룸|bloom|후광/, 'bloom'],
-  [/섬광|플래시|번쩍/, 'flash'], [/번개|충격|쇼크/, 'shock'], [/하트|설렘|두근/, 'heart'], [/꽃잎|꽃잎|벚꽃잎|꽃비/, 'petal'], [/스크린톤|톤|망점/, 'tone'],
-  [/사선|그늘|암울|우울/, 'hatch'], [/오라|살기|검은 기운|흑염/, 'aura'], [/노을|따뜻|주황|황금빛/, 'warm'], [/푸른|차가|서늘|파란/, 'cold'], [/분홍|핑크|발그레/, 'rose']];
+  [/섬광|플래시|번쩍/, 'flash'], [/빛샘|라이트 ?릭|leak/, 'leak'], [/번개|충격|쇼크/, 'shock'], [/하트|설렘|두근/, 'heart'], [/꽃잎|벚꽃잎|꽃비/, 'petal'], [/스크린톤|망점|(?<![가-힣])톤/, 'tone'],
+  [/사선|그늘|암울|우울/, 'hatch'], [/글리치|지직|glitch/, 'glitch'], [/그라데이션|그라디언트|gradient/, 'grad'], [/노이즈|노이스|grain|그레인|지글/, 'noise'], [/아웃포커스|흐림|블러|blur|초점/, 'blur'],
+  [/오라|살기|검은 기운|흑염/, 'aura'], [/노을|따뜻|주황|황금빛/, 'warm'], [/푸른|차가|서늘|파란/, 'cold'], [/분홍|핑크|발그레/, 'rose']];
+const fxKey = f => typeof f==='string' ? f : f && f.k;
+const fxNorm = f => { const k = fxKey(f); return { k, ...(FX_DEF[k]?.d||{}), ...(typeof f==='object' ? f : {}) }; };
 const FRAMES = { '':'꽉 차게', border:'테두리', 'small-l':'작게 왼쪽', 'small-c':'작게 가운데', 'small-r':'작게 오른쪽' };
 const SMALL_W = .64;
 const isSmall = pn => /^small/.test(pn.frame||'');
@@ -1848,99 +1901,157 @@ function parseFx(v){ const out = []; for (const part of String(v).split(/[,·/|]
 function parseFrame(v){ if (/테두리|border|칸/.test(v)) return 'border'; if (/왼/.test(v)) return 'small-l'; if (/오른/.test(v)) return 'small-r'; if (/작게|가운데|중앙|small/.test(v)) return 'small-c'; return ''; }
 /* stable pseudo-random per panel so effects do not jump while dragging bubbles */
 function rng(seedStr){ let h = 2166136261; for (const c of String(seedStr)) h = Math.imul(h ^ c.charCodeAt(0), 16777619); return ()=>{ h ^= h << 13; h ^= h >>> 17; h ^= h << 5; return ((h>>>0) % 100000) / 100000; }; }
+const rgbOf = hex => { const m = /^#?([0-9a-f]{6})$/i.exec(hex||''); const n = m ? parseInt(m[1],16) : 0xffffff; return `${n>>16&255},${n>>8&255},${n&255}`; };
+function snapshot(ctx, W, H){ const c = h('canvas',{width:W, height:H}); c.getContext('2d').drawImage(ctx.canvas, 0, 0, W, H, 0, 0, W, H); return c; }
+function blurred(src, W, H, amt){
+  // two-step downscale + upscale: a soft blur that works in every browser (canvas filter is missing in Safari)
+  const f = 2 + amt*16, sw = Math.max(2, Math.round(W/f)), sh = Math.max(2, Math.round(H/f));
+  const a = h('canvas',{width:Math.max(2,Math.round(W/2)), height:Math.max(2,Math.round(H/2))}), ac = a.getContext('2d'); ac.imageSmoothingQuality = 'high'; ac.drawImage(src, 0, 0, a.width, a.height);
+  const b = h('canvas',{width:sw, height:sh}), bc = b.getContext('2d'); bc.imageSmoothingQuality = 'high'; bc.drawImage(a, 0, 0, sw, sh);
+  const out = h('canvas',{width:W, height:H}), oc = out.getContext('2d'); oc.imageSmoothingQuality = 'high'; oc.drawImage(b, 0, 0, W, H); return out;
+}
+const noiseTiles = new Map();
+function noiseTile(mono){
+  const key = mono ? 'm' : 'c'; if (noiseTiles.has(key)) return noiseTiles.get(key);
+  const S = 160, c = h('canvas',{width:S, height:S}), x = c.getContext('2d'), d = x.createImageData(S, S), R = rng('noise'+key);
+  for (let i=0;i<d.data.length;i+=4){ const v = R()*255; d.data[i] = v; d.data[i+1] = mono ? v : R()*255; d.data[i+2] = mono ? v : R()*255; d.data[i+3] = 255; }
+  x.putImageData(d, 0, 0); noiseTiles.set(key, c); return c;
+}
 function drawFx(ctx, pn, W, H){
-  const fx = [...(pn.fx || [])].sort((a,b)=>(/warm|cold|rose/.test(b)?1:0)-(/warm|cold|rose/.test(a)?1:0)); if (!fx.length) return;
+  const items = (pn.fx || []).map(fxNorm).filter(f=>FX_DEF[f.k]).sort((a,b)=>(FX_LAYER[a.k]??3)-(FX_LAYER[b.k]??3));
+  if (!items.length) return;
   const dark = pn.kind==='black';
-  for (const k of fx){
-    const R = rng(pn.id + k);
+  for (const f of items){
+    const k = f.k, R = rng(pn.id + k), amt = clamp(+f.amt || 0, 0, 1); if (!amt) continue;
+    const cx = (f.x ?? .5)*W, cy = (f.y ?? .5)*H;
     ctx.save();
-    if (k==='vignette'){
-      const g = ctx.createRadialGradient(W/2, H/2, Math.min(W,H)*.32, W/2, H/2, Math.hypot(W,H)*.56);
-      g.addColorStop(0,'rgba(0,0,0,0)'); g.addColorStop(1,'rgba(0,0,0,.62)'); ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
-    } else if (k==='bloom'){
-      ctx.globalCompositeOperation = 'screen';
-      for (let i=0;i<3;i++){ const x = W*(.15+R()*.7), y = H*(.1+R()*.5), r = Math.max(W,H)*(.35+R()*.3);
-        const g = ctx.createRadialGradient(x,y,0,x,y,r); g.addColorStop(0,'rgba(255,236,210,.42)'); g.addColorStop(1,'rgba(255,236,210,0)'); ctx.fillStyle = g; ctx.fillRect(0,0,W,H); }
-      ctx.globalCompositeOperation = 'source-over'; ctx.fillStyle = 'rgba(255,250,240,.08)'; ctx.fillRect(0,0,W,H);
-    } else if (k==='sparkle'){
-      const n = Math.round(26 + W/40);
-      for (let i=0;i<n;i++){
-        const x = R()*W, y = R()*H, r = W*(.004 + R()*.012);
-        const g = ctx.createRadialGradient(x,y,0,x,y,r*2.4); g.addColorStop(0,'rgba(255,255,255,.95)'); g.addColorStop(1,'rgba(255,255,255,0)');
-        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x,y,r*2.4,0,Math.PI*2); ctx.fill();
-        if (R() < .22){ const s = r*4.5; ctx.fillStyle = 'rgba(255,255,255,.9)'; ctx.beginPath(); ctx.moveTo(x, y-s); ctx.quadraticCurveTo(x, y, x+s, y); ctx.quadraticCurveTo(x, y, x, y+s); ctx.quadraticCurveTo(x, y, x-s, y); ctx.quadraticCurveTo(x, y, x, y-s); ctx.fill(); }
+    if (k==='blur'){
+      const src = snapshot(ctx, W, H), bl = blurred(src, W, H, amt);
+      if (f.mode==='all') ctx.drawImage(bl, 0, 0);
+      else {
+        // keep the focus area sharp: punch it out of the blurred copy
+        const o = bl.getContext('2d'); o.globalCompositeOperation = 'destination-out';
+        let g;
+        if (f.mode==='band'){ g = o.createLinearGradient(0, 0, 0, H); const y = cy/H; g.addColorStop(0,'rgba(0,0,0,0)'); g.addColorStop(clamp(y-.28,0,1),'rgba(0,0,0,0)'); g.addColorStop(clamp(y-.1,0,1),'rgba(0,0,0,1)'); g.addColorStop(clamp(y+.1,0,1),'rgba(0,0,0,1)'); g.addColorStop(clamp(y+.28,0,1),'rgba(0,0,0,0)'); g.addColorStop(1,'rgba(0,0,0,0)'); }
+        else { const r = Math.min(W,H); g = o.createRadialGradient(cx, cy, r*.16, cx, cy, r*.62); g.addColorStop(0,'rgba(0,0,0,1)'); g.addColorStop(1,'rgba(0,0,0,0)'); }
+        o.fillStyle = g; o.fillRect(0,0,W,H); ctx.drawImage(bl, 0, 0);
       }
-    } else if (k==='focus'){
-      const cx = W/2, cy = H/2, outer = Math.hypot(W,H)*.75, n = 150;
-      ctx.fillStyle = dark ? 'rgba(255,255,255,.55)' : 'rgba(10,10,12,.5)';
-      for (let i=0;i<n;i++){
-        const a = R()*Math.PI*2, inner = Math.min(W,H)*(.30 + R()*.14), wdt = (.004 + R()*.01);
-        ctx.beginPath(); ctx.moveTo(cx + Math.cos(a)*inner*1.0, cy + Math.sin(a)*inner*1.25);
-        ctx.lineTo(cx + Math.cos(a-wdt)*outer, cy + Math.sin(a-wdt)*outer); ctx.lineTo(cx + Math.cos(a+wdt)*outer, cy + Math.sin(a+wdt)*outer); ctx.closePath(); ctx.fill();
+    } else if (k==='noise'){
+      ctx.globalAlpha = amt*.55; ctx.globalCompositeOperation = 'overlay';
+      ctx.fillStyle = ctx.createPattern(noiseTile(f.mono!==false), 'repeat'); ctx.fillRect(0,0,W,H);
+      ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = amt*.12; ctx.fillRect(0,0,W,H);
+    } else if (k==='glitch'){
+      const src = snapshot(ctx, W, H), sh = Math.max(2, W*.012*amt*2);
+      const tint = (col) => { const t = h('canvas',{width:W, height:H}), x = t.getContext('2d'); x.drawImage(src,0,0); x.globalCompositeOperation = 'multiply'; x.fillStyle = col; x.fillRect(0,0,W,H); x.globalCompositeOperation = 'destination-in'; x.drawImage(src,0,0); return t; };
+      ctx.globalCompositeOperation = 'screen'; ctx.globalAlpha = .55*amt; ctx.drawImage(tint('#ff0040'), -sh, 0); ctx.drawImage(tint('#00e5ff'), sh, 0);
+      ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+      const n = 3 + Math.round(amt*7);
+      for (let i=0;i<n;i++){ const y = R()*H, hh = H*(.01 + R()*.05), dx = (R()-.5)*W*.12*amt; ctx.drawImage(src, 0, y, W, hh, dx, y, W, hh); }
+    } else if (k==='grad'){
+      const c = rgbOf(f.color); let g;
+      if (f.dir==='edge'){ g = ctx.createRadialGradient(W/2, H/2, Math.min(W,H)*.25, W/2, H/2, Math.hypot(W,H)*.55); g.addColorStop(0,`rgba(${c},0)`); g.addColorStop(1,`rgba(${c},${amt})`); }
+      else {
+        const [x0,y0,x1,y1] = { top:[0,0,0,H], bottom:[0,H,0,0], left:[0,0,W,0], right:[W,0,0,0] }[f.dir||'top'] || [0,0,0,H];
+        g = ctx.createLinearGradient(x0,y0,x1,y1); g.addColorStop(0,`rgba(${c},${amt})`); g.addColorStop(.65,`rgba(${c},${amt*.15})`); g.addColorStop(1,`rgba(${c},0)`);
       }
-    } else if (k==='warm' || k==='cold' || k==='rose'){
-      const c = { warm:['255,160,70','255,214,150'], cold:['40,90,170','120,170,230'], rose:['255,120,170','255,200,220'] }[k];
-      ctx.globalCompositeOperation = 'soft-light'; ctx.fillStyle = `rgba(${c[0]},.55)`; ctx.fillRect(0,0,W,H);
-      ctx.globalCompositeOperation = 'source-over';
-      const g = ctx.createLinearGradient(0,0,0,H); g.addColorStop(0, `rgba(${c[1]},.22)`); g.addColorStop(1, `rgba(${c[0]},.08)`); ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
-    } else if (k==='flash'){
-      const cx = W*(.4+R()*.2), cy = H*(.35+R()*.2), n = 46, outer = Math.hypot(W,H);
-      const g = ctx.createRadialGradient(cx,cy,0,cx,cy,Math.max(W,H)*.45); g.addColorStop(0,'rgba(255,255,255,.95)'); g.addColorStop(.35,'rgba(255,255,255,.55)'); g.addColorStop(1,'rgba(255,255,255,0)');
-      ctx.fillStyle = g; ctx.fillRect(0,0,W,H); ctx.fillStyle = 'rgba(255,255,255,.75)';
-      for (let i=0;i<n;i++){ const a = i/n*Math.PI*2 + R()*.08, w = .012 + R()*.025; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+Math.cos(a-w)*outer, cy+Math.sin(a-w)*outer); ctx.lineTo(cx+Math.cos(a+w)*outer, cy+Math.sin(a+w)*outer); ctx.closePath(); ctx.fill(); }
-    } else if (k==='shock'){
-      // jagged filled bolts striking in from the corners
-      const bolt = (x0, y0, dirX) => {
-        const pts = [[x0, y0]]; let x = x0, y = y0; const segs = 4 + (R()*2|0), len = Math.min(W,H)*.09;
-        for (let i=0;i<segs;i++){ x += dirX*len*(.6+R()*.5); y += len*(.7+R()*.6) * (i%2 ? .45 : 1); pts.push([x + (i%2 ? -dirX*len*.55 : 0), y]); }
-        const wdt = Math.min(W,H)*.022, left = pts.map(([px,py],i)=>[px - wdt*(1 - i/pts.length), py]), right = pts.map(([px,py],i)=>[px + wdt*(1 - i/pts.length), py]).reverse();
-        ctx.beginPath(); [...left, ...right].forEach(([px,py],i)=> i ? ctx.lineTo(px,py) : ctx.moveTo(px,py)); ctx.closePath();
-        ctx.fillStyle = dark ? '#ffffff' : '#141418'; ctx.strokeStyle = dark ? '#141418' : '#ffffff'; ctx.lineWidth = Math.max(2, W*.005); ctx.lineJoin = 'miter'; ctx.stroke(); ctx.fill();
-      };
-      bolt(W*(.04+R()*.08), -H*.02, 1); bolt(W*(.96-R()*.08), -H*.02, -1);
-      if (R() < .6) bolt(W*(.5+(R()-.5)*.2), -H*.02, R()<.5 ? 1 : -1);
-    } else if (k==='heart' || k==='petal'){
-      const n = k==='heart' ? 9 : 22;
-      for (let i=0;i<n;i++){
-        const x = R()*W, y = R()*H, s = W*(k==='heart' ? .025+R()*.035 : .012+R()*.016), rot = (R()-.5)*1.4;
-        ctx.save(); ctx.translate(x,y); ctx.rotate(rot); ctx.globalAlpha = .55 + R()*.4;
-        if (k==='heart'){
-          ctx.fillStyle = R()<.5 ? '#ff6f9c' : '#ffb3c9'; ctx.strokeStyle = '#ffffff'; ctx.lineWidth = s*.18;
-          ctx.beginPath(); ctx.moveTo(0, s*.35); ctx.bezierCurveTo(-s*1.1, -s*.35, -s*.45, -s*1.05, 0, -s*.42); ctx.bezierCurveTo(s*.45, -s*1.05, s*1.1, -s*.35, 0, s*.35); ctx.closePath(); ctx.fill(); ctx.stroke();
-        } else {
-          ctx.fillStyle = R()<.5 ? '#ffc4d6' : '#ffe0ea';
-          ctx.beginPath(); ctx.moveTo(0,-s); ctx.quadraticCurveTo(s*.9, -s*.2, 0, s); ctx.quadraticCurveTo(-s*.9, -s*.2, 0, -s); ctx.fill();
+      ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+    } else if (k==='leak'){
+      const c = rgbOf(f.color); ctx.globalCompositeOperation = 'screen';
+      const [x,y] = { top:[W*.85,-H*.05], bottom:[W*.15,H*1.05], left:[-W*.05,H*.2], right:[W*1.05,H*.3] }[f.dir||'top'] || [W*.85,-H*.05];
+      const r = Math.max(W,H)*.75, g = ctx.createRadialGradient(x,y,0,x,y,r); g.addColorStop(0,`rgba(${c},${.85*amt})`); g.addColorStop(.4,`rgba(${c},${.35*amt})`); g.addColorStop(1,`rgba(${c},0)`);
+      ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+    } else {
+      ctx.globalAlpha = amt;
+      if (k==='vignette'){
+        const g = ctx.createRadialGradient(W/2, H/2, Math.min(W,H)*.32, W/2, H/2, Math.hypot(W,H)*.56);
+        g.addColorStop(0,'rgba(0,0,0,0)'); g.addColorStop(1,'rgba(0,0,0,.75)'); ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+      } else if (k==='bloom'){
+        const c = rgbOf(f.color); ctx.globalCompositeOperation = 'screen';
+        const blobs = [[cx, cy, .5], [W*(.15+R()*.7), H*(.1+R()*.6), .32], [W*(.15+R()*.7), H*(.3+R()*.6), .28]];
+        for (const [x,y,s] of blobs){ const r = Math.max(W,H)*(.3+s*.4); const g = ctx.createRadialGradient(x,y,0,x,y,r); g.addColorStop(0,`rgba(${c},${.45+s*.3})`); g.addColorStop(1,`rgba(${c},0)`); ctx.fillStyle = g; ctx.fillRect(0,0,W,H); }
+        ctx.globalCompositeOperation = 'source-over'; ctx.fillStyle = `rgba(${c},.08)`; ctx.fillRect(0,0,W,H);
+      } else if (k==='sparkle'){
+        const n = Math.round(26 + W/40);
+        for (let i=0;i<n;i++){
+          const x = R()*W, y = R()*H, r = W*(.004 + R()*.012);
+          const g = ctx.createRadialGradient(x,y,0,x,y,r*2.4); g.addColorStop(0,'rgba(255,255,255,.95)'); g.addColorStop(1,'rgba(255,255,255,0)');
+          ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x,y,r*2.4,0,Math.PI*2); ctx.fill();
+          if (R() < .22){ ctx.fillStyle = 'rgba(255,255,255,.9)'; starPath(ctx, x, y, r*4.5); ctx.fill(); }
         }
-        ctx.restore();
-      }
-    } else if (k==='tone'){
-      const step = Math.max(5, W/70);
-      for (let y=0; y<H; y+=step) for (let x=((y/step)%2)*step/2; x<W; x+=step){
-        const d = Math.hypot(x/W-.5, (y/H-.5)*1.1) * 2; const r = step*.42*Math.max(0, Math.min(1, (d-.35)*1.4)); if (r < .4) continue;
-        ctx.fillStyle = dark ? 'rgba(255,255,255,.35)' : 'rgba(20,20,24,.38)'; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
-      }
-    } else if (k==='hatch'){
-      const step = Math.max(4, W/90); ctx.strokeStyle = dark ? 'rgba(255,255,255,.25)' : 'rgba(10,10,20,.42)'; ctx.lineWidth = Math.max(1, step*.28);
-      const g = ctx.createLinearGradient(0,0,0,H*.65); g.addColorStop(0,'#000'); g.addColorStop(1,'rgba(0,0,0,0)');
-      const off = h('canvas',{width:W, height:H}), o = off.getContext('2d'); o.strokeStyle = ctx.strokeStyle; o.lineWidth = ctx.lineWidth;
-      for (let x=-H; x<W; x+=step){ o.beginPath(); o.moveTo(x,0); o.lineTo(x+H*.6,H); o.stroke(); }
-      o.globalCompositeOperation = 'destination-in'; o.fillStyle = g; o.fillRect(0,0,W,H);
-      ctx.drawImage(off, 0, 0);
-    } else if (k==='aura'){
-      for (let i=0;i<26;i++){
-        const edge = R()*4|0, along = R();
-        const x = edge===0 ? along*W : edge===1 ? W : edge===2 ? along*W : 0, y = edge===0 ? 0 : edge===1 ? along*H : edge===2 ? H : along*H;
-        const rr = Math.min(W,H)*(.18+R()*.22); const g = ctx.createRadialGradient(x,y,0,x,y,rr);
-        g.addColorStop(0,'rgba(20,6,30,.75)'); g.addColorStop(.6,'rgba(40,10,60,.35)'); g.addColorStop(1,'rgba(40,10,60,0)');
-        ctx.fillStyle = g; ctx.fillRect(x-rr,y-rr,rr*2,rr*2);
-      }
-    } else if (k==='speed'){
-      const n = 60;
-      for (let i=0;i<n;i++){
-        const y = R()*H, len = W*(.25 + R()*.55), x = R()*(W - len*.5) - len*.25, t = Math.max(1, W*(.0015 + R()*.004));
-        const g = ctx.createLinearGradient(x,0,x+len,0); const c = dark ? '255,255,255' : '255,255,255';
-        g.addColorStop(0,`rgba(${c},0)`); g.addColorStop(.5,`rgba(${c},.75)`); g.addColorStop(1,`rgba(${c},0)`);
-        ctx.fillStyle = g; ctx.fillRect(x, y, len, t);
+      } else if (k==='focus'){
+        const outer = Math.hypot(W,H), n = 150;
+        ctx.fillStyle = dark ? 'rgba(255,255,255,.6)' : 'rgba(10,10,12,.6)';
+        for (let i=0;i<n;i++){
+          const a = R()*Math.PI*2, inner = Math.min(W,H)*(.28 + R()*.14), wdt = (.004 + R()*.01);
+          ctx.beginPath(); ctx.moveTo(cx + Math.cos(a)*inner, cy + Math.sin(a)*inner*1.25);
+          ctx.lineTo(cx + Math.cos(a-wdt)*outer, cy + Math.sin(a-wdt)*outer); ctx.lineTo(cx + Math.cos(a+wdt)*outer, cy + Math.sin(a+wdt)*outer); ctx.closePath(); ctx.fill();
+        }
+      } else if (k==='warm' || k==='cold' || k==='rose'){
+        const c = { warm:['255,160,70','255,214,150'], cold:['40,90,170','120,170,230'], rose:['255,120,170','255,200,220'] }[k];
+        ctx.globalCompositeOperation = 'soft-light'; ctx.fillStyle = `rgba(${c[0]},.6)`; ctx.fillRect(0,0,W,H);
+        ctx.globalCompositeOperation = 'source-over';
+        const g = ctx.createLinearGradient(0,0,0,H); g.addColorStop(0, `rgba(${c[1]},.24)`); g.addColorStop(1, `rgba(${c[0]},.08)`); ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+      } else if (k==='flash'){
+        const c = rgbOf(f.color), n = 46, outer = Math.hypot(W,H);
+        const g = ctx.createRadialGradient(cx,cy,0,cx,cy,Math.max(W,H)*.45); g.addColorStop(0,`rgba(${c},.95)`); g.addColorStop(.35,`rgba(${c},.55)`); g.addColorStop(1,`rgba(${c},0)`);
+        ctx.fillStyle = g; ctx.fillRect(0,0,W,H); ctx.fillStyle = `rgba(${c},.75)`;
+        for (let i=0;i<n;i++){ const a = i/n*Math.PI*2 + R()*.08, w = .012 + R()*.025; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+Math.cos(a-w)*outer, cy+Math.sin(a-w)*outer); ctx.lineTo(cx+Math.cos(a+w)*outer, cy+Math.sin(a+w)*outer); ctx.closePath(); ctx.fill(); }
+      } else if (k==='shock'){
+        const bolt = (x0, y0, dirX) => {
+          const pts = [[x0, y0]]; let x = x0, y = y0; const segs = 4 + (R()*2|0), len = Math.min(W,H)*.09;
+          for (let i=0;i<segs;i++){ x += dirX*len*(.6+R()*.5); y += len*(.7+R()*.6) * (i%2 ? .45 : 1); pts.push([x + (i%2 ? -dirX*len*.55 : 0), y]); }
+          const wdt = Math.min(W,H)*.022, left = pts.map(([px,py],i)=>[px - wdt*(1 - i/pts.length), py]), right = pts.map(([px,py],i)=>[px + wdt*(1 - i/pts.length), py]).reverse();
+          ctx.beginPath(); [...left, ...right].forEach(([px,py],i)=> i ? ctx.lineTo(px,py) : ctx.moveTo(px,py)); ctx.closePath();
+          ctx.fillStyle = dark ? '#ffffff' : '#141418'; ctx.strokeStyle = dark ? '#141418' : '#ffffff'; ctx.lineWidth = Math.max(2, W*.005); ctx.lineJoin = 'miter'; ctx.stroke(); ctx.fill();
+        };
+        bolt(W*(.04+R()*.08), -H*.02, 1); bolt(W*(.96-R()*.08), -H*.02, -1);
+        if (R() < .6) bolt(W*(.5+(R()-.5)*.2), -H*.02, R()<.5 ? 1 : -1);
+      } else if (k==='heart' || k==='petal'){
+        const n = k==='heart' ? 9 : 22;
+        for (let i=0;i<n;i++){
+          const x = R()*W, y = R()*H, s = W*(k==='heart' ? .025+R()*.035 : .012+R()*.016), rot = (R()-.5)*1.4;
+          ctx.save(); ctx.translate(x,y); ctx.rotate(rot); ctx.globalAlpha = amt*(.55 + R()*.4);
+          if (k==='heart'){
+            ctx.fillStyle = R()<.5 ? '#ff6f9c' : '#ffb3c9'; ctx.strokeStyle = '#ffffff'; ctx.lineWidth = s*.18;
+            ctx.beginPath(); ctx.moveTo(0, s*.35); ctx.bezierCurveTo(-s*1.1, -s*.35, -s*.45, -s*1.05, 0, -s*.42); ctx.bezierCurveTo(s*.45, -s*1.05, s*1.1, -s*.35, 0, s*.35); ctx.closePath(); ctx.fill(); ctx.stroke();
+          } else {
+            ctx.fillStyle = R()<.5 ? '#ffc4d6' : '#ffe0ea';
+            ctx.beginPath(); ctx.moveTo(0,-s); ctx.quadraticCurveTo(s*.9, -s*.2, 0, s); ctx.quadraticCurveTo(-s*.9, -s*.2, 0, -s); ctx.fill();
+          }
+          ctx.restore();
+        }
+      } else if (k==='tone'){
+        const step = Math.max(5, W/70);
+        ctx.fillStyle = dark ? 'rgba(255,255,255,.4)' : 'rgba(20,20,24,.45)';
+        for (let y=0; y<H; y+=step) for (let x=((y/step)%2)*step/2; x<W; x+=step){
+          const d = Math.hypot(x/W-.5, (y/H-.5)*1.1) * 2; const r = step*.42*Math.max(0, Math.min(1, (d-.35)*1.4)); if (r < .4) continue;
+          ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+        }
+      } else if (k==='hatch'){
+        const step = Math.max(4, W/90);
+        const g = ctx.createLinearGradient(0,0,0,H*.65); g.addColorStop(0,'#000'); g.addColorStop(1,'rgba(0,0,0,0)');
+        const off = h('canvas',{width:W, height:H}), o = off.getContext('2d'); o.strokeStyle = dark ? 'rgba(255,255,255,.3)' : 'rgba(10,10,20,.5)'; o.lineWidth = Math.max(1, step*.28);
+        for (let x=-H; x<W; x+=step){ o.beginPath(); o.moveTo(x,0); o.lineTo(x+H*.6,H); o.stroke(); }
+        o.globalCompositeOperation = 'destination-in'; o.fillStyle = g; o.fillRect(0,0,W,H);
+        ctx.drawImage(off, 0, 0);
+      } else if (k==='aura'){
+        for (let i=0;i<26;i++){
+          const edge = R()*4|0, along = R();
+          const x = edge===0 ? along*W : edge===1 ? W : edge===2 ? along*W : 0, y = edge===0 ? 0 : edge===1 ? along*H : edge===2 ? H : along*H;
+          const rr = Math.min(W,H)*(.18+R()*.22); const g = ctx.createRadialGradient(x,y,0,x,y,rr);
+          g.addColorStop(0,'rgba(20,6,30,.75)'); g.addColorStop(.6,'rgba(40,10,60,.35)'); g.addColorStop(1,'rgba(40,10,60,0)');
+          ctx.fillStyle = g; ctx.fillRect(x-rr,y-rr,rr*2,rr*2);
+        }
+      } else if (k==='speed'){
+        const n = 60, dir = f.dir || 'h';
+        ctx.translate(W/2, H/2); ctx.rotate(dir==='v' ? Math.PI/2 : dir==='d' ? -Math.PI/5 : 0);
+        const L = Math.hypot(W,H);
+        for (let i=0;i<n;i++){
+          const y = (R()-.5)*L, len = L*(.2 + R()*.45), x = (R()-.5)*L - len/2, t = Math.max(1, W*(.0015 + R()*.004));
+          const g = ctx.createLinearGradient(x,0,x+len,0); const c = dark ? '255,255,255' : '255,255,255';
+          g.addColorStop(0,`rgba(${c},0)`); g.addColorStop(.5,`rgba(${c},.8)`); g.addColorStop(1,`rgba(${c},0)`);
+          ctx.fillStyle = g; ctx.fillRect(x, y, len, t);
+        }
       }
     }
     ctx.restore();
@@ -2095,8 +2206,7 @@ function panelView(pn, i){
     ...GAPS.map(([g,t])=>h('button',{type:'button', text:`아래 간격: ${t}${(pn.gap??null)===g?' ✓':''}`, onclick:()=>{ pn.gap=g; pop.hidden=true; save(); rerenderPanel(pn); }})),
     h('hr'),
     h('button',{type:'button', text:'NovelAI에 보낼 프롬프트 보기', onclick:()=>{ pop.hidden=true; showPrompt(pn); }}),
-    h('div',{class:'pop-lbl', text:'만화 효과 (여러 개 가능)'}),
-    ...Object.entries(FX).map(([k,t])=>h('button',{type:'button', text:`효과: ${t}${(pn.fx||[]).includes(k)?' ✓':''}`, onclick:()=>{ pn.fx = (pn.fx||[]).includes(k) ? pn.fx.filter(x=>x!==k) : [...(pn.fx||[]), k]; pop.hidden=true; save(); rerenderPanel(pn); }})),
+    h('button',{type:'button', text:'효과 편집 열기 (섬광·노이즈·아웃포커스 등)', onclick:()=>{ pop.hidden=true; openFxTools(pn); }}),
     h('div',{class:'pop-lbl', text:'컷 틀'}),
     ...Object.entries(FRAMES).map(([k,t])=>h('button',{type:'button', text:`틀: ${t}${(pn.frame||'')===k?' ✓':''}`, onclick:()=>{ pn.frame=k; pop.hidden=true; save(); rerenderPanel(pn); }})),
     h('hr'),
@@ -2105,8 +2215,8 @@ function panelView(pn, i){
     h('button',{type:'button', text:'컷 삭제', style:'color:var(--bad)', onclick:()=>{ P.panels=P.panels.filter(x=>x!==pn); save(); renderBoard(); }}));
   more.append(h('button',{class:'btn ghost sm', type:'button', text:'⋯', 'aria-label':'컷 메뉴', onclick:(e)=>{ e.stopPropagation(); closePops(pop); pop.hidden=!pop.hidden; }}), pop);
   const bar = h('div',{class:'pv-bar'},
-    h('span',{class:'lbl'}, `컷 ${String(i+1).padStart(2,'0')} · ${RATIO_LABEL[pn.ratio]}${isImg?'':' · '+KIND_LABEL[pn.kind]}${pn.filter?' · '+FILTER_LABEL[pn.filter]:''}${(pn.fx||[]).length?' · '+pn.fx.map(k=>FX[k]).join('·'):''}${pn.frame?' · '+FRAMES[pn.frame]:''}`, isImg ? statusPill(pn) : h('span',{class:'pill', text:'연출 컷'}), blocked.length ? h('button',{class:'pill err', type:'button', style:'border:0;cursor:pointer', title: blockTitle, text:'외형 태그 필요', onclick:openCastTab}) : null, (isImg && S.sub && S.sub!=='bad') ? h('span',{class:'pill', text: cost ? `${cost*cands} Anlas` : '무료'}) : null),
-    genBtn, newBtn, more);
+    h('span',{class:'lbl'}, `컷 ${String(i+1).padStart(2,'0')} · ${RATIO_LABEL[pn.ratio]}${isImg?'':' · '+KIND_LABEL[pn.kind]}${pn.filter?' · '+FILTER_LABEL[pn.filter]:''}${(pn.fx||[]).length?' · '+pn.fx.map(f=>FX[fxKey(f)]).join('·'):''}${pn.frame?' · '+FRAMES[pn.frame]:''}`, isImg ? statusPill(pn) : h('span',{class:'pill', text:'연출 컷'}), blocked.length ? h('button',{class:'pill err', type:'button', style:'border:0;cursor:pointer', title: blockTitle, text:'외형 태그 필요', onclick:openCastTab}) : null, (isImg && S.sub && S.sub!=='bad') ? h('span',{class:'pill', text: cost ? `${cost*cands} Anlas` : '무료'}) : null),
+    genBtn, newBtn, h('button',{class:'btn ghost sm'+(S.fxEdit===pn.id?' on':''), type:'button', text:'효과', title:'섬광·노이즈·그라데이션·아웃포커스 같은 효과를 그림 위에 얹어요', 'aria-pressed':String(S.fxEdit===pn.id), onclick:()=>{ S.fxEdit===pn.id ? closeFxTools(pn) : openFxTools(pn); }}), more);
   const err = pn.error ? h('div',{class:'small', style:`color:${pn.status==='err'?'var(--bad)':'var(--warn)'}`, text:pn.error}) : null;
   const lines = h('div',{class:'lines'});
   pn.lines.forEach(ln=>lines.append(lineEditor(pn, ln)));
@@ -2121,9 +2231,10 @@ function panelView(pn, i){
     ...pn.versions.map((v,k)=>h('button',{type:'button', class:'vthumb'+(k===pn.vi?' on':''), 'aria-pressed':String(k===pn.vi), title:`버전 ${k+1}${v.seed!=null?' · 시드 '+v.seed:''}`, onclick:()=>{ pickVersion(pn,k); save(); rerenderPanel(pn); }}, h('img',{src:v.img, alt:`버전 ${k+1}`}))),
     h('span',{class:'vinfo', text:`${pn.vi+1} / ${pn.versions.length}`}),
     pn.versions.length>1 ? h('button',{type:'button', class:'btn ghost sm', text:'이 버전 삭제', onclick:()=>{ dropVersion(pn, pn.vi); save(); rerenderPanel(pn); updateRunStat(); }}) : null) : null;
-  const el = h('div',{class:'pv', id:'pv-'+pn.id}, bar, err, stage, strip, tools, det);
+  const fxTools = buildFxTools(pn);
+  const el = h('div',{class:'pv', id:'pv-'+pn.id}, bar, err, stage, strip, fxTools, tools, det);
   const gapMul = pn.gap ?? 1; if (gapMul!==1) el.style.marginBottom = `${Math.round(22*(gapMul-1))}px`;
-  const v = { el, canvas, stage, tools, layouts:{}, W:0, H:0, idx:i, blocked: blocked.length>0 };
+  const v = { el, canvas, stage, tools, fxTools, layouts:{}, W:0, H:0, idx:i, blocked: blocked.length>0 };
   views.set(pn.id, v);
   bindCanvas(pn, v);
   return el;
@@ -2248,6 +2359,65 @@ function showPrompt(pn){
   m.append(card); m.addEventListener('click', e=>{ if (e.target===m) close(); }); document.addEventListener('keydown', esc);
   document.body.append(m);
 }
+/* ---- effect tool: add, tune and remove overlays per panel, like the bubble toolbar ---- */
+const FX_COLORS = [['#ffffff','흰색'],['#fff1b8','햇빛'],['#ffb36b','주황'],['#ff8fb3','분홍'],['#c9a6ff','보라'],['#8cc8ff','하늘'],['#5f6dff','남색'],['#15171a','검정']];
+function openFxTools(pn){ S.fxEdit = pn.id; if (S.fxSel==null || S.fxSel.p!==pn.id) S.fxSel = {p:pn.id, i: (pn.fx||[]).length ? 0 : -1}; rerenderPanel(pn); requestAnimationFrame(()=>views.get(pn.id)?.fxTools?.scrollIntoView({block:'nearest', behavior:'smooth'})); }
+function closeFxTools(pn){ S.fxEdit = null; S.fxPick = null; rerenderPanel(pn); }
+function refreshFxTools(pn){ const v = views.get(pn.id); if (!v) return; const n = buildFxTools(pn); v.fxTools.replaceWith(n); v.fxTools = n; }
+function buildFxTools(pn){
+  const box = h('div',{class:'fxtools', hidden: S.fxEdit!==pn.id});
+  if (S.fxEdit!==pn.id) return box;
+  pn.fx = (pn.fx||[]).map(f=>typeof f==='string' ? {k:f} : f);
+  let si = S.fxSel && S.fxSel.p===pn.id ? S.fxSel.i : -1; if (si >= pn.fx.length) si = pn.fx.length - 1;
+  const sel = si>=0 ? pn.fx[si] : null;
+  const pick = i => { S.fxSel = {p:pn.id, i}; refreshFxTools(pn); };
+  const live = () => drawOne(pn);
+  const commit = () => { save(); drawOne(pn); refreshFxTools(pn); };
+  const head = h('div',{class:'fx-head'}, h('b',{text:'효과 편집'}), h('span',{class:'small muted', text:'그림 위에만 얹어요. NovelAI로는 보내지 않아요.'}), h('span',{class:'bt-gap'}),
+    h('button',{class:'btn ghost sm', type:'button', text:'닫기', onclick:()=>closeFxTools(pn)}));
+  const chips = h('div',{class:'fx-chips', role:'group', 'aria-label':'이 컷의 효과'},
+    ...(pn.fx.length ? pn.fx.map((f,i)=>h('span',{class:'fx-chip'+(i===si?' on':'')},
+      h('button',{type:'button', class:'fx-chip-b', 'aria-pressed':String(i===si), text:FX[f.k]||f.k, onclick:()=>pick(i)}),
+      h('button',{type:'button', class:'fx-x', 'aria-label':`${FX[f.k]} 지우기`, text:'×', onclick:()=>{ pn.fx.splice(i,1); S.fxSel = {p:pn.id, i: Math.min(i, pn.fx.length-1)}; save(); rerenderPanel(pn); }})))
+      : [h('span',{class:'small muted', text:'아직 효과가 없어요. 아래에서 골라 추가하세요.'})]));
+  const add = h('div',{class:'fx-add'}, ...FX_GROUPS.map(g=>h('div',{class:'fx-grp'}, h('span',{class:'bt-lbl', text:g}),
+    ...Object.entries(FX_DEF).filter(([,d])=>d.g===g).map(([k,d])=>{
+      const at = pn.fx.findIndex(f=>f.k===k);
+      return h('button',{type:'button', class:'btn ghost sm fx-add-b'+(at>=0?' on':''), text:d.t, onclick:()=>{ if (at>=0) return pick(at); pn.fx.push({k, ...FX_DEF[k].d}); S.fxSel = {p:pn.id, i:pn.fx.length-1}; save(); rerenderPanel(pn); }});
+    }))));
+  box.append(head, chips);
+  if (sel){
+    const d = FX_DEF[sel.k] || {p:[], d:{}}; const n = fxNorm(sel); Object.assign(sel, n);
+    const amtOut = h('span',{class:'bt-val', text: Math.round(n.amt*100)+'%'});
+    const ctl = h('div',{class:'fx-ctl'},
+      h('div',{class:'bt-row'}, h('span',{class:'bt-lbl', text:`${d.t} 세기`}),
+        h('input',{type:'range', min:'0.05', max:'1', step:'0.05', value:String(n.amt), class:'bt-range', 'aria-label':'효과 세기', oninput:e=>{ sel.amt = +e.target.value; amtOut.textContent = Math.round(sel.amt*100)+'%'; live(); }, onchange:()=>save()}), amtOut));
+    const seg = (label, opts, key) => h('div',{class:'bt-row'}, h('span',{class:'bt-lbl', text:label}),
+      h('div',{class:'seg', role:'group', 'aria-label':label}, ...opts.map(([v,t])=>h('button',{type:'button', class:(sel[key]??'')===v?'on':'', 'aria-pressed':String((sel[key]??'')===v), text:t, onclick:()=>{ sel[key] = v; commit(); }}))));
+    if (d.p.includes('blur')) ctl.append(seg('흐리는 곳', [['edge','가장자리'],['band','위아래'],['all','전체']], 'mode'));
+    if (d.p.includes('dir')) ctl.append(seg('방향', sel.k==='leak' ? [['top','오른쪽 위'],['left','왼쪽'],['right','오른쪽'],['bottom','왼쪽 아래']] : [['top','위에서'],['bottom','아래에서'],['left','왼쪽에서'],['right','오른쪽에서'],['edge','가장자리']], 'dir'));
+    if (d.p.includes('line')) ctl.append(seg('방향', [['h','가로'],['v','세로'],['d','사선']], 'dir'));
+    if (d.p.includes('mono')) ctl.append(h('div',{class:'bt-row'}, h('span',{class:'bt-lbl', text:'색'}),
+      h('div',{class:'seg', role:'group', 'aria-label':'노이즈 색'}, ...[[true,'흑백'],[false,'컬러']].map(([v,t])=>h('button',{type:'button', class:(sel.mono!==false)===v?'on':'', 'aria-pressed':String((sel.mono!==false)===v), text:t, onclick:()=>{ sel.mono = v; commit(); }})))));
+    if (d.p.includes('color')) ctl.append(h('div',{class:'bt-row'}, h('span',{class:'bt-lbl', text:'색'}),
+      h('div',{class:'swatches', role:'group', 'aria-label':'효과 색'}, ...FX_COLORS.map(([c,t])=>h('button',{type:'button', class:'sw'+(sel.color===c?' on':''), title:t, 'aria-label':'효과 색 '+t, 'aria-pressed':String(sel.color===c), style:`--sw:${c}`, onclick:()=>{ sel.color = c; commit(); }})))));
+    if (d.p.includes('pos')){
+      const picking = S.fxPick && S.fxPick.p===pn.id;
+      const xOut = h('span',{class:'bt-val', text: Math.round(n.x*100)+''}), yOut = h('span',{class:'bt-val', text: Math.round(n.y*100)+''});
+      ctl.append(h('div',{class:'bt-row'}, h('span',{class:'bt-lbl', text: sel.k==='blur' ? '선명한 곳' : '중심'}),
+        h('button',{type:'button', class:'btn ghost sm'+(picking?' on':''), text: picking ? '그림을 눌러 주세요…' : '그림에서 찍기', onclick:()=>{ S.fxPick = picking ? null : {p:pn.id, i:si}; const v = views.get(pn.id); if (v) v.canvas.style.cursor = S.fxPick ? 'crosshair' : ''; refreshFxTools(pn); }}),
+        h('span',{class:'bt-lbl', text:'좌우'}), h('input',{type:'range', min:'0', max:'1', step:'0.01', value:String(n.x), class:'bt-range', 'aria-label':'중심 좌우', oninput:e=>{ sel.x = +e.target.value; xOut.textContent = Math.round(sel.x*100); live(); }, onchange:()=>save()}), xOut,
+        h('span',{class:'bt-lbl', text:'위아래'}), h('input',{type:'range', min:'0', max:'1', step:'0.01', value:String(n.y), class:'bt-range', 'aria-label':'중심 위아래', oninput:e=>{ sel.y = +e.target.value; yOut.textContent = Math.round(sel.y*100); live(); }, onchange:()=>save()}), yOut));
+    }
+    ctl.append(h('div',{class:'bt-row'},
+      h('button',{type:'button', class:'btn ghost sm', text:'기본값으로', onclick:()=>{ Object.assign(sel, FX_DEF[sel.k].d); commit(); }}),
+      h('button',{type:'button', class:'btn ghost sm', text:'이 효과를 모든 컷에 복사', onclick:()=>{ let n2 = 0; P.panels.forEach(p=>{ if (p===pn || (p.kind||'image')!=='image') return; p.fx = (p.fx||[]).filter(f=>fxKey(f)!==sel.k); p.fx.push({...sel}); n2++; }); save(); redrawAll(); toast(`${FX[sel.k]}을(를) ${n2}컷에 복사했어요.`); }}),
+      h('button',{type:'button', class:'btn danger sm', text:'이 효과 지우기', onclick:()=>{ pn.fx.splice(si,1); S.fxSel = {p:pn.id, i: Math.min(si, pn.fx.length-1)}; save(); rerenderPanel(pn); }})));
+    box.append(ctl);
+  }
+  box.append(add);
+  return box;
+}
 function refreshTools(pn){ const v=views.get(pn.id); if (!v) return; const n=buildTools(pn); v.tools.replaceWith(n); v.tools=n; }
 function movePanel(pn, d){ const i=P.panels.indexOf(pn), j=i+d; if (j<0||j>=P.panels.length) return; [P.panels[i],P.panels[j]]=[P.panels[j],P.panels[i]]; save(); renderBoard(); }
 function replaceImage(pn){
@@ -2297,6 +2467,11 @@ function bindCanvas(pn, v){
   const onHandle = (p, id) => { const r=v.layouts[id]?.rect; if (!r) return false; return Math.hypot(p.x-(r.x+r.w+6), p.y-(r.y+r.h+6)) < 18*(v.W/cv.clientWidth); };
   cv.addEventListener('pointerdown', e=>{
     const p = pt(e);
+    if (S.fxPick && S.fxPick.p===pn.id){
+      const f = (pn.fx||[])[S.fxPick.i]; S.fxPick = null; cv.style.cursor = '';
+      if (f){ f.x = +clamp(p.x/v.W, 0, 1).toFixed(3); f.y = +clamp(p.y/v.H, 0, 1).toFixed(3); save(); drawOne(pn); refreshFxTools(pn); }
+      e.preventDefault(); return;
+    }
     const sel = S.selected && S.selected.p===pn.id ? S.selected.l : null;
     if (sel && onHandle(p, sel)){ const ln=pn.lines.find(l=>l.id===sel); drag={mode:'size', ln, x0:p.x, w0:ln.w}; cv.setPointerCapture(e.pointerId); e.preventDefault(); return; }
     const id = hit(p);
@@ -2358,6 +2533,7 @@ function bindSettings(){
   ];
   map.forEach(([sel,key,conv])=>{ $(sel).addEventListener('input', e=>{ st()[key] = conv ? conv(e.target.value) : e.target.value; save(); updateRunStat(); }); });
   $('#s-quality').onchange = e=>{ st().quality = e.target.checked; save(); };
+  $('#s-nofx').onchange = e=>{ st().noFxTags = e.target.checked; save(); };
   $('#s-preset').onchange = e=>{ if (!e.target.value) return; st().style = e.target.value; $('#s-style').value = e.target.value; save(); };
   $('#s-cands').onchange = e=>{ st().cands = +e.target.value; save(); updateRunStat(); renderBoard(); };
   $('#s-multiref').onchange = e=>{ st().multiRef = e.target.checked; save(); updateRunStat(); renderBoard(); };
@@ -2371,7 +2547,7 @@ function fillSettings(){
   $('#s-model').value=s.model; $('#s-custom').value=s.custom; $('#s-style').value=s.style; $('#s-neg').value=s.neg;
   $('#s-preset').value = [...$('#s-preset').options].some(o=>o.value && o.value===s.style) ? s.style : '';
   $('#s-steps').value=s.steps; $('#s-scale').value=s.scale; $('#s-sampler').value=s.sampler; $('#s-uc').value=String(s.uc);
-  $('#s-quality').checked=s.quality; $('#s-refstyle').checked=s.refStyle; $('#s-cands').value=String(s.cands||1); $('#s-multiref').checked=!!s.multiRef; $('#s-fid').value=s.fidelity; $('#s-fidv').textContent=(+s.fidelity).toFixed(2);
+  $('#s-quality').checked=s.quality; $('#s-nofx').checked = s.noFxTags !== false; $('#s-refstyle').checked=s.refStyle; $('#s-cands').value=String(s.cands||1); $('#s-multiref').checked=!!s.multiRef; $('#s-fid').value=s.fidelity; $('#s-fidv').textContent=(+s.fidelity).toFixed(2);
   $('#s-expw').value=String(s.expW); $('#s-split').value=String(s.split); $('#s-gut').value=s.gutter; $('#s-gutv').textContent=Math.round(s.gutter*100)+'%';
   $('#s-fs').value=s.fontScale; $('#s-fsv').textContent=Math.round(s.fontScale*1000)/10+'%'; $('#s-host').value=s.host;
 }
@@ -2504,9 +2680,12 @@ const SCRIPT_RULES = `[각색 원칙: 글을 "장면"으로 바꾸기]
 - 클로즈업과 넓은 컷을 번갈아 리듬을 만든다. 눈·입술·손끝 같은 극단적 클로즈업(eye focus, hand focus, lips)도 쓴다.
 - 대사 없는 컷(표정만, 손만, 풍경만)을 아끼지 말 것. 침묵·망설임·여운은 말없는 컷 하나와 "간격: 넓게"로 보여준다.
 - 대사 다음에는 듣는 사람의 반응 컷을 둔다.
-- 감정은 연출로 과장한다(만화적 허용). 모든 컷에 쓰지 말고 감정이 꺾이는 컷에만:
-  놀람·고백 = 집중선 / 깨달음·각성 = 섬광 / 충격·분노 = 충격 번개 / 설렘 = 하트 또는 반짝임 / 다정함·아름다운 순간 = 빛번짐, 꽃잎, 분홍빛
-  긴장·불안 = 비네팅 / 우울·절망 = 사선 그늘, 푸른빛 / 위협·살기 = 검은 오라 / 회상·따뜻한 기억 = 노을빛 / 만화풍 강조 = 스크린톤 / 급한 움직임 = 속도선
+- 그림이 같고 나레이션만 다른 컷을 연달아 만들지 않는다. 그럴 땐 한 컷에 나레이션 2개를 넣거나, 구도·각도·인물을 바꾼다.
+- 비율: 정사각은 클로즈업 강조에만 쓴다. 세로 스크롤 웹툰의 기본은 세로 컷이다(비율 줄 생략).
+- "no humans" 컷은 풍경·사물만. 손·귀·입술처럼 몸이 나오거나 움찔·떨림 같은 반응이 있으면 인물 줄을 쓰고 hand focus 같은 태그를 더한다.
+- another's가 들어간 접촉 태그(head on another's shoulder 등)를 쓴 컷에는 상대 인물도 반드시 함께 그린다.
+- 감정은 구도·표정·대사 없는 컷·간격으로 보여준다. "연출:" 줄은 쓰지 않는다(섬광·집중선·노이즈 같은 효과는 작가가 따로 얹는다).
+- 그림 태그에 화면 효과를 넣지 않는다: light particles, lens flare, sparkle, glowing, bloom, light rays, speed lines, emphasis lines, motion lines, motion blur, depth of field, blurry, bokeh, film grain, chromatic aberration, gradient 금지.
 - 소리와 몸의 반응은 효과음으로 그린다: 효과음: 두근 / 툭 / 움찔 / 찰박 / 쿵. 원문에 있는 소리·움직임에서만 뽑는다.
 - 작은 디테일 컷(손끝, 떨어지는 물방울, 쥔 옷자락)은 "틀: 작게 가운데"로 작게 넣어 시선을 붙잡는다.
 - 장면 전환·시간 경과는 "컷: 검은 화면" 또는 "간격: 아주 넓게"로 호흡을 끊는다.
@@ -2535,7 +2714,7 @@ const SCRIPT_RULES = `[각색 원칙: 글을 "장면"으로 바꾸기]
 시선: looking at another, looking at viewer, looking away, looking down, looking up, looking back, eye contact, eyes closed 대신 closed eyes
 행동·자세: hug, hug from behind, head on another's shoulder, leaning on another, holding hands, hand on another's cheek, hand on another's head, hand on another's back, stroking another's hair, touching another's ear, kiss, kiss on forehead, whispering, sitting, kneeling, lying, reaching out, trembling, flinch, sleeping, bathing, partially submerged
 구도·각도: close-up, portrait, upper body, cowboy shot, full body, wide shot, from side, from behind, from above, from below, pov, dutch angle, hand focus, foot focus
-환경·조명: indoors, outdoors, onsen, bath, bathtub, bedroom, bed, rain, snow, wind, fog, steam, water, water drop, wet, wet hair, sunlight, moonlight, candlelight, dim lighting, soft lighting, backlighting, dramatic lighting, light particles, depth of field
+환경·조명: indoors, outdoors, onsen, bath, bathtub, bedroom, bed, rain, snow, wind, fog, steam, water, water drop, wet, wet hair, sunlight, moonlight, candlelight, dim lighting, soft lighting, backlighting, dramatic lighting
 
 [출력 형식: 이것만 출력, 설명·인사·마크다운 금지]
 # 컷
@@ -2551,7 +2730,6 @@ const SCRIPT_RULES = `[각색 원칙: 글을 "장면"으로 바꾸기]
 컷: 검은 화면 | 흰 화면     ← 그림 없이 글자만 띄우는 호흡 컷
 필터: 흑백 | 세피아 | 회상   ← 회상·과거 장면일 때
 간격: 좁게 | 넓게 | 아주 넓게 ← 이 컷 아래 여백
-연출: 집중선 | 속도선 | 반짝임 | 빛번짐 | 비네팅 | 섬광 | 충격 번개 | 하트 | 꽃잎 | 스크린톤 | 사선 그늘 | 검은 오라 | 노을빛 | 푸른빛 | 분홍빛  ← 쉼표로 최대 2개
 회상: 과거 기억 속 문장 (가장자리가 흐린 상자) · 편지: 편지·메모·문자 내용
 틀: 테두리 | 작게 가운데 | 작게 왼쪽 | 작게 오른쪽 ← 작은 디테일 컷
 
@@ -2580,7 +2758,6 @@ ${b}(closed eyes, head on another's shoulder, leaning on another)
 # 컷
 비율: 정사각
 장면: 1${ga}, close-up, portrait, onsen, night, moonlight, steam, wet hair, blush
-연출: 빛번짐
 ${a}(blush, parted lips, looking down) 속삭임: …편해?
 ${a} 생각: 심장 소리, 들리면 안 되는데.`;
 }
@@ -2678,7 +2855,8 @@ function checkScript(script, hints={}, extra=''){
     if (!cur){ if (!l.trim()) continue; cur = {head:'# 컷', lines:[]}; panels.push(cur); }
     cur.lines.push(l);
   }
-  const fixes = []; let timeFixed = 0, placeFixed = 0, prev = []; const placeDropped = new Set();
+  const fixes = []; let timeFixed = 0, placeFixed = 0, prev = [], lastTalk = '', autoFx = 0, fxTagN = 0; const fxTagSeen = new Set(); const placeDropped = new Set();
+  directPass(panels, fixes, 'merge');
   const placeTags = (hints.placeTags||'').split(',').map(t=>t.trim().toLowerCase()).filter(Boolean);
   const PLACES = placeTagSet();
   const order = []; String(script).split('\n').forEach(l=>{ const hit = nameAt(l.trim()); if (hit && castByName(hit.n) && !order.includes(hit.n)) order.push(hit.n); });
@@ -2693,6 +2871,7 @@ function checkScript(script, hints={}, extra=''){
       const s = l.trim();
       const fxm = s.match(/^(연출|효과|틀)\s*[:：]\s*(.*)$/);
       if (fxm){
+        if (fxm[1]!=='틀' && hints.auto){ autoFx++; return null; }
         if (fxm[1]==='틀'){ const f = parseFrame(fxm[2]); if (!f && fxm[2].trim() && !/꽉/.test(fxm[2])){ note(`알 수 없는 틀 "${fxm[2].trim()}" 삭제`); return null; } return f ? '틀: ' + FRAMES[f] : null; }
         const fx = parseFx(fxm[2]); if (!fx.length){ note(`알 수 없는 연출 "${fxm[2].trim()}" 삭제`); return null; }
         return '연출: ' + fx.map(k=>FX[k]).join(', ');
@@ -2708,12 +2887,43 @@ function checkScript(script, hints={}, extra=''){
     if (si<0){ p.lines.unshift('장면: '); si = 0; note('장면 줄 추가'); }
     let tags = p.lines[si].replace(/^\s*(장면|배경|scene)\s*[:：]\s*/i,'').split(',');
     const c1 = cleanTagList(tags); tags = c1.out; if (c1.fixed.length) note(`장면 태그 정리 (${c1.fixed.join(', ')})`);
+    const fxT = tags.filter(t=>EFFECT_TAG_RE.test(t.trim())); if (fxT.length){ tags = tags.filter(t=>!fxT.includes(t)); fxT.forEach(t=>fxTagSeen.add(t.trim())); fxTagN++; }
+    p.lines = p.lines.map(l=>{ const hit = nameAt(l.trim()); if (!hit) return l; return l.replace(/\(([^)]*)\)/, (m, inner)=>{ const all = inner.split(',').map(t=>t.trim()).filter(Boolean), bad = all.filter(t=>EFFECT_TAG_RE.test(t)); if (!bad.length) return m; bad.forEach(t=>fxTagSeen.add(t)); fxTagN++; const keep = all.filter(t=>!bad.includes(t)); return keep.length ? `(${keep.join(', ')})` : ''; }); });
     // people in the picture must match the count tag: bring back the characters of the previous panel if lines are missing
     const want = tags.reduce((a,t)=>{ const m = t.match(/^(\d+)\s*(boy|girl|other)s?$/i); return a + (m ? +m[1] : 0); }, 0);
     if (want > drawn.length && (prev.length || order.length)){
       const add = [...prev, ...order].filter((x,k,a)=>!drawn.includes(x) && a.indexOf(x)===k).slice(0, want - drawn.length);
       if (add.length){ p.lines.splice(si+1, 0, ...add); drawn.push(...add); note(`빠진 인물 줄 추가 (${add.join(', ')})`); }
     }
+    const pool = [...prev, ...order].filter((x,k,a)=>a.indexOf(x)===k);
+    // a touch needs both people in the picture ("head on another's head" drawn alone is just a floating head)
+    if (drawn.length===1){
+      const li = p.lines.findIndex(l=>nameAt(l.trim())?.n===drawn[0]);
+      const tg = (p.lines[li]||'').match(/\(([^)]*)\)/)?.[1] || '';
+      const touch = tg.split(',').map(t=>t.trim()).filter(t=>INTERACT_RE.test(t) && !/^(eye contact|whispering)$/i.test(t));
+      const partner = pool.find(x=>x!==drawn[0]);
+      if (touch.length && partner){ p.lines.splice(li+1, 0, partner); drawn.push(partner); note(`접촉 태그(${touch[0]})는 상대가 있어야 해서 ${partner} 추가`); }
+    }
+    // "no humans" but a body part, a body state or a body reaction: the people belong in this picture
+    const BODY = /^(hand focus|foot focus|ear focus|eye focus|wet hair|partially submerged|bathing|wet|blush|tears|sweat|flinch|trembling|lips|hand)$/i;
+    const sfxLine = p.lines.find(l=>/^\s*효과음\s*[:：]/.test(l)) || '';
+    const react = Object.entries(SFX_REACT).find(([w])=>sfxLine.includes(w));
+    if (!drawn.length && pool.length && (tags.some(t=>/focus$/i.test(t)) || react)){
+      const back = pool.slice(0, Math.min(2, pool.length));
+      const target = back.find(x=>x!==lastTalk) || back[0], actor = back.find(x=>x!==target);
+      // read what caused the reaction from the original text ("귓바퀴를 쓸어내렸다. 움찔, ...")
+      const got = react ? beatFromSource(hints.source, react[0]) : {act:[], react:[]};
+      const tagsOf = n => n===target ? [react ? react[1] : '', ...got.react] : n===actor ? got.act : [];
+      back.forEach(n=>{ const t = [...new Set(tagsOf(n).filter(Boolean))]; p.lines.splice(si+1, 0, t.length ? `${n}(${t.join(', ')})` : n); });
+      if (got.act.length) note(`원문에서 ${actor} 행동 복원 (${got.act.join(', ')})`);
+      drawn.push(...back);
+      tags = tags.filter(t=>!/^(no humans|scenery)$/i.test(t));
+      if (!tags.some(t=>SHOT_LIST.includes(t.toLowerCase()))) tags.unshift('close-up');
+      note(`사람 없는 컷인데 ${react ? '몸의 반응(' + react[0] + ')' : '몸 부분'}이 있어 ${back.join(', ')} 다시 등장`);
+    } else if (!drawn.length){
+      const body = tags.filter(t=>BODY.test(t)); if (body.length){ tags = tags.filter(t=>!body.includes(t)); note(`사람 없는 컷에서 인물 태그 삭제 (${body.join(', ')})`); }
+    }
+    p.lines.forEach(l=>{ const m = l.trim().match(/^(.+?)(\(.*?\))?\s*(생각|속마음|외침|소리침|고함|속삭임|귓속말|떨림|전화|기계음|통신|각진|글자)?\s*[:：]/); const hit = m && nameAt(l.trim()); if (hit && castByName(hit.n) && !/생각|속마음/.test(m[3]||'')) lastTalk = hit.n; });
     // count tags rebuilt from the characters actually drawn
     const known = drawn.length && drawn.every(x=>genderOf(castByName(x)));
     if (known){
@@ -2744,9 +2954,70 @@ function checkScript(script, hints={}, extra=''){
     p.lines[si] = '장면: ' + tags.join(', ');
     if (drawn.length) prev = drawn.slice();
   });
+  directPass(panels, fixes, 'rhythm');
+  if (fxTagN) fixes.push(`그림 속 화면 효과 태그 삭제 (${[...fxTagSeen].slice(0,6).join(', ')}) · 이런 효과는 원고의 "효과" 버튼으로 얹어요`);
+  if (autoFx) fixes.push(`AI가 넣은 연출 효과 ${autoFx}개를 뺐어요 (효과는 원고의 "효과" 버튼으로 직접 얹어요)`);
   if (timeFixed) fixes.push(`시간 태그를 ${hints.timeFrom||'상태창'} 기준(${hints.time} → ${hints.timeTags})으로 ${timeFixed}컷 맞춤`);
   if (placeFixed) fixes.push(`장소 태그를 장소 사전(${hints.placeName}) 기준으로 ${placeFixed}컷 맞춤${placeDropped.size ? ` (${[...placeDropped].join(', ')} 삭제)` : ''}`);
   return { script: renumber(panels.map(p=>[p.head, ...p.lines].join('\n')).join('\n\n')), fixes };
+}
+/* directing pass: the picture of each panel should move. Same picture twice → merge or reframe,
+   a run of square panels → back to vertical, and a few comic effects where the feeling turns */
+function beatFromSource(src, word){
+  const out = {act:[], react:[]}; src = String(src||''); const at = src.indexOf(word); if (at<0) return out;
+  const before = splitSentences(src.slice(Math.max(0, at-220), at).replace(/\s+/g,' ')).slice(-1)[0] || '';
+  const here = (src.slice(at).match(/^[^.!?…\n]*[.!?…]?/)||[''])[0];
+  for (const [re, tags, kind] of DICT){
+    if (kind==='contact' && re.test(before)) out.act.push(...tags.split(', '));
+    if (kind==='char' && re.test(here)) out.react.push(...tags.split(', '));
+  }
+  return out;
+}
+const SFX_REACT = { '움찔':'flinch', '파르르':'trembling', '덜덜':'trembling', '부들':'trembling', '두근':'blush', '화끈':'blush', '흠칫':'surprised' };
+function directPass(panels, fixes, stage='all'){
+  const info = p => {
+    const lines = p.lines.map(l=>l.trim());
+    const sceneI = lines.findIndex(l=>/^(장면|배경|scene)\s*[:：]/i.test(l));
+    const tags = sceneI<0 ? [] : lines[sceneI].replace(/^(장면|배경|scene)\s*[:：]\s*/i,'').split(',').map(t=>t.trim()).filter(Boolean);
+    const special = lines.some(l=>/^컷\s*[:：]/.test(l) || /^```/.test(l) || /^상태창\s*[:：]/.test(l));
+    const chars = lines.filter(l=>!/^(장면|배경|scene|비율|ratio|컷|필터|간격|연출|효과|틀|나레이션|내레이션|독백|자막|상태창|효과음|회상|편지|메모)\s*[:：]/i.test(l) && /^[^:：]+(\(|$|\s*[:：])/.test(l));
+    const talk = chars.filter(l=>/[:：]/.test(l));
+    const boxes = lines.filter(l=>/^(나레이션|내레이션|독백|회상)\s*[:：]/.test(l));
+    const ratio = (lines.find(l=>/^비율\s*[:：]/.test(l))||'').replace(/^비율\s*[:：]\s*/,'') || '세로';
+    const look = chars.map(l=>l.replace(/\s*(생각|속마음|외침|속삭임|떨림|전화)?\s*[:：].*$/,'').replace(/\s+/g,'')).sort().join('|');
+    const sig = tags.filter(t=>!/^\d+(boy|girl|other)s?$/i.test(t)).slice().sort().join(',') + '#' + look;
+    return { lines, sceneI, tags, special, chars, talk, boxes, ratio, sig };
+  };
+  const note = (i, m) => fixes.push(`컷 ${i+1}: ${m}`);
+  // 1) identical pictures in a row
+  if (stage!=='rhythm') for (let i=1; i<panels.length; i++){
+    const a = info(panels[i-1]), b = info(panels[i]);
+    if (a.special || b.special || a.sceneI<0 || b.sceneI<0 || a.sig!==b.sig) continue;
+    if (!a.talk.length && !b.talk.length && a.boxes.length + b.boxes.length <= 2){
+      const keep = panels[i].lines.filter(l=>/^\s*(나레이션|내레이션|독백|회상|효과음)\s*[:：]/.test(l));
+      panels[i-1].lines.push(...keep); panels.splice(i, 1); i--;
+      note(i, '다음 컷과 그림이 같아 한 컷으로 합침 (나레이션 2개)'); continue;
+    }
+    const REFRAME = { 'upper body':'close-up', 'close-up':'upper body', 'portrait':'upper body', 'cowboy shot':'upper body', 'full body':'cowboy shot', 'wide shot':'cowboy shot' };
+    const ANGLE = ['from above','from below','from side','from behind'];
+    let tags = b.tags.slice(), changed = '';
+    const shot = tags.find(t=>REFRAME[t.toLowerCase()]);
+    if (shot){ const to = REFRAME[shot.toLowerCase()]; tags = tags.filter(t=>t.toLowerCase()!=='portrait' || to==='close-up'); tags[tags.indexOf(shot)] = to; changed = `${shot} → ${to}`; }
+    const ang = tags.find(t=>ANGLE.includes(t.toLowerCase()));
+    const next = ANGLE[(ANGLE.indexOf((ang||'from behind').toLowerCase())+1) % ANGLE.length];
+    if (ang) tags[tags.indexOf(ang)] = next; else { const k = tags.findIndex(t=>SHOT_LIST.includes(t.toLowerCase())); tags.splice(k+1, 0, next); }
+    changed += (changed ? ', ' : '') + (ang ? `${ang} → ${next}` : `${next} 추가`);
+    panels[i].lines[panels[i].lines.findIndex(l=>/^\s*(장면|배경|scene)\s*[:：]/i.test(l))] = '장면: ' + tags.join(', ');
+    note(i, `앞 컷과 그림이 같아 구도 변경 (${changed})`);
+  }
+  if (stage==='merge') return;
+  // 2) a vertical webtoon breathes in tall panels: three square panels in a row → the third goes tall
+  let run = 0;
+  panels.forEach((p, i)=>{
+    const f = info(p); if (f.special || f.sceneI<0){ run = 0; return; }
+    if (f.ratio==='정사각'){ run++; if (run===3){ p.lines = p.lines.filter(l=>!/^\s*비율\s*[:：]/.test(l)); note(i, '정사각 컷이 이어져 세로 컷으로'); run = 0; } }
+    else run = 0;
+  });
 }
 function buildContiPrompt(story, count, context={}){
   const info = hintsText(applyContext({summary:[],inner:[],acts:[],directions:[]}, context)), ctx = contextText();
@@ -3052,7 +3323,7 @@ ${scriptExample()}`;
   let next = 0;
   const workers = Array.from({length: Math.min(ADAPT_PARALLEL, textIdx.length)}, async ()=>{ while (next < textIdx.length){ const k = next++; await one(k); } });
   await Promise.all(workers);
-  const chk = checkScript(renumber(parts.filter(Boolean).join('\n\n')), pre.hints, extra);
+  const chk = checkScript(renumber(parts.filter(Boolean).join('\n\n')), {...pre.hints, source: String(source), auto: true}, extra);
   return Object.assign(new String(chk.script), { fallback: fallback.sort((a,b)=>a-b), parts: textIdx.length, lastRaw, fixes: chk.fixes, hints: pre.hints });
 }
 
@@ -3264,7 +3535,7 @@ function convertLog(raw, {map={}, extra='', context={}}={}){
   }
   flush();
   // write the script: shot choice follows the beat, avoiding three identical shots in a row
-  const shots = []; let lastFx = '';
+  const shots = [];
   const out = panels.map((p, i)=>{
     let who = p.who.filter(n=>castByName(n));
     if (!who.length && !p.sys && !Object.keys(p.anon).length && i>0 && p.stage.length && p.nar.length) who = [p.stage[0]];
@@ -3285,16 +3556,6 @@ function convertLog(raw, {map={}, extra='', context={}}={}){
     const rows = [`# 컷 ${i+1}`];
     if (ratio) rows.push('비율: ' + ratio);
     rows.push('장면: ' + scene);
-    // comic license: exaggerate the beat with an overlay effect, only where the feeling turns
-    const fx = [];
-    const allTags = Object.values(p.acts).flat().join(', ');
-    const shouted = p.lines.some(l=>l.kind==='shout') || (p.lines.length===1 && p.lines[0].text.length<=10 && /!/.test(p.lines[0].text));
-    if (shouted || /surprised, wide-eyed/.test(allTags)) fx.push('집중선');
-    else if (p.contact && FX_CONTACT.test(allTags) && !p.tense) fx.push('빛번짐');
-    if (p.motion && !fx.length) fx.push('속도선');
-    if (p.tense && !fx.includes('집중선')) fx.push('비네팅');
-    if (fx.length && lastFx !== fx.join()) rows.push('연출: ' + fx.join(', '));
-    lastFx = fx.join();
     if (p.nar.length) for (const box of literaryBoxes(p.nar, p.lines.length)) rows.push(box);
     for (const w of p.sfx) rows.push('효과음: ' + w);
     if (p.sys) rows.push(p.sys.includes('\n') ? '```\n' + p.sys + '\n```' : '상태창: ' + p.sys);
@@ -3309,7 +3570,7 @@ function convertLog(raw, {map={}, extra='', context={}}={}){
     for (const l of p.lines) rows.push(`${l.who}${tagsFor(l.who)}${KIND_WORD[l.kind]||''}: ${l.text}`);
     return rows.join('\n');
   });
-  const chk = checkScript(out.join('\n\n'), pre.hints, extra);
+  const chk = checkScript(out.join('\n\n'), {...pre.hints, source: text, auto: true}, extra);
   return { script: chk.script, panels: panels.length, fixes: chk.fixes, hints: pre.hints };
 }
 
