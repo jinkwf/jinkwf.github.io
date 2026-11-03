@@ -197,6 +197,13 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
 .pill.err{background:color-mix(in srgb,var(--bad) 14%,transparent);color:var(--bad)}
 .stage{position:relative;line-height:0}
 .stage canvas{touch-action:pan-y}
+.stage.small{width:64%}
+.prompt-pre{white-space:pre-wrap;word-break:break-word;margin:0;max-height:160px;overflow:auto;font-size:12.5px}
+.themes{display:flex;flex-wrap:wrap;gap:5px}
+.themes .th{width:24px;height:24px;border-radius:50%;border:2px solid var(--line);background:linear-gradient(135deg,var(--thf,#fff) 0 55%,var(--ths,#15171a) 55%);cursor:pointer;padding:0}
+.themes .th.on{outline:2px solid var(--blue,#2e93c9);outline-offset:2px}
+.stage.small-c{margin-inline:auto}
+.stage.small-r{margin-left:auto}
 .stage canvas{width:100%;display:block;border:1px solid var(--line);cursor:default}
 .stage textarea.edit{position:absolute;z-index:3;font:700 15px/1.4 "Nanum Gothic",sans-serif;padding:6px;border:2px solid var(--blue);border-radius:8px;background:#fff;color:#14171a;line-height:1.4;min-height:40px}
 .pv details{font-size:13px}
@@ -263,6 +270,16 @@ textarea.streaming{border-color:var(--blue);background:color-mix(in srgb,var(--b
 .fixlist{font-size:13px;color:var(--muted)}
 .fixlist summary{cursor:pointer}
 .fixlist ul{margin:6px 0 0;padding-left:18px;max-height:180px;overflow:auto}
+.placelist{display:grid;gap:10px}
+.placecard{display:grid;gap:7px;padding:12px;border:1px solid var(--line);border-radius:10px}
+.placecard .namerow{display:flex;gap:6px}
+.placecard .namerow input{font-weight:700}
+.placebox{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px;padding:8px 10px;border:1px dashed var(--line);border-radius:8px}
+.placebox select{width:auto;padding:5px 8px;font-size:13px}
+.prevcard{display:grid;gap:6px;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--paper)}
+.row.between{justify-content:space-between}
+hr.sep{border:0;border-top:1px solid var(--line);margin:4px 0;width:100%}
+.side .stabs button{font-size:13px;padding-inline:4px}
 .promptbox{font:12px/1.55 var(--mono);background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:9px;white-space:pre-wrap;word-break:break-word;color:var(--muted);margin-top:6px}
 .empty-state{text-align:center;padding:40px 16px;color:var(--muted)}
 .empty-state h3{color:var(--ink);font-size:22px;margin-bottom:6px}
@@ -459,6 +476,8 @@ textarea.streaming{border-color:var(--blue);background:color-mix(in srgb,var(--b
         <tr><td><code>서진 글자: 하아…</code></td><td>풍선 없이 글자만</td></tr>
         <tr><td><code>나레이션: 그날 밤.</code></td><td>흰 나레이션 상자</td></tr>
         <tr><td><code>독백: 그때 알았어야 했다.</code></td><td>검은 독백 상자</td></tr>
+        <tr><td><code>회상: 그날도 비가 왔다.</code></td><td>가장자리가 흐린 회상 상자 (기울임 명조)</td></tr>
+        <tr><td><code>편지: 오늘은 꼭 말할게.</code></td><td>줄 그은 종이에 손글씨 (편지·메모·문자)</td></tr>
         <tr><td><code>자막: 서울, 오후 6시</code></td><td>장소·시간 자막</td></tr>
         <tr><td><code>상태창: [퀘스트] 첫 만남</code></td><td>게임 상태창 스타일 상자</td></tr>
         <tr><td><code>```</code><br><code>[상태창]</code><br><code>호감도: 10 → 20</code><br><code>```</code></td><td>백틱 세 개로 감싼 여러 줄 상태창 (줄바꿈 그대로)</td></tr>
@@ -466,9 +485,20 @@ textarea.streaming{border-color:var(--blue);background:color-mix(in srgb,var(--b
         <tr><td><code>컷: 검은 화면</code> / <code>컷: 흰 화면</code></td><td>그림 없이 단색 배경에 글자만 얹는 연출 컷 (생성하지 않음)</td></tr>
         <tr><td><code>필터: 흑백</code> / <code>세피아</code> / <code>회상</code></td><td>그림에 색 필터 (회상은 바랜 색 + 가장자리 흰빛)</td></tr>
         <tr><td><code>간격: 붙이기</code> / <code>좁게</code> / <code>넓게</code> / <code>아주 넓게</code></td><td>이 컷 아래 여백 (호흡 조절)</td></tr>
+        <tr><td><code>연출: 집중선, 반짝임</code></td><td>그림 위에 얹는 만화 효과 (여러 개 가능): 집중선 · 속도선 · 반짝임 · 빛번짐 · 비네팅 · 섬광 · 충격 번개 · 하트 · 꽃잎 · 스크린톤 · 사선 그늘 · 검은 오라 · 노을빛 · 푸른빛 · 분홍빛</td></tr>
+        <tr><td><code>틀: 작게 가운데</code></td><td>컷 크기·테두리: 꽉 차게(기본) · 테두리 · 작게 왼쪽/가운데/오른쪽 (손끝 같은 디테일 컷)</td></tr>
       </tbody>
     </table></div>
     <p class="small muted">인물 이름은 등장인물 탭에 등록한 이름과 정확히 같아야 그 인물의 외형 태그가 붙어요. 한 컷에 인물은 3명까지가 안정적이에요. <code>장면:</code> 맨 앞에 <code>1boy</code>, <code>2boys</code>, <code>1girl, 1boy</code> 같은 인원 태그를 넣으면 인물 수가 정확해져요.</p>
+    <h3 style="font-size:18px;margin:18px 0 8px">로그 밖의 정보 알려주기: 설정·장소 탭</h3>
+    <p>플레이 로그에는 "지금 무슨 일이 일어나는지"만 있고 장소가 어떤 곳인지는 거의 안 나와요. 제작실 <b>설정·장소</b> 탭에 한 번 적어두면 각색할 때마다 자동으로 쓰여요.</p>
+    <ul>
+      <li><b>작품 설정</b>: 세계관·분위기·인물 관계. 설정 문서를 통째로 붙여넣어도 돼요. <b>설정에서 장소 뽑기</b>를 누르면 NovelAI가 설정 속 장소를 찾아 장소 사전에 넣어 줘요.</li>
+      <li><b>장소 사전</b>: 장소 이름·다른 이름·모습 설명·이미지 태그. 상태창이나 로그에 이 이름이 나오면 그 태그가 <b>모든 컷 배경에 들어가고</b>, 다른 장소 태그(bathroom 등)는 검수에서 빠져요. <b>AI로 태그 만들기</b>로 태그 초안을 받을 수 있어요.</li>
+      <li><b>이번 장면 메모</b>: 로그 변환 창에서 직전 상황·옷차림처럼 로그에 없는 걸 한두 줄 적어요. AI가 로그보다 우선해서 반영해요.</li>
+      <li><b>이전 장면 이어받기</b>: 변환한 대본을 넣으면 그 장면의 장소·시간·요약이 저장되고, 다음 로그를 변환할 때 함께 넘어가요. 다음 로그에 상태창이 없으면 장소와 시간도 이어받아요. 새 화를 만들어도 이어져요.</li>
+      <li>로그 변환 창 위쪽에 <b>어디서 장소를 찾았는지</b>(상태창·본문·이전 장면)가 보여요. 사전에 없는 장소면 <b>장소 사전에 등록</b>을 눌러 바로 추가하고 태그를 받아요.</li>
+    </ul>
     <h3 style="font-size:18px;margin:18px 0 8px">캐릭터 채팅 플레이 로그가 있다면</h3>
     <p>대본 탭의 <b>플레이 로그 변환</b>을 누르고 채팅 로그를 붙여넣으세요.</p>
     <ul>
@@ -484,6 +514,13 @@ textarea.streaming{border-color:var(--blue);background:color-mix(in srgb,var(--b
     <p><b>스토리로 대본 만들기</b>를 누르고 스토리를 붙여넣은 뒤 <b>NovelAI로 대본 만들기</b>를 누르면 같은 규칙으로 각색해요. 다른 AI를 쓰고 싶으면 요청문을 복사할 수도 있어요.</p>
     <h3 style="font-size:18px;margin:18px 0 8px">이미지 프롬프트 자동 보정</h3>
     <p>생성할 때 장면 태그에 인원 태그(1boy·2boys·1girl, 1boy 등)가 없으면 등장인물 외형 태그의 성별로 채우고, 인물이 있는데 <code>no humans</code>가 들어 있으면 빼요. 구도 태그가 없으면 인원에 맞춰 upper body나 cowboy shot을 붙여요. 등장인물 외형 태그에 <code>1boy</code>나 <code>1girl</code>을 꼭 넣어 두세요.</p>
+    <ul>
+      <li><b>순서</b>: 컷 내용(인원 → 구도 → 장소·시간·분위기) → 공통 화풍 → 품질 태그 순으로 보내요. 앞쪽 태그가 더 세게 먹어서, 화풍이 컷 내용을 덮지 않게 했어요.</li>
+      <li><b>두 인물 사이의 행동</b>: hug·kiss·hand on another's cheek 같은 태그는 NovelAI 형식(<code>source#hug</code> / <code>target#hug</code> / <code>mutual#holding hands</code>)으로 바꿔서 누가 누구에게 하는지 알려 줘요. 이런 컷은 인물 위치를 고정하지 않고 AI가 붙여 그리게 해요.</li>
+      <li><b>V5·직접 입력 모델</b>도 V4.5의 품질 태그와 제외 프리셋을 써요.</li>
+      <li>컷 메뉴(⋯)의 <b>NovelAI에 보낼 프롬프트 보기</b>로 실제로 보내는 프롬프트를 확인할 수 있어요.</li>
+      <li>그림체가 웹툰 같지 않으면 설정 탭의 <b>화풍 프리셋</b>을 골라 보세요. 캐릭터 레퍼런스를 쓰는데 표정·행동이 안 바뀌면 <b>충실도</b>를 0.6~0.75로 낮춰 보세요.</li>
+    </ul>
   </section>
 
   <section>
@@ -510,6 +547,8 @@ textarea.streaming{border-color:var(--blue);background:color-mix(in srgb,var(--b
       <li>말풍선을 <b>선택하면 컷 아래에 도구 막대</b>가 나와요. 미리보기 그림을 눌러 말풍선·상자 종류를 바로 바꾸고, 꼬리 방향(자동·왼쪽·가운데·오른쪽·없음)과 화자를 고르고, 복제·삭제할 수 있어요.</li>
       <li>종류는 말풍선·각진 말풍선·속삭임·생각·외침·떨리는 말·전화·기계음·글자만, 상자는 나레이션·독백·자막·상태창, 그리고 효과음까지 13가지예요.</li>
       <li>도구 막대에서 풍선마다 <b>글꼴</b>(나눔고딕·나눔명조·고운돋움·도현·주아·검은고딕·손글씨 2종), <b>크기</b>, <b>굵게</b>, <b>기울임</b>, <b>정렬</b>(왼쪽·가운데·오른쪽), <b>줄간격</b>, <b>자간</b>, <b>글자색</b>을 바꾸고, 효과음·글자만은 <b>기울기</b>도 조절해요.</li>
+      <li><b>색상</b>: 모양은 그대로 두고 칠만 바꿔요. 먹색·벚꽃·복숭아·레몬·민트·하늘·라일락·빛바랜 종이·밤하늘·핏빛·황금·반투명 12가지. 독백 상자는 반전색, 상태창은 그 색으로 빛나요.</li>
+      <li><b>효과</b>: 그림자 · 빛나는 후광 · 테두리 없이 부드럽게 · 굵은 테두리 · 이중 테두리 · 점선 · 그라데이션 · 흔들림 잔상 · 반짝이 · 찢긴 가장자리(나레이션·독백·편지). 효과음 글자에도 같은 효과가 들어가요.</li>
       <li>마음에 드는 서식은 <b>이 서식을 모든 "말풍선"에 적용</b>으로 같은 종류 풍선 전체에 한 번에 입히고, <b>서식 초기화</b>로 되돌려요.</li>
       <li>각 컷 아래 <b>대사 편집</b>에서도 종류와 화자를 바꾸거나 새로 추가할 수 있어요.</li>
       <li>원고에서 고친 내용은 대본 탭의 <b>원고 → 대본 반영</b>으로 대본 글에 옮길 수 있어요. 그다음 대본을 다시 적용해도 그림과 말풍선 위치가 그대로 남아요.</li>
@@ -559,13 +598,27 @@ textarea.streaming{border-color:var(--blue);background:color-mix(in srgb,var(--b
     <aside class="card side">
       <div class="stabs" role="tablist">
         <button type="button" data-t="cast" class="on">등장인물</button>
+        <button type="button" data-t="world">설정·장소</button>
         <button type="button" data-t="script">대본</button>
-        <button type="button" data-t="settings">설정</button>
+        <button type="button" data-t="settings">생성 옵션</button>
       </div>
       <div class="pane" id="p-cast">
         <div id="castList" style="display:grid;gap:10px"></div>
         <button class="btn ghost" id="addCast" type="button">+ 인물 추가</button>
         <input type="file" id="castFile" accept="image/png,image/jpeg,image/webp" hidden>
+      </div>
+      <div class="pane" id="p-world" hidden>
+        <label class="f" for="worldText"><span>작품 설정 <small>(세계관·시대·분위기·인물 관계. 설정 문서를 통째로 붙여넣어도 돼요)</small></span></label>
+        <textarea id="worldText" rows="7" placeholder="예: 저승과 이승 사이 '잿길'을 건너는 여정. 온유는 시언의 보호자이자 연인. 전체적으로 어둡고 몽환적인 분위기."></textarea>
+        <div class="row"><button class="btn ghost sm" id="worldPlaces" type="button">설정에서 장소 뽑기 (NovelAI)</button><span class="small" id="worldMsg"></span></div>
+        <hr class="sep">
+        <div class="row between"><b>장소 사전</b><button class="btn ghost sm" id="addPlace" type="button">+ 장소 추가</button></div>
+        <p class="small muted" style="margin:0">상태창이나 로그에 이 이름(또는 다른 이름)이 나오면 이 태그가 모든 컷 배경에 들어가요. 이름은 상태창 표기와 똑같이 적어 주세요.</p>
+        <div id="placeList" class="placelist"></div>
+        <hr class="sep">
+        <b>이전 장면 이어받기</b>
+        <label class="toggle"><input type="checkbox" id="useCont"> 다음 로그를 변환할 때 이전 장면의 장소·시간·요약을 넘기기</label>
+        <div id="prevBox"></div>
       </div>
       <div class="pane" id="p-script" hidden>
         <div class="row">
@@ -590,7 +643,16 @@ textarea.streaming{border-color:var(--blue);background:color-mix(in srgb,var(--b
             <option value="nai-diffusion-5-curated">V5 Curated (Opus 무료 한도 차감)</option>
           </select></label>
         <label class="f"><span>모델 ID 직접 입력 <small>(새 모델이 나왔을 때만, 비우면 위 선택 사용)</small></span><input type="text" id="s-custom" placeholder="예: nai-diffusion-…" spellcheck="false"></label>
-        <label class="f"><span>공통 화풍 태그 <small>(모든 컷 앞에 붙음)</small></span><textarea id="s-style" rows="2" placeholder="예: cel shading, soft lighting, detailed background"></textarea></label>
+        <label class="f"><span>화풍 프리셋 <small>(고르면 아래 화풍 태그를 채워요)</small></span><select id="s-preset">
+          <option value="">직접 입력</option>
+          <option value="flat color, cel shading, clean lineart, soft lighting, detailed background">웹툰 컬러 (기본)</option>
+          <option value="soft lighting, pastel colors, detailed eyes, shiny hair, glowing, depth of field, detailed background">로맨스 판타지</option>
+          <option value="flat color, bright colors, clean lineart, sunlight, detailed background">청춘·일상</option>
+          <option value="high contrast, dramatic lighting, cinematic lighting, muted colors, dark">느와르·스릴러</option>
+          <option value="watercolor (medium), soft colors, pastel colors, light particles">감성 수채화</option>
+          <option value="monochrome, greyscale, ink (medium), lineart">흑백 출판 만화</option>
+        </select></label>
+        <label class="f"><span>공통 화풍 태그 <small>(각 컷 내용 뒤에 붙음)</small></span><textarea id="s-style" rows="2" placeholder="예: cel shading, soft lighting, detailed background"></textarea></label>
         <label class="f"><span>추가 제외 태그</span><textarea id="s-neg" rows="2" placeholder="예: bad hands, extra fingers"></textarea></label>
         <div class="grid2">
           <label class="f"><span>스텝 <small>(28 이하 무료)</small></span><input type="number" id="s-steps" min="1" max="50"></label>
@@ -612,6 +674,7 @@ textarea.streaming{border-color:var(--blue);background:color-mix(in srgb,var(--b
         <label class="toggle"><input type="checkbox" id="s-refstyle"> 그림체까지 참고 (character&amp;style)</label>
         <label class="toggle"><input type="checkbox" id="s-multiref"> 한 컷에 여러 인물 레퍼런스 보내기 (최대 3명, 실험적)</label>
         <label class="f"><span>충실도 <small id="s-fidv"></small></span><input type="range" id="s-fid" min="0" max="1" step="0.05"></label>
+        <p class="small muted" style="margin:0">충실도가 높을수록 레퍼런스 그림의 포즈·표정·옷까지 따라가서 대본의 표정·행동 태그가 덜 먹어요. 컷마다 표정과 행동이 중요하면 0.6~0.75를 추천해요.</p>
         <hr style="border:0;border-top:1px solid var(--line);margin:2px 0">
         <b class="small">원고·저장</b>
         <div class="grid2">
@@ -662,6 +725,8 @@ textarea.streaming{border-color:var(--blue);background:color-mix(in srgb,var(--b
     <p class="small muted" style="margin:0">캐릭터 채팅에서 복사한 로그를 붙여넣으세요. "따옴표 대사"는 말풍선, ‘작은따옴표’나 (괄호)는 생각 풍선, NovelAI로 각색하면 보이는 행동은 그림으로, 속마음은 나레이션으로 옮기고 결정적 대사를 살려 대본을 만들어요.</p>
     <label class="f"><span>플레이 로그</span><textarea id="logIn" rows="9" placeholder="도현은 책을 내밀며 웃었다. &quot;다 읽으면 감상 들려줄래요?&quot;&#10;윤서: ...다음 주 같은 시간에요."></textarea></label>
     <div><b class="small">이름 연결</b> <span class="small muted">로그 속 이름·{{user}}를 등장인물로 바꿔요</span><div id="logMap" class="maplist"></div></div>
+    <div id="logPlace" class="placebox"></div>
+    <label class="f"><span>이번 장면 메모 <small>(로그에 없는 직전 상황·옷차림·장소 모습 등, 선택)</small></span><textarea id="logMemo" rows="2" placeholder="예: 악몽에서 깬 시언을 온유가 쉼터 온천에 데려와 함께 몸을 담그고 있음. 둘 다 옷을 벗은 상태."></textarea></label>
     <div class="grid2">
       <label class="f"><span>모든 컷에 붙일 장면 태그 <small>(선택)</small></span><input type="text" id="logExtra" placeholder="예: library, sunset"></label>
       <label class="f"><span>각색 컷 수 <small>(대략)</small></span><input type="number" id="logCount" min="3" max="80" value="12"></label>
@@ -687,6 +752,8 @@ textarea.streaming{border-color:var(--blue);background:color-mix(in srgb,var(--b
     <h3 id="contiTitle" style="font-size:22px">스토리로 대본 만들기</h3>
     <p class="small muted" style="margin:0">줄글 스토리를 붙여넣으면 등장인물 목록과 대본 형식 규칙을 넣은 요청문을 만들어 복사해요. Claude·ChatGPT에 붙여넣고, 받은 결과를 대본 탭에 붙여넣으세요.</p>
     <label class="f"><span>스토리</span><textarea id="contiStory" rows="10" placeholder="비 오는 밤, 서진은 옥상에서 하람을 기다린다…"></textarea></label>
+    <div id="contiPlace" class="placebox"></div>
+    <label class="f"><span>장면 메모 <small>(선택)</small></span><textarea id="contiMemo" rows="2" placeholder="예: 둘 다 교복 차림, 비가 막 그친 직후"></textarea></label>
     <label class="f"><span>원하는 컷 수 <small>(대략)</small></span><input type="number" id="contiCount" min="3" max="80" value="12"></label>
     <div class="row"><button class="btn blue" id="contiNai" type="button">NovelAI로 대본 만들기 (추천)</button><button class="btn ghost" id="contiCancel" type="button" hidden>멈추기</button><button class="btn ghost" id="contiCopy" type="button">다른 AI용 요청문 복사</button><button class="btn ghost" id="contiClose" type="button">닫기</button></div>
     <span class="small" id="contiMsg"></span>
@@ -771,7 +838,7 @@ const S = { token:'', sub:null, running:false, stop:false, selected:null };
 const DEFAULT_SETTINGS = { model:'nai-diffusion-4-5-full', custom:'', style:'', neg:'', steps:28, scale:5, sampler:'k_euler_ancestral', uc:0, quality:true,
   refStyle:true, fidelity:1, expW:800, split:1280, gutter:0.08, fontScale:0.042, host:DEFAULT_HOST,
   cands:1, multiRef:false, skipFreeConfirm:false };
-function blankProject(){ return { v:2, id:uid(), title:'제목 없는 원고', cast:[], script:'', panels:[], settings:{...DEFAULT_SETTINGS} }; }
+function blankProject(){ return { v:3, id:uid(), title:'제목 없는 원고', cast:[], script:'', panels:[], world:'', places:[], prevScene:null, useContinuity:true, settings:{...DEFAULT_SETTINGS} }; }
 let P = blankProject();
 /* several episodes live side by side: "index" lists them, each is stored under "proj:<id>" */
 async function saveNow(){
@@ -796,6 +863,7 @@ function normPanel(pn){
   if (!Array.isArray(pn.versions)) pn.versions = pn.img ? [{img:pn.img, seed:pn.seed}] : [];
   if (pn.vi==null || pn.vi>=pn.versions.length) pn.vi = pn.versions.length-1;
   if (!pn.kind) pn.kind = 'image';
+  if (!Array.isArray(pn.fx)) pn.fx = []; if (pn.frame==null) pn.frame = '';
   if (pn.status==='run') pn.status = pn.img ? 'done' : 'idle';
   return pn;
 }
@@ -847,6 +915,8 @@ function sampleProject(){
     { id:uid(), name:'하람', tags:'1boy, blonde hair, messy hair, red eyes, earrings, leather jacket', uc:'', img:'', ref:'', useRef:false }
   ];
   p.script = SAMPLE_SCRIPT;
+  p.world = '비가 잦은 항구 도시의 고등학교. 서진은 3학년 선배, 하람은 2학년 후배로 한때 친했지만 1년 전 일로 멀어졌다. 차갑고 축축한 밤 분위기.';
+  p.places = [{ id:uid(), name:'학교 옥상', aliases:'옥상', desc:'철제 펜스로 둘러싸인 학교 옥상, 멀리 항구 도시 불빛', tags:'rooftop, outdoors, chain-link fence, city lights, cityscape, night sky' }];
   P = p;
   P.panels = buildPanels(parseScript(P.script).panels, []);
   return p;
@@ -959,11 +1029,11 @@ const TYPES = [
   {k:'speech', t:'말풍선', g:'말'}, {k:'speechRect', t:'각진 말풍선', g:'말'}, {k:'whisper', t:'속삭임', g:'말'},
   {k:'thought', t:'생각', g:'말'}, {k:'shout', t:'외침', g:'말'}, {k:'tremble', t:'떨리는 말', g:'말'},
   {k:'phone', t:'전화·기계음', g:'말'}, {k:'plain', t:'글자만', g:'말'},
-  {k:'narration', t:'나레이션', g:'상자'}, {k:'mono', t:'독백 상자', g:'상자'}, {k:'caption', t:'자막', g:'상자'}, {k:'system', t:'상태창', g:'상자'},
+  {k:'narration', t:'나레이션', g:'상자'}, {k:'mono', t:'독백 상자', g:'상자'}, {k:'recall', t:'회상 상자', g:'상자'}, {k:'letter', t:'편지·메모', g:'상자'}, {k:'caption', t:'자막', g:'상자'}, {k:'system', t:'상태창', g:'상자'},
   {k:'sfx', t:'효과음', g:'효과'}
 ];
 const TYPE_LABEL = Object.fromEntries(TYPES.map(x=>[x.k,x.t]));
-const BOX = new Set(['narration','mono','caption','system']);
+const BOX = new Set(['narration','mono','caption','system','letter','recall']);
 const TAILED = new Set(['speech','speechRect','whisper','thought','shout','tremble','phone']);
 const spoken = t => !BOX.has(t) && t!=='sfx';
 const KIND = { '생각':'thought', '속마음':'thought', '외침':'shout', '소리침':'shout', '고함':'shout',
@@ -971,8 +1041,8 @@ const KIND = { '생각':'thought', '속마음':'thought', '외침':'shout', '소
   '각진':'speechRect', '글자':'plain' };
 const KIND_ALT = Object.keys(KIND).sort((a,b)=>b.length-a.length).join('|');
 const BOXKW = { '나레이션':'narration', '내레이션':'narration', 'narration':'narration', '독백':'mono', '자막':'caption',
-  '상태창':'system', '시스템':'system', '효과음':'sfx', 'sfx':'sfx' };
-const KW = new RegExp('^(장면|배경|scene|비율|ratio|컷|필터|간격|' + Object.keys(BOXKW).join('|') + ')\\s*[:：]\\s*(.*)$', 'i');
+  '상태창':'system', '시스템':'system', '효과음':'sfx', 'sfx':'sfx', '회상':'recall', '편지':'letter', '메모':'letter', '쪽지':'letter' };
+const KW = new RegExp('^(장면|배경|scene|비율|ratio|컷|필터|간격|연출|효과|틀|' + Object.keys(BOXKW).join('|') + ')\\s*[:：]\\s*(.*)$', 'i');
 const FILTER_LABEL = { '':'없음', mono:'흑백', sepia:'세피아', memory:'회상' };
 const GAPS = [[0,'붙이기'],[.5,'좁게'],[null,'기본'],[2,'넓게'],[3,'아주 넓게']];
 const gapLabel = g => (GAPS.find(x=>x[0]===g)||GAPS[2])[1];
@@ -1008,7 +1078,7 @@ function parseScript(text){
   const warns=[];
   const names = P.cast.flatMap(castAliases).sort((a,b)=>b.length-a.length);
   const panels = blocks.map((bl, bi)=>{
-    const pn = { ratio:'portrait', scene:'', chars:[], lines:[], kind:'image', filter:'', gap:null }; let ratioSet = false;
+    const pn = { ratio:'portrait', scene:'', chars:[], lines:[], kind:'image', filter:'', gap:null, fx:[], frame:'' }; let ratioSet = false;
     for (const {l, n, fence} of bl){
       if (fence!=null){ if (fence) pn.lines.push({type:'system', who:'', text:fence}); continue; }
       const s = l.trim(); if (!s) continue;
@@ -1019,6 +1089,8 @@ function parseScript(text){
         else if (k==='비율'||k==='ratio'){ pn.ratio = /가로|land|wide/i.test(v) ? 'landscape' : /정사|square/i.test(v) ? 'square' : 'portrait'; ratioSet = true; }
         else if (k==='컷') pn.kind = /검|black|암전/i.test(v) ? 'black' : /흰|하얀|white/i.test(v) ? 'white' : 'image';
         else if (k==='필터') pn.filter = /흑백|mono|gray|grey/i.test(v) ? 'mono' : /세피아|sepia/i.test(v) ? 'sepia' : /회상|memory|flashback/i.test(v) ? 'memory' : '';
+        else if (k==='연출' || k==='효과') pn.fx = [...new Set([...pn.fx, ...parseFx(v)])];
+        else if (k==='틀') pn.frame = parseFrame(v);
         else if (k==='간격') pn.gap = /붙|없|^0/.test(v) ? 0 : /좁/.test(v) ? .5 : /아주|매우|크게/.test(v) ? 3 : /넓/.test(v) ? 2 : null;
         else pn.lines.push({type: BOXKW[k] || BOXKW[kw[1]] || 'narration', who:'', text:v});
         continue;
@@ -1061,16 +1133,20 @@ function sig(pn){ return JSON.stringify([pn.kind||'image', pn.ratio, pn.scene, p
 function autoPlace(pn){
   let k = -1, boxes = 0;
   const centers = centersFor(pn.chars.length);
-  const topBoxes = pn.lines.filter(l=>BOX.has(l.type) && l.type!=='system').length;
-  const speechTop = .1 + topBoxes*.1;
+  // boxes go to the corners like a printed webtoon: top-left, bottom-right, then top-right, bottom-left
+  const nBox = pn.lines.filter(l=>BOX.has(l.type) && l.type!=='system').length;
+  const SLOTS = [[.32,.05],[.68,.95],[.68,.05],[.32,.95]];
+  const topBoxes = Math.min(2, Math.ceil(nBox/2));
+  const speechTop = .12 + topBoxes*.1;
   for (const ln of pn.lines){
     if (spoken(ln.type)) k++;
     if (ln.x!=null) continue;
     if (BOX.has(ln.type)){
       if (ln.type==='system'){ ln.x=.5; ln.y= pn.lines.length>1 ? .86 : .5; ln.w=.72; continue; }
-      ln.x = ln.type==='caption' ? .26 : .34; ln.y = .05 + boxes*.1; ln.w = ln.type==='caption' ? .46 : .6; boxes++; continue;
+      const [sx, sy] = nBox===1 || ln.type==='caption' ? [ln.type==='caption' ? .26 : .34, .05 + boxes*.1] : (SLOTS[boxes] || [.34, .05 + boxes*.1]);
+      ln.x = sx; ln.y = sy; ln.w = ln.type==='caption' ? .46 : .58; boxes++; continue;
     }
-    if (ln.type==='sfx'){ ln.x=.7; ln.y=.82; ln.w=.55; continue; }
+    if (ln.type==='sfx'){ ln.x = nBox>1 ? .3 : .7; ln.y = .8; ln.w=.55; continue; }
     const ci = pn.chars.findIndex(c=>castById(c.castId)?.name===ln.who);
     const cx = ci>=0 ? centers[ci].x : .5;
     ln.x = clamp(cx, .27, .73); ln.y = clamp(speechTop + k*.17, .08, .9); ln.w = .44;
@@ -1081,7 +1157,7 @@ function buildPanels(parsed, old){
     const o = old[i];
     const same = o && sig(o)===sig(np);
     const pn = { id: same ? o.id : uid(), ratio:np.ratio, scene:np.scene, chars:np.chars, unknown: np.unknown || [],
-      kind: np.kind||'image', filter: np.filter||'', gap: np.gap ?? null,
+      kind: np.kind||'image', filter: np.filter||'', gap: np.gap ?? null, fx: np.fx||[], frame: np.frame||'',
       lines: np.lines.map(l=>{
         const ol = o && o.lines.find(x=>x.type===l.type && (x.who||'???')===(l.who||'???') && x.text===l.text);
         return { id:uid(), ...l, ...(ol ? {x:ol.x, y:ol.y, w:ol.w, tail:ol.tail, rot:ol.rot, ...Object.fromEntries(STYLE_KEYS.map(k=>[k, ol[k]]))} : {}) };
@@ -1096,7 +1172,7 @@ function buildPanels(parsed, old){
 
 /* ================= manuscript → script (so edits made on the panels are not lost on the next apply) ================= */
 const KIND_OUT = { speech:'', thought:' 생각', shout:' 외침', whisper:' 속삭임', tremble:' 떨림', phone:' 전화', speechRect:' 각진', plain:' 글자' };
-const BOX_OUT = { narration:'나레이션', mono:'독백', caption:'자막', sfx:'효과음' };
+const BOX_OUT = { narration:'나레이션', mono:'독백', caption:'자막', sfx:'효과음', recall:'회상', letter:'편지' };
 function scriptFromPanels(){
   return P.panels.map((pn,i)=>{
     const rows = [`# 컷 ${i+1}`];
@@ -1104,6 +1180,8 @@ function scriptFromPanels(){
     if (pn.ratio!=='portrait') rows.push('비율: ' + RATIO_LABEL[pn.ratio]);
     if (pn.filter) rows.push('필터: ' + FILTER_LABEL[pn.filter]);
     if (pn.gap!=null) rows.push('간격: ' + gapLabel(pn.gap));
+    if ((pn.fx||[]).length) rows.push('연출: ' + pn.fx.map(k=>FX[k]).join(', '));
+    if (pn.frame) rows.push('틀: ' + FRAMES[pn.frame]);
     if (pn.scene) rows.push('장면: ' + pn.scene);
     const tagged = new Set();
     const tok = name => {
@@ -1133,22 +1211,60 @@ function refsFor(pn){
 }
 function refFor(pn){ return refsFor(pn)[0] || null; }
 function outfitTags(cs, ch){ const name = (ch && ch.outfit) || cs?.defOutfit; return name ? ((cs?.outfits||[]).find(o=>o.name===name)?.tags || '') : ''; }
+/* character-to-character actions for V4+: "source#hug" on the one doing it, "target#hug" on the one receiving,
+   "mutual#holding hands" on both. This is what makes NovelAI actually draw the touch between the right people. */
+const MUTUAL_ACT = new Set(['holding hands','forehead to forehead','cheek-to-cheek','eye contact','hug','kiss','imminent kiss','interlocked fingers','back-to-back','face-to-face','arm hug']);
+const INTERACT_RE = /another's|^(hug|hug from behind|kiss|kiss on forehead|kiss on cheek|imminent kiss|headpat|princess carry|carrying|piggyback|arms around neck|leaning on another|slapping|against wall|holding hands|forehead to forehead|cheek-to-cheek|eye contact|interlocked fingers|back-to-back|face-to-face|arm hug|wall slam|pinned|lap pillow|sitting on lap|whispering)$/i;
+function charCaption(tags){   // character prompts start with "boy"/"girl", not the count tag
+  return tags.replace(/(^|,\s*)1(boy|girl|other)(?=\s*,|$)/i, '$1$2');
+}
+function interactionTags(pn){
+  const acts = pn.chars.map(c=>String(c.action||'').split(',').map(t=>t.trim()).filter(Boolean));
+  const out = acts.map(a=>a.slice());
+  if (pn.chars.length !== 2) return { acts: out, any: false };
+  let any = false;
+  acts.forEach((a, i)=>{
+    const j = 1 - i;
+    out[i] = out[i].map(t=>{
+      const k = t.replace(/^(source|target|mutual)#/,'');
+      if (/^(source|target|mutual)#/.test(t)){ any = true; return t; }
+      if (!INTERACT_RE.test(k)) return t;
+      any = true;
+      const both = acts[j].some(x=>x.replace(/^(source|target|mutual)#/,'')===k);
+      if (MUTUAL_ACT.has(k.toLowerCase()) && (both || /^(holding hands|forehead to forehead|cheek-to-cheek|eye contact|interlocked fingers|back-to-back|face-to-face)$/i.test(k))){
+        if (!out[j].some(x=>x==='mutual#'+k)) out[j] = out[j].filter(x=>x!==k).concat('mutual#'+k);
+        return 'mutual#' + k;
+      }
+      if (!out[j].some(x=>x==='target#'+k)) out[j].push('target#' + k);
+      return 'source#' + k;
+    });
+  });
+  out.forEach((a,i)=>{ out[i] = [...new Set(a)].filter((t,_,arr)=>!(arr.includes('mutual#'+t) || arr.includes('source#'+t))); });
+  return { acts: out, any };
+}
 function buildRequest(pn, seed){
   const st = P.settings, model = modelId();
   const [width, height] = RES[pn.ratio] || RES.portrait;
-  let base = joinTags(st.style, pn.scene);
+  // the panel's own content first (count, framing, place, mood), the shared art style after it, quality last
+  let base = joinTags(pn.scene, st.style);
   const names = pn.chars.map(c=>castById(c.castId)?.name).filter(Boolean);
   if (names.length){
     base = base.replace(/(^|,\s*)no humans(?=\s*,|$)/gi, '').replace(/^\s*,\s*/,'');
     if (!/\b\d+\s*(boy|girl|other)s?\b/i.test(base)){ const ct = countTagsFor(names); if (ct) base = joinTags(ct, base); }
     if (!SHOT_RE.test(base)) base = joinTags(base, names.length>1 ? 'cowboy shot' : 'upper body');
   } else if (!/\b(no humans|\d+\s*(boy|girl|other)s?)\b/i.test(base)) base = joinTags('no humans', base, /scenery/i.test(base) ? '' : 'scenery');
-  const input = st.quality && QUALITY[model] ? joinTags(base, QUALITY[model]) : base;
-  const preset = +st.uc >= 0 ? (UC_PRESET[model]?.[+st.uc] || '') : '';
+  const fam = QUALITY[model] ? model : /curated/.test(model) ? 'nai-diffusion-4-5-curated' : 'nai-diffusion-4-5-full';   // V5 / custom IDs borrow the V4.5 presets
+  const input = st.quality ? joinTags(base, QUALITY[fam]) : base;
+  const preset = +st.uc >= 0 ? (UC_PRESET[fam]?.[+st.uc] || '') : '';
   const neg = joinTags(preset, WEBTOON_UC, st.neg);
   const centers = centersFor(pn.chars.length);
-  const chars = pn.chars.map((c,i)=>{ const cs=castById(c.castId); return { prompt: joinTags(cs?.tags, outfitTags(cs, c), c.action) || '1person', uc: (cs?.uc||'').trim() || 'lowres, aliasing', center: centers[i], enabled:true }; });
-  const useCoords = chars.length > 1;
+  const inter = interactionTags(pn);
+  const chars = pn.chars.map((c,i)=>{
+    const cs = castById(c.castId), look = charCaption(String(cs?.tags||'').trim());
+    return { prompt: joinTags(look, outfitTags(cs, c), inter.acts[i].join(', ')) || 'person', uc: (cs?.uc||'').trim() || 'lowres, aliasing', center: centers[i], enabled:true };
+  });
+  // fixed left/right slots keep two people apart, which fights hugs and kisses: let the model place them when they touch
+  const useCoords = chars.length > 1 && !inter.any;
   if (seed==null){ if (pn.seed==null) pn.seed = Math.floor(Math.random()*4294967288); seed = pn.seed; }
   const params = {
     params_version:3, width, height, scale:+st.scale, sampler:st.sampler, steps:+st.steps, n_samples:1, ucPreset:0, qualityToggle:false,
@@ -1368,11 +1484,12 @@ const FONT = {
   shout:'800 {s}px "Nanum Gothic", sans-serif', tremble:'800 {s}px "Nanum Gothic", sans-serif',
   phone:'700 {s}px "Nanum Gothic", sans-serif', plain:'800 {s}px "Nanum Gothic", sans-serif',
   narration:'700 {s}px "Nanum Myeongjo", serif', mono:'700 {s}px "Nanum Myeongjo", serif',
+  recall:'italic 700 {s}px "Nanum Myeongjo", serif', letter:'400 {s}px "Nanum Pen Script", "Gaegu", cursive',
   caption:'800 {s}px "Nanum Gothic", sans-serif', system:'600 {s}px "IBM Plex Sans KR", "Nanum Gothic", sans-serif',
   sfx:'{s}px "Black Han Sans", sans-serif'
 };
 const SIZE = { speech:1, speechRect:1, whisper:.92, thought:1.12, shout:1.12, tremble:1, phone:.95, plain:1.05,
-  narration:.9, mono:.92, caption:.78, system:.88, sfx:2.6 };
+  narration:.9, mono:.92, recall:.9, letter:1.18, caption:.78, system:.88, sfx:2.6 };
 function panelAspect(pn){ const im=getImg(pn.img); if (im) return im.naturalHeight/im.naturalWidth; const [w,hh]=RES[pn.ratio]||RES.portrait; return hh/w; }
 /* per-bubble font choice; '' = the bubble type's own font */
 const FONTS = [
@@ -1381,7 +1498,7 @@ const FONTS = [
   ['blackhan','검은고딕','400 {s}px "Black Han Sans"'], ['gaegu','개구 (손글씨)','700 {s}px "Gaegu"'], ['pen','나눔펜 (손글씨)','400 {s}px "Nanum Pen Script"']
 ];
 const FONT_BY = Object.fromEntries(FONTS.map(f=>[f[0], f]));
-const STYLE_KEYS = ['font','fsx','bold','italic','align','lh','ls','color'];
+const STYLE_KEYS = ['font','fsx','bold','italic','align','lh','ls','color','theme','bfx'];
 function fontFor(ln, fs){
   const o = typeof ln==='object' ? ln : null, t = o ? o.type : ln;
   const f = o && o.font && FONT_BY[o.font];
@@ -1394,6 +1511,8 @@ function padFor(t, fs){
   if (t==='sfx' || t==='plain') return [fs*.15, fs*.1];
   if (t==='caption') return [fs*.95, fs*.45];
   if (t==='system') return [fs*1.0, fs*.8];
+  if (t==='letter') return [fs*1.0, fs*.75];
+  if (t==='recall') return [fs*1.1, fs*.7];
   if (BOX.has(t)) return [fs*.7, fs*.55];
   if (t==='speechRect' || t==='phone') return [fs*.95, fs*.7];
   return [fs*1.15, fs*.85];
@@ -1466,73 +1585,176 @@ function tailPath(ctx, cx, cy, rx, ry, T, fs, inner=.72){
   ctx.lineTo(cx+Math.cos(T.th0)*(rx+tl) + T.dir*fs*.9, cy+Math.sin(T.th0)*(ry+tl));
   ctx.lineTo(cx+Math.cos(a2)*rx*inner, cy+Math.sin(a2)*ry*inner);
 }
+/* ---- bubble color themes (same shape, different paint) and bubble effects ---- */
+const THEMES = {
+  '':      {t:'기본'},
+  ink:     {t:'먹색',   fill:'#17191c', stroke:'#17191c', text:'#ffffff'},
+  pink:    {t:'벚꽃',   fill:'#ffe4ee', stroke:'#d9547e', text:'#5a1830'},
+  peach:   {t:'복숭아', fill:'#ffe9dc', stroke:'#e07a4f', text:'#5b2a12'},
+  lemon:   {t:'레몬',   fill:'#fff6c8', stroke:'#c99a12', text:'#4a3700'},
+  mint:    {t:'민트',   fill:'#dcf6ea', stroke:'#2f9a72', text:'#0f3d2c'},
+  sky:     {t:'하늘',   fill:'#e1f0ff', stroke:'#3d86c8', text:'#10324f'},
+  lilac:   {t:'라일락', fill:'#efe5ff', stroke:'#8a5cd1', text:'#2f1a57'},
+  paper:   {t:'빛바랜 종이', fill:'#f4ead2', stroke:'#8b6b3e', text:'#4a3418'},
+  night:   {t:'밤하늘', fill:'#141c3a', stroke:'#8f9ff0', text:'#e8ecff'},
+  blood:   {t:'핏빛',   fill:'#2a0507', stroke:'#e0262e', text:'#ffdcdc'},
+  gold:    {t:'황금',   fill:'#2b2110', stroke:'#e7b843', text:'#fff3cf'},
+  glass:   {t:'반투명', fill:'rgba(255,255,255,.6)', stroke:'rgba(21,23,26,.5)', text:'#15171a', sys:'rgba(255,255,255,.55)', sysText:'#15171a'}
+};
+const BFX = { '':'없음', shadow:'그림자', glow:'빛나는 후광', soft:'테두리 없이 부드럽게', thick:'굵은 테두리', double:'이중 테두리', dash:'점선', grad:'그라데이션', shake:'흔들림 잔상', sparkle:'반짝이', torn:'찢긴 가장자리' };
+function hexMix(a, b, t){
+  const p = x => { const m = /^#([0-9a-f]{6})$/i.exec(x||''); if (!m) return null; const n = parseInt(m[1],16); return [n>>16&255, n>>8&255, n&255]; };
+  const A = p(a), B = p(b); if (!A || !B) return a;
+  return '#' + A.map((v,i)=>Math.round(v + (B[i]-v)*t).toString(16).padStart(2,'0')).join('');
+}
+/* colors for one line: type defaults, overridden by its theme */
+function paletteFor(t, ln){
+  const th = THEMES[ln.theme||''] || THEMES[''];
+  const P0 = { fill:'#ffffff', stroke:INK, text:INK, bar:INK, glow:'rgba(255,214,120,.95)' };
+  if (t==='mono') Object.assign(P0, { fill:INK, stroke:INK, text:'#ffffff' });
+  if (t==='caption') Object.assign(P0, { fill:'rgba(255,255,255,.93)', stroke:'rgba(0,0,0,0)' });
+  if (t==='system') Object.assign(P0, { fill:'rgba(8,20,38,.9)', stroke:'#62d2ff', text:'#e9f8ff', glow:'rgba(80,200,255,.75)', corner:'#bdf0ff' });
+  if (t==='letter') Object.assign(P0, { fill:'#fbf5e6', stroke:'#b49a6a', text:'#3d2f1c', rule:'rgba(150,120,70,.28)' });
+  if (t==='recall') Object.assign(P0, { fill:'rgba(255,255,255,.9)', stroke:'rgba(0,0,0,0)', text:'#3a3f46' });
+  if (!th.fill) return P0;
+  const out = { ...P0, glow: th.stroke };
+  if (t==='mono'){ out.fill = th.stroke; out.stroke = th.stroke; out.text = /^#/.test(th.fill) && lum(th.fill) < .4 ? '#ffffff' : th.fill; }
+  else if (t==='system'){ out.fill = th.sys || hexMix(th.stroke, '#000000', .82); out.stroke = th.stroke; out.text = th.sysText || hexMix(th.stroke, '#ffffff', .82); out.corner = hexMix(th.stroke, '#ffffff', .55); }
+  else if (t==='caption'){ out.fill = th.fill; out.bar = th.stroke; out.text = th.text; }
+  else if (t==='recall'){ out.fill = th.fill; out.text = th.text; }
+  else { out.fill = th.fill; out.stroke = th.stroke; out.text = th.text; if (t==='letter') out.rule = /^#/.test(th.stroke) ? hexMix(th.stroke, th.fill, .7) : 'rgba(0,0,0,.15)'; }
+  return out;
+}
+function starPath(ctx, x, y, r){ ctx.beginPath(); ctx.moveTo(x, y-r); ctx.quadraticCurveTo(x, y, x+r, y); ctx.quadraticCurveTo(x, y, x, y+r); ctx.quadraticCurveTo(x, y, x-r, y); ctx.quadraticCurveTo(x, y, x, y-r); ctx.closePath(); }
+function tornPath(ctx, x, y, w, hh, fs, seed){
+  const R = rng(seed), step = fs*.55; ctx.beginPath(); ctx.moveTo(x, y);
+  for (let px=x+step; px<x+w; px+=step) ctx.lineTo(px, y + (R()-.5)*fs*.32); ctx.lineTo(x+w, y);
+  for (let py=y+step; py<y+hh; py+=step) ctx.lineTo(x+w + (R()-.5)*fs*.32, py); ctx.lineTo(x+w, y+hh);
+  for (let px=x+w-step; px>x; px-=step) ctx.lineTo(px, y+hh + (R()-.5)*fs*.32); ctx.lineTo(x, y+hh);
+  for (let py=y+hh-step; py>y; py-=step) ctx.lineTo(x + (R()-.5)*fs*.32, py); ctx.closePath();
+}
 function drawBubble(ctx, pn, ln, L, W, H){
-  const t = ln.type, lw = Math.max(1.6, W*0.0028);
-  const {cx, cy, bw, bh, fs} = L;
+  const t = ln.type, lw0 = Math.max(1.6, W*0.0028), fx = ln.bfx || '';
+  const {cx, cy, bw, bh, fs} = L, r = L.rect;
+  const pal = paletteFor(t, ln);
+  const lw = fx==='thick' ? lw0*2.1 : lw0;
   ctx.save();
-  ctx.lineWidth = lw; ctx.strokeStyle = INK; ctx.fillStyle = '#fff'; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
-  let textColor = INK, align = 'center';
+  ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+  let align = 'center';
   const T = tailOf(pn, ln, cx, cy, W, H);
   const outlined = { speech:'ellipse', whisper:'ellipse', shout:'spiky', tremble:'wavy', speechRect:'rrect', phone:'rrect' }[t];
-  if (outlined){
-    const isRect = outlined==='rrect';
-    const rx = isRect ? bw/2 : bw/2*1.07, ry = isRect ? bh/2 : bh/2*1.1;
-    if (t==='whisper') ctx.setLineDash([lw*2.6, lw*2.2]);
-    if (t==='shout') ctx.lineWidth = lw*1.25;
-    shapePath(ctx, outlined, cx, cy, rx, ry, 0, fs); ctx.fill(); ctx.stroke();
-    if (T){
-      tailPath(ctx, cx, cy, rx, ry, T, fs, isRect ? .55 : .72); ctx.fill(); ctx.stroke();
-      shapePath(ctx, outlined, cx, cy, rx, ry, ctx.lineWidth*1.1, fs); ctx.fill();   // hide tail edges inside the bubble
-    }
-    if (t==='phone'){   // machine/phone voice: second inner frame
-      ctx.setLineDash([]); ctx.lineWidth = lw*.55;
-      shapePath(ctx, 'rrect', cx, cy, rx, ry, fs*.28, fs); ctx.stroke();
+  const isRect = outlined==='rrect';
+  const rx = outlined ? (isRect ? bw/2 : bw/2*1.07) : bw/2*1.07, ry = outlined ? (isRect ? bh/2 : bh/2*1.1) : bh/2*1.1;
+  const stroked = fx!=='soft';
+  const fillFor = () => {
+    if (fx!=='grad' || !/^#/.test(pal.fill)) return pal.fill;
+    const g = ctx.createLinearGradient(0, cy-bh/2, 0, cy+bh/2);
+    const top = /^#/.test(pal.stroke) ? hexMix(pal.fill, pal.stroke, .28) : pal.fill;
+    g.addColorStop(0, hexMix(pal.fill, '#ffffff', .35)); g.addColorStop(1, top); return g;
+  };
+  // the bubble or box itself; fillOnly = silhouette for shadow / glow passes
+  const paint = (fillOnly=false) => {
+    ctx.fillStyle = fillFor(); ctx.strokeStyle = pal.stroke; ctx.lineWidth = lw;
+    const doStroke = !fillOnly && stroked;
+    if (fx==='dash' || t==='whisper') ctx.setLineDash([lw*2.6, lw*2.2]);
+    if (outlined){
+      if (t==='shout') ctx.lineWidth = lw*1.25;
+      shapePath(ctx, outlined, cx, cy, rx, ry, 0, fs); ctx.fill(); if (doStroke) ctx.stroke();
+      if (T){
+        tailPath(ctx, cx, cy, rx, ry, T, fs, isRect ? .55 : .72); ctx.fill(); if (doStroke) ctx.stroke();
+        if (!fillOnly){ shapePath(ctx, outlined, cx, cy, rx, ry, doStroke ? ctx.lineWidth*1.1 : 0, fs); ctx.fill(); }
+      }
+      if (t==='phone' && doStroke){ ctx.setLineDash([]); ctx.lineWidth = lw*.55; shapePath(ctx, 'rrect', cx, cy, rx, ry, fs*.28, fs); ctx.stroke(); }
+    } else if (t==='thought'){
+      const n = 14, pts=[];
+      for (let i=0;i<n;i++){ const a=i/n*Math.PI*2; pts.push({x:cx+Math.cos(a)*rx, y:cy+Math.sin(a)*ry, r: Math.min(rx,ry)*0.42}); }
+      if (doStroke){ ctx.beginPath(); pts.forEach(p=>{ ctx.moveTo(p.x+p.r,p.y); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); }); ctx.stroke(); }
+      ctx.beginPath(); pts.forEach(p=>{ ctx.moveTo(p.x+p.r,p.y); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); }); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(cx,cy,rx,ry,0,0,Math.PI*2); ctx.fill();
+      if (T) for (let i=1;i<=2;i++){ const rr=fs*(.38-i*.1)*1.6, x=cx+Math.cos(T.th0)*(rx+fs*(i*1.05)) + T.dir*fs*.5*i, y=cy+Math.sin(T.th0)*(ry+fs*(i*1.05)); ctx.beginPath(); ctx.arc(x,y,rr,0,Math.PI*2); ctx.fill(); if (doStroke) ctx.stroke(); }
+    } else if (t==='narration' || t==='mono' || t==='letter'){
+      if (fx==='torn'){ tornPath(ctx, r.x, r.y, r.w, r.h, fs, ln.id||ln.text); ctx.fill(); if (doStroke && t!=='mono') ctx.stroke(); }
+      else { ctx.beginPath(); ctx.rect(r.x, r.y, r.w, r.h); ctx.fill(); if (doStroke && t!=='mono'){ ctx.lineWidth = lw*.85; ctx.stroke(); } }
+      if (t==='letter' && !fillOnly){   // ruled paper
+        ctx.setLineDash([]); ctx.strokeStyle = pal.rule; ctx.lineWidth = Math.max(1, lw*.5);
+        for (let i=0;i<L.lines.length;i++){ const y = cy - (L.lines.length-1)*L.lh/2 + i*L.lh + L.lh*.48; ctx.beginPath(); ctx.moveTo(r.x+L.padX*.6, y); ctx.lineTo(r.x+r.w-L.padX*.6, y); ctx.stroke(); }
+        ctx.fillStyle = 'rgba(255,255,255,.55)'; ctx.save(); ctx.translate(r.x + r.w/2, r.y); ctx.rotate(-.05); ctx.fillRect(-fs*1.4, -fs*.35, fs*2.8, fs*.75); ctx.restore();   // tape
+      }
+    } else if (t==='recall'){
+      // feathered memory box: soft edges fading into the picture
+      const g = ctx.createRadialGradient(cx, cy, Math.min(bw,bh)*.25, cx, cy, Math.max(bw,bh)*.62);
+      const base = /^#/.test(pal.fill) ? pal.fill : '#ffffff';
+      const rgb = [1,3,5].map(i=>parseInt(base.slice(i,i+2),16)).join(',');
+      g.addColorStop(0, `rgba(${rgb},.95)`); g.addColorStop(.75, `rgba(${rgb},.85)`); g.addColorStop(1, `rgba(${rgb},0)`);
+      ctx.fillStyle = g; ctx.fillRect(r.x - fs, r.y - fs*.8, r.w + fs*2, r.h + fs*1.6);
+    } else if (t==='caption'){
+      ctx.fillStyle = fillFor(); ctx.fillRect(r.x, r.y, r.w, r.h);
+      if (!fillOnly){ ctx.fillStyle = pal.bar; ctx.fillRect(r.x, r.y, fs*.32, r.h); }
+    } else if (t==='system'){
+      if (!fillOnly && fx!=='soft'){ ctx.shadowColor = pal.glow; ctx.shadowBlur = fs*.9; }
+      ctx.beginPath(); rrectPath(ctx, r.x, r.y, r.w, r.h, fs*.35); ctx.fillStyle = pal.fill; ctx.fill();
+      ctx.shadowBlur = 0;
+      if (doStroke){
+        ctx.strokeStyle = pal.stroke; ctx.lineWidth = lw*.9; ctx.stroke();
+        const c=fs*.75; ctx.lineWidth=lw*1.6; ctx.strokeStyle=pal.corner; ctx.setLineDash([]);
+        [[r.x,r.y,1,1],[r.x+r.w,r.y,-1,1],[r.x,r.y+r.h,1,-1],[r.x+r.w,r.y+r.h,-1,-1]].forEach(([x,y,sx,sy])=>{ ctx.beginPath(); ctx.moveTo(x+sx*c,y+sy*lw); ctx.lineTo(x+sx*lw,y+sy*lw); ctx.lineTo(x+sx*lw,y+sy*c); ctx.stroke(); });
+      }
     }
     ctx.setLineDash([]);
-  } else if (t==='thought'){
-    const rx = bw/2*1.07, ry = bh/2*1.1, n = 14, pts=[];
-    for (let i=0;i<n;i++){ const a=i/n*Math.PI*2; pts.push({x:cx+Math.cos(a)*rx, y:cy+Math.sin(a)*ry, r: Math.min(rx,ry)*0.42}); }
-    ctx.beginPath(); pts.forEach(p=>{ ctx.moveTo(p.x+p.r,p.y); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); }); ctx.stroke();
-    ctx.beginPath(); pts.forEach(p=>{ ctx.moveTo(p.x+p.r,p.y); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); }); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(cx,cy,rx,ry,0,0,Math.PI*2); ctx.fill();
-    if (T) for (let i=1;i<=2;i++){ const r=fs*(.38-i*.1)*1.6, x=cx+Math.cos(T.th0)*(rx+fs*(i*1.05)) + T.dir*fs*.5*i, y=cy+Math.sin(T.th0)*(ry+fs*(i*1.05)); ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); ctx.stroke(); }
-  } else if (t==='narration'){
-    const r=L.rect; ctx.fillRect(r.x, r.y, r.w, r.h); ctx.lineWidth = lw*.85; ctx.strokeRect(r.x, r.y, r.w, r.h); align='left';
-  } else if (t==='mono'){
-    const r=L.rect; ctx.fillStyle=INK; ctx.fillRect(r.x, r.y, r.w, r.h); textColor='#fff'; align='left';
-  } else if (t==='caption'){
-    const r=L.rect; ctx.fillStyle='rgba(255,255,255,.93)'; ctx.fillRect(r.x, r.y, r.w, r.h);
-    ctx.fillStyle=INK; ctx.fillRect(r.x, r.y, fs*.32, r.h); align='left';
-  } else if (t==='system'){
-    const r=L.rect;
-    ctx.shadowColor='rgba(80,200,255,.75)'; ctx.shadowBlur=fs*.9;
-    ctx.beginPath(); rrectPath(ctx, r.x, r.y, r.w, r.h, fs*.35); ctx.fillStyle='rgba(8,20,38,.9)'; ctx.fill();
-    ctx.shadowBlur=0; ctx.strokeStyle='#62d2ff'; ctx.lineWidth=lw*.9; ctx.stroke();
-    const c=fs*.75; ctx.lineWidth=lw*1.6; ctx.strokeStyle='#bdf0ff';
-    [[r.x,r.y,1,1],[r.x+r.w,r.y,-1,1],[r.x,r.y+r.h,1,-1],[r.x+r.w,r.y+r.h,-1,-1]].forEach(([x,y,sx,sy])=>{ ctx.beginPath(); ctx.moveTo(x+sx*c,y+sy*lw); ctx.lineTo(x+sx*lw,y+sy*lw); ctx.lineTo(x+sx*lw,y+sy*c); ctx.stroke(); });
-    textColor='#e9f8ff'; align='left';
+  };
+  const textOnly = t==='sfx' || t==='plain';
+  if (!textOnly){
+    if (fx==='shake'){ ctx.save(); ctx.globalAlpha = .3; ctx.translate(fs*.45, fs*.18); paint(true); ctx.translate(-fs*.9, -fs*.1); ctx.globalAlpha = .18; paint(true); ctx.restore(); }
+    if (fx==='shadow' || fx==='glow' || fx==='soft'){
+      ctx.save();
+      if (fx==='glow'){ ctx.shadowColor = pal.glow; ctx.shadowBlur = fs*1.6; }
+      else { ctx.shadowColor = 'rgba(0,0,0,.38)'; ctx.shadowBlur = fs*(fx==='soft' ? .9 : .35); ctx.shadowOffsetX = fx==='soft' ? 0 : fs*.22; ctx.shadowOffsetY = fs*(fx==='soft' ? .15 : .3); }
+      paint(true); if (fx==='glow') paint(true); ctx.restore();
+    }
+    paint();
+    if (fx==='double' && stroked){
+      ctx.save(); ctx.strokeStyle = pal.stroke; ctx.lineWidth = lw*.7; const g = fs*.32;
+      if (outlined || t==='thought'){ shapePath(ctx, outlined || 'ellipse', cx, cy, rx+g, ry+g, 0, fs); ctx.stroke(); }
+      else { ctx.beginPath(); rrectPath(ctx, r.x-g, r.y-g, r.w+g*2, r.h+g*2, t==='system' ? fs*.5 : 1); ctx.stroke(); }
+      ctx.restore();
+    }
   }
+  if (fx==='sparkle'){
+    ctx.save(); const R = rng((ln.id||'') + ln.text); const col = THEMES[ln.theme||'']?.fill ? pal.stroke : '#ffd76a';
+    ctx.fillStyle = col; ctx.shadowColor = col; ctx.shadowBlur = fs*.5;
+    const pts = [[-.5,-.5],[.5,-.42],[.46,.5],[-.48,.4],[0,-.62]];
+    pts.forEach(([px,py],k)=>{ if (k>3 && R()<.5) return; starPath(ctx, cx + px*bw*(1.05+R()*.1), cy + py*bh*(1.1+R()*.2), fs*(.32+R()*.3)); ctx.fill(); });
+    ctx.restore();
+  }
+  if (t==='narration' || t==='mono' || t==='caption' || t==='system' || t==='letter' || t==='recall') align = 'left';
+  if (t==='recall') align = ln.align ? align : 'center';
   // text
   const dark = pn && pn.kind==='black';
   const al = ln.align || align;
   ctx.font = fontFor(ln, fs); spacing(ctx, ln, fs); ctx.textBaseline='middle'; ctx.textAlign = al;
   const y0 = cy - (L.lines.length-1)*L.lh/2;
-  const x0 = al==='left' ? L.rect.x + L.padX : al==='right' ? L.rect.x + L.rect.w - L.padX : cx;
-  if (t==='sfx' || t==='plain'){
-    const col = ln.color || (dark ? '#ffffff' : INK);
-    const edge = lum(col) > .6 ? INK : '#ffffff';
+  const x0 = al==='left' ? r.x + L.padX : al==='right' ? r.x + r.w - L.padX : cx;
+  if (textOnly){
+    const th = THEMES[ln.theme||''];
+    const col = ln.color || (th && th.fill ? th.stroke : (dark ? '#ffffff' : INK));
+    const edge = th && th.fill ? th.fill : (lum(col) > .6 ? INK : '#ffffff');
     const deg = t==='sfx' ? (ln.rot ?? -8) : (ln.rot || 0);
     const ew = fs*(t==='sfx' ? .16 : .24);
     ctx.translate(cx, cy); ctx.rotate(deg*Math.PI/180);
     const xr = al==='left' ? -L.tw/2 : al==='right' ? L.tw/2 : 0;
-    L.lines.forEach((s,i)=>{
-      const y = -(L.lines.length-1)*L.lh/2 + i*L.lh;
-      ctx.lineWidth = ew; ctx.strokeStyle = edge; ctx.strokeText(s,xr,y);
+    const each = fn => L.lines.forEach((s,i)=>fn(s, -(L.lines.length-1)*L.lh/2 + i*L.lh));
+    if (fx==='shake'){ ctx.save(); ctx.globalAlpha = .32; each((s,y)=>{ ctx.fillStyle = col; ctx.fillText(s, xr + fs*.18, y + fs*.06); ctx.fillText(s, xr - fs*.16, y - fs*.04); }); ctx.restore(); }
+    if (fx==='shadow'||fx==='glow'||fx==='soft'){ ctx.shadowColor = fx==='glow' ? (th && th.fill ? th.stroke : 'rgba(255,214,120,.95)') : 'rgba(0,0,0,.45)'; ctx.shadowBlur = fs*(fx==='glow' ? .8 : .25); ctx.shadowOffsetY = fx==='glow' ? 0 : fs*.08; }
+    each((s,y)=>{
+      if (fx==='double'){ ctx.lineWidth = ew*2.4; ctx.strokeStyle = col; ctx.strokeText(s,xr,y); }
+      if (fx!=='soft'){ ctx.lineWidth = fx==='thick' ? ew*1.8 : ew; ctx.strokeStyle = edge; ctx.strokeText(s,xr,y); }
+      ctx.shadowColor = 'rgba(0,0,0,0)';
       if (ln.bold){ ctx.lineWidth = fs*.06; ctx.strokeStyle = col; ctx.strokeText(s,xr,y); }
-      ctx.fillStyle = col; ctx.fillText(s,xr,y);
+      if (fx==='grad'){ const g = ctx.createLinearGradient(0, y-L.lh/2, 0, y+L.lh/2); g.addColorStop(0, /^#/.test(col) ? hexMix(col,'#ffffff',.45) : col); g.addColorStop(1, col); ctx.fillStyle = g; } else ctx.fillStyle = col;
+      ctx.fillText(s,xr,y);
     });
   } else {
-    const col = ln.color || textColor;
+    const col = ln.color || pal.text;
     L.lines.forEach((s,i)=>{
       const y = y0 + i*L.lh;
       if (ln.bold){ ctx.lineWidth = fs*.07; ctx.strokeStyle = col; ctx.strokeText(s, x0, y); }
@@ -1541,6 +1763,7 @@ function drawBubble(ctx, pn, ln, L, W, H){
   }
   ctx.restore();
 }
+
 function lum(hex){ const m = /^#?([0-9a-f]{6})$/i.exec(hex||''); if (!m) return 0; const n = parseInt(m[1],16); return ((n>>16&255)*.299 + (n>>8&255)*.587 + (n&255)*.114)/255; }
 /* small previews for the type picker, drawn with the same renderer as the manuscript */
 const iconCache = new Map();
@@ -1589,11 +1812,128 @@ function filtered(pn, im, W, H){
   if (f==='memory'){ const g = c.createRadialGradient(W/2,H/2,Math.min(W,H)*.28, W/2,H/2, Math.hypot(W,H)*.55); g.addColorStop(0,'rgba(255,255,255,0)'); g.addColorStop(1,'rgba(255,255,255,.9)'); c.fillStyle = g; c.fillRect(0,0,W,H); }
   filterCache.set(pn.id, {key, cv}); return cv;
 }
+/* ===== comic license: overlay effects and panel frames ===== */
+const FX = { focus:'집중선', speed:'속도선', sparkle:'반짝임', bloom:'빛번짐', vignette:'비네팅', flash:'섬광', shock:'충격 번개',
+  heart:'하트', petal:'꽃잎', tone:'스크린톤', hatch:'사선 그늘', aura:'검은 오라', warm:'노을빛', cold:'푸른빛', rose:'분홍빛' };
+const FX_FROM = [[/집중/, 'focus'], [/속도|스피드/, 'speed'], [/반짝|빛가루|입자/, 'sparkle'], [/비네|어둡게|가장자리/, 'vignette'], [/빛번|번짐|블룸|bloom|후광/, 'bloom'],
+  [/섬광|플래시|번쩍/, 'flash'], [/번개|충격|쇼크/, 'shock'], [/하트|설렘|두근/, 'heart'], [/꽃잎|꽃잎|벚꽃잎|꽃비/, 'petal'], [/스크린톤|톤|망점/, 'tone'],
+  [/사선|그늘|암울|우울/, 'hatch'], [/오라|살기|검은 기운|흑염/, 'aura'], [/노을|따뜻|주황|황금빛/, 'warm'], [/푸른|차가|서늘|파란/, 'cold'], [/분홍|핑크|발그레/, 'rose']];
+const FRAMES = { '':'꽉 차게', border:'테두리', 'small-l':'작게 왼쪽', 'small-c':'작게 가운데', 'small-r':'작게 오른쪽' };
+const SMALL_W = .64;
+const isSmall = pn => /^small/.test(pn.frame||'');
+function parseFx(v){ const out = []; for (const part of String(v).split(/[,·/|]+/)) for (const [re,k] of FX_FROM) if (re.test(part) && !out.includes(k)) out.push(k); return out; }
+function parseFrame(v){ if (/테두리|border|칸/.test(v)) return 'border'; if (/왼/.test(v)) return 'small-l'; if (/오른/.test(v)) return 'small-r'; if (/작게|가운데|중앙|small/.test(v)) return 'small-c'; return ''; }
+/* stable pseudo-random per panel so effects do not jump while dragging bubbles */
+function rng(seedStr){ let h = 2166136261; for (const c of String(seedStr)) h = Math.imul(h ^ c.charCodeAt(0), 16777619); return ()=>{ h ^= h << 13; h ^= h >>> 17; h ^= h << 5; return ((h>>>0) % 100000) / 100000; }; }
+function drawFx(ctx, pn, W, H){
+  const fx = [...(pn.fx || [])].sort((a,b)=>(/warm|cold|rose/.test(b)?1:0)-(/warm|cold|rose/.test(a)?1:0)); if (!fx.length) return;
+  const dark = pn.kind==='black';
+  for (const k of fx){
+    const R = rng(pn.id + k);
+    ctx.save();
+    if (k==='vignette'){
+      const g = ctx.createRadialGradient(W/2, H/2, Math.min(W,H)*.32, W/2, H/2, Math.hypot(W,H)*.56);
+      g.addColorStop(0,'rgba(0,0,0,0)'); g.addColorStop(1,'rgba(0,0,0,.62)'); ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+    } else if (k==='bloom'){
+      ctx.globalCompositeOperation = 'screen';
+      for (let i=0;i<3;i++){ const x = W*(.15+R()*.7), y = H*(.1+R()*.5), r = Math.max(W,H)*(.35+R()*.3);
+        const g = ctx.createRadialGradient(x,y,0,x,y,r); g.addColorStop(0,'rgba(255,236,210,.42)'); g.addColorStop(1,'rgba(255,236,210,0)'); ctx.fillStyle = g; ctx.fillRect(0,0,W,H); }
+      ctx.globalCompositeOperation = 'source-over'; ctx.fillStyle = 'rgba(255,250,240,.08)'; ctx.fillRect(0,0,W,H);
+    } else if (k==='sparkle'){
+      const n = Math.round(26 + W/40);
+      for (let i=0;i<n;i++){
+        const x = R()*W, y = R()*H, r = W*(.004 + R()*.012);
+        const g = ctx.createRadialGradient(x,y,0,x,y,r*2.4); g.addColorStop(0,'rgba(255,255,255,.95)'); g.addColorStop(1,'rgba(255,255,255,0)');
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x,y,r*2.4,0,Math.PI*2); ctx.fill();
+        if (R() < .22){ const s = r*4.5; ctx.fillStyle = 'rgba(255,255,255,.9)'; ctx.beginPath(); ctx.moveTo(x, y-s); ctx.quadraticCurveTo(x, y, x+s, y); ctx.quadraticCurveTo(x, y, x, y+s); ctx.quadraticCurveTo(x, y, x-s, y); ctx.quadraticCurveTo(x, y, x, y-s); ctx.fill(); }
+      }
+    } else if (k==='focus'){
+      const cx = W/2, cy = H/2, outer = Math.hypot(W,H)*.75, n = 150;
+      ctx.fillStyle = dark ? 'rgba(255,255,255,.55)' : 'rgba(10,10,12,.5)';
+      for (let i=0;i<n;i++){
+        const a = R()*Math.PI*2, inner = Math.min(W,H)*(.30 + R()*.14), wdt = (.004 + R()*.01);
+        ctx.beginPath(); ctx.moveTo(cx + Math.cos(a)*inner*1.0, cy + Math.sin(a)*inner*1.25);
+        ctx.lineTo(cx + Math.cos(a-wdt)*outer, cy + Math.sin(a-wdt)*outer); ctx.lineTo(cx + Math.cos(a+wdt)*outer, cy + Math.sin(a+wdt)*outer); ctx.closePath(); ctx.fill();
+      }
+    } else if (k==='warm' || k==='cold' || k==='rose'){
+      const c = { warm:['255,160,70','255,214,150'], cold:['40,90,170','120,170,230'], rose:['255,120,170','255,200,220'] }[k];
+      ctx.globalCompositeOperation = 'soft-light'; ctx.fillStyle = `rgba(${c[0]},.55)`; ctx.fillRect(0,0,W,H);
+      ctx.globalCompositeOperation = 'source-over';
+      const g = ctx.createLinearGradient(0,0,0,H); g.addColorStop(0, `rgba(${c[1]},.22)`); g.addColorStop(1, `rgba(${c[0]},.08)`); ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+    } else if (k==='flash'){
+      const cx = W*(.4+R()*.2), cy = H*(.35+R()*.2), n = 46, outer = Math.hypot(W,H);
+      const g = ctx.createRadialGradient(cx,cy,0,cx,cy,Math.max(W,H)*.45); g.addColorStop(0,'rgba(255,255,255,.95)'); g.addColorStop(.35,'rgba(255,255,255,.55)'); g.addColorStop(1,'rgba(255,255,255,0)');
+      ctx.fillStyle = g; ctx.fillRect(0,0,W,H); ctx.fillStyle = 'rgba(255,255,255,.75)';
+      for (let i=0;i<n;i++){ const a = i/n*Math.PI*2 + R()*.08, w = .012 + R()*.025; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+Math.cos(a-w)*outer, cy+Math.sin(a-w)*outer); ctx.lineTo(cx+Math.cos(a+w)*outer, cy+Math.sin(a+w)*outer); ctx.closePath(); ctx.fill(); }
+    } else if (k==='shock'){
+      // jagged filled bolts striking in from the corners
+      const bolt = (x0, y0, dirX) => {
+        const pts = [[x0, y0]]; let x = x0, y = y0; const segs = 4 + (R()*2|0), len = Math.min(W,H)*.09;
+        for (let i=0;i<segs;i++){ x += dirX*len*(.6+R()*.5); y += len*(.7+R()*.6) * (i%2 ? .45 : 1); pts.push([x + (i%2 ? -dirX*len*.55 : 0), y]); }
+        const wdt = Math.min(W,H)*.022, left = pts.map(([px,py],i)=>[px - wdt*(1 - i/pts.length), py]), right = pts.map(([px,py],i)=>[px + wdt*(1 - i/pts.length), py]).reverse();
+        ctx.beginPath(); [...left, ...right].forEach(([px,py],i)=> i ? ctx.lineTo(px,py) : ctx.moveTo(px,py)); ctx.closePath();
+        ctx.fillStyle = dark ? '#ffffff' : '#141418'; ctx.strokeStyle = dark ? '#141418' : '#ffffff'; ctx.lineWidth = Math.max(2, W*.005); ctx.lineJoin = 'miter'; ctx.stroke(); ctx.fill();
+      };
+      bolt(W*(.04+R()*.08), -H*.02, 1); bolt(W*(.96-R()*.08), -H*.02, -1);
+      if (R() < .6) bolt(W*(.5+(R()-.5)*.2), -H*.02, R()<.5 ? 1 : -1);
+    } else if (k==='heart' || k==='petal'){
+      const n = k==='heart' ? 9 : 22;
+      for (let i=0;i<n;i++){
+        const x = R()*W, y = R()*H, s = W*(k==='heart' ? .025+R()*.035 : .012+R()*.016), rot = (R()-.5)*1.4;
+        ctx.save(); ctx.translate(x,y); ctx.rotate(rot); ctx.globalAlpha = .55 + R()*.4;
+        if (k==='heart'){
+          ctx.fillStyle = R()<.5 ? '#ff6f9c' : '#ffb3c9'; ctx.strokeStyle = '#ffffff'; ctx.lineWidth = s*.18;
+          ctx.beginPath(); ctx.moveTo(0, s*.35); ctx.bezierCurveTo(-s*1.1, -s*.35, -s*.45, -s*1.05, 0, -s*.42); ctx.bezierCurveTo(s*.45, -s*1.05, s*1.1, -s*.35, 0, s*.35); ctx.closePath(); ctx.fill(); ctx.stroke();
+        } else {
+          ctx.fillStyle = R()<.5 ? '#ffc4d6' : '#ffe0ea';
+          ctx.beginPath(); ctx.moveTo(0,-s); ctx.quadraticCurveTo(s*.9, -s*.2, 0, s); ctx.quadraticCurveTo(-s*.9, -s*.2, 0, -s); ctx.fill();
+        }
+        ctx.restore();
+      }
+    } else if (k==='tone'){
+      const step = Math.max(5, W/70);
+      for (let y=0; y<H; y+=step) for (let x=((y/step)%2)*step/2; x<W; x+=step){
+        const d = Math.hypot(x/W-.5, (y/H-.5)*1.1) * 2; const r = step*.42*Math.max(0, Math.min(1, (d-.35)*1.4)); if (r < .4) continue;
+        ctx.fillStyle = dark ? 'rgba(255,255,255,.35)' : 'rgba(20,20,24,.38)'; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+      }
+    } else if (k==='hatch'){
+      const step = Math.max(4, W/90); ctx.strokeStyle = dark ? 'rgba(255,255,255,.25)' : 'rgba(10,10,20,.42)'; ctx.lineWidth = Math.max(1, step*.28);
+      const g = ctx.createLinearGradient(0,0,0,H*.65); g.addColorStop(0,'#000'); g.addColorStop(1,'rgba(0,0,0,0)');
+      const off = h('canvas',{width:W, height:H}), o = off.getContext('2d'); o.strokeStyle = ctx.strokeStyle; o.lineWidth = ctx.lineWidth;
+      for (let x=-H; x<W; x+=step){ o.beginPath(); o.moveTo(x,0); o.lineTo(x+H*.6,H); o.stroke(); }
+      o.globalCompositeOperation = 'destination-in'; o.fillStyle = g; o.fillRect(0,0,W,H);
+      ctx.drawImage(off, 0, 0);
+    } else if (k==='aura'){
+      for (let i=0;i<26;i++){
+        const edge = R()*4|0, along = R();
+        const x = edge===0 ? along*W : edge===1 ? W : edge===2 ? along*W : 0, y = edge===0 ? 0 : edge===1 ? along*H : edge===2 ? H : along*H;
+        const rr = Math.min(W,H)*(.18+R()*.22); const g = ctx.createRadialGradient(x,y,0,x,y,rr);
+        g.addColorStop(0,'rgba(20,6,30,.75)'); g.addColorStop(.6,'rgba(40,10,60,.35)'); g.addColorStop(1,'rgba(40,10,60,0)');
+        ctx.fillStyle = g; ctx.fillRect(x-rr,y-rr,rr*2,rr*2);
+      }
+    } else if (k==='speed'){
+      const n = 60;
+      for (let i=0;i<n;i++){
+        const y = R()*H, len = W*(.25 + R()*.55), x = R()*(W - len*.5) - len*.25, t = Math.max(1, W*(.0015 + R()*.004));
+        const g = ctx.createLinearGradient(x,0,x+len,0); const c = dark ? '255,255,255' : '255,255,255';
+        g.addColorStop(0,`rgba(${c},0)`); g.addColorStop(.5,`rgba(${c},.75)`); g.addColorStop(1,`rgba(${c},0)`);
+        ctx.fillStyle = g; ctx.fillRect(x, y, len, t);
+      }
+    }
+    ctx.restore();
+  }
+}
+function drawFrame(ctx, pn, W, H){
+  if ((pn.frame||'')==='' ) return;
+  const lw = Math.max(2, W*.008);
+  ctx.save(); ctx.strokeStyle = pn.kind==='black' ? '#e9eaec' : INK; ctx.lineWidth = lw; ctx.strokeRect(lw/2, lw/2, W-lw, H-lw); ctx.restore();
+}
 function drawPanel(ctx, pn, W, H, idx, {selectedId=null}={}){
   const kind = pn.kind || 'image';
   if (kind==='black'){ ctx.fillStyle = '#0c0d0f'; ctx.fillRect(0,0,W,H); }
   else if (kind==='white'){ ctx.fillStyle = '#ffffff'; ctx.fillRect(0,0,W,H); }
   else { const im = getImg(pn.img); if (im) ctx.drawImage(filtered(pn, im, W, H) || im, 0, 0, W, H); else drawPlaceholder(ctx, pn, W, H, idx); }
+  drawFx(ctx, pn, W, H); drawFrame(ctx, pn, W, H);
   const layouts = {};
   for (const ln of pn.lines){
     if (!ln.text) continue;
@@ -1706,7 +2046,7 @@ function statusPill(pn){
 }
 function panelView(pn, i){
   const canvas = h('canvas',{'aria-label':`컷 ${i+1} 미리보기`});
-  const stage = h('div',{class:'stage'}, canvas);
+  const stage = h('div',{class:'stage'+(isSmall(pn) ? ' small '+pn.frame : '')}, canvas);
   const cost = estCost(pn);
   const blocked = panelIssues(pn);
   const blockTitle = blocked.length ? `외형 태그 필요: ${issueText(blocked)}` : null;
@@ -1731,12 +2071,18 @@ function panelView(pn, i){
     ...['','mono','sepia','memory'].map(f=>h('button',{type:'button', text:`필터: ${FILTER_LABEL[f]}${(pn.filter||'')===f?' ✓':''}`, onclick:()=>{ pn.filter=f; pop.hidden=true; save(); rerenderPanel(pn); }})),
     ...GAPS.map(([g,t])=>h('button',{type:'button', text:`아래 간격: ${t}${(pn.gap??null)===g?' ✓':''}`, onclick:()=>{ pn.gap=g; pop.hidden=true; save(); rerenderPanel(pn); }})),
     h('hr'),
+    h('button',{type:'button', text:'NovelAI에 보낼 프롬프트 보기', onclick:()=>{ pop.hidden=true; showPrompt(pn); }}),
+    h('div',{class:'pop-lbl', text:'만화 효과 (여러 개 가능)'}),
+    ...Object.entries(FX).map(([k,t])=>h('button',{type:'button', text:`효과: ${t}${(pn.fx||[]).includes(k)?' ✓':''}`, onclick:()=>{ pn.fx = (pn.fx||[]).includes(k) ? pn.fx.filter(x=>x!==k) : [...(pn.fx||[]), k]; pop.hidden=true; save(); rerenderPanel(pn); }})),
+    h('div',{class:'pop-lbl', text:'컷 틀'}),
+    ...Object.entries(FRAMES).map(([k,t])=>h('button',{type:'button', text:`틀: ${t}${(pn.frame||'')===k?' ✓':''}`, onclick:()=>{ pn.frame=k; pop.hidden=true; save(); rerenderPanel(pn); }})),
+    h('hr'),
     h('button',{type:'button', text:'위로 이동', disabled:i===0, onclick:()=>{ movePanel(pn,-1); }}),
     h('button',{type:'button', text:'아래로 이동', disabled:i===P.panels.length-1, onclick:()=>{ movePanel(pn,1); }}),
     h('button',{type:'button', text:'컷 삭제', style:'color:var(--bad)', onclick:()=>{ P.panels=P.panels.filter(x=>x!==pn); save(); renderBoard(); }}));
   more.append(h('button',{class:'btn ghost sm', type:'button', text:'⋯', 'aria-label':'컷 메뉴', onclick:(e)=>{ e.stopPropagation(); closePops(pop); pop.hidden=!pop.hidden; }}), pop);
   const bar = h('div',{class:'pv-bar'},
-    h('span',{class:'lbl'}, `컷 ${String(i+1).padStart(2,'0')} · ${RATIO_LABEL[pn.ratio]}${isImg?'':' · '+KIND_LABEL[pn.kind]}${pn.filter?' · '+FILTER_LABEL[pn.filter]:''}`, isImg ? statusPill(pn) : h('span',{class:'pill', text:'연출 컷'}), blocked.length ? h('button',{class:'pill err', type:'button', style:'border:0;cursor:pointer', title: blockTitle, text:'외형 태그 필요', onclick:openCastTab}) : null, (isImg && S.sub && S.sub!=='bad') ? h('span',{class:'pill', text: cost ? `${cost*cands} Anlas` : '무료'}) : null),
+    h('span',{class:'lbl'}, `컷 ${String(i+1).padStart(2,'0')} · ${RATIO_LABEL[pn.ratio]}${isImg?'':' · '+KIND_LABEL[pn.kind]}${pn.filter?' · '+FILTER_LABEL[pn.filter]:''}${(pn.fx||[]).length?' · '+pn.fx.map(k=>FX[k]).join('·'):''}${pn.frame?' · '+FRAMES[pn.frame]:''}`, isImg ? statusPill(pn) : h('span',{class:'pill', text:'연출 컷'}), blocked.length ? h('button',{class:'pill err', type:'button', style:'border:0;cursor:pointer', title: blockTitle, text:'외형 태그 필요', onclick:openCastTab}) : null, (isImg && S.sub && S.sub!=='bad') ? h('span',{class:'pill', text: cost ? `${cost*cands} Anlas` : '무료'}) : null),
     genBtn, newBtn, more);
   const err = pn.error ? h('div',{class:'small', style:`color:${pn.status==='err'?'var(--bad)':'var(--warn)'}`, text:pn.error}) : null;
   const lines = h('div',{class:'lines'});
@@ -1836,6 +2182,13 @@ function buildTools(pn){
     h('div',{class:'swatches', role:'group', 'aria-label':'글자색'}, ...SWATCHES.map(([c,label])=>h('button',{type:'button', class:'sw'+((ln.color||'')===c?' on':''), title:label, 'aria-label':'글자색 '+label, 'aria-pressed':String((ln.color||'')===c), style:c?`--sw:${c}`:'', text:c?'':'A', onclick:()=>{ ln.color=c; save(); drawOne(pn); refreshTools(pn); }}))),
     (ln.type==='sfx'||ln.type==='plain') ? h('span',{class:'bt-lbl', text:'기울기'}) : null,
     (ln.type==='sfx'||ln.type==='plain') ? h('input',{type:'range', min:'-30', max:'30', step:'1', class:'bt-range', 'aria-label':'기울기', value:String(ln.type==='sfx' ? (ln.rot ?? -8) : (ln.rot||0)), oninput:e=>{ live('rot', +e.target.value); }, onchange:()=>save()}) : null);
+  const rowLook = h('div',{class:'bt-row bt-look'},
+    h('span',{class:'bt-lbl', text:'색상'}),
+    h('div',{class:'themes', role:'group', 'aria-label':'풍선 색상'}, ...Object.entries(THEMES).map(([k,th])=>h('button',{type:'button', class:'th'+((ln.theme||'')===k?' on':''), title:th.t, 'aria-label':'색상 '+th.t, 'aria-pressed':String((ln.theme||'')===k),
+      style: th.fill ? `--thf:${th.fill};--ths:${th.stroke}` : '', onclick:()=>{ ln.theme=k; if (!k) delete ln.theme; save(); drawOne(pn); refreshTools(pn); }}))),
+    h('span',{class:'bt-lbl', text:'효과'}),
+    h('select',{'aria-label':'풍선 효과', onchange:e=>{ ln.bfx=e.target.value; if (!ln.bfx) delete ln.bfx; save(); drawOne(pn); }},
+      ...Object.entries(BFX).map(([k,t])=>h('option',{value:k, text:t, selected:(ln.bfx||'')===k}))));
   const styled = STYLE_KEYS.some(k=>ln[k]!=null && ln[k]!=='' && ln[k]!==false);
   const rowStyle = h('div',{class:'bt-row'},
     h('button',{type:'button', class:'btn ghost sm', text:'서식 초기화', disabled:!styled, onclick:()=>{ STYLE_KEYS.forEach(k=>delete ln[k]); save(); drawOne(pn); refreshTools(pn); }}),
@@ -1844,7 +2197,7 @@ function buildTools(pn){
       P.panels.forEach(p=>p.lines.forEach(l=>{ if (l!==ln && l.type===ln.type){ STYLE_KEYS.forEach(k=>{ if (ln[k]==null || ln[k]==='' ) delete l[k]; else l[k]=ln[k]; }); n++; } }));
       save(); redrawAll(); toast(n ? `"${TYPE_LABEL[ln.type]}" ${n}개에 같은 서식을 적용했어요.` : `다른 "${TYPE_LABEL[ln.type]}"이 없어요.`);
     }}));
-  box.append(types, rowFmt, rowSpace, row, rowStyle);
+  box.append(types, rowLook, rowFmt, rowSpace, row, rowStyle);
   return box;
 }
 function alignIcon(v){
@@ -1855,6 +2208,23 @@ function alignIcon(v){
   return svg;
 }
 const SWATCHES = [['','기본'],['#d62828','빨강'],['#1f5fbf','파랑'],['#7a3fb8','보라'],['#1f7a45','초록'],['#ffffff','흰색'],['#8a8f96','회색']];
+function showPrompt(pn){
+  const req = buildRequest(pn, pn.seed ?? 0), pr = req.parameters;
+  const block = (title, text) => [h('b',{class:'small', text:title}), h('pre',{class:'code prompt-pre', text:text||'(없음)'})];
+  const m = h('div',{class:'modal'});
+  const close = ()=>{ m.remove(); document.removeEventListener('keydown', esc); };
+  const esc = e=>{ if (e.key==='Escape') close(); };
+  const card = h('div',{class:'card', role:'dialog', 'aria-modal':'true', 'aria-label':'프롬프트 보기'},
+    h('h3',{style:'font-size:22px', text:`컷 ${P.panels.indexOf(pn)+1} 프롬프트`}),
+    h('p',{class:'small muted', style:'margin:0', text:`모델 ${req.model} · ${pr.width}×${pr.height} · 인물 위치 ${pr.use_coords ? '고정(왼쪽→오른쪽)' : 'AI가 정함'}${pr.director_reference_images ? ` · 레퍼런스 ${pr.director_reference_images.length}개 (충실도 ${P.settings.fidelity})` : ''}`}),
+    ...block('기본 프롬프트', req.input),
+    ...pr.characterPrompts.flatMap((c,i)=>block(`인물 ${i+1}`, c.prompt)),
+    ...block('제외 프롬프트', pr.negative_prompt),
+    h('p',{class:'small muted', style:'margin:0', text:'source#/target#/mutual# 은 두 인물 사이의 행동(누가 누구를 안는지)을 NovelAI에 알려 주는 표시예요.'}),
+    h('div',{class:'row'}, h('button',{class:'btn ghost', type:'button', text:'복사', onclick:()=>{ navigator.clipboard?.writeText([req.input, ...pr.characterPrompts.map(c=>c.prompt)].join('\n\n')).then(()=>toast('복사했어요.')).catch(()=>{}); }}), h('button',{class:'btn', type:'button', text:'닫기', onclick:close})));
+  m.append(card); m.addEventListener('click', e=>{ if (e.target===m) close(); }); document.addEventListener('keydown', esc);
+  document.body.append(m);
+}
 function refreshTools(pn){ const v=views.get(pn.id); if (!v) return; const n=buildTools(pn); v.tools.replaceWith(n); v.tools=n; }
 function movePanel(pn, d){ const i=P.panels.indexOf(pn), j=i+d; if (j<0||j>=P.panels.length) return; [P.panels[i],P.panels[j]]=[P.panels[j],P.panels[i]]; save(); renderBoard(); }
 function replaceImage(pn){
@@ -1965,6 +2335,7 @@ function bindSettings(){
   ];
   map.forEach(([sel,key,conv])=>{ $(sel).addEventListener('input', e=>{ st()[key] = conv ? conv(e.target.value) : e.target.value; save(); updateRunStat(); }); });
   $('#s-quality').onchange = e=>{ st().quality = e.target.checked; save(); };
+  $('#s-preset').onchange = e=>{ if (!e.target.value) return; st().style = e.target.value; $('#s-style').value = e.target.value; save(); };
   $('#s-cands').onchange = e=>{ st().cands = +e.target.value; save(); updateRunStat(); renderBoard(); };
   $('#s-multiref').onchange = e=>{ st().multiRef = e.target.checked; save(); updateRunStat(); renderBoard(); };
   $('#s-refstyle').onchange = e=>{ st().refStyle = e.target.checked; save(); };
@@ -1975,6 +2346,7 @@ function bindSettings(){
 function fillSettings(){
   const s = P.settings = {...DEFAULT_SETTINGS, ...P.settings};
   $('#s-model').value=s.model; $('#s-custom').value=s.custom; $('#s-style').value=s.style; $('#s-neg').value=s.neg;
+  $('#s-preset').value = [...$('#s-preset').options].some(o=>o.value && o.value===s.style) ? s.style : '';
   $('#s-steps').value=s.steps; $('#s-scale').value=s.scale; $('#s-sampler').value=s.sampler; $('#s-uc').value=String(s.uc);
   $('#s-quality').checked=s.quality; $('#s-refstyle').checked=s.refStyle; $('#s-cands').value=String(s.cands||1); $('#s-multiref').checked=!!s.multiRef; $('#s-fid').value=s.fidelity; $('#s-fidv').textContent=(+s.fidelity).toFixed(2);
   $('#s-expw').value=String(s.expW); $('#s-split').value=String(s.split); $('#s-gut').value=s.gutter; $('#s-gutv').textContent=Math.round(s.gutter*100)+'%';
@@ -1985,7 +2357,14 @@ function fillSettings(){
 async function ensureFonts(){ try{ await Promise.all(['800 20px "Nanum Gothic"','700 20px "Nanum Myeongjo"','700 20px "Gaegu"','20px "Black Han Sans"', ...FONTS.filter(f=>f[2]).map(f=>f[2].replace('{s}','20'))].map(f=>document.fonts.load(f, '가나다'))); }catch(e){} }
 async function renderPanelsAt(W){
   await ensureFonts();
-  return P.panels.map((pn,i)=>{ const H=Math.round(W*panelAspect(pn)); const cv=h('canvas',{width:W,height:H}); drawPanel(cv.getContext('2d'), pn, W, H, i); return cv; });
+  return P.panels.map((pn,i)=>{
+    const w = isSmall(pn) ? Math.round(W*SMALL_W) : W, H = Math.round(w*panelAspect(pn));
+    const cv = h('canvas',{width:w, height:H}); drawPanel(cv.getContext('2d'), pn, w, H, i);
+    if (w===W) return cv;
+    const out = h('canvas',{width:W, height:H}), c = out.getContext('2d'); c.fillStyle = '#fff'; c.fillRect(0,0,W,H);
+    const x = pn.frame==='small-l' ? Math.round(W*.06) : pn.frame==='small-r' ? W - w - Math.round(W*.06) : Math.round((W-w)/2);
+    c.drawImage(cv, x, 0); return out;
+  });
 }
 const toBlob = cv => new Promise(r=>cv.toBlob(r,'image/png'));
 const gapAfter = (pn, W) => Math.round(W * P.settings.gutter * (pn.gap ?? 1));
@@ -2088,7 +2467,7 @@ const SCRIPT_RULES = `[각색 원칙: 글을 "장면"으로 바꾸기]
 1. 원문에 있는 사건만 쓴다. 원문에 없는 행동·대사·나레이션·시간 경과를 지어내지 않는다.
 2. 원문의 결정적 대사와 감정이 꺾이는 지점은 반드시 살린다. 대사는 원문 그대로 쓰고, 길면 풍선 여러 개로 나눈다.
 3. 눈에 보이는 것(행동·표정·자세·시선·접촉·배경·날씨·조명·인물 상태)은 나레이션이 아니라 그림 태그로 옮긴다.
-4. 나레이션은 그림으로 못 보여주는 것(속마음, 감각의 의미, 관계의 변화)만 쓴다. 원문 문장을 줄여 쓰되 새 문장을 만들지 않는다. 한 컷에 나레이션은 1개, 40자 안팎. 인물의 속마음은 "이름 생각:" 또는 "독백:".
+4. 나레이션은 그림으로 못 보여주는 것(속마음, 감각, 관계의 변화)만 쓴다. 원문의 단어와 어휘를 살려 줄이고, 원문에 없는 사실을 만들지 않는다. 인물의 속마음은 "이름 생각:" 또는 "독백:".
 5. 한 컷은 한 순간이다. 구도로 리듬을 만든다.
    - 첫 컷과 장소가 바뀔 때: 가로 비율 + full body 또는 wide shot으로 배경과 인물 위치를 보여준다
    - 두 사람이 닿거나 마주할 때: 두 사람 모두 그림에 넣고 cowboy shot 또는 upper body
@@ -2096,6 +2475,25 @@ const SCRIPT_RULES = `[각색 원칙: 글을 "장면"으로 바꾸기]
    - 손·입술·목덜미 같은 작은 동작 강조: 그 부위 focus 태그 (hand focus 등)
    - 한 사람 클로즈업은 두 컷 연속까지만. 그 다음은 두 사람이 함께 보이는 컷으로 돌아온다
    - 같은 구도를 세 컷 연속 쓰지 않는다
+
+[웹툰 연출: 만화적 허용으로 몰입시키기]
+- 결정적 순간은 한 컷에 몰지 말고 2~4컷으로 쪼갠다. 예) 닿기 직전의 손(hand focus) → 숨을 삼키는 얼굴(close-up) → 닿은 뒤의 두 사람(cowboy shot)
+- 클로즈업과 넓은 컷을 번갈아 리듬을 만든다. 눈·입술·손끝 같은 극단적 클로즈업(eye focus, hand focus, lips)도 쓴다.
+- 대사 없는 컷(표정만, 손만, 풍경만)을 아끼지 말 것. 침묵·망설임·여운은 말없는 컷 하나와 "간격: 넓게"로 보여준다.
+- 대사 다음에는 듣는 사람의 반응 컷을 둔다.
+- 감정은 연출로 과장한다(만화적 허용). 모든 컷에 쓰지 말고 감정이 꺾이는 컷에만:
+  놀람·고백 = 집중선 / 깨달음·각성 = 섬광 / 충격·분노 = 충격 번개 / 설렘 = 하트 또는 반짝임 / 다정함·아름다운 순간 = 빛번짐, 꽃잎, 분홍빛
+  긴장·불안 = 비네팅 / 우울·절망 = 사선 그늘, 푸른빛 / 위협·살기 = 검은 오라 / 회상·따뜻한 기억 = 노을빛 / 만화풍 강조 = 스크린톤 / 급한 움직임 = 속도선
+- 소리와 몸의 반응은 효과음으로 그린다: 효과음: 두근 / 툭 / 움찔 / 찰박 / 쿵. 원문에 있는 소리·움직임에서만 뽑는다.
+- 작은 디테일 컷(손끝, 떨어지는 물방울, 쥔 옷자락)은 "틀: 작게 가운데"로 작게 넣어 시선을 붙잡는다.
+- 장면 전환·시간 경과는 "컷: 검은 화면" 또는 "간격: 아주 넓게"로 호흡을 끊는다.
+
+[문장: 감각적이고 문학적으로]
+- 원문의 문체와 단어를 살린다. 요약체·설명체(~했다는 것이다, ~하는 상황이다)로 바꾸지 않는다.
+- 나레이션은 감각의 조각으로 짧게 끊는다: 온기, 냄새, 소리, 촉감, 숨, 빛. 예) "젖은 머리칼." / "물 위로 번지는 숨."
+- 원문의 긴 문장 하나는 나레이션 상자 2~3개로 나눠 여러 컷에 이어 붙여도 된다. 한 컷에 나레이션 최대 2개, 각 30자 안팎.
+- 속마음은 1인칭 짧은 독백으로: 이름 생각: …따뜻해.
+- 대사는 원문 그대로. 말줄임표·머뭇거림도 살린다.
 
 [태그 규칙: 실제 Danbooru 태그만, 영어, 쉼표 구분]
 - "장면:" 순서 = 인원 태그 → 구도 1개 → 카메라 각도 → 장소 → 시간·조명 → 날씨·환경 디테일 2개 이상 → 분위기
@@ -2130,10 +2528,13 @@ const SCRIPT_RULES = `[각색 원칙: 글을 "장면"으로 바꾸기]
 컷: 검은 화면 | 흰 화면     ← 그림 없이 글자만 띄우는 호흡 컷
 필터: 흑백 | 세피아 | 회상   ← 회상·과거 장면일 때
 간격: 좁게 | 넓게 | 아주 넓게 ← 이 컷 아래 여백
+연출: 집중선 | 속도선 | 반짝임 | 빛번짐 | 비네팅 | 섬광 | 충격 번개 | 하트 | 꽃잎 | 스크린톤 | 사선 그늘 | 검은 오라 | 노을빛 | 푸른빛 | 분홍빛  ← 쉼표로 최대 2개
+회상: 과거 기억 속 문장 (가장자리가 흐린 상자) · 편지: 편지·메모·문자 내용
+틀: 테두리 | 작게 가운데 | 작게 왼쪽 | 작게 오른쪽 ← 작은 디테일 컷
 
 [이름 규칙]
 - 인물 이름은 아래 등장인물 이름과 글자 하나까지 똑같이 쓴다(성까지 포함). 원문의 별칭·호칭·성 뺀 이름·"그/그녀"는 문맥으로 실제 인물을 판단해 바꾼다.
-- 한 컷에 그림 속 인물 최대 3명, 풍선·상자 최대 3개. 풍선 하나는 25자 안팎.`;
+- 한 컷에 그림 속 인물 최대 3명, 풍선·상자 최대 4개. 풍선 하나는 25자 안팎.`;
 function scriptExample(){
   const names = P.cast.filter(c=>c.name.trim()).map(c=>c.name.trim());
   const a = names[0] || '인물A', b = names[1] || '인물B';
@@ -2144,12 +2545,21 @@ function scriptExample(){
 장면: ${two}, full body, from side, onsen, night, moonlight, steam, water, partially submerged, wet hair
 ${a}(light smile, looking at another, sitting)
 ${b}(closed eyes, head on another's shoulder, leaning on another)
-나레이션: 어깨 위로 툭, 가벼운 무게가 내려앉았다.
+나레이션: 어깨 위로, 툭.
+나레이션: 가벼운 무게가 내려앉았다.
+효과음: 툭
+
+# 컷
+틀: 작게 가운데
+장면: no humans, close-up, water drop, wet hair, steam, onsen, night
+간격: 넓게
 
 # 컷
 비율: 정사각
 장면: 1${ga}, close-up, portrait, onsen, night, moonlight, steam, wet hair, blush
-${a}(blush, parted lips, looking down) 속삭임: …편해?`;
+연출: 빛번짐
+${a}(blush, parted lips, looking down) 속삭임: …편해?
+${a} 생각: 심장 소리, 들리면 안 되는데.`;
 }
 /* ---- read a chat log before adapting: status windows, {{directions}}, time & place ---- */
 const TIME_MAP = [[/새벽/,'dawn'],[/한밤|자정|심야/,'night'],[/아침|오전/,'morning'],[/정오|한낮/,'day'],[/오후/,'afternoon, day'],[/해질녘|노을|석양/,'sunset'],[/저녁/,'evening'],[/밤/,'night'],[/낮/,'day']];
@@ -2196,7 +2606,10 @@ function prepSource(src){
 function hintsText(h){
   const rows = [];
   if (h.time) rows.push(`- 시간: ${h.time} → 모든 컷 장면에 ${h.timeTags} (다른 시간 태그 금지)`);
-  if (h.place) rows.push(`- 장소: ${h.place} → 원문 묘사에 맞는 영어 장소 태그로 바꿔 모든 컷 장면에 넣기`);
+  if (h.placeEntry) rows.push(`- 장소: ${h.placeEntry.name.trim()}${h.placeEntry.desc ? ` = ${h.placeEntry.desc}` : ''} → 모든 컷 장면에 반드시 이 장소 태그: ${h.placeTags || '(태그 미정: 설명에 맞는 영어 태그로)'}. 다른 장소 태그(bathroom, bedroom 등)는 쓰지 않는다`);
+  else if (h.placeName || h.place) rows.push(`- 장소: ${h.placeName || h.place} → 원문 묘사에 맞는 영어 장소 태그로 바꿔 모든 컷 장면에 넣기`);
+  if (h.memo) rows.push(`- 이번 장면 상황(작가 메모, 로그보다 우선): ${h.memo}`);
+  if (h.prev && (h.prev.summary || h.prev.place)) rows.push(`- 바로 이전 장면(이야기가 이어짐): ${[h.prev.place, h.prev.time].filter(Boolean).join(' · ')}${h.prev.summary ? ` — ${h.prev.summary}` : ''}`);
   if (h.date) rows.push(`- 날짜: ${h.date}`);
   if (h.summary.length) rows.push(`- 이번 장면 요약: ${h.summary.join(' / ')}`);
   if (h.inner.length) rows.push(`- 인물 상태: ${h.inner.join(' / ')}`);
@@ -2221,6 +2634,15 @@ function cleanTagList(list){
   }
   return { out, fixed };
 }
+let _placeSet = null;
+function placeTagSet(){
+  if (_placeSet) return _placeSet;
+  _placeSet = new Set([...DICT.filter(d=>d[2]==='place').flatMap(d=>d[1].split(', ')),
+    'bathroom','bedroom','cave','bath','bathtub','classroom','kitchen','office','street','alley','park','forest','beach','ocean','rooftop','hallway','library','cafe','hospital','church',
+    'palace','garden','onsen','living room','dungeon','ruins','bar (place)','shop','restaurant','train interior','shrine','temple','castle','throne room','field','meadow','mountain',
+    'desert','city','town','village','room','bed','school','locker room','pool','shower (place)','tent','forest clearing','riverside','lake','spring (water)','hot spring'].map(t=>t.toLowerCase()));
+  return _placeSet;
+}
 function checkScript(script, hints={}, extra=''){
   const AL = P.cast.flatMap(c=>castAliases(c).map(a=>({a, n:c.name.trim()}))).sort((x,y)=>y.a.length-x.a.length);
   const kindRe = new RegExp('^(\\s|\\(|\\[|:|：|$|' + KIND_ALT + ')');
@@ -2233,7 +2655,9 @@ function checkScript(script, hints={}, extra=''){
     if (!cur){ if (!l.trim()) continue; cur = {head:'# 컷', lines:[]}; panels.push(cur); }
     cur.lines.push(l);
   }
-  const fixes = []; let timeFixed = 0, prev = [];
+  const fixes = []; let timeFixed = 0, placeFixed = 0, prev = []; const placeDropped = new Set();
+  const placeTags = (hints.placeTags||'').split(',').map(t=>t.trim().toLowerCase()).filter(Boolean);
+  const PLACES = placeTagSet();
   const order = []; String(script).split('\n').forEach(l=>{ const hit = nameAt(l.trim()); if (hit && castByName(hit.n) && !order.includes(hit.n)) order.push(hit.n); });
   const timeTags = (hints.timeTags||'').split(',').map(t=>t.trim()).filter(Boolean);
   panels.forEach((p, idx)=>{
@@ -2243,13 +2667,20 @@ function checkScript(script, hints={}, extra=''){
     // character lines: canonical names, cleaned tags
     const drawn = [];
     p.lines = p.lines.map(l=>{
-      const s = l.trim(), hit = nameAt(s); if (!hit) return l;
+      const s = l.trim();
+      const fxm = s.match(/^(연출|효과|틀)\s*[:：]\s*(.*)$/);
+      if (fxm){
+        if (fxm[1]==='틀'){ const f = parseFrame(fxm[2]); if (!f && fxm[2].trim() && !/꽉/.test(fxm[2])){ note(`알 수 없는 틀 "${fxm[2].trim()}" 삭제`); return null; } return f ? '틀: ' + FRAMES[f] : null; }
+        const fx = parseFx(fxm[2]); if (!fx.length){ note(`알 수 없는 연출 "${fxm[2].trim()}" 삭제`); return null; }
+        return '연출: ' + fx.map(k=>FX[k]).join(', ');
+      }
+      const hit = nameAt(s); if (!hit) return l;
       let line = hit.n + s.slice(hit.a.length);
       if (hit.a!==hit.n) note(`"${hit.a}" → "${hit.n}"`);
       line = line.replace(/\(([^)]*)\)/, (m, inner)=>{ const {out, fixed} = cleanTagList(inner.split(',')); if (fixed.length) note(`${hit.n} 태그 정리 (${fixed.join(', ')})`); return `(${out.join(', ')})`; }).replace(/\(\)/,'');
       if (castByName(hit.n) && !drawn.includes(hit.n)) drawn.push(hit.n);
       return line;
-    });
+    }).filter(l=>l!==null);
     let si = p.lines.findIndex(l=>/^\s*(장면|배경|scene)\s*[:：]/i.test(l));
     if (si<0){ p.lines.unshift('장면: '); si = 0; note('장면 줄 추가'); }
     let tags = p.lines[si].replace(/^\s*(장면|배경|scene)\s*[:：]\s*/i,'').split(',');
@@ -2281,38 +2712,195 @@ function checkScript(script, hints={}, extra=''){
       const missing = timeTags.filter(t=>!tags.map(x=>x.toLowerCase()).includes(t));
       if (wrong.length || missing.length){ tags = tags.filter(t=>!wrong.includes(t)); tags.push(...missing); timeFixed++; }
     }
+    if (placeTags.length){
+      const wrong = tags.filter(t=>PLACES.has(t.toLowerCase()) && !placeTags.includes(t.toLowerCase()));
+      const missing = placeTags.filter(t=>!tags.map(x=>x.toLowerCase()).includes(t));
+      if (wrong.length || missing.length){ tags = tags.filter(t=>!wrong.includes(t)); wrong.forEach(w=>placeDropped.add(w)); let at = -1; tags.forEach((t,k)=>{ if (SHOT_LIST.includes(t.toLowerCase()) || t==='scenery' || /^from |^pov$|dutch angle/i.test(t)) at = k; }); tags.splice(at>=0 ? at+1 : tags.length, 0, ...missing); placeFixed++; }
+    }
     if (extra) for (const t of extra.split(',').map(x=>x.trim()).filter(Boolean)) if (!tags.map(x=>x.toLowerCase()).includes(t.toLowerCase())) tags.push(t);
     p.lines[si] = '장면: ' + tags.join(', ');
     if (drawn.length) prev = drawn.slice();
   });
-  if (timeFixed) fixes.push(`시간 태그를 상태창 기준(${hints.time} → ${hints.timeTags})으로 ${timeFixed}컷 맞춤`);
+  if (timeFixed) fixes.push(`시간 태그를 ${hints.timeFrom||'상태창'} 기준(${hints.time} → ${hints.timeTags})으로 ${timeFixed}컷 맞춤`);
+  if (placeFixed) fixes.push(`장소 태그를 장소 사전(${hints.placeName}) 기준으로 ${placeFixed}컷 맞춤${placeDropped.size ? ` (${[...placeDropped].join(', ')} 삭제)` : ''}`);
   return { script: renumber(panels.map(p=>[p.head, ...p.lines].join('\n')).join('\n\n')), fixes };
 }
-function buildContiPrompt(story, count){
+function buildContiPrompt(story, count, context={}){
+  const info = hintsText(applyContext({summary:[],inner:[],acts:[],directions:[]}, context)), ctx = contextText();
   return `너는 한국 세로 스크롤 웹툰의 콘티 작가이자 NovelAI 이미지 프롬프트 전문가야. 아래 스토리를 약 ${count}컷 웹툰 대본으로 각색해.
 
 ${SCRIPT_RULES}
 
 [등장인물과 외형 태그]
 ${castListText()}
+${ctx ? `\n${ctx}\n` : ''}${info ? `\n${info}\n` : ''}
+[출력 예시 (형식 참고용)]
+${scriptExample()}
 
 [스토리]
 ${story.trim()}`;
 }
-function buildLogPrompt(log, count, extra){
+function buildLogPrompt(log, count, extra, context={}){
+  const ctx = contextText();
   return `너는 한국 세로 스크롤 웹툰의 콘티 작가이자 NovelAI 이미지 프롬프트 전문가야. 아래는 AI 캐릭터 채팅의 플레이 로그야. 약 ${count}컷 웹툰 대본으로 각색해. OOC·시간 표시·재생성 같은 채팅 잡음은 버리고, {{user}}·{{char}} 같은 자리표시자는 알맞은 등장인물 이름으로 바꿔.
 
 ${SCRIPT_RULES}
 
 [등장인물과 외형 태그]
 ${castListText()}
-${extra ? `\n[모든 컷 장면에 넣을 태그]\n${extra}\n` : ''}${(()=>{ const t = hintsText(prepSource(log).hints); return t ? `\n${t}\n` : ''; })()}
+${ctx ? `\n${ctx}\n` : ''}${extra ? `\n[모든 컷 장면에 넣을 태그]\n${extra}\n` : ''}${(()=>{ const t = hintsText(applyContext(prepSource(log).hints, context)); return t ? `\n${t}\n` : ''; })()}
 [출력 예시 (형식 참고용)]
 ${scriptExample()}
 
 [플레이 로그]
 ${log.trim()}`;
 }
+
+/* ================= story context: world notes, place dictionary, scene memo, continuity ================= */
+const normName = s => String(s||'').replace(/\s+/g,'');
+function placeNames(p){ return [p.name, ...String(p.aliases||'').split(',')].map(x=>x.trim()).filter(Boolean); }
+function placeLookup(name){
+  const n = normName(name); if (!n) return null;
+  const ps = (P.places||[]).filter(p=>p.name.trim());
+  // exact name first; otherwise only a shorter query inside a longer registered name ("쉼터" → "잿길 쉼터"), never the reverse
+  return ps.find(p=>placeNames(p).some(a=>normName(a)===n)) || (n.length>1 ? ps.find(p=>placeNames(p).some(a=>normName(a).includes(n))) : null) || null;
+}
+function placeMentioned(text){
+  let best = null, pos = Infinity;
+  let len = 0;
+  for (const p of (P.places||[])) for (const a of placeNames(p)){ const i = String(text).indexOf(a); if (i>=0 && (i<pos || (i===pos && a.length>len))){ pos = i; best = p; len = a.length; } }
+  return best;
+}
+/* where does this happen: picked by hand → status window → named in the text → previous scene */
+function resolvePlace(text, hints, sel='auto'){
+  if (sel==='none') return {entry:null, name:'', from:'none'};
+  if (sel && sel!=='auto'){ const e = (P.places||[]).find(p=>p.id===sel); if (e) return {entry:e, name:e.name.trim(), from:'manual'}; }
+  if (hints.place) return {entry:placeLookup(hints.place), name:hints.place, from:'status'};
+  const m = placeMentioned(text); if (m) return {entry:m, name:m.name.trim(), from:'text'};
+  if (P.useContinuity!==false && P.prevScene && P.prevScene.place){ return {entry:placeLookup(P.prevScene.place), name:P.prevScene.place, from:'prev'}; }
+  return {entry:null, name:'', from:''};
+}
+const PLACE_FROM = { status:'상태창', text:'본문', prev:'이전 장면에서 이어짐', manual:'직접 고름' };
+function applyContext(hints, {place, memo}={}){
+  hints.summary = hints.summary || []; hints.inner = hints.inner || []; hints.acts = hints.acts || []; hints.directions = hints.directions || [];
+  hints.placeEntry = place && place.entry || null;
+  hints.placeName = (place && place.name) || hints.place || '';
+  hints.placeTags = (hints.placeEntry && hints.placeEntry.tags || '').trim();
+  hints.memo = String(memo||'').trim();
+  hints.prev = P.useContinuity!==false ? (P.prevScene || null) : null;
+  if (!hints.timeTags && place && place.from==='prev' && hints.prev && hints.prev.timeTags){ hints.time = hints.prev.time; hints.timeTags = hints.prev.timeTags; }
+  return hints;
+}
+function contextText(){
+  const out = [];
+  if ((P.world||'').trim()) out.push(`[작품 설정: 세계관·분위기·인물 관계. 장면을 해석할 때 참고]\n${P.world.trim().slice(0, 2500)}`);
+  const ps = (P.places||[]).filter(p=>p.name.trim());
+  if (ps.length) out.push(`[장소 사전: 이 장소가 나오면 반드시 이 태그를 장면에 쓴다]\n${ps.slice(0, 15).map(p=>`- ${p.name.trim()}${p.aliases ? ` (다른 이름: ${p.aliases})` : ''}: ${p.desc||''} → ${p.tags||'(태그 미정)'}`).join('\n')}`);
+  return out.join('\n\n');
+}
+/* what the next conversion should remember about this one */
+let lastScene = null;
+function sceneFrom(hints, source){
+  const tail = String(source).replace(/```[\s\S]*?```/g,'').replace(/\s+/g,' ').trim().slice(-160);
+  return { place: hints.placeName || '', time: hints.time || '', timeTags: hints.timeTags || '', summary: (hints.summary||[]).join(' ') || hints.memo || tail, at: Date.now() };
+}
+function commitScene(){ if (lastScene){ P.prevScene = lastScene; lastScene = null; save(); renderWorld(); } }
+
+/* NovelAI text AI: tags for one place, or every place found in the world notes */
+async function naiPlaceInfo(name, hint=''){
+  const sys = '너는 NovelAI 이미지 프롬프트(Danbooru 태그) 전문가야. 정해진 형식만 출력한다.';
+  const user = `${(P.world||'').trim() ? `[작품 설정]\n${P.world.trim().slice(0,1500)}\n\n` : ''}[장소 이름]\n${name}\n${hint ? `\n[이 장소가 나오는 원문]\n${String(hint).slice(0,1500)}\n` : ''}
+이 장소를 그림 배경으로 그리기 위한 정보를 아래 두 줄 형식으로만 답해.
+설명: 이 장소의 모습을 한국어 한 문장으로
+태그: 실제 Danbooru 영어 태그 6~10개, 쉼표 구분 (indoors/outdoors, 장소 종류, 재질·구조, 조명, 대표 소품)
+/nothink`;
+  const out = await naiChat([{role:'system', content:sys}, {role:'user', content:user}], {max:400, temperature:.4});
+  const desc = ((out.match(/설명\s*[:：]\s*(.+)/)||[])[1]||'').trim();
+  const tags = cleanTagList(((out.match(/태그\s*[:：]\s*(.+)/)||[])[1]||'').split(',')).out.join(', ');
+  if (!tags) throw new Error('태그를 받지 못했어요. 다시 시도해 주세요.');
+  return { desc, tags };
+}
+async function naiExtractPlaces(){
+  const sys = '너는 웹툰 배경 설정 정리 담당이자 NovelAI 태그 전문가야. 정해진 형식만 출력한다.';
+  const user = `[작품 설정]\n${P.world.trim().slice(0,3500)}\n\n이 설정에 나오는 주요 장소를 최대 10개 뽑아서, 한 줄에 하나씩 이 형식으로만 답해.\n장소 이름 | 모습을 설명하는 한국어 한 문장 | 실제 Danbooru 영어 태그 6~10개(쉼표 구분)\n/nothink`;
+  const out = await naiChat([{role:'system', content:sys}, {role:'user', content:user}], {max:1400, temperature:.4});
+  return out.split('\n').map(l=>l.replace(/^\s*[-*•\d.)]+\s*/,'').split('|').map(x=>x.trim())).filter(a=>a.length>=3 && a[0] && a[2])
+    .map(([name, desc, tags])=>({ name: name.replace(/\*\*/g,''), desc, tags: cleanTagList(tags.split(',')).out.join(', ') }));
+}
+
+/* ---- settings & places tab ---- */
+function renderWorld(){
+  if (!$('#p-world')) return;
+  if (document.activeElement !== $('#worldText')) $('#worldText').value = P.world || '';
+  $('#useCont').checked = P.useContinuity !== false;
+  const list = $('#placeList'); list.textContent = '';
+  if (!(P.places||[]).length) list.append(h('p',{class:'small muted', style:'margin:0', text:'아직 장소가 없어요. 자주 나오는 장소를 등록해 두면 로그에 이름만 나와도 배경 태그가 자동으로 들어가요.'}));
+  (P.places||[]).forEach(p=>{
+    const msg = h('span',{class:'small muted'});
+    const tagIn = h('input',{type:'text', value:p.tags||'', placeholder:'이미지 태그: cave, onsen, rock wall, lantern, steam', 'aria-label':'장소 태그', oninput:e=>{ p.tags=e.target.value; save(); }});
+    const descIn = h('textarea',{rows:'2', value:p.desc||'', placeholder:'어떤 곳인지 (예: 바위 동굴 안의 작은 온천, 등불 몇 개)', 'aria-label':'장소 설명', oninput:e=>{ p.desc=e.target.value; save(); }});
+    list.append(h('div',{class:'placecard', 'data-id':p.id},
+      h('div',{class:'namerow'},
+        h('input',{type:'text', value:p.name, placeholder:'장소 이름 (상태창 표기와 같게)', 'aria-label':'장소 이름', oninput:e=>{ p.name=e.target.value; save(); }}),
+        h('button',{class:'btn danger sm', type:'button', text:'삭제', onclick:()=>{ P.places = P.places.filter(x=>x!==p); save(); renderWorld(); }})),
+      h('input',{type:'text', value:p.aliases||'', placeholder:'다른 이름 (쉼표로, 예: 쉼터, 온천)', 'aria-label':'장소 다른 이름', oninput:e=>{ p.aliases=e.target.value; save(); }}),
+      descIn, tagIn,
+      h('div',{class:'row'},
+        h('button',{class:'btn ghost sm', type:'button', text:'AI로 태그 만들기', onclick:async (e)=>{
+          if (!p.name.trim()){ msg.textContent='장소 이름을 먼저 적어 주세요.'; return; }
+          if (!S.token){ msg.textContent='NovelAI 토큰을 연결하면 쓸 수 있어요.'; return; }
+          e.target.disabled = true; msg.textContent = '만드는 중…';
+          try{ const r = await naiPlaceInfo(p.name.trim(), p.desc); if (!p.desc && r.desc){ p.desc = r.desc; descIn.value = r.desc; } p.tags = r.tags; tagIn.value = r.tags; save(); msg.textContent = '태그를 채웠어요. 필요하면 고쳐 주세요.'; }
+          catch(err){ msg.textContent = err.message; } finally{ e.target.disabled = false; }
+        }}), msg)));
+  });
+  const pv = $('#prevBox'); pv.textContent = '';
+  if (P.prevScene && (P.prevScene.summary || P.prevScene.place)){
+    const t = P.prevScene;
+    pv.append(h('div',{class:'prevcard'},
+      h('div',{class:'small', text:[t.place && `장소 ${t.place}`, t.time && `시간 ${t.time}`].filter(Boolean).join(' · ') || '장소·시간 정보 없음'}),
+      h('textarea',{rows:'3', value:t.summary||'', 'aria-label':'이전 장면 요약', oninput:e=>{ t.summary = e.target.value; save(); }}),
+      h('div',{class:'row'}, h('span',{class:'small muted', text:`${new Date(t.at||Date.now()).toLocaleString('ko-KR',{month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit'})}에 저장`}),
+        h('button',{class:'btn ghost sm', type:'button', text:'지우기', onclick:()=>{ P.prevScene = null; save(); renderWorld(); }}))));
+  } else pv.append(h('p',{class:'small muted', style:'margin:0', text:'아직 없어요. 로그를 변환해서 대본에 넣으면 그 장면의 장소·시간·요약이 여기에 남고, 다음 로그를 변환할 때 이어받아요.'}));
+}
+function addPlace(name=''){
+  const p = { id:uid(), name, aliases:'', desc:'', tags:'' };
+  (P.places = P.places || []).push(p); save(); return p;
+}
+async function registerPlace(name, source, after){
+  if (placeLookup(name)) return;
+  const p = addPlace(name); renderWorld(); after && after();
+  if (!S.token){ toast('장소를 추가했어요. 설정·장소 탭에서 설명과 태그를 적어 주세요.', 3500); return; }
+  toast('장소를 추가했어요. NovelAI가 태그를 만드는 중…', 4000);
+  try{
+    const near = String(source).replace(/```[\s\S]*?```/g,'').slice(0, 1500);
+    const r = await naiPlaceInfo(name, near); p.desc = r.desc; p.tags = r.tags; save(); renderWorld(); after && after();
+    toast(`"${name}" 태그를 만들었어요: ${r.tags}`, 4500);
+  }catch(e){ toast('태그는 직접 적어 주세요. ' + e.message, 4500); }
+}
+/* place line inside the log / story dialogs */
+function renderPlaceBox(boxSel, source, isLog){
+  const box = $(boxSel); if (!box) return;
+  const prevSel = box.querySelector('select')?.value || 'auto';
+  const hints = isLog ? prepSource(source).hints : {};
+  const r = resolvePlace(source, hints, prevSel);
+  box.textContent = '';
+  const sel = h('select',{'aria-label':'장소', onchange:()=>renderPlaceBox(boxSel, isLog ? $('#logIn').value : $('#contiStory').value, isLog)},
+    h('option',{value:'auto', text:'자동 (상태창·본문·이전 장면)'}),
+    ...(P.places||[]).filter(p=>p.name.trim()).map(p=>h('option',{value:p.id, text:p.name})),
+    h('option',{value:'none', text:'장소 지정 안 함'}));
+  sel.value = [...sel.options].some(o=>o.value===prevSel) ? prevSel : 'auto';
+  const info = h('span',{class:'small'});
+  if (r.name){
+    info.append(h('span',{class:'muted', text:`${PLACE_FROM[r.from]||''}: `}), h('b',{text:r.name}));
+    if (r.entry) info.append(h('span',{class:'muted', text:` → ${r.entry.tags || '태그가 비어 있어요'}`}));
+    else info.append(h('span',{style:'color:var(--warn)', text:' · 장소 사전에 없어요 '}),
+      h('button',{class:'btn ghost sm', type:'button', text:'장소 사전에 등록', onclick:()=>registerPlace(r.name, source, ()=>renderPlaceBox(boxSel, source, isLog))}));
+  } else if (sel.value!=='none') info.append(h('span',{class:'muted', text:'장소를 찾지 못했어요. 목록에서 고르거나 장면 메모에 적어 주세요.'}));
+  box.append(h('b',{class:'small', text:'장소'}), sel, info);
+}
+function placeChoice(boxSel){ return $(boxSel)?.querySelector('select')?.value || 'auto'; }
 
 /* ================= NovelAI text AI (GLM) ================= */
 const TEXT_HOST = 'https://text.novelai.net';
@@ -2397,8 +2985,10 @@ function renumber(script){
   }).join('\n');
 }
 const ADAPT_PARALLEL = 3;
-async function naiAdapt(source, {kind='log', count=12, extra='', onProgress=()=>{}, onPartial=()=>{}, signal}={}){
+async function naiAdapt(source, {kind='log', count=12, extra='', context={}, onProgress=()=>{}, onPartial=()=>{}, signal}={}){
   const pre = kind==='log' ? prepSource(source) : { units:[{type:'text', text:String(source).trim()}], hints:{summary:[],inner:[],acts:[],directions:[]} };
+  applyContext(pre.hints, context);
+  const ctxText = contextText();
   const jobs = [];
   pre.units.forEach(u=>{ if (u.type==='status') jobs.push({status:u.text}); else chunkText(u.text, 1400).forEach(c=>jobs.push({text:c})); });
   const textIdx = jobs.map((j,i)=>j.text ? i : -1).filter(i=>i>=0);
@@ -2410,7 +3000,7 @@ ${SCRIPT_RULES}
 
 [등장인물과 외형 태그]
 ${castListText()}
-${extra ? `\n[모든 컷 장면에 넣을 태그]\n${extra}\n` : ''}${info ? `\n${info}\n` : ''}
+${ctxText ? `\n${ctxText}\n` : ''}${extra ? `\n[모든 컷 장면에 넣을 태그]\n${extra}\n` : ''}${info ? `\n${info}\n` : ''}
 [출력 예시 (형식 참고용, 내용은 따라 하지 말 것)]
 ${scriptExample()}`;
   const parts = jobs.map(j=>j.status ? statusPanel(j.status) : ''), fallback = []; let lastRaw = '', doneN = 0;
@@ -2488,10 +3078,13 @@ const DICT = [
   [/키스|입맞|입술을 겹|입술이 닿/,'kiss','contact'],[/이마를 맞/,'forehead to forehead','contact'],[/뺨을 (감싸|쓰다듬)|볼을 (감싸|쓰다듬)|얼굴을 감싸/,"hand on another's cheek",'contact'],
   [/머리를 쓰다듬/,'headpat','contact'],[/어깨에 (머리를 )?기대|어깨에 기댄|어깨에 고개를 묻/,"head on another's shoulder, leaning on another",'contact'],
   [/(뺨|볼)을 (맞대|맞댔|맞댄|비비|비볐)/,'cheek-to-cheek','contact'],[/머리카락을 (쓸|쓰다듬|넘기|만지)|머리칼을 (쓸|넘기)/,"stroking another's hair",'contact'],
-  [/귓바퀴|귓불|귀를 (만지|쓸|매만)/,"touching another's ear",'contact'],[/밀착|등을 감싸|허리를 (감|안)/,'hug','contact'],[/멱살/,"grabbing another's collar",'contact'],[/벽으로 밀|벽에 밀어|벽에 몰/,'against wall','contact'],[/뺨을 때|따귀/,'slapping','contact'],
+  [/귓바퀴|귓불|귀를 (만지|쓸|매만)/,"touching another's ear",'contact'],[/안아 올|안아 들|번쩍 안/,'princess carry','contact'],[/감싸 안/,'hug','contact'],[/목에 팔을 (두르|둘렀|감)/,'arms around neck','contact'],[/밀착|등을 감싸|허리를 (감|안)/,'hug','contact'],[/멱살/,"grabbing another's collar",'contact'],[/벽으로 밀|벽에 밀어|벽에 몰/,'against wall','contact'],[/뺨을 때|따귀/,'slapping','contact'],
   [/(남자|사내)(가|는|의|를)/,'boy','anon'],[/(여자|소녀)(가|는|의|를)/,'girl','anon']
 ];
 const INTERIOR_RE = /(것 같|것만 같|듯했|듯이|처럼|느껴|느꼈|생각|마음|기억|떠올|몰랐|알았|깨달|싶었|그리웠|후회|그날|아직도|여전히|이제야|결국|비로소|순간)/;
+const SENSE_RE = /(향|냄새|숨결|숨이|숨을|숨소리|온기|체온|감촉|촉감|소리|고동|심장|맥박|떨림|따뜻|따스|뜨거|뜨겁|차가|서늘|간질|부드러|말랑|축축|미지근|열기|입김|살결|피부|빛이|빛을|반짝|흔들|번지|스며|물결|물소리|빗소리|바람결)/;
+const SFX_RE = /(?<![가-힣])(툭|탁|톡|쿵|쾅|퍽|찰박|철벅|첨벙|찰랑|두근|콩닥|쿵쾅|움찔|화끈|사락|사르르|스르륵|스륵|후우|하아|덜컥|철컥|딸깍|똑|뚝|휙|훅|와락|꽉|쪽|부스럭|바스락|쨍그랑|탁탁|덜덜|부들)(?:(\1)|(?=\s*(,|!|…|\.|하고|하며|하는|하던|하더니|소리|거리|대는|댔|$)))/g;
+const FX_CONTACT = /kiss|hug|forehead to forehead|cheek-to-cheek|another's cheek|stroking another's hair|head on another's shoulder|holding hands/;
 const SPEECH_KIND = [[/(외쳤|소리쳤|소리를 질|고함|버럭|악을 썼|절규)/,'shout'],[/(속삭|귓가에|나지막|작게 말|낮게 속)/,'whisper'],[/(떨리는 목소리|목소리가 떨|말을 더듬|더듬거)/,'tremble'],[/(전화 너머|수화기|스피커|무전)/,'phone']];
 const KIND_WORD = { thought:' 생각', shout:' 외침', whisper:' 속삭임', tremble:' 떨림', phone:' 전화', speech:'' };
 const SHOT_RE = /\b(close-up|portrait|upper body|cowboy shot|full body|wide shot|lower body|scenery)\b/i;
@@ -2507,9 +3100,35 @@ function applyNameMap(text, map){
   for (const [from,to] of Object.entries(map||{})) if (to && to!==from) text = text.split(from).join(to);
   return text;
 }
+/* narration as short sensory fragments: prefer inner states and sensations, keep the original words,
+   cut long sentences at a comma into two boxes (max 2 boxes, about 34 chars each) */
+function literaryBoxes(sentences, talk){
+  const score = s => (INTERIOR_RE.test(s) ? 2 : 0) + (SENSE_RE.test(s) ? 2 : 0) + (s.length <= 30 ? 1 : 0);
+  const ranked = sentences.map((s,k)=>({s,k,v:score(s)})).sort((a,b)=>(b.v-a.v)||(a.k-b.k));
+  const max = talk >= 2 ? 1 : 2, LIM = 34;
+  const chosen = ranked.slice(0, max).sort((a,b)=>a.k-b.k);
+  const pieces = [];
+  for (const r of chosen){
+    let t = r.s.trim();
+    if (t.length > LIM && chosen.length < max){
+      // break at the comma closest to the middle, else at a connective ending (~고, ~며, ~서)
+      const mid = t.length/2; let cut = -1, best = Infinity;
+      for (const m of t.matchAll(/,\s|(?<=[고며서니데])\s/g)){ const d = Math.abs(m.index - mid); if (m.index > 6 && m.index < t.length-6 && d < best){ best = d; cut = m.index + m[0].length; } }
+      if (cut > 0){ pieces.push(t.slice(0, cut).trim().replace(/,$/,'')); pieces.push(t.slice(cut).trim()); }
+      else pieces.push(t);
+    } else pieces.push(t);
+  }
+  return pieces.slice(0, max).map(t=>{
+    if (t.length > LIM + 12) t = t.slice(0, LIM + 10).replace(/\s\S*$/,'') + '…';
+    const inner = INTERIOR_RE.test(t) && /(생각|마음|기억|후회|그리웠|싶었)/.test(t);
+    return (inner ? '독백: ' : '나레이션: ') + t;
+  });
+}
 function splitSentences(t){ return t.split(/(?<=[.!?…~。])\s+/).map(s=>s.trim()).filter(Boolean); }
-function convertLog(raw, {map={}, extra=''}={}){
+function convertLog(raw, {map={}, extra='', context={}}={}){
   const pre = prepSource(applyNameMap(String(raw), map));
+  applyContext(pre.hints, context);
+  const placeLock = !!pre.hints.placeTags;
   const text = applyNameMap(String(raw).replace(/\r/g,''), map).replace(/\{\{\s*(?!user\s*\}\}|char\s*\}\})([\s\S]+?)\s*\}\}/gi, '');
   const AL = P.cast.flatMap(c=>castAliases(c).map(a=>({a, n:c.name.trim()}))).sort((x,y)=>y.a.length-x.a.length);
   const namesIn = t => { const hits=[]; for (const {a,n} of AL){ const i=t.indexOf(a); if (i>=0 && !hits.some(h=>h.n===n)) hits.push({n,i}); } return hits.sort((x,y)=>x.i-y.i).map(h=>h.n); };
@@ -2528,9 +3147,9 @@ function convertLog(raw, {map={}, extra=''}={}){
     if (/(^|[\s"“,])그(는|가|도)\s/.test(t)) return fits(lastSubject,'boy') ? lastSubject : (stage.find(n=>genderOf(castByName(n))==='boy') || stage[0] || '');
     return '';
   };
-  const ctx = { place:'', time: pre.hints.timeTags || '', weather:'', env:[] };
+  const ctx = { place: pre.hints.placeTags || '', time: pre.hints.timeTags || '', weather:'', env:[] };
   const panels = []; let cur = null, lastSpeaker = '', pending = '';
-  const newPanel = ()=>({ nar:[], lines:[], sys:'', who:[], acts:{}, scene:[], anon:{}, contact:false, placeChanged:false });
+  const newPanel = ()=>({ nar:[], lines:[], sys:'', who:[], acts:{}, scene:[], anon:{}, contact:false, placeChanged:false, sfx:[], motion:false, tense:false });
   const ensure = ()=> cur || (cur = newPanel());
   const flush = ()=>{ if (cur && (cur.nar.length || cur.lines.length || cur.sys || cur.who.length || cur.scene.length || Object.keys(cur.anon).length)){ cur.ctx = {...ctx, env: ctx.env.slice()}; cur.stage = stage.slice(); panels.push(cur); } cur = null; };
   const addWho = (p, n) => { if (n && castByName(n) && !p.who.includes(n)) p.who.push(n); };
@@ -2542,7 +3161,7 @@ function convertLog(raw, {map={}, extra=''}={}){
     let visible = false;
     for (const [re, tags, kind] of DICT){
       if (!re.test(s)) continue;
-      if (kind==='place'){ if (ctx.place !== tags){ ctx.place = tags; ctx.env = []; p.placeChanged = true; } }
+      if (kind==='place'){ if (!placeLock && ctx.place !== tags){ ctx.place = tags; ctx.env = []; p.placeChanged = true; } }
       else if (kind==='env'){ for (const t of tags.split(', ')) if (!ctx.env.includes(t)) ctx.env.push(t); }
       else if (kind==='time'){ if (!pre.hints.timeTags) ctx.time = tags; }
       else if (kind==='weather') ctx.weather = tags;
@@ -2563,7 +3182,12 @@ function convertLog(raw, {map={}, extra=''}={}){
     names.forEach(n=>{ addWho(p, n); onStage(n); });
     if (subj){ addWho(p, subj); onStage(subj); }
     if (explicit) lastSubject = explicit;
-    return INTERIOR_RE.test(s) || !visible;   // visible actions become drawing tags; inner states stay as text
+    // sound words become sound effects (ignore ones inside speech, handled separately)
+    for (const m of s.matchAll(SFX_RE)){ const w = m[1] + (m[2]||''); if (!p.sfx.includes(w) && p.sfx.length < 2) p.sfx.push(w); }
+    if (/달려|뛰어|돌진|낚아|휘둘|내달|튀어/.test(s)) p.motion = true;
+    if (/어둠|캄캄|정적|섬뜩|소름|겁에 질|두려|공포|불길한/.test(s)) p.tense = true;
+    // visible actions become drawing tags; inner states and sensations stay as text
+    return INTERIOR_RE.test(s) || SENSE_RE.test(s) || !visible;
   };
   // fenced / bracket status windows and plain lines
   const items = []; let fence = null;
@@ -2617,7 +3241,7 @@ function convertLog(raw, {map={}, extra=''}={}){
   }
   flush();
   // write the script: shot choice follows the beat, avoiding three identical shots in a row
-  const shots = [];
+  const shots = []; let lastFx = '';
   const out = panels.map((p, i)=>{
     let who = p.who.filter(n=>castByName(n));
     if (!who.length && !p.sys && !Object.keys(p.anon).length && i>0 && p.stage.length && p.nar.length) who = [p.stage[0]];
@@ -2638,13 +3262,18 @@ function convertLog(raw, {map={}, extra=''}={}){
     const rows = [`# 컷 ${i+1}`];
     if (ratio) rows.push('비율: ' + ratio);
     rows.push('장면: ' + scene);
-    if (p.nar.length){
-      const ranked = p.nar.map((s,k)=>({s,k,in:INTERIOR_RE.test(s)})).sort((a,b)=>(b.in-a.in)||(a.k-b.k));
-      let keep=[], len=0; for (const r of ranked){ if (keep.length && len + r.s.length > (p.lines.length ? 55 : 85)) break; keep.push(r); len += r.s.length; }
-      let t = keep.sort((a,b)=>a.k-b.k).map(r=>r.s).join(' ');
-      if (t.length > 95) t = t.slice(0, 93).trim() + '…';
-      rows.push((INTERIOR_RE.test(t) && /(생각|마음|기억|후회|그리웠)/.test(t) ? '독백: ' : '나레이션: ') + t);
-    }
+    // comic license: exaggerate the beat with an overlay effect, only where the feeling turns
+    const fx = [];
+    const allTags = Object.values(p.acts).flat().join(', ');
+    const shouted = p.lines.some(l=>l.kind==='shout') || (p.lines.length===1 && p.lines[0].text.length<=10 && /!/.test(p.lines[0].text));
+    if (shouted || /surprised, wide-eyed/.test(allTags)) fx.push('집중선');
+    else if (p.contact && FX_CONTACT.test(allTags) && !p.tense) fx.push('빛번짐');
+    if (p.motion && !fx.length) fx.push('속도선');
+    if (p.tense && !fx.includes('집중선')) fx.push('비네팅');
+    if (fx.length && lastFx !== fx.join()) rows.push('연출: ' + fx.join(', '));
+    lastFx = fx.join();
+    if (p.nar.length) for (const box of literaryBoxes(p.nar, p.lines.length)) rows.push(box);
+    for (const w of p.sfx) rows.push('효과음: ' + w);
     if (p.sys) rows.push(p.sys.includes('\n') ? '```\n' + p.sys + '\n```' : '상태창: ' + p.sys);
     const tagged = new Set();
     const tagsFor = n => {
@@ -2658,7 +3287,7 @@ function convertLog(raw, {map={}, extra=''}={}){
     return rows.join('\n');
   });
   const chk = checkScript(out.join('\n\n'), pre.hints, extra);
-  return { script: chk.script, panels: panels.length, fixes: chk.fixes };
+  return { script: chk.script, panels: panels.length, fixes: chk.fixes, hints: pre.hints };
 }
 
 /* ================= modal wiring ================= */
@@ -2675,14 +3304,14 @@ function showFixes(anchor, fixes=[], hints){
   let box = anchor.nextElementSibling;
   if (!box || !box.classList.contains('fixlist')){ box = h('details',{class:'fixlist'}); anchor.after(box); }
   box.textContent = '';
-  const info = hints && [hints.time && `시간 ${hints.time}`, hints.place && `장소 ${hints.place}`, hints.directions?.length && `행동 지시 ${hints.directions.length}개`].filter(Boolean);
+  const info = hints && [hints.time && `시간 ${hints.time}`, (hints.placeName||hints.place) && `장소 ${hints.placeName||hints.place}${hints.placeEntry?' (사전)':''}`, hints.memo && '장면 메모', hints.prev && '이전 장면', hints.directions?.length && `행동 지시 ${hints.directions.length}개`].filter(Boolean);
   if (!fixes.length && !(info && info.length)){ box.hidden = true; return; }
   box.hidden = false;
   box.append(h('summary',{text: `${info && info.length ? `로그에서 읽은 정보: ${info.join(' · ')} · ` : ''}자동 보정 ${fixes.length}건`}),
     h('ul',{}, ...fixes.slice(0, 40).map(f=>h('li',{text:f})), fixes.length>40 ? h('li',{text:`외 ${fixes.length-40}건`}) : null));
 }
 let adaptCtl = null;
-async function runAdapt({source, kind, count, extra, msgEl, outEl, putEl, btn, cancelBtn}){
+async function runAdapt({source, kind, count, extra, context={}, msgEl, outEl, putEl, btn, cancelBtn}){
   if (!S.token){ msgEl.textContent = 'NovelAI 토큰을 먼저 연결해 주세요. (상단 "토큰 연결")'; return; }
   btn.disabled = true; cancelBtn.hidden = false; putEl.hidden = true;
   adaptCtl = new AbortController();
@@ -2691,7 +3320,7 @@ async function runAdapt({source, kind, count, extra, msgEl, outEl, putEl, btn, c
   const t0 = Date.now(); let state = '';
   const tick = setInterval(()=>{ msgEl.textContent = `${state} · ${Math.round((Date.now()-t0)/1000)}초`; }, 1000);
   try{
-    const sc = await naiAdapt(source, { kind, count, extra, signal: adaptCtl.signal,
+    const sc = await naiAdapt(source, { kind, count, extra, context, signal: adaptCtl.signal,
       onProgress:(d,n)=>{ state = n>1 ? `NovelAI가 각색하는 중… ${n}부분 중 ${d}부분 완료 (동시에 최대 ${ADAPT_PARALLEL}부분)` : 'NovelAI가 각색하는 중…'; msgEl.textContent = `${state} · ${Math.round((Date.now()-t0)/1000)}초`; },
       onPartial: txt=>{ const atEnd = outEl.scrollTop + outEl.clientHeight >= outEl.scrollHeight - 30; outEl.value = txt; if (atEnd) outEl.scrollTop = outEl.scrollHeight; } });
     clearInterval(tick);
@@ -2704,6 +3333,7 @@ async function runAdapt({source, kind, count, extra, msgEl, outEl, putEl, btn, c
       + (warns.length ? ` (확인할 줄 ${warns.length}개)` : '');
     if (sc.fallback.length && sc.lastRaw) console.warn('NovelAI 답변 (형식 불일치):', sc.lastRaw.slice(0, 800));
     showFixes(msgEl, sc.fixes, sc.hints);
+    lastScene = sceneFrom(sc.hints, source);
   }catch(e){
     clearInterval(tick);
     msgEl.style.color = e.name==='AbortError' ? 'var(--muted)' : 'var(--bad)';
@@ -2722,59 +3352,67 @@ function bindLog(){
   };
   const mapNow = ()=>Object.fromEntries($$('#logMap select').map(s=>[s.dataset.from, s.value]));
   const need = ()=>{ const log = $('#logIn').value; if (!log.trim()){ $('#logMsg').textContent='플레이 로그를 먼저 붙여넣어 주세요.'; return null; } return applyNameMap(log, mapNow()); };
-  $('#logOpen').onclick = ()=>{ m.hidden=false; $('#logOut').hidden=true; $('#logPut').hidden=true; $('#logMsg').textContent=''; renderMap(); $('#logIn').focus(); };
+  const ctxNow = src => ({ place: resolvePlace(src, prepSource(src).hints, placeChoice('#logPlace')), memo: $('#logMemo').value });
+  const placeBox = ()=>renderPlaceBox('#logPlace', $('#logIn').value, true);
+  $('#logOpen').onclick = ()=>{ m.hidden=false; $('#logOut').hidden=true; $('#logPut').hidden=true; $('#logMsg').textContent=''; renderMap(); placeBox(); $('#logIn').focus(); };
   $('#logClose').onclick = ()=>{ adaptCtl?.abort(); m.hidden=true; };
   m.addEventListener('click', e=>{ if (e.target===m && !adaptCtl) m.hidden=true; });
-  $('#logIn').addEventListener('input', debounce(renderMap, 400));
+  $('#logIn').addEventListener('input', debounce(()=>{ renderMap(); placeBox(); }, 400));
   $('#logNai').onclick = ()=>{ const src = need(); if (!src) return;
-    runAdapt({ source:src, kind:'log', count:+$('#logCount').value||12, extra:$('#logExtra').value.trim(), msgEl:$('#logMsg'), outEl:$('#logOut'), putEl:$('#logPut'), btn:$('#logNai'), cancelBtn:$('#logCancel') }); };
+    runAdapt({ source:src, kind:'log', count:+$('#logCount').value||12, extra:$('#logExtra').value.trim(), context: ctxNow(src), msgEl:$('#logMsg'), outEl:$('#logOut'), putEl:$('#logPut'), btn:$('#logNai'), cancelBtn:$('#logCancel') }); };
   $('#logCancel').onclick = ()=>adaptCtl?.abort();
   $('#logQuick').onclick = ()=>{ const src = need(); if (!src) return;
-    const {script, panels, fixes} = convertLog(src, {extra:$('#logExtra').value.trim()});
+    const {script, panels, fixes, hints} = convertLog(src, {extra:$('#logExtra').value.trim(), context: ctxNow(src)});
+    lastScene = sceneFrom(hints, src);
     const out = $('#logOut'); out.value = script; out.hidden = false; out.readOnly = false;
     $('#logPut').hidden = !panels; $('#logMsg').style.color='var(--muted)';
     $('#logMsg').textContent = panels ? `컷 ${panels}개로 나눴어요. 보이는 행동은 그림 태그로, 속마음은 나레이션으로 옮겼어요. 더 자연스러운 각색은 "NovelAI로 각색"을 써 보세요.` : '대사나 서술을 찾지 못했어요.';
-    showFixes($('#logMsg'), fixes, prepSource(src).hints);
+    showFixes($('#logMsg'), fixes, hints);
   };
   $('#logAi').onclick = async ()=>{ const src = need(); if (!src) return;
-    const txt = buildLogPrompt(src, +$('#logCount').value||12, $('#logExtra').value.trim());
+    const txt = buildLogPrompt(src, +$('#logCount').value||12, $('#logExtra').value.trim(), ctxNow(src));
     const out = $('#logOut'); out.value = txt; out.hidden = false; out.readOnly = true; $('#logPut').hidden = true;
     try{ await navigator.clipboard.writeText(txt); $('#logMsg').textContent='요청문을 복사했어요. Claude나 ChatGPT에 붙여넣고, 받은 대본을 대본 탭에 붙여넣으세요.'; }
     catch(e){ out.focus(); out.select(); $('#logMsg').textContent='자동 복사가 막혀서 아래 글을 선택해 두었어요. Ctrl+C로 복사해 주세요.'; }
   };
-  $('#logReplace').onclick = ()=>putScript($('#logOut').value, false, m);
-  $('#logAppend').onclick = ()=>putScript($('#logOut').value, true, m);
+  $('#logReplace').onclick = ()=>{ commitScene(); putScript($('#logOut').value, false, m); };
+  $('#logAppend').onclick = ()=>{ commitScene(); putScript($('#logOut').value, true, m); };
 }
 function bindConti(){
   const m = $('#contiModal');
-  $('#aiConti').onclick = ()=>{ m.hidden=false; $('#contiOut').hidden=true; $('#contiPut').hidden=true; $('#contiMsg').textContent=''; $('#contiStory').focus(); };
+  const ctxNow = src => ({ place: resolvePlace(src, {}, placeChoice('#contiPlace')), memo: $('#contiMemo').value });
+  const placeBox = ()=>renderPlaceBox('#contiPlace', $('#contiStory').value, false);
+  $('#contiStory').addEventListener('input', debounce(placeBox, 400));
+  $('#aiConti').onclick = ()=>{ m.hidden=false; $('#contiOut').hidden=true; $('#contiPut').hidden=true; $('#contiMsg').textContent=''; placeBox(); $('#contiStory').focus(); };
   $('#contiClose').onclick = ()=>{ adaptCtl?.abort(); m.hidden=true; };
   m.addEventListener('click', e=>{ if (e.target===m && !adaptCtl) m.hidden=true; });
   $('#contiNai').onclick = ()=>{
     const story = $('#contiStory').value; if (!story.trim()){ $('#contiMsg').textContent='스토리를 먼저 붙여넣어 주세요.'; return; }
-    runAdapt({ source:story, kind:'story', count:+$('#contiCount').value||12, extra:'', msgEl:$('#contiMsg'), outEl:$('#contiOut'), putEl:$('#contiPut'), btn:$('#contiNai'), cancelBtn:$('#contiCancel') });
+    runAdapt({ source:story, kind:'story', count:+$('#contiCount').value||12, extra:'', context: ctxNow(story), msgEl:$('#contiMsg'), outEl:$('#contiOut'), putEl:$('#contiPut'), btn:$('#contiNai'), cancelBtn:$('#contiCancel') });
   };
   $('#contiCancel').onclick = ()=>adaptCtl?.abort();
   $('#contiCopy').onclick = async ()=>{
     const story = $('#contiStory').value; if (!story.trim()){ $('#contiMsg').textContent='스토리를 먼저 붙여넣어 주세요.'; return; }
-    const txt = buildContiPrompt(story, +$('#contiCount').value||12);
+    const txt = buildContiPrompt(story, +$('#contiCount').value||12, ctxNow(story));
     const out = $('#contiOut'); out.value = txt; out.hidden=false; out.readOnly = true; $('#contiPut').hidden = true;
     try{ await navigator.clipboard.writeText(txt); $('#contiMsg').textContent='복사했어요. Claude나 ChatGPT에 붙여넣으세요.'; }
     catch(e){ out.focus(); out.select(); $('#contiMsg').textContent='자동 복사가 막혀서 아래 글을 선택해 두었어요. Ctrl+C로 복사해 주세요.'; }
   };
-  $('#contiReplace').onclick = ()=>putScript($('#contiOut').value, false, m);
-  $('#contiAppend').onclick = ()=>putScript($('#contiOut').value, true, m);
+  $('#contiReplace').onclick = ()=>{ commitScene(); putScript($('#contiOut').value, false, m); };
+  $('#contiAppend').onclick = ()=>{ commitScene(); putScript($('#contiOut').value, true, m); };
 }
 
 /* ================= episodes ================= */
 function loadIntoP(d){
   P = d; P.settings = {...DEFAULT_SETTINGS, ...(d.settings||{})}; if (!P.id) P.id = uid();
   P.cast = P.cast || []; P.panels = (P.panels||[]).map(normPanel); S.selected = null; filterCache.clear();
+  P.world = P.world || ''; P.places = P.places || []; if (P.useContinuity==null) P.useContinuity = true; if (P.prevScene===undefined) P.prevScene = null;
 }
 function nextTitle(t){ const m = String(t).match(/(\d+)\s*화/); return m ? t.replace(m[0], `${+m[1]+1}화`) : `${t} 2화`; }
 async function newEpisode(inherit){
   await saveNow(); const prev = P, np = blankProject();
-  if (inherit){ np.cast = JSON.parse(JSON.stringify(prev.cast)); np.settings = {...prev.settings}; np.title = nextTitle(prev.title); }
+  if (inherit){ np.cast = JSON.parse(JSON.stringify(prev.cast)); np.settings = {...prev.settings}; np.title = nextTitle(prev.title);
+    np.world = prev.world || ''; np.places = JSON.parse(JSON.stringify(prev.places||[])); np.prevScene = prev.prevScene ? {...prev.prevScene} : null; np.useContinuity = prev.useContinuity!==false; }
   loadIntoP(np); renderAll(); await saveNow(); $('#projModal').hidden = true;
   toast(inherit ? '새 화를 만들었어요. 등장인물과 설정을 이어받았어요.' : '빈 원고를 만들었어요.');
 }
@@ -2804,11 +3442,25 @@ async function openProjects(){ if (S.running){ toast('생성이 끝난 뒤에 �
 
 /* ================= wiring ================= */
 function renderAll(){
-  $('#projTitle').value = P.title; $('#scriptBox').value = P.script;
+  $('#projTitle').value = P.title; $('#scriptBox').value = P.script; renderWorld();
   fillSettings(); renderCast(); renderBoard(); $('#scriptWarn').hidden=true;
 }
 function bindStudio(){
-  $$('.stabs button').forEach(b=>b.onclick=()=>{ $$('.stabs button').forEach(x=>x.classList.toggle('on', x===b)); ['cast','script','settings'].forEach(t=>$('#p-'+t).hidden = t!==b.dataset.t); });
+  $$('.stabs button').forEach(b=>b.onclick=()=>{ $$('.stabs button').forEach(x=>x.classList.toggle('on', x===b)); ['cast','world','script','settings'].forEach(t=>$('#p-'+t).hidden = t!==b.dataset.t); if (b.dataset.t==='world') renderWorld(); });
+  $('#worldText').oninput = e=>{ P.world = e.target.value; save(); };
+  $('#useCont').onchange = e=>{ P.useContinuity = e.target.checked; save(); };
+  $('#addPlace').onclick = ()=>{ addPlace(''); renderWorld(); const ins = $$('#placeList .placecard input'); ins[ins.length-4]?.focus(); };
+  $('#worldPlaces').onclick = async (e)=>{
+    const msg = $('#worldMsg');
+    if (!(P.world||'').trim()){ msg.textContent = '작품 설정을 먼저 적어 주세요.'; return; }
+    if (!S.token){ msg.textContent = 'NovelAI 토큰을 연결하면 쓸 수 있어요.'; return; }
+    e.target.disabled = true; msg.style.color = 'var(--muted)'; msg.textContent = '설정을 읽는 중…';
+    try{
+      const found = await naiExtractPlaces(); let added = 0;
+      for (const f of found){ if (placeLookup(f.name)) continue; const p = addPlace(f.name); p.desc = f.desc; p.tags = f.tags; added++; }
+      save(); renderWorld(); msg.style.color = 'var(--ok)'; msg.textContent = found.length ? `장소 ${added}곳을 추가했어요${found.length>added ? ` (이미 있는 ${found.length-added}곳 제외)` : ''}.` : '장소를 찾지 못했어요.';
+    }catch(err){ msg.style.color = 'var(--bad)'; msg.textContent = err.message; } finally{ e.target.disabled = false; }
+  };
   $$('#mswitch button').forEach(b=>b.onclick=()=>{ $$('#mswitch button').forEach(x=>x.classList.toggle('on',x===b)); const st=$('#studio'); st.classList.toggle('show-edit', b.dataset.m==='edit'); st.classList.toggle('show-board', b.dataset.m==='board'); requestAnimationFrame(redrawAll); });
   $('#projTitle').oninput = e=>{ P.title=e.target.value; save(); };
   $('#addCast').onclick = ()=>{ P.cast.push({id:uid(), name:'', tags:'', uc:'', img:'', ref:'', useRef:false}); renderCast(); save(); onCastChanged(); const ins=$$('#castList .namerow input'); ins[ins.length-1]?.focus(); };
