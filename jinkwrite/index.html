@@ -662,6 +662,10 @@ const LINKS = {
   "심성훈": "https://posty.pe/p4kzt6uc",
   "LIMITLESS": "https://posty.pe/p9frotuc"
 };
+/* 작품 소개·도감 페이지 링크 (팝업 안에 금색 버튼으로 따로 표시돼요) */
+const INTRO_LINKS = {
+  "LIMITLESS": "https://jinkwf.github.io/LIMITLESS/"
+};
 CATS.forEach(c=>c.rows.forEach(r=>r.items.forEach(it=>{
   if(LINKS[it[0]]) it[2]=LINKS[it[0]];
   // 연다비에만 로판AI 추가
@@ -940,6 +944,12 @@ function openPop(i){
     if(showTags)(o.tags||[]).forEach(t=>v.append($("em",null,t)));
     if(hasPf)sp(o.pf||[]).forEach(n=>v.append(pf(n,name)));
     info.append(v);
+  }
+  /* 소개·도감 페이지 버튼 */
+  if(INTRO_LINKS[name]){
+    const ia=$("a","go","소개 · 도감 페이지 →");
+    ia.href=INTRO_LINKS[name];ia.target="_blank";ia.rel="noopener";
+    info.append(ia);
   }
   if(!img)info.append($("p","wait","이미지 준비 중이에요"));
   const kids=[x,fr,info];
