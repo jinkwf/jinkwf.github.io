@@ -213,6 +213,111 @@ footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{displa
 .rank-tab{padding:6px 14px;letter-spacing:.05em;font-size:13px}
 .rank-tab.on{background:var(--c);color:#04121c;box-shadow:0 0 10px var(--c)}
 </style>
+<style>
+/* ===== 999층 공략 도감 (3D) ===== */
+#tmap{position:fixed;inset:0;z-index:57;display:none;background:var(--bg);color:var(--ink);font:400 14px/1.6 var(--f);word-break:keep-all;overflow:hidden;text-align:left;letter-spacing:normal}
+#tmap.open{display:block}
+#tmap :where(button),#tmap :where(button:hover){background:none;border:0;padding:0;letter-spacing:normal;box-shadow:none;color:inherit;transition:none;text-shadow:none}
+#tmap h1,#tmap h2{border:0;padding:0}
+#tm-close{position:fixed;left:24px;top:18px;z-index:7;padding:7px 14px;border-radius:8px;border:1px solid var(--line);background:var(--panel);font:700 12px var(--f);cursor:pointer}
+#tm-close:hover{border-color:var(--neon);box-shadow:0 0 14px -4px var(--neon)}
+#tmap{--bg:#03060f;--ink:#e6f4ff;--mut:#8aa3bf;--neon:#00d5ff;--line:rgba(0,213,255,.22);--panel:rgba(4,12,26,.74);--f:"Noto Sans KR",system-ui,sans-serif;--o:"Orbitron","Noto Sans KR",sans-serif;--acc:#00d5ff;color-scheme:dark}
+#tmap *{box-sizing:border-box;margin:0}
+#tmap button{font:inherit;color:inherit}
+#tmap :focus-visible{outline:2px solid var(--neon);outline-offset:2px}
+#tmap #tm-gl{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+#tmap #tm-gl.drag{cursor:grabbing}
+#tmap .noise{position:fixed;inset:-50%;pointer-events:none;z-index:8;opacity:.06;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:tmnz .5s steps(3) infinite}
+@keyframes tmnz{33%{transform:translate(-3%,2%)}66%{transform:translate(2%,-3%)}}
+#tmap .scan{position:fixed;inset:0;pointer-events:none;z-index:8;background:repeating-linear-gradient(0deg,rgba(255,255,255,.022) 0 1px,transparent 1px 3px)}
+#tmap .top{position:fixed;left:24px;top:62px;z-index:6;pointer-events:none}
+#tmap .top h1{font:900 30px/1 var(--o);letter-spacing:.18em;color:#e6fbff;text-shadow:0 0 6px var(--neon),0 0 18px var(--neon),0 0 42px rgba(0,213,255,.55)}
+#tmap .top p{margin-top:8px;color:var(--mut);font-size:12px;letter-spacing:.18em}
+#tmap #tm-loc{display:inline-block;margin-top:12px;padding:4px 10px;border:1px solid var(--acc);border-radius:6px;font:700 12px var(--o);letter-spacing:.14em;color:var(--acc);text-shadow:0 0 8px var(--acc);box-shadow:0 0 14px -4px var(--acc);transition:color .4s,border-color .4s}
+#tmap #tm-back{position:fixed;left:24px;top:174px;z-index:7;padding:8px 14px;border-radius:8px;border:1px solid var(--line);background:var(--panel);font:700 12px var(--f);letter-spacing:.06em;cursor:pointer;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);opacity:0;pointer-events:none;transition:opacity .4s,border-color .2s}
+#tmap #tm-back.show{opacity:1;pointer-events:auto}
+#tmap #tm-back:hover{border-color:var(--neon);box-shadow:0 0 14px -4px var(--neon)}
+#tmap #tm-nav{position:fixed;top:16px;right:16px;bottom:16px;width:240px;z-index:7;display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:14px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 0 34px -12px rgba(0,213,255,.45)}
+#tmap .nh{display:flex;align-items:center;gap:8px;padding:12px;border-bottom:1px solid var(--line)}
+#tmap .nh b{font:700 12px var(--o);letter-spacing:.24em;color:var(--neon);text-shadow:0 0 8px var(--neon)}
+#tmap #tm-jump{flex:1;min-width:0;padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--ink);font:600 12px var(--f)}
+#tmap #tm-jump::placeholder{color:var(--mut)}
+#tmap #tm-jump:focus-visible{outline:none;border-color:var(--neon)}
+#tmap #tm-list{flex:1;overflow:auto;padding:8px;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+#tmap .zone+.zone{margin-top:2px}
+#tmap .zh{width:100%;display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;border:0;background:transparent;font:700 13px var(--f);text-align:left;cursor:pointer}
+#tmap .zh i{width:7px;height:7px;border-radius:1px;background:var(--c);box-shadow:0 0 8px var(--c);rotate:45deg;flex:none}
+#tmap .zh em{font:700 10px var(--o);font-style:normal;color:var(--c);min-width:18px}
+#tmap .zh small{margin-left:auto;color:var(--mut);font:500 10px var(--o);white-space:nowrap}
+#tmap .zh:hover{background:rgba(255,255,255,.05)}
+#tmap .zone.open .zh{background:rgba(255,255,255,.04)}
+#tmap .tm-fl{display:none;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;padding:5px 2px 9px 22px}
+#tmap .zone.open .tm-fl{display:grid}
+#tmap .fb{display:flex;align-items:baseline;justify-content:space-between;gap:4px;padding:7px 9px;border-radius:8px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);font:700 12px var(--o);text-align:left;cursor:pointer;transition:border-color .2s,box-shadow .2s,background .2s}
+#tmap .fb small{color:var(--mut);font-weight:500;font-size:9.5px}
+#tmap .fb:hover{border-color:var(--c);box-shadow:0 0 12px -3px var(--c)}
+#tmap .fb.on{background:color-mix(in srgb,var(--c) 22%,transparent);border-color:var(--c);color:#fff;box-shadow:0 0 14px -2px var(--c)}
+#tmap .fb.on small{color:#fff}
+#tmap #tm-info{position:fixed;left:24px;bottom:24px;z-index:7;width:min(370px,calc(100vw - 310px));max-height:calc(100vh - 210px);overflow:auto;background:var(--panel);border:1px solid color-mix(in srgb,var(--acc) 45%,transparent);border-radius:14px;padding:18px 18px 14px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 0 40px -16px var(--acc);opacity:0;transform:translateY(16px);pointer-events:none;transition:opacity .45s,transform .45s;scrollbar-width:thin}
+#tmap #tm-info.show{opacity:1;transform:none;pointer-events:auto}
+#tmap .ih small{font:700 11px var(--o);letter-spacing:.18em;color:var(--acc)}
+#tmap .ih h2{font:900 26px/1.15 var(--o);margin-top:4px;letter-spacing:.04em;text-shadow:0 0 14px var(--acc)}
+#tmap .ih p{margin-top:4px;color:var(--mut);font-size:12.5px}
+#tmap .ih p b{color:var(--ink);font-weight:700}
+#tmap dl.rows{margin-top:14px;display:grid;grid-template-columns:70px minmax(0,1fr);gap:7px 10px}
+#tmap dl.rows dt{font:700 11.5px var(--f);color:var(--c);padding-top:1px;display:flex;align-items:center;gap:6px}
+#tmap dl.rows dt::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--c);box-shadow:0 0 6px var(--c);flex:none}
+#tmap dl.rows dd{font-size:13px;border-radius:6px;padding:0 4px;margin:0 -4px}
+#tmap dl.rows .hi{animation:tmhi 1.4s ease}
+@keyframes tmhi{0%,40%{background:color-mix(in srgb,var(--c) 30%,transparent)}}
+#tmap .pn{display:flex;justify-content:space-between;gap:8px;margin-top:16px}
+#tmap .pn button{flex:1;padding:8px;border-radius:8px;border:1px solid var(--line);background:rgba(255,255,255,.03);font:700 12px var(--f);cursor:pointer}
+#tmap .pn button:hover:not(:disabled){border-color:var(--acc);box-shadow:0 0 12px -4px var(--acc)}
+#tmap .pn button:disabled{opacity:.35;cursor:default}
+#tmap #tm-labels{position:fixed;inset:0;pointer-events:none;z-index:5;overflow:hidden}
+#tmap .lb{position:absolute;left:0;top:0;pointer-events:auto;white-space:nowrap;padding:4px 10px;border-radius:999px;border:1px solid var(--c);background:rgba(3,8,18,.8);color:#fff;font:600 11.5px var(--f);box-shadow:0 0 12px -3px var(--c);cursor:pointer;max-width:220px;overflow:hidden;text-overflow:ellipsis}
+#tmap .lb b{color:var(--c);font:800 9.5px var(--o);margin-right:6px;letter-spacing:.1em}
+#tmap .lb:hover{background:color-mix(in srgb,var(--c) 30%,rgba(3,8,18,.85))}
+#tmap .lb.zl{border:0;background:none;box-shadow:none;cursor:default;pointer-events:none;font:700 11px var(--o);letter-spacing:.06em;color:var(--c);text-shadow:0 0 8px var(--c);padding:0}
+#tmap .lb.zl span{color:#dfe9f5;font:600 11px var(--f);text-shadow:0 0 6px #000;margin-left:6px}
+#tmap #tm-tip{position:fixed;z-index:9;pointer-events:none;padding:6px 10px;border-radius:8px;border:1px solid var(--c,var(--neon));background:rgba(3,8,18,.88);font:600 12px var(--f);opacity:0;transition:opacity .15s;white-space:nowrap}
+#tmap #tm-tip b{font:700 12px var(--o);color:var(--c,var(--neon));margin-right:6px}
+#tmap .zm{position:fixed;right:272px;bottom:24px;z-index:7;display:flex;flex-direction:column;gap:6px}
+#tmap .zm button{width:36px;height:36px;border-radius:9px;border:1px solid var(--line);background:var(--panel);font:700 17px var(--o);cursor:pointer;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+#tmap .zm button:hover{border-color:var(--neon)}
+#tmap #tm-hint{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:6;color:var(--mut);font:500 12px var(--f);letter-spacing:.06em;pointer-events:none;text-shadow:0 0 6px #000;white-space:nowrap}
+#tmap #tm-flash{position:fixed;inset:0;z-index:9;pointer-events:none;opacity:0;background:radial-gradient(circle at 50% 50%,#fff 0,#bff4ff 18%,rgba(0,213,255,.7) 45%,rgba(3,6,15,.95) 100%)}
+#tmap #tm-boot{position:fixed;inset:0;z-index:20;display:grid;place-items:center;background:var(--bg);transition:opacity .7s,visibility .7s}
+#tmap #tm-boot.out{opacity:0;visibility:hidden}
+#tmap #tm-boot div{width:min(280px,70vw);text-align:center;font:700 12px var(--o);letter-spacing:.3em;color:var(--neon);text-shadow:0 0 10px var(--neon)}
+#tmap #tm-boot i{display:block;height:2px;margin-top:14px;background:linear-gradient(90deg,var(--neon),transparent);box-shadow:0 0 12px var(--neon);transform-origin:left;animation:tmbar 1.1s ease-out forwards}
+@keyframes tmbar{from{transform:scaleX(0)}}
+#tmap #tm-err{position:fixed;inset:0;z-index:21;display:none;place-items:center;padding:24px;text-align:center;color:var(--mut)}
+@media(max-width:760px){#tmap .top{left:14px;top:52px}#tm-close{left:14px;top:12px}
+#tmap .top h1{font-size:22px}
+#tmap .top p{font-size:10.5px}
+#tmap #tm-back{left:14px;top:140px}
+#tmap #tm-nav{top:auto;left:0;right:0;bottom:0;width:auto;height:126px;border-radius:14px 14px 0 0;border-bottom:0}
+#tmap .nh{padding:8px 12px}
+#tmap #tm-list{display:flex;gap:6px;overflow-x:auto;overflow-y:hidden;padding:8px 12px}
+#tmap .zone{display:flex;align-items:stretch;gap:5px;flex:none}
+#tmap .zone+.zone{margin:0}
+#tmap .zh{width:auto;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px;padding:6px 10px;border:1px solid var(--line);white-space:nowrap}
+#tmap .zh small{margin:0}
+#tmap .fl,#tmap .zone.open .tm-fl{display:flex;padding:0;gap:5px}
+#tmap .fb{flex-direction:column;justify-content:center;white-space:nowrap}
+#tmap #tm-info{left:10px;right:10px;width:auto;bottom:136px;max-height:30vh;padding:12px 14px}
+#tmap dl.rows{gap:4px 10px;margin-top:10px}
+#tmap .ih h2{font-size:21px}
+#tmap .zm{right:12px;top:52px;bottom:auto}
+#tmap #tm-hint{display:none}
+
+}
+@media(prefers-reduced-motion:reduce){#tmap .noise{animation:none}
+}
+
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
 <div id="intro">
@@ -419,10 +524,18 @@ footer{text-align:center;padding:60px 20px 80px;color:var(--mut)}footer b{displa
 </div>
 </section>
 <section id="event">
-<h2>10 EVENT<span>이벤트 응모</span></h2>
+<h2>11 EVENT<span>이벤트 응모</span></h2>
 <p style="text-align:center;color:var(--mut)">999층 공략을 완료한 헌터를 위한 특별 이벤트입니다.</p>
 <div class="box" style="width:220px;height:220px;margin:40px auto;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid var(--c);box-shadow:0 0 20px rgba(79,216,255,.3);text-align:center;font-size:18px;letter-spacing:.15em;color:var(--c)" onclick="openEvent()">이벤트<br>응모</div>
 <p style="text-align:center;font-size:13px;color:var(--mut)">네모창을 클릭하세요.</p>
+</section>
+<section id="map">
+<h2>10 TOWER MAP<span>999층 공략 도감</span></h2>
+<p>1층부터 999층까지, 10층 단위 100개 구간의 환경·몬스터·보스·장비·희귀장비·기믹·이벤트를 3D 탑 지도로 열람합니다.<br>우측 층 목록에서 구간을 고르면 탑 안으로 진입해 해당 층의 지도가 펼쳐집니다.</p>
+<div style="text-align:center;margin:22px 0"><button class="issue-btn" type="button" onclick="window.TMAP&&window.TMAP.open()">3D 탑 지도 열기</button></div>
+<h3>구역 개요</h3>
+<table><tr><th>구역</th><th>테마</th><th>층</th><th>권장 등급</th><th>주요 요소</th></tr><tr><td>01</td><td>시작의 대지</td><td>1~100F</td><td>F~E</td><td>직업 부여(10F), 등급 재판정(100F)</td></tr><tr><td>02</td><td>심해</td><td>101~200F</td><td>E~D</td><td>호흡·수압, 크라켄</td></tr><tr><td>03</td><td>빙하</td><td>201~300F</td><td>D</td><td>체온 관리, 빙룡</td></tr><tr><td>04</td><td>사막·고대 유적</td><td>301~400F</td><td>D~C</td><td>보석동굴, 마법석 광산</td></tr><tr><td>05</td><td>화산·용의 영지</td><td>401~500F</td><td>C~B</td><td>드워프 요새, 고대 화룡</td></tr><tr><td>06</td><td>폐허 문명</td><td>501~600F</td><td>B</td><td>탑 기원 단서, 마더 AI</td></tr><tr><td>07</td><td>천공</td><td>601~700F</td><td>B~A</td><td>천공 도서관, 비행 기믹</td></tr><tr><td>08</td><td>성역</td><td>701~800F</td><td>A</td><td>신전, 과거 행동 심판</td></tr><tr><td>09</td><td>우주</td><td>801~900F</td><td>A~S</td><td>무중력, 성룡</td></tr><tr><td>10</td><td>탑의 심장</td><td>901~999F</td><td>S 이상</td><td>시스템 내부, 소유권 이전</td></tr></table>
+<p style="margin-top:10px;font-size:13px;color:var(--mut)">10층마다 보스층, 50층마다 휴식층(50·150·…·950F)이 있다. 층별 정보는 불완전할 수 있다.</p>
 </section>
 <footer><b>LIMITLESS — 끝없는 탑, 유한한 시간.</b>
 최강이 되는 것만으로는 부족하다.<Br> 정보를 확보하고, 자원을 관리하고, 때로는 적과 손을 잡아야 한다.<br>누구와 협력할지, 무엇을 희생할지, 어떤 길드의 편에 설지는 스스로 결정해야한다.<br><br>999층의 문이 닫히기 전에, 당신은 어디까지 올라갈 수 있을까?</footer>
@@ -651,7 +764,7 @@ function enter(){
   })(t0);
 }
 document.getElementById("ok").addEventListener("click",enter);
-var M=[["world","01","세계관","WORLD"],["hunter","02","헌터와 성장 시스템","HUNTER"],["guilds","03","4대 길드","GUILDS"],["assoc","04","헌터협회","ASSOCIATION"],["district","05","서울 탑 지구","TOWER DISTRICT"],["tower","06","무한탑 내부 구조","TOWER"],["economy","07","화폐·아이템·거래","ECONOMY"],["ranking","08","랭킹과 명성","RANKING"],["commands","09","명령어","COMMANDS"],["event","10","이벤트 응모","EVENT"]];
+var M=[["world","01","세계관","WORLD"],["hunter","02","헌터와 성장 시스템","HUNTER"],["guilds","03","4대 길드","GUILDS"],["assoc","04","헌터협회","ASSOCIATION"],["district","05","서울 탑 지구","TOWER DISTRICT"],["tower","06","무한탑 내부 구조","TOWER"],["economy","07","화폐·아이템·거래","ECONOMY"],["ranking","08","랭킹과 명성","RANKING"],["commands","09","명령어","COMMANDS"],["map","10","999층 공략 도감","TOWER MAP"],["event","11","이벤트 응모","EVENT"]];
 var menu=document.getElementById("menu"),hero=document.querySelector("header.hero"),bar=document.getElementById("bar"),ft=document.querySelector("footer"),tt=document.getElementById("tt"),hint=document.getElementById("hint");
 menu.innerHTML=M.map(function(m,i){return '<button data-id="'+m[0]+'" style="animation-delay:'+(i*.06)+'s"><small>'+m[1]+' · '+m[3]+'</small>'+m[2]+'</button>'}).join("");
 function toggleMenu(){var o=menu.classList.toggle("open");hint.style.display=o?"none":""}
@@ -686,6 +799,7 @@ en:{it:"STATUS",ip:"Connecting to the Hunter System.<br>Open the Limitless Tower
 zs:{it:"状态窗",ip:"正在连接猎人系统。<br>要查看无限塔的信息吗？<br><b>时间限制：2099.12.31 23:59:59</b>",ok:"确认",g1:"无限塔",gh1:"▼ 点击继续",gh2:"▼ 再点一次",tag:"在第999层的尽头，决定世界的命运。",tags:"猎人 · 爬塔 · 生存 · 战斗 · 成长 · 公会竞争 · 悬疑 ｜ 现代韩国",goal:"目标 ｜ 在2099年12月31日前攻略塔的第999层",back:"◀ 菜单",note:"※ 详细正文暂以韩语显示。",m:["世界观","猎人与成长系统","四大公会","猎人协会","首尔塔区","无限塔内部结构","货币·道具·交易","排名与声望","指令","活动应征"]},
 zt:{it:"狀態窗",ip:"正在連接獵人系統。<br>要查看無限塔的資訊嗎？<br><b>時間限制：2099.12.31 23:59:59</b>",ok:"確認",g1:"無限塔",gh1:"▼ 點擊繼續",gh2:"▼ 再點一次",tag:"在第999層的盡頭，決定世界的命運。",tags:"獵人 · 爬塔 · 生存 · 戰鬥 · 成長 · 公會競爭 · 懸疑 ｜ 現代韓國",goal:"目標 ｜ 在2099年12月31日前攻略塔的第999層",back:"◀ 選單",note:"※ 詳細正文暫以韓語顯示。",m:["世界觀","獵人與成長系統","四大公會","獵人協會","首爾塔區","無限塔內部結構","貨幣・道具・交易","排名與聲望","指令","活動應徵"]},
 ja:{it:"ステータス",ip:"ハンターシステムに接続します。<br>無限塔の情報を閲覧しますか？<br><b>制限時間：2099.12.31 23:59:59</b>",ok:"確認",g1:"無限塔",gh1:"▼ タップして続行",gh2:"▼ もう一度",tag:"999階の果てで、世界の運命が決まる。",tags:"ハンター · 塔攻略 · サバイバル · 戦闘 · 成長 · ギルド競争 · ミステリー ｜ 現代韓国",goal:"目標 ｜ 2099年12月31日までに塔の999階を攻略",back:"◀ メニュー",note:"※ 詳細な本文は現在、韓国語で表示されます。",m:["世界観","ハンターと成長システム","4大ギルド","ハンター協会","ソウル塔地区","無限塔の内部構造","通貨・アイテム・取引","ランキングと名声","コマンド","イベント応募"]}};
+[["ko","999층 공략 도감"],["en","Floor 1–999 Guide"],["zs","999层攻略图鉴"],["zt","999層攻略圖鑑"],["ja","999階攻略図鑑"]].forEach(function(x){if(T[x[0]]&&T[x[0]].m)T[x[0]].m.splice(9,0,x[1])});
 var LG=[["ko","한국어"],["en","English"],["zs","简体中文"],["zt","繁體中文"],["ja","日本語"]];
 function secFill(id){var s=document.getElementById(id);if(s._o===undefined)s._o=s.innerHTML;var tr=S[L]&&S[L][id];s.innerHTML=tr?tr:(L==="ko"?s._o:'<p class="note">'+T[L].note+'</p>'+s._o)}
 function applyLang(){var t=T[L],e=function(i){return document.getElementById(i)};document.documentElement.lang={ko:"ko",en:"en",zs:"zh-Hans",zt:"zh-Hant",ja:"ja"}[L];e("i-t").textContent=t.it;e("i-p").innerHTML=t.ip;e("ok").textContent=t.ok;e("h-p").textContent=t.tag;e("h-g").textContent=t.tags;e("h-c").textContent=t.goal;e("back").textContent=t.back;tt.textContent=t.g1+": LIMITLESS";menu.innerHTML=M.map(function(m,i){return '<button data-id="'+m[0]+'" style="animation-delay:'+(i*.06)+'s"><small>'+m[1]+' · '+m[3]+'</small>'+t.m[i]+'</button>'}).join("");document.querySelectorAll("#langs button").forEach(function(b){b.classList.toggle("on",b.dataset.l===L)})}
@@ -929,6 +1043,1047 @@ show=function(id,name){
   origShow(id,name);
   if(id==="ranking") setTimeout(function(){renderRanking(currentRankType,true)},100);
 };
+</script>
+<div id="tmap" role="dialog" aria-label="무한탑 3D 공략 도감">
+<canvas id="tm-gl" aria-label="무한탑 3D 지도"></canvas>
+<div id="tm-labels" aria-hidden="true"></div>
+<button id="tm-close" type="button">◀ 메뉴</button>
+<div class="top">
+  <h1>LIMITLESS</h1>
+  <p>무한탑 999층 공략 도감</p>
+  <span id="tm-loc">EXTERIOR · 1F – 999F</span>
+</div>
+<button id="tm-back" type="button">↑ 탑 외관으로</button>
+<div id="tm-nav" aria-label="층 목록">
+  <div class="nh"><b>FLOOR</b><input id="tm-jump" type="number" min="1" max="999" inputmode="numeric" placeholder="층 번호 입력 후 Enter" aria-label="층 번호로 이동"></div>
+  <div id="tm-list"></div>
+</div>
+<div id="tm-info" aria-live="polite"></div>
+<div class="zm"><button id="tm-zin" type="button" aria-label="가까이">+</button><button id="tm-zout" type="button" aria-label="멀리">−</button></div>
+<p id="tm-hint">드래그로 회전 · 휠로 탑 오르내리기 · 층을 눌러 진입</p>
+<div id="tm-tip"></div>
+<div id="tm-flash"></div>
+<div class="noise" aria-hidden="true"></div><div class="scan" aria-hidden="true"></div>
+<div id="tm-boot"><div>TOWER SCANNING<i></i></div></div>
+<div id="tm-err">3D를 불러오지 못했어요. 브라우저에서 WebGL이 켜져 있는지 확인해 주세요.</div>
+</div>
+
+<script>
+/* ===== 999층 공략 도감 (3D) ===== */
+(function(){
+let VIS=false,running=false,INIT=null,loading=false;
+let mode="out";
+let enter=()=>{},exitTower=()=>{},setHover=()=>{};
+/* =========================================================
+   무한탑 공략 도감 데이터
+   Z = 100층 단위 구역 / D = 10층 단위 구간 (100줄)
+   D 한 줄 = 환경 | 몬스터(/ 보스) | 장비·아이템 | 희귀장비 | 기믹 | 이벤트
+   ========================================================= */
+const Z=[
+ {n:"시작의 대지",g:"F~E",a:"#7CE07A",gr:["#29461f","#335528","#41682f"],fog:"#06120a",k:"meadow"},
+ {n:"심해",g:"E~D",a:"#3FA9FF",gr:["#123a5c","#1a5078","#2a6d8f"],fog:"#03101c",k:"sea"},
+ {n:"빙하",g:"D",a:"#BDEBFF",gr:["#6f93ab","#8fb2c8","#b4d2e3"],fog:"#0a1822",k:"ice"},
+ {n:"사막·고대 유적",g:"D~C",a:"#F2C46D",gr:["#6f5230","#82623b","#967347"],fog:"#160f07",k:"desert"},
+ {n:"화산·용의 영지",g:"C~B",a:"#FF6A3D",gr:["#1e1412","#2a1a16","#3a221c"],fog:"#140604",k:"lava"},
+ {n:"폐허 문명",g:"B",a:"#7FF0D2",gr:["#2c3138","#3a4048","#4a5058"],fog:"#070b0f",k:"city"},
+ {n:"천공",g:"B~A",a:"#FFE7A3",gr:["#9fb6cc","#b9cde0","#d0dfec"],fog:"#141d36",k:"sky"},
+ {n:"성역",g:"A",a:"#FFF2C2",gr:["#6b6456","#7b7465","#8c8574"],fog:"#120f09",k:"temple"},
+ {n:"우주",g:"A~S",a:"#B48CFF",gr:["#1c1830","#2a2440","#3a3058"],fog:"#04020a",k:"space"},
+ {n:"탑의 심장",g:"S 이상",a:"#00E5FF",gr:["#06121a","#0a1a24","#0d2a36"],fog:"#000508",k:"void"}
+];
+const D=`
+안개 낀 초원, 입구 광장|슬라임, 들쥐, 뿔토끼 / 보스 거대 슬라임|초보자 단검, 하급 포션|시작의 반지|튜토리얼 상태창 안내|첫 탑 진입, 10층 클리어 시 직업 부여
+고블린 숲|고블린, 고블린 궁수 / 보스 고블린 족장|가죽 갑옷, 나무 방패|족장의 이빨 목걸이|나무 위 덫|고블린 포로 구출
+발광 버섯 동굴|포자 버섯, 동굴 박쥐 / 보스 균사 여왕|해독제, 발광 버섯|균사 망토(독 저항)|포자 흡입 시 환각|첫 몬스터 코어 획득
+버려진 폐허 마을|구울, 떠도는 망령 / 보스 촌장의 망령|녹슨 장검, 마을 지도|촌장의 열쇠|밤이 되면 망령 강화|지하실 숨은 방
+안개 늪지|늪 악어, 거머리 떼 / 보스 늪의 주인|장화, 수생 포션|늪 비늘 각반|발이 빠지는 지형|50층 첫 휴식층 개방
+붉은 바위 협곡|오크 전사, 오크 주술사 / 보스 오크 대장|강철 도끼, 오크 투구|대장의 전투 깃발(아군 버프)|낙석 구간|오크 상인과 첫 거래
+지하 묘지|스켈레톤, 견습 리치 / 보스 묘지기|성수, 뼈 화살|망자의 등불|부활하는 해골, 관 함정|사망 헌터 유품 발견
+거미줄 숲|독거미, 거미 기사 / 보스 아라크네|거미줄 로프, 해독제|아라크네의 실 장갑|거미줄에 걸리면 행동 제한|고치 속 생존 헌터 구출
+눈보라 설원|설원 늑대, 설인 / 보스 백랑왕|방한복, 온열 포션|백랑왕의 송곳니 단검|체온 게이지|새끼 늑대 테이밍
+시작의 성채|기사 골렘, 성채 수비병 / 구역 보스 문지기 기사|기사 장검, 강철 판금|문지기의 대방패|성문 레버 퍼즐|100층 돌파 시 등급 재판정
+모래 해안, 조수 웅덩이|집게 게, 바다 갈매기 떼 / 보스 왕소라게|작살, 수중 호흡 포션|소라 껍질 방패|밀물·썰물 주기|수중 구역 첫 진입
+산호초 미로|독 산호, 쥐가오리 / 보스 산호 정령|산호 창, 진주|인어의 진주(수중 호흡 영구)|호흡 시간 제한|-
+해파리 심해|발광 해파리 떼, 독 해파리 / 보스 해파리 여왕|해파리 젤, 마비 해제제|해파리 여왕의 왕관(마비 반사)|빛을 따라가면 마비 함정|해파리 몬스터 조우
+난파선 무덤|해골 해적, 유령 선원 / 보스 유령 선장|해적 커틀러스, 금화|선장의 나침반(숨은 통로 탐지)|선체가 기울어 중력 방향 변화|보물 지도 조각
+해저 동굴|곰치, 동굴 문어 / 보스 대왕 문어|수중 랜턴|문어 먹물 단검(실명)|공기 주머니로 호흡 회복|150층 휴식층(해저 돔)
+해초 숲|해마 기사, 해초 괴물 / 보스 숲의 해룡|해초 갑옷, 비늘|해마 기사의 랜스|해초에 얽히면 이동 불가|해마 테이밍
+심해 해구|아귀, 심해 벌레 / 보스 심연 아귀|수압 포션, 발광 기관|심연의 눈(어둠 시야)|수압 게이지, 빛 없음|-
+인어 폐도시|타락 인어, 세이렌 / 보스 세이렌 여제|삼지창, 비늘 망토|세이렌의 목걸이(매혹 저항)|노래를 들으면 매혹|인어 생존자 구출
+폭풍의 바다|상어 떼, 폭풍 정령 / 보스 번개 상어|방수 망토, 물 마법석|폭풍 작살|뗏목 위 전투, 파도|마법석 획득
+대해의 심장|크라켄 촉수, 심해 사도 / 구역 보스 크라켄|크라켄 먹물, 심해 코어|크라켄의 촉수 채찍|촉수 파괴 순서 기믹|바다괴물 조우
+얼음 평원|얼음 여우, 서리 정령 / 보스 설원 매머드|털 망토, 온열석|매머드 상아 창|체온 게이지|-
+빙하 균열|크레바스 벌레, 얼음 거미 / 보스 빙하 지렁이|아이젠, 로프|빙결 등반 장갑|얇은 얼음 붕괴|빙하던전 진입
+얼어붙은 호수|얼음 물고기, 빙결 인어 / 보스 호수의 여왕|얼음 낚싯대, 냉동 생선|호수 여왕의 서리 반지|얼음 아래에서 따라오는 그림자|-
+설인 부족 마을|설인 전사, 설인 무당 / 보스 설인 족장|설인 털 갑옷|족장의 뼈 피리|부족과 교섭 가능|설인과 동맹 또는 적대
+오로라 협곡|오로라 정령, 빛 나방 / 보스 오로라 수호자|오로라 결정|오로라 망토(마법 저항)|오로라 색에 따라 속성 변화|250층 휴식층(얼음 산장)
+얼어붙은 헌터의 무덤|동사한 헌터 망령, 서리 리치 수하 / 보스 영구동토의 기사|옛 헌터 장비|이름이 새겨진 고대 라이선스|얼음 속 헌터 해동 시 아군·적 랜덤|얼음 속 옛 헌터 발견
+눈사태 산맥|빙결 와이번, 눈사태 골렘 / 보스 산맥 거인|와이번 비늘|빙결 와이번 알|큰 소리를 내면 눈사태|와이번 테이밍
+수정 빙궁 회랑|얼음 기사, 거울 정령 / 보스 거울 마녀|빙결 장검|거울 방패(공격 반사)|거울 미로, 반사 공격|-
+절대영도 지대|서리 망령, 결빙 슬라임 / 보스 냉기의 화신|극한 방한 포션|영구동토 갑옷|멈춰 서면 동결|-
+빙룡의 둥지|빙룡 새끼, 서리 드레이크 / 구역 보스 빙룡|빙룡 비늘, 빙결 코어|빙룡의 숨결 검|브레스 회피, 얼음 기둥 엄폐|드래곤 조우(대화 가능)
+모래 사막|전갈, 모래벌레 / 보스 거대 사막 전갈|터번, 물통|전갈 꼬리 단검|갈증 게이지, 신기루|-
+오아시스|사막 도적단, 물의 정령 / 보스 도적 두목|낙타, 정화수|두목의 곡도|진짜 오아시스 판별|불법 의뢰 브로커 등장
+모래 폭풍 지대|모래 정령, 바람 늑대 / 보스 폭풍의 진|방진 고글|진의 램프(소원 1회)|시야 차단|-
+고대 피라미드|미라, 스카라베 떼 / 보스 파라오 미라|붕대, 황금 장신구|파라오의 홀|함정 통로, 상형문자 퍼즐|-
+보석 동굴|보석 골렘, 크리스탈 박쥐 / 보스 다이아몬드 거북|루비·사파이어 원석|보석 박힌 건틀릿|채굴할수록 동굴 진동|보석동굴, 350층 휴식층(대상단 캠프)
+지하 고대 도시|고대 수호상, 석상 병사 / 보스 스핑크스|고대 화폐, 석판|스핑크스의 수수께끼 서|수수께끼 정답 시 전투 회피|-
+모래에 묻힌 사원|뱀인간, 독사 / 보스 뱀인간 대사제|해독제, 뱀가죽|대사제의 독니 지팡이|독 안개|-
+마법석 광산|광산 고블린, 광석 정령 / 보스 광산 거인|속성 랜덤 마법석|고순도 마법석|광맥 붕괴 위험|마법석 획득
+태양의 사막|불꽃 도마뱀, 태양 매 / 보스 새끼 피닉스|화염 저항 포션|피닉스의 깃털(부활 1회)|정오마다 열기 극대화|-
+황금 왕릉|황금 골렘, 왕의 근위대 / 구역 보스 황금왕|금괴, 왕관|황금왕의 갑주|금을 주우면 저주|-
+용암 평원|마그마 슬라임, 화염 임프 / 보스 용암 골렘|내열 장화|용암석 망치|용암 흐름이 수시로 바뀜|-
+화산재 숲|재 늑대, 숯 트렌트 / 보스 잿빛 트렌트|방독면|재의 장궁|화산재로 시야·호흡 저하|-
+드워프 요새|타락 드워프, 화염 골렘 / 보스 드워프 왕|드워프 강철 장비|드워프 왕의 망치(장비 강화)|용광로 온도 퍼즐|장비 제작 의뢰 가능
+불의 정령계|이프리트, 샐러맨더 / 보스 이프리트 군주|화염 마법석|샐러맨더 장갑|물 속성 무효|샐러맨더 테이밍
+흑요석 동굴|흑요석 거미, 그림자 박쥐 / 보스 흑요석 여왕|흑요석 단검|흑요석 거울 갑옷|반사 바닥 착시|450층 휴식층(드워프 여관)
+분화구 내부|마그마 웜, 화염 드레이크 / 보스 분화구 수호자|화룡석|드레이크 안장|주기적 분화|-
+용의 묘지|해골 드래곤, 용 숭배자 / 보스 용 사제|고룡 뼈|고룡 비늘 갑옷|뼈 사이 망령 각성|-
+용인 부족 영지|용인 전사, 용인 마법사 / 보스 용인 장로|용인 창|장로의 용언서(용과 대화)|결투 시 명예 시스템|-
+와이번 둥지 절벽|와이번 떼, 레드 드레이크 / 보스 와이번 군주|와이번 알|레드 드레이크 알|공중전|와이번 테이밍
+화룡의 왕좌|화룡 근위대 / 구역 보스 고대 화룡|화룡 코어, 화룡 비늘|화룡의 심장(화염 각성)|체력 50% 이하 시 대화 분기|드래곤 조우(전투 또는 계약)
+폐허가 된 복제 서울|녹슨 드론, 변이 들개 / 보스 경비 로봇|전자 부품, 통조림|플라즈마 권총|낯익은 간판과 거리|-
+지하철 터널|터널 쥐인간, 전동차 골렘 / 보스 폭주 전동차|손전등, 배터리|레일건|전동차 통과 주기|-
+지하 연구소|실험체, 보안 AI / 보스 실험체 0번|의료 키트, 각성제|강화 수술 칩|보안 카드 수집|실험 기록 발견(탑 기원 단서)
+공장 지대|조립 로봇, 컨베이어 골렘 / 보스 공장장 메카|기계 부품|외골격 슈트|생산 라인 정지 퍼즐|-
+데이터 센터|바이러스 정령, 홀로그램 망령 / 보스 시스템 버그|데이터 칩|해킹 장갑|상태창 오류(정보 왜곡)|550층 휴식층(지하 벙커)
+무너진 헌터협회|타락 헌터 망령 / 보스 옛 협회장의 망령|옛 라이선스, 협회 기록|협회장의 인장|미래의 협회 기록 열람|멸망한 미래 단서
+핵 발전소|방사능 슬라임, 돌연변이 / 보스 원자로 골렘|방사능 해독제|핵 코어|방사능 게이지|-
+고층 빌딩 숲|저격 드론, 와이어 거미 / 보스 마천루 수호자|그래플링 훅|저격 소총|빌딩 간 이동, 낙하 위험|-
+군사 기지|전투 안드로이드, 탱크 골렘 / 보스 사령관 AI|탄약, 방탄복|강화 외골격 Mk-2|경보 발동 시 증원|-
+중앙 서버 탑|방어 프로그램 / 구역 보스 마더 AI|마더 코어|마더의 기억칩|AI와 논리 대결|시스템 관리자 흔적 발견(이름은 지워짐)
+구름 위 부유섬|하피, 새끼 구름 고래 / 보스 하피 여왕|활강 망토|하피 깃털 활|섬 사이 점프|-
+바람의 계곡|바람 정령, 그리폰 / 보스 그리폰 왕|그리폰 깃털|그리폰 알|돌풍 방향 읽기|그리폰 테이밍
+하늘 정원|꽃 요정, 덩굴 수호자 / 보스 정원사|하늘꽃(치료 재료)|세계수 가지 지팡이|꽃가루 효과 랜덤|-
+천둥 구름|뇌조, 번개 정령 / 보스 천둥새|번개 마법석|천둥새의 날개|금속 장비 착용 시 낙뢰|마법석 획득
+구름 고래 등 위|기생 벌레, 고래 등 원주민 / 보스 고래 기생충|고래 기름|고래의 노래 피리|고래 이동에 따른 지형 변화|650층 휴식층(고래 등 마을)
+천공 도서관|책 망령, 잉크 정령 / 보스 대사서|마법서, 스크롤|금서(탑의 역사)|소리를 내면 적 소환|999층 단서 열람
+별빛 다리|별빛 기사 / 보스 다리 수문장|별빛 조각|수문장의 창|다리가 밤에만 나타남|-
+하늘 해적 기지|공중 해적, 무장 비행선 / 보스 해적 선장|비행선 부품|개인 비행 장치|비행선 탈취|불법 의뢰(해적 의뢰)
+무지개 폭포|물보라 정령, 무지개 뱀 / 보스 무지개 사룡|프리즘|무지개 비늘 갑옷|색별 속성 변환|-
+태양의 첨탑|태양 기사단 / 구역 보스 태양의 기사장|태양석|태양검|빛이 강할수록 적 강화|-
+순례자의 길|타락 순례자, 석상 / 보스 석상 거인|성수, 순례자의 지팡이|순례자의 묵주(정화)|걷는 동안 체력 서서히 감소|-
+침묵의 신전|침묵 수도사 / 보스 수도원장|경전|침묵의 가면|말을 하면 공격받음|신전 진입
+천사의 정원|하급 천사 / 보스 판관 천사|천사 깃털|천사의 날개 조각|죄 수치에 따라 적대|-
+심판의 전당|심판관 / 보스 대심판관|심판의 저울|정의의 천칭검|과거 행동 심판(불법 의뢰 이력 반영)|-
+성유물 보관소|성물 골렘, 수호 기사 / 보스 성물 수호자|성유물|성배(완전 회복)|성물은 하나만 선택 가능|750층 휴식층(대성당), 치료 진행
+타락한 성소|타락 천사, 이단 사제 / 보스 타락 대천사|검은 깃털|타락의 낫|정화와 타락 중 선택|-
+기도의 미궁|기도하는 망령 / 보스 미궁의 성녀|기도서|성녀의 베일|기도문 순서 퍼즐|-
+신들의 회랑|신상 수호자 / 보스 고대 신상|신의 파편|신성 마법석|신상마다 축복 또는 저주|마법석 획득
+성스러운 불꽃|불꽃 세라핌 / 보스 세라핌|성화|세라핌의 불꽃 검|불꽃에 닿으면 정화 또는 소멸|-
+대신전 지성소|신전 근위대 / 구역 보스 신의 대리자|신의 인장|신탁의 눈(미래 1회 예지)|신탁 질문 3회|-
+별의 바다|별 해파리, 운석 골렘 / 보스 운석왕|산소 캡슐, 무중력 부츠|성운 망토|무중력 이동|우주형 탑 진입
+소행성대|우주 해적, 운석 벌레 / 보스 소행성 거미|운석 금속|운석강 대검|소행성 충돌|불법 의뢰(우주 해적)
+붉은 행성|붉은 모래 거인, 외계 포식자 / 보스 행성의 군주|외계 광물|외계 갑각 갑옷|중력 2배|-
+우주 정거장 잔해|고장 안드로이드, 외계 기생체 / 보스 기생 숙주|우주 식량|레이저 블레이드|산소 누출 구역|-
+성운|성운 정령, 우주 고래 / 보스 우주 고래|성운 결정|우주 고래 피리|시야 왜곡|850층 휴식층(정거장), 우주 고래 테이밍
+블랙홀 가장자리|공허 그림자, 중력 정령 / 보스 사건의 지평선|중력 마법석|중력 조작 장갑|시간 흐름 지연|마법석 획득
+쌍둥이 태양계|빛의 거인, 그림자 거인 / 보스 쌍둥이 태양신|항성 조각|항성 코어|두 태양이 번갈아 속성 변경|-
+별의 무덤|죽은 별의 망령 / 보스 백색왜성|별의 재|별의 심장|초신성 폭발 전 탈출|-
+우주룡의 영역|새끼 성룡 / 보스 성룡|성룡 비늘|성룡의 뿔|우주 공간 비행 전투|드래곤 조우(마지막 드래곤)
+은하의 중심|우주 감시자 / 구역 보스 은하의 눈|은하 코어|은하의 눈동자|별자리 정렬 퍼즐|-
+공허의 회랑|공허 그림자, 기억 포식자 / 보스 망각의 군주|공허 결정|망각의 망토|기억 일부가 잠김|-
+기억의 방|과거 동료의 환영 / 보스 나 자신의 그림자|기억 조각|그림자 검|자신과의 전투|과거 회상(회귀자 분기)
+시간의 역류|시간 망령 / 보스 시계공|시간의 모래|시계공의 회중시계(1턴 되돌리기)|시간이 거꾸로 흐름|-
+4대 길드의 시련|ZERO·SERAPH·NYXUS·HEILOCK의 환영 / 보스 길드장들의 환영|길드 문장|4길드 연합 휘장|길드별 시련 4개|-
+무너진 상점가|망령 상인 / 보스 탐욕의 상인|최상급 포션|최후의 성배|거래할 때마다 수명 차감|950층 최후의 휴식층
+탑의 혈관|마력 기생체 / 보스 마력 심장 수호자|순수 마력석|탑 마력 흡수 반지|탑 자체가 적대|마법석 획득
+시스템의 내부|오류 개체, 코드 정령 / 보스 디버거|오류 조각|관리자 권한 조각|상태창 붕괴·재구성|-
+역대 공략자의 무덤|실패한 헌터들의 망령 / 보스 첫 번째 도전자|선대 장비|첫 도전자의 검|망령 설득 시 아군 합류|-
+최종 관문|탑의 수호자 군단 / 보스 수문장|최종 열쇠|수문장의 왕관|보스 10연전|-
+탑의 정점|최종 보스 탑의 주인|-|-|3페이즈 최종전|999층 입구 도달, 공략 완료 시 소유권 이전
+`.trim().split("\n").map(l=>l.split("|").map(s=>s.trim()));
+
+const range=i=>[i*10+1,i===99?999:i*10+10];
+const pad=n=>String(n).padStart(2,"0");
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]);
+function row(i){
+  const [env,m,item,rare,gim,evt]=D[i];
+  let mon="",boss="";
+  const p=m.split(" / ");
+  if(p.length>1){mon=p[0];boss=p[1].replace(/^(구역 )?보스 /,"")}else boss=m.replace(/^최종 보스 /,"");
+  return {env,mon,boss,item,rare,gim,evt};
+}
+const TY={
+  env:["환경","#9fb8d4"],mon:["몬스터","#ff9f43"],boss:["보스","#ff4d6d"],item:["장비·아이템","#5be38a"],
+  rare:["희귀장비","#ffd166"],gim:["기믹","#c18bff"],evt:["이벤트","#4fe3ff"]
+};
+const reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+
+/* =========================================================
+   DOM
+   ========================================================= */
+const $=id=>document.getElementById("tm-"+id);
+const list=$("list"),info=$("info"),loc=$("loc"),tip=$("tip"),flash=$("flash"),labelsEl=$("labels"),hint=$("hint"),back=$("back");
+const fbs=[];
+Z.forEach((z,k)=>{
+  const zone=document.createElement("div");zone.className="zone"+(k===0?" open":"");zone.style.setProperty("--c",z.a);
+  const zh=document.createElement("button");zh.type="button";zh.className="zh";
+  zh.innerHTML=`<i></i><em>${pad(k+1)}</em><span>${z.n}</span><small>${k*100+1}F–${k===9?999:(k+1)*100}F</small>`;
+  zh.onclick=()=>{
+    if(matchMedia("(max-width:760px)").matches){enter(k*10);return}
+    zone.classList.toggle("open");
+  };
+  const fl=document.createElement("div");fl.className="tm-fl";
+  for(let j=0;j<10;j++){
+    const i=k*10+j,[s,e]=range(i);
+    const b=document.createElement("button");b.type="button";b.className="fb";
+    b.innerHTML=`<span>${s}F~</span><small>${e}F</small>`;
+    b.setAttribute("aria-label",`${s}층부터 ${e}층`);
+    b.onmouseenter=()=>{if(mode==="out")setHover(i)};
+    b.onfocus=()=>{if(mode==="out")setHover(i)};
+    b.onclick=()=>enter(i);
+    fl.append(b);fbs[i]=b;
+  }
+  zone.append(zh,fl);list.append(zone);
+});
+function markList(i){
+  fbs.forEach((b,j)=>{b.classList.toggle("on",j===i);if(j===i)b.setAttribute("aria-current","true");else b.removeAttribute("aria-current")});
+  if(i<0)return;
+  const zone=fbs[i].closest(".zone");zone.classList.add("open");
+  fbs[i].scrollIntoView({block:"nearest",inline:"center",behavior:reduce?"auto":"smooth"});
+}
+$("jump").addEventListener("keydown",e=>{
+  if(e.key!=="Enter")return;
+  const n=Math.max(1,Math.min(999,parseInt(e.target.value,10)||0));if(!n)return;
+  enter(Math.min(99,Math.floor((n-1)/10)));e.target.blur();
+});
+back.onclick=()=>exitTower();
+
+function showInfo(i){
+  const k=Math.floor(i/10),z=Z[k],[s,e]=range(i),r=row(i);
+  info.style.setProperty("--acc",z.a);
+  const rest=[50,150,250,350,450,550,650,750,850,950].filter(f=>f>=s&&f<=e);
+  let h=`<div class="ih"><small>ZONE ${pad(k+1)} · ${esc(z.n)}</small><h2>${s}F – ${e}F</h2><p>권장 등급 <b>${z.g}</b> · 보스층 <b>${e}F</b>${rest.length?` · 휴식층 <b>${rest[0]}F</b>`:""}</p></div><dl class="rows">`;
+  for(const key of ["env","mon","boss","item","rare","gim","evt"]){
+    const v=r[key];if(!v||v==="-")continue;
+    h+=`<dt data-k="${key}" style="--c:${TY[key][1]}">${TY[key][0]}</dt><dd data-k="${key}" style="--c:${TY[key][1]}">${esc(v)}</dd>`;
+  }
+  h+=`</dl><div class="pn"><button type="button" id="tm-pv" ${i===0?"disabled":""}>‹ 이전 구간</button><button type="button" id="tm-nx" ${i===99?"disabled":""}>다음 구간 ›</button></div>`;
+  info.innerHTML=h;info.classList.add("show");
+  $("pv").onclick=()=>enter(i-1);$("nx").onclick=()=>enter(i+1);
+  loc.textContent=`${s}F – ${e}F · ${z.n}`;loc.style.setProperty("--acc",z.a);
+}
+function hiRow(key){
+  info.querySelectorAll(`[data-k="${key}"]`).forEach(el=>{el.classList.remove("hi");void el.offsetWidth;el.classList.add("hi")});
+  const dd=info.querySelector(`dd[data-k="${key}"]`);if(dd)dd.scrollIntoView({block:"nearest",behavior:reduce?"auto":"smooth"});
+}
+
+
+function init3D(){
+/* =========================================================
+   THREE
+   ========================================================= */
+if(!window.THREE){$("err").style.display="grid";$("boot").classList.add("out");return}
+let stars,wins;const cv=$("gl");
+let Rr;
+try{Rr=new THREE.WebGLRenderer({canvas:cv,antialias:true})}catch(e){$("err").style.display="grid";$("boot").classList.add("out");return}
+Rr.setPixelRatio(Math.min(devicePixelRatio||1,2));Rr.shadowMap.enabled=true;Rr.shadowMap.type=THREE.PCFSoftShadowMap;
+const scene=new THREE.Scene();
+const OUT_BG=new THREE.Color("#03060f");
+scene.background=OUT_BG.clone();scene.fog=new THREE.Fog(OUT_BG,55,150);
+const camera=new THREE.PerspectiveCamera(50,1,.1,500);
+let composer=null,bloom=null;
+function resize(){const w=innerWidth,h=innerHeight;Rr.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();if(composer){composer.setSize(w,h);bloom.resolution.set(w,h)}}
+addEventListener("resize",()=>{if(VIS)resize()});resize();
+
+scene.add(new THREE.AmbientLight(0x6688aa,.55));
+const hemi=new THREE.HemisphereLight(0xbfe8ff,0x101020,.55);scene.add(hemi);
+const dir=new THREE.DirectionalLight(0xffffff,.85);dir.position.set(12,30,14);scene.add(dir);
+dir.castShadow=true;dir.shadow.mapSize.set(2048,2048);Object.assign(dir.shadow.camera,{left:-19,right:19,top:19,bottom:-19,near:1,far:80});dir.shadow.bias=-.004;dir.shadow.normalBias=.08;
+function setBloom(s,r,t){if(bloom){bloom.strength=s;bloom.radius=r;bloom.threshold=t}}
+const pl=new THREE.PointLight(0x00d5ff,1.3,70);pl.position.set(0,34,0);scene.add(pl);
+
+/* 별 */
+(()=>{
+  const p=[];for(let i=0;i<1800;i++){const r=110+Math.random()*140,t=Math.random()*6.283,f=Math.acos(2*Math.random()-1);p.push(r*Math.sin(f)*Math.cos(t),r*Math.cos(f),r*Math.sin(f)*Math.sin(t))}
+  const g=new THREE.BufferGeometry();g.setAttribute("position",new THREE.Float32BufferAttribute(p,3));
+  stars=new THREE.Points(g,new THREE.PointsMaterial({color:0xcfe9ff,size:.7,transparent:true,opacity:.85,fog:false}));
+  scene.add(stars);
+})();
+
+/* ---------- 탑 내부 ---------- */
+const inner=new THREE.Group();inner.visible=false;scene.add(inner);
+let anim=[];
+function clearInner(){
+  inner.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material)(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{for(const k of["map","emissiveMap"]){const t=m[k];if(t&&t!==TILE&&t!==SMOKE)t.dispose()}m.dispose()})});
+  inner.clear();anim=[];
+}
+function rng(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const std=o=>new THREE.MeshStandardMaterial(o);
+const glowMat=(c,o)=>new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:o,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide});
+
+/* ---------- 탑 외관 ---------- */
+const tower=new THREE.Group();scene.add(tower);
+const extAnim=[];
+const SEG=3,RB=4.6,TAPER=.2,FH=.3;
+const rAt=y=>RB-TAPER*(y/SEG);
+const oct=(r,y,t)=>new THREE.Vector3(r*Math.sin(t*Math.PI/4),y,r*Math.cos(t*Math.PI/4));
+const segs=[];
+const R0=rng(20991231);
+function canvasTex(w,h,draw){const c=document.createElement("canvas");c.width=w;c.height=h;draw(c.getContext("2d"),w,h);const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.anisotropy=4;return t}
+/* 구역별 외벽 패널 텍스처 (색 + 창문 발광) */
+function facadeTex(hex,seed){
+  const r=rng(seed),W=256,H=256,cols=8,rows=24;
+  const win=[];for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){const v=r();win.push(v<.34?2:v<.44?1:0)}
+  const base=canvasTex(W,H,(g)=>{
+    g.fillStyle="#0a0f1c";g.fillRect(0,0,W,H);
+    const gr=g.createLinearGradient(0,0,W,0);gr.addColorStop(0,"rgba(255,255,255,.05)");gr.addColorStop(.5,"rgba(255,255,255,0)");gr.addColorStop(1,"rgba(0,0,0,.25)");g.fillStyle=gr;g.fillRect(0,0,W,H);
+    g.strokeStyle="rgba(150,190,230,.16)";g.lineWidth=1;
+    for(let x=0;x<=cols;x++){g.beginPath();g.moveTo(x*W/cols+.5,0);g.lineTo(x*W/cols+.5,H);g.stroke()}
+    for(let y=0;y<=rows;y+=3){g.beginPath();g.moveTo(0,y*H/rows+.5);g.lineTo(W,y*H/rows+.5);g.stroke()}
+    for(let i=0;i<win.length;i++){const x=i%cols,y=i/cols|0;g.fillStyle=win[i]?"#2a3550":"#121a2c";g.fillRect(x*W/cols+5,y*H/rows+3,W/cols-10,H/rows-5)}
+  });
+  const emi=canvasTex(W,H,(g)=>{
+    g.fillStyle="#000";g.fillRect(0,0,W,H);
+    for(let i=0;i<win.length;i++){if(!win[i])continue;const x=i%cols,y=i/cols|0;
+      g.fillStyle=win[i]===2?hex:"rgba(255,226,180,.55)";g.globalAlpha=.55+r()*.45;g.fillRect(x*W/cols+5,y*H/rows+3,W/cols-10,H/rows-5)}
+    g.globalAlpha=1;g.fillStyle=hex;g.fillRect(0,0,2,H);g.fillRect(W-2,0,2,H);
+  });
+  return {base,emi};
+}
+const metal=std({color:0x1b2233,metalness:.85,roughness:.32});
+const darkMetal=std({color:0x0d121d,metalness:.8,roughness:.45});
+Z.forEach((z,k)=>{
+  const c=new THREE.Color(z.a),y0=k*SEG,r0=rAt(y0),r1=rAt(y0+SEG);
+  const tx=facadeTex(z.a,k*131+7);tx.base.repeat.set(8,1);tx.emi.repeat.set(8,1);
+  const geo=new THREE.CylinderGeometry(r1,r0,SEG,8,1,true);
+  const m=new THREE.Mesh(geo,std({color:0xffffff,map:tx.base,emissive:0xffffff,emissiveMap:tx.emi,emissiveIntensity:1,metalness:.55,roughness:.38,flatShading:true}));
+  m.position.y=y0+SEG/2;tower.add(m);segs.push(m);
+  /* 모서리 기둥 */
+  for(let t=0;t<8;t++){
+    const a=oct(r0+.06,y0,t+.0),b=oct(r1+.06,y0+SEG,t);
+    const len=a.distanceTo(b),rib=new THREE.Mesh(new THREE.BoxGeometry(.2,len,.2),metal);
+    rib.position.copy(a).add(b).multiplyScalar(.5);rib.lookAt(b);rib.rotateX(Math.PI/2);tower.add(rib);
+  }
+  /* 구역 경계 테라스 + 발광 띠 */
+  const ledge=new THREE.Mesh(new THREE.CylinderGeometry(r0+.42,r0+.3,.22,8),darkMetal);ledge.position.y=y0+.11;tower.add(ledge);
+  const band=new THREE.Mesh(new THREE.CylinderGeometry(r0+.43,r0+.43,.05,8,1,true),new THREE.MeshBasicMaterial({color:c}));band.position.y=y0+.2;tower.add(band);
+  /* 돌출 발코니 */
+  for(let n=0;n<3;n++){
+    const t=(R0()*8|0)+.5,y=y0+.6+R0()*(SEG-1.2),r=rAt(y);
+    const p=oct(r+.25,y,t),bx=new THREE.Mesh(new THREE.BoxGeometry(.9,.12,.55),darkMetal);
+    bx.position.copy(p);bx.lookAt(0,y,0);tower.add(bx);
+    const lamp=new THREE.Mesh(new THREE.BoxGeometry(.8,.03,.04),new THREE.MeshBasicMaterial({color:c}));lamp.position.copy(oct(r+.53,y+.07,t));lamp.lookAt(0,y+.07,0);tower.add(lamp);
+  }
+  /* 홀로그램 궤도 링 */
+  if(k%2===1||k===9){
+    const ring=new THREE.Mesh(new THREE.TorusGeometry(r0+1.4+R0()*.6,.025,4,96),glowMat(c,.75));
+    ring.position.y=y0+SEG*.55;ring.rotation.x=Math.PI/2+(R0()-.5)*.25;ring.rotation.y=(R0()-.5)*.3;tower.add(ring);
+    const sp=(R0()<.5?-1:1)*(.15+R0()*.2),dots=new THREE.Group();
+    for(let q=0;q<3;q++){const d=new THREE.Mesh(new THREE.SphereGeometry(.07,8,6),new THREE.MeshBasicMaterial({color:0xffffff}));const a=q/3*6.283;d.position.set(Math.cos(a)*ring.geometry.parameters.radius,Math.sin(a)*ring.geometry.parameters.radius,0);dots.add(d)}
+    ring.add(dots);extAnim.push((T,dt)=>{ring.rotation.z+=sp*dt});
+  }
+});
+/* 데이터 흐름 띠 (상승 애니메이션) */
+const flowTex=canvasTex(16,256,(g,w,h)=>{g.fillStyle="#000";g.fillRect(0,0,w,h);for(let i=0;i<9;i++){const y=Math.random()*h,l=10+Math.random()*40;const gr=g.createLinearGradient(0,y,0,y+l);gr.addColorStop(0,"rgba(255,255,255,0)");gr.addColorStop(1,"rgba(255,255,255,1)");g.fillStyle=gr;g.fillRect(4,y,8,l)}});
+flowTex.repeat.set(1,4);
+for(let t=0;t<8;t+=2){
+  const pts=[];for(let s=0;s<=1;s+=.5){const y=s*30;pts.push(oct(rAt(y)+.02,y,t+.5))}
+  const H=30,r0=rAt(0),r1=rAt(30);
+  const g=new THREE.PlaneGeometry(.14,H,1,1),pl2=new THREE.Mesh(g,new THREE.MeshBasicMaterial({map:flowTex,color:0x8ff6ff,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));
+  const a=oct((r0+r1)/2+.03,15,t+.5);pl2.position.copy(a);pl2.lookAt(a.x*2,15,a.z*2);
+  const tilt=Math.atan2(r0-r1,H);pl2.rotateX(-tilt);tower.add(pl2);
+}
+extAnim.push((T,dt)=>{flowTex.offset.y-=dt*.35});
+/* 상승 입자 나선 */
+(()=>{
+  const N=700,p=new Float32Array(N*3),s=[];
+  for(let i=0;i<N;i++){s.push({a:R0()*6.283,y:R0()*34,r:.6+R0()*2.6,v:.6+R0()*1.4})}
+  const g=new THREE.BufferGeometry();g.setAttribute("position",new THREE.BufferAttribute(p,3));
+  wins=new THREE.Points(g,new THREE.PointsMaterial({color:0x7fe9ff,size:.09,transparent:true,opacity:.85,blending:THREE.AdditiveBlending,depthWrite:false}));tower.add(wins);
+  extAnim.push((T,dt)=>{for(let i=0;i<N;i++){const q=s[i];q.y+=q.v*dt;q.a+=dt*.5;if(q.y>34)q.y=0;const r=rAt(Math.min(q.y,30))+q.r;p[i*3]=Math.cos(q.a)*r;p[i*3+1]=q.y;p[i*3+2]=Math.sin(q.a)*r}g.attributes.position.needsUpdate=true});
+})();
+/* 기단 (3단) + 정문 */
+[[RB+2.6,.5,0],[RB+1.6,.45,.5],[RB+.8,.4,.95]].forEach(([r,h,y])=>{const b=new THREE.Mesh(new THREE.CylinderGeometry(r,r+.15,h,8),darkMetal);b.position.y=y+h/2-.5;tower.add(b);
+  const e=new THREE.LineSegments(new THREE.EdgesGeometry(b.geometry),new THREE.LineBasicMaterial({color:0x00e5ff,transparent:true,opacity:.55}));e.position.copy(b.position);tower.add(e)});
+const gate=new THREE.Mesh(new THREE.PlaneGeometry(1.6,2.4),new THREE.MeshBasicMaterial({color:0x9ff6ff}));
+gate.position.copy(oct(RB+.02,1.2,0));gate.lookAt(0,1.2,RB*3);tower.add(gate);
+const gateFrame=new THREE.Mesh(new THREE.BoxGeometry(2.2,3,.3),metal);gateFrame.position.copy(oct(RB-.05,1.5,0));gateFrame.lookAt(0,1.5,0);tower.add(gateFrame);
+gate.renderOrder=1;
+/* 첨탑 */
+const spire=new THREE.Group();spire.position.y=30;tower.add(spire);
+const sCore=new THREE.Mesh(new THREE.CylinderGeometry(.35,rAt(30),1.6,8),metal);sCore.position.y=.8;spire.add(sCore);
+const sNeedle=new THREE.Mesh(new THREE.ConeGeometry(.35,4.5,8),std({color:0x23304a,metalness:.9,roughness:.25,emissive:0x00e5ff,emissiveIntensity:.25}));sNeedle.position.y=3.85;spire.add(sNeedle);
+const crown=new THREE.Mesh(new THREE.OctahedronGeometry(.85,0),std({color:0x9ffcff,emissive:0x00e5ff,emissiveIntensity:2.2,metalness:.2,roughness:.1}));
+crown.position.y=31.9+2.2;tower.add(crown);
+for(let q=0;q<3;q++){const rr=new THREE.Mesh(new THREE.TorusGeometry(1.4+q*.5,.03,4,80),glowMat(new THREE.Color(0x00e5ff),.8-q*.18));rr.position.y=2.2+q*.15;spire.add(rr);
+  const ax=q*1.05;extAnim.push((T,dt)=>{rr.rotation.x=Math.PI/2+Math.sin(T*.6+ax)*.5;rr.rotation.y=T*(.4+q*.15)})}
+const beam=new THREE.Mesh(new THREE.CylinderGeometry(.04,.35,70,16,1,true),new THREE.MeshBasicMaterial({color:0x00e5ff,transparent:true,opacity:.09,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));
+beam.position.y=34+35;tower.add(beam);
+const tl=new THREE.PointLight(0x00e5ff,2,30);tl.position.y=34;tower.add(tl);
+/* 구름띠 */
+const cloudTex=canvasTex(128,128,(g,w,h)=>{const gr=g.createRadialGradient(w/2,h/2,0,w/2,h/2,w/2);gr.addColorStop(0,"rgba(200,225,255,.55)");gr.addColorStop(.5,"rgba(160,190,230,.18)");gr.addColorStop(1,"rgba(160,190,230,0)");g.fillStyle=gr;g.fillRect(0,0,w,h)});
+const clouds=new THREE.Group();tower.add(clouds);
+for(let i=0;i<46;i++){const a=R0()*6.283,d=7+R0()*16,s=5+R0()*7;
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:cloudTex,transparent:true,opacity:.22+R0()*.2,depthWrite:false,fog:true}));
+  sp.scale.set(s,s*.45,1);sp.position.set(Math.cos(a)*d,(i<26?11:21)+R0()*2.4,Math.sin(a)*d);clouds.add(sp)}
+extAnim.push((T,dt)=>{clouds.rotation.y+=dt*.012});
+/* 서울 탑 지구 (주변 빌딩) */
+const cityTex=canvasTex(64,128,(g,w,h)=>{g.fillStyle="#05070d";g.fillRect(0,0,w,h);for(let y=4;y<h-2;y+=7)for(let x=3;x<w-3;x+=8){const v=Math.random();if(v<.22){g.fillStyle=v<.05?"#7fe9ff":"#ffd9a0";g.globalAlpha=.25+Math.random()*.55;g.fillRect(x,y,5,4)}}g.globalAlpha=1});
+(()=>{
+  const N=520,geo=new THREE.BoxGeometry(1,1,1);
+  geo.translate(0,.5,0);
+  const mat=std({color:0x161c28,map:cityTex,emissive:0xffffff,emissiveMap:cityTex,emissiveIntensity:.55,metalness:.4,roughness:.6});
+  const im=new THREE.InstancedMesh(geo,mat,N),M=new THREE.Matrix4(),q=new THREE.Quaternion(),sc=new THREE.Vector3(),ps=new THREE.Vector3();
+  let n=0,guard=0;
+  while(n<N&&guard++<6000){
+    const a=R0()*6.283,d=12+Math.pow(R0(),.7)*38;
+    if(Math.abs(((a/(Math.PI/4))%1)-.5)<.06)continue;
+    const x=Math.cos(a)*d,z=Math.sin(a)*d,h=(.5+R0()*R0()*5.5)*(.35+d/70);
+    const w=.8+R0()*1.2;
+    sc.set(w,h,.8+R0()*1.2);ps.set(x,0,z);q.setFromAxisAngle(new THREE.Vector3(0,1,0),-a);
+    M.compose(ps,q,sc);im.setMatrixAt(n++,M);
+  }
+  im.count=n;tower.add(im);
+})();
+/* 도로 발광선 */
+(()=>{
+  const p=[];for(let t=0;t<8;t++){const a=oct(RB+2.7,.02,t+.5),b=oct(52,.02,t+.5);p.push(a.x,.02,a.z,b.x,.02,b.z)}
+  for(const r of [9,18,30]){for(let t=0;t<8;t++){const a=oct(r,.02,t),b=oct(r,.02,t+1);p.push(a.x,.02,a.z,b.x,.02,b.z)}}
+  const g=new THREE.BufferGeometry();g.setAttribute("position",new THREE.Float32BufferAttribute(p,3));
+  tower.add(new THREE.LineSegments(g,new THREE.LineBasicMaterial({color:0x00b4d8,transparent:true,opacity:.7})));
+})();
+const ground=new THREE.Mesh(new THREE.CircleGeometry(60,64),std({color:0x05080f,metalness:.6,roughness:.55}));ground.rotation.x=-Math.PI/2;ground.position.y=-.01;tower.add(ground);
+const grid=new THREE.PolarGridHelper(60,32,12,64,0x0a3a4a,0x08222e);grid.material.transparent=true;grid.material.opacity=.35;grid.position.y=.005;tower.add(grid);
+/* 선택 링 */
+const hl=new THREE.Group();
+const hlRing=new THREE.Mesh(new THREE.TorusGeometry(1,.04,6,8),new THREE.MeshBasicMaterial({color:0xffffff}));
+hlRing.rotation.x=Math.PI/2;hlRing.rotation.z=Math.PI/8*0;
+const hlBand=new THREE.Mesh(new THREE.CylinderGeometry(1,1,FH,8,1,true),new THREE.MeshBasicMaterial({color:0x00e5ff,transparent:true,opacity:.35,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));
+hl.add(hlRing,hlBand);hl.visible=false;tower.add(hl);
+let hlY=15,hlTarget=15;
+
+const TILE=canvasTex(64,64,(g,w,h)=>{g.fillStyle="#fff";g.fillRect(0,0,w,h);const gr=g.createLinearGradient(0,0,0,h);gr.addColorStop(0,"rgba(255,255,255,.0)");gr.addColorStop(1,"rgba(0,0,0,.12)");g.fillStyle=gr;g.fillRect(0,0,w,h);
+  for(let i=0;i<70;i++){g.fillStyle=`rgba(0,0,0,${Math.random()*.07})`;g.fillRect(Math.random()*w,Math.random()*h,2+Math.random()*5,2+Math.random()*5)}
+  g.strokeStyle="rgba(0,0,0,.35)";g.lineWidth=4;g.strokeRect(0,0,w,h);g.strokeStyle="rgba(255,255,255,.22)";g.lineWidth=2;g.beginPath();g.moveTo(3,h-3);g.lineTo(3,3);g.lineTo(w-3,3);g.stroke()});
+const SMOKE=canvasTex(64,64,(g,w,h)=>{const gr=g.createRadialGradient(w/2,h/2,0,w/2,h/2,w/2);gr.addColorStop(0,"rgba(255,255,255,.9)");gr.addColorStop(1,"rgba(255,255,255,0)");g.fillStyle=gr;g.fillRect(0,0,w,h)});
+let labels=[];
+function clearLabels(){labelsEl.replaceChildren();labels=[]}
+function addLabel(obj,html,color,cls,onClick){
+  const el=document.createElement(onClick?"button":"div");
+  if(onClick){el.type="button";el.onclick=onClick}
+  el.className="lb"+(cls?" "+cls:"");el.style.setProperty("--c",color);el.innerHTML=html;
+  labelsEl.append(el);labels.push({el,obj});return el;
+}
+
+function build(i){
+  clearInner();clearLabels();
+  const k=Math.floor(i/10),z=Z[k],kind=z.k,rnd=rng(i*7919+31),[s,e]=range(i),r=row(i);
+  const A=new THREE.Color(z.a),fogC=new THREE.Color(z.fog);
+  scene.background=fogC;scene.fog=new THREE.Fog(fogC,40,100);
+  pl.color.copy(A);pl.position.set(0,14,0);pl.intensity=1.1;
+  hemi.color.set(kind==="lava"?0xffb08a:kind==="space"||kind==="void"?0x9a8cff:0xdff4ff);
+  const s1=rnd()*10,s2=rnd()*10,s3=rnd()*10;
+  const nz=(x,y)=>(Math.sin(x*.42+s1)+Math.sin(y*.37+s2)+Math.sin((x-y)*.23+s3)*1.2)/3.2;
+  const TXT=(r.env+" "+r.gim+" "+r.evt+" "+r.mon);
+  const has=re=>re.test(TXT);
+
+  /* 섬 (천공·우주) */
+  let isl=null;
+  if(kind==="sky"||kind==="space"){
+    isl=[{x:0,z:0,r:4.6,y:0}];
+    for(let j=0;j<5;j++){const a=j/5*6.283+rnd()*.6,d=8.6+rnd()*2;isl.push({x:Math.cos(a)*d,z:Math.sin(a)*d,r:2.7+rnd()*1.1,y:(rnd()-.5)*5})}
+  }
+  /* 바닥 타일 */
+  const tiles=[];
+  for(let x=-13;x<=13;x++)for(let y=-13;y<=13;y++){
+    const d=Math.hypot(x,y);if(d>13.2)continue;
+    let yo=0;
+    if(isl){const f=isl.find(o=>Math.hypot(x-o.x,y-o.z)<o.r);if(!f)continue;yo=f.y}
+    if(kind==="void"&&d>2.6&&rnd()<.14)continue;
+    const n=nz(x,y);let h;
+    switch(kind){
+      case"meadow":h=.5+(n+1)*.5;break;
+      case"sea":h=.3+(n+1)*.65;break;
+      case"ice":h=.6+(n+1)*.9+(rnd()<.1?1.3:0);break;
+      case"desert":h=.4+(n+1)*.75;break;
+      case"lava":h=.4+(n+1)*.85;break;
+      case"city":h=.3+(rnd()<.06?.2:0);break;
+      case"sky":h=.6+(n+1)*.3;break;
+      case"temple":h=d<3?1.4:d<5?.9:.45;break;
+      case"space":h=.5+(n+1)*.3;break;
+      default:h=.3+(rnd()<.05?rnd()*1.8:0);
+    }
+    if(d<2.3&&kind!=="temple")h=kind==="sea"||kind==="lava"?1.6:1.2;
+    tiles.push({x,z:y,h,yo,n,d,path:false});
+  }
+  const top=t=>t.yo+t.h;
+  const spots=[];
+  const far=(t,minGap)=>spots.every(p=>Math.hypot(p.x-t.x,p.z-t.z)>=minGap);
+  const pick=(minD,maxD,gap=3.2,dirA)=>{
+    let best=null,bs=-1e9;
+    for(let n=0;n<160;n++){
+      const t=tiles[rnd()*tiles.length|0];
+      if(t.d<minD||t.d>maxD||!far(t,gap))continue;
+      if(dirA==null)return t;
+      const sc=Math.cos(Math.atan2(t.z,t.x)-dirA);
+      if(sc>bs){bs=sc;best=t}
+    }
+    return best||tiles[rnd()*tiles.length|0];
+  };
+  const center=tiles.reduce((a,t)=>t.d<a.d?t:a,tiles[0]);
+  const ia=rnd()*6.283;
+  const tin=pick(10,13.3,2.5,ia);spots.push({x:tin.x,z:tin.z});
+  const tout=pick(10,13.3,2.5,ia+Math.PI);spots.push({x:tout.x,z:tout.z});
+  spots.push({x:center.x,z:center.z});
+  /* 길: 입구 → 보스 → 출구 */
+  const segD=(px,pz,a,b)=>{const vx=b.x-a.x,vz=b.z-a.z,l=vx*vx+vz*vz||1;let q=((px-a.x)*vx+(pz-a.z)*vz)/l;q=Math.max(0,Math.min(1,q));return Math.hypot(px-a.x-vx*q,pz-a.z-vz*q)};
+  const wob=(t)=>Math.sin(t.x*.9+s1)*.35+Math.sin(t.z*.8+s2)*.35;
+  const pathPts=[];
+  if(!isl){
+    tiles.forEach(t=>{const dd=Math.min(segD(t.x,t.z,tin,center),segD(t.x,t.z,center,tout))+wob(t)*.4;if(dd<.85&&t.d>2.3){t.path=true;t.h=Math.max(.35,t.h*.55+.25)}});
+    for(const [a,b] of [[tin,center],[center,tout]]){const L=Math.hypot(b.x-a.x,b.z-a.z);for(let q=1.6;q<L-2.4;q+=1.6){const x=a.x+(b.x-a.x)*q/L,z2=a.z+(b.z-a.z)*q/L;pathPts.push([x,z2])}}
+  }
+  const PATHC={meadow:"#8a6b45",sea:"#c8b48c",ice:"#4f7189",desert:"#e1c995",lava:"#2b211e",city:"#23272e",sky:"#c9b996",temple:"#8a2232",space:"#5a5272",void:"#0e3943"}[kind];
+  const pathCol=new THREE.Color(PATHC);
+  const pal=z.gr.map(c=>new THREE.Color(c));
+  const tm=std({map:TILE,roughness:kind==="ice"?.25:.85,metalness:kind==="city"||kind==="void"?.5:.08});
+  const im=new THREE.InstancedMesh(new THREE.BoxGeometry(.94,1,.94),tm,tiles.length);
+  const M=new THREE.Matrix4(),col=new THREE.Color(),base=isl?1.6:0;
+  tiles.forEach((t,j)=>{
+    const hh=t.h+base;M.makeScale(1,hh,1);M.setPosition(t.x,top(t)-hh/2,t.z);im.setMatrixAt(j,M);
+    if(t.path)col.copy(pathCol).offsetHSL(0,0,(rnd()-.5)*.05);
+    else col.copy(pal[Math.max(0,Math.min(2,Math.floor((t.n+1)*1.5)))]).offsetHSL((rnd()-.5)*.015,0,(rnd()-.5)*.07);
+    if(kind==="void"&&!t.path&&rnd()<.08)col.copy(A).multiplyScalar(.5);
+    im.setColorAt(j,col);
+  });
+  im.instanceMatrix.needsUpdate=true;if(im.instanceColor)im.instanceColor.needsUpdate=true;
+  inner.add(im);
+  const tileAt=(x,z2)=>tiles.find(t=>t.x===Math.round(x)&&t.z===Math.round(z2));
+  const hAt=(x,z2)=>{const t=tileAt(x,z2);return t?top(t):0};
+
+  /* 탑 내벽 */
+  const wallGeo=new THREE.CylinderGeometry(16,16,26,8,1,true);
+  const wall=new THREE.Mesh(wallGeo,new THREE.MeshBasicMaterial({color:A,transparent:true,opacity:.035,side:THREE.BackSide,depthWrite:false}));
+  wall.position.y=9;inner.add(wall);
+  const wallE=new THREE.LineSegments(new THREE.EdgesGeometry(wallGeo),new THREE.LineBasicMaterial({color:A,transparent:true,opacity:.35}));
+  wallE.position.y=9;inner.add(wallE);
+  for(let q=0;q<4;q++){
+    const ring=new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints([...Array(8)].map((_,t)=>oct(16,-3+q*6.5,t))),new THREE.LineBasicMaterial({color:A,transparent:true,opacity:.18}));
+    inner.add(ring);
+  }
+  if(!isl){
+    const edge=new THREE.Mesh(new THREE.TorusGeometry(13.8,.05,6,64),glowMat(A,.7));
+    edge.rotation.x=Math.PI/2;edge.position.y=.05;inner.add(edge);
+  }
+
+  /* ---------- 소품 도구 ---------- */
+  const G=(x,y,z2)=>{const g=new THREE.Group();g.position.set(x,y,z2);inner.add(g);return g};
+  const mesh=(geo,mat,x,y,z2,par)=>{const m=new THREE.Mesh(geo,mat);m.position.set(x,y,z2);(par||inner).add(m);return m};
+  const prop=(geo,mat,x,y,z2)=>mesh(geo,mat,x,y,z2);
+  const near=(x,z2,g=1.8)=>spots.some(p=>Math.hypot(p.x-x,p.z-z2)<g);
+  const freeTile=(minD,maxD,g=1.8,noPath=true)=>{for(let n=0;n<90;n++){const t=tiles[rnd()*tiles.length|0];if(t.d>=minD&&t.d<=maxD&&!near(t.x,t.z,g)&&!(noPath&&t.path))return t}return null};
+  const claim=(t,g)=>{spots.push({x:t.x,z:t.z});return t};
+  const M_={
+    wood:std({color:0x6b4a2c,roughness:.9}),darkWood:std({color:0x3b2818,roughness:.9}),
+    stone:std({color:0x8c8a86,roughness:.95}),darkStone:std({color:0x3c3d44,roughness:.95}),
+    gold:std({color:0xe0b44a,metalness:.9,roughness:.25,emissive:0x6a4a00,emissiveIntensity:.4}),
+    iron:std({color:0x50565f,metalness:.85,roughness:.4}),bone:std({color:0xe8e0cc,roughness:.8}),
+    glowA:std({color:A,emissive:A,emissiveIntensity:1.4}),leaf:std({color:0x2f6b2a,roughness:.8}),
+    white:std({color:0xf2f2ee,roughness:.7})
+  };
+  const flame=(par,x,y,z2,c=0xffa53a,sz=.22)=>{const f=mesh(new THREE.ConeGeometry(sz,sz*2.6,7),std({color:c,emissive:c,emissiveIntensity:2.2,transparent:true,opacity:.9}),x,y,z2,par);const o=rnd()*6;anim.push(T=>{f.scale.set(1+Math.sin(T*9+o)*.12,1+Math.sin(T*7+o)*.2,1+Math.sin(T*8+o)*.12)});return f};
+  const lamp=(par,x,y,z2,c)=>{const l=new THREE.PointLight(c,kind==="temple"?.45:.9,6);l.position.set(x,y,z2);par.add(l);return l};
+
+  const B={
+    rock(t,sc=1,c){const g=G(t.x+(rnd()-.5)*.5,top(t),t.z+(rnd()-.5)*.5);const m=c||M_.darkStone;for(let q=0;q<3;q++){const r0=(.18+rnd()*.25)*sc;const o=mesh(new THREE.DodecahedronGeometry(r0,0),m,(rnd()-.5)*.6*sc,r0*.6,(rnd()-.5)*.6*sc,g);o.rotation.set(rnd()*3,rnd()*3,rnd()*3);o.scale.y=.7}return g},
+    tree(t,sc=1,leafC){const g=G(t.x,top(t),t.z);const lm=leafC?std({color:leafC,roughness:.8}):M_.leaf;mesh(new THREE.CylinderGeometry(.09*sc,.14*sc,.8*sc,6),M_.wood,0,.4*sc,0,g);
+      for(let q=0;q<3;q++)mesh(new THREE.ConeGeometry((.7-q*.17)*sc,(.9)*sc,7),lm,0,(1+q*.45)*sc,0,g);g.rotation.y=rnd()*6;return g},
+    grass(t){const g=G(t.x,top(t),t.z);const m=std({color:new THREE.Color(z.gr[2]).offsetHSL(0,.05,.08),roughness:.9});for(let q=0;q<5;q++){const b=mesh(new THREE.ConeGeometry(.04,.3+rnd()*.25,3),m,(rnd()-.5)*.7,.15,(rnd()-.5)*.7,g);b.rotation.z=(rnd()-.5)*.5}
+      if(rnd()<.5){const fc=[0xffe066,0xff8fb1,0xffffff,0xa98bff][rnd()*4|0];mesh(new THREE.SphereGeometry(.07,6,5),std({color:fc,emissive:fc,emissiveIntensity:.3}),(rnd()-.5)*.6,.36,(rnd()-.5)*.6,g)}return g},
+    mushroom(t,sc=1){const g=G(t.x,top(t),t.z);const c=new THREE.Color().setHSL(rnd()*.15+.75,.7,.55);
+      mesh(new THREE.CylinderGeometry(.1*sc,.16*sc,1*sc,8),M_.white,0,.5*sc,0,g);
+      mesh(new THREE.SphereGeometry(.55*sc,14,8,0,6.283,0,Math.PI/2),std({color:c,emissive:c,emissiveIntensity:.9}),0,.95*sc,0,g);
+      for(let q=0;q<5;q++){const a=rnd()*6.283;mesh(new THREE.SphereGeometry(.06*sc,6,4),std({color:0xffffff,emissive:0xffffff,emissiveIntensity:1}),Math.cos(a)*.35*sc,1.25*sc,Math.sin(a)*.35*sc,g)}return g},
+    web(t,sc=1){const g=G(t.x,top(t)+1.4*sc,t.z);const p=[];const R=1.3*sc;for(let q=0;q<10;q++){const a=q/10*6.283;p.push(0,0,0,Math.cos(a)*R,Math.sin(a)*R,0)}
+      for(let c=1;c<=4;c++){const rr=R*c/4;for(let q=0;q<10;q++){const a=q/10*6.283,b=(q+1)/10*6.283;p.push(Math.cos(a)*rr,Math.sin(a)*rr,0,Math.cos(b)*rr,Math.sin(b)*rr,0)}}
+      const geo=new THREE.BufferGeometry();geo.setAttribute("position",new THREE.Float32BufferAttribute(p,3));const l=new THREE.LineSegments(geo,new THREE.LineBasicMaterial({color:0xdfe8ff,transparent:true,opacity:.55}));g.add(l);g.rotation.y=rnd()*3;
+      mesh(new THREE.SphereGeometry(.28*sc,10,8),M_.white,0,-1.2*sc,0,g).scale.y=1.4;return g},
+    house(t,sc=1,ruined){const g=G(t.x,top(t),t.z);const w=1.1*sc;mesh(new THREE.BoxGeometry(w,.8*sc,w*.9),ruined?M_.darkStone:std({color:0xb59a74,roughness:.9}),0,.4*sc,0,g);
+      const roof=mesh(new THREE.ConeGeometry(w*.85,.7*sc,4),ruined?M_.darkWood:std({color:kind==="ice"?0xf4f8fb:0x8a3b2a,roughness:.85}),0,1.15*sc,0,g);roof.rotation.y=Math.PI/4;
+      if(ruined){roof.rotation.z=.35;roof.position.x=.15}
+      mesh(new THREE.BoxGeometry(.22*sc,.36*sc,.02),std({color:0xffc870,emissive:0xffa040,emissiveIntensity:ruined?0:1.3}),0,.3*sc,w*.45+.01,g);g.rotation.y=rnd()*6;return g},
+    tomb(t,sc=1){const g=G(t.x,top(t),t.z);const m=M_.stone;mesh(new THREE.BoxGeometry(.5*sc,.6*sc,.14*sc),m,0,.3*sc,0,g);mesh(new THREE.CylinderGeometry(.25*sc,.25*sc,.14*sc,12,1,false,0,Math.PI),m,0,.6*sc,0,g).rotation.set(Math.PI/2,0,Math.PI/2);
+      g.rotation.set((rnd()-.5)*.2,rnd()*6,(rnd()-.5)*.2);return g},
+    pond(t,sc=1,c=0x2d8fb0){const g=G(t.x,top(t)+.03,t.z);const w=mesh(new THREE.CircleGeometry(1.3*sc,24),std({color:c,emissive:c,emissiveIntensity:.25,metalness:.5,roughness:.1,transparent:true,opacity:.85}),0,0,0,g);w.rotation.x=-Math.PI/2;
+      for(let q=0;q<7;q++){const a=rnd()*6.283;mesh(new THREE.CylinderGeometry(.02,.03,.6+rnd()*.4,4),std({color:0x5d7a3a}),Math.cos(a)*1.25*sc,.3,Math.sin(a)*1.25*sc,g)}return g},
+    spire(t,sc=1){const g=G(t.x,top(t),t.z);const h=(2+rnd()*2.5)*sc;const m=kind==="lava"?std({color:0x1a1210,roughness:.95}):kind==="ice"?std({color:0xbfe4f5,emissive:0x5ac8ff,emissiveIntensity:.3,roughness:.15}):std({color:new THREE.Color(z.gr[0]).offsetHSL(0,-.1,-.05),roughness:.95});
+      const c=mesh(new THREE.ConeGeometry(.55*sc,h,6),m,0,h/2,0,g);c.rotation.y=rnd();mesh(new THREE.ConeGeometry(.35*sc,h*.6,5),m,.45*sc,h*.3,.2*sc,g);return g},
+    wall(t,sc=1){const g=G(t.x,top(t),t.z);const m=std({color:kind==="city"?0x3a4048:0x9a958c,roughness:.95});mesh(new THREE.BoxGeometry(2.6*sc,1.2*sc,.45*sc),m,0,.6*sc,0,g);
+      for(let q=-2;q<=2;q++)mesh(new THREE.BoxGeometry(.32*sc,.3*sc,.5*sc),m,q*.6*sc,1.35*sc,0,g);
+      mesh(new THREE.CylinderGeometry(.55*sc,.6*sc,2*sc,10),m,1.5*sc,1*sc,0,g);const rf=mesh(new THREE.ConeGeometry(.7*sc,.9*sc,10),std({color:0x3a4a6a,roughness:.8}),1.5*sc,2.45*sc,0,g);
+      const fl=mesh(new THREE.PlaneGeometry(.5,.3),std({color:A,emissive:A,emissiveIntensity:.4,side:THREE.DoubleSide}),1.75*sc,3.15*sc,0,g);mesh(new THREE.CylinderGeometry(.02,.02,.7),M_.iron,1.5*sc,3.1*sc,0,g);
+      anim.push(T=>{fl.rotation.y=Math.sin(T*3)*.3});g.rotation.y=Math.atan2(t.x,t.z);return g},
+    ship(t,sc=1){const g=G(t.x,top(t)+.1,t.z);const hull=mesh(new THREE.CylinderGeometry(.9*sc,.9*sc,3.4*sc,12,1,true,0,Math.PI),std({color:0x4a3322,roughness:.9,side:THREE.DoubleSide}),0,.9*sc,0,g);hull.rotation.set(Math.PI,0,Math.PI/2);
+      mesh(new THREE.BoxGeometry(3.3*sc,.06,1.7*sc),M_.darkWood,0,.9*sc,0,g);mesh(new THREE.CylinderGeometry(.06,.08,3.2*sc,6),M_.darkWood,.3*sc,2.5*sc,0,g);
+      const sail=mesh(new THREE.PlaneGeometry(1.4*sc,1.3*sc,4,4),std({color:0xd8ccb0,roughness:1,side:THREE.DoubleSide,transparent:true,opacity:.85}),.3*sc,2.7*sc,.05,g);sail.rotation.y=Math.PI/2;
+      g.rotation.set(.12,rnd()*6,.25);return g},
+    palm(t,sc=1){const g=G(t.x,top(t),t.z);let y=0,x=0;for(let q=0;q<6;q++){mesh(new THREE.CylinderGeometry(.09*sc,.11*sc,.42*sc,6),M_.wood,x,y+.21*sc,0,g);y+=.4*sc;x+=.05*sc*q}
+      for(let q=0;q<7;q++){const lf=mesh(new THREE.ConeGeometry(.16*sc,1.3*sc,3),M_.leaf,x,y,0,g);lf.rotation.set(0,q/7*6.283,1.9);lf.position.x+=Math.cos(q/7*6.283)*.5*sc;lf.position.z+=Math.sin(q/7*6.283)*.5*sc;lf.position.y-=.12}return g},
+    columns(t,sc=1,broken=true){const g=G(t.x,top(t),t.z);const m=std({color:kind==="temple"?0xe8e1cf:0xc9b98f,roughness:.8});for(let q=0;q<4;q++){const h=(broken&&rnd()<.5?.8+rnd():2.1)*sc;mesh(new THREE.CylinderGeometry(.18*sc,.22*sc,h,10),m,(q%2-.5)*1.3*sc,h/2,((q>>1)-.5)*1.3*sc,g)}
+      if(!broken)mesh(new THREE.BoxGeometry(1.8*sc,.25*sc,1.8*sc),m,0,2.2*sc,0,g);else{const lb=mesh(new THREE.BoxGeometry(1.6*sc,.25*sc,.4*sc),m,.4,.13,.9*sc,g);lb.rotation.y=.6}g.rotation.y=rnd()*6;return g},
+    crystal(t,sc=1,c){const g=G(t.x,top(t),t.z);const cc=c!=null?new THREE.Color(c):new THREE.Color().setHSL(rnd(),.75,.6);const m=std({color:cc,emissive:cc,emissiveIntensity:.9,metalness:.2,roughness:.1,transparent:true,opacity:.9});
+      for(let q=0;q<5;q++){const h=(.6+rnd()*1.2)*sc;const cr=mesh(new THREE.OctahedronGeometry(.22*sc,0),m,(rnd()-.5)*.6*sc,h/2,(rnd()-.5)*.6*sc,g);cr.scale.set(1,h/.44/sc,1);cr.rotation.set((rnd()-.5)*.7,rnd()*3,(rnd()-.5)*.7)}lamp(g,0,.8,0,cc);return g},
+    shelf(t,sc=1){const g=G(t.x,top(t),t.z);mesh(new THREE.BoxGeometry(2*sc,2.4*sc,.45*sc),M_.darkWood,0,1.2*sc,0,g);
+      for(let rr=0;rr<4;rr++)for(let q=0;q<9;q++){const c=new THREE.Color().setHSL(rnd(),.5,.35+rnd()*.2);mesh(new THREE.BoxGeometry(.16*sc,.42*sc,.36*sc),std({color:c,roughness:.8}),(-.8+q*.2)*sc,(.3+rr*.56)*sc,.06,g)}
+      g.rotation.y=Math.atan2(t.x,t.z)+Math.PI;return g},
+    server(t,sc=1){const g=G(t.x,top(t),t.z);const tex=canvasTex(32,64,(c,w,h)=>{c.fillStyle="#05080c";c.fillRect(0,0,w,h);for(let y=3;y<h;y+=4)for(let x=3;x<w;x+=6){if(Math.random()<.5){c.fillStyle=Math.random()<.2?"#ff4d6d":"#4fffd2";c.fillRect(x,y,3,2)}}});
+      const m=std({color:0x141a22,metalness:.7,roughness:.35,emissive:0xffffff,emissiveMap:tex,emissiveIntensity:1.2});
+      for(let q=0;q<3;q++)mesh(new THREE.BoxGeometry(.7*sc,2.2*sc,.8*sc),m,(q-1)*.75*sc,1.1*sc,0,g);
+      anim.push((T)=>{tex.offset.y=Math.floor(T*4)*.0625});g.rotation.y=Math.atan2(t.x,t.z);return g},
+    rail(t,sc=1){const g=G(t.x,top(t)+.02,t.z);for(const sx of [-.35,.35])mesh(new THREE.BoxGeometry(.06,.08,5*sc),M_.iron,sx,.05,0,g);for(let q=-2;q<=2;q+=.5)mesh(new THREE.BoxGeometry(1,.05,.15),M_.darkWood,0,0,q*sc,g);
+      if(rnd()<.7){mesh(new THREE.BoxGeometry(.9*sc,.6*sc,1.2*sc),M_.iron,0,.4*sc,-.6*sc,g);mesh(new THREE.BoxGeometry(.8*sc,.2*sc,1.1*sc),kind==="desert"?std({color:0x9c6bff,emissive:0x7a4cff,emissiveIntensity:.8}):M_.darkStone,0,.75*sc,-.6*sc,g)}g.rotation.y=rnd()*6;return g},
+    train(t,sc=1){const g=B.rail(t,sc);const car=mesh(new THREE.BoxGeometry(1.1*sc,1.1*sc,3*sc),std({color:0x2c333c,metalness:.6,roughness:.5}),0,.7*sc,.6*sc,g);
+      for(let q=0;q<4;q++)mesh(new THREE.BoxGeometry(.02,.3*sc,.5*sc),std({color:0xbff6ff,emissive:0x7fe9ff,emissiveIntensity:1}),.56*sc,.85*sc,(-.6+q*.6+.6)*sc,g);return g},
+    chimney(t,sc=1){const g=G(t.x,top(t),t.z);const pts=[];for(let q=0;q<=10;q++){const y=q/10;pts.push(new THREE.Vector2(.9-Math.sin(y*Math.PI)*.35,y*3.4))}
+      mesh(new THREE.LatheGeometry(pts,20),std({color:0x6a6e74,roughness:.9,side:THREE.DoubleSide}),0,0,0,g).scale.setScalar(sc);
+      const sm=[];for(let q=0;q<6;q++){const p=new THREE.Sprite(new THREE.SpriteMaterial({map:SMOKE,transparent:true,opacity:.5,depthWrite:false}));g.add(p);sm.push({p,o:q/6})}
+      anim.push((T)=>sm.forEach(o=>{const f=(T*.15+o.o)%1;o.p.position.set(f*.6,3.4*sc+f*3,0);o.p.scale.setScalar(.8+f*2.2);o.p.material.opacity=.45*(1-f)}));return g},
+    blackhole(){const g=G(-8,11,-10);mesh(new THREE.SphereGeometry(1.8,24,16),new THREE.MeshBasicMaterial({color:0x000000}),0,0,0,g);
+      const dsk=mesh(new THREE.RingGeometry(2.1,4.4,64),glowMat(new THREE.Color(0xffa060),.55),0,0,0,g);dsk.rotation.x=1.25;const dsk2=mesh(new THREE.RingGeometry(1.9,2.4,64),glowMat(new THREE.Color(0xffffff),.8),0,0,0,g);dsk2.rotation.x=1.25;
+      anim.push((T,dt)=>{dsk.rotation.z+=dt*.6;dsk2.rotation.z-=dt*.9});return g},
+    sun(c=0xffd27a,x=9,y=12,z2=-9,r0=2.4){const g=G(x,y,z2);mesh(new THREE.SphereGeometry(r0,24,16),new THREE.MeshBasicMaterial({color:c}),0,0,0,g);const hal=new THREE.Sprite(new THREE.SpriteMaterial({map:SMOKE,color:c,transparent:true,opacity:.8,blending:THREE.AdditiveBlending,depthWrite:false}));hal.scale.setScalar(r0*5);g.add(hal);const l=new THREE.PointLight(c,1.2,40);g.add(l);return g},
+    clock(){const g=G(0,9,0);mesh(new THREE.TorusGeometry(3.2,.08,6,80),glowMat(A,.9),0,0,0,g);for(let q=0;q<12;q++){const a=q/12*6.283;mesh(new THREE.BoxGeometry(.1,.4,.05),M_.gold,Math.cos(a)*2.9,Math.sin(a)*2.9,0,g).rotation.z=a+Math.PI/2}
+      const h1=new THREE.Group(),h2=new THREE.Group();g.add(h1,h2);mesh(new THREE.BoxGeometry(.1,2.4,.04),M_.gold,0,1.2,0,h1);mesh(new THREE.BoxGeometry(.14,1.6,.04),M_.gold,0,.8,.05,h2);
+      anim.push((T,dt)=>{h1.rotation.z+=dt*1.2;h2.rotation.z+=dt*.1;g.rotation.y=Math.sin(T*.2)*.6});return g},
+    banner(t,c,sc=1){const g=G(t.x,top(t),t.z);mesh(new THREE.CylinderGeometry(.04,.05,3*sc,6),M_.iron,0,1.5*sc,0,g);const f=mesh(new THREE.PlaneGeometry(.9*sc,1.5*sc,1,4),std({color:c,emissive:c,emissiveIntensity:.5,side:THREE.DoubleSide}),.46*sc,2.2*sc,0,g);
+      const o=rnd()*6;anim.push(T=>{f.rotation.y=Math.sin(T*1.6+o)*.25});return g},
+    stall(t,sc=1){const g=G(t.x,top(t),t.z);mesh(new THREE.BoxGeometry(1.4*sc,.7*sc,.7*sc),M_.wood,0,.35*sc,0,g);for(const sx of[-.65,.65])mesh(new THREE.CylinderGeometry(.03,.03,1.6*sc,5),M_.darkWood,sx*sc,.8*sc,.3*sc,g);
+      const aw=canvasTex(32,8,(c,w,h)=>{for(let x=0;x<w;x+=8){c.fillStyle="#e14b4b";c.fillRect(x,0,4,h);c.fillStyle="#f6efe2";c.fillRect(x+4,0,4,h)}});
+      const a=mesh(new THREE.PlaneGeometry(1.6*sc,.8*sc),std({map:aw,side:THREE.DoubleSide}),0,1.55*sc,.1,g);a.rotation.x=-1;
+      for(let q=0;q<4;q++)mesh(new THREE.SphereGeometry(.09,6,5),std({color:[0xff4d6d,0x4fd8ff,0x5be38a,0xffd166][q],emissive:[0xff4d6d,0x4fd8ff,0x5be38a,0xffd166][q],emissiveIntensity:.8}),(-.45+q*.3)*sc,.8*sc,0,g);
+      g.rotation.y=rnd()*6;return g},
+    throne(t){const g=G(t.x,top(t),t.z);mesh(new THREE.BoxGeometry(1.4,.3,1.4),M_.gold,0,.15,0,g);mesh(new THREE.BoxGeometry(1,.5,.9),M_.gold,0,.55,0,g);mesh(new THREE.BoxGeometry(1,2.2,.2),M_.gold,0,1.4,-.4,g);
+      mesh(new THREE.BoxGeometry(.8,.1,.7),std({color:0x7a1f2a}),0,.82,.05,g);mesh(new THREE.OctahedronGeometry(.25,0),M_.glowA,0,2.8,-.4,g);g.rotation.y=Math.atan2(-t.x,-t.z);return g},
+    bones(t,sc=1){const g=G(t.x,top(t),t.z);for(let q=0;q<7;q++){const rb=mesh(new THREE.TorusGeometry(1*sc*(1-Math.abs(q-3)/6),.06*sc,5,16,Math.PI),M_.bone,(q-3)*.45*sc,0,0,g);rb.rotation.y=Math.PI/2}
+      mesh(new THREE.CylinderGeometry(.08*sc,.08*sc,3.6*sc,6),M_.bone,0,1*sc,0,g).rotation.z=Math.PI/2;
+      const sk=mesh(new THREE.BoxGeometry(.9*sc,.6*sc,.7*sc),M_.bone,2.2*sc,.4*sc,0,g);mesh(new THREE.ConeGeometry(.12*sc,.8*sc,5),M_.bone,2.3*sc,.9*sc,.25*sc,g).rotation.z=-.5;mesh(new THREE.ConeGeometry(.12*sc,.8*sc,5),M_.bone,2.3*sc,.9*sc,-.25*sc,g).rotation.z=-.5;
+      g.rotation.y=rnd()*6;return g},
+    nest(t,sc=1){const g=G(t.x,top(t),t.z);mesh(new THREE.TorusGeometry(1*sc,.35*sc,8,20),std({color:0x5a4128,roughness:1}),0,.25*sc,0,g).rotation.x=Math.PI/2;
+      for(let q=0;q<3;q++){const c=kind==="lava"?0xff6a3d:kind==="ice"?0xbfeaff:0xf1e6c8;const eg=mesh(new THREE.SphereGeometry(.3*sc,12,10),std({color:c,emissive:c,emissiveIntensity:.25,roughness:.5}),(q-1)*.4*sc,.35*sc,(q%2)*.2*sc,g);eg.scale.y=1.3}return g},
+    kelp(t,sc=1){const g=G(t.x,top(t),t.z);const m=std({color:0x2f7a4a,emissive:0x0a3a20,emissiveIntensity:.3,roughness:.8});const segs2=[];let par=g;
+      for(let q=0;q<7;q++){const sg=new THREE.Group();sg.position.y=q?.45*sc:0;par.add(sg);mesh(new THREE.BoxGeometry(.1*sc,.45*sc,.03),m,0,.22*sc,0,sg);segs2.push(sg);par=sg}
+      const o=rnd()*6;anim.push(T=>segs2.forEach((sg,q)=>{sg.rotation.z=Math.sin(T*1.2+o+q*.5)*.12;sg.rotation.x=Math.cos(T+o+q*.4)*.08}));return g},
+    statue(t,sc=1){const g=G(t.x,top(t),t.z);const m=std({color:kind==="temple"?0xe8e1cf:0x9a958c,roughness:.8});mesh(new THREE.BoxGeometry(.8*sc,.4*sc,.8*sc),m,0,.2*sc,0,g);mesh(new THREE.CylinderGeometry(.22*sc,.32*sc,1.3*sc,8),m,0,1.05*sc,0,g);mesh(new THREE.SphereGeometry(.2*sc,10,8),m,0,1.9*sc,0,g);
+      for(const sx of[-1,1]){const w=mesh(new THREE.BoxGeometry(.06*sc,.9*sc,.5*sc),m,sx*.3*sc,1.5*sc,-.15*sc,g);w.rotation.z=sx*.5}g.rotation.y=Math.atan2(-t.x,-t.z);return g},
+    brazier(t,sc=1,c=0xffa53a){const g=G(t.x,top(t),t.z);mesh(new THREE.CylinderGeometry(.08*sc,.12*sc,1*sc,6),M_.iron,0,.5*sc,0,g);mesh(new THREE.CylinderGeometry(.3*sc,.16*sc,.25*sc,10),M_.iron,0,1.1*sc,0,g);flame(g,0,1.45*sc,0,c,.2*sc);lamp(g,0,1.6*sc,0,c);return g},
+    mirror(t,sc=1){const g=G(t.x,top(t),t.z);mesh(new THREE.BoxGeometry(1.1*sc,2.3*sc,.12),M_.iron,0,1.15*sc,0,g);mesh(new THREE.PlaneGeometry(.95*sc,2.1*sc),std({color:0xdff6ff,metalness:1,roughness:.02,emissive:0x2a5a7a,emissiveIntensity:.4}),0,1.15*sc,.07,g);g.rotation.y=rnd()*6;return g},
+    rainbow(){const g=G(0,0,-6);const cs=[0xff5d73,0xffa53a,0xffe066,0x5be38a,0x4fd8ff,0x7a7aff,0xc18bff];cs.forEach((c,q)=>mesh(new THREE.TorusGeometry(9-q*.35,.17,6,64,Math.PI),glowMat(new THREE.Color(c),.45),0,0,0,g));return g},
+    waterfall(o){const tex=canvasTex(16,64,(c,w,h)=>{c.fillStyle="#000";c.fillRect(0,0,w,h);for(let q=0;q<26;q++){c.fillStyle=`rgba(200,240,255,${.2+Math.random()*.6})`;c.fillRect(Math.random()*w,Math.random()*h,1+Math.random()*2,6+Math.random()*14)}});tex.repeat.set(1,2);
+      const a=Math.atan2(o.z,o.x),ex=o.x+Math.cos(a)*(o.r+.1),ez=o.z+Math.sin(a)*(o.r+.1);const wf=mesh(new THREE.PlaneGeometry(1.4,9),new THREE.MeshBasicMaterial({map:tex,color:0xbfeaff,transparent:true,opacity:.75,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}),ex,o.y-3.4+.6,ez);wf.lookAt(ex*2,o.y-3.4,ez*2);
+      anim.push((T,dt)=>{tex.offset.y+=dt*1.3})},
+    aurora(){const tex=canvasTex(8,64,(c,w,h)=>{const gr=c.createLinearGradient(0,0,0,h);gr.addColorStop(0,"rgba(0,0,0,0)");gr.addColorStop(.6,"rgba(120,255,200,.75)");gr.addColorStop(1,"rgba(160,120,255,0)");c.fillStyle=gr;c.fillRect(0,0,w,h)});
+      const geo=new THREE.PlaneGeometry(30,7,40,1);const m=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({map:tex,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));m.position.set(0,13,-9);inner.add(m);
+      const pos=geo.attributes.position,bx=Float32Array.from(pos.array);anim.push(T=>{for(let q=0;q<pos.count;q++){const x=bx[q*3];pos.array[q*3+2]=Math.sin(x*.3+T*.8)*1.8;pos.array[q*3+1]=bx[q*3+1]+Math.sin(x*.5+T)*.4}pos.needsUpdate=true})},
+    frozen(t,sc=1){const g=G(t.x,top(t),t.z);const f=std({color:0x2a2f3a,roughness:.9});mesh(new THREE.CylinderGeometry(.18,.22,1.1,8),f,0,.75,0,g);mesh(new THREE.SphereGeometry(.18,10,8),f,0,1.45,0,g);
+      mesh(new THREE.BoxGeometry(.9,1.9,.9),std({color:0xbfeaff,transparent:true,opacity:.45,roughness:.05,metalness:.1,emissive:0x5ac8ff,emissiveIntensity:.25}),0,.95,0,g).rotation.y=rnd();return g},
+    panel(){const msgs=["ERROR 0x999","ACCESS DENIED","SYSTEM://ROOT","SYNC 37%","NULL_FLOOR","OWNER: ???"];for(let q=0;q<9;q++){const txt=msgs[q%msgs.length];const tex=canvasTex(256,64,(c,w,h)=>{c.fillStyle="rgba(0,20,30,.6)";c.fillRect(0,0,w,h);c.strokeStyle=q%3?"#00e5ff":"#ff3d6e";c.lineWidth=3;c.strokeRect(2,2,w-4,h-4);c.fillStyle=c.strokeStyle;c.font="bold 26px monospace";c.fillText(txt,14,42)});
+      const a=rnd()*6.283,d=5+rnd()*7;const p=mesh(new THREE.PlaneGeometry(3,.75),new THREE.MeshBasicMaterial({map:tex,transparent:true,side:THREE.DoubleSide,depthWrite:false}),Math.cos(a)*d,3+rnd()*6,Math.sin(a)*d);p.lookAt(0,p.position.y,0);const o=rnd()*6;anim.push(T=>{p.position.y+=Math.sin(T+o)*.003;p.visible=Math.sin(T*2.3+o)>-.9})}},
+    snowdrift(t){const g=G(t.x,top(t),t.z);for(let q=0;q<3;q++){const s0=mesh(new THREE.SphereGeometry(.4+rnd()*.3,10,6),M_.white,(rnd()-.5)*.6,0,(rnd()-.5)*.6,g);s0.scale.y=.35}return g},
+    dune(t){const g=G(t.x,top(t),t.z);const s0=mesh(new THREE.SphereGeometry(1.2,14,8),std({color:z.gr[2],roughness:1}),0,0,0,g);s0.scale.set(1.3,.35,.8);s0.rotation.y=rnd()*3;return g},
+    car(t){const g=G(t.x,top(t),t.z);const c=[0x7a2a2a,0x2a4a7a,0x4a4a4a][rnd()*3|0];mesh(new THREE.BoxGeometry(1.2,.35,.6),std({color:c,metalness:.5,roughness:.6}),0,.3,0,g);mesh(new THREE.BoxGeometry(.65,.28,.55),std({color:0x1a1e24}),-.05,.6,0,g);g.rotation.set(0,rnd()*6,(rnd()-.5)*.3);return g},
+    lamppost(t){const g=G(t.x,top(t),t.z);mesh(new THREE.CylinderGeometry(.04,.05,2.2,6),M_.iron,0,1.1,0,g);const bulb=mesh(new THREE.SphereGeometry(.1,8,6),std({color:A,emissive:A,emissiveIntensity:rnd()<.4?0:2}),0,2.25,0,g);const o=rnd()*6;anim.push(T=>{if(Math.sin(T*11+o)>.97)bulb.material.emissiveIntensity=rnd()*2});return g},
+  };
+  const place=(fn,n,minD=3,maxD=13,gap=1.8,...args)=>{let c=0;for(let q=0;q<n;q++){const t=freeTile(minD,maxD,gap);if(!t)continue;claim(t);fn(t,...args);c++}return c};
+
+  /* ---------- 마커 ---------- */
+  function marker(t,color,H,big){
+    const g=new THREE.Group();g.position.set(t.x,top(t),t.z);
+    const c=new THREE.Color(color);
+    const b1=new THREE.Mesh(new THREE.CylinderGeometry(.05,.05,H,8,1,true),glowMat(c,.55));b1.position.y=H/2;
+    const b2=new THREE.Mesh(new THREE.CylinderGeometry(.3,.55,H,16,1,true),glowMat(c,.06));b2.position.y=H/2;
+    const gem=new THREE.Mesh(new THREE.OctahedronGeometry(big?.7:.32,0),std({color:c,emissive:c,emissiveIntensity:1.3}));gem.position.y=H+.5;
+    const ring=new THREE.Mesh(new THREE.RingGeometry(.5,.64,24),glowMat(c,.9));ring.rotation.x=-Math.PI/2;ring.position.y=.04;
+    g.add(b1,b2,gem,ring);inner.add(g);spots.push({x:t.x,z:t.z});
+    const off=rnd()*6;
+    anim.push(T=>{gem.position.y=H+.5+Math.sin(T*2+off)*.22;gem.rotation.y=T*1.2;const f=(T*.7+off)%1;ring.scale.setScalar(1+f*1.6);ring.material.opacity=.9*(1-f)});
+    return {gem,g};
+  }
+  const tag=(key,label,text)=>`<b>${label}</b>${esc(text)}`;
+  const RUNE=canvasTex(256,256,(c,w,h)=>{c.translate(w/2,h/2);c.strokeStyle="#fff";c.lineWidth=3;for(const rr of[120,96,60]){c.beginPath();c.arc(0,0,rr,0,6.283);c.stroke()}
+    c.lineWidth=2;for(let q=0;q<6;q++){const a=q/6*6.283;c.beginPath();c.moveTo(Math.cos(a)*120,Math.sin(a)*120);c.lineTo(Math.cos(a+2.094)*120,Math.sin(a+2.094)*120);c.stroke()}
+    c.font="bold 16px serif";c.fillStyle="#fff";const gl="ᚠᚢᚦᚨᚱᚲᚷᚹᚺᚾᛁᛃᛇᛈᛉᛊᛏᛒᛖᛗ";for(let q=0;q<20;q++){const a=q/20*6.283;c.save();c.rotate(a);c.fillText(gl[q],-5,-102);c.restore()}});
+  const runeAt=(x,y,z2,R,c,speed=.3)=>{const m=mesh(new THREE.PlaneGeometry(R*2,R*2),new THREE.MeshBasicMaterial({map:RUNE,color:c,transparent:true,opacity:.85,blending:THREE.AdditiveBlending,depthWrite:false}),x,y,z2);m.rotation.x=-Math.PI/2;anim.push((T,dt)=>{m.rotation.z+=dt*speed});return m};
+  /* 보스 아레나 */
+  const bossC=TY.boss[1],bc=new THREE.Color(bossC);
+  const ct=top(center);
+  const ped=mesh(new THREE.CylinderGeometry(2,2.3,.3,8),std({color:0x161a24,emissive:bc,emissiveIntensity:.18,metalness:.7,roughness:.3}),center.x,ct+.15,center.z);
+  mesh(new THREE.CylinderGeometry(1.4,1.55,.2,8),std({color:0x1d2230,metalness:.7,roughness:.3}),center.x,ct+.4,center.z);
+  runeAt(center.x,ct+.52,center.z,1.35,bc,.25);
+  for(let q=0;q<6;q++){const a=q/6*6.283+.26,px=center.x+Math.cos(a)*3.2,pz=center.z+Math.sin(a)*3.2,py=hAt(px,pz)||ct;
+    const pg=G(px,py,pz);mesh(new THREE.BoxGeometry(.4,2.4,.4),M_.darkStone,0,1.2,0,pg);mesh(new THREE.BoxGeometry(.55,.2,.55),M_.darkStone,0,2.45,0,pg);flame(pg,0,2.75,0,bossC,.16);
+    spots.push({x:px,z:pz})}
+  const bl=new THREE.PointLight(bc,1.2,10);bl.position.set(center.x,ct+3,center.z);inner.add(bl);
+  const bm=marker({...center,h:center.h+.5},bossC,7,true);
+  /* 보스 실루엣 */
+  (()=>{const g=G(center.x,ct+.5,center.z);const m=std({color:0x0c0d12,roughness:.6,metalness:.3,emissive:bc,emissiveIntensity:.08});
+    mesh(new THREE.CylinderGeometry(.45,.7,1.5,8),m,0,.75,0,g);mesh(new THREE.SphereGeometry(.45,12,10),m,0,1.75,0,g);
+    for(const sx of[-1,1]){mesh(new THREE.ConeGeometry(.1,.6,5),m,sx*.3,2.2,0,g).rotation.z=-sx*.5;mesh(new THREE.SphereGeometry(.07,6,5),std({color:bossC,emissive:bossC,emissiveIntensity:2.5}),sx*.16,1.8,.38,g);
+      const arm=mesh(new THREE.CylinderGeometry(.13,.18,1.1,6),m,sx*.75,1.1,0,g);arm.rotation.z=sx*.4}
+    anim.push(T=>{g.position.y=ct+.5+Math.sin(T*1.5)*.06;g.rotation.y=Math.sin(T*.5)*.4})})();
+  addLabel(bm.gem,tag("boss","BOSS",`${e}F · ${r.boss}`),bossC,"",()=>hiRow("boss"));
+  /* 각 정보 마커 + 전용 소품 */
+  const deco={
+    mon(t){for(let q=0;q<3;q++){const a=q/3*6.283+rnd(),x=t.x+Math.cos(a)*1.1,z2=t.z+Math.sin(a)*1.1,y=hAt(x,z2)||top(t);const g=G(x,y,z2);const sc=.6+rnd()*.35;
+      const m=std({color:new THREE.Color(z.gr[0]).multiplyScalar(.6),roughness:.7});mesh(new THREE.SphereGeometry(.35*sc,10,8),m,0,.35*sc,0,g).scale.y=.85;
+      for(const sx of[-1,1])mesh(new THREE.SphereGeometry(.06*sc,6,5),std({color:0xff9f43,emissive:0xff6a00,emissiveIntensity:2.5}),sx*.13*sc,.45*sc,.3*sc,g);
+      mesh(new THREE.ConeGeometry(.08*sc,.3*sc,5),m,0,.75*sc,0,g);g.lookAt(t.x,y,t.z);g.rotateY(Math.PI);const o=rnd()*6;anim.push(T=>{g.position.y=y+Math.abs(Math.sin(T*3+o))*.15})}},
+    chest(t,rare){const g=G(t.x+.7,top(t),t.z+.4);const w=rare?.8:.65;mesh(new THREE.BoxGeometry(w,.4,.45),rare?M_.darkWood:M_.wood,0,.2,0,g);
+      const lid=mesh(new THREE.CylinderGeometry(.225,.225,w,12,1,false,0,Math.PI),rare?M_.darkWood:M_.wood,0,.4,0,g);lid.rotation.z=Math.PI/2;
+      for(const sx of[-.3,.3])mesh(new THREE.BoxGeometry(.06,.62,.47),M_.gold,sx*w,.3,0,g);mesh(new THREE.BoxGeometry(.12,.14,.05),M_.gold,0,.36,.24,g);
+      if(rare){lamp(g,0,.8,0,0xffd166);const sp=[];for(let q=0;q<6;q++){const p=mesh(new THREE.OctahedronGeometry(.05,0),std({color:0xffd166,emissive:0xffd166,emissiveIntensity:2}),0,.6,0,g);sp.push(p)}
+        anim.push(T=>sp.forEach((p,q)=>{const a=T*1.5+q;p.position.set(Math.cos(a)*.5,.6+Math.sin(T*2+q)*.25,Math.sin(a)*.5)}))}g.rotation.y=rnd()*6},
+    gim(t){runeAt(t.x,top(t)+.06,t.z,1.3,new THREE.Color(TY.gim[1]),.5);for(let q=0;q<3;q++){const c=mesh(new THREE.BoxGeometry(.3,.3,.3),std({color:0x2a1f40,emissive:new THREE.Color(TY.gim[1]),emissiveIntensity:.6}),t.x,top(t)+1,t.z);const o=q*2.09;anim.push(T=>{c.position.set(t.x+Math.cos(T*.8+o)*.9,top(t)+1+Math.sin(T*1.6+o)*.3,t.z+Math.sin(T*.8+o)*.9);c.rotation.set(T,T*.7,0)})}},
+    evt(t){const g=G(t.x+.8,top(t),t.z-.5);mesh(new THREE.BoxGeometry(.5,.25,.5),M_.darkStone,0,.12,0,g);const ob=mesh(new THREE.CylinderGeometry(.12,.28,2,4),M_.darkStone,0,1.25,0,g);ob.rotation.y=Math.PI/4;
+      mesh(new THREE.BoxGeometry(.03,1.4,.3),std({color:TY.evt[1],emissive:TY.evt[1],emissiveIntensity:1.8}),.13,1.2,0,g).rotation.y=Math.PI/4}
+  };
+  const others=[["mon","MOB",r.mon],["item","ITEM",r.item],["rare","RARE",r.rare],["gim","GIMMICK",r.gim],["evt","EVENT",r.evt]];
+  others.forEach(([key,lab,v])=>{
+    if(!v||v==="-")return;
+    const t=pick(4.5,11,3.6);
+    const short=key==="mon"?v.split(",")[0]+(v.includes(",")?" 외":""):v;
+    const mk=marker(t,TY[key][1],key==="rare"?5:4);
+    if(key==="mon")deco.mon(t);else if(key==="item")deco.chest(t,false);else if(key==="rare")deco.chest(t,true);else if(key==="gim")deco.gim(t);else deco.evt(t);
+    spots.push({x:t.x+.8,z:t.z});
+    addLabel(mk.gem,tag(key,lab,short),TY[key][1],"",()=>hiRow(key));
+  });
+  /* 입구 · 출구 포털 */
+  const portal=(t,c)=>{const g=G(t.x,top(t),t.z);const cc=new THREE.Color(c);
+    for(const sx of[-1,1])mesh(new THREE.BoxGeometry(.3,2.2,.3),M_.darkStone,sx*.8,1.1,0,g);mesh(new THREE.BoxGeometry(2,.3,.36),M_.darkStone,0,2.3,0,g);
+    const f=mesh(new THREE.PlaneGeometry(1.3,2),new THREE.MeshBasicMaterial({color:cc,transparent:true,opacity:.45,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}),0,1.05,0,g);
+    anim.push(T=>{f.material.opacity=.3+Math.sin(T*2.5)*.15});g.lookAt(center.x,top(t),center.z);return g};
+  portal(tin,"#9fe8ff");portal(tout,i===99?"#00e5ff":"#ffffff");
+  const gi=marker(tin,"#9fe8ff",3);
+  addLabel(gi.gem,`<b>IN</b>${s}F`,"#9fe8ff","",()=>hiRow("env"));
+  const go=marker(tout,"#ffffff",3);
+  addLabel(go.gem,i===99?`<b>TOP</b>999F 정점`:`<b>OUT</b>→ ${e+1}F`,"#ffffff","",i===99?()=>hiRow("evt"):()=>enter(i+1));
+  /* 길 위 표식등 */
+  pathPts.forEach(([x,z2],q)=>{const y=hAt(x,z2);if(!y)return;const d=mesh(new THREE.CylinderGeometry(.07,.09,.12,8),std({color:A,emissive:A,emissiveIntensity:1.6}),x,y+.06,z2);const o=q*.35;anim.push(T=>{d.material.emissiveIntensity=.6+Math.max(0,Math.sin(T*3-o))*2})});
+
+  /* ---------- 테마 기본 소품 ---------- */
+  if(kind==="meadow"){place(B.tree,22,3.5,13,1.4,.8+rnd()*.5);place(B.grass,40,2.6,13,.9);place(B.rock,10,3,13,1.2)}
+  if(kind==="sea"){
+    const w=prop(new THREE.CircleGeometry(13.9,48),std({color:0x1e7fd0,transparent:true,opacity:.38,emissive:A,emissiveIntensity:.12,roughness:.05,metalness:.4,side:THREE.DoubleSide}),0,1.15,0);
+    w.rotation.x=-Math.PI/2;anim.push(T=>{w.position.y=1.15+Math.sin(T*.8)*.06});
+    const cc=[0xff6f91,0xffd166,0x7bdff2,0xc18bff];
+    for(let n=0;n<26;n++){const t=freeTile(2.5,13);if(!t)continue;prop(new THREE.ConeGeometry(.18+rnd()*.2,.6+rnd()*.9,5),std({color:cc[n%4],emissive:cc[n%4],emissiveIntensity:.35}),t.x+(rnd()-.5)*.4,top(t)+.4,t.z+(rnd()-.5)*.4)}
+    place(B.kelp,14,3,13,1.2,.9+rnd()*.6);place(B.rock,8,3,13,1.2);
+    const caust=canvasTex(128,128,(c,w2,h)=>{c.fillStyle="#000";c.fillRect(0,0,w2,h);c.strokeStyle="rgba(180,240,255,.35)";c.lineWidth=2;for(let q=0;q<26;q++){c.beginPath();c.arc(Math.random()*w2,Math.random()*h,8+Math.random()*20,0,6.283);c.stroke()}});caust.repeat.set(6,6);
+    const cs=prop(new THREE.CircleGeometry(13.8,48),new THREE.MeshBasicMaterial({map:caust,transparent:true,blending:THREE.AdditiveBlending,depthWrite:false,opacity:.5}),0,1.6,0);cs.rotation.x=-Math.PI/2;anim.push((T,dt)=>{caust.offset.x+=dt*.03;caust.offset.y+=dt*.02});
+    for(let q=0;q<5;q++){const l=new THREE.Mesh(new THREE.CylinderGeometry(.3,1.6,22,12,1,true),new THREE.MeshBasicMaterial({color:0x9fe8ff,transparent:true,opacity:.04,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));l.position.set((rnd()-.5)*16,10,(rnd()-.5)*16);l.rotation.z=(rnd()-.5)*.3;inner.add(l)}
+  }
+  if(kind==="ice"){
+    const m=std({color:0xcfefff,emissive:0x6fd0ff,emissiveIntensity:.35,transparent:true,opacity:.85,roughness:.1,metalness:.2});
+    for(let n=0;n<26;n++){const t=freeTile(2.5,13.2);if(!t)continue;const hh=1.4+rnd()*2.4;const c=prop(new THREE.ConeGeometry(.25+rnd()*.3,hh,5),m,t.x,top(t)+hh/2,t.z);c.rotation.set((rnd()-.5)*.5,rnd()*3,(rnd()-.5)*.5)}
+    place(B.snowdrift,18,3,13,1);place(B.tree,8,4,13,1.4,.8,0x2c4a3e);
+  }
+  if(kind==="desert"){place(B.dune,10,4,13,2.2);place(B.rock,8,3,13,1.2,1,std({color:0xa98757,roughness:1}));place(B.columns,2,5,12,2.6,.9,true)}
+  if(kind==="lava"){
+    const lv=prop(new THREE.CircleGeometry(13.9,48),std({color:0x5a1204,emissive:0xff3a00,emissiveIntensity:.6,roughness:.6,side:THREE.DoubleSide}),0,.95,0);
+    lv.rotation.x=-Math.PI/2;anim.push(T=>{lv.material.emissiveIntensity=.55+Math.sin(T*1.6)*.15});
+    place(B.spire,12,3,13,1.6,.8);place(B.rock,10,3,13,1.2);
+    for(let q=0;q<3;q++){const t=freeTile(5,12,2);if(!t)continue;B.chimney.call(null,t,.0001);}
+    pl.intensity=1.1;
+  }
+  if(kind==="city"){
+    const tex=canvasTex(64,128,(c,w2,h)=>{c.fillStyle="#0c1016";c.fillRect(0,0,w2,h);for(let y=4;y<h-2;y+=8)for(let x=4;x<w2-4;x+=9){if(Math.random()<.35){c.fillStyle=Math.random()<.3?z.a:"#ffd9a0";c.globalAlpha=.35+Math.random()*.6;c.fillRect(x,y,5,4)}else{c.fillStyle="#1a222c";c.globalAlpha=1;c.fillRect(x,y,5,4)}}c.globalAlpha=1});
+    const bm=std({color:0x2a313c,map:tex,emissive:0xffffff,emissiveMap:tex,emissiveIntensity:.8,metalness:.5,roughness:.5});
+    for(let n=0;n<26;n++){const t=freeTile(5,13.2,1.6);if(!t)continue;claim(t);const w=.9+rnd()*1.1,d2=.9+rnd()*1.1,hh=1.5+rnd()*7;
+      const geo=new THREE.BoxGeometry(w,hh,d2);const b=prop(geo,bm,t.x,top(t)+hh/2,t.z);if(rnd()<.3){b.rotation.z=(rnd()-.5)*.25}
+      if(rnd()<.4)prop(new THREE.BoxGeometry(w*.6,.3,d2*.6),M_.iron,t.x,top(t)+hh+.15,t.z)}
+    place(B.car,8,3,12,1.2);place(B.lamppost,10,3,12,1.2);place(B.rock,8,3,12,1,.8,M_.darkStone);
+  }
+  if(kind==="sky"){
+    const cm=std({color:0xffffff,transparent:true,opacity:.75,roughness:1});
+    for(let n=0;n<16;n++){const a=rnd()*6.283,d=4+rnd()*10,y=-6+rnd()*3;
+      for(let q=0;q<3;q++){const c=prop(new THREE.SphereGeometry(1+rnd()*.8,12,8),cm,Math.cos(a)*d+q*.9,y+rnd()*.3,Math.sin(a)*d+(rnd()-.5));c.scale.y=.45}}
+    const bridge=std({color:0xb59a6a,roughness:.8});
+    isl.slice(1).forEach(o=>{const len=Math.hypot(o.x,o.z)-o.r-4.4;if(len<=0)return;const ang=Math.atan2(o.z,o.x),mid=(4.4+len/2);
+      const b=prop(new THREE.BoxGeometry(len,.12,.7),bridge,Math.cos(ang)*mid,o.y/2+.65,Math.sin(ang)*mid);b.rotation.y=-ang;
+      const rk=mesh(new THREE.ConeGeometry(o.r*.9,4,7),std({color:0x6b5a48,roughness:1}),o.x,o.y-1.6-2,o.z);rk.rotation.x=Math.PI});
+    const rk0=mesh(new THREE.ConeGeometry(4.2,5,8),std({color:0x6b5a48,roughness:1}),0,-1.6-2.5,0);rk0.rotation.x=Math.PI;
+    isl.slice(1).forEach((o,q)=>{if(q%2===0)B.waterfall(o)});
+    place(B.grass,26,0,13,.9);place(B.tree,6,4.5,13,1.4,.7);
+    for(let q=0;q<5;q++){const b=new THREE.Group();const m=std({color:0xffffff});for(const sx of[-1,1]){const w2=mesh(new THREE.BoxGeometry(.5,.03,.15),m,sx*.25,0,0,b);w2.rotation.z=sx*.3}inner.add(b);const o=rnd()*6,rr=6+rnd()*6,hy=6+rnd()*5;anim.push(T=>{const a=T*.3+o;b.position.set(Math.cos(a)*rr,hy+Math.sin(T*2+o)*.3,Math.sin(a)*rr);b.rotation.y=-a;b.children.forEach((w2,j)=>w2.rotation.z=(j?1:-1)*(.3+Math.sin(T*8+o)*.4))})}
+  }
+  if(kind==="temple"){
+    const cm=std({color:0xbdb6a4,roughness:.7});
+    for(let n=0;n<12;n++){const a=n/12*6.283,x=Math.cos(a)*10.8,z2=Math.sin(a)*10.8;
+      prop(new THREE.CylinderGeometry(.42,.5,7,12),cm,x,4,z2);prop(new THREE.BoxGeometry(1.2,.3,1.2),cm,x,7.6,z2);prop(new THREE.BoxGeometry(1.1,.3,1.1),cm,x,.6,z2)}
+    const lintel=new THREE.Mesh(new THREE.TorusGeometry(10.8,.3,4,12),cm);lintel.rotation.x=Math.PI/2;lintel.position.y=7.9;inner.add(lintel);
+    place(B.brazier,6,3.5,9,2.2,1);place(B.statue,4,5,10,2.4,1);
+    for(let q=0;q<6;q++){const l=new THREE.Mesh(new THREE.CylinderGeometry(.2,1.4,18,12,1,true),new THREE.MeshBasicMaterial({color:0xfff2c2,transparent:true,opacity:.05,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide}));const a=q/6*6.283;l.position.set(Math.cos(a)*7,9,Math.sin(a)*7);inner.add(l)}
+  }
+  if(kind==="space"){
+    const pn=prop(new THREE.SphereGeometry(10,32,24),std({color:0x5b3fa0,emissive:0x2a1660,emissiveIntensity:.5,roughness:.7}),-34,12,-42);
+    const pr=new THREE.Mesh(new THREE.RingGeometry(13,17,48),glowMat(A,.25));pr.position.copy(pn.position);pr.rotation.x=1.2;inner.add(pr);
+    const am=std({color:0x4a4058,roughness:.95});
+    for(let n=0;n<34;n++){const a=rnd()*6.283,d=5+rnd()*14,y=-7+rnd()*16;if(d<13&&Math.abs(y)<3)continue;
+      const r0=.3+rnd()*1;const ast=prop(new THREE.DodecahedronGeometry(r0,0),am,Math.cos(a)*d,y,Math.sin(a)*d);
+      const sp=(rnd()-.5)*.6;anim.push((T,dt)=>{ast.rotation.x+=sp*dt;ast.rotation.y+=sp*dt*.7})}
+    isl.forEach(o=>{const rk=mesh(new THREE.ConeGeometry(o.r*.9,3,7),std({color:0x2a2440,roughness:1}),o.x,o.y-1.6-1.5,o.z);rk.rotation.x=Math.PI});
+    place(B.crystal,8,0,13,1.3,.8,A);
+  }
+  if(kind==="void"){
+    for(let n=0;n<44;n++){const s0=.4+rnd()*1.4,geo=new THREE.BoxGeometry(s0,s0,s0);
+      const c=new THREE.LineSegments(new THREE.EdgesGeometry(geo),new THREE.LineBasicMaterial({color:rnd()<.2?0xff3d6e:A,transparent:true,opacity:.7}));
+      geo.dispose();const a=rnd()*6.283,d=3+rnd()*12;c.position.set(Math.cos(a)*d,2+rnd()*12,Math.sin(a)*d);inner.add(c);
+      const sp=rnd()-.5,ph=rnd()*6;anim.push((T,dt)=>{c.rotation.x+=sp*dt;c.rotation.y+=sp*dt;c.visible=Math.sin(T*3+ph)>-.85})}
+    const pg=new THREE.PolarGridHelper(13.5,8,6,8,A,A);pg.material.transparent=true;pg.material.opacity=.3;pg.position.y=.32;inner.add(pg);
+    B.panel();
+  }
+
+  /* ---------- 구간별 랜드마크 (환경 키워드) ---------- */
+  const LM=[
+    [/버섯/,()=>place(B.mushroom,12,3,13,1.6,.8+rnd()*.9)],
+    [/고블린|마을|부족/,()=>place(B.house,6,5,12,2.4,1,false)],
+    [/폐허 마을|폐허가 된/,()=>place(B.house,6,5,12,2.4,1,true)],
+    [/거미/,()=>{place(B.web,7,4,13,2,1);place(B.tree,8,5,13,1.6,1,0x203a24)}],
+    [/묘지|무덤/,()=>place(B.tomb,22,4,13,1.1,1+rnd()*.3)],
+    [/늪/,()=>{place(B.pond,5,4,12,2.6,1,0x2e4a2a);place(B.tree,6,5,13,1.6,1,0x3a4a2a)}],
+    [/협곡|산맥|바위/,()=>place(B.spire,12,6,13.3,2,1.1)],
+    [/설원/,()=>place(B.snowdrift,14,3,13,1)],
+    [/성채|요새|성문/,()=>place(B.wall,4,8,12.5,3.4,1)],
+    [/난파선|해적/,()=>place(B.ship,2,5,11.5,2.6,1)],
+    [/해초|해구|심해/,()=>place(B.kelp,10,3,13,1.2,1.3)],
+    [/인어|도시/,()=>place(B.columns,4,5,12,2.6,1,true)],
+    [/동굴/,()=>{place(B.crystal,8,3,13,1.6,1);place(B.spire,6,8,13.3,2,.9)}],
+    [/보석/,()=>place(B.crystal,12,3,13,1.4,1.1)],
+    [/광산|광맥/,()=>{place(B.rail,3,4,11,2.6,1);place(B.crystal,6,4,13,1.5,.9)}],
+    [/오아시스/,()=>{place(B.pond,2,5,10,3,1.5);place(B.palm,7,4,12,1.6,1)}],
+    [/호수/,()=>place(B.pond,3,5,11,3,1.6,0x8fd8ff)],
+    [/피라미드|왕릉/,()=>{const m=std({color:0x9c7c48,roughness:.95});for(let n=0;n<3;n++){const t=freeTile(7,11.5,3);if(!t)continue;claim(t);const sz=2+rnd()*1.3;const p=prop(new THREE.ConeGeometry(sz,sz*1.05,4),m,t.x,top(t)+sz*.52,t.z);p.rotation.y=Math.PI/4}place(B.statue,3,4,9,2.2,1)}],
+    [/사원|신전|성소|지성소|제단|순례|사막에 묻힌/,()=>{place(B.columns,4,5,12,2.6,1,false);place(B.brazier,4,3,10,2,1)}],
+    [/도서관/,()=>place(B.shelf,8,5,12.5,2.4,1)],
+    [/연구소|데이터|서버|시스템/,()=>place(B.server,6,4,12,2.4,1)],
+    [/지하철|터널/,()=>place(B.train,3,4,11,3,1)],
+    [/발전소|공장/,()=>place(B.chimney,3,6,12,3,.9)],
+    [/군사|기지/,()=>{place(B.wall,4,7,12.5,3.4,.9);place(B.server,2,4,10,2.4,.8)}],
+    [/드워프/,()=>{place(B.brazier,6,3,12,2,1,0xff7a2a);place(B.house,4,6,12,2.6,1.1,false)}],
+    [/둥지/,()=>place(B.nest,3,5,12,2.8,1)],
+    [/용의 묘지|해골 드래곤/,()=>place(B.bones,2,6,11,4.5,1)],
+    [/용|드래곤|와이번|그리폰/,()=>place(B.nest,1,6,12,2.8,1.2)],
+    [/블랙홀/,()=>B.blackhole()],
+    [/태양|항성|백색왜성|붉은 행성/,()=>B.sun(/붉은/.test(TXT)?0xff6a3d:/백색/.test(TXT)?0xeef4ff:0xffd27a)],
+    [/쌍둥이/,()=>{B.sun(0xffffff,9,12,-9,2);B.sun(0x3a2a6a,-9,11,-8,2)}],
+    [/별/,()=>place(B.crystal,6,3,13,1.6,.8,0xffffff)],
+    [/시간|시계/,()=>B.clock()],
+    [/길드/,()=>{const gc=[0x4fd8ff,0xfff2c2,0xb48cff,0xff6a3d];gc.forEach(c=>{const t=freeTile(5,11,2.2);if(t){claim(t);B.banner(t,c,1.1)}})}],
+    [/상점가|상인|거래/,()=>place(B.stall,6,4,12,2.2,1)],
+    [/정점/,()=>{const t=freeTile(5,8,2.5);if(t){claim(t);B.throne(t)}}],
+    [/거울/,()=>place(B.mirror,7,4,12.5,2,1)],
+    [/정원/,()=>{place(B.grass,30,2.5,13,.8);place(B.mushroom,4,4,12,2,.7)}],
+    [/무지개/,()=>B.rainbow()],
+    [/오로라/,()=>B.aurora()],
+    [/얼어붙은 헌터|얼음 속/,()=>place(B.frozen,6,4,12,2,1)],
+    [/공허|기억|역류|혈관|관문/,()=>B.panel()],
+    [/역대|도전자/,()=>place(B.tomb,18,4,13,1.2,1.1)],
+    [/폭풍|천둥/,()=>{const fl=new THREE.PointLight(0xbfe8ff,0,40);fl.position.set(0,14,0);inner.add(fl);anim.push(T=>{fl.intensity=Math.sin(T*1.7)>.985||Math.sin(T*2.3+1)>.99?6:0})}],
+    [/빌딩|마천루/,()=>place(B.lamppost,6,3,12,1.4)],
+  ];
+  LM.forEach(([re,fn])=>{if(has(re))fn()});
+
+  /* 떠다니는 입자 */
+  (()=>{
+    const N=320,p=new Float32Array(N*3),v=[];
+    for(let n=0;n<N;n++){const a=rnd()*6.283,d=rnd()*14;p[n*3]=Math.cos(a)*d;p[n*3+1]=rnd()*16-(isl?6:0);p[n*3+2]=Math.sin(a)*d;v.push(.2+rnd()*.6)}
+    const g=new THREE.BufferGeometry();g.setAttribute("position",new THREE.BufferAttribute(p,3));
+    const pc=kind==="sea"?0xbfe8ff:kind==="lava"?0xffb15a:kind==="ice"?0xffffff:A;
+    const pts=new THREE.Points(g,new THREE.PointsMaterial({color:pc,size:kind==="ice"?.12:.09,transparent:true,opacity:.8,blending:THREE.AdditiveBlending,depthWrite:false}));
+    inner.add(pts);
+    const speed=kind==="lava"?2.2:kind==="sea"?1.2:kind==="ice"?-.9:.35;
+    const lo=isl?-6:0,hi=lo+16;
+    anim.push((T,dt)=>{for(let n=0;n<N;n++){let y=p[n*3+1]+v[n]*speed*dt;if(y>hi)y=lo;if(y<lo)y=hi;p[n*3+1]=y}g.attributes.position.needsUpdate=true});
+  })();
+  inner.traverse(o=>{if(o.isMesh&&o.material&&o.material.isMeshStandardMaterial&&!o.material.transparent){o.castShadow=true;o.receiveShadow=true}});
+  if(kind==="ice"||kind==="sky"||kind==="temple"||kind==="desert")setBloom(.3,.35,.98);else setBloom(.55,.4,.88);
+}
+
+/* ---------- 외관 라벨 ---------- */
+const zoneAnchors=Z.map((z,k)=>{const o=new THREE.Object3D();o.position.set(0,k*SEG+SEG/2,0);tower.add(o);return o});
+function outLabels(){
+  clearLabels();
+  zoneAnchors.forEach((o,k)=>addLabel(o,`${pad(k+1)}<span>${Z[k].n} · ${k*100+1}F~</span>`,Z[k].a,"zl"));
+  addLabel(crown,`999F<span>탑의 정점</span>`,"#00e5ff","zl");
+}
+
+/* =========================================================
+   카메라 · 조작
+   ========================================================= */
+const cam={theta:.7,phi:1.26,r:52,ty:17};
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const lerp=(a,b,k)=>a+(b-a)*k;
+const ease=k=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;
+const tweens=[];
+function tween(dur,fn,done){if(reduce)dur*=.35;tweens.push({t0:performance.now(),dur,fn,done})}
+function applyCam(){
+  const sp=Math.sin(cam.phi);
+  camera.position.set(cam.r*sp*Math.sin(cam.theta),cam.ty+cam.r*Math.cos(cam.phi),cam.r*sp*Math.cos(cam.theta));
+  camera.lookAt(0,cam.ty,0);
+}
+let hover=-1,busy=false,idle=0;
+const ray=new THREE.Raycaster(),mv=new THREE.Vector2();
+setHover=function(i){
+  hover=i;
+  if(i<0){if(cur<0)hl.visible=false;tip.style.opacity=0;return}
+  hl.visible=true;hlTarget=i*FH+FH/2;
+  const c=new THREE.Color(Z[Math.floor(i/10)].a);hlBand.material.color.copy(c);
+}
+function hoverTest(e){
+  if(mode!=="out"||busy)return;
+  mv.set(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1);
+  ray.setFromCamera(mv,camera);
+  const hit=ray.intersectObjects(segs,false)[0];
+  if(!hit){setHover(-1);cv.style.cursor="";return}
+  const i=clamp(Math.floor(hit.point.y/FH),0,99),[s,e2]=range(i);
+  setHover(i);cv.style.cursor="pointer";
+  tip.style.setProperty("--c",Z[Math.floor(i/10)].a);
+  tip.innerHTML=`<b>${s}F – ${e2}F</b>${esc(D[i][0])}`;
+  tip.style.left=Math.min(e.clientX+14,innerWidth-260)+"px";tip.style.top=(e.clientY+14)+"px";tip.style.opacity=1;
+}
+let down=null;
+cv.addEventListener("pointerdown",e=>{down={x:e.clientX,y:e.clientY,t:cam.theta,p:cam.phi,moved:false};cv.setPointerCapture(e.pointerId)});
+cv.addEventListener("pointermove",e=>{
+  if(down){
+    const dx=e.clientX-down.x,dy=e.clientY-down.y;
+    if(!down.moved&&Math.abs(dx)+Math.abs(dy)>5){down.moved=true;cv.classList.add("drag");tip.style.opacity=0}
+    if(down.moved&&!busy){cam.theta=down.t-dx*.006;cam.phi=clamp(down.p-dy*.005,.3,1.5);idle=0}
+  }else hoverTest(e);
+});
+cv.addEventListener("pointerup",e=>{
+  if(down&&!down.moved&&mode==="out"&&!busy){hoverTest(e);if(hover>=0)enter(hover)}
+  down=null;cv.classList.remove("drag");
+});
+cv.addEventListener("pointerleave",()=>{if(!down&&mode==="out"){tip.style.opacity=0}});
+cv.addEventListener("wheel",e=>{
+  e.preventDefault();if(busy)return;idle=0;
+  if(mode==="out")cam.ty=clamp(cam.ty-e.deltaY*.012,1,32);
+  else cam.r=clamp(cam.r*(1+Math.sign(e.deltaY)*.08),12,52);
+},{passive:false});
+const zoom=f=>{if(busy)return;idle=0;const lo=mode==="out"?16:12,hi=mode==="out"?70:52;tween(300,(k=>{const r0=cam.r,r1=clamp(cam.r*f,lo,hi);return k=>cam.r=lerp(r0,r1,k)})())};
+$("zin").onclick=()=>zoom(.8);$("zout").onclick=()=>zoom(1.25);
+document.addEventListener("keydown",e=>{
+  if(!VIS)return;
+  if(e.key==="Escape"){e.stopImmediatePropagation();if(mode==="in")exitTower();else window.TMAP.close();return}
+  if(e.target.tagName==="INPUT")return;
+  if(mode==="in"&&cur>=0){if(e.key==="ArrowRight"&&cur<99)enter(cur+1);if(e.key==="ArrowLeft"&&cur>0)enter(cur-1)}
+});
+
+/* ---------- 진입 / 퇴장 ---------- */
+enter=function(i){
+  if(busy||i<0||i>99)return;
+  if(mode==="in"&&i===cur)return;
+  busy=true;markList(i);tip.style.opacity=0;cv.style.cursor="";
+  if(mode==="out"){
+    setHover(i);
+    const y=i*FH+FH/2,f={...cam};
+    tween(1400,k=>{
+      cam.ty=lerp(f.ty,y,k);cam.r=lerp(f.r,1.6,k);cam.phi=lerp(f.phi,1.5,k);cam.theta=f.theta+k*.9;
+      flash.style.opacity=Math.max(0,(k-.72)/.28);
+    },()=>{
+      mode="in";tower.visible=false;inner.visible=true;
+      build(i);cur=i;showInfo(i);back.classList.add("show");
+      hint.textContent="드래그로 회전 · 휠로 확대 · 마커를 눌러 정보 보기 · ←/→ 구간 이동";
+      cam.theta=f.theta+.9;cam.phi=1.12;cam.r=5;cam.ty=1.5;
+      tween(1300,k=>{cam.r=lerp(5,30,k);cam.phi=lerp(1.12,.92,k);flash.style.opacity=1-k},()=>{busy=false;idle=0});
+    });
+  }else{
+    const r0=cam.r,up=i>cur;
+    tween(420,k=>{flash.style.opacity=k;cam.r=lerp(r0,r0*.55,k);cam.ty=lerp(1.5,up?7:-4,k)},()=>{
+      build(i);cur=i;showInfo(i);cam.ty=up?-4:7;
+      tween(700,k=>{flash.style.opacity=1-k;cam.r=lerp(r0*.55,30,k);cam.ty=lerp(up?-4:7,1.5,k)},()=>{busy=false});
+    });
+  }
+}
+exitTower=function(){
+  if(busy||mode==="out")return;busy=true;
+  tween(380,k=>{flash.style.opacity=k},()=>{
+    clearInner();inner.visible=false;tower.visible=true;mode="out";
+    scene.background=OUT_BG.clone();scene.fog=new THREE.Fog(OUT_BG,55,150);
+    pl.color.set(0x00d5ff);pl.position.set(0,34,0);pl.intensity=1.3;hemi.color.set(0xbfe8ff);
+    info.classList.remove("show");back.classList.remove("show");outLabels();setBloom(1.05,.55,.35);
+    loc.textContent="EXTERIOR · 1F – 999F";loc.style.removeProperty("--acc");
+    hint.textContent="드래그로 회전 · 휠로 탑 오르내리기 · 층을 눌러 진입";
+    const y=cur*FH+FH/2;hlY=hlTarget=y;
+    cam.r=1.6;cam.ty=y;cam.phi=1.5;
+    tween(1400,k=>{cam.r=lerp(1.6,52,k);cam.ty=lerp(y,clamp(y,8,24),k);cam.phi=lerp(1.5,1.22,k);flash.style.opacity=1-k},()=>{busy=false;idle=0});
+  });
+}
+
+/* =========================================================
+   루프
+   ========================================================= */
+const v3=new THREE.Vector3();
+function updateLabels(){
+  const W=innerWidth,H=innerHeight,right=new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld,0);
+  for(const L of labels){
+    if(mode==="out"&&L.el.classList.contains("zl")&&L.obj!==crown){
+      const y=L.obj.position.y;v3.set(0,y,0).addScaledVector(right,rAt(y)+.9);
+    }else L.obj.getWorldPosition(v3);
+    if(L.obj===crown)v3.addScaledVector(right,1.8);
+    v3.project(camera);
+    if(v3.z>1||Math.abs(v3.x)>1.2||Math.abs(v3.y)>1.2){L.el.style.display="none";continue}
+    L.el.style.display="";
+    const x=(v3.x+1)/2*W,y=(1-v3.y)/2*H;
+    L.el.style.transform=L.el.classList.contains("zl")?`translate(${x}px,${y}px) translateY(-50%)`:`translate(${x}px,${y}px) translate(-50%,-140%)`;
+  }
+}
+let last=performance.now(),T=0;
+function loop(now){
+  const dt=Math.min(.05,(now-last)/1000);last=now;T+=dt;
+  for(let n=tweens.length-1;n>=0;n--){const tw=tweens[n],k=Math.min(1,(now-tw.t0)/tw.dur);tw.fn(ease(k));if(k>=1){tweens.splice(n,1);tw.done&&tw.done()}}
+  idle+=dt;
+  if(!reduce&&!busy&&!down&&idle>2.5)cam.theta+=dt*(mode==="out"?.09:.035);
+  if(mode==="out"){
+    crown.rotation.y+=dt*.8;crown.position.y=34.1+Math.sin(T*1.4)*.15;extAnim.forEach(f=>f(T,dt));
+    hlY+=(hlTarget-hlY)*Math.min(1,dt*10);
+    const r=rAt(hlY)+.1;hl.position.y=hlY;hlRing.scale.set(r,r,1);hlBand.scale.set(r,1,r);
+    hlBand.material.opacity=.25+Math.sin(T*5)*.1;
+    const hk=hover>=0?Math.floor(hover/10):-1;
+    segs.forEach((m,k)=>{m.material.emissiveIntensity+=((k===hk?2.2:1)-m.material.emissiveIntensity)*Math.min(1,dt*6)});
+  }
+  for(const f of anim)f(T,dt);
+  stars.rotation.y+=dt*.005;
+  applyCam();if(composer)composer.render();else Rr.render(scene,camera);updateLabels();
+  if(VIS)requestAnimationFrame(loop);else running=false;
+}
+if(THREE.EffectComposer&&THREE.UnrealBloomPass){try{
+  composer=new THREE.EffectComposer(Rr);composer.addPass(new THREE.RenderPass(scene,camera));
+  bloom=new THREE.UnrealBloomPass(new THREE.Vector2(innerWidth,innerHeight),1.05,.55,.35);composer.addPass(bloom);resize();
+}catch(e){composer=null}}
+outLabels();applyCam();
+
+
+running=true;requestAnimationFrame(loop);
+setTimeout(()=>$("boot").classList.add("out"),reduce?200:1000);
+INIT={resize,start(){if(!running){running=true;last=performance.now();requestAnimationFrame(loop)}}};
+
+}
+var cur=-1;
+const root=document.getElementById("tmap");
+function boot(){
+  if(INIT||loading)return;
+  loading=true;
+  const X="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/";
+  const L=["https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js",X+"shaders/CopyShader.js",X+"shaders/LuminosityHighPassShader.js",X+"postprocessing/EffectComposer.js",X+"postprocessing/RenderPass.js",X+"postprocessing/ShaderPass.js",X+"postprocessing/UnrealBloomPass.js"];
+  const next=i=>{
+    if(i>=L.length){loading=false;init3D();return}
+    const s=document.createElement("script");s.src=L[i];
+    s.onload=()=>next(i+1);
+    s.onerror=()=>{if(i===0){loading=false;$("err").style.display="grid";$("boot").classList.add("out")}else{loading=false;init3D()}};
+    document.head.appendChild(s);
+  };
+  next(window.THREE?1:0);
+}
+window.TMAP={
+  open(){VIS=true;root.classList.add("open");document.documentElement.style.overflow="hidden";if(INIT){INIT.resize();INIT.start()}else boot()},
+  close(){VIS=false;root.classList.remove("open");document.documentElement.style.overflow="";if(typeof home==="function")home()}
+};
+$("close").onclick=()=>window.TMAP.close();
+})();
+var _tmShow=show;
+show=function(id,name){_tmShow(id,name);if(id==="map")window.TMAP.open()};
 </script>
 </body>
 </html>
