@@ -270,6 +270,7 @@ pre.sample{background:var(--sheet);border:1px solid var(--line);border-radius:10
 .bt-row select{width:auto;padding:5px 8px;font-size:13px}
 .bt-gap{flex:1}
 .cast-alert{border:1.5px solid var(--bad);background:color-mix(in srgb,var(--bad) 8%,var(--sheet));border-radius:var(--r);padding:12px 14px;display:grid;gap:8px;font-size:14px}
+.cloth-hint{font-size:12.5px;color:var(--warn);border-left:3px solid var(--warn);padding:4px 8px;background:color-mix(in srgb,var(--warn) 7%,transparent);border-radius:0 6px 6px 0}
 .cast-alert.loose{border-color:var(--warn);background:color-mix(in srgb,var(--warn) 8%,var(--sheet))}
 .cast-alert ul{margin:4px 0 0;padding-left:18px}
 .castcard.need{border-color:var(--bad)}
@@ -558,6 +559,9 @@ hr.sep{border:0;border-top:1px solid var(--line);margin:4px 0;width:100%}
     <h3 style="font-size:18px;margin:18px 0 8px">이미지 프롬프트 자동 보정</h3>
     <p>생성할 때 장면 태그에 인원 태그(1boy·2boys·1girl, 1boy 등)가 없으면 등장인물 외형 태그의 성별로 채우고, 인물이 있는데 <code>no humans</code>가 들어 있으면 빼요. 구도 태그가 없으면 인원에 맞춰 upper body나 cowboy shot을 붙여요. 등장인물 외형 태그에 <code>1boy</code>나 <code>1girl</code>을 꼭 넣어 두세요.</p>
     <ul>
+      <li><b>동물·몬스터 동반자</b>: 늑대·여우·토끼처럼 사람이 아닌 등장인물은 1boy/1girl로 세지 않고 장면 태그로 그려요(한 컷 최대 2마리). 자동으로 알아보고, 등장인물 카드의 "사람이 아닌 동반자"로 직접 정할 수도 있어요.</li>
+      <li><b>옷 지키기</b>: 목욕·수영 장면이 아니면 벗은 모습이 나오지 않게 제외 태그를 넣어요. 등장인물 외형 태그나 의상 세트에 옷을 꼭 적어 주세요.</li>
+      <li><b>대본 자동 다듬기</b>: 직함 붙은 이름(박정우 실장 → 박정우)과 한 글자 오타(시림 → 시릴)를 고치고, 반복된 대사를 빼고, 35자 넘는 대사를 풍선 여러 개로 나눠요. 풍선이 3개를 넘으면 말하는 사람 클로즈업 컷을 하나 더 만들어요.</li>
       <li><b>화면 효과는 그림에 넣지 않아요</b>: light particles, lens flare, 집중선(speed lines), 아웃포커스(depth of field, blurry) 같은 태그는 보내기 전에 빼고 제외 태그에 넣어요. 이런 효과는 원고의 효과 도구로 얹어요. 설정 탭의 "그림에 화면 효과 넣지 않기"로 끌 수 있어요.</li>
       <li><b>순서</b>: 컷 내용(인원 → 구도 → 장소·시간·분위기) → 공통 화풍 → 품질 태그 순으로 보내요. 앞쪽 태그가 더 세게 먹어서, 화풍이 컷 내용을 덮지 않게 했어요.</li>
       <li><b>두 인물 사이의 행동</b>: hug·kiss·hand on another's cheek 같은 태그는 NovelAI 형식(<code>source#hug</code> / <code>target#hug</code> / <code>mutual#holding hands</code>)으로 바꿔서 누가 누구에게 하는지 알려 줘요. 이런 컷은 인물 위치를 고정하지 않고 AI가 붙여 그리게 해요.</li>
@@ -1376,7 +1380,7 @@ function outfitTags(cs, ch){ const name = (ch && ch.outfit) || cs?.defOutfit; re
 /* character-to-character actions for V4+: "source#hug" on the one doing it, "target#hug" on the one receiving,
    "mutual#holding hands" on both. This is what makes NovelAI actually draw the touch between the right people. */
 /* screen effects belong to the effect tool, not to the generated picture */
-const EFFECT_TAG_RE = /^(light particles|lens flare|sparkle|sparkles|sparkling|glowing|glint|bloom|light rays|god rays|light leaks?|speed lines|emphasis lines|motion lines|motion blur|depth of field|blurry|blurry background|blurry foreground|bokeh|film grain|noise|chromatic aberration|gradient|gradient background|glitch|vignetting|flash|screentone|halftone|lens blur|out of focus)$/i;
+const EFFECT_TAG_RE = /^(floating particles|golden particles|glowing particles|glowing dust|dust particles|magic particles|sparkling particles|aura|green aura|golden aura|blue aura|glowing aura|glowing star|light effects?|lens effects?|light particles|lens flare|sparkle|sparkles|sparkling|glowing|glint|bloom|light rays|god rays|light leaks?|speed lines|emphasis lines|motion lines|motion blur|depth of field|blurry|blurry background|blurry foreground|bokeh|film grain|noise|chromatic aberration|gradient|gradient background|glitch|vignetting|flash|screentone|halftone|lens blur|out of focus)$/i;
 const FX_UC = 'lens flare, light particles, speed lines, emphasis lines, motion lines, motion blur, chromatic aberration';
 const MUTUAL_ACT = new Set(['holding hands','forehead to forehead','cheek-to-cheek','eye contact','hug','kiss','imminent kiss','interlocked fingers','back-to-back','face-to-face','arm hug']);
 const INTERACT_RE = /another's|^(hug|hug from behind|kiss|kiss on forehead|kiss on cheek|imminent kiss|headpat|princess carry|carrying|piggyback|arms around neck|leaning on another|slapping|against wall|holding hands|forehead to forehead|cheek-to-cheek|eye contact|interlocked fingers|back-to-back|face-to-face|arm hug|wall slam|pinned|lap pillow|sitting on lap|whispering)$/i;
@@ -1414,24 +1418,34 @@ function buildRequest(pn, seed){
   const noFx = st.noFxTags !== false;
   const dropFx = t => noFx ? t.split(',').map(x=>x.trim()).filter(x=>x && !EFFECT_TAG_RE.test(x)).join(', ') : t;
   let base = dropFx(joinTags(pn.scene, st.style));
-  const names = pn.chars.map(c=>castById(c.castId)?.name).filter(Boolean);
+  const people = pn.chars.filter(c=>!isCreature(castById(c.castId)));
+  const beasts = pn.chars.filter(c=>isCreature(castById(c.castId))).slice(0, 2);
+  const names = people.map(c=>castById(c.castId)?.name).filter(Boolean);
+  base = base.replace(/(^|,\s*)\d+\s*(animals?|wolf|wolves|fox(es)?|rabbits?|cats?|dogs?|birds?|creatures?|monsters?|beasts?)(?=\s*,|$)/gi, '').replace(/^\s*,\s*/,'');
+  if (beasts.length){
+    // a companion goes into the scene ("grey wolf, black harness") instead of being drawn as one more person
+    base = joinTags(base, beasts.map(c=>{ const cs = castById(c.castId); return joinTags(cs.tags, outfitTags(cs, c), String(c.action||'').split(',').map(t=>t.trim()).filter(t=>t && !/another|looking|eyes|smile|smirk|grin|blush|tears|frown|mouth|lips|expression|angry|sad|surprised|happy/i.test(t)).join(', ')); }).join(', '));
+  }
   if (names.length){
     base = base.replace(/(^|,\s*)no humans(?=\s*,|$)/gi, '').replace(/^\s*,\s*/,'');
     if (!/\b\d+\s*(boy|girl|other)s?\b/i.test(base)){ const ct = countTagsFor(names); if (ct) base = joinTags(ct, base); }
     if (!SHOT_RE.test(base)) base = joinTags(base, names.length>1 ? 'cowboy shot' : 'upper body');
-  } else if (!/\b(no humans|\d+\s*(boy|girl|other)s?)\b/i.test(base)) base = joinTags('no humans', base, /scenery/i.test(base) ? '' : 'scenery');
+  } else if (!/\b(no humans|\d+\s*(boy|girl|other)s?)\b/i.test(base)) base = joinTags('no humans', base, /scenery/i.test(base) || beasts.length ? '' : 'scenery');
+  base = [...new Map(base.split(',').map(t=>t.trim()).filter(Boolean).map(t=>[t.toLowerCase(), t])).values()].join(', ');
   const fam = QUALITY[model] ? model : /curated/.test(model) ? 'nai-diffusion-4-5-curated' : 'nai-diffusion-4-5-full';   // V5 / custom IDs borrow the V4.5 presets
   const input = st.quality ? joinTags(base, QUALITY[fam]) : base;
   const preset = +st.uc >= 0 ? (UC_PRESET[fam]?.[+st.uc] || '') : '';
-  const neg = joinTags(preset, WEBTOON_UC, noFx ? FX_UC : '', st.neg);
-  const centers = centersFor(pn.chars.length);
-  const inter = interactionTags(pn);
-  const chars = pn.chars.map((c,i)=>{
+  const centers = centersFor(people.length);
+  const inter = interactionTags({...pn, chars: people});
+  const chars = people.map((c,i)=>{
     const cs = castById(c.castId);
     let look = charCaption(String(cs?.tags||'').trim());
     if (!look){ const m = base.match(/\b(\d+)\s*(boy|girl|other)s?\b/i); look = m ? m[2].toLowerCase() : ''; }
     return { prompt: dropFx(joinTags(look, outfitTags(cs, c), inter.acts[i].join(', '))) || 'person', uc: (cs?.uc||'').trim() || 'lowres, aliasing', center: centers[i], enabled:true };
   });
+  // people keep their clothes unless the scene itself is a bath, a swim or undressing
+  const keepClothes = st.keepClothes !== false && names.length && !BARE_RE.test([base, ...chars.map(c=>c.prompt)].join(', '));
+  const neg = joinTags(preset, WEBTOON_UC, noFx ? FX_UC : '', keepClothes ? 'nude, topless, shirtless, bare chest, nipples' : '', st.neg);
   // fixed left/right slots keep two people apart, which fights hugs and kisses: let the model place them when they touch
   const useCoords = chars.length > 1 && !inter.any;
   if (seed==null){ if (pn.seed==null) pn.seed = Math.floor(Math.random()*4294967288); seed = pn.seed; }
@@ -2233,6 +2247,9 @@ function renderCast(){
         h('div',{class:'need-hint', hidden:true, text:'대본에 나오는 인물이에요. 외형 태그를 입력해야 생성할 수 있어요.'}),
         h('input',{type:'text', placeholder:'이 인물 제외 태그 (선택)', 'aria-label':'제외 태그', value:c.uc||'', oninput:e=>{ c.uc=e.target.value; save(); }}),
         outfitEditor(c),
+        h('label',{class:'toggle', title:'늑대·여우·드래곤처럼 사람이 아닌 동반자예요. 1boy/1girl로 세지 않고 장면 태그로 그려요.'},
+          h('input',{type:'checkbox', checked: isCreature(c), onchange:e=>{ c.creature = e.target.checked; save(); onCastChanged(); }}), '사람이 아닌 동반자 (동물·몬스터)'),
+        !isCreature(c) && (c.tags||'').trim() && !CLOTH_RE.test(c.tags) && !(c.outfits||[]).some(o=>CLOTH_RE.test(o.tags||'')) ? h('div',{class:'cloth-hint', text:'옷 태그가 없어요. 옷을 적지 않으면 컷마다 옷이 바뀌거나 벗은 모습으로 나올 수 있어요. 외형 태그나 의상 세트에 옷(예: black suit, white shirt)을 넣어 주세요.'}) : null,
         found,
         h('label',{class:'toggle', title: c.img ? '' : '이미지를 먼저 올려 주세요'},
           h('input',{type:'checkbox', checked: !!c.useRef, disabled: !c.img, onchange:e=>{ c.useRef=e.target.checked; save(); updateRunStat(); }}),
@@ -2945,6 +2962,8 @@ function pubCheck(){
   if (long.length) out.push({lv:'warn', t:`한 풍선에 40자가 넘는 대사 (컷 ${long.join(', ')}) · 두 풍선으로 나누면 읽기 편해요`});
   const loose = allIssues(P.panels, true);
   if (loose.length) out.push({lv: P.settings.allowNoTags ? 'warn' : 'bad', t:`외형 태그 없는 인물: ${issueText(loose)} · 컷마다 생김새가 달라질 수 있어요`});
+  const naked = P.cast.filter(c=>c.name.trim() && (c.tags||'').trim() && !isCreature(c) && !CLOTH_RE.test(c.tags) && !(c.outfits||[]).some(o=>CLOTH_RE.test(o.tags||''))).map(c=>c.name.trim());
+  if (naked.length) out.push({lv:'warn', t:`옷 태그가 없는 인물: ${naked.join(', ')} · 컷마다 옷이 바뀔 수 있어요`, fix:['등장인물 탭 열기', ()=>{ $('#pubModal').hidden = true; openCastTab(); }]});
   const m = metaOf();
   out.push(m.author ? {lv:'ok', t:`작가 표기: ${m.author}`} : {lv:'warn', t:'작가 이름이 비어 있어요. 표지·끝 컷과 홍보 카드에 들어가요'});
   out.push({lv:'info', t:'플랫폼마다 AI로 만든 그림에 대한 규정이 달라요. 올리기 전에 해당 플랫폼의 연재·판매 규정을 확인하세요.'});
@@ -3029,6 +3048,11 @@ const SCRIPT_RULES = `[각색 원칙: 글을 "장면"으로 바꾸기]
 - 비율: 정사각은 클로즈업 강조에만 쓴다. 세로 스크롤 웹툰의 기본은 세로 컷이다(비율 줄 생략).
 - "no humans" 컷은 풍경·사물만. 손·귀·입술처럼 몸이 나오거나 움찔·떨림 같은 반응이 있으면 인물 줄을 쓰고 hand focus 같은 태그를 더한다.
 - another's가 들어간 접촉 태그(head on another's shoulder 등)를 쓴 컷에는 상대 인물도 반드시 함께 그린다.
+- 동물·몬스터 동반자도 "이름(태그)" 줄로 쓰되 한 컷에 최대 2마리. 인원 태그(1boy 등)에는 사람만 센다. 4animals, 1wolf 같은 태그는 쓰지 않는다.
+- 대사가 길면(35자 넘게) 풍선을 여러 개로 나누고, 한 컷에 풍선·상자는 3개까지. 남으면 말하는 사람의 클로즈업 컷을 하나 더 만든다.
+- "떨림"은 원문에서 목소리가 떨리거나 말을 더듬을 때만. 흥분·다급함은 보통 대사나 "외침"으로.
+- 인물 이름은 등장인물 이름 그대로. "박정우 실장"처럼 직함을 붙이지 않는다.
+- 같은 대사나 나레이션을 두 번 쓰지 않는다.
 - 감정은 구도·표정·대사 없는 컷·간격으로 보여준다. "연출:" 줄은 쓰지 않는다(섬광·집중선·노이즈 같은 효과는 작가가 따로 얹는다).
 - 그림 태그에 화면 효과를 넣지 않는다: light particles, lens flare, sparkle, glowing, bloom, light rays, speed lines, emphasis lines, motion lines, motion blur, depth of field, blurry, bokeh, film grain, chromatic aberration, gradient 금지.
 - 소리와 몸의 반응은 효과음으로 그린다: 효과음: 두근 / 툭 / 움찔 / 찰박 / 쿵. 원문에 있는 소리·움직임에서만 뽑는다.
@@ -3080,7 +3104,7 @@ const SCRIPT_RULES = `[각색 원칙: 글을 "장면"으로 바꾸기]
 
 [이름 규칙]
 - 인물 이름은 아래 등장인물 이름과 글자 하나까지 똑같이 쓴다(성까지 포함). 원문의 별칭·호칭·성 뺀 이름·"그/그녀"는 문맥으로 실제 인물을 판단해 바꾼다.
-- 한 컷에 그림 속 인물 최대 3명, 풍선·상자 최대 4개. 풍선 하나는 25자 안팎.`;
+- 한 컷에 그림 속 인물 최대 3명, 풍선·상자 최대 3개. 풍선 하나는 35자 이하.`;
 function scriptExample(){
   const names = P.cast.filter(c=>c.name.trim()).map(c=>c.name.trim());
   const a = names[0] || '인물A', b = names[1] || '인물B';
@@ -3167,8 +3191,9 @@ const statusPanel = t => `# 컷\n컷: 검은 화면\n\`\`\`\n${t}\n\`\`\``;
 
 /* ---- automatic check & repair of a script (AI output or anything pasted) ---- */
 const SHOT_LIST = ['close-up','portrait','upper body','cowboy shot','full body','wide shot','lower body'];
-const TAG_FIX = { 'close-up on hands':'hand focus', 'close up':'close-up', 'serene expression':'light smile', 'content expression':'content', 'gentle smile':'light smile', 'soft smile':'light smile', 'satisfied smile':'smile', 'eyes closed':'closed eyes', 'wide eyes':'wide-eyed', 'holding another':'hug', 'holding another tightly':'hug', 'dim light':'dim lighting', 'soft light':'soft lighting', 'flinching':'flinch', 'relaxed':'relaxed', 'arms around another\'s back':'hug', 'head resting on another\'s head':'head on another\'s head', 'cheek on another\'s head':'cheek on another\'s head', 'stroking hair':"stroking another's hair" };
-const BAD_TAG = /^(feeling |sensation|close-up on |focus on |expression of )|\b(on cheek|in arms)$/i;
+const TITLE_RE = /^\s*(실장님?|팀장님?|부장님?|과장님?|대리님?|사장님?|회장님?|단장님?|소장님?|교수님?|선생님?|선배님?|선배|후배|헌터님?|기사님?|님|씨|군|양)(?=\s|\(|\[|[:：]|$|생각|속마음|외침|속삭임|떨림|전화)/;
+const TAG_FIX = { 'close-up on hands':'hand focus', 'close up':'close-up', 'serene expression':'light smile', 'content expression':'content', 'gentle smile':'light smile', 'soft smile':'light smile', 'satisfied smile':'smile', 'eyes closed':'closed eyes', 'wide eyes':'wide-eyed', 'holding another':'hug', 'holding another tightly':'hug', 'dim light':'dim lighting', 'soft light':'soft lighting', 'flinching':'flinch', 'relaxed':'relaxed', 'arms around another\'s back':'hug', 'head resting on another\'s head':'head on another\'s head', 'cheek on another\'s head':'cheek on another\'s head', 'stroking hair':"stroking another's hair", 'sharp smile':'smirk', 'confident smile':'smirk', 'sly smile':'smirk', 'holding a device':'holding phone', 'holding device':'holding phone', 'holding tablet':'holding tablet', 'holding out card':'holding card, reaching out', 'metallic card':'card', 'hologram screen':'holographic interface', 'hologram':'holographic interface', 'stepping closer':'walking', 'stepping back':'walking', 'bright lighting':'bright', 'nuzzling':'nuzzle', 'ears perked':'ears up', 'tail wrapped around neck':'tail around neck' };
+const BAD_TAG = /^(feeling |sensation|close-up on |focus on |expression of |towards? |facing the |turning to |holding on with )|\b(on cheek|in arms)$|^(warm|vibrating|turning|excited energy|tension|atmosphere|emotional|dramatic|intense|happy atmosphere|\d+\s*(animals?|wolf|wolves|fox(es)?|rabbits?|cats?|dogs?|birds?|creatures?|monsters?|beasts?))$/i;
 function cleanTagList(list){
   const out = [], seen = new Set(), fixed = [];
   for (let t of list){
@@ -3201,7 +3226,14 @@ function checkScript(script, hints={}, extra=''){
     if (!cur){ if (!l.trim()) continue; cur = {head:'# 컷', lines:[]}; panels.push(cur); }
     cur.lines.push(l);
   }
-  const fixes = []; let timeFixed = 0, placeFixed = 0, prev = [], lastTalk = '', autoFx = 0, fxTagN = 0; const fxTagSeen = new Set(); const placeDropped = new Set();
+  const fixes = []; let timeFixed = 0, placeFixed = 0, prev = [], lastTalk = '', autoFx = 0, fxTagN = 0, trembleN = 0; const fxTagSeen = new Set(); const placeDropped = new Set();
+  const castNames = P.cast.map(c=>c.name.trim()).filter(n=>n.length>=2);
+  const fuzzyName = l => {   // a two-to-four syllable name that differs from a cast name by one syllable
+    const m = l.match(/^([가-힣]{2,4})(?=\s*[(\[:：]|\s+(생각|속마음|외침|속삭임|떨림|전화|각진|글자)\s*[:：]|\s*$)/); if (!m || castByName(m[1])) return null;
+    const hits = castNames.filter(n=>n.length===m[1].length && [...n].filter((ch,i)=>ch!==m[1][i]).length===1);
+    return hits.length===1 ? {a:m[1], n:hits[0]} : null;
+  };
+
   directPass(panels, fixes, 'merge');
   const placeTags = (hints.placeTags||'').split(',').map(t=>t.trim().toLowerCase()).filter(Boolean);
   const PLACES = placeTagSet();
@@ -3214,7 +3246,7 @@ function checkScript(script, hints={}, extra=''){
     // character lines: canonical names, cleaned tags
     const drawn = [];
     p.lines = p.lines.map(l=>{
-      const s = l.trim();
+      let s = l.trim();
       const fxm = s.match(/^(연출|효과|틀)\s*[:：]\s*(.*)$/);
       if (fxm){
         if (fxm[1]!=='틀' && hints.auto){ autoFx++; return null; }
@@ -3222,10 +3254,16 @@ function checkScript(script, hints={}, extra=''){
         const fx = parseFx(fxm[2]); if (!fx.length){ note(`알 수 없는 연출 "${fxm[2].trim()}" 삭제`); return null; }
         return '연출: ' + fx.map(k=>FX[k]).join(', ');
       }
-      const hit = nameAt(s); if (!hit) return l;
+      let hit = nameAt(s);
+      if (!hit){ const fz = fuzzyName(s); if (fz){ note(`"${fz.a}" → "${fz.n}" (이름 오타)`); s = fz.n + s.slice(fz.a.length); hit = nameAt(s); } }
+      if (!hit) return l;
       let line = hit.n + s.slice(hit.a.length);
       if (hit.a!==hit.n) note(`"${hit.a}" → "${hit.n}"`);
+      const tm = line.slice(hit.n.length).match(TITLE_RE);
+      if (tm){ line = hit.n + line.slice(hit.n.length + tm[0].length); note(`"${hit.n}${tm[0]}" → "${hit.n}"`); }
       line = line.replace(/\(([^)]*)\)/, (m, inner)=>{ const {out, fixed} = cleanTagList(inner.split(',')); if (fixed.length) note(`${hit.n} 태그 정리 (${fixed.join(', ')})`); return `(${out.join(', ')})`; }).replace(/\(\)/,'');
+      const tr = line.match(/^(.*?)\s떨림\s*([:：])\s*(.*)$/);
+      if (tr && !/([가-힣]),\s?\1|…|\.\.\.|[가-힣]-[가-힣]/.test(tr[3])){ line = `${tr[1]}: ${tr[3]}`; trembleN++; }
       if (castByName(hit.n) && !drawn.includes(hit.n)) drawn.push(hit.n);
       return line;
     }).filter(l=>l!==null);
@@ -3236,9 +3274,10 @@ function checkScript(script, hints={}, extra=''){
     const fxT = tags.filter(t=>EFFECT_TAG_RE.test(t.trim())); if (fxT.length){ tags = tags.filter(t=>!fxT.includes(t)); fxT.forEach(t=>fxTagSeen.add(t.trim())); fxTagN++; }
     p.lines = p.lines.map(l=>{ const hit = nameAt(l.trim()); if (!hit) return l; return l.replace(/\(([^)]*)\)/, (m, inner)=>{ const all = inner.split(',').map(t=>t.trim()).filter(Boolean), bad = all.filter(t=>EFFECT_TAG_RE.test(t)); if (!bad.length) return m; bad.forEach(t=>fxTagSeen.add(t)); fxTagN++; const keep = all.filter(t=>!bad.includes(t)); return keep.length ? `(${keep.join(', ')})` : ''; }); });
     // people in the picture must match the count tag: bring back the characters of the previous panel if lines are missing
+    const humans = () => drawn.filter(x=>!isCreature(castByName(x)));
     const want = tags.reduce((a,t)=>{ const m = t.match(/^(\d+)\s*(boy|girl|other)s?$/i); return a + (m ? +m[1] : 0); }, 0);
-    if (want > drawn.length && (prev.length || order.length)){
-      const add = [...prev, ...order].filter((x,k,a)=>!drawn.includes(x) && a.indexOf(x)===k).slice(0, want - drawn.length);
+    if (want > humans().length && (prev.length || order.length)){
+      const add = [...prev, ...order].filter((x,k,a)=>!drawn.includes(x) && !isCreature(castByName(x)) && a.indexOf(x)===k).slice(0, want - humans().length);
       if (add.length){ p.lines.splice(si+1, 0, ...add); drawn.push(...add); note(`빠진 인물 줄 추가 (${add.join(', ')})`); }
     }
     const pool = [...prev, ...order].filter((x,k,a)=>a.indexOf(x)===k);
@@ -3270,13 +3309,23 @@ function checkScript(script, hints={}, extra=''){
       const body = tags.filter(t=>BODY.test(t)); if (body.length){ tags = tags.filter(t=>!body.includes(t)); note(`사람 없는 컷에서 인물 태그 삭제 (${body.join(', ')})`); }
     }
     p.lines.forEach(l=>{ const m = l.trim().match(/^(.+?)(\(.*?\))?\s*(생각|속마음|외침|소리침|고함|속삭임|귓속말|떨림|전화|기계음|통신|각진|글자)?\s*[:：]/); const hit = m && nameAt(l.trim()); if (hit && castByName(hit.n) && !/생각|속마음/.test(m[3]||'')) lastTalk = hit.n; });
-    // count tags rebuilt from the characters actually drawn
-    const known = drawn.length && drawn.every(x=>genderOf(castByName(x)));
+    // at most three people and two companions in one picture: more turns into a crowd NovelAI cannot keep apart
+    const beasts = drawn.filter(x=>isCreature(castByName(x)));
+    const over = [...humans().slice(3), ...beasts.slice(2)];
+    if (over.length){
+      p.lines = p.lines.filter(l=>{ const h2 = nameAt(l.trim()); return !(h2 && over.includes(h2.n) && !/[:：]/.test(l.trim().replace(/^[^(]*\([^)]*\)/,''))); });
+      over.forEach(x=>{ if (!p.lines.some(l=>nameAt(l.trim())?.n===x)) drawn.splice(drawn.indexOf(x), 1); });
+      note(`한 컷에 인물이 너무 많아 ${over.join(', ')}은 빼고 그려요`);
+    }
+    // count tags rebuilt from the people actually drawn (companions are not counted)
+    const hm = humans();
+    const known = hm.length && hm.every(x=>genderOf(castByName(x)));
     if (known){
-      const ct = countTagsFor(drawn), before = tags.filter(t=>/^(\d+\s*(boy|girl|other)s?|no humans)$/i.test(t)).join(', ');
+      const ct = countTagsFor(hm), before = tags.filter(t=>/^(\d+\s*(boy|girl|other)s?|no humans)$/i.test(t)).join(', ');
       tags = tags.filter(t=>!/^(\d+\s*(boy|girl|other)s?|no humans)$/i.test(t)); tags.unshift(...ct.split(', '));
       if (before.replace(/\s/g,'')!==ct.replace(/\s/g,'')) note(`인원 태그 ${before||'없음'} → ${ct}`);
-    } else if (!drawn.length && !tags.some(t=>/^(\d+\s*(boy|girl|other)s?|no humans)$/i.test(t))){ tags.unshift('no humans'); note('인물이 없어 no humans 추가'); }
+    } else if (!hm.length && drawn.length){ const before = tags.filter(t=>/^(\d+\s*(boy|girl|other)s?|no humans)$/i.test(t)); tags = tags.filter(t=>!before.includes(t)); tags.unshift('no humans'); if (before.join()!=='no humans') note('동물·동반자만 나오는 컷이라 no humans'); }
+    else if (!drawn.length && !tags.some(t=>/^(\d+\s*(boy|girl|other)s?|no humans)$/i.test(t))){ tags.unshift('no humans'); note('인물이 없어 no humans 추가'); }
     // one framing per panel (close-up + portrait may pair)
     const shots = tags.filter(t=>SHOT_LIST.includes(t.toLowerCase()));
     if (shots.length > 1){
@@ -3301,6 +3350,7 @@ function checkScript(script, hints={}, extra=''){
     if (drawn.length) prev = drawn.slice();
   });
   directPass(panels, fixes, 'rhythm');
+  if (trembleN) fixes.push(`더듬는 말이 아닌 대사 ${trembleN}개를 떨리는 풍선에서 보통 풍선으로 바꿈`);
   if (fxTagN) fixes.push(`그림 속 화면 효과 태그 삭제 (${[...fxTagSeen].slice(0,6).join(', ')}) · 이런 효과는 원고의 "효과" 버튼으로 얹어요`);
   if (autoFx) fixes.push(`AI가 넣은 연출 효과 ${autoFx}개를 뺐어요 (효과는 원고의 "효과" 버튼으로 직접 얹어요)`);
   if (timeFixed) fixes.push(`시간 태그를 ${hints.timeFrom||'상태창'} 기준(${hints.time} → ${hints.timeTags})으로 ${timeFixed}컷 맞춤`);
@@ -3320,6 +3370,95 @@ function beatFromSource(src, word){
   return out;
 }
 const SFX_REACT = { '움찔':'flinch', '파르르':'trembling', '덜덜':'trembling', '부들':'trembling', '두근':'blush', '화끈':'blush', '흠칫':'surprised' };
+/* where a line's text starts: "이름(태그) 속삭임: 대사" / "나레이션: 글" → the part after the colon */
+const KEY_LINE = /^(장면|배경|scene|비율|ratio|컷|필터|간격|연출|효과|틀|효과음|상태창|시스템|자막)\s*[:：]/i;
+const BOX_LINE = /^(나레이션|내레이션|독백|회상|편지|메모)\s*[:：]\s*(.*)$/;
+function lineText(l){
+  const t = l.trim(); if (!t || KEY_LINE.test(t) || /^```/.test(t)) return null;
+  const b = t.match(BOX_LINE); if (b) return {kind:'box', head: t.slice(0, t.length - b[2].length), text: b[2]};
+  const m = t.match(/^([^:：(\[]{1,20}?)((?:\[[^\]]*\])?)(\([^)]*\))?\s*((?:생각|속마음|외침|소리침|고함|속삭임|귓속말|떨림|전화|기계음|통신|각진|글자)?)\s*[:：]\s*(.+)$/);
+  if (!m) return null;
+  const kind = m[4] ? ' '+m[4] : '';
+  return {kind:'talk', name: m[1].trim(), tags: (m[2]||'') + (m[3]||''), head: `${m[1].trim()}${m[2]||''}${m[3]||''}${kind}: `, short: `${m[1].trim()}${kind}: `, text: m[5]};
+}
+/* the same line twice (parallel parts re-telling their overlap) → keep the first */
+function dedupeLines(panels, fixes){
+  const norm = t => String(t).replace(/[^가-힣A-Za-z0-9]/g,'');
+  const seen = []; let n = 0;
+  for (let i=0; i<panels.length; i++){
+    const p = panels[i]; let had = 0, kept = 0;
+    p.lines = p.lines.filter(l=>{
+      const lt = lineText(l); if (!lt) return true;
+      had++; const key = norm(lt.text); if (key.length < 6){ kept++; return true; }
+      const dup = seen.find(x=>i - x.i <= 8 && (x.key===key || (key.length>=12 && x.key.length>=12 && (x.key.includes(key) || key.includes(x.key)))));
+      if (dup){ n++; return false; }
+      seen.push({key, i}); kept++; return true;
+    });
+    if (had && !kept && !p.lines.some(l=>/^\s*(효과음|상태창)\s*[:：]|^```/.test(l))){ panels.splice(i, 1); i--; }
+  }
+  if (n) fixes.push(`앞에서 이미 나온 대사·나레이션 ${n}개가 반복돼서 뺐어요`);
+}
+/* long speech → bubbles of about 35 characters; more than three bubbles → a follow-up panel on the speaker */
+function piecesOf(text, max=36){
+  const out = []; const push = t => { t = t.trim(); if (t) out.push(t); };
+  for (const sent of String(text).split(/(?<=[.!?…~])\s+/)){
+    if (sent.length <= max + 6){ push(sent); continue; }
+    let cur = '';
+    for (const part of sent.split(/(?<=,|—|…)\s*|(?<=(?:고|며|서|데|지만|는데|니까|면서|려고|도록))\s+/)){
+      if (!part) continue;
+      if ((cur + ' ' + part).trim().length > max && cur){ push(cur); cur = part; } else cur = (cur ? cur + ' ' : '') + part;
+    }
+    push(cur);
+  }
+  // still too long (no comma to break on): cut at the space nearest the middle, preferring after a particle
+  const hard = t => {
+    if (t.length <= max + 6) return [t];
+    const mid = t.length/2; let best = -1, score = Infinity;
+    for (const m of t.matchAll(/\s/g)){ const before = t.slice(0, m.index); const d = Math.abs(m.index - mid) - (/(을|를|이|가|은|는|에|에서|에게|로|으로|과|와|도|만|의|고|며|서|게|지)$/.test(before) ? 4 : 0); if (m.index > 6 && m.index < t.length - 6 && d < score){ score = d; best = m.index; } }
+    return best < 0 ? [t] : [...hard(t.slice(0, best).trim()), ...hard(t.slice(best).trim())];
+  };
+  for (let i=out.length-1; i>=0; i--) if (out[i].length > max + 6) out.splice(i, 1, ...hard(out[i]));
+  // glue tiny leftovers onto their neighbour
+  for (let i=out.length-1; i>0; i--) if (out[i].length < 8 && (out[i-1] + ' ' + out[i]).length <= max + 8){ out[i-1] += ' ' + out[i]; out.splice(i, 1); }
+  return out;
+}
+function splitLongLines(panels, fixes){
+  let split = 0, added = 0;
+  for (let i=0; i<panels.length; i++){
+    const p = panels[i];
+    if (p.lines.some(l=>/^\s*컷\s*[:：]|^\s*```/.test(l))) continue;
+    const next = [];
+    for (const l of p.lines){
+      const lt = lineText(l);
+      const lim = lt && lt.kind==='box' ? 46 : 42;
+      if (!lt || lt.text.length <= lim){ next.push(l); continue; }
+      const ps = piecesOf(lt.text, lt.kind==='box' ? 40 : 36); if (ps.length < 2){ next.push(l); continue; }
+      split++; ps.forEach((t,k)=>next.push((k && lt.kind==='talk' ? lt.short : lt.head) + t));
+    }
+    p.lines = next;
+    const texts = p.lines.map((l,k)=>({k, lt: lineText(l)})).filter(x=>x.lt);
+    if (texts.length <= 3) continue;
+    // overflow goes to a new panel framed on whoever is talking
+    // break between sentences when possible, so a follow-up panel does not start mid-sentence
+    const ends = x => /[.!?…~]['"’”]?$/.test(x.lt.text.trim());
+    const cut = ends(texts[2]) ? 3 : ends(texts[1]) ? 2 : ends(texts[0]) ? 1 : 3;
+    const over = texts.slice(cut);
+    const sceneL = p.lines.find(l=>/^\s*(장면|배경|scene)\s*[:：]/i.test(l)) || '장면: ';
+    const env = sceneL.replace(/^\s*(장면|배경|scene)\s*[:：]\s*/i,'').split(',').map(t=>t.trim()).filter(t=>t && !/^(\d+\s*(boy|girl|other)s?|no humans)$/i.test(t) && !SHOT_LIST.includes(t.toLowerCase()) && !/^(from |pov$|dutch angle|.* focus$)/i.test(t));
+    const wasClose = /close-up|portrait/i.test(sceneL);
+    p.lines = p.lines.filter((l,k)=>!over.some(x=>x.k===k));
+    for (let j=0; j<over.length; j+=3){
+      const chunk = over.slice(j, j+3), who = chunk.find(x=>x.lt.kind==='talk')?.lt;
+      const pres = who && p.lines.map(l=>l.trim().match(/^([^:：(\[]{1,20}?)((?:\[[^\]]*\])?\([^)]*\))\s*$/)).find(m=>m && m[1].trim()===who.name);
+      const tagsOf = who ? (pres?.[2] || p.lines.map(lineText).find(x=>x && x.kind==='talk' && x.name===who.name && x.tags)?.tags || who.tags || '') : '';
+      const lines = ['장면: ' + [wasClose ? 'upper body' : 'close-up', wasClose ? '' : 'portrait', ...env].filter(Boolean).join(', ')];
+      if (who) lines.push(who.name + tagsOf);
+      chunk.forEach(x=>lines.push(x.lt.kind==='talk' ? x.lt.short + x.lt.text : x.lt.head + x.lt.text));
+      panels.splice(i + 1 + j/3, 0, {head:'# 컷', lines}); added++;
+    }
+  }
+  if (split) fixes.push(`긴 대사·나레이션 ${split}개를 35자 안팎 풍선으로 나눴어요${added ? ` (말풍선이 많은 컷 뒤에 ${added}컷 추가)` : ''}`);
+}
 function directPass(panels, fixes, stage='all'){
   const info = p => {
     const lines = p.lines.map(l=>l.trim());
@@ -3335,6 +3474,7 @@ function directPass(panels, fixes, stage='all'){
     return { lines, sceneI, tags, special, chars, talk, boxes, ratio, sig };
   };
   const note = (i, m) => fixes.push(`컷 ${i+1}: ${m}`);
+  if (stage!=='rhythm'){ dedupeLines(panels, fixes); splitLongLines(panels, fixes); }
   // 1) identical pictures in a row
   if (stage!=='rhythm') for (let i=1; i<panels.length; i++){
     const a = info(panels[i-1]), b = info(panels[i]);
@@ -3657,7 +3797,7 @@ async function naiAdapt(source, {kind='log', count=12, extra='', context={}, onP
   applyContext(pre.hints, context);
   const ctxText = contextText();
   const jobs = [];
-  pre.units.forEach(u=>{ if (u.type==='status') jobs.push({status:u.text}); else chunkText(u.text, 1400).forEach(c=>jobs.push({text:c})); });
+  pre.units.forEach(u=>{ if (u.type==='status') jobs.push({status:u.text}); else chunkText(u.text, 2600).forEach(c=>jobs.push({text:c})); });
   const textIdx = jobs.map((j,i)=>j.text ? i : -1).filter(i=>i>=0);
   const total = textIdx.reduce((a,i)=>a+jobs[i].text.length, 0) || 1;
   const info = hintsText(pre.hints);
@@ -3679,7 +3819,7 @@ ${scriptExample()}`;
       ? `아래는 캐릭터 채팅 플레이 로그${textIdx.length>1?`의 ${k+1}/${textIdx.length}번째 부분`:''}이야. OOC·시간 표시·재생성 같은 채팅 잡음은 버리고, {{user}}·{{char}}는 알맞은 등장인물 이름으로 바꿔.`
       : `아래는 스토리${textIdx.length>1?`의 ${k+1}/${textIdx.length}번째 부분`:''}이야.`;
     const prev = k>0 ? jobs[textIdx[k-1]].text.slice(-300) : '';
-    const user = `${head}\n이 부분만 약 ${n}컷으로 각색해. 원문 문장 순서대로, 원문에 있는 것만.${prev ? `\n\n[바로 앞 원문의 끝부분: 흐름만 참고하고 각색하지 마]\n…${prev}` : ''}\n\n[원문]\n${jobs[i].text}\n/nothink`;
+    const user = `${head}\n이 부분만 약 ${n}컷으로 각색해. 원문 문장 순서대로, 원문에 있는 것만.${prev ? `\n\n[바로 앞부분의 끝: 이미 앞 컷들로 각색됨. 이 내용은 절대 다시 쓰지 말고, 바로 이어지는 [원문] 첫 문장부터 시작해]\n…${prev}` : ''}\n\n[원문]\n${jobs[i].text}\n/nothink`;
     let txt = '';
     for (let attempt=0; attempt<2; attempt++){
       try{
@@ -3710,6 +3850,11 @@ ${scriptExample()}`;
 
 /* ================= quick (rule-based) play log → script ================= */
 const QUOTE_RE = /“([^”]+)”|"([^"\n]+)"|「([^」]+)」|『([^』]+)』|‘([^’]+)’|\(([^()\n]+)\)|\*([^*\n]+)\*/g;
+/* companions that are not people (wolf, fox, dragon…): drawn from scene tags, never counted as 1boy/1girl */
+const CREATURE_RE = /\b(animal|animals|wolf|fox|rabbit|bunny|cat|dog|puppy|kitten|bird|owl|eagle|crow|dragon|wyvern|horse|deer|snake|creature|monster|beast|slime|golem|kitsune|feline|canine|hamster|squirrel|bear|tiger|lion|ferret|otter|phoenix|griffin|unicorn)\b/i;
+function isCreature(c){ if (!c) return false; if (c.creature!=null) return !!c.creature; return !genderOf(c) && CREATURE_RE.test(c.tags||''); }
+const CLOTH_RE = /\b(shirt|t-shirt|jacket|coat|uniform|dress|suit|hoodie|sweater|kimono|yukata|robe|armor|armour|clothes|outfit|skirt|pants|trousers|cape|vest|blazer|hanbok|cloak|tunic|shorts|jeans|necktie|tie|cardigan|apron|swimsuit|bodysuit|turtleneck|gown|overcoat|trench coat|hakama|leotard|naked|nude|topless|shirtless)\b/i;
+const BARE_RE = /\b(onsen|bath|bathing|bathtub|shower|nude|naked|topless|shirtless|swimsuit|swim trunks|bikini|sauna|towel|partially submerged|undressing|bare shoulders)\b/i;
 function genderOf(c){
   const t = (c?.tags||'').toLowerCase(); const m = t.match(/\b\d+\s*(boy|girl|other)s?\b/);
   if (m) return m[1]; if (/\b(female|woman|girl)\b/.test(t)) return 'girl'; if (/\b(male|man|boy)\b/.test(t)) return 'boy'; return '';
