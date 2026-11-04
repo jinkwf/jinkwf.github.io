@@ -1275,40 +1275,26 @@ document.getElementById("lucky").onclick=()=>{
   openPop(k);
   dlg.addEventListener("close",()=>{cur=saved;lucky=null},{once:true});
 };
-/* 4. 오프닝: 흩어진 별이 모여 Jin_K 가 돼요 (방문할 때 한 번) */
+/* 4. 오프닝: 봉인된 초대장 (방문할 때 한 번) — 봉인을 누르면 갈라지고 문이 열려요 */
 (()=>{
   const ov=document.getElementById("intro");if(!ov)return;
   let seen=false;try{seen=sessionStorage.getItem("jk-intro")}catch(e){}
-  if(seen||matchMedia("(prefers-reduced-motion:reduce)").matches){ov.remove();return}
-  try{sessionStorage.setItem("jk-intro","1")}catch(e){}
+  const reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  if(seen||reduce){ov.remove();return}
+  ov.classList.add("on");document.documentElement.style.overflow="hidden";
+  const seal=document.getElementById("seal");
   let done=false;
-  const end=()=>{if(done)return;done=true;ov.classList.add("out");setTimeout(()=>ov.remove(),750)};
-  ov.addEventListener("click",end);addEventListener("keydown",end,{once:true});
-  const start=()=>{
-    if(done)return;
-    const cv=ov.querySelector("canvas"),cx=cv.getContext("2d"),D=Math.min(devicePixelRatio||1,2),W=innerWidth,H=innerHeight;
-    cv.width=W*D;cv.height=H*D;cx.scale(D,D);
-    const fs=Math.min(W*.24,210),o=document.createElement("canvas"),ox=o.getContext("2d");
-    o.width=W;o.height=H;ox.font=`800 ${fs}px "Pretendard Variable",Pretendard,"Noto Sans KR",sans-serif`;
-    ox.textAlign="center";ox.textBaseline="middle";ox.fillText("Jin_K",W/2,H/2);
-    const d=ox.getImageData(0,0,W,H).data,step=Math.max(4,Math.round(fs/38)),ps=[];
-    for(let y=0;y<H;y+=step)for(let x=0;x<W;x+=step)if(d[(y*W+x)*4+3]>128)
-      ps.push({x:Math.random()*W,y:Math.random()*H,tx:x,ty:y,s:Math.random()*1.3+.7,c:Math.random()<.32?"#E9CF8C":Math.random()<.5?"#BFD9FF":"#fff",dl:Math.random()*500});
-    let t0=0;
-    const f=t=>{
-      if(!ov.isConnected)return;
-      t0=t0||t;const e=t-t0;cx.clearRect(0,0,W,H);
-      for(const p of ps){
-        const k=Math.min(Math.max((e-p.dl)/1300,0),1),q=1-Math.pow(1-k,3);
-        cx.globalAlpha=.25+.75*q;cx.fillStyle=p.c;cx.shadowColor=p.c;cx.shadowBlur=q*6;
-        cx.beginPath();cx.arc(p.x+(p.tx-p.x)*q,p.y+(p.ty-p.y)*q,p.s,0,6.283);cx.fill();
-      }
-      if(e>2600)end();
-      requestAnimationFrame(f);
-    };
-    requestAnimationFrame(f);
+  const open=()=>{
+    if(done)return;done=true;
+    try{sessionStorage.setItem("jk-intro","1")}catch(e){}
+    document.documentElement.style.overflow="";
+    ov.classList.add("open");
+    setTimeout(()=>ov.classList.add("out"),1550);
+    setTimeout(()=>ov.remove(),2000);
   };
-  Promise.race([document.fonts?document.fonts.ready:Promise.resolve(),new Promise(r=>setTimeout(r,700))]).then(start);
+  seal.addEventListener("click",open);
+  addEventListener("keydown",e=>{if(e.key==="Escape")open()});
+  setTimeout(()=>seal.focus({preventScroll:true}),500);
 })();
 /* 맨 위로 버튼 */
 (()=>{
