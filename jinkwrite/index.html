@@ -346,13 +346,40 @@ footer span{letter-spacing:.2em;font-size:12px}
 .panel.has-bn .phead{margin-top:34px}
 .panel.has-bn h2{text-shadow:0 2px 18px rgba(0,0,0,.6)}
 
-/* 4. 오프닝 */
-#intro{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;background:radial-gradient(60vmax 50vmax at 50% 40%,#16244f,transparent 70%),var(--bg);transition:opacity .7s ease,visibility .7s;animation:introfail 0s 7s forwards}
-#intro canvas{position:absolute;inset:0;width:100%;height:100%}
-#intro span{position:absolute;bottom:36px;left:0;right:0;text-align:center;color:var(--muted);font:500 12px var(--f);letter-spacing:.2em;opacity:.7}
-#intro.out{opacity:0;visibility:hidden}
-@keyframes introfail{to{opacity:0;visibility:hidden}}
-@media(prefers-reduced-motion:reduce){#intro{display:none}}
+/* 4. 오프닝: 봉인된 초대장 — 봉인을 누르면 갈라지며 문이 열려요 */
+#intro{position:fixed;inset:0;z-index:10000;display:none;place-items:center;overflow:hidden}
+#intro.on{display:grid}
+#intro .door{position:absolute;top:0;bottom:0;width:50.5%;transition:transform 1.15s cubic-bezier(.7,0,.2,1) .4s}
+#intro .door.l{left:0;background:radial-gradient(80vmax 70vmax at 100% 45%,#18275a,transparent 70%),#060A18;border-right:1px solid rgba(233,207,140,.3)}
+#intro .door.r{right:0;background:radial-gradient(80vmax 70vmax at 0% 45%,#18275a,transparent 70%),#060A18;border-left:1px solid rgba(233,207,140,.3)}
+#intro.open .door.l{transform:translateX(-101%)}
+#intro.open .door.r{transform:translateX(101%)}
+#intro .flash{position:absolute;left:50%;top:0;bottom:0;width:2px;translate:-50% 0;background:linear-gradient(transparent,#F4E3B5 50%,transparent);box-shadow:0 0 50px 14px rgba(233,207,140,.45);opacity:0;pointer-events:none}
+#intro.open .flash{animation:flash 1.3s ease .35s}
+@keyframes flash{30%{opacity:1}100%{opacity:0;width:30vw}}
+.inv{position:relative;z-index:1;width:min(340px,calc(100vw - 48px));padding:42px 28px 34px;border-radius:18px;text-align:center;border:1px solid rgba(233,207,140,.45);background:linear-gradient(170deg,rgba(28,38,78,.94),rgba(8,12,30,.96));box-shadow:0 30px 90px -20px rgba(0,0,0,.85),0 0 70px -24px rgba(233,207,140,.4);animation:invin .9s cubic-bezier(.2,.7,.2,1) both;transition:opacity .5s ease .25s,transform .6s ease .25s}
+.inv::before{content:"";position:absolute;inset:8px;border:1px solid rgba(233,207,140,.2);border-radius:12px;pointer-events:none}
+@keyframes invin{from{opacity:0;transform:translateY(24px) scale(.96)}}
+.inv small{display:block;color:var(--gold);font:600 11px var(--f);letter-spacing:.42em}
+.inv h2{margin:14px 0 8px;font:800 56px/1.05 var(--f);letter-spacing:-.03em;background:linear-gradient(175deg,#fff 20%,#F4E3B5 55%,#C9A65A);-webkit-background-clip:text;background-clip:text;color:transparent}
+.inv p{color:var(--muted);font:500 13.5px/1.6 var(--f)}
+.seal{position:relative;display:block;width:86px;height:86px;margin:26px auto 0;padding:0;border:0;border-radius:50%;background:none}
+.seal::after{content:"";position:absolute;inset:-8px;border-radius:50%;border:1px solid rgba(233,207,140,.6);animation:ring 2.2s ease-out infinite;pointer-events:none}
+@keyframes ring{from{transform:scale(.9);opacity:.9}to{transform:scale(1.4);opacity:0}}
+.seal i{position:absolute;inset:0;display:grid;place-items:center;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFF1C8,#E9CF8C 35%,#B88A3A 70%,#7A5A22);box-shadow:0 8px 22px -6px rgba(233,207,140,.65),inset 0 -5px 9px rgba(0,0,0,.35),inset 0 3px 6px rgba(255,255,255,.45);transition:transform .7s cubic-bezier(.3,.7,.2,1),opacity .7s}
+.seal i.a{clip-path:polygon(0 0,53% 0,46% 32%,55% 56%,47% 100%,0 100%)}
+.seal i.b{clip-path:polygon(53% 0,100% 0,100% 100%,47% 100%,55% 56%,46% 32%)}
+.seal svg{width:36px;height:36px}
+.seal:hover i{transform:scale(1.06)}
+.seal:focus-visible{outline-offset:8px}
+.inv .hint{margin-top:16px;font-size:12px;letter-spacing:.14em}
+#intro .esc{position:absolute;z-index:1;bottom:30px;left:0;right:0;text-align:center;color:var(--muted);font:500 12px var(--f);letter-spacing:.16em;opacity:.6;transition:opacity .3s}
+#intro.open .seal::after{display:none}
+#intro.open .seal i.a{transform:translate(-30px,12px) rotate(-26deg);opacity:0}
+#intro.open .seal i.b{transform:translate(30px,12px) rotate(26deg);opacity:0}
+#intro.open .inv{opacity:0;transform:scale(1.06) translateY(-10px)}
+#intro.open .esc{opacity:0}
+#intro.out{opacity:0;visibility:hidden;transition:opacity .4s,visibility .4s}
 
 /* 5. 천체도 위성별 + 확대 */
 .map .zoom{transform-origin:0 0;transition:transform .9s cubic-bezier(.2,.7,.2,1)}
@@ -383,7 +410,17 @@ footer span{letter-spacing:.2em;font-size:12px}
 </style>
 </head>
 <body>
-<div id="intro" aria-hidden="true"><canvas></canvas><span>화면을 누르면 건너뛰어요</span></div>
+<div id="intro" role="dialog" aria-modal="true" aria-label="입장 초대장">
+  <div class="door l"></div><div class="door r"></div><div class="flash"></div>
+  <div class="inv">
+    <small>INVITATION</small>
+    <h2>Jin_K</h2>
+    <p>별들의 세계로 당신을 초대합니다</p>
+    <button class="seal" id="seal" type="button" aria-label="봉인을 열고 입장하기"><i class="a"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0 9.6 6.4 16 8 9.6 9.6 8 16 6.4 9.6 0 8 6.4 6.4Z" fill="#5A4214"/></svg></i><i class="b"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0 9.6 6.4 16 8 9.6 9.6 8 16 6.4 9.6 0 8 6.4 6.4Z" fill="#5A4214"/></svg></i></button>
+    <p class="hint">봉인을 눌러 열어주세요</p>
+  </div>
+  <span class="esc">ESC를 누르면 바로 입장해요</span>
+</div>
 <div class="sky" id="sky" aria-hidden="true"></div>
 <div class="wrap">
 <header>
@@ -509,7 +546,7 @@ const CATS=[
  {tag:"BDSM",name:"데이터 파놉티콘",color:"#4A90E2",rows:[{items:[
    C("이시한","",{pf:[WH]})
  ]}]},
- {tag:"",name:"LIMITLESS",color:"#00B4D8",rows:[{items:[
+ {tag:"",name:"LIMITLESS",color:"#00B4D8",worldLink:"https://jinkwf.github.io/LIMITLESS/",rows:[{items:[
    C("LIMITLESS","https://raw.githubusercontent.com/jinkwf/jinkwf.github.io/main/jinkwrite/masterpiece,%20best%20quality,%20amazing%20quality,%20very%20aesthetic,%20absurdres,%20highly%20de%20s-4193662197.png",{added:"2026-10-20"},"새로운 세계관")
  ]}]},
  {tag:"",name:"11:11 factory",color:"#FF6B6B",rows:[{items:[
@@ -579,6 +616,7 @@ const PFMAP={
 "이시한":[WH],
 "레프":["Caveduck"],
  "권레오":[WH,TG,DM,PO,IC,"로판AI"],
+"LIMITLESS":[WH,TG],
 };
 /* 배열을 복사해서 넣어요 (A5 같은 공용 배열을 건드리지 않게) */
 CATS.forEach(c=>c.rows.forEach(r=>r.items.forEach(it=>{if(PFMAP[it[0]])it[4].pf=[...PFMAP[it[0]]];if(it[4].pf)it[4].pf=[...it[4].pf];if(DESC[it[0]])it[1]=DESC[it[0]]})));
@@ -621,7 +659,8 @@ const LINKS = {
   "무서욱": "https://posty.pe/ptjg7itc",
   "유태석": "https://posty.pe/ph7yh0vqc",
   "X": "https://posty.pe/p5rbrmyc",
-  "심성훈": "https://posty.pe/p4kzt6uc"
+  "심성훈": "https://posty.pe/p4kzt6uc",
+  "LIMITLESS": "https://posty.pe/p9frotuc"
 };
 CATS.forEach(c=>c.rows.forEach(r=>r.items.forEach(it=>{
   if(LINKS[it[0]]) it[2]=LINKS[it[0]];
@@ -685,10 +724,12 @@ const PLAT_LINKS = {
   "이시한": {"WHIF": "https://www.whif.io/characters/802940fa-efa3-4dbf-9a80-c481363d63c0"},
   "천은단": {"Doomchk": "https://doomchk.com/worlds/9142"},
   "온유(溫流)": {"WHIF": "https://whif.io/characters/68dcbfc5-6c52-431e-999f-b130d4a6ba1e", "로판AI": "https://rofan.ai/character/25f7fad1-7576-40fe-a6fd-69c39dfa0155"},
-  "레프": {"Caveduck":"https://ko.cvdk.io/c/WBs3w3TqQr6CaICccwmr9Q?rc=c2uM69befK"}
+  "레프": {"Caveduck":"https://ko.cvdk.io/c/WBs3w3TqQr6CaICccwmr9Q?rc=c2uM69befK"},
+  "LIMITLESS": {"WHIF": "https://www.whif.io/characters/d820b2e4-fd6f-4f13-9598-574b6c7aa80e"}
 };
 /* 팅글 링크 (작품명 → 주소). 여기만 고치면 Tingle 태그 링크가 바뀌어요 */
 const TINGLE_LINKS={
+  "LIMITLESS":"https://tingle.chat/chat/characters/59777",
   "에스텔 아카데미":"https://tingle.chat/chat/characters/58773",
   "강성욱":"https://tingle.chat/chat/characters/58198",
   "백연하":"https://tingle.chat/chat/characters/53296",
