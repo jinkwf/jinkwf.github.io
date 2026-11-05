@@ -27,15 +27,18 @@ ul{list-style:none}
 .bar{display:flex;align-items:center;gap:20px;height:64px}
 .logo{font:800 22px var(--f);letter-spacing:-.02em;color:var(--ink);text-decoration:none;white-space:nowrap}
 .logo small{font:500 12px var(--f);color:var(--muted);margin-left:8px;letter-spacing:0}
-.menu{display:flex;gap:2px}
-.menu a{padding:8px 12px;border-radius:6px;color:var(--ink);text-decoration:none;font-weight:500;font-size:14.5px;white-space:nowrap}
+.menu{display:flex;align-items:center;gap:2px}
+.menu a,.drop summary{display:flex;align-items:center;height:40px;line-height:1}
+.menu a{padding:0 12px;border-radius:6px;color:var(--ink);text-decoration:none;font-weight:500;font-size:14.5px;white-space:nowrap}
 .menu a:hover{background:var(--soft)}
 .search{margin-left:auto}
 .search input{width:230px;height:38px;padding:0 12px 0 36px;border:1px solid var(--line);border-radius:6px;font:400 14px var(--f);color:var(--ink);background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23646970' stroke-width='1.8' stroke-linecap='round'%3E%3Ccircle cx='7' cy='7' r='5'/%3E%3Cpath d='m11 11 3.5 3.5'/%3E%3C/svg%3E") no-repeat 12px 50%}
 .search input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
 @media(max-width:760px){
+  .menu a,.drop summary{height:34px}
+  .drop summary{padding:0 8px}
   .bar{flex-wrap:wrap;height:auto;padding:12px 20px;gap:8px 12px}
-  .menu{margin-left:auto}.menu a{padding:6px 8px;font-size:14px}
+  .menu{margin-left:auto}.menu a{padding:0 8px;font-size:14px}.drop summary{font-size:14px}
   .search{flex-basis:100%;margin:0}.search input{width:100%}
 }
 
@@ -189,10 +192,10 @@ span.pbtn{color:var(--muted);background:var(--soft)}
   .fdots{left:22px;bottom:20px}
 }
 /* 문의 드롭다운 */
-.drop{position:relative}
-.drop summary{list-style:none;padding:8px 12px;border-radius:6px;font-weight:500;font-size:14.5px;cursor:pointer;white-space:nowrap}
+.drop{position:relative;display:flex}
+.drop summary{list-style:none;padding:0 12px;color:var(--ink);border-radius:6px;font-weight:500;font-size:14.5px;cursor:pointer;white-space:nowrap}
 .drop summary::-webkit-details-marker{display:none}
-.drop summary::after{content:"▾";font-size:11px;margin-left:4px;color:var(--muted)}
+.drop summary::after{content:"";width:5px;height:5px;margin:-3px 0 0 7px;border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:rotate(45deg)}
 .drop summary:hover,.drop[open] summary{background:var(--soft)}
 .drop .dm{position:absolute;right:0;top:calc(100% + 6px);min-width:190px;padding:6px;border:1px solid var(--line);border-radius:8px;background:#fff;box-shadow:0 10px 30px -10px rgba(0,0,0,.25);z-index:30}
 .drop .dm a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:6px;font-size:14px}
