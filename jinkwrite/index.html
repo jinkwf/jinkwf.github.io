@@ -164,6 +164,26 @@ span.pbtn{color:var(--muted);background:var(--soft)}
   .pimg{min-height:240px}.pimg img{max-height:52vh}
   .pinfo{padding:24px 20px 20px}
 }
+/* 문의 드롭다운 */
+.drop{position:relative}
+.drop summary{list-style:none;padding:8px 12px;border-radius:6px;font-weight:500;font-size:14.5px;cursor:pointer;white-space:nowrap}
+.drop summary::-webkit-details-marker{display:none}
+.drop summary::after{content:"▾";font-size:11px;margin-left:4px;color:var(--muted)}
+.drop summary:hover,.drop[open] summary{background:var(--soft)}
+.drop .dm{position:absolute;right:0;top:calc(100% + 6px);min-width:190px;padding:6px;border:1px solid var(--line);border-radius:8px;background:#fff;box-shadow:0 10px 30px -10px rgba(0,0,0,.25);z-index:30}
+.drop .dm a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:6px;font-size:14px}
+.drop .dm a:hover{background:var(--soft)}
+.ico{width:18px;height:18px;flex:none}
+/* 채널 바로가기 */
+.chan{display:flex;flex-direction:column;gap:8px}
+.chan a{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--line);border-radius:6px;color:var(--ink);text-decoration:none;font:600 14px var(--f);transition:border-color .2s,color .2s}
+.chan a:hover{border-color:var(--accent);color:var(--accent)}
+.chan a i{width:9px;height:9px;border-radius:50%;flex:none;background:var(--dot)}
+.chan a span{margin-left:auto;font:400 12.5px var(--f);color:var(--muted)}
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.contact .btn{gap:7px}
+.pl a{color:inherit;text-decoration:none;border-bottom:1px solid var(--line)}
+.pl a:hover{color:var(--accent);border-color:var(--accent)}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -175,7 +195,12 @@ span.pbtn{color:var(--muted);background:var(--soft)}
       <a href="#main" id="mAll">작품</a>
       <a href="#main" id="mNew">최근 추가</a>
       <a href="#notice">공지</a>
-      <a href="https://open.kakao.com/o/sFqjQmBi" target="_blank" rel="noopener">문의</a>
+      <details class="drop"><summary>문의</summary>
+        <div class="dm">
+          <a class="js-mail" href="#" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/></svg>이메일 보내기</a>
+          <a href="https://open.kakao.com/o/sFqjQmBi" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 4C7 4 3 7.1 3 11c0 2.5 1.7 4.7 4.2 5.9L6.5 20l3.6-2.3c.6.1 1.3.2 1.9.2 5 0 9-3.1 9-7s-4-6.9-9-6.9Z"/></svg>카카오톡 오픈채팅</a>
+        </div>
+      </details>
     </nav>
     <div class="search"><input id="q" type="search" placeholder="캐릭터·세계관·플랫폼 검색" aria-label="검색" autocomplete="off"></div>
   </div>
@@ -196,10 +221,26 @@ span.pbtn{color:var(--muted);background:var(--soft)}
       <section class="widget notice" id="notice">
         <h4>공지</h4>
         <p>안녕하세요. Jin_K입니다.<br>문의사항과 건의사항, 이식요청 사항은 언제나 대환영입니다!</p>
-        <p><span class="lab">주 플랫폼</span><span class="pl">WHIF · Tingle · Postype</span></p>
+        <p><span class="lab">주 플랫폼</span><span class="pl"><a href="https://www.whif.io/profile/Jin_K" target="_blank" rel="noopener">WHIF</a> · <a href="https://tingle.chat/chat/users/411411/profile?tab=characters" target="_blank" rel="noopener">Tingle</a> · <a href="https://www.postype.com/@jin-kww" target="_blank" rel="noopener">Postype</a></span></p>
         <p><span class="lab">부 플랫폼</span><span class="pl s">INK Chat · 로판AI · Caveduck · Doomchk</span></p>
         <p><span class="lab">제작 사이트</span><a href="https://jinkwf.github.io/jinksseeworld/" target="_blank" rel="noopener">NSFW 에셋 랜덤 프롬프트 생성기.v4.0.2</a><span class="adult">19+</span><br>(사용 희망하시는 분들은 연락주세요.)</p>
-        <a class="btn block" href="https://open.kakao.com/o/sFqjQmBi" target="_blank" rel="noopener">오픈채팅 참여하기</a>
+      </section>
+
+      <section class="widget" id="contact">
+        <h4>문의</h4>
+        <div class="contact">
+          <a class="btn line js-mail" href="#" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/></svg>이메일</a>
+          <a class="btn" href="https://open.kakao.com/o/sFqjQmBi" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 4C7 4 3 7.1 3 11c0 2.5 1.7 4.7 4.2 5.9L6.5 20l3.6-2.3c.6.1 1.3.2 1.9.2 5 0 9-3.1 9-7s-4-6.9-9-6.9Z"/></svg>카카오톡</a>
+        </div>
+      </section>
+
+      <section class="widget">
+        <h4>채널 바로가기</h4>
+        <div class="chan">
+          <a href="https://www.whif.io/profile/Jin_K" target="_blank" rel="noopener" style="--dot:#7B52E6"><i></i>WHIF<span>위프 작가 페이지 ↗</span></a>
+          <a href="https://tingle.chat/chat/users/411411/profile?tab=characters" target="_blank" rel="noopener" style="--dot:#E9468A"><i></i>Tingle<span>팅글 프로필 ↗</span></a>
+          <a href="https://www.postype.com/@jin-kww" target="_blank" rel="noopener" style="--dot:#1d2327"><i></i>Postype<span>포스타입 채널 ↗</span></a>
+        </div>
       </section>
 
       <section class="widget">
@@ -229,7 +270,7 @@ span.pbtn{color:var(--muted);background:var(--soft)}
 <footer>
   <div class="wrap">
     <span>© Jin_K</span>
-    <span><a href="#notice">공지</a><a href="https://open.kakao.com/o/sFqjQmBi" target="_blank" rel="noopener">오픈채팅</a></span>
+    <span><a href="https://www.whif.io/profile/Jin_K" target="_blank" rel="noopener">WHIF</a><a href="https://tingle.chat/chat/users/411411/profile?tab=characters" target="_blank" rel="noopener">Tingle</a><a href="https://www.postype.com/@jin-kww" target="_blank" rel="noopener">Postype</a><a class="js-mail" href="#" target="_blank" rel="noopener">이메일</a><a href="https://open.kakao.com/o/sFqjQmBi" target="_blank" rel="noopener">오픈채팅</a></span>
   </div>
 </footer>
 
@@ -863,6 +904,16 @@ document.getElementById("lucky").onclick=()=>{
   lucky={list:ALL,i:k,card:fortuneCard(ALL[k].c)};
   openPop(ALL,k);
 };
+
+/* ---------- 이메일: 주소를 화면에 쓰지 않고 Gmail 메일 쓰기 창으로 바로 연결 ---------- */
+(()=>{
+  const to=["aua235","gmail.com"].join("@");
+  const url="https://mail.google.com/mail/?view=cm&fs=1&to="+encodeURIComponent(to)+"&su="+encodeURIComponent("[Jin_K 문의] ");
+  document.querySelectorAll(".js-mail").forEach(a=>{a.href=url});
+  /* 문의 메뉴: 바깥을 누르거나 항목을 고르면 닫혀요 */
+  const dr=document.querySelector(".drop");
+  document.addEventListener("click",e=>{if(dr&&dr.open&&(!dr.contains(e.target)||e.target.closest(".dm a")))dr.open=false});
+})();
 
 /* ---------- 시작 ---------- */
 const mh=location.hash.match(/^#c(\d+)/);
