@@ -34,7 +34,7 @@ ul{list-style:none}
 .search input{width:230px;height:38px;padding:0 12px 0 36px;border:1px solid var(--line);border-radius:6px;font:400 14px var(--f);color:var(--ink);background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23646970' stroke-width='1.8' stroke-linecap='round'%3E%3Ccircle cx='7' cy='7' r='5'/%3E%3Cpath d='m11 11 3.5 3.5'/%3E%3C/svg%3E") no-repeat 12px 50%}
 .search input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
 @media(max-width:760px){
-  .bar{flex-wrap:wrap;height:auto;padding:12px 0;gap:8px 12px}
+  .bar{flex-wrap:wrap;height:auto;padding:12px 20px;gap:8px 12px}
   .menu{margin-left:auto}.menu a{padding:6px 8px;font-size:14px}
   .search{flex-basis:100%;margin:0}.search input{width:100%}
 }
@@ -164,6 +164,30 @@ span.pbtn{color:var(--muted);background:var(--soft)}
   .pimg{min-height:240px}.pimg img{max-height:52vh}
   .pinfo{padding:24px 20px 20px}
 }
+/* 대표작 배너 */
+.feature{position:relative;margin-top:24px;height:300px;border-radius:12px;overflow:hidden;background:#1f2329;color:#fff}
+.fslide{position:absolute;inset:0;display:flex;align-items:center;opacity:0;visibility:hidden;transition:opacity .7s,visibility .7s}
+.fslide.on{opacity:1;visibility:visible}
+.fimg{position:absolute;top:0;right:0;bottom:0;width:60%;background:#2a2f36;-webkit-mask-image:linear-gradient(to right,transparent,#000 45%);mask-image:linear-gradient(to right,transparent,#000 45%)}
+.fimg img{width:100%;height:100%;object-fit:cover;object-position:50% 22%;display:block}
+.ftext{position:relative;z-index:1;padding:0 52px;max-width:560px}
+.ftext .fl{display:inline-block;margin-bottom:14px;padding:3px 10px;border:1px solid rgba(255,255,255,.3);border-radius:999px;font:600 11.5px var(--f);letter-spacing:.08em;color:rgba(255,255,255,.75)}
+.ftext h2{font:800 clamp(28px,4vw,36px)/1.2 var(--f);letter-spacing:-.02em}
+.ftext .fs{margin-top:10px;font:600 16px/1.5 var(--f)}
+.ftext .ft{margin-top:6px;font-size:14px;color:rgba(255,255,255,.62)}
+.ftext .btn{margin-top:22px;background:#fff;border-color:#fff;color:#1d2327}
+.ftext .btn:hover{background:#e8eaee}
+.fdots{position:absolute;left:52px;bottom:22px;z-index:2;display:flex;gap:6px}
+.fdots button{width:8px;height:8px;padding:0;border:0;border-radius:999px;background:rgba(255,255,255,.35);cursor:pointer;transition:width .3s,background .3s}
+.fdots button.on{width:22px;background:#fff}
+@media(max-width:640px){
+  .feature{height:380px}
+  .fslide{align-items:flex-end}
+  .fimg{width:100%;-webkit-mask-image:linear-gradient(to top,transparent 15%,#000 70%);mask-image:linear-gradient(to top,transparent 15%,#000 70%)}
+  .ftext{padding:0 22px 48px;text-shadow:0 1px 12px rgba(0,0,0,.6)}
+  .ftext .btn{margin-top:16px}
+  .fdots{left:22px;bottom:20px}
+}
 /* 문의 드롭다운 */
 .drop{position:relative}
 .drop summary{list-style:none;padding:8px 12px;border-radius:6px;font-weight:500;font-size:14.5px;cursor:pointer;white-space:nowrap}
@@ -207,6 +231,7 @@ span.pbtn{color:var(--muted);background:var(--soft)}
 </header>
 
 <div class="wrap">
+  <section class="feature" id="feature" aria-label="대표작" hidden></section>
   <section class="page-head">
     <h1>Jin_K 작품 아카이브</h1>
     <p class="lead">선호 장르 · 가이드버스 / 오메가버스</p>
@@ -484,7 +509,8 @@ const LINKS = {
   "유태석": "https://posty.pe/ph7yh0vqc",
   "X": "https://posty.pe/p5rbrmyc",
   "심성훈": "https://posty.pe/p4kzt6uc",
-  "LIMITLESS": "https://posty.pe/p9frotuc"
+  "LIMITLESS": "https://posty.pe/p9frotuc",
+  "강아지": "https://posty.pe/ax9hqv"
 };
 /* 작품 소개·도감 페이지 링크 */
 const INTRO_LINKS = {
@@ -612,6 +638,21 @@ const FLIP_IMGS={
   "하연수":"https://jinkwf.github.io/jinkwrite/%ED%95%98%EC%97%B0%EC%88%98.png",
   "강아지":"https://jinkwf.github.io/jinkwrite/%EA%B0%95%EC%95%84%EC%A7%80.png"
 };
+/* 맨 위 대표작 배너
+   name  = 위 목록에 있는 작품 이름 (이미지·팝업은 자동으로 연결돼요)
+   title = 큰 제목 / sub = 소제목 / text = 소내용(해시태그 등)
+   img   = 배너에만 다른 이미지를 쓰고 싶을 때만 적기 (가로로 긴 이미지 추천)
+   sub·text 를 비워두면 소제목엔 세계관 이름, 소내용엔 #장르 가 자동으로 들어가요
+   여러 개 적으면 6초마다 자동으로 넘어가는 슬라이드가 돼요 */
+const FEATURED=[
+  {name:"연다비", title:"연다비", sub:"보육원 게이트 유일한 생존자", text:"#가이드버스 #구원"},
+  {name:"LIMITLESS", sub:"탑 오르기 RPG", text:"#헌터물 #RPG #시뮬레이션"},
+  {name:"보육원게이트 시뮬레이션", sub:"등급 외 게이트가 터졌다. 게이트 내 생존자를 구출해라.", text:"#가이드버스 #시뮬레이션"},
+  {name:"백지한", sub:"또 혼자 결정하지마. 이번에는 같이 남을지, 같이 죽을지 선택할 기회 정도는 줘.", text:"#가이드버스 #구원 #순애"},
+  {name:"무서욱", sub:"상금 10억. 무성욕자 유혹하기", text:"#현대물"},
+  {name:"nightmare", sub:"악몽 탈출", text:"#공포 #탈출 #시뮬레이션"},
+  {name:"Pointer", sub:"반복되는 죽음, 그리고 학교에서의 탈출", text:"#공포 #탈출 #시뮬레이션"},
+];
 /* ▲▲▲ 작품 데이터 끝 ▲▲▲ */
 
 /* ---------- 데이터 정리 (건드리지 않아도 돼요) ---------- */
@@ -904,6 +945,38 @@ document.getElementById("lucky").onclick=()=>{
   lucky={list:ALL,i:k,card:fortuneCard(ALL[k].c)};
   openPop(ALL,k);
 };
+
+/* ---------- 대표작 배너 ---------- */
+(()=>{
+  const box=document.getElementById("feature");
+  const list=FEATURED.map(f=>({f,e:ALL.find(x=>x.it[0]===f.name)})).filter(x=>x.e);
+  if(!list.length)return;
+  const pops=list.map(x=>x.e);
+  const slides=list.map(({f,e},i)=>{
+    const sl=$("div","fslide"+(i?"":" on"));
+    const im=$("div","fimg");im.setAttribute("aria-hidden","true");
+    const src=f.img||e.it[3];if(src)loadImg(im,src,"",false);
+    const tx=$("div","ftext");
+    tx.append($("span","fl","대표작"),$("h2",null,f.title||e.it[0]));
+    const sub=f.sub||e.it[1]||plain(e.c.name),txt=f.text||(e.c.tag?"#"+e.c.tag:"");
+    if(sub)tx.append($("p","fs",sub));
+    if(txt)tx.append($("p","ft",txt));
+    const b=$("button","btn","자세히 보기");b.type="button";b.onclick=()=>openPop(pops,i);
+    tx.append(b);sl.append(im,tx);return sl;
+  });
+  box.append(...slides);box.hidden=false;
+  if(list.length<2)return;
+  let k=0,timer=0;
+  const dots=$("div","fdots");
+  const goTo=i=>{k=(i+slides.length)%slides.length;slides.forEach((s,j)=>s.classList.toggle("on",j===k));[...dots.children].forEach((d,j)=>d.classList.toggle("on",j===k))};
+  slides.forEach((_,i)=>{const d=$("button",i?"":"on");d.type="button";d.setAttribute("aria-label",(i+1)+"번째 대표작");d.onclick=()=>goTo(i);dots.append(d)});
+  box.append(dots);
+  if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+  const play=()=>{clearInterval(timer);timer=setInterval(()=>goTo(k+1),6000)};
+  box.addEventListener("pointerenter",()=>clearInterval(timer));box.addEventListener("pointerleave",play);
+  box.addEventListener("focusin",()=>clearInterval(timer));box.addEventListener("focusout",play);
+  play();
+})();
 
 /* ---------- 이메일: 주소를 화면에 쓰지 않고 Gmail 메일 쓰기 창으로 바로 연결 ---------- */
 (()=>{
