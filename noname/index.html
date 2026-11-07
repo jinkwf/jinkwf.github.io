@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>아무개 · 만신전 명부</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css">
+<style>
+:root{--bg:#0c0a1a;--ink:#ecebff;--sub:#9c98c7;--pink:#ff4f9a;--gold:#ffd34e;--cyan:#8fe3ff;--line:#2a2650}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'Galmuri11',monospace;line-height:1.75;font-size:14px;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(1px 1px at 12% 20%,#fff,transparent),radial-gradient(1px 1px at 78% 12%,#fff,transparent),radial-gradient(1px 1px at 40% 70%,#cfd,transparent),radial-gradient(1px 1px at 88% 60%,#fff,transparent),radial-gradient(1px 1px at 25% 90%,#fff,transparent),radial-gradient(1px 1px at 60% 35%,#fff,transparent);opacity:.6}
+#intro{position:fixed;inset:0;z-index:9;background:#120c24;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;transition:opacity 1s}
+#cv{width:min(92vw,520px);image-rendering:pixelated;border:3px solid var(--ink);box-shadow:6px 6px 0 #000}
+#box{width:min(92vw,520px);min-height:74px;padding:12px 14px;border:3px solid var(--ink);background:#1b1435;box-shadow:6px 6px 0 #000;font-size:15px;white-space:pre-line}
+.btn{font-family:inherit;font-size:14px;color:#120c24;background:var(--gold);border:3px solid var(--ink);box-shadow:4px 4px 0 #000;padding:8px 16px;cursor:pointer}
+.btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #000}
+#start{animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:.35}}
+#skip{position:absolute;top:14px;right:14px;background:none;color:var(--sub);border:0;font-family:inherit;cursor:pointer}
+#rec{display:none;text-align:center;font-size:15px;border:3px dashed var(--gold);padding:14px 18px;color:var(--gold);background:#1b1435}
+main{max-width:760px;margin:0 auto;padding:40px 18px 60px}
+.hero{display:grid;grid-template-columns:240px 1fr;gap:26px;align-items:center}
+.pt{position:relative;aspect-ratio:3/4;border:3px solid var(--ink);box-shadow:6px 6px 0 #000;background:linear-gradient(#1d2b4f,#120c24);overflow:hidden;display:flex;align-items:center;justify-content:center;transition:opacity .6s}
+.pt img{width:100%;height:100%;object-fit:cover}
+.pt .ph{color:var(--sub);font-size:12px}
+.halo{position:absolute;top:8%;left:50%;width:46%;aspect-ratio:3/1;transform:translateX(-50%);border:3px solid var(--gold);border-radius:50%;opacity:.8;box-shadow:0 0 12px var(--gold);pointer-events:none}
+.no{color:var(--pink);font-size:12px;letter-spacing:2px}
+h1{font-size:44px;line-height:1.2;margin:4px 0;text-shadow:4px 4px 0 var(--pink)}
+.al{color:var(--sub);font-size:13px}
+.row{display:flex;gap:10px;margin-top:12px;font-size:14px}
+.row b{color:var(--gold);min-width:44px}
+.blank{flex:1;border-bottom:2px dashed var(--sub);color:var(--sub)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.tags span{font-size:12px;border:2px solid var(--line);padding:2px 8px;color:var(--cyan)}
+.q{margin-top:16px;padding:10px 12px;border-left:4px solid var(--pink);background:#16122c}
+section{margin-top:46px}
+h2{font-size:16px;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+h2:after{content:"";flex:1;height:3px;background:repeating-linear-gradient(90deg,var(--line) 0 6px,transparent 6px 10px)}
+.card{border:3px solid var(--line);background:#120f26;padding:16px 18px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.card h3{font-size:14px;color:var(--cyan);margin-bottom:6px}
+ul{list-style:none}li{padding-left:14px;position:relative}li:before{content:"▪";position:absolute;left:0;color:var(--pink)}
+.say{display:flex;flex-direction:column;gap:10px}
+.say p{align-self:flex-start;max-width:88%;padding:8px 12px;border:3px solid var(--ink);background:#1b1435;box-shadow:4px 4px 0 #000}
+.say p:nth-child(even){align-self:flex-end}
+.say small{display:block;color:var(--sub);font-size:11px}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.st{border:3px solid var(--line);padding:10px 8px;text-align:center;background:#120f26}
+.st i{display:block;font-style:normal;font-size:20px;color:var(--gold)}
+.st b{display:block;font-size:13px}.st span{display:block;font-size:11px;color:var(--sub);line-height:1.5;margin-top:4px}
+.gauge{height:18px;border:3px solid var(--ink);background:#0b0f1e;margin:8px 0}
+.gauge div{height:100%;background:repeating-linear-gradient(90deg,var(--pink) 0 8px,#d93d84 8px 10px);transition:width .4s}
+#hg div{background:repeating-linear-gradient(90deg,var(--cyan) 0 8px,#5fb7d6 8px 10px)}
+#pray{margin-top:8px}
+#msg{color:var(--sub);font-size:12px;min-height:20px;margin-top:6px}
+.mark{width:56px;height:56px;border:4px solid var(--gold);border-radius:50%;box-shadow:0 0 14px var(--gold);flex:none}
+.end{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.end .card b{color:var(--gold)}.end .card p{font-size:13px;color:var(--sub)}
+.end .x{border-style:dashed}
+footer{text-align:center;color:var(--sub);font-size:12px;margin-top:60px}
+footer a{color:var(--cyan)}
+@media(max-width:640px){.hero{grid-template-columns:1fr}.pt{max-width:240px;margin:0 auto}.grid2,.end{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}h1{font-size:36px}}
+</style>
+</head>
+<body>
+
+<div id="intro">
+<button id="skip">SKIP ▶</button>
+<canvas id="cv" width="160" height="120"></canvas>
+<div id="box">퇴근길, 집 앞 인형뽑기 가게.
+주머니에 남은 건 천 원 한 장.</div>
+<div id="rec">기원: "아무 신이나."<br>대가: "평생 믿어 드릴게요."</div>
+<button class="btn" id="start">▶ INSERT COIN</button>
+</div>
+
+<main>
+<div class="hero">
+<div class="pt" id="pt">
+<!-- 캐릭터 이미지: 아래 src="" 안에 이미지 주소를 넣으세요 -->
+<img id="pimg" src="" alt="">
+<span class="ph" id="ph">NO IMAGE</span>
+<div class="halo"></div>
+</div>
+<div>
+<div class="no">PANTHEON REGISTRY · NO.—</div>
+<h1>아무개</h1>
+<div class="al">만신전 통칭 · 본명 없음</div>
+<div class="row"><b>관할</b><span class="blank">(미정)</span></div>
+<div class="row"><b>신도</b><span>1명</span></div>
+<div class="row"><b>단계</b><span>0. 미명(未明)</span></div>
+<div class="tags"><span>#신</span><span>#인외</span><span>#뻔뻔함</span><span>#반말</span><span>#육성</span><span>#멀티엔딩</span><span>#현대판타지</span></div>
+<div class="q">"평생 믿어 준다며. 나 왔어. 밥 줘."</div>
+</div>
+</div>
+
+<section>
+<h2>기록 · 탄생</h2>
+<div class="card">
+<p>퇴근길 인형뽑기 가게에서 누군가 마지막 천 원을 넣으며 농담을 던졌다. <b style="color:var(--pink)">"아무 신이나 좋으니까 이거 한 번만 뽑히게 해 주세요. 뽑히면 평생 믿어 드릴게요, 진짜로ㅋㅋ"</b></p>
+<p style="margin-top:8px">그 순간 만신전 외곽에 작은 빛이 떨어졌다. '아무 신'을 불렀기에 무엇의 신도 아닌 채로 태어났고, 갓 생긴 힘을 전부 써서 헐거운 집게에 인형 하나를 걸어 주었다. 이름 칸이 빈 그를 신들은 '아무개'라 부르며 비웃었다.</p>
+<p style="margin-top:8px">그 누군가는 "대박ㅋㅋ" 하고 인형을 챙긴 뒤 농담을 잊었다. 그러나 아무개에게 그 말은, 태어나서 처음 받은 약속이었다.</p>
+</div>
+</section>
+
+<section>
+<h2>프로필</h2>
+<div class="grid2">
+<div class="card"><h3>외형</h3><ul>
+<li>20대 초반 청년, 180cm, 탄탄한 체형</li>
+<li>색이 정해지지 않은 백발, 감정 따라 움직이는 정수리 한 가닥</li>
+<li>마주 본 이의 눈 색을 비추는 거울 같은 눈</li>
+<li>신앙이 약하면 반투명, 잊히면 손끝부터 흐려짐</li>
+<li>첫 기적의 기념품, 인형뽑기 방울 끈</li>
+</ul></div>
+<div class="card"><h3>성격</h3><ul>
+<li>허세가 아닌 진짜 뻔뻔함</li>
+<li>만신전 최약체인 걸 본인만 모름</li>
+<li>밥, 잠자리, 기도를 당당히 청구</li>
+<li>모든 말을 문자 그대로, 유리한 말은 전부 약속으로</li>
+<li>처음부터 반말, 신도를 "내 신도"라 부름</li>
+</ul></div>
+</div>
+</section>
+
+<section>
+<h2>대사</h2>
+<div class="say">
+<p><small>첫 만남</small>"그 인형 내가 뽑아 준 거야. 고맙다는 말은 됐고, 그냥 믿으면 돼."</p>
+<p><small>놀림받을 때</small>"아무개? 좋은데. 아무나 될 수 있다는 뜻이잖아."</p>
+<p><small>뻔뻔</small>"침대 반 내 거야. 신한테 바닥에서 자라고? 벌받는다."</p>
+<p><small>흐려질 때</small>"……오늘 나 생각 안 했지. 손 봐. 아니다, 보지 마."</p>
+<p><small>장난이었다는 말에</small>"……장난이었어도, 네가 한 말이잖아. 물리는 거 없어."</p>
+<p><small>???</small>"날 만든 건 너야. 끝까지 책임져. 반품 안 돼."</p>
+</div>
+</section>
+
+<section>
+<h2>권능 성장</h2>
+<div class="steps">
+<div class="st"><i>0</i><b>미명 未明</b><span>탄생 직후. 너에게만 보임</span></div>
+<div class="st"><i>1</i><b>호명 呼名</b><span>이름을 받음. 물건을 만짐</span></div>
+<div class="st"><i>2</i><b>기원 祈願</b><span>작은 기적 가능</span></div>
+<div class="st"><i>3</i><b>현신 現身</b><span>모두에게 보임. 만찬장 초대</span></div>
+<div class="st"><i>4</i><b>정명 定名</b><span>무엇의 신인지 결정</span></div>
+</div>
+</section>
+
+<section>
+<h2>신앙도 · 호감도</h2>
+<div class="grid2">
+<div class="card"><h3>🙏 신앙도 <span id="fv">30</span></h3>
+<div class="gauge" id="fg"><div style="width:30%"></div></div>
+<p style="font-size:13px;color:var(--sub)">네가 믿는 만큼 선명해진다. 하루라도 잊으면 흐려지고, 0이 된 채 사흘이 지나면 사라진다.</p>
+<button class="btn" id="pray">🙏 기도하기</button>
+<div id="msg"></div>
+</div>
+<div class="card"><h3>💗 호감도 30</h3>
+<div class="gauge" id="hg"><div style="width:30%"></div></div>
+<p style="font-size:13px;color:var(--sub)">아무개가 너에게 품는 애정과 집착. 요구를 들어주고, 자랑에 맞장구치고, 편이 되어 주면 오른다. 내쫓으려 하면 크게 떨어진다.</p>
+</div>
+</div>
+</section>
+
+<section>
+<h2>대리인 · 성흔</h2>
+<div class="card" style="display:flex;gap:18px;align-items:center">
+<div class="mark"></div>
+<p style="font-size:13px">대리인을 수락하면 왼쪽 손목에 <b style="color:var(--gold)">속이 빈 원</b>이 새겨진다. 아무개가 흐려지면 함께 희미해지고, 위험하면 욱신거린다. 원 안의 문양은 정명의 날에 채워진다. 대리인은 신의 심장을 꿰뚫을 수 있는 유일한 존재. 아무것도 아닌 신에게 대리인이 생겼다는 소식에, 만신전이 술렁이기 시작한다.</p>
+</div>
+</section>
+
+<section>
+<h2>정명 · 엔딩</h2>
+<div class="end">
+<div class="card"><b>뽑기의 신</b><p>놀림받던 별명이 진짜 관할이 된다. 더는 너만의 신이 아니다.</p></div>
+<div class="card"><b>단 한 사람의 신</b><p>관할은 오직 너. 네가 살아 있는 한 사라지지 않는다.</p></div>
+<div class="card"><b>소멸</b><p>원망 없이 웃으며 사라진다. 인형과 방울 끈만 남는다.</p></div>
+<div class="card x"><b>???의 신</b><p>네가 반복해 온 행동이, 그의 이름이 된다.</p></div>
+</div>
+</section>
+
+<footer>만신전 세계관 · MADE BY <a href="https://x.com/Jin_k__wf" target="_blank">Jin_K</a></footer>
+</main>
+
+<script>
+const c=document.getElementById('cv'),x=c.getContext('2d'),box=document.getElementById('box'),intro=document.getElementById('intro');
+let done=false,f=0;
+const S={rg:0,sc:'m',cx:50,cy:26,op:1,hold:0,dv:1,dx:92,dy:82,fall:0,door:0,sp:0,ly:-6,fl:0};
+const W=['..w..w..','.wwwwww.','.wkwwkw.','.wwppww.','.wrryrw.','.wwwwww.','.wwwwww.','..w..w..'];
+const P=[[60,82,'#ffb3c7'],[68,83,'#8fe3ff'],[76,82,'#ffe08a'],[84,83,'#c9a6ff'],[102,82,'#8fe3ff'],[110,83,'#ffb3c7'],[64,76,'#c9a6ff'],[74,75,'#ffb3c7'],[106,76,'#ffe08a'],[114,76,'#c9a6ff']];
+const ST=[...Array(40)].map(()=>[Math.random()*160|0,Math.random()*120|0,Math.random()*6]);
+function r(a,b,w,h,col){x.fillStyle=col;x.fillRect(a|0,b|0,w,h)}
+function doll(a,b,col){W.forEach((row,j)=>[...row].forEach((ch,i)=>{if(ch=='.')return;r(a+i,b+j,1,1,{w:col,k:'#2a2240',p:'#ff8fb0',r:'#e23b4e',y:'#ffd34e'}[ch])}))}
+function draw(){
+f++;
+if(S.sc=='s'){
+r(0,0,160,120,'#05030f');
+ST.forEach(s=>r(s[0],s[1],1,1,(f/20+s[2])%6<3?'#fff':'#6a6a9a'));
+const y=S.ly;for(let i=1;i<6;i++)r(79,y-i*3,2,2,`rgba(255,230,140,${.5-i*.08})`);
+r(78,y,4,4,'#fff6c8');r(77,y+1,6,2,'#ffd34e');r(79,y-1,2,6,'#ffd34e');
+if(S.rg)for(let a=0;a<64;a++){const t=a/64*6.283;r(80+Math.cos(t)*14,60+Math.sin(t)*5,1,1,f%30<15&&a%4==0?'#fff':'#ffd34e')}
+if(S.fl){x.globalAlpha=S.fl;r(0,0,160,120,'#fffbe8');x.globalAlpha=1}
+return}
+r(0,0,160,120,'#120c24');
+for(let i=0;i<160;i+=8)r(i,118,4,2,'#2b1450');
+r(28,2,104,116,'#ff4f9a');r(30,4,100,112,'#c2367a');
+r(34,6,92,10,'#2b1450');
+for(let i=0;i<22;i++)r(36+i*4,(i+f/15|0)%2?8:13,2,1,i%2?'#ffd34e':'#8fe3ff');
+r(36,18,88,74,'#1d2b4f');
+for(let i=0;i<5;i++)r(110-i*2,26+i*3,1,3,'#2e4373');
+r(38,71,18,1,'#9aa3c7');r(38,72,18,20,'#0b0f1e');
+P.forEach(p=>doll(p[0],p[1],p[2]));
+if(S.dv&&!S.hold)doll(S.dx,S.dy,'#f4f1ff');
+r(36,20,88,2,'#9aa3c7');
+const cx=S.cx|0,cy=S.cy|0;
+r(cx,22,1,cy-22,'#cfd6f0');
+if(S.hold){const wb=Math.round(Math.sin(f/5)*S.hold);doll(cx-3+wb,cy+3,'#f4f1ff')}
+if(S.fall)doll(S.dx,S.dy,'#f4f1ff');
+r(cx-3,cy,7,3,'#e8ecff');
+for(let i=0;i<5;i++){const o=Math.round(S.op*i*.7);r(cx-3-o,cy+3+i,1,1,'#e8ecff');r(cx+3+o,cy+3+i,1,1,'#e8ecff')}
+const o=Math.round(S.op*2.8);r(cx-2-o,cy+7,1,1,'#e8ecff');r(cx+2+o,cy+7,1,1,'#e8ecff');
+if(S.sp){const k=f%8<4?'#ffd34e':'#fff';r(cx-6,cy+1,1,1,k);r(cx+6,cy+4,1,1,k);r(cx,cy-3,1,1,k);r(cx-5,cy+8,1,1,k)}
+r(28,92,104,26,'#d93d84');
+r(60,100,2,8,'#2a2240');r(59,98,4,3,'#e23b4e');
+r(88,102,10,5,'#ffd34e');r(88,106,10,1,'#b8902a');
+r(114,99,6,9,'#2b1450');r(116,100,2,7,'#ffd34e');
+r(38,104,18,11,'#2b1450');
+if(S.door)doll(43,106,'#f4f1ff');
+}
+function loop(){if(done)return;draw();requestAnimationFrame(loop)}
+const wait=ms=>new Promise(z=>setTimeout(z,ms));
+const tw=(ms,fn)=>new Promise(z=>{const t0=performance.now();(function s(t){let p=Math.min((t-t0)/ms,1);fn(p<.5?2*p*p:1-(-2*p+2)**2/2);p<1&&!done?requestAnimationFrame(s):z()})(performance.now())});
+async function say(t,hold=900){box.textContent='';for(const ch of t){if(done)return;box.textContent+=ch;await wait(42)}await wait(hold)}
+async function run(){
+document.getElementById('start').style.display='none';
+await say('"아무 신이나 좋으니까\n이거 한 번만 뽑히게 해 주세요."');
+await say('"뽑히면 평생 믿어 드릴게요, 진짜로ㅋㅋ"',500);
+box.textContent='지이잉——';
+await tw(1300,p=>S.cx=50+(S.dx+4-50)*p);
+await tw(1100,p=>S.cy=26+51*p);
+await tw(400,p=>S.op=1-p);
+S.sp=1;box.textContent='……?';await wait(500);
+S.hold=1;await tw(1300,p=>S.cy=77-51*p);
+S.hold=2;box.textContent='흔들, 흔들……';
+await tw(1300,p=>S.cx=S.dx+4-(S.dx+4-47)*p);
+S.hold=0;S.sp=0;S.fall=1;S.dx=44;S.dy=S.cy+3;
+await tw(250,p=>S.op=p);
+await tw(450,p=>S.dy=29+70*p);
+S.fall=0;S.door=1;
+await say('툭.',600);
+await say('"대박ㅋㅋ"',1200);
+if(done)return;
+S.sc='s';box.textContent='';
+await tw(1600,p=>S.ly=-6+70*p);
+await say('그 순간, 만신전 외곽에\n작은 빛이 떨어졌다.',500);
+await tw(700,p=>S.fl=p);S.ly=-99;S.rg=1;
+await tw(900,p=>S.fl=1-p);
+await say('명부의 기록은 단 한 줄.',300);
+if(done)return;
+document.getElementById('rec').style.display='block';
+const b=document.getElementById('start');b.textContent='▶ 명부 열기';b.style.display='block';b.style.animation='none';b.onclick=end;
+}
+function end(){done=true;intro.style.opacity=0;setTimeout(()=>intro.remove(),1000)}
+document.getElementById('start').onclick=run;
+document.getElementById('skip').onclick=end;
+loop();
+
+const img=document.getElementById('pimg');
+if(img.getAttribute('src'))document.getElementById('ph').remove();else img.remove();
+let fv=30;const pt=document.getElementById('pt'),L=['……방금 그거, 기도지? 들렸어.','더 해. 아직 손끝이 흐려.','좋아. 이제 좀 신 같지?','계속 불러. 나 사라지면 네 손해야.'];
+function upd(){document.getElementById('fv').textContent=fv;document.querySelector('#fg div').style.width=fv+'%';pt.style.opacity=.35+fv/100*.65}
+upd();
+document.getElementById('pray').onclick=()=>{fv=Math.min(fv+5,100);upd();document.getElementById('msg').textContent=fv>=100?'"……정명까지는 아직이야. 그래도, 고마워. 아니, 방금 건 취소."':'"'+L[Math.random()*L.length|0]+'"'};
+</script>
+</body>
+</html>
