@@ -880,7 +880,7 @@ $('#bTabs').onclick=openTabs;
 (function clock(){const t=new Date();$('#clk').textContent=t.getHours()+':'+String(t.getMinutes()).padStart(2,'0');setTimeout(clock,30000)})();
 $('#bBack').onclick=()=>{if(!S.back.length)return;S.fwd.push(S.cur);S.cur=S.back.pop();render(S.cur)};
 $('#bFwd').onclick=()=>{if(!S.fwd.length)return;S.back.push(S.cur);S.cur=S.fwd.pop();render(S.cur)};
-$('#bHome').onclick=()=>go('home');
+$('#bHome').onclick=showHome;
 $('#bHist').onclick=openHist;
 $('#bClue').onclick=openClues;
 $('#sheet').addEventListener('click',e=>{if(e.target.id==='sheet'||e.target.closest('.x'))$('#sheet').classList.remove('on')});
@@ -929,7 +929,7 @@ function openHist(){
 function openTabs(){
  const list=[...DOYUN_TABS.filter(u=>u!==S.cur),S.cur];
  $('#tabN').textContent=list.length;
- $('#sheetIn').innerHTML=`<div class="sheet-h"><b>탭 ${list.length}개</b><button class="x">✕</button></div><p class="muted" style="font-size:12px;margin-bottom:12px">도윤이 마지막으로 열어 둔 탭이 남아 있다.</p><div class="tabgrid">${list.map(u=>`<div class="tabc ${u===S.cur?'cur':''}" data-go="${u}"><div class="tabc-h">${favH(domOf(u))}<span>${titleOf(u)}</span></div><div class="tabc-b">${u==='home'?'새 탭':u}</div></div>`).join('')}</div>`;
+ $('#sheetIn').innerHTML=`<div class="sheet-h"><b>탭 ${list.length}개</b><span style="display:flex;gap:8px"><button class="btn2" style="margin:0;padding:6px 12px;font-size:13px" data-go="home">＋ 새 탭</button><button class="x">✕</button></span></div><p class="muted" style="font-size:12px;margin-bottom:12px">도윤이 마지막으로 열어 둔 탭이 남아 있다.</p><div class="tabgrid">${list.map(u=>`<div class="tabc ${u===S.cur?'cur':''}" data-go="${u}"><div class="tabc-h">${favH(domOf(u))}<span>${titleOf(u)}</span></div><div class="tabc-b">${u==='home'?'새 탭':u}</div></div>`).join('')}</div>`;
  $('#sheet').classList.add('on');
 }
 function openClues(){
