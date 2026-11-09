@@ -2,6 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
+<script>(function(){try{var p=location.pathname;if(/github\.io$/.test(location.hostname)&&!/\/$/.test(p)&&!/\.[a-z0-9]+$/i.test(p)){location.replace(p+"/"+location.search+location.hash)}}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>@_0312 — 도윤의 휴대폰</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -173,7 +174,8 @@ a{color:inherit}
 /* ===== home screen & apps ===== */
 .layer{position:absolute;left:0;right:0;top:30px;bottom:18px;z-index:15;display:none;flex-direction:column;overflow:hidden}
 .layer.on{display:flex}
-#hs{color:#fff;top:0;bottom:0}
+#hs{color:#fff;top:0;bottom:0;background:#141119}
+.phone.onhome .bar,.phone.onhome .view,.phone.onhome .nav{visibility:hidden}
 .wall{position:absolute;inset:0;z-index:-1;overflow:hidden}
 .wall svg{width:100%!important;height:100%!important}
 .wall:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.05) 40%,rgba(0,0,0,.35))}
@@ -196,6 +198,7 @@ a{color:inherit}
 .phone.onhome .status{background:transparent;color:#fff;position:relative;z-index:17}
 .phone.onhome .homebar{position:absolute;left:0;right:0;bottom:0;z-index:17}
 .phone.onhome .sic{color:#fff}
+.phone.onhome .status b{color:#fff}
 .phone.onhome .bat{border-color:#fff}.phone.onhome .bat:after{background:#fff}
 #app{background:#fff}
 .ah{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid #efefef;font-weight:700;font-size:17px;flex:none}
@@ -330,20 +333,20 @@ a{color:inherit}
 .cam .end-card{margin:18px 14px 0}
 /* lock */
 .pic{line-height:0;background:#000}
-.lockscr{position:absolute;inset:0;z-index:35;display:flex;flex-direction:column;align-items:center;color:#fff;padding:40px 22px 24px;background:linear-gradient(180deg,rgba(10,10,16,.35),rgba(10,10,16,.75)),url(img/wall.jpg) center/cover}
+.lockscr{position:absolute;inset:0;z-index:35;display:flex;flex-direction:column;align-items:center;color:#fff;padding:max(28px,4vh) 22px max(16px,2.5vh);background:linear-gradient(180deg,rgba(10,10,16,.35),rgba(10,10,16,.75)),url(img/wall.jpg) center 15%/cover,linear-gradient(170deg,#2a2233,#141119);overflow:hidden}
 .lockscr.off{opacity:0;pointer-events:none;transition:opacity .5s}
 .lk-date{font-size:15px;opacity:.85}
-.lk-time{font-size:68px;font-weight:300;letter-spacing:-.02em;line-height:1.1;margin-bottom:18px}
-.noti{width:100%;background:rgba(255,255,255,.14);backdrop-filter:blur(12px);border-radius:16px;padding:11px 14px;margin-bottom:8px;font-size:13px;line-height:1.45}
+.lk-time{font-size:min(68px,9vh);font-weight:300;letter-spacing:-.02em;line-height:1.1;margin-bottom:min(18px,2vh)}
+.noti{width:100%;flex:none;background:rgba(255,255,255,.14);backdrop-filter:blur(12px);border-radius:16px;padding:11px 14px;margin-bottom:8px;font-size:13px;line-height:1.45}
 .noti b{font-size:12px;opacity:.75;font-weight:500;display:flex;justify-content:space-between}
-.pin{display:flex;gap:14px;margin:auto 0 8px}
+.pin{display:flex;gap:14px;margin:auto 0 8px;flex:none}
 .pin i{width:13px;height:13px;border-radius:50%;border:1.5px solid #fff}
 .pin i.f{background:#fff}
 .pin.shake{animation:sh .35s}
 @keyframes sh{25%{transform:translateX(-10px)}50%{transform:translateX(10px)}75%{transform:translateX(-6px)}}
-.lk-hint{font-size:12px;opacity:.7;margin-bottom:14px;text-align:center;line-height:1.6}
-.pad3{display:grid;grid-template-columns:repeat(3,70px);gap:12px 22px}
-.pad3 button{width:70px;height:70px;border-radius:50%;border:0;background:rgba(255,255,255,.16);color:#fff;font-size:26px;cursor:pointer}
+.lk-hint{font-size:12px;opacity:.75;margin-bottom:min(14px,1.6vh);text-align:center;line-height:1.5;flex:none}
+.pad3{display:grid;grid-template-columns:repeat(3,min(70px,8.6vh));gap:min(12px,1.4vh) min(22px,2.6vh);flex:none}
+.pad3 button{width:min(70px,8.6vh);height:min(70px,8.6vh);border-radius:50%;border:0;background:rgba(255,255,255,.18);backdrop-filter:blur(8px);color:#fff;font-size:min(26px,3.2vh);cursor:pointer}
 .pad3 button:active{background:rgba(255,255,255,.35)}
 .pad3 .e{background:none;font-size:14px}
 /* intro */
@@ -1081,7 +1084,7 @@ const DOCK=[
 const appBtn=a=>`<button class="app" data-app="${a.id}"><span class="ico" style="background:${a.bg}">${a.ic}${a.nb?`<span class="nb">${a.nb}</span>`:''}</span><span class="lb">${a.n}</span></button>`;
 function renderHome(){
  const t=new Date();const days='일월화수목금토';
- $('#hs').innerHTML=`<div class="wall" style="background:url(img/wall.jpg) center 12%/cover"></div><div style="height:30px;flex:none"></div>
+ $('#hs').innerHTML=`<div class="wall" style="background:url(img/wall.jpg) center 12%/cover,linear-gradient(170deg,#3a2a2e,#141119)"></div><div style="height:30px;flex:none"></div>
  <div class="hs-clock"><b>${t.getHours()}:${String(t.getMinutes()).padStart(2,'0')}</b><span>${t.getMonth()+1}월 ${t.getDate()}일 ${days[t.getDay()]}요일</span></div>
  <div class="grid4">${APPS.map(appBtn).join('')}</div>
  <div class="dock">${DOCK.map(appBtn).join('')}</div>`;
