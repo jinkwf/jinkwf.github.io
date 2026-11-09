@@ -117,7 +117,7 @@ a{color:inherit}
 .nf{padding:60px 24px;text-align:center;color:#55555c}
 .nf .big{font-size:56px;font-weight:700;color:#d6d6dd}
 /* sheet */
-.sheet{position:absolute;inset:0;background:rgba(0,0,0,.4);display:none;z-index:20;align-items:flex-end}
+.sheet{position:absolute;inset:0;background:rgba(0,0,0,.4);display:none;z-index:45;align-items:flex-end}
 .sheet.on{display:flex}
 .sheet-in{background:#fff;width:100%;max-height:78%;border-radius:20px 20px 0 0;overflow-y:auto;padding:18px 18px 28px}
 .sheet-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
@@ -134,8 +134,149 @@ a{color:inherit}
 .prog{height:6px;background:#efeff2;border-radius:3px;margin:4px 0 14px;overflow:hidden}
 .prog div{height:100%;background:#1c1c1f;transition:width .4s}
 .copy{border:0;background:#1c1c1f;color:#fff;border-radius:8px;font-size:11px;padding:3px 8px;margin-left:6px;cursor:pointer;vertical-align:middle}
-.toast{position:absolute;left:50%;top:104px;transform:translate(-50%,20px);background:#1c1c1f;color:#fff;padding:10px 16px;border-radius:12px;font-size:13px;opacity:0;transition:.3s;pointer-events:none;z-index:30;white-space:nowrap}
+.toast{position:absolute;left:50%;top:104px;z-index:50!important;transform:translate(-50%,20px);background:#1c1c1f;color:#fff;padding:10px 16px;border-radius:12px;font-size:13px;opacity:0;transition:.3s;pointer-events:none;z-index:30;white-space:nowrap}
 .toast.on{opacity:1;transform:translate(-50%,0)}
+/* ===== home screen & apps ===== */
+.layer{position:absolute;left:0;right:0;top:30px;bottom:18px;z-index:15;display:none;flex-direction:column;overflow:hidden}
+.layer.on{display:flex}
+#hs{color:#fff;top:0;bottom:0}
+.wall{position:absolute;inset:0;z-index:-1;overflow:hidden}
+.wall svg{width:100%!important;height:100%!important;filter:saturate(.9)}
+.wall:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,.05) 40%,rgba(0,0,0,.35))}
+.hs-clock{text-align:center;padding:26px 0 18px;text-shadow:0 1px 8px rgba(0,0,0,.35)}
+.hs-clock b{display:block;font-size:56px;font-weight:300;letter-spacing:-.02em;line-height:1.1}
+.hs-clock span{font-size:14px;opacity:.95}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px 8px;padding:8px 18px}
+.app{display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:0;color:#fff;font-size:11px;cursor:pointer;position:relative;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+.app .ico{width:58px;height:58px;border-radius:16px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.25);position:relative}
+.app .ico svg{width:30px;height:30px}
+.app:active .ico{transform:scale(.92)}
+.app .nb{position:absolute;top:-5px;right:-5px;background:#ff3b30;color:#fff;font-size:11px;font-weight:700;border-radius:10px;min-width:20px;height:20px;line-height:20px;text-align:center;padding:0 5px;text-shadow:none;border:2px solid rgba(0,0,0,.05)}
+.dock{margin:auto 12px 10px;background:rgba(255,255,255,.22);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-radius:28px;padding:12px 8px;display:grid;grid-template-columns:repeat(4,1fr)}
+.dock .app span.lb{display:none}
+.homebar{height:18px;display:flex;align-items:center;justify-content:center;background:#ececf0;cursor:pointer;flex:none;position:relative;z-index:16}
+.homebar i{width:120px;height:5px;border-radius:3px;background:#1c1c1f;opacity:.85}
+.homebar.dark{background:transparent}
+.phone.onhome .homebar{background:transparent}
+.phone.onhome .homebar i{background:#fff}
+.phone.onhome .status{background:transparent;color:#fff;position:relative;z-index:17}
+.phone.onhome .homebar{position:absolute;left:0;right:0;bottom:0;z-index:17}
+.phone.onhome .sic{color:#fff}
+.phone.onhome .bat{border-color:#fff}.phone.onhome .bat:after{background:#fff}
+#app{background:#fff}
+.ah{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid #efefef;font-weight:700;font-size:17px;flex:none}
+.ah .bk{border:0;background:none;color:#3b6cf6;font-size:15px;cursor:pointer;padding:0 6px 0 0}
+.ab{flex:1;overflow-y:auto}
+.li{display:flex;gap:12px;align-items:center;padding:12px 16px;border-bottom:1px solid #f3f3f5;cursor:pointer}
+.li .av{width:42px;height:42px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+.li .m{flex:1;min-width:0}
+.li .m b{display:block;font-size:15px}
+.li .m small{display:block;color:#8a8a92;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.li .t{font-size:12px;color:#8a8a92;text-align:right}
+.miss b{color:#e5484d}
+.bub{max-width:80%;background:#efeff2;border-radius:18px;padding:9px 13px;font-size:14px;line-height:1.5;margin:6px 14px;width:fit-content}
+.bub.me{margin-left:auto;background:#34c759;color:#fff}
+.bub-t{font-size:11px;color:#8a8a92;text-align:center;margin:14px 0 4px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-size:14px;padding:6px 10px}
+.cal div{padding:9px 0;position:relative}
+.cal .dw{font-size:11px;color:#8a8a92}
+.cal .ev:after{content:'';position:absolute;left:50%;bottom:3px;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:#e5484d}
+.cal .sel{background:#1c1c1f;color:#fff;border-radius:50%;width:34px;height:34px;margin:0 auto;padding:7px 0}
+.memo{padding:20px;font-size:16px;line-height:1.9;white-space:pre-line;font-family:'Noto Serif KR',serif;background:#fffdf5;min-height:100%}
+.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.gal .pic svg{display:block}
+/* ===== browser chrome v4 ===== */
+.status{padding:7px 18px 3px;font-size:13px}
+.status b{font-weight:600;letter-spacing:.01em}
+.sic{display:flex;align-items:center;gap:5px;color:#1c1c1f;font-size:11px;font-weight:600}
+.bat{width:22px;height:11px;border:1.4px solid #1c1c1f;border-radius:3px;position:relative;padding:1px;margin-left:2px}
+.bat:after{content:'';position:absolute;right:-3.5px;top:3px;width:2px;height:4px;background:#1c1c1f;border-radius:0 1px 1px 0}
+.bat i{display:block;height:100%;width:14%;background:#e5484d;border-radius:1px}
+.bar{gap:8px;padding:6px 10px 9px}
+.addr{position:relative;border-radius:22px;height:42px;padding:0 6px 0 10px;background:#fff;box-shadow:inset 0 0 0 1px #d9d9e0}
+.addr.foc{box-shadow:inset 0 0 0 2px #3b6cf6}
+.fav{width:18px;height:18px;border-radius:5px;flex:none;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:700;line-height:1}
+.fav.lockic{background:none;color:#5f6368}
+.disp{position:absolute;left:36px;right:44px;top:0;bottom:0;display:flex;align-items:center;font-size:15px;color:#1c1c1f;white-space:nowrap;overflow:hidden;pointer-events:none}
+.disp span{color:#8a8a92}
+.disp.ph{color:#8a8a92}
+.addr input{color:transparent;caret-color:#1c1c1f}
+.addr.foc input{color:#1c1c1f}
+.addr:not(.foc) input::placeholder{color:transparent}
+.addr.foc .disp{display:none}
+.rl{width:34px;height:34px;border:0;background:none;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#5f6368;cursor:pointer;flex:none}
+.rl:active{background:#efeff2}
+.rl.spin svg{animation:spin .5s linear}
+@keyframes spin{to{transform:rotate(360deg)}}
+.tabs{width:30px;height:30px;border:2px solid #3a3a40;border-radius:7px;background:none;font-size:12px;font-weight:700;color:#3a3a40;cursor:pointer;flex:none}
+#page.fi{animation:fi .25s ease}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.sk{padding:18px}
+.sk i{display:block;height:14px;border-radius:7px;margin-bottom:12px;background:linear-gradient(90deg,#efeff2 25%,#f7f7f9 50%,#efeff2 75%);background-size:200% 100%;animation:shim 1s infinite}
+.sk i.b{height:180px;border-radius:12px}
+@keyframes shim{to{background-position:-200% 0}}
+/* glimpse */
+.appban{display:flex;align-items:center;gap:10px;padding:9px 14px;background:#fafafa;border-bottom:1px solid #efefef;font-size:12px;color:#55555c}
+.appban span:nth-child(2){flex:1}
+.appban button{border:0;background:#3b6cf6;color:#fff;border-radius:14px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer}
+.gl-ic{display:flex;gap:14px;align-items:center;color:#1c1c1f}
+.acts{display:flex;justify-content:space-between;padding:10px 14px 2px;color:#1c1c1f}
+.acts span{display:flex;gap:14px}
+.likes{padding:4px 14px 0;font-size:13px;font-weight:700}
+.post-c{padding-top:4px}
+/* footer */
+.foot{padding:22px 18px 30px;background:#f6f6f8;font-size:11px;color:#8a8a92;line-height:1.8;margin-top:10px}
+.foot b{display:block;color:#55555c;font-size:12px;margin-bottom:4px}
+/* news */
+.nw-bar{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid #eee}
+.nw-logo{font-family:'Noto Serif KR',serif;font-size:22px;font-weight:700;cursor:pointer}
+.nw-cat{display:flex;gap:16px;padding:9px 16px;font-size:13px;color:#55555c;border-bottom:1px solid #eee;overflow-x:auto;white-space:nowrap}
+.nw-cat b{color:#c12d2d}
+.byline{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#7a7a82;padding:10px 0 14px;border-bottom:1px solid #eee;margin-bottom:16px}
+.ad{border:1px solid #eee;border-radius:10px;padding:14px;margin:18px 0;display:flex;gap:12px;align-items:center;background:#fbfbfc}
+.ad small{position:absolute}
+.ad .adth{width:64px;height:64px;border-radius:8px;flex:none}
+.rank{counter-reset:r}
+.rank a{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #f2f2f2;font-size:14px;cursor:pointer;line-height:1.45}
+.rank a:before{counter-increment:r;content:counter(r);font-weight:700;color:#c12d2d;width:14px;flex:none}
+/* restay */
+.rs-search{margin-top:16px;background:#fff;color:#1c1c1f;border-radius:12px;padding:12px 14px;font-size:14px;display:flex;gap:8px;align-items:center}
+.htl{border:1px solid #eee;border-radius:14px;overflow:hidden;margin-bottom:12px}
+.htl .pic{height:150px;overflow:hidden}
+.htl .pic svg{margin-top:-120px}
+.htl-b{padding:12px 14px}
+.star{color:#f5a623;font-weight:700}
+/* golmok */
+.gm-top{display:flex;justify-content:space-between;align-items:center}
+.gm-bot{position:sticky;bottom:0;display:flex;gap:10px;align-items:center;padding:10px 16px;background:#fff;border-top:1px solid #eee}
+.gm-bot button{flex:1;height:44px;border:0;border-radius:10px;background:#ff7a2f;color:#fff;font-weight:700;cursor:pointer}
+/* search */
+.sr-top{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid #eee}
+.naru{font-weight:800;font-size:22px;color:#00a86b;letter-spacing:-.03em;cursor:pointer}
+.sr-box{flex:1;display:flex;border:2px solid #00a86b;border-radius:22px;overflow:hidden;height:40px}
+.sr-box input{flex:1;border:0;outline:0;padding:0 14px;font-size:15px;min-width:0}
+.sr-box button{border:0;background:#00a86b;color:#fff;width:46px;cursor:pointer}
+.sr-tabs{display:flex;gap:18px;padding:10px 16px;font-size:13px;color:#7a7a82;border-bottom:1px solid #eee}
+.sr-tabs b{color:#00a86b;border-bottom:2px solid #00a86b;padding-bottom:6px}
+.sr-meta{padding:10px 16px;font-size:12px;color:#8a8a92}
+.sr{padding:14px 16px;border-bottom:8px solid #f4f4f6;cursor:pointer}
+.sr-site{display:flex;gap:8px;align-items:center;margin-bottom:6px}
+.sr-site b{font-size:12px;font-weight:600;display:block}
+.sr-site small{font-size:11px;color:#8a8a92}
+.sr-t{color:#1a0dab;font-size:16px;line-height:1.4;margin-bottom:4px}
+.sr-d{font-size:13px;color:#4d5156;line-height:1.55}
+.naru-home{padding:70px 24px;text-align:center}
+.naru-home .naru{font-size:44px;display:block;margin-bottom:22px}
+/* no connection */
+.nc{padding:70px 26px;color:#3c4043}
+.nc .h1{font-size:21px;margin:18px 0 10px}
+.nc p{font-size:14px;line-height:1.6;margin-bottom:8px}
+.btn2{margin-top:24px;border:0;background:#3b6cf6;color:#fff;border-radius:20px;padding:10px 20px;font-weight:600;cursor:pointer}
+.tabgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tabc{border:1px solid #e3e3e8;border-radius:14px;overflow:hidden;cursor:pointer;background:#fff}
+.tabc.cur{box-shadow:0 0 0 2px #3b6cf6}
+.tabc-h{display:flex;gap:6px;align-items:center;padding:8px 10px;font-size:12px;font-weight:600;border-bottom:1px solid #eee;white-space:nowrap;overflow:hidden}
+.tabc-b{height:90px;background:#f6f6f8;display:flex;align-items:center;justify-content:center;font-size:11px;color:#8a8a92;padding:8px;text-align:center;word-break:break-all}
 /* new sites */
 .px-top{background:#2463eb;color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}.px-top b{font-size:19px}
 .px .btn{background:#2463eb}
@@ -182,13 +323,15 @@ a{color:inherit}
 </head>
 <body>
 <div class="phone" id="phone">
-  <div class="status"><b>도윤의 휴대폰</b><span>마지막 사용 08.14 21:12 · 🔋 12%</span></div>
+  <div class="status"><b id="clk">4:33</b><span class="sic"><svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx="1" fill="currentColor"/><rect x="4.5" y="5" width="3" height="6" rx="1" fill="currentColor"/><rect x="9" y="2.5" width="3" height="8.5" rx="1" fill="currentColor"/><rect x="13.5" y="0" width="3" height="11" rx="1" fill="currentColor" opacity=".3"/></svg><svg width="15" height="11" viewBox="0 0 15 11"><path d="M7.5 10.5l2.2-2.6a3 3 0 0 0-4.4 0z" fill="currentColor"/><path d="M3.4 5.9a5.8 5.8 0 0 1 8.2 0" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M1 3.4a9.2 9.2 0 0 1 13 0" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>12%<span class="bat"><i></i></span></span></div>
   <form class="bar" id="bar">
-    <div class="addr">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
-      <input id="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="주소 입력" inputmode="url">
+    <div class="addr" id="addr">
+      <span class="fav" id="fav"></span>
+      <div class="disp" id="disp"></div>
+      <input id="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="검색어 또는 주소 입력" enterkeyhint="go">
+      <button type="button" class="rl" id="rl" aria-label="새로고침"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg></button>
     </div>
-    <button class="go" type="submit">이동</button>
+    <button type="button" class="tabs" id="bTabs" aria-label="탭"><span id="tabN">4</span></button>
   </form>
   <div class="view" id="view"><div class="load" id="load"></div><div id="page"></div></div>
   <div class="nav">
@@ -198,6 +341,9 @@ a{color:inherit}
     <button id="bHist" aria-label="방문 기록"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>기록</button>
     <button id="bClue" aria-label="단서 수첩"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h11l3 3v13H5z"/><path d="M9 10h6M9 14h6"/></svg>수첩<span class="badge" id="badge" hidden>0</span></button>
   </div>
+  <div class="homebar" id="homebar" aria-label="홈 화면"><i></i></div>
+  <div class="layer" id="hs"></div>
+  <div class="layer" id="app"><div class="ah" id="ah"></div><div class="ab" id="ab"></div></div>
   <div class="sheet" id="sheet"><div class="sheet-in" id="sheetIn"></div></div>
   <div class="toast" id="toast"></div>
   <div class="intro" id="intro">
@@ -232,9 +378,13 @@ const CLUES=[
  ['acc','@_0312','남편의 두 번째 계정. 게시물 6개, 팔로워 1명.','“도윤이 이런 계정 있던 거 알았어?”'],
  ['noeul','스테이노을','계정 속 사진마다 같은 호텔 창밖.','“스테이노을이라는 호텔 알아?”'],
  ['lighter','‘H’ 라이터','와인잔 옆 은색 라이터. 낚시 사진 속 이준도 같은 라이터를 쓴다.','“이 라이터, 네 거 아니야?”'],
+ ['memo','보내지 못한 메모','08.14 18:30 “3월 12일부터. 그 사람 이름은” — 거기서 끊겼다.','“도윤이가 나한테 뭘 말하려고 했던 걸까.”'],
+ ['callh','부재중 전화 ‘H’','08.14 22:49·22:52 부재중. 전날 밤 12분 통화. 문자는 전부 삭제됐다.','“그날 밤 H라는 사람이 두 번이나 전화했어.”'],
+ ['calendar','캘린더 8월 14일','“양평 · 다 말하기”. 8월 12일 “R 예약 — 마지막”.',''],
  ['harin','서하린 @harin.s','이준이 알려준 “장례식에 왔던 여자”의 계정.','“이 여자가 도윤이 만나던 사람이야?”'],
  ['breakup','“헤어지자고 했다” · “다 끝내줄게”','8/13 이별, 8/14 19:02 “다 끝내줄게. 오늘.”','“이 여자가 그날 뭘 한 거 아닐까?”'],
  ['joined','하린 계정 가입일 08.19','도윤이 죽고 닷새 뒤 만들어진 계정. 게시물 5개는 7분 만에 올라왔다.','“이 계정, 도윤이 죽고 나서 만들어졌던데.”'],
+ ['nosearch','검색되지 않는 여자','‘서하린’ 검색 결과 0건. 장례식에 왔다는 여자는 어디에도 없다.','“하린이라는 사람, 검색해도 아무것도 안 나와.”'],
  ['harinmsg','하린의 추모글 08.19 01:12','계정을 만든 지 7분 뒤에 남긴 추모글.',''],
  ['rn','RN-0729-114','7월 29일 호텔 예약번호.',''],
  ['hg','HG-2207-5531','7월 31일 “정리했다” 사진 속 증권번호.',''],
@@ -261,7 +411,7 @@ const CLUES=[
 const FINAL_NOTE='수첩의 굵은 키워드를 채팅에서 그대로 말하면 이야기가 움직입니다.';
 
 /* ---------- 상태 ---------- */
-let S={back:[],fwd:[],cur:'home',clues:[],seen:[],intro:false,dm:false,cam:false};
+let S={back:[],fwd:[],cur:'glimpse.kr/_0312',clues:[],seen:[],intro:false,dm:false,cam:false};
 try{const s=JSON.parse(localStorage.getItem('at0312v3')||'null');if(s)S=Object.assign(S,s)}catch(e){}
 const save=()=>{try{localStorage.setItem('at0312v3',JSON.stringify(S))}catch(e){}};
 
@@ -375,20 +525,68 @@ function clue(id){
 }
 function badge(){const b=$('#badge');const n=S.clues.length;b.hidden=!n;b.textContent=n}
 
+/* ---------- 브라우저 부품 ---------- */
+const FAV={'glimpse.kr':['linear-gradient(135deg,#7b5cff,#e25b8f)','G'],'restay.co.kr':['#0f5f5c','R'],'hangyeol-life.co.kr':['#14254a','한'],'today-sinmun.kr':['#1c1c1f','今'],'golmok.kr':['#ff7a2f','골'],'pixbox.kr':['#2463eb','P'],'gilnavi.kr':['#1f7a4d','길'],'bugo.kr':['#2b2b2b','부'],'dashcam.kr':['#d13438','●'],'naru.kr':['#00a86b','N']};
+const domOf=u=>u.split(/[\/?]/)[0];
+const favH=(d,cls='')=>{const f=FAV[d];return f?`<span class="fav ${cls}" style="background:${f[0]}">${f[1]}</span>`:`<span class="fav lockic ${cls}">◎</span>`};
+const IC={
+ heart:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20s-7-4.4-9.2-8.6C1.2 8.2 3 5 6.2 5c2 0 3.2 1.1 3.8 2.2C10.6 6.1 11.8 5 13.8 5 17 5 18.8 8.2 17.2 11.4 15 15.6 12 20 12 20z" transform="translate(2 0)"/></svg>',
+ cmt:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12a8 8 0 1 1-3.2-6.4A8 8 0 0 1 20 12zM20 20l-2.6-2.6"/></svg>',
+ send:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 3L10 14M21 3l-7 18-4-7-7-4z"/></svg>',
+ save:'<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h12v18l-6-5-6 5z"/></svg>',
+ search:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>',
+ menu:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>'
+};
+const acts=n=>`<div class="acts"><span>${IC.heart}${IC.cmt}${IC.send}</span>${IC.save}</div><div class="likes">${n?`좋아요 ${n}개`:'<span style="font-weight:400;color:#8a8a92">가장 먼저 좋아요를 눌러보세요</span>'}</div>`;
+const foot=(n,extra='')=>`<div class="foot"><b>${n}</b>${extra}<div>이용약관 · 개인정보처리방침 · 고객센터</div><div>© 2026 ${n}. All rights reserved.</div></div>`;
+const TITLES={'home':'새 탭','glimpse.kr':'Glimpse','glimpse.kr/_0312':'_0312 • Glimpse','glimpse.kr/seo.doyun':'서도윤(@seo.doyun) • Glimpse','glimpse.kr/han.ijun':'한이준(@han.ijun) • Glimpse','glimpse.kr/h_':'h_ • Glimpse','glimpse.kr/harin.s':'서하린(@harin.s) • Glimpse','glimpse.kr/_0312/direct':'메시지 • Glimpse','restay.co.kr':'Restay - 호텔·스테이 예약','restay.co.kr/booking':'비회원 예약 조회 | Restay','hangyeol-life.co.kr':'한결생명 고객센터','today-sinmun.kr':'오늘신문','today-sinmun.kr/2026/0815/yangpyeong':'양평 지방도서 승용차 가드레일 충돌… - 오늘신문','golmok.kr':'골목장터','gilnavi.kr':'길동무 내비','pixbox.kr':'pixbox','bugo.kr/seodoyun':'故 서도윤 부고 - 마음부고','dashcam.kr/viewer':'DASHCAM VIEWER','naru.kr':'naru'};
+const titleOf=u=>TITLES[u]||(u.startsWith('naru.kr/search')?decodeURIComponent(u.split('q=')[1]||'')+' : naru 검색':u);
+const DOYUN_TABS=['glimpse.kr/_0312','gilnavi.kr','restay.co.kr/booking'];
+
+/* ---------- 검색엔진 naru ---------- */
+const IDX=[
+ {k:['스테이노을','staynoeul','노을','호텔','한강뷰'],u:'restay.co.kr',t:'스테이노을 STAY NOEUL - 최저가 예약 | Restay',d:'서울 한강뷰 부티크 호텔. 디럭스 리버뷰 객실, 체크인 15:00. 실제 투숙객 리뷰 1,204개.'},
+ {k:['restay','리스테이','예약조회','호텔예약'],u:'restay.co.kr/booking',t:'비회원 예약 조회 | Restay',d:'예약번호와 예약자명으로 예약 내역을 확인하세요.'},
+ {k:['양평','사고','가드레일','서도윤','지방도','교통사고'],u:'today-sinmun.kr/2026/0815/yangpyeong',t:'양평 지방도서 승용차 가드레일 충돌… 30대 운전자 숨져 - 오늘신문',d:'2026.08.15 — 14일 밤 경기 양평군의 한 지방도에서 승용차가 가드레일을 들이받고 비탈 아래로 떨어져…'},
+ {k:['오늘신문','뉴스','신문'],u:'today-sinmun.kr',t:'오늘신문 - THE TODAY SINMUN',d:'사회 · 경제 · 문화 최신 뉴스와 많이 본 기사.'},
+ {k:['한결생명','보험','한결','계약조회'],u:'hangyeol-life.co.kr',t:'한결생명 고객센터 - 계약 조회',d:'증권번호와 계약자명으로 보험 계약 내용을 조회하세요.'},
+ {k:['골목장터','중고','중고거래','골목'],u:'golmok.kr',t:'골목장터 - 우리 동네 중고 직거래',d:'가까운 이웃과 따뜻한 거래. 지금 우리 동네 새 글을 확인하세요.'},
+ {k:['glimpse','글림스','sns'],u:'glimpse.kr',t:'Glimpse',d:'순간을 나누는 곳, Glimpse. 로그인하고 친구들의 소식을 확인하세요.'},
+ {k:['한이준','이준','hanijun'],u:'glimpse.kr/han.ijun',t:'한이준(@han.ijun) • Glimpse 사진 및 동영상',d:'팔로워 156명, 팔로잉 149명, 게시물 31개 — 건축 설계. 말수 적음.'},
+ {k:['서도윤','도윤','seodoyun'],u:'glimpse.kr/seo.doyun',t:'서도윤(@seo.doyun) • Glimpse 사진 및 동영상',d:'팔로워 212명, 팔로잉 180명, 게시물 48개 — 평범하게 잘 사는 중.'},
+ {k:['길동무','내비','네비','주행기록'],u:'gilnavi.kr',t:'길동무 내비 - 내 차 주행 기록',d:'차량 연동 서비스. 차량번호와 앱 PIN으로 로그인하세요.'},
+ {k:['pixbox','픽스박스','클라우드','사진백업'],u:'pixbox.kr',t:'pixbox - 사진 클라우드',d:'휴대폰 사진이 자동으로 백업됩니다. 15GB 무료.'},
+ {k:['블랙박스','dashcam','대시캠','메모리카드','sd카드'],u:'dashcam.kr/viewer',t:'DASHCAM VIEWER - 블랙박스 영상 보기',d:'메모리카드 일련번호(SN)로 복구된 영상을 재생합니다.'},
+ {k:['부고','마음부고','bugo'],u:'bugo.kr',t:'마음부고 - 모바일 부고장',d:'부고 주소를 정확히 입력해 조회하세요.'}
+];
+function searchPage(q){
+ const k=(q||'').toLowerCase().replace(/\s/g,'');
+ const safe=(q||'').replace(/[<>"]/g,'');
+ const harin=/하린|harin/.test(k);
+ const res=k&&!harin?IDX.filter(e=>e.k.some(w=>k.includes(w)||(k.length>=2&&w.includes(k)))):[];
+ if(harin)clue('nosearch');
+ return `<div class="sr-top"><span class="naru" data-go="naru.kr">naru</span><form class="sr-box" data-form="srch"><input name="q" value="${safe}" autocomplete="off"><button aria-label="검색">${IC.search}</button></form></div>
+ <div class="sr-tabs"><b>통합</b><span>이미지</span><span>뉴스</span><span>지도</span><span>쇼핑</span></div>
+ ${res.length?`<div class="sr-meta">검색결과 약 ${(res.length*1270).toLocaleString()}건</div>`+res.map(e=>{const d=domOf(e.u);return `<div class="sr" data-go="${e.u}"><div class="sr-site">${favH(d)}<div><b>${d}</b><small>https://${e.u}</small></div></div><div class="sr-t">${e.t}</div><div class="sr-d">${e.d}</div></div>`}).join(''):
+ `<div class="pad" style="padding-top:30px"><b style="font-size:16px">‘${safe}’에 대한 검색결과가 없습니다.</b><ul class="muted" style="margin:14px 0 0 18px;line-height:1.9"><li>단어의 철자가 정확한지 확인해 보세요.</li><li>검색어의 단어 수를 줄여 보세요.</li><li>보다 일반적인 검색어로 다시 검색해 보세요.</li></ul></div>`}
+ ${foot('naru')}`}
+const NARU_HOME=()=>`<div class="naru-home"><span class="naru">naru</span><form class="sr-box" data-form="srch"><input name="q" placeholder="검색어를 입력하세요" autocomplete="off"><button aria-label="검색">${IC.search}</button></form></div>`;
+
 /* ---------- 사이트 ---------- */
 const P={};
+P['naru.kr']=()=>NARU_HOME();
 P['home']=()=>`<div class="home">
  <div class="who">새 탭</div><div class="ttl">어디로 갈까요?</div>
  <div class="tiles">
   <button class="tile" data-go="glimpse.kr"><span style="background:linear-gradient(135deg,#7b5cff,#e25b8f)">G</span>Glimpse</button>
   <button class="tile" data-go="restay.co.kr"><span style="background:#0f5f5c">R</span>Restay</button>
   <button class="tile" data-go="today-sinmun.kr"><span style="background:#1c1c1f;font-family:'Noto Serif KR'">今</span>오늘신문</button>
-  <button class="tile" data-act="hist"><span style="background:#8a8a92">⏱</span>방문 기록</button>
+  <button class="tile" data-go="naru.kr"><span style="background:#00a86b">N</span>naru</button>
  </div>
- <div class="hint">이 휴대폰의 브라우저입니다. 아는 주소가 있다면 위 주소창에 직접 입력하세요.<br><br>막혔다면 <b>방문 기록</b>을 확인하거나, 채팅에서 그 사람에게 물어보세요.</div>
+ <div class="hint">주소를 알고 있다면 위 주소창에 직접 입력하세요. 주소가 아니면 <b>naru</b>에서 검색됩니다.<br><br>막혔다면 <b>방문 기록</b>을 확인하거나, 채팅에서 그 사람에게 물어보세요.</div>
 </div>`;
 
-const glTop=()=>`<div class="gl-top"><span class="gl-logo">glimpse</span><span class="muted">${L('glimpse.kr','계정 전환')}</span></div>`;
+const glTop=()=>`<div class="gl-top"><span class="gl-logo" data-go="glimpse.kr" style="cursor:pointer">glimpse</span><span class="gl-ic">${IC.heart}${IC.send}<span class="muted" style="font-size:12px">${L('glimpse.kr','계정 전환')}</span></span></div><div class="appban"><span class="gl-logo" style="font-size:14px">glimpse</span><span>앱에서 더 편하게 보기</span><button data-toast="앱이 설치되어 있지 않습니다">열기</button></div>`;
 P['glimpse.kr']=()=>`<div class="gl">${glTop()}
  <div class="pad"><div class="h1">로그인된 계정</div><p class="muted" style="margin-bottom:14px">이 기기에 계정 2개가 저장되어 있습니다.</p>
  <div class="card" style="display:flex;gap:12px;align-items:center;cursor:pointer" data-go="glimpse.kr/seo.doyun"><div class="ava" style="width:46px;height:46px;font-size:15px;background:#5b7bd5">서</div><div><b>seo.doyun</b><div class="muted">서도윤 · 공개 계정</div></div></div>
@@ -400,10 +598,10 @@ P['glimpse.kr/seo.doyun']=()=>{if(has('acc'))clue('lighter');return `<div class=
  <div class="bio">평범하게 잘 사는 중.<br><span class="muted">Seoul · 설계사무소</span></div>
  <div class="post"><div class="post-h"><div class="ava" style="background:#5b7bd5">서</div>seo.doyun</div>
   ${photo('cake','[사진] 레스토랑 테이블 위 작은 케이크. 맞은편에 반지 낀 손이 살짝 보인다.')}
-  <div class="post-c">결혼 3주년. 늘 고마워.<div class="d">2026년 6월 21일</div></div></div>
+  ${acts(34)}<div class="post-c"><b>seo.doyun</b> 결혼 3주년. 늘 고마워.<div class="d">2026년 6월 21일</div></div></div>
  <div class="post"><div class="post-h"><div class="ava" style="background:#5b7bd5">서</div>seo.doyun</div>
   ${photo('lake','[사진] 새벽 저수지. 낚싯대 두 개, 한 사람은 등을 돌리고 라이터로 담배에 불을 붙이는 중.')}
-  <div class="post-c">${L('glimpse.kr/han.ijun','@han.ijun')} 이랑 낚시. 이 자식은 오늘도 꽝.<div class="d">2026년 5월 3일</div></div></div>
+  ${acts(21)}<div class="post-c"><b>seo.doyun</b> ${L('glimpse.kr/han.ijun','@han.ijun')} 이랑 낚시. 이 자식은 오늘도 꽝.<div class="d">2026년 5월 3일</div></div></div>
 </div>`};
 
 P['glimpse.kr/han.ijun']=()=>{clue('night');return `<div class="gl">${glTop()}
@@ -412,10 +610,10 @@ P['glimpse.kr/han.ijun']=()=>{clue('night');return `<div class="gl">${glTop()}
  ${S.dm?`<div class="post"><div class="post-h"><div class="ava" style="background:#3c3c44">한</div>han.ijun</div><div class="post-c" style="font-size:16px">읽었구나.<div class="d">방금 전</div></div></div>`:''}
  <div class="post"><div class="post-h"><div class="ava" style="background:#3c3c44">한</div>han.ijun</div>
   ${photo('black','[사진] 새까만 화면. 아무것도 찍히지 않았다.')}
-  <div class="post-c">잠이 안 온다.<div class="d">2026년 8월 15일 오전 2:10</div></div></div>
+  ${acts(3)}<div class="post-c"><b>han.ijun</b> 잠이 안 온다.<div class="d">2026년 8월 15일 오전 2:10</div></div></div>
  <div class="post"><div class="post-h"><div class="ava" style="background:#3c3c44">한</div>han.ijun</div>
   ${photo('tie','[사진] 검은 넥타이가 의자 등받이에 걸려 있다.')}
-  <div class="post-c">도윤아.<div class="d">2026년 8월 18일</div></div></div>
+  ${acts(58)}<div class="post-c"><b>han.ijun</b> 도윤아.<div class="d">2026년 8월 18일 · 댓글 12개 모두 보기</div></div></div>
 </div>`};
 
 P['glimpse.kr/_0312']=()=>{clue('acc');clue('noeul');clue('rn');clue('hg');return `<div class="gl">${glTop()}
@@ -429,7 +627,7 @@ P['glimpse.kr/_0312']=()=>{clue('acc');clue('noeul');clue('rn');clue('hg');retur
  ['wine','[사진] 와인잔 두 개. 한쪽 잔 옆에 ‘H’가 새겨진 은색 라이터.','잔이 두 개인 게 아직 어색하다.','2026년 6월 21일'],
  ['window','[사진] 비 오는 창밖 야경. 유리창에 ‘STAY NOEUL’ 로고가 거꾸로 비친다.','비 오는 날엔 꼭 여기.','2026년 5월 3일'],
  ['key','[사진] 호텔 키카드 봉투. 손글씨로 ‘12—’까지만 보이고 나머지는 손가락에 가려져 있다.','처음.','2026년 3월 12일']
- ].map(p=>`<div class="post"><div class="post-h"><div class="ava" style="background:#26262b">_</div>_0312</div>${photo(p[0],p[1])}<div class="post-c">${p[2]}<div class="d">${p[3]} · 댓글 기능이 꺼져 있습니다</div></div></div>`).join('')}
+ ].map(p=>`<div class="post"><div class="post-h"><div class="ava" style="background:#26262b">_</div>_0312</div>${photo(p[0],p[1])}${acts(1)}<div class="post-c"><b>_0312</b> ${p[2]}<div class="d">${p[3]} · 댓글 기능이 꺼져 있습니다</div></div></div>`).join('')}
 </div>`};
 
 P['glimpse.kr/h_']=()=>{if(has('mask')){clue('hdel');return `<div class="gl">${glTop()}<div class="lock" style="padding-top:60px"><div class="ic">!</div><b>존재하지 않는 계정입니다</b><br>계정이 삭제되었거나 주소가 잘못되었습니다.</div></div>`}clue('h');return `<div class="gl">${glTop()}
@@ -446,10 +644,10 @@ function dmView(){clue('gap');return `<div class="gl"><div class="gl-top"><span 
 
 /* restay */
 const rsTop=()=>`<div class="rs-top"><b data-go="restay.co.kr" style="cursor:pointer">Restay</b><span class="lnk" style="color:#fff" data-go="restay.co.kr/booking">예약 조회</span></div>`;
-P['restay.co.kr']=()=>`<div class="rs">${rsTop()}<div class="rs-hero"><div style="font-size:13px;opacity:.8">오늘 밤, 어디서 쉬어갈까요</div><div style="font-size:22px;font-weight:700;margin-top:6px">호텔 · 스테이 예약</div></div>
+P['restay.co.kr']=()=>`<div class="rs">${rsTop()}<div class="rs-hero"><div style="font-size:13px;opacity:.8">오늘 밤, 어디서 쉬어갈까요</div><div style="font-size:22px;font-weight:700;margin-top:6px">호텔 · 스테이 예약</div><div class="rs-search">${IC.search}<span class="muted">어디로 떠나세요?</span></div></div>
  <div class="pad"><div class="card" style="cursor:pointer" data-go="restay.co.kr/booking"><b>비회원 예약 조회</b><div class="muted" style="margin-top:4px">예약번호와 예약자명으로 확인하세요 ›</div></div>
  <div class="muted" style="margin:16px 0 8px">최근 본 숙소</div>
- <div class="card"><b>스테이노을 STAY NOEUL</b><div class="muted">서울 · 한강뷰 · 부티크 호텔</div></div></div></div>`;
+ <div class="htl"><div class="pic">${SC.window()}</div><div class="htl-b"><b>스테이노을 STAY NOEUL</b><div class="muted">서울 · 한강뷰 · 부티크 호텔</div><div style="margin-top:6px;font-size:13px"><span class="star">★ 4.8</span> <span class="muted">(리뷰 1,204)</span> · <b>189,000원~</b><span class="muted">/1박</span></div></div></div></div>${foot('Restay','<div>(주)리스테이 · 사업자등록번호 120-81-00000 · 통신판매업 2021-서울강남-0000</div>')}</div>`;
 P['restay.co.kr/booking']=()=>`<div class="rs">${rsTop()}<div class="pad"><div class="h1">예약 조회</div><p class="muted" style="margin-bottom:16px">예약 확정 문자에 적힌 예약번호를 입력하세요.</p>
  <form data-form="bk"><div class="field"><label>예약번호</label><input name="no" placeholder="RN-0000-000" autocomplete="off"></div>
  <div class="field"><label>예약자명</label><input name="nm" placeholder="이름" autocomplete="off"></div><button class="btn">조회하기</button><div class="err" id="err"></div></form></div></div>`;
@@ -471,9 +669,9 @@ P['restay.co.kr/booking/rn-0729-114']=()=>{
 
 /* insurance */
 const hgTop=()=>`<div class="hg-top" data-go="hangyeol-life.co.kr" style="cursor:pointer">한결생명<small>HANGYEOL LIFE · 고객센터</small></div>`;
-P['hangyeol-life.co.kr']=()=>`<div class="hg">${hgTop()}<div class="pad"><div class="h1">계약 조회</div><p class="muted" style="margin-bottom:16px">증권번호와 계약자명을 입력하세요.</p>
+P['hangyeol-life.co.kr']=()=>`<div class="hg">${hgTop()}<div style="background:#fff5d6;color:#7a5b00;font-size:12px;padding:9px 16px">⚠ 한결생명은 전화·문자로 개인정보나 계좌 이체를 요구하지 않습니다.</div><div class="pad"><div class="h1">계약 조회</div><p class="muted" style="margin-bottom:16px">증권번호와 계약자명을 입력하세요.</p>
  <form data-form="ins"><div class="field"><label>증권번호</label><input name="no" placeholder="HG-0000-0000" autocomplete="off"></div>
- <div class="field"><label>계약자명</label><input name="nm" placeholder="이름" autocomplete="off"></div><button class="btn">조회</button><div class="err" id="err"></div></form></div></div>`;
+ <div class="field"><label>계약자명</label><input name="nm" placeholder="이름" autocomplete="off"></div><button class="btn">조회</button><div class="err" id="err"></div></form></div>${foot('한결생명보험(주)','<div>고객센터 1588-0000 (평일 09:00~18:00)</div>')}</div>`;
 P['hangyeol-life.co.kr/contract/hg-2207-5531']=()=>{
  if(!S.seen.includes('ins'))return P['hangyeol-life.co.kr']();
  clue('ben');clue('call');
@@ -489,18 +687,22 @@ P['hangyeol-life.co.kr/contract/hg-2207-5531']=()=>{
  </div></div></div>`};
 
 /* news */
-const nwTop=()=>`<div class="nw-top" data-go="today-sinmun.kr" style="cursor:pointer"><small>THE TODAY SINMUN</small>오늘신문</div>`;
+const nwTop=()=>`<div class="nw-bar">${IC.menu}<span class="nw-logo" data-go="today-sinmun.kr">오늘신문</span>${IC.search}</div><div class="nw-cat"><span>정치</span><span>경제</span><b>사회</b><span>국제</span><span>문화</span><span>IT</span><span>스포츠</span><span>오피니언</span></div>`;
+const nwAd=()=>`<div class="ad"><div class="adth" style="background:linear-gradient(135deg,#ffd58a,#ff8a5b)"></div><div style="flex:1"><div style="font-size:10px;color:#8a8a92">광고 · AD</div><b style="font-size:14px">가을 한정 특가, 최대 40% 할인</b><div class="muted" style="font-size:12px">지금 바로 확인하세요 ›</div></div></div>`;
 P['today-sinmun.kr']=()=>`${nwTop()}<div class="nw"><div class="muted" style="margin-bottom:6px">사회 · 많이 본 기사</div><div class="nw-list">
  <a data-go="today-sinmun.kr/2026/0815/yangpyeong">양평 지방도서 승용차 가드레일 충돌… 30대 운전자 숨져</a>
  <a data-go="today-sinmun.kr/404">서울 아파트 전세가, 석 달째 상승</a>
- <a data-go="today-sinmun.kr/404">“밤길 운전 조심하세요” 여름철 졸음운전 사고 급증</a></div></div>`;
-P['today-sinmun.kr/2026/0815/yangpyeong']=()=>{clue('card');clue('alive');return `${nwTop()}<div class="nw"><div class="muted" style="margin-bottom:8px">사회 · 2026.08.15 09:41</div>
+ <a data-go="today-sinmun.kr/404">“밤길 운전 조심하세요” 여름철 졸음운전 사고 급증</a></div>${nwAd()}</div>${foot('오늘신문','<div>서울특별시 중구 · 등록번호 서울 아00000 · 발행인 김○○</div>')}`;
+P['today-sinmun.kr/2026/0815/yangpyeong']=()=>{clue('card');clue('alive');return `${nwTop()}<div class="nw"><div class="muted" style="margin-bottom:8px">사회 · 사건사고</div>
  <h2>양평 지방도서 승용차 가드레일 충돌… 30대 운전자 숨져</h2>
+ <div class="byline"><span>박지현 기자<br>입력 2026.08.15 09:41 · 수정 2026.08.15 14:02</span><span>${IC.send}</span></div>
+ ${photo('curve','사고 현장. 끊어진 가드레일과 급커브 표지판, 폴리스라인')}<p class="muted" style="font-size:12px;margin-top:6px">▲ 사고가 난 양평군 ○○리 급커브 구간. 가드레일 일부가 끊겨 있다. (사진=독자 제공)</p>
  <p>14일 밤 경기 양평군의 한 지방도에서 승용차가 가드레일을 들이받고 비탈 아래로 떨어져 운전자 서모(34)씨가 숨졌다.</p>
  <p>사고는 15일 0시 41분쯤 이곳을 지나던 운전자의 신고로 접수됐다. 경찰은 사고가 14일 오후 11시 전후에 일어난 것으로 보고 있다.</p>
  <p>서씨는 병원으로 옮겨졌으나 끝내 숨졌다. 의료진은 사망 추정 시각을 <b>15일 0시 20분쯤</b>으로 보고 “사고 직후 구조됐다면 생존 가능성이 있었다”고 밝혔다.</p>
  <p>경찰은 사고 차량에 블랙박스가 설치돼 있었지만 <b>메모리카드가 꽂혀 있지 않아</b> 정확한 사고 시각과 경위를 확인하는 데 어려움을 겪고 있다고 밝혔다. 현장에서 다른 차량의 흔적은 발견되지 않았다.</p>
- <p class="muted">오늘신문 사회부</p></div>`};
+ <p class="muted">박지현 기자 jhpark@today-sinmun.kr</p>
+ ${nwAd()}<div style="font-weight:700;margin:20px 0 6px">많이 본 뉴스</div><div class="rank"><a data-go="today-sinmun.kr/404">서울 아파트 전세가, 석 달째 상승</a><a data-go="today-sinmun.kr/404">“밤길 운전 조심하세요” 여름철 졸음운전 사고 급증</a><a data-go="today-sinmun.kr/404">긴급신고 자동 발신 차량 늘지만… ‘수동 취소’ 사각지대</a><a data-go="today-sinmun.kr/404">빗길 급커브 사고, 가로등 없는 지방도에 집중</a></div></div>${foot('오늘신문','<div>서울특별시 중구 · 등록번호 서울 아00000 · 발행인 김○○</div>')}`};
 
 /* golmok */
 const ITEMS=[
@@ -510,7 +712,7 @@ const ITEMS=[
  {id:'2290',t:'캠핑용 가스 라이터 3개',n:'주말캠퍼',d:'성수동 · 7월 11일',p:'5,000원',bg:'#5a7a3a',th:'라이터'},
  {id:'1777',t:'메모리카드 리더기 팝니다',n:'정리중',d:'한강로동 · 6월 30일',p:'3,000원',bg:'#6b6b73',th:'리더기'}
 ];
-const gmTop=()=>`<div class="gm-top" data-go="golmok.kr" style="cursor:pointer">골목장터</div>`;
+const gmTop=()=>`<div class="gm-top"><span data-go="golmok.kr" style="cursor:pointer">골목장터 <span style="font-size:13px;font-weight:500;opacity:.9">한강로동 ▾</span></span>${IC.search}</div>`;
 function gmList(q){
  const k=(q||'').trim();
  const list=k?ITEMS.slice(1).filter(i=>(i.t+i.n).replace(/\s/g,'').includes(k.replace(/\s/g,''))):ITEMS.slice(1);
@@ -522,7 +724,8 @@ P['golmok.kr/item/4471']=()=>{clue('req');return `${gmTop()}
  ${photo('sd','[사진] 손바닥 위의 작은 SD카드. 가운데에 금이 가 있고, 엄지 옆으로 은색 라이터 모서리가 보인다.')}
  <div class="pad"><div style="display:flex;gap:10px;align-items:center;margin-bottom:14px"><div class="ava" style="width:40px;height:40px;font-size:15px;background:radial-gradient(circle at 40% 35%,#e8e8ec,#8c8c94 60%,#4a4a52)">🔥</div><div><b>라이터</b><div class="muted">한강로동 · 매너온도 36.5°</div></div></div>
  <div class="h1">[구해요] 파손된 블랙박스 메모리카드 복구 가능하신 분</div><div class="muted" style="margin-bottom:12px">2026.08.16 02:55 · <span class="pill">예약중</span></div>
- <p style="line-height:1.8;font-size:15px">차량 블랙박스 SD카드입니다. 충격으로 금이 갔어요.<br><br><b>8월 14일 밤 영상만</b> 필요합니다.<br>업체 말고 개인 분이면 좋겠어요.<br>복구만 해주시고, 내용은 보지 말아 주세요.<br><br>사례는 원하시는 만큼 드릴게요.</p></div>`};
+ <p style="line-height:1.8;font-size:15px">차량 블랙박스 SD카드입니다. 충격으로 금이 갔어요.<br><br><b>8월 14일 밤 영상만</b> 필요합니다.<br>업체 말고 개인 분이면 좋겠어요.<br>복구만 해주시고, 내용은 보지 말아 주세요.<br><br>사례는 원하시는 만큼 드릴게요.</p><p class="muted" style="font-size:12px;margin-top:14px">관심 2 · 채팅 1 · 조회 48</p></div>
+ <div class="gm-bot"><span style="color:#8a8a92">${IC.heart}</span><b style="flex:1">사례 드려요</b><button data-toast="로그인이 필요합니다">채팅하기</button></div>`};
 ITEMS.slice(1).forEach(i=>{P['golmok.kr/item/'+i.id]=()=>`${gmTop()}<div class="pad"><div class="h1">${i.t}</div><div class="muted" style="margin-bottom:12px">${i.n} · ${i.d}</div><p style="font-size:15px;line-height:1.7">상태 좋아요. 직거래만 합니다.</p><div class="pr" style="margin-top:12px;font-weight:700">${i.p}</div></div>`});
 
 /* ---------- 추가 사진 ---------- */
@@ -544,6 +747,15 @@ SC.hands=()=>V(`<rect width="400" height="400" fill="#ecebe8"/><path d="M0 120 Q
  <path d="M380 260 C 320 210 250 200 200 220 C 180 230 184 252 206 256 C 250 262 300 280 340 330 Z" fill="#d9a585"/>
  <ellipse cx="205" cy="232" rx="9" ry="5" fill="none" stroke="#e2c46a" stroke-width="3"/>`,'#ecebe8');
 
+SC.curve=()=>V(`<defs><linearGradient id="cv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b2433"/><stop offset="1" stop-color="#3b4658"/></linearGradient></defs>
+ <rect width="400" height="400" fill="url(#cv)"/><path d="M0 170 Q120 120 260 150 T400 140 L400 230 L0 230Z" fill="#253041"/>
+ <path d="M-20 400 Q150 300 230 230 Q270 200 400 195 L400 250 Q300 255 270 280 Q200 340 120 400Z" fill="#4a5361"/>
+ <path d="M60 400 Q170 310 245 245" stroke="#d9c45a" stroke-width="3" stroke-dasharray="14 12" fill="none"/>
+ <path d="M150 300 Q240 220 400 205" stroke="#c7ccd4" stroke-width="7" fill="none"/>
+ <path d="M200 262 L232 236" stroke="#3b4658" stroke-width="12"/><path d="M196 264 L188 290 M234 234 L250 258" stroke="#c7ccd4" stroke-width="5"/>
+ ${[170,215,265,320,375].map((x,i)=>`<rect x="${x}" y="${280-i*18}" width="4" height="${26-i*2}" fill="#8b919b"/>`).join('')}
+ <path d="M300 205 L336 205 L318 172Z" fill="#e8c21a"/><path d="M318 205 L318 232" stroke="#8b919b" stroke-width="3"/>
+ <path d="M150 330 L330 300" stroke="#f5d000" stroke-width="5" stroke-dasharray="18 10"/>`);
 /* ---------- 상태 헬퍼 ---------- */
 const has=id=>S.clues.includes(id);
 const unlocked=k=>S.seen.includes(k);
@@ -560,7 +772,7 @@ P['glimpse.kr/harin.s']=()=>{clue('harin');clue('breakup');return `<div class="g
  ['door','늘 그 방.','2026년 7월 29일'],
  ['hands','그 사람 결혼기념일. 그래도 나한테 왔다.','2026년 6월 21일'],
  ['key','처음.','2026년 3월 12일']
- ].map(p=>`<div class="post"><div class="post-h"><div class="ava" style="background:linear-gradient(135deg,#c76b8f,#6b3a5a)">하</div>harin.s</div>${photo(p[0],p[1])}<div class="post-c">${p[1]}<div class="d">${p[2]}</div></div></div>`).join('')}
+ ].map(p=>`<div class="post"><div class="post-h"><div class="ava" style="background:linear-gradient(135deg,#c76b8f,#6b3a5a)">하</div>harin.s</div>${photo(p[0],p[1])}${acts(0)}<div class="post-c"><b>harin.s</b> ${p[1]}<div class="d">${p[2]}</div></div></div>`).join('')}
 </div>`};
 P['glimpse.kr/harin.s/about']=()=>{clue('joined');return `<div class="gl">${glTop()}<div class="pad"><span class="lnk" data-go="glimpse.kr/harin.s">‹ harin.s</span><div class="h1" style="margin-top:10px">이 계정 정보</div><p class="muted" style="margin-bottom:14px">커뮤니티의 신뢰를 위해 계정 정보를 공개합니다.</p>
  <div class="card"><div class="row"><span>가입한 날짜</span><span><b>2026년 8월 19일</b></span></div><div class="row"><span>계정 기반 국가</span><span>대한민국</span></div><div class="row"><span>사용자 이름 변경</span><span>0회</span></div><div class="row"><span>게시물 업로드</span><span>2026.08.19 01:05 ~ 01:11 (5개)</span></div></div>
@@ -571,7 +783,7 @@ const pxTop=()=>`<div class="px-top"><b data-go="pixbox.kr/album" style="cursor:
 P['pixbox.kr']=()=>unlocked('px')?P['pixbox.kr/album']():`<div class="px"><div class="px-top"><b>pixbox</b></div><div class="pad"><div class="h1">사진 클라우드 로그인</div><p class="muted" style="margin-bottom:16px">휴대폰 사진이 자동으로 백업됩니다.</p>
  <form data-form="px"><div class="field"><label>아이디</label><input name="id" autocomplete="off" placeholder="아이디"></div><div class="field"><label>비밀번호</label><input name="pw" type="password" autocomplete="off" placeholder="비밀번호"></div><button class="btn">로그인</button><div class="err"></div></form>
  <p class="muted" style="margin-top:14px;font-size:12px">비밀번호를 잊으셨나요? 등록된 이메일로 재설정 링크가 발송됩니다. (이 기기에서 이메일 앱을 찾을 수 없습니다)</p></div></div>`;
-P['pixbox.kr/album']=()=>{if(!unlocked('px'))return P['pixbox.kr']();return `<div class="px">${pxTop()}<div class="pad"><div class="h1">앨범</div>
+P['pixbox.kr/album']=()=>{if(!unlocked('px'))return P['pixbox.kr']();return `<div class="px">${pxTop()}<div class="pad"><div style="font-size:12px;color:#7a7a82;margin-bottom:6px">저장 공간 15GB 중 12.4GB 사용</div><div class="prog" style="margin-bottom:18px"><div style="width:83%;background:#2463eb"></div></div><div class="h1">앨범</div>
  <div class="alb" data-go="pixbox.kr/album/home"><div class="alb-th">${SC.sea()}</div><div><b>우리집</b><div class="muted">사진 4장</div></div></div>
  <div class="alb" data-go="pixbox.kr/album/0312"><div class="alb-th" style="background:#26262b;display:flex;align-items:center;justify-content:center;color:#888">∅</div><div><b>0312</b><div class="muted">공유 앨범 · 멤버 2명 · 사진 0장</div></div></div>
  <div class="alb" data-go="pixbox.kr/trash"><div class="alb-th" style="background:#f0f0f3;display:flex;align-items:center;justify-content:center;font-size:26px">🗑</div><div><b>최근 삭제된 항목</b><div class="muted">2장 · 30일 후 영구 삭제</div></div></div>
@@ -616,22 +828,40 @@ P['dashcam.kr/viewer']=()=>{if(S.cam){clue('video');return `<div class="cam">${d
  return `<div class="cam"><div class="cam-top">DASHCAM VIEWER</div><div class="pad"><div class="h1" style="color:#fff">메모리카드 연결</div><p style="color:#9a9aa2;font-size:13px;margin-bottom:16px">카드 뒷면에 적힌 일련번호(SN)를 입력하면 복구된 영상을 재생합니다.</p>
  <form data-form="cam"><div class="field"><input name="sn" autocomplete="off" placeholder="SN" style="background:#1c1c22;border-color:#333;color:#fff"></div><button class="btn" style="background:#d13438">영상 불러오기</button><div class="err"></div></form></div></div>`};
 
+function noConn(u){const d=domOf(u).replace(/</g,'');return `<div class="nc"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#5f6368" stroke-width="1.5"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6"/><circle cx="10.5" cy="14" r=".8" fill="#5f6368"/><circle cx="15.5" cy="14" r=".8" fill="#5f6368"/><path d="M10 18.5c1.5-1.2 4.5-1.2 6 0"/></svg><div class="h1">사이트에 연결할 수 없음</div><p><b>${d}</b>의 서버 IP 주소를 찾을 수 없습니다.</p><p class="muted">· 주소에 오타가 없는지 확인하세요.<br>· 채팅에서 들은 주소라면 다시 한번 확인해 보세요.</p><p class="muted" style="font-size:12px;margin-top:12px">DNS_PROBE_FINISHED_NXDOMAIN</p><button class="btn2" data-go="naru.kr/search?q=${encodeURIComponent(d)}">‘${d}’ 검색하기</button></div>`}
 function notFound(u){return `<div class="nf"><div class="big">404</div><b>페이지를 찾을 수 없습니다</b><p class="muted" style="margin-top:8px;word-break:break-all">${u.replace(/</g,'&lt;')}</p><p class="muted" style="margin-top:14px">주소를 다시 확인하거나 ${L('home','새 탭')}으로 돌아가세요.</p></div>`}
 
 /* ---------- 이동 ---------- */
+let renderTok=0;
+function setAddr(u){
+ $('#tabN').textContent=DOYUN_TABS.includes(u)?3:4;
+ $('#url').value=u==='home'?'':(u.startsWith('naru.kr/search')?decodeURIComponent(u.split('q=')[1]||''):u);
+ const d=domOf(u),rest=u.slice(d.length);
+ $('#fav').outerHTML=u==='home'?'<span class="fav lockic" id="fav">'+IC.search+'</span>':favH(d).replace('class="fav','id="fav" class="fav');
+ const disp=$('#disp');
+ if(u==='home'){disp.className='disp ph';disp.textContent='검색어 또는 주소 입력'}
+ else if(u.startsWith('naru.kr/search')){disp.className='disp';disp.textContent=decodeURIComponent(u.split('q=')[1]||'')}
+ else{disp.className='disp';disp.innerHTML='<b style="font-weight:500">'+d+'</b><span>'+rest.replace(/</g,'')+'</span>'}
+}
 function render(u){
  const page=$('#page');
  let html;
  if(u.startsWith('golmok.kr/search')){const q=decodeURIComponent((u.split('q=')[1]||''));html=gmList(q)}
- else html=P[u]?P[u]():notFound(u);
- page.innerHTML=html;
- $('#url').value=u==='home'?'':u;
+ else if(u.startsWith('naru.kr/search')){html=searchPage(decodeURIComponent(u.split('q=')[1]||''))}
+ else html=P[u]?P[u]():(u!=='home'&&!FAV[domOf(u)]?noConn(u):notFound(u));
+ const tok=++renderTok;
+ page.classList.remove('fi');
+ page.innerHTML='<div class="sk"><i style="width:40%"></i><i class="b"></i><i></i><i style="width:80%"></i><i style="width:60%"></i></div>';
+ setTimeout(()=>{if(tok!==renderTok)return;page.innerHTML=html;void page.offsetWidth;page.classList.add('fi')},u==='home'?0:180+Math.random()*140);
+ setAddr(u);
  $('#view').scrollTop=0;
  $('#bBack').disabled=!S.back.length;$('#bFwd').disabled=!S.fwd.length;
  const l=$('#load');l.style.transition='none';l.style.width='0';requestAnimationFrame(()=>{l.style.transition='width .35s ease';l.style.width='100%';setTimeout(()=>{l.style.width='0';l.style.transition='none'},380)});
  save();
 }
 function go(u,push=true){
+ const raw=(u||'').trim();
+ if(raw&&raw!=='home'&&!/[.]/.test(raw)&&!raw.startsWith('naru.kr'))u='naru.kr/search?q='+encodeURIComponent(raw);
  u=norm(u);
  if(push&&u!==S.cur){S.back.push(S.cur);S.fwd=[];}
  S.cur=u;
@@ -642,6 +872,12 @@ function go(u,push=true){
 
 /* ---------- 이벤트 ---------- */
 $('#bar').addEventListener('submit',e=>{e.preventDefault();$('#url').blur();go($('#url').value)});
+$('#url').addEventListener('focus',()=>{$('#addr').classList.add('foc');setTimeout(()=>{try{$('#url').select()}catch(e){}},0)});
+$('#url').addEventListener('blur',()=>setTimeout(()=>{$('#addr').classList.remove('foc');setAddr(S.cur)},120));
+$('#rl').addEventListener('mousedown',e=>e.preventDefault());
+$('#rl').onclick=()=>{if($('#addr').classList.contains('foc')){$('#url').blur();go($('#url').value);return}const r=$('#rl');r.classList.remove('spin');void r.offsetWidth;r.classList.add('spin');render(S.cur)};
+$('#bTabs').onclick=openTabs;
+(function clock(){const t=new Date();$('#clk').textContent=t.getHours()+':'+String(t.getMinutes()).padStart(2,'0');setTimeout(clock,30000)})();
 $('#bBack').onclick=()=>{if(!S.back.length)return;S.fwd.push(S.cur);S.cur=S.back.pop();render(S.cur)};
 $('#bFwd').onclick=()=>{if(!S.fwd.length)return;S.back.push(S.cur);S.cur=S.fwd.pop();render(S.cur)};
 $('#bHome').onclick=()=>go('home');
@@ -652,6 +888,7 @@ $('#sheet').addEventListener('click',e=>{if(e.target.id==='sheet'||e.target.clos
 document.addEventListener('click',e=>{
  const g=e.target.closest('[data-go]');
  if(g){e.preventDefault();$('#sheet').classList.remove('on');go(g.dataset.go);return}
+ const tt=e.target.closest('[data-toast]');if(tt){toast(tt.dataset.toast);return}
  const a=e.target.closest('[data-act]');
  if(a&&a.dataset.act==='hist')openHist();
  const c=e.target.closest('.copy');
@@ -677,6 +914,7 @@ document.addEventListener('submit',e=>{
  if(k==='px'){if(fnv((d.id||'').trim().toLowerCase()+'|'+(d.pw||'').trim())==='f948bc19'){if(!S.seen.includes('px'))S.seen.push('px');go('pixbox.kr/album')}else err('아이디 또는 비밀번호가 올바르지 않습니다.')}
  if(k==='nv'){if(fnv((d.plate||'').replace(/\s/g,'')+'|'+(d.pin||'').trim())==='ed7d2a41'){if(!S.seen.includes('nv'))S.seen.push('nv');go('gilnavi.kr/log')}else err('차량번호 또는 PIN이 올바르지 않습니다.')}
  if(k==='cam'){if(fnv(clean(d.sn).replace(/^sn/,''))==='44032577'){S.cam=true;save();render(S.cur)}else err('일련번호를 인식할 수 없습니다.')}
+ if(k==='srch'){const q=(d.q||'').trim();if(q)go('naru.kr/search?q='+encodeURIComponent(q));return}
  if(k==='gm'){go('golmok.kr/search?q='+encodeURIComponent((d.q||'').trim()))}
 });
 
@@ -686,6 +924,12 @@ function openHist(){
  ${mine.length?`<div class="muted" style="margin:6px 0">오늘</div>${mine.map(h=>`<div class="hrow" data-go="${h[0]}"><div class="u">${h[0]}</div><div class="w">${h[1]}</div></div>`).join('')}`:''}
  <div class="muted" style="margin:16px 0 6px">이전 기록 — 도윤</div>
  ${PRE_HISTORY.map(h=>`<div class="hrow" data-go="${h[0]}"><div class="u">${h[0]}</div><div class="w">${h[1]}</div></div>`).join('')}`;
+ $('#sheet').classList.add('on');
+}
+function openTabs(){
+ const list=[...DOYUN_TABS.filter(u=>u!==S.cur),S.cur];
+ $('#tabN').textContent=list.length;
+ $('#sheetIn').innerHTML=`<div class="sheet-h"><b>탭 ${list.length}개</b><button class="x">✕</button></div><p class="muted" style="font-size:12px;margin-bottom:12px">도윤이 마지막으로 열어 둔 탭이 남아 있다.</p><div class="tabgrid">${list.map(u=>`<div class="tabc ${u===S.cur?'cur':''}" data-go="${u}"><div class="tabc-h">${favH(domOf(u))}<span>${titleOf(u)}</span></div><div class="tabc-b">${u==='home'?'새 탭':u}</div></div>`).join('')}</div>`;
  $('#sheet').classList.add('on');
 }
 function openClues(){
@@ -699,6 +943,98 @@ function openClues(){
  $('#sheet').classList.add('on');
 }
 
+/* ---------- 홈 화면 & 앱 ---------- */
+const AI={
+ phone:'<svg viewBox="0 0 24 24" fill="#fff"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg>',
+ msg:'<svg viewBox="0 0 24 24" fill="#fff"><path d="M12 3C6.5 3 2 6.6 2 11c0 2.4 1.3 4.6 3.4 6.1L4.6 21l4.1-2.2c1 .3 2.1.4 3.3.4 5.5 0 10-3.6 10-8.1S17.5 3 12 3z"/></svg>',
+ web:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/></svg>',
+ gal:'<svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="3.2" fill="#ffcc00"/><circle cx="17" cy="11" r="3.2" fill="#ff9500" opacity=".9"/><circle cx="15" cy="16.5" r="3.2" fill="#ff3b30" opacity=".9"/><circle cx="9" cy="16.5" r="3.2" fill="#af52de" opacity=".9"/><circle cx="7" cy="11" r="3.2" fill="#007aff" opacity=".9"/><circle cx="12" cy="12" r="2.4" fill="#34c759"/></svg>',
+ memo:'<svg viewBox="0 0 24 24" fill="none" stroke="#7a5b00" stroke-width="2" stroke-linecap="round"><path d="M6 8h12M6 12h12M6 16h8"/></svg>',
+ nav:'<svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2l7 19-7-4-7 4z"/></svg>',
+ note:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M6 3h10l3 3v15H6z"/><path d="M9 9h7M9 13h7M9 17h4"/></svg>',
+ set:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>',
+ clock:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/></svg>',
+ cloud:'<svg viewBox="0 0 24 24" fill="#fff"><path d="M7 19a5 5 0 0 1-.6-10A6 6 0 0 1 18 9.5 4.5 4.5 0 0 1 17.5 19z"/></svg>'
+};
+const APPS=[
+ {id:'glimpse',n:'Glimpse',bg:'linear-gradient(135deg,#7b5cff,#e25b8f)',ic:'<b style="color:#fff;font-size:26px;font-weight:800">G</b>',nb:1,go:'glimpse.kr'},
+ {id:'nav',n:'길동무',bg:'linear-gradient(135deg,#2fae6c,#1f7a4d)',ic:AI.nav,go:'gilnavi.kr'},
+ {id:'cal',n:'캘린더',bg:'#fff',ic:'<div style="text-align:center;line-height:1"><div style="font-size:9px;color:#e5484d;font-weight:700">금</div><div style="font-size:24px;color:#1c1c1f">14</div></div>'},
+ {id:'memo',n:'메모',bg:'linear-gradient(180deg,#ffe27a,#ffd23f)',ic:AI.memo},
+ {id:'pixbox',n:'pixbox',bg:'#2463eb',ic:AI.cloud,go:'pixbox.kr'},
+ {id:'clock',n:'시계',bg:'#1c1c1f',ic:AI.clock,toast:'알람 없음'},
+ {id:'set',n:'설정',bg:'#8e8e93',ic:AI.set,toast:'잠금 해제된 상태에서는 설정을 변경할 수 없습니다'},
+ {id:'note',n:'단서 수첩',bg:'#1c1c1f',ic:AI.note,act:'clues'}
+];
+const DOCK=[
+ {id:'phone',n:'전화',bg:'linear-gradient(180deg,#5fdc7a,#2fbf55)',ic:AI.phone,nb:2},
+ {id:'msg',n:'메시지',bg:'linear-gradient(180deg,#5fdc7a,#2fbf55)',ic:AI.msg,nb:3},
+ {id:'web',n:'인터넷',bg:'linear-gradient(180deg,#5aa0ff,#2463eb)',ic:AI.web},
+ {id:'gal',n:'사진',bg:'#fff',ic:AI.gal}
+];
+const appBtn=a=>`<button class="app" data-app="${a.id}"><span class="ico" style="background:${a.bg}">${a.ic}${a.nb?`<span class="nb">${a.nb}</span>`:''}</span><span class="lb">${a.n}</span></button>`;
+function renderHome(){
+ const t=new Date();const days='일월화수목금토';
+ $('#hs').innerHTML=`<div class="wall">${SC.sea().replace('<svg ','<svg preserveAspectRatio="xMidYMid slice" ')}</div><div style="height:30px;flex:none"></div>
+ <div class="hs-clock"><b>${t.getHours()}:${String(t.getMinutes()).padStart(2,'0')}</b><span>${t.getMonth()+1}월 ${t.getDate()}일 ${days[t.getDay()]}요일</span></div>
+ <div class="grid4">${APPS.map(appBtn).join('')}</div>
+ <div class="dock">${DOCK.map(appBtn).join('')}</div>`;
+}
+function showHome(){
+ $('#app').classList.remove('on');$('#sheet').classList.remove('on');
+ renderHome();$('#hs').classList.add('on');$('#phone').classList.add('onhome');
+}
+function showBrowser(u){
+ $('#hs').classList.remove('on');$('#app').classList.remove('on');$('#phone').classList.remove('onhome');
+ if(u)go(u);else render(S.cur);
+}
+function openApp(id){
+ const a=[...APPS,...DOCK].find(x=>x.id===id);if(!a)return;
+ if(a.toast){toast(a.toast);return}
+ if(a.act==='clues'){openClues();return}
+ if(id==='web'){showBrowser();return}
+ if(a.go){showBrowser(a.go);return}
+ $('#hs').classList.remove('on');$('#phone').classList.remove('onhome');
+ $('#app').classList.add('on');appView(id);
+}
+function appHead(t,back){$('#ah').innerHTML=`<button class="bk" data-appgo="${back||'home'}">‹ ${back?'뒤로':'홈'}</button><span>${t}</span>`}
+function appView(id,sub){
+ const ab=$('#ab');ab.scrollTop=0;
+ if(id==='phone'){clue('callh');appHead('최근 기록');ab.innerHTML=[
+  ['H','8월 14일 오후 10:52','부재중 전화',1],['H','8월 14일 오후 10:49','부재중 전화',1],
+  ['♥ 아내','8월 14일 오후 8:58','발신 · 0:47',0],['온결 사무실','8월 14일 오후 6:02','수신 · 3:15',0],['H','8월 13일 오후 11:40','수신 · 12:08',0],['어머니','8월 11일 오전 9:14','발신 · 5:31',0]
+ ].map(c=>`<div class="li ${c[3]?'miss':''}"><div class="av" style="background:${c[0]==='H'?'radial-gradient(circle at 40% 35%,#e8e8ec,#8c8c94 60%,#4a4a52)':'#c7c7cc'}">${c[0]==='H'?'H':c[0].replace('♥ ','')[0]}</div><div class="m"><b>${c[0]}</b><small>${c[2]}</small></div><div class="t">${c[1]}</div></div>`).join('')+`<div class="pad muted" style="font-size:12px">연락처 ‘H’ · 010-7731-0312</div>`}
+ if(id==='msg'&&!sub){appHead('메시지');ab.innerHTML=[
+  ['wife','♥ 아내','오늘 늦게라도 갈게. 할 얘기 있어.','8월 14일','#ff6b8a','♥'],
+  ['restay','Restay','[Restay] 예약이 취소되었습니다.','8월 14일','#0f5f5c','R'],
+  ['hg','한결생명','[한결생명] 수익자 변경이 완료되었습니다.','7월 31일','#14254a','한'],
+  ['h','H','대화 내용이 없습니다','','radial-gradient(circle at 40% 35%,#e8e8ec,#8c8c94 60%,#4a4a52)','H']
+ ].map(m=>`<div class="li" data-appgo="msg:${m[0]}"><div class="av" style="background:${m[4]}">${m[5]}</div><div class="m"><b>${m[1]}</b><small>${m[2]}</small></div><div class="t">${m[3]}</div></div>`).join('')}
+ if(id==='msg'&&sub){
+  const T={wife:['♥ 아내',`<div class="bub-t">8월 14일 (금)</div><div class="bub">오늘 몇 시쯤 와? 엄마가 반찬 해놨대</div><div class="bub me">일 끝나고 바로 갈게</div><div class="bub-t">오후 8:59</div><div class="bub me">오늘 늦게라도 갈게. 할 얘기 있어.</div><div class="bub">무슨 얘기?</div><div class="bub">조심히 와. 비 많이 온대</div><div class="bub-t">오후 11:48</div><div class="bub">어디야? 전화 왜 안 받아</div><div class="bub-t">8월 15일 (토) 오전 1:12</div><div class="bub">도윤아</div>`],
+   restay:['Restay',`<div class="bub-t">7월 27일 (월) 오후 6:40</div><div class="bub">[Restay] 예약이 확정되었습니다.<br>숙소: 스테이노을 STAY NOEUL<br>체크인: 07.29(수) 15:00 · 성인 2<br>예약번호 RN-0729-114</div><div class="bub-t">8월 12일 (수) 오후 2:11</div><div class="bub">[Restay] 예약이 확정되었습니다.<br>스테이노을 · 08.14(금) 체크인</div><div class="bub-t">8월 14일 (금) 오후 8:55</div><div class="bub">[Restay] 예약이 취소되었습니다. 스테이노을 · 1박</div>`],
+   hg:['한결생명',`<div class="bub-t">7월 31일 (금) 오후 2:05</div><div class="bub">[한결생명] 서도윤 고객님, 요청하신 계약(HG-2207-5531)의 수익자 변경이 완료되었습니다.</div>`],
+   h:['H',`<div class="lock" style="padding:60px 20px">대화 내용이 없습니다.<br><span class="muted" style="font-size:12px">이 번호와 주고받은 문자가 모두 삭제되었습니다.</span></div>`]}[sub];
+  if(sub==='h')clue('callh');
+  appHead(T[0],'msg');ab.innerHTML=`<div style="padding:6px 0 20px">${T[1]}</div>`}
+ if(id==='cal'){appHead('2026년 8월');const ev={14:1,12:1,22:1};let h='<div class="cal">'+'일월화수목금토'.split('').map(d=>`<div class="dw">${d}</div>`).join('')+'<div></div>'.repeat(6);for(let d=1;d<=31;d++)h+=`<div class="${ev[d]?'ev':''}">${d===14?'<div class="sel">14</div>':d}</div>`;h+='</div>';
+  ab.innerHTML=h+`<div class="pad"><div class="li" style="padding:12px 0"><div style="width:4px;align-self:stretch;background:#e5484d;border-radius:2px"></div><div class="m"><b>8월 14일 (금) · 양평</b><small>다 말하기</small></div></div><div class="li" style="padding:12px 0"><div style="width:4px;align-self:stretch;background:#5b7bd5;border-radius:2px"></div><div class="m"><b>8월 12일 (수)</b><small>R 예약 — 마지막</small></div></div><div class="li" style="padding:12px 0"><div style="width:4px;align-self:stretch;background:#34c759;border-radius:2px"></div><div class="m"><b>8월 22일 (토)</b><small>반지 수리 찾기</small></div></div></div>`;clue('calendar')}
+ if(id==='memo'){clue('memo');appHead('메모');ab.innerHTML=`<div class="memo"><div class="muted" style="font-family:'Noto Sans KR';font-size:12px;margin-bottom:10px">2026년 8월 14일 오후 6:30 · 저장 안 됨</div>할 말
+
+미안해.
+처음부터 다 얘기할게.
+3월 12일부터.
+
+그 사람 이름은</div>`}
+ if(id==='gal'){appHead('사진');ab.innerHTML=`<div class="pad" style="padding-bottom:10px"><b>최근 항목</b> <span class="muted">4</span></div><div class="gal">${photo('sea','바다')}${photo('cake','케이크')}${photo('car','차')}${photo('lake','저수지')}</div><div class="pad"><div class="card" data-appgo="web:pixbox.kr" style="cursor:pointer"><b>☁ pixbox 백업 사용 중</b><div class="muted" style="font-size:13px;margin-top:4px">나머지 사진은 클라우드에 있습니다 ›</div></div><div class="muted" style="font-size:12px">최근 삭제된 항목 · 0</div></div>`}
+}
+$('#homebar').onclick=showHome;
+document.addEventListener('click',e=>{
+ const b=e.target.closest('[data-app]');if(b){openApp(b.dataset.app);return}
+ const g=e.target.closest('[data-appgo]');if(g){const v=g.dataset.appgo;
+  if(v==='home')showHome();else if(v.startsWith('web:'))showBrowser(v.slice(4));else{const [a,sub]=v.split(':');appView(a,sub)}}
+});
+
 /* ---------- 시작 ---------- */
 $('#start').onclick=()=>{$('#intro').classList.add('off')};
 (function(){const t=new Date();$('#lkTime').textContent=t.getHours()+':'+String(t.getMinutes()).padStart(2,'0');
@@ -708,9 +1044,9 @@ $('#start').onclick=()=>{$('#intro').classList.add('off')};
  pad.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const k=b.dataset.k;
   if(k==='지우기'){code=code.slice(0,-1);dots();return}
   if(code.length>=4)return;code+=k;dots();
-  if(code.length===4)setTimeout(()=>{if(code==='0621'){$('#lock').classList.add('off');S.intro=true;save()}else{const p=$('#pin');p.classList.remove('shake');void p.offsetWidth;p.classList.add('shake');code='';dots()}},180)});
+  if(code.length===4)setTimeout(()=>{if(code==='0621'){$('#lock').classList.add('off');S.intro=true;save();showHome()}else{const p=$('#pin');p.classList.remove('shake');void p.offsetWidth;p.classList.add('shake');code='';dots()}},180)});
 })();
-if(S.intro){$('#intro').style.display='none';$('#lock').style.display='none'}
+if(S.intro){$('#intro').style.display='none';$('#lock').style.display='none';showHome()}
 badge();render(S.cur);
 })();
 </script>
