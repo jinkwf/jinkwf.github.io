@@ -823,6 +823,9 @@ function render(){
     const l=fresh.filter(ok).slice(0,state.q||state.plat?undefined:NEW_MAX);
     if(l.length)secs.push(section(null,"최근 추가된 작품",[{list:l}],list,true));
   }else{
+    /* 첫 화면(필터 없음): 맨 위에 '최근 추가된 작품'을 먼저 보여 줘요 */
+    if(!state.genre&&state.world<0&&!state.plat&&!state.q&&fresh.length)
+      secs.push(section(null,"최근 추가된 작품",[{list:fresh.slice(0,NEW_MAX)}],list,true));
     CATS.forEach((c,ci)=>{
       if(state.world>=0&&ci!==state.world)return;
       if(state.genre&&genreOf(c)!==state.genre)return;
