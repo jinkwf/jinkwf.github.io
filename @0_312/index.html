@@ -1117,7 +1117,7 @@ $('#start').onclick=()=>{$('#intro').classList.add('off')};
   if(code.length>=4)return;code+=k;dots();
   if(code.length===4)setTimeout(()=>{if(code==='0621'){$('#lock').classList.add('off');S.intro=true;save();showHome()}else{const p=$('#pin');p.classList.remove('shake');void p.offsetWidth;p.classList.add('shake');code='';dots()}},180)});
 })();
-if(S.intro){$('#intro').style.display='none';$('#lock').style.display='none';showHome()}
+if(S.intro){$('#intro').style.display='none'}
 badge();
 })();
 </script>
