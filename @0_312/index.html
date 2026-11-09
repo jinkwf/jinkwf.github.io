@@ -526,7 +526,7 @@ function clue(id){
 function badge(){const b=$('#badge');const n=S.clues.length;b.hidden=!n;b.textContent=n}
 
 /* ---------- 브라우저 부품 ---------- */
-const FAV={'glimpse.kr':['linear-gradient(135deg,#7b5cff,#e25b8f)','G'],'restay.co.kr':['#0f5f5c','R'],'hangyeol-life.co.kr':['#14254a','한'],'today-sinmun.kr':['#1c1c1f','今'],'golmok.kr':['#ff7a2f','골'],'pixbox.kr':['#2463eb','P'],'gilnavi.kr':['#1f7a4d','길'],'bugo.kr':['#2b2b2b','부'],'dashcam.kr':['#d13438','●'],'naru.kr':['#00a86b','N']};
+const FAV={'onkyeol.kr':['#1c1c1f','온'],'glimpse.kr':['linear-gradient(135deg,#7b5cff,#e25b8f)','G'],'restay.co.kr':['#0f5f5c','R'],'hangyeol-life.co.kr':['#14254a','한'],'today-sinmun.kr':['#1c1c1f','今'],'golmok.kr':['#ff7a2f','골'],'pixbox.kr':['#2463eb','P'],'gilnavi.kr':['#1f7a4d','길'],'bugo.kr':['#2b2b2b','부'],'dashcam.kr':['#d13438','●'],'naru.kr':['#00a86b','N']};
 const domOf=u=>u.split(/[\/?]/)[0];
 const favH=(d,cls='')=>{const f=FAV[d];return f?`<span class="fav ${cls}" style="background:${f[0]}">${f[1]}</span>`:`<span class="fav lockic ${cls}">◎</span>`};
 const IC={
@@ -539,7 +539,7 @@ const IC={
 };
 const acts=n=>`<div class="acts"><span>${IC.heart}${IC.cmt}${IC.send}</span>${IC.save}</div><div class="likes">${n?`좋아요 ${n}개`:'<span style="font-weight:400;color:#8a8a92">가장 먼저 좋아요를 눌러보세요</span>'}</div>`;
 const foot=(n,extra='')=>`<div class="foot"><b>${n}</b>${extra}<div>이용약관 · 개인정보처리방침 · 고객센터</div><div>© 2026 ${n}. All rights reserved.</div></div>`;
-const TITLES={'home':'새 탭','glimpse.kr':'Glimpse','glimpse.kr/_0312':'_0312 • Glimpse','glimpse.kr/seo.doyun':'서도윤(@seo.doyun) • Glimpse','glimpse.kr/han.ijun':'한이준(@han.ijun) • Glimpse','glimpse.kr/h_':'h_ • Glimpse','glimpse.kr/harin.s':'서하린(@harin.s) • Glimpse','glimpse.kr/_0312/direct':'메시지 • Glimpse','restay.co.kr':'Restay - 호텔·스테이 예약','restay.co.kr/booking':'비회원 예약 조회 | Restay','hangyeol-life.co.kr':'한결생명 고객센터','today-sinmun.kr':'오늘신문','today-sinmun.kr/2026/0815/yangpyeong':'양평 지방도서 승용차 가드레일 충돌… - 오늘신문','golmok.kr':'골목장터','gilnavi.kr':'길동무 내비','pixbox.kr':'pixbox','bugo.kr/seodoyun':'故 서도윤 부고 - 마음부고','dashcam.kr/viewer':'DASHCAM VIEWER','naru.kr':'naru'};
+const TITLES={'onkyeol.kr':'설계사무소 온결','glimpse.kr/yoon.sj':'윤서진(@yoon.sj) • Glimpse','home':'새 탭','glimpse.kr':'Glimpse','glimpse.kr/_0312':'_0312 • Glimpse','glimpse.kr/seo.doyun':'서도윤(@seo.doyun) • Glimpse','glimpse.kr/han.ijun':'한이준(@han.ijun) • Glimpse','glimpse.kr/h_':'h_ • Glimpse','glimpse.kr/harin.s':'서하린(@harin.s) • Glimpse','glimpse.kr/_0312/direct':'메시지 • Glimpse','restay.co.kr':'Restay - 호텔·스테이 예약','restay.co.kr/booking':'비회원 예약 조회 | Restay','hangyeol-life.co.kr':'한결생명 고객센터','today-sinmun.kr':'오늘신문','today-sinmun.kr/2026/0815/yangpyeong':'양평 지방도서 승용차 가드레일 충돌… - 오늘신문','golmok.kr':'골목장터','gilnavi.kr':'길동무 내비','pixbox.kr':'pixbox','bugo.kr/seodoyun':'故 서도윤 부고 - 마음부고','dashcam.kr/viewer':'DASHCAM VIEWER','naru.kr':'naru'};
 const titleOf=u=>TITLES[u]||(u.startsWith('naru.kr/search')?decodeURIComponent(u.split('q=')[1]||'')+' : naru 검색':u);
 const DOYUN_TABS=['glimpse.kr/_0312','gilnavi.kr','restay.co.kr/booking'];
 
@@ -557,6 +557,11 @@ const IDX=[
  {k:['길동무','내비','네비','주행기록'],u:'gilnavi.kr',t:'길동무 내비 - 내 차 주행 기록',d:'차량 연동 서비스. 차량번호와 앱 PIN으로 로그인하세요.'},
  {k:['pixbox','픽스박스','클라우드','사진백업'],u:'pixbox.kr',t:'pixbox - 사진 클라우드',d:'휴대폰 사진이 자동으로 백업됩니다. 15GB 무료.'},
  {k:['블랙박스','dashcam','대시캠','메모리카드','sd카드'],u:'dashcam.kr/viewer',t:'DASHCAM VIEWER - 블랙박스 영상 보기',d:'메모리카드 일련번호(SN)로 복구된 영상을 재생합니다.'},
+ {k:['윤서진','서진','yoonsj'],u:'glimpse.kr/yoon.sj',t:'윤서진(@yoon.sj) • Glimpse 사진 및 동영상',d:'팔로워 488명, 게시물 203개 — 온결 설계2팀 / 10.17 💍'},
+ {k:['온결','onkyeol','설계사무소'],u:'onkyeol.kr',t:'설계사무소 온결 ONKYEOL',d:'공간의 결을 짓습니다. 주거·상업·문화 공간 설계. 서울 성동구 성수동.'},
+ {k:['리베이트','설계변경','성수동설계'],u:'today-sinmun.kr/2026/0809/rebate',t:'성수동 소규모 설계사무소 ‘설계변경 리베이트’ 의혹… 경찰 내사 - 오늘신문',d:'2026.08.09 — 성동구 성수동 일대 소규모 설계사무소 일부가 시공사로부터…'},
+ {k:['폭우','호우','날씨','호우경보'],u:'today-sinmun.kr/2026/0814/rain',t:'경기 동부 시간당 50㎜ 폭우… 양평·가평 호우경보 - 오늘신문',d:'2026.08.14 — 14일 밤부터 15일 새벽까지 경기 동부에 강한 비가…'},
+ {k:['물안개','펜션','양평펜션'],u:'restay.co.kr',t:'물안개 스테이 · 양평 독채 펜션 | Restay',d:'강변 독채 펜션. ★4.6 · 230,000원~'},
  {k:['부고','마음부고','bugo'],u:'bugo.kr',t:'마음부고 - 모바일 부고장',d:'부고 주소를 정확히 입력해 조회하세요.'}
 ];
 function searchPage(q){
@@ -595,7 +600,13 @@ P['glimpse.kr']=()=>`<div class="gl">${glTop()}
 
 P['glimpse.kr/seo.doyun']=()=>{if(has('acc'))clue('lighter');return `<div class="gl">${glTop()}
  <div class="gl-prof"><div class="ava" style="background:#5b7bd5">서</div><div><b>서도윤</b><div class="stats" style="margin-top:8px"><div><b>48</b>게시물</div><div><b>212</b>팔로워</div><div><b>180</b>팔로잉</div></div></div></div>
- <div class="bio">평범하게 잘 사는 중.<br><span class="muted">Seoul · 설계사무소</span></div>
+ <div class="bio">평범하게 잘 사는 중.<br><span class="muted">Seoul · 설계사무소 ${L('onkyeol.kr','온결')}</span></div>
+ <div class="post"><div class="post-h"><div class="ava" style="background:#5b7bd5">서</div>seo.doyun</div>
+  ${photo('site','[사진] 성수동 공사 현장. 철골 구조와 타워크레인')}
+  ${acts(17)}<div class="post-c"><b>seo.doyun</b> 골조 올라가는 날. 6개월 갈아 넣은 거.<div class="d">2026년 8월 3일 · 댓글 2개</div><div style="font-size:13px;margin-top:6px"><b>${L('glimpse.kr/yoon.sj','yoon.sj')}</b> 선배 내일 현장 같이 가요 ㅎㅎ 커피는 제가♥<br><b>seo.doyun</b> 아메리카노 샷추가</div></div></div>
+ <div class="post"><div class="post-h"><div class="ava" style="background:#5b7bd5">서</div>seo.doyun</div>
+  ${photo('flower','[사진] 분홍 꽃다발과 ‘생일 축하해’ 카드')}
+  ${acts(52)}<div class="post-c"><b>seo.doyun</b> 우리 집 대장 생일. 올해도 내가 졌다.<div class="d">2026년 7월 9일</div></div></div>
  <div class="post"><div class="post-h"><div class="ava" style="background:#5b7bd5">서</div>seo.doyun</div>
   ${photo('cake','[사진] 레스토랑 테이블 위 작은 케이크. 맞은편에 반지 낀 손이 살짝 보인다.')}
   ${acts(34)}<div class="post-c"><b>seo.doyun</b> 결혼 3주년. 늘 고마워.<div class="d">2026년 6월 21일</div></div></div>
@@ -603,6 +614,20 @@ P['glimpse.kr/seo.doyun']=()=>{if(has('acc'))clue('lighter');return `<div class=
   ${photo('lake','[사진] 새벽 저수지. 낚싯대 두 개, 한 사람은 등을 돌리고 라이터로 담배에 불을 붙이는 중.')}
   ${acts(21)}<div class="post-c"><b>seo.doyun</b> ${L('glimpse.kr/han.ijun','@han.ijun')} 이랑 낚시. 이 자식은 오늘도 꽝.<div class="d">2026년 5월 3일</div></div></div>
 </div>`};
+
+P['glimpse.kr/yoon.sj']=()=>`<div class="gl">${glTop()}
+ <div class="gl-prof"><div class="ava" style="background:linear-gradient(135deg,#f5a46b,#e5677d)">윤</div><div><b>윤서진</b><div class="stats" style="margin-top:8px"><div><b>203</b>게시물</div><div><b>488</b>팔로워</div><div><b>371</b>팔로잉</div></div></div></div>
+ <div class="bio">온결 설계2팀 🏗 / 10.17 💍<br><span class="muted">결혼 준비하는 직장인</span></div>
+ <div class="post"><div class="post-h"><div class="ava" style="background:linear-gradient(135deg,#f5a46b,#e5677d)">윤</div>yoon.sj</div>
+  ${photo('flower','[사진] 웨딩 부케 시안')}
+  ${acts(96)}<div class="post-c"><b>yoon.sj</b> 부케는 이걸로 확정! 10월 17일 와주실 거죠?<div class="d">2026년 9월 2일 · 댓글 31개 모두 보기</div></div></div>
+ <div class="post"><div class="post-h"><div class="ava" style="background:linear-gradient(135deg,#f5a46b,#e5677d)">윤</div>yoon.sj</div>
+  ${photo('black','[사진] 검은 화면')}
+  ${acts(140)}<div class="post-c"><b>yoon.sj</b> 실장님. 현장 다 올라갔어요. 보셨으면 좋았을 텐데.<div class="d">2026년 8월 20일</div></div></div>
+ <div class="post"><div class="post-h"><div class="ava" style="background:linear-gradient(135deg,#f5a46b,#e5677d)">윤</div>yoon.sj</div>
+  ${photo('noodle','[사진] 잔치국수')}
+  ${acts(63)}<div class="post-c"><b>yoon.sj</b> 실장님이 사주신 국수 ㅠㅠ 마감 끝!<div class="d">2026년 8월 4일</div></div></div>
+</div>`;
 
 P['glimpse.kr/han.ijun']=()=>{clue('night');return `<div class="gl">${glTop()}
  <div class="gl-prof"><div class="ava" style="background:#3c3c44">한</div><div><b>한이준</b><div class="stats" style="margin-top:8px"><div><b>31</b>게시물</div><div><b>156</b>팔로워</div><div><b>149</b>팔로잉</div></div></div></div>
@@ -647,7 +672,9 @@ const rsTop=()=>`<div class="rs-top"><b data-go="restay.co.kr" style="cursor:poi
 P['restay.co.kr']=()=>`<div class="rs">${rsTop()}<div class="rs-hero"><div style="font-size:13px;opacity:.8">오늘 밤, 어디서 쉬어갈까요</div><div style="font-size:22px;font-weight:700;margin-top:6px">호텔 · 스테이 예약</div><div class="rs-search">${IC.search}<span class="muted">어디로 떠나세요?</span></div></div>
  <div class="pad"><div class="card" style="cursor:pointer" data-go="restay.co.kr/booking"><b>비회원 예약 조회</b><div class="muted" style="margin-top:4px">예약번호와 예약자명으로 확인하세요 ›</div></div>
  <div class="muted" style="margin:16px 0 8px">최근 본 숙소</div>
- <div class="htl"><div class="pic">${SC.window()}</div><div class="htl-b"><b>스테이노을 STAY NOEUL</b><div class="muted">서울 · 한강뷰 · 부티크 호텔</div><div style="margin-top:6px;font-size:13px"><span class="star">★ 4.8</span> <span class="muted">(리뷰 1,204)</span> · <b>189,000원~</b><span class="muted">/1박</span></div></div></div></div>${foot('Restay','<div>(주)리스테이 · 사업자등록번호 120-81-00000 · 통신판매업 2021-서울강남-0000</div>')}</div>`;
+ <div class="htl"><div class="pic">${SC.window()}</div><div class="htl-b"><b>스테이노을 STAY NOEUL</b><div class="muted">서울 · 한강뷰 · 부티크 호텔</div><div style="margin-top:6px;font-size:13px"><span class="star">★ 4.8</span> <span class="muted">(리뷰 1,204)</span> · <b>189,000원~</b><span class="muted">/1박</span></div></div></div>
+ <div class="card"><b>물안개 스테이 · 양평</b><div class="muted" style="font-size:13px">독채 펜션 · 강변 · <span class="star">★ 4.6</span> · 230,000원~</div><div class="muted" style="font-size:12px;margin-top:4px">8월 10일에 봄</div></div>
+ <div class="card"><b>제주 오름하우스</b><div class="muted" style="font-size:13px">가족형 · 2박 이상 · <span class="star">★ 4.9</span></div><div class="muted" style="font-size:12px;margin-top:4px">6월 2일에 봄 · 위시리스트 ♥</div></div></div>${foot('Restay','<div>(주)리스테이 · 사업자등록번호 120-81-00000 · 통신판매업 2021-서울강남-0000</div>')}</div>`;
 P['restay.co.kr/booking']=()=>`<div class="rs">${rsTop()}<div class="pad"><div class="h1">예약 조회</div><p class="muted" style="margin-bottom:16px">예약 확정 문자에 적힌 예약번호를 입력하세요.</p>
  <form data-form="bk"><div class="field"><label>예약번호</label><input name="no" placeholder="RN-0000-000" autocomplete="off"></div>
  <div class="field"><label>예약자명</label><input name="nm" placeholder="이름" autocomplete="off"></div><button class="btn">조회하기</button><div class="err" id="err"></div></form></div></div>`;
@@ -691,6 +718,8 @@ const nwTop=()=>`<div class="nw-bar">${IC.menu}<span class="nw-logo" data-go="to
 const nwAd=()=>`<div class="ad"><div class="adth" style="background:linear-gradient(135deg,#ffd58a,#ff8a5b)"></div><div style="flex:1"><div style="font-size:10px;color:#8a8a92">광고 · AD</div><b style="font-size:14px">가을 한정 특가, 최대 40% 할인</b><div class="muted" style="font-size:12px">지금 바로 확인하세요 ›</div></div></div>`;
 P['today-sinmun.kr']=()=>`${nwTop()}<div class="nw"><div class="muted" style="margin-bottom:6px">사회 · 많이 본 기사</div><div class="nw-list">
  <a data-go="today-sinmun.kr/2026/0815/yangpyeong">양평 지방도서 승용차 가드레일 충돌… 30대 운전자 숨져</a>
+ <a data-go="today-sinmun.kr/2026/0809/rebate">성수동 소규모 설계사무소 ‘설계변경 리베이트’ 의혹… 경찰 내사</a>
+ <a data-go="today-sinmun.kr/2026/0814/rain">경기 동부 시간당 50㎜ 폭우… 양평·가평 호우경보</a>
  <a data-go="today-sinmun.kr/404">서울 아파트 전세가, 석 달째 상승</a>
  <a data-go="today-sinmun.kr/404">“밤길 운전 조심하세요” 여름철 졸음운전 사고 급증</a></div>${nwAd()}</div>${foot('오늘신문','<div>서울특별시 중구 · 등록번호 서울 아00000 · 발행인 김○○</div>')}`;
 P['today-sinmun.kr/2026/0815/yangpyeong']=()=>{clue('card');clue('alive');return `${nwTop()}<div class="nw"><div class="muted" style="margin-bottom:8px">사회 · 사건사고</div>
@@ -705,12 +734,23 @@ P['today-sinmun.kr/2026/0815/yangpyeong']=()=>{clue('card');clue('alive');return
  ${nwAd()}<div style="font-weight:700;margin:20px 0 6px">많이 본 뉴스</div><div class="rank"><a data-go="today-sinmun.kr/404">서울 아파트 전세가, 석 달째 상승</a><a data-go="today-sinmun.kr/404">“밤길 운전 조심하세요” 여름철 졸음운전 사고 급증</a><a data-go="today-sinmun.kr/404">긴급신고 자동 발신 차량 늘지만… ‘수동 취소’ 사각지대</a><a data-go="today-sinmun.kr/404">빗길 급커브 사고, 가로등 없는 지방도에 집중</a></div></div>${foot('오늘신문','<div>서울특별시 중구 · 등록번호 서울 아00000 · 발행인 김○○</div>')}`};
 
 /* golmok */
+P['today-sinmun.kr/2026/0809/rebate']=()=>`${nwTop()}<div class="nw"><div class="muted" style="margin-bottom:8px">사회 · 2026.08.09</div><h2>성수동 소규모 설계사무소 ‘설계변경 리베이트’ 의혹… 경찰 내사</h2><div class="byline"><span>이수민 기자<br>입력 2026.08.09 11:20</span><span>${IC.send}</span></div>
+ <p>서울 성동구 성수동 일대 소규모 설계사무소 일부가 시공사로부터 설계변경 대가로 금품을 받았다는 의혹이 제기돼 경찰이 내사에 착수했다.</p>
+ <p>경찰은 익명 제보를 바탕으로 ‘S건축’ 등 사무소 두세 곳의 회계 자료를 살펴보고 있다. 해당 사무소들은 “사실무근”이라는 입장이다.</p>
+ <p class="muted">※ 이후 후속 보도: 08.28 ‘S건축’ 대표 입건. 다른 사무소는 혐의 없음으로 종결.</p>${nwAd()}</div>${foot('오늘신문','')}`;
+P['today-sinmun.kr/2026/0814/rain']=()=>`${nwTop()}<div class="nw"><div class="muted" style="margin-bottom:8px">사회 · 날씨 · 2026.08.14 17:40</div><h2>경기 동부 시간당 50㎜ 폭우… 양평·가평 호우경보</h2><div class="byline"><span>날씨팀<br>입력 2026.08.14 17:40</span><span>${IC.send}</span></div>
+ ${photo('rain','빗길')}<p>14일 밤부터 15일 새벽까지 경기 동부에 시간당 최대 50㎜의 강한 비가 예보됐다. 기상청은 양평·가평에 호우경보를 발령하고 지방도 급커브 구간 운행 자제를 당부했다.</p>${nwAd()}</div>${foot('오늘신문','')}`;
+
 const ITEMS=[
  {id:'4471',t:'[구해요] 파손된 블랙박스 메모리카드 복구 가능하신 분',n:'라이터',d:'한강로동 · 8월 16일',p:'사례 드려요',bg:'#3a3a40',th:'SD카드<br>(금 감)'},
  {id:'3902',t:'지포 라이터 미개봉 팝니다',n:'담배끊음',d:'망원동 · 9월 2일',p:'25,000원',bg:'#b08a4a',th:'라이터'},
  {id:'3815',t:'블랙박스 2채널 + 64GB 카드 일괄',n:'차바꿈',d:'연남동 · 8월 29일',p:'60,000원',bg:'#2f4a68',th:'블랙박스'},
  {id:'2290',t:'캠핑용 가스 라이터 3개',n:'주말캠퍼',d:'성수동 · 7월 11일',p:'5,000원',bg:'#5a7a3a',th:'라이터'},
- {id:'1777',t:'메모리카드 리더기 팝니다',n:'정리중',d:'한강로동 · 6월 30일',p:'3,000원',bg:'#6b6b73',th:'리더기'}
+ {id:'1777',t:'메모리카드 리더기 팝니다',n:'정리중',d:'한강로동 · 6월 30일',p:'3,000원',bg:'#6b6b73',th:'리더기'},
+ {id:'4502',t:'남성 반지 (안쪽 각인 있음) 급처',n:'정리합니다',d:'용산동 · 8월 21일',p:'90,000원',bg:'#c9a24a',th:'반지'},
+ {id:'4388',t:'차량용 방향제 새상품 5개',n:'향기나라',d:'한강로동 · 8월 10일',p:'10,000원',bg:'#7aa6c2',th:'방향제'},
+ {id:'4120',t:'건축 모형 재료 (폼보드·우드락) 일괄',n:'졸업했다',d:'성수동 · 7월 28일',p:'15,000원',bg:'#b8b0a2',th:'모형재료'},
+ {id:'3999',t:'검정 넥타이 2개 (1회 착용)',n:'미니멀',d:'한강로동 · 8월 19일',p:'8,000원',bg:'#222',th:'넥타이'}
 ];
 const gmTop=()=>`<div class="gm-top"><span data-go="golmok.kr" style="cursor:pointer">골목장터 <span style="font-size:13px;font-weight:500;opacity:.9">한강로동 ▾</span></span>${IC.search}</div>`;
 function gmList(q){
@@ -726,7 +766,8 @@ P['golmok.kr/item/4471']=()=>{clue('req');return `${gmTop()}
  <div class="h1">[구해요] 파손된 블랙박스 메모리카드 복구 가능하신 분</div><div class="muted" style="margin-bottom:12px">2026.08.16 02:55 · <span class="pill">예약중</span></div>
  <p style="line-height:1.8;font-size:15px">차량 블랙박스 SD카드입니다. 충격으로 금이 갔어요.<br><br><b>8월 14일 밤 영상만</b> 필요합니다.<br>업체 말고 개인 분이면 좋겠어요.<br>복구만 해주시고, 내용은 보지 말아 주세요.<br><br>사례는 원하시는 만큼 드릴게요.</p><p class="muted" style="font-size:12px;margin-top:14px">관심 2 · 채팅 1 · 조회 48</p></div>
  <div class="gm-bot"><span style="color:#8a8a92">${IC.heart}</span><b style="flex:1">사례 드려요</b><button data-toast="로그인이 필요합니다">채팅하기</button></div>`};
-ITEMS.slice(1).forEach(i=>{P['golmok.kr/item/'+i.id]=()=>`${gmTop()}<div class="pad"><div class="h1">${i.t}</div><div class="muted" style="margin-bottom:12px">${i.n} · ${i.d}</div><p style="font-size:15px;line-height:1.7">상태 좋아요. 직거래만 합니다.</p><div class="pr" style="margin-top:12px;font-weight:700">${i.p}</div></div>`});
+const DESC={'4502':'사이즈 안 맞아서 정리해요. 안쪽 각인은 지우셔도 됩니다. 사연 묻지 마세요.','3999':'장례식 때 한 번 맸습니다. 깨끗해요.','4388':'선물 받았는데 차를 팔아서요.','4120':'졸업 작품 하고 남은 재료입니다.'};
+ITEMS.slice(1).forEach(i=>{P['golmok.kr/item/'+i.id]=()=>`${gmTop()}<div class="pad"><div class="h1">${i.t}</div><div class="muted" style="margin-bottom:12px">${i.n} · ${i.d}</div><p style="font-size:15px;line-height:1.7">${DESC[i.id]||'상태 좋아요. 직거래만 합니다.'}</p><div class="pr" style="margin-top:12px;font-weight:700">${i.p}</div></div>`});
 
 /* ---------- 추가 사진 ---------- */
 SC.car=()=>V(`<defs><linearGradient id="cr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b9cbd9"/><stop offset="1" stop-color="#e8edf1"/></linearGradient></defs>
@@ -756,10 +797,32 @@ SC.curve=()=>V(`<defs><linearGradient id="cv" x1="0" y1="0" x2="0" y2="1"><stop 
  ${[170,215,265,320,375].map((x,i)=>`<rect x="${x}" y="${280-i*18}" width="4" height="${26-i*2}" fill="#8b919b"/>`).join('')}
  <path d="M300 205 L336 205 L318 172Z" fill="#e8c21a"/><path d="M318 205 L318 232" stroke="#8b919b" stroke-width="3"/>
  <path d="M150 330 L330 300" stroke="#f5d000" stroke-width="5" stroke-dasharray="18 10"/>`);
+SC.site=()=>V(`<rect width="400" height="400" fill="#cfd9e3"/><rect y="290" width="400" height="110" fill="#9a8f80"/>
+ <g stroke="#e8a33a" stroke-width="6" fill="none"><path d="M80 290V80h170v210"/><path d="M80 150h170M80 220h170M140 80v210M195 80v210"/></g>
+ <path d="M300 290V60" stroke="#f2c230" stroke-width="8"/><path d="M200 70h190" stroke="#f2c230" stroke-width="8"/><path d="M360 70v60" stroke="#555" stroke-width="2"/><rect x="350" y="130" width="20" height="14" fill="#555"/>
+ <rect x="40" y="300" width="120" height="40" fill="#e8e1d4" stroke="#bbb"/><text x="100" y="326" text-anchor="middle" font-size="13" fill="#555" font-family="Noto Sans KR">온결 · 성수 현장</text>
+ <g fill="#ff8a00"><circle cx="230" cy="318" r="9"/><rect x="223" y="327" width="14" height="22"/></g>`,'#cfd9e3');
+SC.flower=()=>V(`<rect width="400" height="400" fill="#f3ece6"/><rect x="0" y="300" width="400" height="100" fill="#d9c9b8"/>
+ <path d="M150 300 L170 200 L230 200 L250 300Z" fill="#fff" stroke="#e3d6c8"/>
+ ${[[170,170,'#f28ca0'],[200,150,'#f5b6c4'],[230,172,'#e86f8a'],[185,190,'#f7c9d3'],[215,192,'#f19bb0']].map(f=>`<circle cx="${f[0]}" cy="${f[1]}" r="26" fill="${f[2]}"/><circle cx="${f[0]}" cy="${f[1]}" r="8" fill="#fbe3a2"/>`).join('')}
+ <rect x="168" y="232" width="64" height="22" rx="3" fill="#fff"/><text x="200" y="248" text-anchor="middle" font-size="11" fill="#a07850" font-family="Noto Sans KR">생일 축하해</text>`,'#f3ece6');
+SC.noodle=()=>V(`<rect width="400" height="400" fill="#6b4a33"/><circle cx="200" cy="210" r="140" fill="#f4efe7"/><circle cx="200" cy="210" r="110" fill="#e9b26a"/>
+ <g stroke="#f6e3b5" stroke-width="5" fill="none"><path d="M120 200q40-30 80 0t80 0"/><path d="M120 225q40-30 80 0t80 0"/><path d="M130 250q35-25 70 0t70 0"/></g>
+ <circle cx="170" cy="180" r="14" fill="#fff"/><circle cx="170" cy="180" r="7" fill="#f2b500"/><path d="M230 170l40-10" stroke="#3c7a3c" stroke-width="8"/>
+ <rect x="320" y="60" width="10" height="250" rx="5" fill="#c9a57a" transform="rotate(20 325 185)"/><rect x="340" y="60" width="10" height="250" rx="5" fill="#c9a57a" transform="rotate(20 345 185)"/>`,'#6b4a33');
 /* ---------- 상태 헬퍼 ---------- */
 const has=id=>S.clues.includes(id);
 const unlocked=k=>S.seen.includes(k);
 
+
+/* ---------- 설계사무소 온결 ---------- */
+P['onkyeol.kr']=()=>`<div style="background:#1c1c1f;color:#fff;padding:16px 18px;display:flex;justify-content:space-between;align-items:center"><b style="letter-spacing:.3em">ONKYEOL</b><span style="font-size:12px;opacity:.7">설계사무소 온결</span></div>
+ ${photo('site','성수동 복합문화공간 현장')}
+ <div class="pad"><div class="h1">공간의 결을 짓습니다</div><p class="muted" style="line-height:1.7">주거·상업·문화 공간 설계. 서울 성동구 성수동.</p>
+ <div class="card" style="margin-top:14px;cursor:pointer" data-go="onkyeol.kr/people"><b>사람들</b><div class="muted" style="font-size:13px">온결을 만드는 사람들 ›</div></div>
+ <div class="card"><b>공지</b><div style="font-size:13px;margin-top:6px;line-height:1.7">· 故 서도윤 실장님의 명복을 빕니다. (2026.08.16)<br>· 성수 복합문화공간 골조 공사 완료 (2026.08.20)</div></div></div>${foot('설계사무소 온결','<div>서울 성동구 성수이로 · 02-000-0000</div>')}`;
+P['onkyeol.kr/people']=()=>`<div style="background:#1c1c1f;color:#fff;padding:16px 18px"><b style="letter-spacing:.3em;cursor:pointer" data-go="onkyeol.kr">ONKYEOL</b></div><div class="pad"><div class="h1">사람들</div>
+ ${[['정○○','대표 건축사'],['서도윤','설계1팀 실장 (2016~2026)'],['윤서진','설계2팀 주임'],['박○○','설계2팀 사원'],['최○○','경영지원']].map(p=>`<div class="li" style="padding:12px 0"><div class="av" style="background:#c7c7cc">${p[0][0]}</div><div class="m"><b>${p[0]}</b><small>${p[1]}</small></div></div>`).join('')}</div>`;
 
 /* ---------- 가짜 내연녀 서하린 ---------- */
 P['glimpse.kr/harin.s']=()=>{clue('harin');clue('breakup');return `<div class="gl">${glTop()}
@@ -1002,23 +1065,31 @@ function appView(id,sub){
  const ab=$('#ab');ab.scrollTop=0;
  if(id==='phone'){clue('callh');appHead('최근 기록');ab.innerHTML=[
   ['H','8월 14일 오후 10:52','부재중 전화',1],['H','8월 14일 오후 10:49','부재중 전화',1],
-  ['♥ 아내','8월 14일 오후 8:58','발신 · 0:47',0],['온결 사무실','8월 14일 오후 6:02','수신 · 3:15',0],['H','8월 13일 오후 11:40','수신 · 12:08',0],['어머니','8월 11일 오전 9:14','발신 · 5:31',0]
+  ['♥ 아내','8월 14일 오후 8:58','발신 · 0:47',0],['온결 사무실','8월 14일 오후 6:02','수신 · 3:15',0],['윤서진 (온결)','8월 14일 오후 5:20','수신 · 1:02',0],['1588-0000','8월 14일 오후 2:40','부재중 전화',1],['H','8월 13일 오후 11:40','수신 · 12:08',0],['장모님','8월 12일 오후 7:30','수신 · 2:44',0],['어머니','8월 11일 오전 9:14','발신 · 5:31',0],['정비소','8월 8일 오전 10:05','발신 · 1:40',0]
  ].map(c=>`<div class="li ${c[3]?'miss':''}"><div class="av" style="background:${c[0]==='H'?'radial-gradient(circle at 40% 35%,#e8e8ec,#8c8c94 60%,#4a4a52)':'#c7c7cc'}">${c[0]==='H'?'H':c[0].replace('♥ ','')[0]}</div><div class="m"><b>${c[0]}</b><small>${c[2]}</small></div><div class="t">${c[1]}</div></div>`).join('')+`<div class="pad muted" style="font-size:12px">연락처 ‘H’ · 010-7731-0312</div>`}
  if(id==='msg'&&!sub){appHead('메시지');ab.innerHTML=[
   ['wife','♥ 아내','오늘 늦게라도 갈게. 할 얘기 있어.','8월 14일','#ff6b8a','♥'],
   ['restay','Restay','[Restay] 예약이 취소되었습니다.','8월 14일','#0f5f5c','R'],
   ['hg','한결생명','[한결생명] 수익자 변경이 완료되었습니다.','7월 31일','#14254a','한'],
+  ['sj','윤서진 (온결)','선배 내일 꼭이요!! 🙏','8월 14일','linear-gradient(135deg,#f5a46b,#e5677d)','윤'],
+  ['card','하나카드','[승인] 08/12 14:09 스테이노을 189,000원','8월 12일','#00857c','카'],
+  ['garage','정비소','브레이크 패드 교체 완료되었습니다','8월 8일','#6b6b73','정'],
+  ['ad','[광고] 골목장터','(광고) 우리 동네 새 글 12개','8월 7일','#ff7a2f','골'],
   ['h','H','대화 내용이 없습니다','','radial-gradient(circle at 40% 35%,#e8e8ec,#8c8c94 60%,#4a4a52)','H']
  ].map(m=>`<div class="li" data-appgo="msg:${m[0]}"><div class="av" style="background:${m[4]}">${m[5]}</div><div class="m"><b>${m[1]}</b><small>${m[2]}</small></div><div class="t">${m[3]}</div></div>`).join('')}
  if(id==='msg'&&sub){
   const T={wife:['♥ 아내',`<div class="bub-t">8월 14일 (금)</div><div class="bub">오늘 몇 시쯤 와? 엄마가 반찬 해놨대</div><div class="bub me">일 끝나고 바로 갈게</div><div class="bub-t">오후 8:59</div><div class="bub me">오늘 늦게라도 갈게. 할 얘기 있어.</div><div class="bub">무슨 얘기?</div><div class="bub">조심히 와. 비 많이 온대</div><div class="bub-t">오후 11:48</div><div class="bub">어디야? 전화 왜 안 받아</div><div class="bub-t">8월 15일 (토) 오전 1:12</div><div class="bub">도윤아</div>`],
    restay:['Restay',`<div class="bub-t">7월 27일 (월) 오후 6:40</div><div class="bub">[Restay] 예약이 확정되었습니다.<br>숙소: 스테이노을 STAY NOEUL<br>체크인: 07.29(수) 15:00 · 성인 2<br>예약번호 RN-0729-114</div><div class="bub-t">8월 12일 (수) 오후 2:11</div><div class="bub">[Restay] 예약이 확정되었습니다.<br>스테이노을 · 08.14(금) 체크인</div><div class="bub-t">8월 14일 (금) 오후 8:55</div><div class="bub">[Restay] 예약이 취소되었습니다. 스테이노을 · 1박</div>`],
    hg:['한결생명',`<div class="bub-t">7월 31일 (금) 오후 2:05</div><div class="bub">[한결생명] 서도윤 고객님, 요청하신 계약(HG-2207-5531)의 수익자 변경이 완료되었습니다.</div>`],
+   sj:['윤서진 (온결)',`<div class="bub-t">8월 3일 (월)</div><div class="bub">선배 골조 사진 올리신 거 봤어요ㅋㅋ 멋있다</div><div class="bub me">네가 고생했지</div><div class="bub-t">8월 14일 (금) 오후 5:22</div><div class="bub">선배 아까 통화한 거요, 청첩장 모임 다음 주 목요일로 확정이에요</div><div class="bub">선배 내일 꼭이요!! 🙏</div><div class="bub me">ㅇㅋ 근데 오늘 양평 가서 내일은 좀 늦을 수도</div>`],
+   card:['하나카드',`<div class="bub-t">8월 12일 (수)</div><div class="bub">[하나카드 승인] 서*윤 08/12 14:09<br>스테이노을 189,000원 일시불</div><div class="bub-t">8월 14일 (금)</div><div class="bub">[하나카드 승인취소] 서*윤 08/14 20:55<br>스테이노을 -189,000원</div>`],
+   garage:['정비소',`<div class="bub-t">8월 8일 (토)</div><div class="bub">[정비소] 38누4417 고객님, 브레이크 패드 교체 및 타이어 점검 완료되었습니다. 이상 없습니다.</div>`],
+   ad:['[광고] 골목장터',`<div class="bub-t">8월 7일</div><div class="bub">(광고) 한강로동 새 글 12개가 올라왔어요! 무료수신거부 080-000-0000</div>`],
    h:['H',`<div class="lock" style="padding:60px 20px">대화 내용이 없습니다.<br><span class="muted" style="font-size:12px">이 번호와 주고받은 문자가 모두 삭제되었습니다.</span></div>`]}[sub];
   if(sub==='h')clue('callh');
   appHead(T[0],'msg');ab.innerHTML=`<div style="padding:6px 0 20px">${T[1]}</div>`}
- if(id==='cal'){appHead('2026년 8월');const ev={14:1,12:1,22:1};let h='<div class="cal">'+'일월화수목금토'.split('').map(d=>`<div class="dw">${d}</div>`).join('')+'<div></div>'.repeat(6);for(let d=1;d<=31;d++)h+=`<div class="${ev[d]?'ev':''}">${d===14?'<div class="sel">14</div>':d}</div>`;h+='</div>';
-  ab.innerHTML=h+`<div class="pad"><div class="li" style="padding:12px 0"><div style="width:4px;align-self:stretch;background:#e5484d;border-radius:2px"></div><div class="m"><b>8월 14일 (금) · 양평</b><small>다 말하기</small></div></div><div class="li" style="padding:12px 0"><div style="width:4px;align-self:stretch;background:#5b7bd5;border-radius:2px"></div><div class="m"><b>8월 12일 (수)</b><small>R 예약 — 마지막</small></div></div><div class="li" style="padding:12px 0"><div style="width:4px;align-self:stretch;background:#34c759;border-radius:2px"></div><div class="m"><b>8월 22일 (토)</b><small>반지 수리 찾기</small></div></div></div>`;clue('calendar')}
+ if(id==='cal'){appHead('2026년 8월');const ev={3:1,9:1,12:1,14:1,22:1,27:1};let h='<div class="cal">'+'일월화수목금토'.split('').map(d=>`<div class="dw">${d}</div>`).join('')+'<div></div>'.repeat(6);for(let d=1;d<=31;d++)h+=`<div class="${ev[d]?'ev':''}">${d===14?'<div class="sel">14</div>':d}</div>`;h+='</div>';
+  ab.innerHTML=h+`<div class="pad"><div class="li" style="padding:12px 0"><div style="width:4px;align-self:stretch;background:#e5484d;border-radius:2px"></div><div class="m"><b>8월 14일 (금) · 양평</b><small>다 말하기</small></div></div><div class="li" style="padding:12px 0"><div style="width:4px;align-self:stretch;background:#5b7bd5;border-radius:2px"></div><div class="m"><b>8월 12일 (수)</b><small>R 예약 — 마지막</small></div></div><div class="li" style="padding:12px 0"><div style="width:4px;align-self:stretch;background:#34c759;border-radius:2px"></div><div class="m"><b>8월 22일 (토)</b><small>반지 수리 찾기</small></div></div><div class="li" style="padding:12px 0"><div style="width:4px;align-self:stretch;background:#f5a623;border-radius:2px"></div><div class="m"><b>8월 27일 (목)</b><small>서진 청첩장 모임 · 성수</small></div></div><div class="li" style="padding:12px 0"><div style="width:4px;align-self:stretch;background:#8e8e93;border-radius:2px"></div><div class="m"><b>8월 9일 (일)</b><small>어머니 생신 · 점심</small></div></div><div class="li" style="padding:12px 0"><div style="width:4px;align-self:stretch;background:#8e8e93;border-radius:2px"></div><div class="m"><b>8월 3일 (월)</b><small>성수 현장 골조</small></div></div></div>`;clue('calendar')}
  if(id==='memo'){clue('memo');appHead('메모');ab.innerHTML=`<div class="memo"><div class="muted" style="font-family:'Noto Sans KR';font-size:12px;margin-bottom:10px">2026년 8월 14일 오후 6:30 · 저장 안 됨</div>할 말
 
 미안해.
@@ -1026,7 +1097,7 @@ function appView(id,sub){
 3월 12일부터.
 
 그 사람 이름은</div>`}
- if(id==='gal'){appHead('사진');ab.innerHTML=`<div class="pad" style="padding-bottom:10px"><b>최근 항목</b> <span class="muted">4</span></div><div class="gal">${photo('sea','바다')}${photo('cake','케이크')}${photo('car','차')}${photo('lake','저수지')}</div><div class="pad"><div class="card" data-appgo="web:pixbox.kr" style="cursor:pointer"><b>☁ pixbox 백업 사용 중</b><div class="muted" style="font-size:13px;margin-top:4px">나머지 사진은 클라우드에 있습니다 ›</div></div><div class="muted" style="font-size:12px">최근 삭제된 항목 · 0</div></div>`}
+ if(id==='gal'){appHead('사진');ab.innerHTML=`<div class="pad" style="padding-bottom:10px"><b>최근 항목</b> <span class="muted">7</span></div><div class="gal">${photo('site','현장')}${photo('noodle','국수')}${photo('flower','꽃')}${photo('sea','바다')}${photo('cake','케이크')}${photo('car','차')}${photo('lake','저수지')}</div><div class="pad"><div class="card" data-appgo="web:pixbox.kr" style="cursor:pointer"><b>☁ pixbox 백업 사용 중</b><div class="muted" style="font-size:13px;margin-top:4px">나머지 사진은 클라우드에 있습니다 ›</div></div><div class="muted" style="font-size:12px">최근 삭제된 항목 · 0</div></div>`}
 }
 $('#homebar').onclick=showHome;
 document.addEventListener('click',e=>{
@@ -1047,7 +1118,7 @@ $('#start').onclick=()=>{$('#intro').classList.add('off')};
   if(code.length===4)setTimeout(()=>{if(code==='0621'){$('#lock').classList.add('off');S.intro=true;save();showHome()}else{const p=$('#pin');p.classList.remove('shake');void p.offsetWidth;p.classList.add('shake');code='';dots()}},180)});
 })();
 if(S.intro){$('#intro').style.display='none';$('#lock').style.display='none';showHome()}
-badge();render(S.cur);
+badge();
 })();
 </script>
 </body>
