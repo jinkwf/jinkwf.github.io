@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<script>(function(){try{var p=location.pathname;if(/github\.io$/.test(location.hostname)&&!/\/$/.test(p)&&!/\.[a-z0-9]+$/i.test(p)){location.replace(p+"/"+location.search+location.hash)}}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OPEN DOOR — 302호</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@500;700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'Noto Sans KR',system-ui,sans-serif;background:#050507;color:#1c1c1f;display:flex;justify-content:center;-webkit-font-smoothing:antialiased}
+button,input{font:inherit}
+.phone{width:100%;max-width:430px;height:100vh;height:100dvh;background:#0b0c10;position:relative;overflow:hidden;display:flex;flex-direction:column}
+/* status */
+.status{display:flex;justify-content:space-between;align-items:center;padding:7px 18px 3px;font-size:13px;color:#fff;position:relative;z-index:30;flex:none;height:30px}
+.status b{font-weight:600}
+.sic{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600}
+.bat{width:22px;height:11px;border:1.4px solid currentColor;border-radius:3px;padding:1px;position:relative}
+.bat i{display:block;height:100%;width:64%;background:currentColor;border-radius:1px}
+.phone.light .status{color:#1c1c1f;background:#f6f6f8}
+.phone.dark .status{background:#0e1016}
+/* layers */
+.layer{position:absolute;left:0;right:0;top:0;bottom:0;display:none;flex-direction:column;overflow:hidden}
+.layer.on{display:flex}
+#hs{z-index:10;color:#fff;background:#0b0c10}
+#app{z-index:12;top:30px;bottom:18px;background:#fff}
+#app.on{animation:appin .28s cubic-bezier(.2,.8,.2,1)}
+@keyframes appin{from{transform:scale(.9);opacity:0}to{transform:none;opacity:1}}
+.homebar{position:absolute;left:0;right:0;bottom:0;height:18px;display:flex;align-items:center;justify-content:center;z-index:31;cursor:pointer}
+.homebar i{width:120px;height:5px;border-radius:3px;background:#fff;opacity:.85}
+.phone.light .homebar{background:#f6f6f8}.phone.light .homebar i{background:#1c1c1f}
+.phone.dark .homebar{background:#0e1016}
+/* home */
+.wall{position:absolute;inset:0;z-index:-1;overflow:hidden}
+.wall svg{width:100%;height:100%}
+.hs-clock{text-align:center;padding:62px 0 22px;text-shadow:0 1px 10px rgba(0,0,0,.5)}
+.hs-clock b{display:block;font-size:58px;font-weight:300;letter-spacing:-.02em;line-height:1.1}
+.hs-clock span{font-size:14px;opacity:.9}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px 6px;padding:6px 16px}
+.app{display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:0;color:#fff;font-size:11px;cursor:pointer;position:relative;text-shadow:0 1px 4px rgba(0,0,0,.6)}
+.app .ico{width:58px;height:58px;border-radius:16px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,.35);position:relative}
+.app .ico svg{width:30px;height:30px}
+.app:active .ico{transform:scale(.92)}
+.app .nb{position:absolute;top:-5px;right:-5px;background:#ff3b30;color:#fff;font-size:11px;font-weight:700;border-radius:10px;min-width:20px;height:20px;line-height:20px;text-align:center;padding:0 5px;text-shadow:none}
+.app.new .ico{animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,59,48,.6)}50%{box-shadow:0 0 0 8px rgba(255,59,48,0)}}
+.dock{margin:auto 12px 26px;background:rgba(255,255,255,.14);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-radius:28px;padding:12px 8px;display:grid;grid-template-columns:repeat(4,1fr)}
+.dock .lb{display:none}
+.widget{margin:4px 18px 18px;background:rgba(20,22,30,.55);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:14px 16px;display:flex;gap:12px;align-items:center;cursor:pointer}
+.widget .wi{width:40px;height:40px;border-radius:12px;background:#12b7a5;display:flex;align-items:center;justify-content:center;flex:none}
+.widget b{display:block;font-size:14px}
+.widget small{font-size:12px;opacity:.75}
+.widget.alert{border-color:rgba(255,59,48,.6);background:rgba(60,10,14,.6)}
+/* app chrome */
+.ah{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid #efefef;font-weight:700;font-size:17px;flex:none;background:#fff}
+.ah .bk{border:0;background:none;color:#3b6cf6;font-size:15px;cursor:pointer;padding:0 6px 0 0}
+.ab{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#fff}
+.pad{padding:18px}
+.muted{color:#7a7a82;font-size:13px}
+.h1{font-size:20px;font-weight:700;margin-bottom:6px}
+.card{border:1px solid #e6e6ea;border-radius:14px;padding:14px;margin-bottom:12px;background:#fff}
+.row{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #f0f0f0;font-size:14px}
+.row:last-child{border-bottom:0}
+.row span:first-child{color:#7a7a82;flex:none}
+.li{display:flex;gap:12px;align-items:center;padding:12px 16px;border-bottom:1px solid #f3f3f5;cursor:pointer}
+.li .av{width:42px;height:42px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+.li .m{flex:1;min-width:0}
+.li .m b{display:block;font-size:15px}
+.li .m small{display:block;color:#8a8a92;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.li .t{font-size:12px;color:#8a8a92;text-align:right;flex:none}
+.bub{max-width:80%;background:#efeff2;border-radius:18px;padding:9px 13px;font-size:14px;line-height:1.5;margin:6px 14px;width:fit-content}
+.bub.me{margin-left:auto;background:#34c759;color:#fff}
+.bub.fail{margin-left:auto;background:#fff;color:#d13438;border:1px dashed #d13438}
+.bub-t{font-size:11px;color:#8a8a92;text-align:center;margin:14px 0 4px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.field input{height:46px;border:1px solid #d6d6dd;border-radius:12px;padding:0 14px;font-size:16px;outline:0;letter-spacing:.15em}
+.btn{height:46px;width:100%;border:0;border-radius:12px;font-weight:700;color:#fff;background:#1c1c1f;cursor:pointer}
+.err{color:#d13438;font-size:13px;margin-top:8px;min-height:18px}
+/* ===== HOMEKEEPER (dark) ===== */
+.hk{background:#0e1016;color:#e7e9ee;min-height:100%}
+.hk .ah{background:#0e1016;color:#fff;border-color:#1d2130}
+.hk-top{padding:16px 18px 6px;display:flex;justify-content:space-between;align-items:center}
+.hk-logo{font-weight:800;letter-spacing:.08em;color:#12b7a5;font-size:15px}
+.hk-tabs{display:flex;gap:6px;overflow-x:auto;padding:8px 14px 12px;border-bottom:1px solid #1d2130;scrollbar-width:none}
+.hk-tabs::-webkit-scrollbar{display:none}
+.hk-tabs button{flex:none;border:1px solid #2a2f40;background:#151824;color:#aeb4c3;border-radius:16px;padding:6px 12px;font-size:13px;cursor:pointer}
+.hk-tabs button.on{background:#12b7a5;border-color:#12b7a5;color:#04211e;font-weight:700}
+.hk-tabs button .d{display:inline-block;width:6px;height:6px;border-radius:50%;background:#ff4d4d;margin-left:5px;vertical-align:middle}
+.hk-sec{padding:14px 16px}
+.hk-card{background:#151824;border:1px solid #232838;border-radius:16px;padding:14px;margin-bottom:12px}
+.hk-card h4{font-size:14px;color:#fff;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.hk-card h4 small{font-weight:400;color:#7d8496;font-size:11px}
+.lg{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid #1f2433;font-size:13px;align-items:flex-start}
+.lg:last-child{border-bottom:0}
+.lg .tm{color:#7d8496;width:92px;flex:none;font-variant-numeric:tabular-nums}
+.lg .tx{flex:1;line-height:1.5}
+.lg .tx small{display:block;color:#7d8496;font-size:11px}
+.lg.warn .tx{color:#ff8a8a}
+.lg.new{background:linear-gradient(90deg,rgba(255,59,48,.18),transparent);margin:0 -14px;padding:9px 14px;animation:flash 1.2s ease 2}
+@keyframes flash{50%{background:rgba(255,59,48,.35)}}
+.tag{display:inline-block;font-size:10px;padding:1px 6px;border-radius:8px;background:#232838;color:#aeb4c3;margin-left:4px;vertical-align:1px}
+.tag.r{background:#3a1418;color:#ff8a8a}
+.tag.g{background:#0f3330;color:#5fe0cf}
+.kv{display:flex;justify-content:space-between;padding:8px 0;font-size:13px;border-bottom:1px solid #1f2433}
+.kv:last-child{border-bottom:0}
+.kv span:first-child{color:#7d8496}
+.hk .btn{background:#12b7a5;color:#04211e}
+.hk .field input{background:#0b0d13;border-color:#2a2f40;color:#fff;text-align:center;font-size:22px;letter-spacing:.4em}
+.camv{position:relative;line-height:0;border-radius:12px;overflow:hidden;background:#000}
+.camv svg{width:100%;height:auto;display:block}
+.camv .osd{position:absolute;left:8px;top:8px;font:600 11px/1.3 monospace;color:#dfe;background:rgba(0,0,0,.45);padding:3px 6px;border-radius:4px}
+.camv .live{position:absolute;right:8px;top:8px;font:700 11px monospace;color:#fff;background:#e5484d;padding:2px 7px;border-radius:4px;animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:.4}}
+.camv:after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 1px,transparent 1px 3px);pointer-events:none}
+.del{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #1f2433;font-size:13px}
+.del .ph{width:64px;height:40px;border-radius:6px;background:repeating-linear-gradient(45deg,#1a1d29 0 6px,#151824 6px 12px);display:flex;align-items:center;justify-content:center;color:#5c6274;font-size:10px;flex:none}
+.alertbar{margin:12px 16px 0;background:#3a1418;border:1px solid #6b2027;color:#ffb3b3;border-radius:12px;padding:10px 12px;font-size:13px;line-height:1.5}
+/* glitch */
+.glitch{animation:gl .5s steps(4) 2}
+@keyframes gl{0%{filter:none;transform:none}25%{filter:hue-rotate(90deg) contrast(1.6);transform:translateX(-3px)}50%{filter:invert(.15);transform:translateX(3px)}75%{filter:saturate(3);transform:none}100%{filter:none}}
+/* community */
+.cm-top{background:#ff8a3d;color:#fff;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
+.cm-top b{font-size:18px}
+.post{padding:14px 16px;border-bottom:8px solid #f4f4f6;cursor:pointer}
+.post .pt{font-size:15px;font-weight:700;line-height:1.45;margin:4px 0}
+.post .pm{font-size:12px;color:#8a8a92}
+.post .pb{font-size:14px;line-height:1.7;color:#2a2a2f;margin-top:8px;white-space:pre-line}
+.chip{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;background:#fff1e8;color:#d9631c;font-weight:700}
+.chip.gray{background:#f0f0f3;color:#6b6b73}
+.chip.red{background:#fde8e8;color:#c12d2d}
+.cmt{padding:10px 0;border-top:1px solid #f2f2f2;font-size:13px;line-height:1.55}
+.cmt b{font-size:12px}
+.cmt small{color:#8a8a92;font-size:11px;margin-left:4px}
+.poster{border:2px solid #1c1c1f;padding:14px;margin-top:10px;text-align:center;background:#fffef6}
+.poster .ph{width:110px;height:130px;margin:8px auto;background:repeating-linear-gradient(45deg,#ddd 0 6px,#e9e9e9 6px 12px);display:flex;align-items:center;justify-content:center;color:#888;font-size:12px}
+/* jaei phone */
+.jp-lock{min-height:100%;background:linear-gradient(180deg,#1b1420,#0a0a0d);color:#fff;display:flex;flex-direction:column;align-items:center;padding:40px 22px;text-align:center}
+.jp-lock .crack{position:absolute;inset:0;pointer-events:none;opacity:.35}
+.pins{display:flex;gap:14px;margin:22px 0}
+.pins i{width:13px;height:13px;border-radius:50%;border:1.5px solid #fff}
+.pins i.f{background:#fff}
+.kp{display:grid;grid-template-columns:repeat(3,64px);gap:12px 20px}
+.kp button{width:64px;height:64px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:24px;cursor:pointer}
+.kp .e{background:none;font-size:13px}
+.shake{animation:sh .35s}
+@keyframes sh{25%{transform:translateX(-10px)}50%{transform:translateX(10px)}75%{transform:translateX(-6px)}}
+.memo{padding:18px;font-family:'Nanum Pen Script',cursive;font-size:22px;line-height:1.6;background:#fffdf3;min-height:100%;color:#2a2a35}
+.memo .md{font-family:'Noto Sans KR';font-size:11px;color:#9a9a9a;margin-top:16px}
+/* web */
+.wb{display:flex;gap:8px;padding:8px 10px;background:#f2f2f5;border-bottom:1px solid #e3e3e8;flex:none}
+.wb input{flex:1;height:38px;border:0;border-radius:19px;padding:0 14px;background:#fff;font-size:14px;outline:0}
+.wb button{border:0;background:#1c1c1f;color:#fff;border-radius:19px;padding:0 14px;cursor:pointer}
+.nw h2{font-family:'Noto Serif KR',serif;font-size:21px;line-height:1.45;margin:6px 0 10px}
+.nw p{font-size:15px;line-height:1.85;margin-bottom:14px;color:#2a2a2f}
+.sr{padding:14px 16px;border-bottom:8px solid #f4f4f6;cursor:pointer}
+.sr b{color:#1a0dab;font-size:16px;font-weight:500;display:block;margin:2px 0 4px}
+/* sheet & toast */
+.sheet{position:absolute;inset:0;background:rgba(0,0,0,.5);display:none;z-index:40;align-items:flex-end}
+.sheet.on{display:flex}
+.sheet-in{background:#fff;width:100%;max-height:80%;border-radius:20px 20px 0 0;overflow-y:auto;padding:18px 18px 28px}
+.sheet-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.sheet-h b{font-size:17px}
+.x{border:0;background:#efeff2;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:16px}
+.clue{padding:12px;border-radius:12px;background:#f6f6f8;margin-bottom:8px}
+.clue .k{font-weight:700;font-size:15px}
+.clue .s{font-size:12px;color:#7a7a82;margin-top:2px}
+.clue .q{font-size:13px;margin-top:6px;color:#3a3a40}
+.clue.lk{opacity:.45}
+.prog{height:6px;background:#efeff2;border-radius:3px;margin:4px 0 14px;overflow:hidden}
+.prog div{height:100%;background:#1c1c1f}
+.copy{border:0;background:#1c1c1f;color:#fff;border-radius:8px;font-size:11px;padding:3px 8px;margin-left:6px;cursor:pointer}
+.toast{position:absolute;left:8px;right:8px;top:8px;transform:translateY(-140%);display:flex;gap:10px;align-items:center;background:rgba(245,245,247,.94);backdrop-filter:blur(20px);color:#1c1c1f;border-radius:18px;padding:11px 13px;box-shadow:0 8px 30px rgba(0,0,0,.35);transition:transform .35s cubic-bezier(.2,.9,.3,1.2);z-index:60;pointer-events:none}
+.toast.on{transform:none}
+.toast .ti{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex:none;color:#fff}
+.toast .tt{font-size:12px;color:#6b6b73;display:flex;justify-content:space-between}
+.toast .tm{font-size:14px;font-weight:600;line-height:1.35}
+/* intro & lock */
+.intro{position:absolute;inset:0;background:#050507;color:#eee;z-index:50;display:flex;flex-direction:column;justify-content:center;padding:36px;line-height:1.85}
+.intro .t2{font-family:'Noto Serif KR',serif;font-size:28px;font-weight:700;margin-bottom:18px;color:#fff;letter-spacing:.06em}
+.intro .t2 span{color:#ff4d4d}
+.intro p{font-size:15px;color:#c9c9d1;margin-bottom:10px}
+.intro button{margin-top:26px;height:50px;border:1px solid #eee;background:transparent;color:#fff;border-radius:12px;font-weight:500;cursor:pointer;font-size:15px}
+.intro.off{opacity:0;pointer-events:none;transition:opacity .6s}
+.lockscr{position:absolute;inset:0;z-index:45;display:flex;flex-direction:column;align-items:center;color:#fff;padding:60px 22px 30px;background:#0b0c10}
+.lockscr.off{opacity:0;pointer-events:none;transition:opacity .5s}
+.lockscr .wall{z-index:-1}
+.lk-time{font-size:min(68px,9vh);font-weight:300;line-height:1.1;margin:4px 0 18px}
+.noti{width:100%;background:rgba(255,255,255,.14);backdrop-filter:blur(12px);border-radius:16px;padding:11px 14px;margin-bottom:8px;font-size:13px;line-height:1.45;flex:none}
+.noti b{font-size:12px;opacity:.8;font-weight:500;display:flex;justify-content:space-between}
+.noti.red{background:rgba(120,20,26,.55)}
+.unlock{margin-top:auto;border:0;background:rgba(255,255,255,.18);backdrop-filter:blur(10px);color:#fff;border-radius:24px;padding:13px 28px;font-size:14px;cursor:pointer}
+/* end overlay */
+.endov{position:absolute;inset:0;z-index:55;display:none;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:30px;color:#fff}
+.endov.on{display:flex;animation:fadein 1.2s ease}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+.endov h2{font-family:'Noto Serif KR',serif;font-size:26px;margin:10px 0 14px;letter-spacing:.05em}
+.endov p{font-size:14px;line-height:1.8;opacity:.85}
+.endov button{margin-top:24px;border:1px solid rgba(255,255,255,.6);background:none;color:#fff;border-radius:20px;padding:10px 20px;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="phone" id="phone">
+  <div class="status"><b id="clk">23:14</b><span class="sic"><svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx="1" fill="currentColor"/><rect x="4.5" y="5" width="3" height="6" rx="1" fill="currentColor"/><rect x="9" y="2.5" width="3" height="8.5" rx="1" fill="currentColor"/><rect x="13.5" y="0" width="3" height="11" rx="1" fill="currentColor"/></svg><svg width="15" height="11" viewBox="0 0 15 11"><path d="M7.5 10.5l2.2-2.6a3 3 0 0 0-4.4 0z" fill="currentColor"/><path d="M3.4 5.9a5.8 5.8 0 0 1 8.2 0" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M1 3.4a9.2 9.2 0 0 1 13 0" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>64%<span class="bat"><i></i></span></span></div>
+  <div class="layer" id="hs"></div>
+  <div class="layer" id="app"><div class="ah" id="ah"></div><div class="ab" id="ab"></div></div>
+  <div class="homebar" id="homebar" aria-label="홈 화면"><i></i></div>
+  <div class="sheet" id="sheet"><div class="sheet-in" id="sheetIn"></div></div>
+  <div class="toast" id="toast"></div>
+  <div class="endov" id="endov"></div>
+  <div class="lockscr" id="lock">
+    <div class="wall" id="lockwall"></div>
+    <div style="font-size:15px;opacity:.9" id="lkDate">11월 13일 금요일</div>
+    <div class="lk-time" id="lkTime">23:14</div>
+    <div class="noti"><b><span>홈키퍼</span><span>14:31</span></b>302호 기기 7개가 이 휴대폰에 연결되었습니다.</div>
+    <div class="noti red"><b><span>홈키퍼</span><span>14:31</span></b>이전 사용자 ‘jaei.yun’의 계정이 로그아웃되지 않았습니다.</div>
+    <div class="noti"><b><span>메시지</span><span>16:20</span></b>석만마트: 302호 새로 오셨죠? 택배 맡아드려요^^</div>
+    <button class="unlock" id="unlockBtn">밀어서 잠금 해제</button>
+  </div>
+  <div class="intro" id="intro">
+    <div class="t2">OPEN DOOR<span>.</span></div>
+    <p>망원동 해담빌라 302호.<br>시세보다 한참 싼 이유를, 부동산은 끝까지 말하지 않았다.</p>
+    <p>전 세입자는 석 달 전에 사라졌다고 했다.<br>짐은 관리인이 치웠고, 집은 깨끗했다.</p>
+    <p>이사 첫날 밤.<br>현관 월패드가 혼자 켜졌다.</p>
+    <p style="font-size:13px;color:#8a8a92;margin-top:8px"><i>홈키퍼 앱에서 이 집의 기록을 확인할 수 있습니다</i><br><b style="color:#c9c9d1">채팅에서 받은 인증번호는 홈키퍼 ‘기록 동기화’에 입력해 주세요</b></p>
+    <button id="start">휴대폰 열기</button>
+  </div>
+</div>
+<script>
+(function(){
+const $=s=>document.querySelector(s);
+const fnv=s=>{let h=0x811c9dc5;for(const c of s){h^=c.codePointAt(0);h=Math.imul(h,16777619)>>>0}return h.toString(16)};
+
+/* ---------- 상태 ---------- */
+let S={intro:false,clues:[],sync:{},jp:false,end:null,hkTab:'home'};
+try{const v=JSON.parse(localStorage.getItem('opendoor_v1')||'null');if(v)S=Object.assign(S,v)}catch(e){}
+const save=()=>{try{localStorage.setItem('opendoor_v1',JSON.stringify(S))}catch(e){}};
+const sy=k=>!!S.sync[k];
+
+/* ---------- 단서 ---------- */
+const CLUES=[
+ ['guest','GUEST 지문','도어락에 등록된 두 번째 지문. 재이도, 집주인도 등록한 적 없다.','“이 집 도어락에 모르는 지문이 등록돼 있어요.”'],
+ ['vacant','빈집에 열린 문','공실 석 달 동안 목요일 새벽 3시마다 GUEST 지문으로 문이 열렸다.','“빈집이었을 때도 누가 계속 들어왔대요.”'],
+ ['lumi3','새벽 3시의 목소리','공실 기간, ‘인식되지 않은 사용자’가 루미에게 말을 걸었다.','“아무도 없을 때 루미한테 누가 말을 걸었어요.”'],
+ ['camdel','지워진 녹화','8월 1일~6일 홈캠 녹화가 전부 삭제됐다. 삭제한 건 ‘공유 사용자’.',''],
+ ['osm','공유 사용자 osm_24','도어락·홈캠 관리자 권한. 삭제 버튼을 눌러도 지워지지 않는다.','“osm_24라는 계정이 우리 집 홈캠을 볼 수 있어요.”'],
+ ['power','빈집의 전력','공실 기간, 같은 새벽에만 전기가 쓰였다.',''],
+ ['void','지도의 빈 공간','청소기가 한 번도 들어가지 못한 곳. 침실 붙박이장 뒤.','“붙박이장 뒤에 뭐가 있는 것 같아요.”'],
+ ['lastpkg','마지막 택배','8월 6일 21:10, 재이의 택배는 석만마트가 대리수령했다.','“재이 씨, 사라진 날 밤에 편의점에 택배 찾으러 갔을까요?”'],
+ ['poster','실종 전단','“윤재이(27)를 찾습니다.” 연락처는 서강우.','“강우 씨가 전단 붙였던 거죠?”'],
+ ['review','“퇴근 시간을 너무 잘 아세요”','석만마트 후기. 쓴 사람은 탈퇴했다. 7월 30일.',''],
+ ['noise','빈집의 층간소음','8월 21일, 202호: “3층 빈집이라던데 새벽마다 쿵쿵.”','“태오 씨, 빈집에서 소리 났던 거 알고 있었죠?”'],
+ ['martmsg','석만마트의 문자','이사 첫날, 번호를 알려준 적도 없는데 문자가 왔다.',''],
+ ['s1','자고 있는 나','11.14 03:11 침실 홈캠. 공유 사용자 1명이 15분간 시청했다.','“제가 자는 동안 누가 홈캠을 켰어요.”'],
+ ['s2','14:02 GUEST 열림','내가 집에 없던 오후, 누군가 문을 열고 17분 머물렀다.','“제가 없을 때 누가 들어왔어요. GUEST 지문으로.”'],
+ ['s2b','13:55 대리수령','문이 열리기 7분 전, 석만마트가 내 택배를 대리수령했다.',''],
+ ['s3','“재이야. 어디 뒀어.”','202호 녹음. 공실 기간 새벽 3시, 남자 목소리.','“녹음에 남자 목소리가 있어요. 재이를 불렀어요.”'],
+ ['jp','재이의 메모','“GUEST 지문. 나는 등록한 적 없음.” “osm_24. 삭제가 안 된다.”','“재이 씨도 알고 있었어요. 누가 집에 들어온다는 거.”'],
+ ['s4','비밀번호 오류 3회','02:47, 누군가 우리 집 문을 열려고 했다. 홈캠엔 복도의 그림자.','“방금 누가 문을 열려고 했어요.”'],
+ ['last','“편의점 창고 지하. 사장이”','8월 6일 21:24, 재이가 보내지 못한 마지막 메시지.','“재이 씨, 편의점 창고에 있어요.”']
+];
+let pend=[],pendT,toastT;
+function toast(t,ttl,col){const e=$('#toast');e.innerHTML=`<span class="ti" style="background:${col||'#1c1c1f'}">${ttl==='단서 수첩'?'🔎':ttl==='홈키퍼'?'⌂':'🔔'}</span><span style="flex:1"><span class="tt"><span>${ttl||'알림'}</span><span>지금</span></span><span class="tm">${t}</span></span>`;e.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove('on'),2600)}
+function clue(id){if(S.clues.includes(id))return;S.clues.push(id);save();const c=CLUES.find(x=>x[0]===id);pend.push(c[1]);clearTimeout(pendT);pendT=setTimeout(()=>{toast(pend.length>1?`새 단서 ${pend.length}개 — 수첩을 확인하세요`:'새 단서 — '+pend[0],'단서 수첩');pend=[]},500)}
+const has=id=>S.clues.includes(id);
+
+/* ---------- 그림 ---------- */
+const rnd=(s=>()=>{s=(s*16807)%2147483647;return s/2147483647})(1102);
+function wallSVG(){let w='';for(let i=0;i<40;i++){w+=`<rect x="${(rnd()*400).toFixed(0)}" y="${(rnd()*280+180).toFixed(0)}" width="2" height="2" fill="#fff" opacity="${(rnd()*.15).toFixed(2)}"/>`}
+ return `<svg viewBox="0 0 400 860" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d1020"/><stop offset=".55" stop-color="#151a2c"/><stop offset="1" stop-color="#07080d"/></linearGradient><radialGradient id="neon" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#3cf0d2" stop-opacity=".55"/><stop offset="1" stop-color="#3cf0d2" stop-opacity="0"/></radialGradient><filter id="bl"><feGaussianBlur stdDeviation="3"/></filter></defs>
+ <rect width="400" height="860" fill="url(#wg)"/>
+ <rect x="30" y="170" width="340" height="650" fill="#0a0c16" stroke="#232838" stroke-width="12"/><line x1="200" y1="170" x2="200" y2="820" stroke="#232838" stroke-width="9"/><line x1="30" y1="470" x2="370" y2="470" stroke="#232838" stroke-width="7"/>
+ <rect x="48" y="560" width="304" height="250" fill="#10131f"/>
+ <ellipse cx="250" cy="650" rx="140" ry="80" fill="url(#neon)"/>
+ <rect x="195" y="630" width="120" height="28" rx="3" fill="#0b2e2a" stroke="#3cf0d2" stroke-width="1.5" filter="url(#bl)"/>
+ <text x="255" y="649" text-anchor="middle" font-size="14" font-weight="700" fill="#9ff8ea" font-family="'Noto Sans KR',sans-serif">석만마트 24</text>
+ <rect x="210" y="668" width="90" height="56" fill="#e8fff8" opacity=".18"/><rect x="246" y="680" width="11" height="36" fill="#0a0c16" opacity=".85"/><circle cx="251.5" cy="676" r="6" fill="#0a0c16" opacity=".85"/>
+ <rect x="48" y="740" width="304" height="70" fill="#0c0e18"/>
+ ${w}<rect y="820" width="400" height="40" fill="#07080d"/></svg>`}
+function nightCam(kind){
+ let n='';for(let i=0;i<260;i++)n+=`<rect x="${(rnd()*400).toFixed(0)}" y="${(rnd()*240).toFixed(0)}" width="1.5" height="1.5" fill="#cfe" opacity="${(rnd()*.25).toFixed(2)}"/>`;
+ const base=`<defs><radialGradient id="vg${kind}" cx=".5" cy=".5" r=".7"><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".85"/></radialGradient></defs><rect width="400" height="240" fill="#18241f"/>`;
+ let body='';
+ if(kind==='bed')body=`<path d="M0 240 L60 120 L340 120 L400 240Z" fill="#22322b"/><rect x="70" y="140" width="250" height="90" rx="10" fill="#3c5248"/><rect x="80" y="130" width="70" height="30" rx="8" fill="#5f7a6d"/><path d="M150 150 Q210 120 300 160 L310 220 L150 220Z" fill="#6d8a7c"/><ellipse cx="128" cy="150" rx="20" ry="14" fill="#8aa898"/><rect x="0" y="0" width="400" height="60" fill="#14201b"/>`;
+ if(kind==='hall')body=`<path d="M120 0 L280 0 L330 240 L70 240Z" fill="#22322b"/><rect x="170" y="40" width="60" height="110" fill="#2c4038"/><g fill="#0b120f"><ellipse cx="205" cy="92" rx="12" ry="14"/><path d="M188 106 Q205 100 222 106 L230 190 L180 190Z"/></g><rect x="300" y="60" width="20" height="40" fill="#3c5248"/><text x="310" y="85" text-anchor="middle" font-size="9" fill="#9fb">301</text>`;
+ if(kind==='room')body=`<path d="M0 240 L80 90 L320 90 L400 240Z" fill="#22322b"/><rect x="120" y="100" width="160" height="70" fill="#2c4038"/><rect x="40" y="150" width="70" height="80" fill="#3c5248"/>`;
+ if(kind==='bedside')body=`<path d="M0 240 L60 120 L340 120 L400 240Z" fill="#22322b"/><rect x="70" y="140" width="250" height="90" rx="10" fill="#3c5248"/><path d="M150 150 Q210 120 300 160 L310 220 L150 220Z" fill="#6d8a7c"/><ellipse cx="128" cy="150" rx="20" ry="14" fill="#8aa898"/><g fill="#050807"><ellipse cx="350" cy="70" rx="16" ry="19"/><path d="M326 90 Q350 80 374 90 L384 240 L316 240Z"/></g>`;
+ return `<svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg">${base}${body}${n}<rect width="400" height="240" fill="url(#vg${kind})"/></svg>`}
+function floorPlan(){
+ const moved=sy('s2');
+ return `<svg viewBox="0 0 360 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;background:#0b0d13;border-radius:12px">
+ <defs><pattern id="cl" width="6" height="6" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="#0f3330"/><path d="M0 6L6 0" stroke="#145049" stroke-width="1"/></pattern></defs>
+ <rect x="20" y="20" width="320" height="260" fill="none" stroke="#3a4152" stroke-width="3"/>
+ <rect x="20" y="20" width="180" height="150" fill="url(#cl)"/><text x="110" y="100" text-anchor="middle" fill="#5fe0cf" font-size="12" font-family="sans-serif">거실</text>
+ <rect x="200" y="20" width="140" height="150" fill="url(#cl)"/><text x="255" y="100" text-anchor="middle" fill="#5fe0cf" font-size="12" font-family="sans-serif">침실</text>
+ <rect x="296" y="20" width="44" height="150" fill="#1a1d29" stroke="#3a4152"/><text x="318" y="90" text-anchor="middle" fill="#7d8496" font-size="9" font-family="sans-serif" transform="rotate(90 318 90)">붙박이장</text>
+ <rect x="20" y="170" width="120" height="110" fill="url(#cl)"/><text x="80" y="230" text-anchor="middle" fill="#5fe0cf" font-size="12" font-family="sans-serif">주방</text>
+ <rect x="140" y="170" width="80" height="110" fill="url(#cl)"/><text x="180" y="230" text-anchor="middle" fill="#5fe0cf" font-size="12" font-family="sans-serif">욕실</text>
+ <rect x="220" y="170" width="120" height="110" fill="url(#cl)"/><text x="280" y="215" text-anchor="middle" fill="#5fe0cf" font-size="12" font-family="sans-serif">현관</text>
+ <rect x="340" y="20" width="0" height="0"/>
+ <path d="M300 22 L338 22 L338 168 L300 168" fill="none"/>
+ <rect x="318" y="40" width="20" height="90" fill="#2a0f12" stroke="#ff4d4d" stroke-dasharray="4 3"/><text x="328" y="88" text-anchor="middle" fill="#ff8a8a" font-size="14" font-weight="700" font-family="sans-serif">?</text>
+ <rect x="${moved?'228':'250'}" y="${moved?'128':'40'}" width="22" height="22" rx="3" fill="#f5a623"/><text x="${moved?'239':'261'}" y="${moved?'143':'55'}" text-anchor="middle" fill="#1c1c1f" font-size="10" font-family="sans-serif">의자</text>
+ ${moved?`<path d="M261 62 L239 126" stroke="#ff4d4d" stroke-width="1.5" stroke-dasharray="3 3"/>`:''}
+ <circle cx="300" cy="250" r="7" fill="#12b7a5"/><text x="300" y="268" text-anchor="middle" fill="#7d8496" font-size="9" font-family="sans-serif">충전기</text>
+ </svg>`}
+function energyChart(){
+ let b='';const W=320,H=110;const days=98;
+ for(let i=0;i<days;i++){const thu=(i%7)===6;const v=thu?70+rnd()*25:2+rnd()*5;b+=`<rect x="${(20+i*W/days).toFixed(1)}" y="${(H-v).toFixed(1)}" width="2" height="${v.toFixed(1)}" fill="${thu?'#ff4d4d':'#2a5f58'}"/>`}
+ return `<svg viewBox="0 0 360 140" style="width:100%"><rect width="360" height="140" fill="#0b0d13" rx="10"/>${b}<line x1="20" y1="110" x2="340" y2="110" stroke="#3a4152"/><text x="20" y="128" fill="#7d8496" font-size="10">08.07</text><text x="300" y="128" fill="#7d8496" font-size="10">11.12</text></svg>`}
+function wave(){let b='';for(let i=0;i<120;i++){const loud=(i>30&&i<38)||(i>62&&i<70)||(i>92&&i<100);const v=loud?14+rnd()*22:2+rnd()*5;b+=`<rect x="${10+i*2.8}" y="${40-v}" width="1.8" height="${v*2}" fill="${loud?'#ff4d4d':'#5fe0cf'}"/>`}return `<svg viewBox="0 0 360 80" style="width:100%;background:#0b0d13;border-radius:10px">${b}</svg>`}
+
+/* ---------- 홈키퍼 데이터 ---------- */
+const VAC=['11.12 03:14','11.05 03:11','10.29 03:16','10.22 03:12','10.15 03:13','10.08 03:10','10.01 03:15','09.24 03:12','09.17 03:11','09.10 03:15','09.03 03:12','08.27 03:13','08.20 03:11','08.13 03:12'];
+function doorLogs(){
+ const L=[];
+ if(S.end==='B')L.push(['11.17 03:33','GUEST 지문 · 열림','',1,1]);
+ if(sy('s4')){L.push(['11.16 02:48','GUEST 지문 · 인증 실패','등록 지문이 일치하지 않음',1,1]);L.push(['11.16 02:47','비밀번호 오류 ×3','외부 키패드',1,1])}
+ if(sy('s2')){L.push(['11.14 14:19','닫힘','',0,1]);L.push(['11.14 14:02','GUEST 지문 · 열림','사용자 외출 중',1,1])}
+ L.push(['11.14 08:31','비밀번호 · 닫힘','나 · 출근','0']);
+ L.push(['11.13 22:05','비밀번호 · 열림','나','0']);
+ L.push(['11.13 14:30','비밀번호 변경 · 열림','관리: 부동산 → 새 입주자','0']);
+ VAC.forEach(t=>L.push([t,'GUEST 지문 · 열림','공실',1]));
+ L.push(['08.06 07:52','재이 지문 · 닫힘','외출','0']);L.push(['08.05 23:41','재이 지문 · 열림','','0']);L.push(['08.05 08:02','재이 지문 · 닫힘','','0']);
+ return L}
+function lumiLogs(){
+ const L=[];
+ if(sy('s1')){L.push(['11.14 03:11','루미: “홈캠을 켭니다.”','',1,1]);L.push(['11.14 03:11','인식되지 않은 사용자: “홈캠 켜”','',1,1])}
+ L.push(['11.13 23:50','새 사용자: “불 꺼”','',0]);
+ L.push(['11.12 03:15','인식되지 않은 사용자: “불 꺼”','공실',1]);L.push(['11.12 03:12','인식되지 않은 사용자: “불 켜”','공실',1]);
+ L.push(['10.15 03:20','인식되지 않은 사용자: “재이 알람 몇 시야”','루미: 등록된 알람이 없습니다.',1]);
+ L.push(['09.10 03:17','인식되지 않은 사용자: “노래 틀어줘”','루미: 재이 님이 좋아하는 플레이리스트를 재생합니다.',1]);
+ L.push(['08.13 03:12','인식되지 않은 사용자: “불 켜”','공실',1]);
+ L.push(['08.06 07:40','재이: “오늘 날씨 어때”','',0]);L.push(['08.05 23:44','재이: “홈캠 꺼”','',0]);L.push(['08.05 23:43','재이: “홈캠 공유 사용자 삭제해”','루미: 관리자 권한이 필요합니다.',0]);
+ return L}
+const lgHTML=L=>L.map(l=>`<div class="lg ${l[3]==1?'warn':''} ${l[4]?'new':''}"><span class="tm">${l[0]}</span><span class="tx">${l[1]}${l[2]?`<small>${l[2]}</small>`:''}</span></div>`).join('');
+const SYNCS={
+ '266aca8e':{k:'s1',t:'11.14 03:11 · 루미 음성 기록 · 침실 홈캠 녹화',tab:'cam'},
+ 'c9272db6':{k:'s2',t:'11.14 14:02 · 도어락 GUEST 열림 · 청소기 지도 변경',tab:'door'},
+ 'd39e0039':{k:'s3',t:'202호 녹음 파일 3개 수신 · 재이의 공기계 연결됨',tab:'file'},
+ '7cebb2c0':{k:'s4',t:'11.16 02:47 · 도어락 비밀번호 오류 ×3 · 현관 홈캠 실시간',tab:'cam'},
+ '29bdbfa0':{k:'endA',t:'관리자 계정 osm_24 삭제됨 · GUEST 지문 삭제됨',tab:'home'},
+ '84c85252':{k:'endB',t:'11.17 03:33 · GUEST 지문 · 열림',tab:'cam'}
+};
+
+/* ---------- 홈키퍼 화면 ---------- */
+const TABS=[['home','홈'],['door','도어락'],['lumi','루미'],['cam','홈캠'],['map','청소기'],['power','전력'],['pkg','택배함'],['file','파일'],['sync','기록 동기화'],['set','설정']];
+function hkTab(t){
+ if(t==='home'){
+  const alerts=[];
+  if(S.end==='A')alerts.push('관리자 계정 osm_24가 삭제되었습니다. 이 집의 모든 기기는 이제 당신의 것입니다.');
+  if(S.end==='B')alerts.push('03:33 현관문이 열렸습니다. 침실 홈캠이 켜져 있습니다.');
+  if(sy('s4')&&!S.end)alerts.push('02:47 현관 비밀번호 오류 3회. 외부 침입 시도가 감지되었습니다.');
+  return `${alerts.map(a=>`<div class="alertbar">⚠ ${a}</div>`).join('')}<div class="hk-sec">
+  <div class="hk-card"><h4>302호 · 해담빌라 <small>기기 7개 연결됨</small></h4>
+   <div class="kv"><span>현관 도어락</span><span>${sy('s4')&&!S.end?'<span class="tag r">경고</span>':'잠김'}</span></div>
+   <div class="kv"><span>AI 스피커 루미</span><span>대기 중</span></div>
+   <div class="kv"><span>홈캠 (거실·침실·현관)</span><span>${S.end==='B'?'<span class="tag r">녹화 중</span>':'꺼짐'}</span></div>
+   <div class="kv"><span>로봇청소기</span><span>충전 중</span></div>
+   <div class="kv"><span>스마트 플러그</span><span>정상</span></div></div>
+  <div class="hk-card"><h4>계정 <small>로그인 유지</small></h4><div class="kv"><span>현재 로그인</span><span>jaei.yun <span class="tag r">이전 사용자</span></span></div><div class="kv"><span>공유 사용자</span><span>${S.end==='A'?'없음':'1명'}</span></div></div>
+  <p class="muted" style="color:#7d8496;font-size:12px;line-height:1.6">이전 사용자의 계정이 로그아웃되지 않아 기록이 유지되고 있습니다. 로그아웃하려면 계정 비밀번호가 필요합니다.</p></div>`}
+ if(t==='door'){clue('guest');clue('vacant');return `<div class="hk-sec"><div class="hk-card"><h4>등록된 인증 수단</h4><div class="kv"><span>지문 1</span><span>재이</span></div><div class="kv"><span>지문 2</span><span>${S.end==='A'?'<s>GUEST</s> 삭제됨':'GUEST <span class="tag r">등록자 불명</span>'}</span></div><div class="kv"><span>지문 2 등록일</span><span>2026.05.03 21:47</span></div><div class="kv"><span>비밀번호</span><span>11.13 변경됨</span></div>
+  ${S.end==='A'?'':`<button class="btn" style="margin-top:10px;background:#3a1418;color:#ffb3b3" data-del="1">GUEST 지문 삭제</button>`}</div>
+  <div class="hk-card"><h4>출입 기록 <small>최신순</small></h4>${lgHTML(doorLogs())}</div></div>`}
+ if(t==='lumi'){clue('lumi3');return `<div class="hk-sec"><div class="hk-card"><h4>음성 명령 기록</h4>${lgHTML(lumiLogs())}</div><p class="muted" style="color:#7d8496;font-size:12px">‘인식되지 않은 사용자’: 등록되지 않은 목소리입니다.</p></div>`}
+ if(t==='cam'){clue('camdel');let h='<div class="hk-sec">';
+  if(S.end==='B')h+=`<div class="hk-card"><h4>침실 <small>실시간</small></h4><div class="camv">${nightCam('bedside')}<span class="osd">BEDROOM · 11.17 03:34</span><span class="live">● LIVE</span></div><p style="margin-top:8px;font-size:13px;color:#ff8a8a">시청 중: 공유 사용자 1명</p></div>`;
+  if(sy('s4'))h+=`<div class="hk-card"><h4>현관 <small>${S.end?'녹화':'실시간'}</small></h4><div class="camv">${nightCam('hall')}<span class="osd">ENTRANCE · 11.16 02:47</span>${S.end?'':'<span class="live">● LIVE</span>'}</div><p style="margin-top:8px;font-size:13px;color:#ff8a8a">문 앞에 누군가 서 있습니다.</p></div>`;
+  if(sy('s1'))h+=`<div class="hk-card"><h4>침실 · 11.14 03:11 <small>15분 12초</small></h4><div class="camv">${nightCam('bed')}<span class="osd">BEDROOM · 11.14 03:11:42</span></div><p style="margin-top:8px;font-size:13px;color:#ff8a8a">시청: 공유 사용자 1명 (03:11~03:26)</p></div>`;
+  h+=`<div class="hk-card"><h4>거실 <small>마지막 스냅샷</small></h4><div class="camv">${nightCam('room')}<span class="osd">LIVING · 08.05 23:44</span></div></div>
+  <div class="hk-card"><h4>녹화 보관함</h4>${['08.06','08.05','08.04','08.03','08.02','08.01'].map(d=>`<div class="del"><span class="ph">삭제됨</span><span style="flex:1;margin-left:10px">${d} · 거실·침실</span><span class="tag r">공유 사용자가 삭제</span></div>`).join('')}</div></div>`;
+  return h}
+ if(t==='map'){clue('void');return `<div class="hk-sec"><div class="hk-card"><h4>청소 지도 <small>최근 청소 11.14 10:00</small></h4>${floorPlan()}<div class="kv" style="margin-top:8px"><span>미청소 구역</span><span style="color:#ff8a8a">침실 붙박이장 뒤 · 진입 불가</span></div><div class="kv"><span>추정 면적</span><span>약 0.6㎡</span></div>${sy('s2')?`<div class="kv"><span style="color:#ff8a8a">장애물 위치 변경</span><span style="color:#ff8a8a">11.14 14:10 · 침실 의자</span></div>`:''}</div></div>`}
+ if(t==='power'){clue('power');return `<div class="hk-sec"><div class="hk-card"><h4>일별 전력 사용량 <small>공실 기간</small></h4>${energyChart()}<div class="kv" style="margin-top:8px"><span>공실 기간 평균</span><span>0.2 kWh/일</span></div><div class="kv"><span>급증</span><span style="color:#ff8a8a">목요일 새벽 3시 · 14회</span></div></div></div>`}
+ if(t==='pkg'){clue('lastpkg');const P=[];
+  if(sy('s2')){P.push(['11.14 13:55','쿠팡 · 생수 2L×6','대리수령: 석만마트 → 302호 문 앞 전달',1,1]);clue('s2b')}
+  P.push(['11.13 15:10','이사 박스 ×4','본인 수령',0]);
+  P.push(['08.06 21:10','재이 · 화장품','보관: 석만마트 (대리수령) · 미수령',1]);
+  P.push(['08.01 20:45','재이 · 책 2권','대리수령: 석만마트 → 본인 수령',0]);P.push(['07.24 21:02','재이 · 생활용품','대리수령: 석만마트 → 본인 수령',0]);P.push(['07.17 20:58','재이 · 의류','대리수령: 석만마트 → 본인 수령',0]);
+  return `<div class="hk-sec"><div class="hk-card"><h4>택배함 기록</h4>${lgHTML(P)}</div><p class="muted" style="color:#7d8496;font-size:12px">석만마트 택배 대리수령 서비스를 이용 중입니다.</p></div>`}
+ if(t==='file'){if(!sy('s3'))return `<div class="hk-sec"><div class="hk-card"><h4>공유받은 파일</h4><p class="muted" style="color:#7d8496">공유받은 파일이 없습니다.</p></div></div>`;
+  clue('s3');return `<div class="hk-sec"><div class="hk-card"><h4>202호 → 302호 공유 <small>민태오</small></h4>
+  ${[['녹음_0813_0312.m4a','08.13 03:12',['03:12:04  (도어락 열리는 소리)','03:12:40  발소리. 천천히. 침실 쪽.','03:14:10  남자 목소리: “재이야.”','03:14:18  남자 목소리: “어디 뒀어.”','03:16:55  (서랍 여닫는 소리 여러 번)']],
+     ['녹음_0910_0315.m4a','09.10 03:15',['03:15:30  (음악 소리. 재이의 플레이리스트)','03:16:02  남자 콧노래','03:21:47  (냉장고 문 소리)']],
+     ['녹음_1112_0314.m4a','11.12 03:14',['03:14:20  발소리','03:15:01  남자 목소리: “새 사람 온대.”','03:15:09  남자 목소리: “방은 그대로 둬야지.”']]].map(f=>`<div style="margin:10px 0 14px"><div class="kv" style="border:0"><span>${f[0]}</span><span>${f[1]}</span></div>${wave()}<div style="font:12px/1.8 monospace;color:#cfd6e4;margin-top:8px">${f[2].map(x=>x.includes('목소리')?`<span style="color:#ff8a8a">${x}</span>`:x).join('<br>')}</div></div>`).join('')}
+  </div><p class="muted" style="color:#7d8496;font-size:12px">메모: “경찰은 빈집 소음이라고 안 들어줬어요.” — 202호</p></div>`}
+ if(t==='sync'){const done=Object.keys(S.sync).filter(k=>S.sync[k]);
+  return `<div class="hk-sec"><div class="hk-card"><h4>기록 동기화</h4><p style="font-size:13px;color:#aeb4c3;line-height:1.6;margin-bottom:12px">홈키퍼 알림으로 받은 6자리 인증번호를 입력하면, 기기에 남은 최신 기록을 불러옵니다.</p>
+  <form data-form="sync"><div class="field"><input name="c" inputmode="numeric" maxlength="6" autocomplete="off" placeholder="······"></div><button class="btn">동기화</button><div class="err"></div></form></div>
+  <div class="hk-card"><h4>동기화 내역</h4>${done.length?Object.values(SYNCS).filter(v=>S.sync[v.k]).map(v=>`<div class="lg"><span class="tm">완료</span><span class="tx">${v.t}</span></div>`).join(''):'<p class="muted" style="color:#7d8496">아직 동기화한 기록이 없습니다.</p>'}</div></div>`}
+ if(t==='set'){clue('osm');return `<div class="hk-sec"><div class="hk-card"><h4>공유 사용자</h4>${S.end==='A'?'<p class="muted" style="color:#7d8496">공유 사용자가 없습니다.</p>':`<div class="kv"><span>아이디</span><span>osm_24</span></div><div class="kv"><span>권한</span><span><span class="tag r">관리자</span> 도어락 · 홈캠</span></div><div class="kv"><span>초대</span><span>2026.05.03 21:42 · jaei.yun 기기에서</span></div><div class="kv"><span>마지막 접속</span><span>${sy('s4')?'방금 전':sy('s1')?'11.14 03:26':'11.12 03:19'}</span></div><button class="btn" style="margin-top:10px;background:#3a1418;color:#ffb3b3" data-del="2">공유 사용자 삭제</button>`}</div>
+  <div class="hk-card"><h4>기기</h4><div class="kv"><span>월패드</span><span>HK-W302</span></div><div class="kv"><span>펌웨어</span><span>4.2.1</span></div></div></div>`}
+ return ''}
+function renderHK(){
+ const t=S.hkTab||'home';
+ $('#ah').outerHTML=`<div class="ah" id="ah" style="background:#0e1016;color:#fff;border-color:#1d2130"><button class="bk" data-appgo="home" style="color:#5fe0cf">‹ 홈</button><span class="hk-logo">HOMEKEEPER</span></div>`;
+ const dot=k=>({cam:sy('s1')||sy('s4'),door:sy('s2')||sy('s4'),file:sy('s3'),map:sy('s2')})[k];
+ $('#ab').innerHTML=`<div class="hk"><div class="hk-tabs">${TABS.map(x=>`<button class="${x[0]===t?'on':''}" data-hk="${x[0]}">${x[1]}${dot(x[0])&&x[0]!==t?'<span class="d"></span>':''}</button>`).join('')}</div>${hkTab(t)}</div>`;
+ $('#ab').style.background='#0e1016';
+ const on=$('.hk-tabs .on');if(on)on.scrollIntoView({inline:'center',block:'nearest'});
+}
+
+/* ---------- 망원이웃 ---------- */
+const POSTS=[
+ {id:'p1',c:'red',ch:'찾습니다',t:'[찾습니다] 윤재이(27) — 8월 6일 이후 연락 두절',m:'서강우 · 망원동 · 08.20',b:'8월 6일(목) 저녁 퇴근 후 연락이 끊겼습니다.\n마지막 목격: 망원동 해담빌라 앞.\n키 163cm, 단발, 회색 가디건.\n작은 것이라도 보신 분은 연락 부탁드립니다.\n010-7712-0806 (서강우)',poster:1,cm:[['석만마트 사장','저도 가게에 전단 붙여놨어요. 꼭 찾길 바랍니다.','08.20'],['망원주민','그날 밤 9시쯤 편의점 앞에서 본 것 같은데… 확실하진 않아요','08.21'],['서강우','@망원주민 혹시 더 기억나시는 거 있으면 꼭 연락 주세요','08.21'],['(삭제된 댓글입니다)','','08.22']]},
+ {id:'p2',ch:'동네후기',t:'석만마트 사장님 진짜 친절하심 ㅋㅋ',m:'망원새댁 · 06.11',b:'택배 맡아주시고 이름까지 기억해주심.\n밤늦게 가도 항상 계셔서 든든해요.',cm:[['산책러','ㅇㅈ 커피도 가끔 그냥 주심','06.12'],['(탈퇴한 사용자)','근데 사장님이 제 퇴근 시간을 너무 잘 아세요… 좀 무서워요','07.30'],['망원새댁','ㅋㅋ 단골이라 그런 거죠~','07.30']]},
+ {id:'p3',ch:'층간소음',t:'3층 빈집이라던데 새벽마다 쿵쿵',m:'202호 · 해담빌라 · 08.21',b:'3층 302호 지금 비어 있다고 들었는데\n새벽 3시만 되면 발소리, 문 여닫는 소리 납니다.\n관리인한테 말해도 빈집이라고만 하네요.\n누가 들어가는 거 아닌가요?',cm:[['관리인','빈집 맞습니다. 착각이신 듯합니다.','08.22'],['202호','녹음도 해뒀습니다.','08.22']]},
+ {id:'p4',ch:'공지',t:'[석만마트] 택배 대리수령 서비스 안내',m:'석만마트 · 05.01',b:'이름과 호수만 말씀하시면 택배 보관해 드려요 ^^\n24시간 운영, 언제든 들르세요.\n※ 창고 공사로 8월 한 달 지하 출입 금지',cm:[]},
+ {id:'p5',ch:'분실',t:'회색 고양이 찾아요 (망원2동)',m:'냥집사 · 11.02',b:'목에 방울 있어요. 이름은 두부입니다.',cm:[]},
+ {id:'p6',ch:'나눔',t:'원목 의자 나눔합니다',m:'해담빌라 3층 · 08.30',b:'관리인입니다. 302호에서 나온 의자 하나 남았는데 필요하신 분?\n(나머지 짐은 정리했습니다)',cm:[['석만마트 사장','제가 가져가도 될까요? 가게에서 쓸게요','08.30']]},
+ {id:'p7',ch:'공지',t:'분리수거 요일 변경 안내',m:'망원2동 주민센터 · 10.28',b:'11월부터 재활용은 화·금으로 변경됩니다.',cm:[]}
+];
+function renderCM(post){
+ if(!post){$('#ab').innerHTML=`<div class="cm-top"><b>망원이웃</b><span style="font-size:13px">망원2동 ▾</span></div>${POSTS.map(p=>`<div class="post" data-appgo="cm:${p.id}"><span class="chip ${p.c||''}">${p.ch}</span><div class="pt">${p.t}</div><div class="pm">${p.m} · 댓글 ${p.cm.length}</div></div>`).join('')}`;return}
+ const p=POSTS.find(x=>x.id===post);
+ if(post==='p1')clue('poster');if(post==='p2')clue('review');if(post==='p3')clue('noise');
+ $('#ab').innerHTML=`<div class="cm-top"><span data-appgo="cm" style="cursor:pointer">‹ 목록</span><b>망원이웃</b><span></span></div><div class="post" style="cursor:default"><span class="chip ${p.c||''}">${p.ch}</span><div class="pt">${p.t}</div><div class="pm">${p.m}</div>${p.poster?`<div class="poster"><b style="font-size:18px">사람을 찾습니다</b><div class="ph">사진</div><b>윤재이 (27)</b><div style="font-size:13px;margin-top:4px">2026.08.06 이후 연락 두절</div></div>`:''}<div class="pb">${p.b}</div>${S.end==='A'&&post==='p1'?`<div class="pb" style="color:#1f7a4d;font-weight:700">[추가] 찾았습니다. 도와주신 모든 분께 감사드립니다. — 서강우 (11.17)</div>`:''}</div><div class="pad" style="padding-top:4px">${p.cm.map(c=>`<div class="cmt"><b>${c[0]}</b><small>${c[2]}</small>${c[1]?`<div>${c[1]}</div>`:''}</div>`).join('')||'<p class="muted">댓글이 없습니다.</p>'}</div>`}
+
+/* ---------- 메시지 ---------- */
+function threads(){
+ const T=[];
+ if(S.end==='B')T.push(['osm','석만마트','자요? ^^','03:34','#12b7a5','석']);
+ T.push(['gw','서강우 (301호)',sy('s2')?'아까 누가 302호 들어가던데? 택배 기사?':'무슨 일 있으면 연락해요. 바로 옆이니까','11.14','#5b7bd5','강']);
+ if(sy('s3'))T.push(['to','민태오 (202호)','파일 보냈어요. 새벽 세 시 걸 들어봐요.','11.15','#6b6b73','태']);
+ if(S.end!=='B')T.push(['osm','석만마트','302호 새로 오셨죠? 택배 맡아드려요^^','11.13','#12b7a5','석']);
+ T.push(['re','망원부동산','도어락 비번 꼭 바꾸세요~','11.13','#8e8e93','부']);
+ return T}
+function renderMsg(sub){
+ if(!sub){$('#ab').innerHTML=threads().map(m=>`<div class="li" data-appgo="msg:${m[0]}"><div class="av" style="background:${m[4]}">${m[5]}</div><div class="m"><b>${m[1]}</b><small>${m[2]}</small></div><div class="t">${m[3]}</div></div>`).join('');return}
+ const C={
+  gw:['서강우 (301호)',`<div class="bub-t">11월 13일 (금) 오후 8:10</div><div class="bub">옆집 서강우예요. 짐 옮기느라 고생했어요</div><div class="bub">무슨 일 있으면 연락해요. 바로 옆이니까</div><div class="bub me">감사합니다!</div>${sy('s2')?`<div class="bub-t">11월 14일 (토) 오후 2:05</div><div class="bub">혹시 집에 있어요?</div><div class="bub">아까 누가 302호 들어가던데? 택배 기사?</div><div class="bub">모자 쓴 남자였는데</div>`:''}`],
+  to:['민태오 (202호)',`<div class="bub-t">11월 15일 (일)</div><div class="bub">파일 보냈어요. 홈키퍼 공유로.</div><div class="bub">새벽 세 시 걸 들어봐요.</div><div class="bub">나 미친 사람 아니었어요.</div>`],
+  osm:['석만마트',`<div class="bub-t">11월 13일 (금) 오후 4:20</div><div class="bub">302호 새로 오셨죠? 택배 맡아드려요^^</div><div class="bub">이름이랑 호수만 말씀하시면 돼요. 언제든 들르세요</div>${S.end==='B'?`<div class="bub-t">11월 17일 (화) 오전 3:34</div><div class="bub">자요? ^^</div>`:''}`],
+  re:['망원부동산',`<div class="bub-t">11월 13일 (금) 오후 2:31</div><div class="bub">302호 키 전달드렸어요. 도어락 비번 꼭 바꾸세요~</div><div class="bub">전 세입자 짐은 관리인분이 정리하셨고요. 지문은 관리 업체 통해야 지울 수 있다네요</div>`]
+ }[sub];
+ if(sub==='osm')clue('martmsg');
+ $('#ah').innerHTML=`<button class="bk" data-appgo="msg">‹ 뒤로</button><span>${C[0]}</span>`;
+ $('#ab').innerHTML=`<div style="padding:6px 0 20px">${C[1]}</div>`}
+
+/* ---------- 재이의 공기계 ---------- */
+let jpCode='';
+function renderJP(sub){
+ if(!S.jp){$('#ab').innerHTML=`<div class="jp-lock" style="position:relative"><svg class="crack" viewBox="0 0 400 700" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%"><path d="M300 0 L260 140 L300 210 L230 330 L260 420 L180 700" stroke="#fff" stroke-width="1.5" fill="none"/><path d="M260 140 L360 180" stroke="#fff" fill="none"/><path d="M230 330 L120 360" stroke="#fff" fill="none"/></svg><div style="font-size:13px;opacity:.7">재이의 휴대폰</div><div style="font-size:52px;font-weight:300;margin:8px 0">08:06</div><div style="font-size:12px;opacity:.6">배터리 3% · 충전 중</div><div class="pins" id="jpPins"><i></i><i></i><i></i><i></i></div><div class="kp" id="jpKp">${[1,2,3,4,5,6,7,8,9,'',0,'지우기'].map(k=>k===''?'<span></span>':`<button class="${k==='지우기'?'e':''}" data-jp="${k}">${k}</button>`).join('')}</div><div style="font-size:12px;opacity:.55;margin-top:18px">암호 힌트: 우리 집에 온 날</div></div>`;return}
+ if(!sub){clue('jp');$('#ab').innerHTML=`<div class="pad"><div class="h1">재이의 휴대폰</div><p class="muted" style="margin-bottom:14px">8월 6일 이후 꺼져 있던 공기계</p></div>${[['memo','메모','5개'],['jmsg','메시지','임시저장 1'],['shot','스크린샷','2장']].map(a=>`<div class="li" data-appgo="jp:${a[0]}"><div class="av" style="background:${a[0]==='jmsg'?'#34c759':a[0]==='memo'?'#ffd23f':'#5b7bd5'}">${a[1][0]}</div><div class="m"><b>${a[1]}</b><small>${a[2]}</small></div></div>`).join('')}`;return}
+ if(sub==='memo'){$('#ab').innerHTML=`<div class="memo">${[['07.12','편의점 사장님이 내 퇴근 시간에 맞춰 가게 밖에 나와 있다. 매일. 우연?'],['07.21','도어락에 GUEST 지문. 나는 등록한 적 없음. 5월 3일 밤 9시 47분.<br>5월 3일… 폰 편의점에 두고 온 날.'],['07.28','홈캠 공유 사용자 osm_24.<br>삭제가 안 된다. 관리자 권한.'],['08.02','강우한테 말할까. 헤어진 사람한테 이런 얘기 해도 되나.'],['08.05','증거 다 붙박이장 뒤에 숨김. 노트도.<br>내일 경찰서 간다. 택배만 찾고.']].map(m=>`<div style="margin-bottom:18px">${m[1]}<div class="md">2026.${m[0]}</div></div>`).join('')}</div>`}
+ if(sub==='jmsg'){clue('last');$('#ab').innerHTML=`<div style="padding:6px 0 20px"><div class="bub-t">8월 3일 (월) · 서강우</div><div class="bub me">요즘 좀 이상한 일 있어</div><div class="bub">무슨 일?</div><div class="bub">말해봐</div><div class="bub-t" style="color:#c12d2d">재이가 답장하지 않음</div><div class="bub-t">8월 6일 (목) 오후 9:24 · 서강우에게</div><div class="bub fail">편의점 창고 지하. 사장이</div><div class="bub-t" style="color:#d13438">전송 실패 · 임시저장됨</div></div>`}
+ if(sub==='shot'){$('#ab').innerHTML=`<div class="pad"><div class="card"><b style="font-size:13px">스크린샷 · 07.28</b><div style="background:#0e1016;color:#e7e9ee;border-radius:10px;padding:12px;margin-top:8px;font-size:13px"><div class="kv"><span>공유 사용자</span><span>osm_24</span></div><div class="kv"><span>권한</span><span>관리자</span></div><div style="color:#ff8a8a;font-size:12px;margin-top:6px">삭제 권한이 없습니다.</div></div></div><div class="card"><b style="font-size:13px">스크린샷 · 08.05 23:30</b><div style="margin-top:8px;border-radius:10px;overflow:hidden;line-height:0">${wallSVG().replace('viewBox="0 0 400 860"','viewBox="60 540 300 220"')}</div><p class="muted" style="margin-top:6px">302호 창문에서 본 석만마트. 가게 안에서 누군가 이쪽을 보고 있다.</p></div></div>`}
+ $('#ah').innerHTML=`<button class="bk" data-appgo="${sub?'jp':'home'}">‹ ${sub?'뒤로':'홈'}</button><span>재이의 휴대폰</span>`}
+
+/* ---------- 인터넷 ---------- */
+function renderWeb(q){
+ const head=`<form class="wb" data-form="web"><input name="q" value="${(q||'').replace(/"/g,'')}" placeholder="검색어 입력" autocomplete="off"><button>검색</button></form>`;
+ if(q===undefined){$('#ab').innerHTML=head+`<div class="pad"><b>오늘의 뉴스</b></div><div class="sr" data-web="news"><span class="muted">오늘신문 · 사회</span><b>망원동 20대 여성 실종 3개월째… 경찰 “단순 가출 가능성”</b><span class="muted">2026.11.06</span></div><div class="sr" data-web="map"><span class="muted">지도</span><b>석만마트 · 24시 편의점</b><span class="muted">망원동 해담빌라 맞은편 · 영업 중</span></div>`;return}
+ if(q==='news'){$('#ab').innerHTML=head+`<div class="pad nw"><span class="muted">사회 · 2026.11.06</span><h2>망원동 20대 여성 실종 3개월째… 경찰 “단순 가출 가능성”</h2><p>서울 마포구 망원동에서 20대 여성 윤모(27)씨가 실종된 지 석 달이 지났지만 행방은 여전히 확인되지 않고 있다.</p><p>윤씨는 8월 6일 퇴근 후 귀가했다가 같은 날 밤 외출한 뒤 연락이 끊겼다. 휴대전화는 그날 밤 9시 30분쯤 자택 인근에서 마지막으로 신호가 잡혔다.</p><p>경찰은 “범죄 정황이 확인되지 않았다”며 단순 가출 가능성을 염두에 두고 있다. 지인 서모씨는 “절대 혼자 사라질 사람이 아니다”라고 말했다.</p><p class="muted">※ 해당 빌라 앞 편의점 CCTV는 당일 고장 상태였던 것으로 확인됐다.</p></div>`;return}
+ if(q==='map'){$('#ab').innerHTML=head+`<div class="pad"><div class="h1">석만마트</div><p class="muted">24시 편의점 · ★4.9 (리뷰 212)</p><div class="card" style="margin-top:12px"><div class="row"><span>주소</span><span>망원동 ○○-○ 1층·지하 1층</span></div><div class="row"><span>대표</span><span>오석만</span></div><div class="row"><span>영업</span><span>24시간</span></div><div class="row"><span>시설</span><span>택배 대리수령 · 지하 창고</span></div></div><p class="muted">“사장님이 이름까지 기억해주세요” · “밤에도 항상 계셔서 든든”</p></div>`;return}
+ const k=q.replace(/\s/g,'');let res=[];
+ if(/재이|윤재이|실종/.test(k))res.push(['news','오늘신문','망원동 20대 여성 실종 3개월째… 경찰 “단순 가출 가능성”']);
+ if(/석만|편의점|오석만|마트/.test(k))res.push(['map','지도','석만마트 · 24시 편의점']);
+ if(/osm|osm_24/i.test(k))res.push(['none','검색 결과','“osm_24”에 대한 검색 결과가 없습니다.']);
+ $('#ab').innerHTML=head+(res.length?res.map(r=>r[0]==='none'?`<div class="pad muted">${r[2]}</div>`:`<div class="sr" data-web="${r[0]}"><span class="muted">${r[1]}</span><b>${r[2]}</b></div>`).join(''):`<div class="pad muted">‘${q.replace(/</g,'')}’에 대한 검색 결과가 없습니다.</div>`)}
+
+/* ---------- 앱 구성 ---------- */
+const AI={
+ hk:'<svg viewBox="0 0 24 24" fill="none" stroke="#04211e" stroke-width="2.2"><path d="M3 11l9-7 9 7v9H3z"/><circle cx="12" cy="14" r="2.5"/></svg>',
+ cm:'<b style="color:#fff;font-size:20px">이웃</b>',
+ msg:'<svg viewBox="0 0 24 24" fill="#fff"><path d="M12 3C6.5 3 2 6.6 2 11c0 2.4 1.3 4.6 3.4 6.1L4.6 21l4.1-2.2c1 .3 2.1.4 3.3.4 5.5 0 10-3.6 10-8.1S17.5 3 12 3z"/></svg>',
+ web:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/></svg>',
+ jp:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M14 6l-3 5 3 2-3 5" stroke="#ff8a8a"/></svg>',
+ note:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M6 3h10l3 3v15H6z"/><path d="M9 9h7M9 13h7M9 17h4"/></svg>',
+ cam:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3z"/></svg>',
+ set:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>'
+};
+function apps(){
+ const A=[
+  {id:'hk',n:'홈키퍼',bg:'#12b7a5',ic:AI.hk,nb:(sy('s4')&&!S.end)||S.end==='B'?'!':0},
+  {id:'cm',n:'망원이웃',bg:'#ff8a3d',ic:AI.cm},
+  {id:'cam2',n:'카메라',bg:'#2c2c30',ic:AI.cam,toast:'카메라 권한이 없습니다'},
+  {id:'note',n:'단서 수첩',bg:'#1c1c1f',ic:AI.note}
+ ];
+ if(sy('s3'))A.splice(2,0,{id:'jp',n:'재이의 폰',bg:'#3a2a3f',ic:AI.jp,isnew:!S.jp});
+ A.push({id:'set',n:'설정',bg:'#6b6b73',ic:AI.set,toast:'설정을 변경할 수 없습니다'});
+ return A}
+const DOCK=()=>[{id:'msg',n:'메시지',bg:'linear-gradient(180deg,#5fdc7a,#2fbf55)',ic:AI.msg,nb:sy('s2')?(sy('s3')?2:1):1},{id:'web',n:'인터넷',bg:'linear-gradient(180deg,#5aa0ff,#2463eb)',ic:AI.web},{id:'hk',n:'홈키퍼',bg:'#12b7a5',ic:AI.hk},{id:'note',n:'수첩',bg:'#1c1c1f',ic:AI.note}];
+const appBtn=a=>`<button class="app ${a.isnew?'new':''}" data-app="${a.id}"><span class="ico" style="background:${a.bg}">${a.ic}${a.nb?`<span class="nb">${a.nb}</span>`:''}</span><span class="lb">${a.n}</span></button>`;
+function renderHome(){
+ const t=new Date();const days='일월화수목금토';
+ const warn=(sy('s4')&&!S.end)||S.end==='B';
+ $('#hs').innerHTML=`<div class="wall">${wallSVG()}</div><div class="hs-clock"><b>${t.getHours()}:${String(t.getMinutes()).padStart(2,'0')}</b><span>${t.getMonth()+1}월 ${t.getDate()}일 ${days[t.getDay()]}요일</span></div>
+ <div class="widget ${warn?'alert':''}" data-app="hk"><span class="wi">${AI.hk}</span><span><b>302호 · ${warn?'⚠ 이상 감지':S.end==='A'?'안전':'모든 문 잠김'}</b><small>${warn?'현관 기록을 확인하세요':'기기 7개 연결됨 · 이전 사용자 계정 로그인 중'}</small></span></div>
+ <div class="grid4">${apps().map(appBtn).join('')}</div><div class="dock">${DOCK().map(appBtn).join('')}</div>`}
+function setTheme(m){const p=$('#phone');p.classList.remove('light','dark');if(m)p.classList.add(m)}
+function showHome(){$('#app').classList.remove('on');$('#sheet').classList.remove('on');renderHome();$('#hs').classList.add('on');setTheme('')}
+function openApp(id,sub){
+ const a=[...apps(),...DOCK()].find(x=>x.id===id);
+ if(a&&a.toast){toast(a.toast);return}
+ if(id==='note'){openClues();return}
+ $('#hs').classList.remove('on');$('#app').classList.add('on');
+ $('#ab').style.background='';$('#ab').scrollTop=0;
+ const head=(t,b)=>{$('#ah').outerHTML=`<div class="ah" id="ah"><button class="bk" data-appgo="${b||'home'}">‹ ${b?'뒤로':'홈'}</button><span>${t}</span></div>`};
+ if(id==='hk'){setTheme('dark');renderHK();return}
+ setTheme('light');
+ if(id==='cm'){head('망원이웃');renderCM(sub);return}
+ if(id==='msg'){head('메시지');renderMsg(sub);return}
+ if(id==='web'){head('인터넷');renderWeb(sub);return}
+ if(id==='jp'){head('재이의 휴대폰');renderJP(sub);return}
+}
+
+/* ---------- 엔딩 ---------- */
+function showEnd(k){
+ const o=$('#endov');
+ o.style.background=k==='A'?'linear-gradient(180deg,#0e2a26,#050507)':'linear-gradient(180deg,#2a0508,#050507)';
+ o.innerHTML=k==='A'?`<div style="font-size:12px;letter-spacing:.3em;opacity:.7">ENDING · A</div><h2>문은 이제 닫혀 있다</h2><p>재이는 살아서 나왔다.<br>홈키퍼에서 낯선 계정이 사라졌다.<br>오늘 밤, 302호의 새벽 3시는 조용하다.</p><button data-endclose="1">홈 화면으로</button>`:`<div style="font-size:12px;letter-spacing:.3em;opacity:.7;color:#ff8a8a">ENDING · B</div><h2>OPEN DOOR</h2><p>창고는 비어 있었다.<br>새벽 3시 33분, 현관에서 지문 인식음이 들렸다.<br>침실 홈캠이 혼자 켜졌다.</p><button data-endclose="1">…</button>`;
+ o.classList.add('on')}
+
+/* ---------- 이벤트 ---------- */
+document.addEventListener('click',e=>{
+ const ec=e.target.closest('[data-endclose]');if(ec){$('#endov').classList.remove('on');showHome();return}
+ const ap=e.target.closest('[data-app]');if(ap){openApp(ap.dataset.app);return}
+ const ag=e.target.closest('[data-appgo]');if(ag){const v=ag.dataset.appgo;if(v==='home'){showHome();return}const [a,sub]=v.split(':');if(a==='cm'){$('#ab').scrollTop=0;renderCM(sub);return}if(a==='msg'){openApp('msg',sub);return}if(a==='jp'){openApp('jp',sub);return}return}
+ const hk=e.target.closest('[data-hk]');if(hk){S.hkTab=hk.dataset.hk;save();renderHK();$('#ab').scrollTop=0;return}
+ const dl=e.target.closest('[data-del]');if(dl){toast('삭제 권한이 없습니다. 관리자: osm_24','홈키퍼','#d13438');clue('osm');return}
+ const wb=e.target.closest('[data-web]');if(wb){renderWeb(wb.dataset.web);return}
+ const jk=e.target.closest('[data-jp]');if(jk){const k=jk.dataset.jp;if(k==='지우기')jpCode=jpCode.slice(0,-1);else if(jpCode.length<4)jpCode+=k;
+  document.querySelectorAll('#jpPins i').forEach((d,i)=>d.classList.toggle('f',i<jpCode.length));
+  if(jpCode.length===4)setTimeout(()=>{if(fnv(jpCode)==='832f01b5'){S.jp=true;save();renderJP();}else{const p=$('#jpPins');p.classList.remove('shake');void p.offsetWidth;p.classList.add('shake');jpCode='';document.querySelectorAll('#jpPins i').forEach(d=>d.classList.remove('f'))}},200);return}
+ const cp=e.target.closest('.copy');if(cp){try{navigator.clipboard.writeText(cp.dataset.t).then(()=>toast('복사했어요'),()=>{})}catch(err){}return}
+ if(e.target.id==='sheet'||e.target.closest('.x'))$('#sheet').classList.remove('on');
+});
+document.addEventListener('submit',e=>{
+ const f=e.target.closest('[data-form]');if(!f)return;e.preventDefault();
+ const d=Object.fromEntries(new FormData(f));
+ if(f.dataset.form==='web'){const q=(d.q||'').trim();if(q)renderWeb(q);return}
+ if(f.dataset.form==='sync'){
+  const c=(d.c||'').replace(/\D/g,'');const s=SYNCS[fnv(c)];const err=f.querySelector('.err');
+  if(!s){err.textContent='유효하지 않은 인증번호입니다.';return}
+  if(S.sync[s.k]){err.textContent='이미 동기화된 기록입니다.';return}
+  S.sync[s.k]=true;
+  if(s.k==='endA')S.end='A';if(s.k==='endB')S.end='B';
+  if(s.k==='s1')clue('s1');if(s.k==='s2')clue('s2');if(s.k==='s4')clue('s4');
+  S.hkTab=s.tab;save();
+  const ph=$('#phone');ph.classList.remove('glitch');void ph.offsetWidth;if(s.k!=='endA')ph.classList.add('glitch');
+  toast(s.t,'홈키퍼',s.k==='endA'?'#12b7a5':'#d13438');
+  setTimeout(()=>{renderHK();$('#ab').scrollTop=0;if(s.k==='endA'||s.k==='endB')setTimeout(()=>showEnd(s.k==='endA'?'A':'B'),1600)},500);
+ }
+});
+function openClues(){
+ const n=S.clues.length,t=CLUES.length;
+ $('#sheetIn').innerHTML=`<div class="sheet-h"><b>단서 수첩</b><button class="x">✕</button></div><div class="muted">${n} / ${t} 발견</div><div class="prog"><div style="width:${n/t*100}%"></div></div><p class="muted" style="margin-bottom:12px;font-size:12px">굵은 키워드를 채팅에서 말하면 이야기가 움직입니다.</p>
+ ${CLUES.map(c=>S.clues.includes(c[0])?`<div class="clue"><div class="k">${c[1]}<button class="copy" data-t="${c[1]}">복사</button></div><div class="s">${c[2]}</div>${c[3]?`<div class="q">💬 ${c[3]}</div>`:''}</div>`:`<div class="clue lk"><div class="k">???</div><div class="s">아직 찾지 못한 단서</div></div>`).join('')}
+ <button class="btn" style="margin-top:14px;background:#efeff2;color:#d13438" id="reset">처음부터 다시 하기</button>`;
+ $('#reset').onclick=()=>{try{localStorage.removeItem('opendoor_v1')}catch(e){}location.reload()};
+ $('#sheet').classList.add('on')}
+$('#homebar').onclick=showHome;
+
+/* ---------- 시작 ---------- */
+$('#lockwall').innerHTML=wallSVG();
+(function clock(){const t=new Date();const s=t.getHours()+':'+String(t.getMinutes()).padStart(2,'0');$('#clk').textContent=s;$('#lkTime').textContent=s;const days='일월화수목금토';$('#lkDate').textContent=`${t.getMonth()+1}월 ${t.getDate()}일 ${days[t.getDay()]}요일`;setTimeout(clock,30000)})();
+$('#start').onclick=()=>{$('#intro').classList.add('off');S.intro=true;save()};
+$('#unlockBtn').onclick=()=>{$('#lock').classList.add('off');showHome();setTimeout(()=>{if(!has('martmsg'))toast('302호 새로 오셨죠? 택배 맡아드려요^^','석만마트','#12b7a5')},900)};
+if(S.intro)$('#intro').style.display='none';
+})();
+</script>
+</body>
+</html>
