@@ -78,6 +78,12 @@ button,input{font:inherit}
 .field input{height:46px;border:1px solid #d6d6dd;border-radius:12px;padding:0 14px;font-size:16px;outline:0;letter-spacing:.15em}
 .btn{height:46px;width:100%;border:0;border-radius:12px;font-weight:700;color:#fff;background:#1c1c1f;cursor:pointer}
 .err{color:#d13438;font-size:13px;margin-top:8px;min-height:18px}
+/* ===== image slots ===== */
+.slot{position:relative;line-height:0;overflow:hidden}
+.slot>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.slot>div[style*="height:0"]+img{position:static;height:auto}
+.slot.nv>img{filter:contrast(1.12) brightness(.92)}
+.wall>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 /* ===== HOMEKEEPER (dark) ===== */
 .hk{background:#0e1016;color:#e7e9ee;min-height:100%}
 .hk .ah{background:#0e1016;color:#fff;border-color:#1d2130}
@@ -136,7 +142,7 @@ button,input{font:inherit}
 .poster{border:2px solid #1c1c1f;padding:14px;margin-top:10px;text-align:center;background:#fffef6}
 .poster .ph{width:110px;height:130px;margin:8px auto;background:repeating-linear-gradient(45deg,#ddd 0 6px,#e9e9e9 6px 12px);display:flex;align-items:center;justify-content:center;color:#888;font-size:12px}
 /* jaei phone */
-.jp-lock{min-height:100%;background:linear-gradient(180deg,#1b1420,#0a0a0d);color:#fff;display:flex;flex-direction:column;align-items:center;padding:40px 22px;text-align:center}
+.jp-lock>*{position:relative}.jp-lock>img{position:absolute!important}.jp-lock{min-height:100%;background:linear-gradient(180deg,#1b1420,#0a0a0d);color:#fff;display:flex;flex-direction:column;align-items:center;padding:40px 22px;text-align:center}
 .jp-lock .crack{position:absolute;inset:0;pointer-events:none;opacity:.35}
 .pins{display:flex;gap:14px;margin:22px 0}
 .pins i{width:13px;height:13px;border-radius:50%;border:1.5px solid #fff}
@@ -251,6 +257,10 @@ const CLUES=[
  ['poster','실종 전단','“윤재이(27)를 찾습니다.” 연락처는 서강우.','“강우 씨가 전단 붙였던 거죠?”'],
  ['review','“퇴근 시간을 너무 잘 아세요”','석만마트 후기. 쓴 사람은 탈퇴했다. 7월 30일.',''],
  ['noise','빈집의 층간소음','8월 21일, 202호: “3층 빈집이라던데 새벽마다 쿵쿵.”','“태오 씨, 빈집에서 소리 났던 거 알고 있었죠?”'],
+ ['osmplace','석만마트 · 대표 오석만','지하 창고 공사 3개월째. 사장 답글: “항상 지켜보고 있습니다^^”','“편의점 사장님 이름이 오석만이래요. osm…”'],
+ ['listing','시세보다 40% 싼 집','‘급매’ 302호. 조회 3,412회, 문의 0건. “무슨 일 있었던 집인가요?” 답변 대기 중.',''],
+ ['vent','지하 환풍구의 소리','10.30 새벽 3시, 석만마트 옆 지하 환풍구에서 벽 두드리는 소리. 사장 답글: “냉동고 모터 소리예요^^”','“편의점 지하에서 새벽에 벽 두드리는 소리가 났대요.”'],
+ ['past','3동 ‘석만슈퍼’','2년 전, 단골 손님이 갑자기 이사 가고 연락이 끊겼다. 사장 답글: “그분 잘 지내신대요^^”',''],
  ['martmsg','석만마트의 문자','이사 첫날, 번호를 알려준 적도 없는데 문자가 왔다.',''],
  ['s1','자고 있는 나','11.14 03:11 침실 홈캠. 공유 사용자 1명이 15분간 시청했다.','“제가 자는 동안 누가 홈캠을 켰어요.”'],
  ['s2','14:02 GUEST 열림','내가 집에 없던 오후, 누군가 문을 열고 17분 머물렀다.','“제가 없을 때 누가 들어왔어요. GUEST 지문으로.”'],
@@ -278,6 +288,8 @@ function wallSVG(){let w='';for(let i=0;i<40;i++){w+=`<rect x="${(rnd()*400).toF
  <rect x="210" y="668" width="90" height="56" fill="#e8fff8" opacity=".18"/><rect x="246" y="680" width="11" height="36" fill="#0a0c16" opacity=".85"/><circle cx="251.5" cy="676" r="6" fill="#0a0c16" opacity=".85"/>
  <rect x="48" y="740" width="304" height="70" fill="#0c0e18"/>
  ${w}<rect y="820" width="400" height="40" fill="#07080d"/></svg>`}
+function slot(name,fallback,cls){return `<div class="slot ${cls||''}">${fallback}<img src="${name}.png" alt="" onerror="this.remove()" loading="lazy"></div>`}
+function camSlot(kind){return slot('cam_'+kind,nightCam(kind),'nv')}
 function nightCam(kind){
  let n='';for(let i=0;i<260;i++)n+=`<rect x="${(rnd()*400).toFixed(0)}" y="${(rnd()*240).toFixed(0)}" width="1.5" height="1.5" fill="#cfe" opacity="${(rnd()*.25).toFixed(2)}"/>`;
  const base=`<defs><radialGradient id="vg${kind}" cx=".5" cy=".5" r=".7"><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".85"/></radialGradient></defs><rect width="400" height="240" fill="#18241f"/>`;
@@ -366,10 +378,10 @@ function hkTab(t){
   <div class="hk-card"><h4>출입 기록 <small>최신순</small></h4>${lgHTML(doorLogs())}</div></div>`}
  if(t==='lumi'){clue('lumi3');return `<div class="hk-sec"><div class="hk-card"><h4>음성 명령 기록</h4>${lgHTML(lumiLogs())}</div><p class="muted" style="color:#7d8496;font-size:12px">‘인식되지 않은 사용자’: 등록되지 않은 목소리입니다.</p></div>`}
  if(t==='cam'){clue('camdel');let h='<div class="hk-sec">';
-  if(S.end==='B')h+=`<div class="hk-card"><h4>침실 <small>실시간</small></h4><div class="camv">${nightCam('bedside')}<span class="osd">BEDROOM · 11.17 03:34</span><span class="live">● LIVE</span></div><p style="margin-top:8px;font-size:13px;color:#ff8a8a">시청 중: 공유 사용자 1명</p></div>`;
-  if(sy('s4'))h+=`<div class="hk-card"><h4>현관 <small>${S.end?'녹화':'실시간'}</small></h4><div class="camv">${nightCam('hall')}<span class="osd">ENTRANCE · 11.16 02:47</span>${S.end?'':'<span class="live">● LIVE</span>'}</div><p style="margin-top:8px;font-size:13px;color:#ff8a8a">문 앞에 누군가 서 있습니다.</p></div>`;
-  if(sy('s1'))h+=`<div class="hk-card"><h4>침실 · 11.14 03:11 <small>15분 12초</small></h4><div class="camv">${nightCam('bed')}<span class="osd">BEDROOM · 11.14 03:11:42</span></div><p style="margin-top:8px;font-size:13px;color:#ff8a8a">시청: 공유 사용자 1명 (03:11~03:26)</p></div>`;
-  h+=`<div class="hk-card"><h4>거실 <small>마지막 스냅샷</small></h4><div class="camv">${nightCam('room')}<span class="osd">LIVING · 08.05 23:44</span></div></div>
+  if(S.end==='B')h+=`<div class="hk-card"><h4>침실 <small>실시간</small></h4><div class="camv">${camSlot('bedside')}<span class="osd">BEDROOM · 11.17 03:34</span><span class="live">● LIVE</span></div><p style="margin-top:8px;font-size:13px;color:#ff8a8a">시청 중: 공유 사용자 1명</p></div>`;
+  if(sy('s4'))h+=`<div class="hk-card"><h4>현관 <small>${S.end?'녹화':'실시간'}</small></h4><div class="camv">${camSlot('hall')}<span class="osd">ENTRANCE · 11.16 02:47</span>${S.end?'':'<span class="live">● LIVE</span>'}</div><p style="margin-top:8px;font-size:13px;color:#ff8a8a">문 앞에 누군가 서 있습니다.</p></div>`;
+  if(sy('s1'))h+=`<div class="hk-card"><h4>침실 · 11.14 03:11 <small>15분 12초</small></h4><div class="camv">${camSlot('bed')}<span class="osd">BEDROOM · 11.14 03:11:42</span></div><p style="margin-top:8px;font-size:13px;color:#ff8a8a">시청: 공유 사용자 1명 (03:11~03:26)</p></div>`;
+  h+=`<div class="hk-card"><h4>거실 <small>마지막 스냅샷</small></h4><div class="camv">${camSlot('room')}<span class="osd">LIVING · 08.05 23:44</span></div></div>
   <div class="hk-card"><h4>녹화 보관함</h4>${['08.06','08.05','08.04','08.03','08.02','08.01'].map(d=>`<div class="del"><span class="ph">삭제됨</span><span style="flex:1;margin-left:10px">${d} · 거실·침실</span><span class="tag r">공유 사용자가 삭제</span></div>`).join('')}</div></div>`;
   return h}
  if(t==='map'){clue('void');return `<div class="hk-sec"><div class="hk-card"><h4>청소 지도 <small>최근 청소 11.14 10:00</small></h4>${floorPlan()}<div class="kv" style="margin-top:8px"><span>미청소 구역</span><span style="color:#ff8a8a">침실 붙박이장 뒤 · 진입 불가</span></div><div class="kv"><span>추정 면적</span><span>약 0.6㎡</span></div>${sy('s2')?`<div class="kv"><span style="color:#ff8a8a">장애물 위치 변경</span><span style="color:#ff8a8a">11.14 14:10 · 침실 의자</span></div>`:''}</div></div>`}
@@ -403,20 +415,36 @@ function renderHK(){
 }
 
 /* ---------- 망원이웃 ---------- */
-const POSTS=[
- {id:'p1',c:'red',ch:'찾습니다',t:'[찾습니다] 윤재이(27) — 8월 6일 이후 연락 두절',m:'서강우 · 망원동 · 08.20',b:'8월 6일(목) 저녁 퇴근 후 연락이 끊겼습니다.\n마지막 목격: 망원동 해담빌라 앞.\n키 163cm, 단발, 회색 가디건.\n작은 것이라도 보신 분은 연락 부탁드립니다.\n010-7712-0806 (서강우)',poster:1,cm:[['석만마트 사장','저도 가게에 전단 붙여놨어요. 꼭 찾길 바랍니다.','08.20'],['망원주민','그날 밤 9시쯤 편의점 앞에서 본 것 같은데… 확실하진 않아요','08.21'],['서강우','@망원주민 혹시 더 기억나시는 거 있으면 꼭 연락 주세요','08.21'],['(삭제된 댓글입니다)','','08.22']]},
+const DONG={cur:'2'};
+const POSTS2=[
+ {id:'p1',c:'red',ch:'찾습니다',t:'[찾습니다] 윤재이(27) — 8월 6일 이후 연락 두절',m:'서강우 · 망원동 · 08.20',b:'8월 6일(목) 저녁 퇴근 후 연락이 끊겼습니다.\n마지막 목격: 망원동 해담빌라 앞.\n키 178cm, 짧은 머리, 회색 후드티, 검은 백팩.\n작은 것이라도 보신 분은 연락 부탁드립니다.\n010-7712-0806 (서강우)',poster:1,cm:[['석만마트 사장','저도 가게에 전단 붙여놨어요. 꼭 찾길 바랍니다.','08.20'],['망원주민','그날 밤 9시쯤 편의점 앞에서 본 것 같은데… 확실하진 않아요','08.21'],['서강우','@망원주민 혹시 더 기억나시는 거 있으면 꼭 연락 주세요','08.21'],['(삭제된 댓글입니다)','','08.22']]},
  {id:'p2',ch:'동네후기',t:'석만마트 사장님 진짜 친절하심 ㅋㅋ',m:'망원새댁 · 06.11',b:'택배 맡아주시고 이름까지 기억해주심.\n밤늦게 가도 항상 계셔서 든든해요.',cm:[['산책러','ㅇㅈ 커피도 가끔 그냥 주심','06.12'],['(탈퇴한 사용자)','근데 사장님이 제 퇴근 시간을 너무 잘 아세요… 좀 무서워요','07.30'],['망원새댁','ㅋㅋ 단골이라 그런 거죠~','07.30']]},
  {id:'p3',ch:'층간소음',t:'3층 빈집이라던데 새벽마다 쿵쿵',m:'202호 · 해담빌라 · 08.21',b:'3층 302호 지금 비어 있다고 들었는데\n새벽 3시만 되면 발소리, 문 여닫는 소리 납니다.\n관리인한테 말해도 빈집이라고만 하네요.\n누가 들어가는 거 아닌가요?',cm:[['관리인','빈집 맞습니다. 착각이신 듯합니다.','08.22'],['202호','녹음도 해뒀습니다.','08.22']]},
  {id:'p4',ch:'공지',t:'[석만마트] 택배 대리수령 서비스 안내',m:'석만마트 · 05.01',b:'이름과 호수만 말씀하시면 택배 보관해 드려요 ^^\n24시간 운영, 언제든 들르세요.\n※ 창고 공사로 8월 한 달 지하 출입 금지',cm:[]},
- {id:'p5',ch:'분실',t:'회색 고양이 찾아요 (망원2동)',m:'냥집사 · 11.02',b:'목에 방울 있어요. 이름은 두부입니다.',cm:[]},
- {id:'p6',ch:'나눔',t:'원목 의자 나눔합니다',m:'해담빌라 3층 · 08.30',b:'관리인입니다. 302호에서 나온 의자 하나 남았는데 필요하신 분?\n(나머지 짐은 정리했습니다)',cm:[['석만마트 사장','제가 가져가도 될까요? 가게에서 쓸게요','08.30']]},
+ {id:'p5',img:'cat',ch:'분실',t:'회색 고양이 찾아요 (망원2동)',m:'냥집사 · 11.02',b:'목에 방울 있어요. 이름은 두부입니다.',cm:[]},
+ {id:'p6',img:'chair',ch:'나눔',t:'원목 의자 나눔합니다',m:'해담빌라 3층 · 08.30',b:'관리인입니다. 302호에서 나온 의자 하나 남았는데 필요하신 분?\n(나머지 짐은 정리했습니다)',cm:[['석만마트 사장','제가 가져가도 될까요? 가게에서 쓸게요','08.30']]},
  {id:'p7',ch:'공지',t:'분리수거 요일 변경 안내',m:'망원2동 주민센터 · 10.28',b:'11월부터 재활용은 화·금으로 변경됩니다.',cm:[]}
 ];
+const POSTS1=[
+ {id:'a1',c:'red',ch:'찾습니다',t:'[공유] 윤재이(27) 찾습니다 — 1동에도 붙였습니다',m:'서강우 · 망원1동 · 08.24',b:'2동 해담빌라에 살던 친구입니다.\n망원역 쪽에서 보신 분도 연락 부탁드려요.\n010-7712-0806',poster:1,cm:[['역앞약국','약국 유리문에도 붙여뒀어요','08.25']]},
+ {id:'a2',ch:'목격',t:'새벽에 석만마트 앞 지나는데 지하 환풍구에서 소리…',m:'야간택시 · 망원1동 · 10.30',b:'새벽 3시쯤 손님 내려주고 담배 피우는데\n편의점 옆 지하 환풍구에서 쿵, 쿵 하는 소리가 났어요.\n사람이 벽 두드리는 소리 같았는데 기분 탓이겠죠?',cm:[['망원새댁','고양이 아니에요?','10.30'],['산책러','지하 창고 공사 중이라던데 그 소리 아닐까요','10.30'],['야간택시','새벽 3시에 공사를 해요?','10.31'],['석만마트 사장','냉동고 모터 소리예요^^ 놀라셨죠','10.31']]},
+ {id:'a3',ch:'맛집',t:'망원시장 칼국수 줄 서도 먹을 만함',m:'먹고살자 · 망원1동 · 11.09',b:'바지락 듬뿍. 평일 2시쯤이 제일 한가해요.',cm:[['국물파','인정 ㅠㅠ','11.09']]},
+ {id:'a4',ch:'분실',t:'망원역 2번 출구 에어팟 프로 주우신 분',m:'출근러 · 망원1동 · 11.04',b:'왼쪽만 잃어버렸어요… 사례하겠습니다.',cm:[]},
+ {id:'a5',ch:'공지',t:'[망원1동] 겨울철 수도 동파 주의',m:'망원1동 주민센터 · 11.01',b:'외출 시 수도꼭지를 조금 열어두세요.',cm:[]}
+];
+const POSTS3=[
+ {id:'c1',ch:'옛날얘기',t:'석만마트 사장님, 예전에 3동에서 ‘석만슈퍼’ 하시던 분 맞죠?',m:'토박이 · 망원3동 · 09.02',b:'2년 전까지 3동 골목에서 슈퍼 하셨는데.\n그때 자주 오던 단골 아가씨 하나가 갑자기 이사 갔다고 해서\n동네에서 말이 좀 있었어요. 연락도 안 됐다고.\n사장님 그대로시네요 ㅎㅎ',cm:[['석만마트 사장','기억해주셔서 감사해요^^ 그분 잘 지내신대요','09.02'],['토박이','어떻게 아세요?','09.03'],['(삭제된 댓글입니다)','','09.03']]},
+ {id:'c2',ch:'모임',t:'한강 러닝크루 모집 (화·목 저녁 8시)',m:'달려요 · 망원3동 · 11.05',b:'망원한강공원 출발 5km. 초보 환영!',cm:[['러닝초보','저 참여하고 싶어요','11.05']]},
+ {id:'c3',ch:'나눔',t:'아기 유모차 나눔합니다',m:'두아이맘 · 망원3동 · 10.27',b:'상태 좋아요. 직접 가져가실 분.',cm:[]},
+ {id:'c4',ch:'질문',t:'3동에서 2동 해담빌라 쪽 월세 어때요?',m:'이사고민 · 망원3동 · 10.12',b:'302호 급매 떴던데 왜 이렇게 싼 거죠?',cm:[['망원주민','거기… 그 실종된 사람 살던 집이에요','10.12'],['이사고민','헐','10.12']]}
+];
+const POSTS_BY={'1':POSTS1,'2':POSTS2,'3':POSTS3};
+const POSTS=[].concat(POSTS1,POSTS2,POSTS3);
 function renderCM(post){
- if(!post){$('#ab').innerHTML=`<div class="cm-top"><b>망원이웃</b><span style="font-size:13px">망원2동 ▾</span></div>${POSTS.map(p=>`<div class="post" data-appgo="cm:${p.id}"><span class="chip ${p.c||''}">${p.ch}</span><div class="pt">${p.t}</div><div class="pm">${p.m} · 댓글 ${p.cm.length}</div></div>`).join('')}`;return}
+ if(!post){const list=POSTS_BY[DONG.cur];$('#ab').innerHTML=`<div class="cm-top"><b>망원이웃</b><span style="font-size:13px">망원${DONG.cur}동</span></div><div style="display:flex;gap:6px;padding:10px 14px;background:#fff7f1;border-bottom:1px solid #ffe2cf">${['1','2','3'].map(d=>`<button data-dong="${d}" style="border:1px solid ${d===DONG.cur?'#ff8a3d':'#f1d6c4'};background:${d===DONG.cur?'#ff8a3d':'#fff'};color:${d===DONG.cur?'#fff':'#8a5a3a'};border-radius:16px;padding:6px 14px;font-size:13px;font-weight:700;cursor:pointer">망원${d}동</button>`).join('')}</div>${list.map(p=>`<div class="post" data-appgo="cm:${p.id}"><span class="chip ${p.c||''}">${p.ch}</span><div class="pt">${p.t}</div><div class="pm">${p.m} · 댓글 ${p.cm.length}</div></div>`).join('')}`;return}
  const p=POSTS.find(x=>x.id===post);
- if(post==='p1')clue('poster');if(post==='p2')clue('review');if(post==='p3')clue('noise');
- $('#ab').innerHTML=`<div class="cm-top"><span data-appgo="cm" style="cursor:pointer">‹ 목록</span><b>망원이웃</b><span></span></div><div class="post" style="cursor:default"><span class="chip ${p.c||''}">${p.ch}</span><div class="pt">${p.t}</div><div class="pm">${p.m}</div>${p.poster?`<div class="poster"><b style="font-size:18px">사람을 찾습니다</b><div class="ph">사진</div><b>윤재이 (27)</b><div style="font-size:13px;margin-top:4px">2026.08.06 이후 연락 두절</div></div>`:''}<div class="pb">${p.b}</div>${S.end==='A'&&post==='p1'?`<div class="pb" style="color:#1f7a4d;font-weight:700">[추가] 찾았습니다. 도와주신 모든 분께 감사드립니다. — 서강우 (11.17)</div>`:''}</div><div class="pad" style="padding-top:4px">${p.cm.map(c=>`<div class="cmt"><b>${c[0]}</b><small>${c[2]}</small>${c[1]?`<div>${c[1]}</div>`:''}</div>`).join('')||'<p class="muted">댓글이 없습니다.</p>'}</div>`}
+ if(post==='p1'||post==='a1')clue('poster');if(post==='a2')clue('vent');if(post==='c1')clue('past');if(post==='p2')clue('review');if(post==='p3')clue('noise');
+ $('#ab').innerHTML=`<div class="cm-top"><span data-appgo="cm" style="cursor:pointer">‹ 목록</span><b>망원이웃</b><span></span></div><div class="post" style="cursor:default"><span class="chip ${p.c||''}">${p.ch}</span><div class="pt">${p.t}</div><div class="pm">${p.m}</div>${p.poster?`<div class="poster"><b style="font-size:18px">사람을 찾습니다</b><div class="ph" style="position:relative;overflow:hidden">사진<img src="poster.png" alt="" onerror="this.remove()" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></div><b>윤재이 (27)</b><div style="font-size:13px;margin-top:4px">2026.08.06 이후 연락 두절</div></div>`:''}<div class="pb">${p.b}</div>${p.img?`<div style="margin-top:10px;border-radius:12px;overflow:hidden">${slot(p.img,'<div style="height:0"></div>')}</div>`:''}${S.end==='A'&&(post==='p1'||post==='a1')?`<div class="pb" style="color:#1f7a4d;font-weight:700">[추가] 찾았습니다. 도와주신 모든 분께 감사드립니다. — 서강우 (11.17)</div>`:''}</div><div class="pad" style="padding-top:4px">${p.cm.map(c=>`<div class="cmt"><b>${c[0]}</b><small>${c[2]}</small>${c[1]?`<div>${c[1]}</div>`:''}</div>`).join('')||'<p class="muted">댓글이 없습니다.</p>'}</div>`}
 
 /* ---------- 메시지 ---------- */
 function threads(){
@@ -442,24 +470,99 @@ function renderMsg(sub){
 /* ---------- 재이의 공기계 ---------- */
 let jpCode='';
 function renderJP(sub){
- if(!S.jp){$('#ab').innerHTML=`<div class="jp-lock" style="position:relative"><svg class="crack" viewBox="0 0 400 700" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%"><path d="M300 0 L260 140 L300 210 L230 330 L260 420 L180 700" stroke="#fff" stroke-width="1.5" fill="none"/><path d="M260 140 L360 180" stroke="#fff" fill="none"/><path d="M230 330 L120 360" stroke="#fff" fill="none"/></svg><div style="font-size:13px;opacity:.7">재이의 휴대폰</div><div style="font-size:52px;font-weight:300;margin:8px 0">08:06</div><div style="font-size:12px;opacity:.6">배터리 3% · 충전 중</div><div class="pins" id="jpPins"><i></i><i></i><i></i><i></i></div><div class="kp" id="jpKp">${[1,2,3,4,5,6,7,8,9,'',0,'지우기'].map(k=>k===''?'<span></span>':`<button class="${k==='지우기'?'e':''}" data-jp="${k}">${k}</button>`).join('')}</div><div style="font-size:12px;opacity:.55;margin-top:18px">암호 힌트: 우리 집에 온 날</div></div>`;return}
+ if(!S.jp){$('#ab').innerHTML=`<div class="jp-lock" style="position:relative;overflow:hidden"><img src="jp_wall.png" alt="" onerror="this.remove()" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.45;filter:blur(1px)"><svg class="crack" viewBox="0 0 400 700" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%"><path d="M300 0 L260 140 L300 210 L230 330 L260 420 L180 700" stroke="#fff" stroke-width="1.5" fill="none"/><path d="M260 140 L360 180" stroke="#fff" fill="none"/><path d="M230 330 L120 360" stroke="#fff" fill="none"/></svg><div style="font-size:13px;opacity:.7">재이의 휴대폰</div><div style="font-size:52px;font-weight:300;margin:8px 0">08:06</div><div style="font-size:12px;opacity:.6">배터리 3% · 충전 중</div><div class="pins" id="jpPins"><i></i><i></i><i></i><i></i></div><div class="kp" id="jpKp">${[1,2,3,4,5,6,7,8,9,'',0,'지우기'].map(k=>k===''?'<span></span>':`<button class="${k==='지우기'?'e':''}" data-jp="${k}">${k}</button>`).join('')}</div><div style="font-size:12px;opacity:.55;margin-top:18px">암호 힌트: 우리 집에 온 날</div></div>`;return}
  if(!sub){clue('jp');$('#ab').innerHTML=`<div class="pad"><div class="h1">재이의 휴대폰</div><p class="muted" style="margin-bottom:14px">8월 6일 이후 꺼져 있던 공기계</p></div>${[['memo','메모','5개'],['jmsg','메시지','임시저장 1'],['shot','스크린샷','2장']].map(a=>`<div class="li" data-appgo="jp:${a[0]}"><div class="av" style="background:${a[0]==='jmsg'?'#34c759':a[0]==='memo'?'#ffd23f':'#5b7bd5'}">${a[1][0]}</div><div class="m"><b>${a[1]}</b><small>${a[2]}</small></div></div>`).join('')}`;return}
  if(sub==='memo'){$('#ab').innerHTML=`<div class="memo">${[['07.12','편의점 사장님이 내 퇴근 시간에 맞춰 가게 밖에 나와 있다. 매일. 우연?'],['07.21','도어락에 GUEST 지문. 나는 등록한 적 없음. 5월 3일 밤 9시 47분.<br>5월 3일… 폰 편의점에 두고 온 날.'],['07.28','홈캠 공유 사용자 osm_24.<br>삭제가 안 된다. 관리자 권한.'],['08.02','강우한테 말할까. 헤어진 사람한테 이런 얘기 해도 되나.'],['08.05','증거 다 붙박이장 뒤에 숨김. 노트도.<br>내일 경찰서 간다. 택배만 찾고.']].map(m=>`<div style="margin-bottom:18px">${m[1]}<div class="md">2026.${m[0]}</div></div>`).join('')}</div>`}
  if(sub==='jmsg'){clue('last');$('#ab').innerHTML=`<div style="padding:6px 0 20px"><div class="bub-t">8월 3일 (월) · 서강우</div><div class="bub me">요즘 좀 이상한 일 있어</div><div class="bub">무슨 일?</div><div class="bub">말해봐</div><div class="bub-t" style="color:#c12d2d">재이가 답장하지 않음</div><div class="bub-t">8월 6일 (목) 오후 9:24 · 서강우에게</div><div class="bub fail">편의점 창고 지하. 사장이</div><div class="bub-t" style="color:#d13438">전송 실패 · 임시저장됨</div></div>`}
  if(sub==='shot'){$('#ab').innerHTML=`<div class="pad"><div class="card"><b style="font-size:13px">스크린샷 · 07.28</b><div style="background:#0e1016;color:#e7e9ee;border-radius:10px;padding:12px;margin-top:8px;font-size:13px"><div class="kv"><span>공유 사용자</span><span>osm_24</span></div><div class="kv"><span>권한</span><span>관리자</span></div><div style="color:#ff8a8a;font-size:12px;margin-top:6px">삭제 권한이 없습니다.</div></div></div><div class="card"><b style="font-size:13px">스크린샷 · 08.05 23:30</b><div style="margin-top:8px;border-radius:10px;overflow:hidden;line-height:0">${wallSVG().replace('viewBox="0 0 400 860"','viewBox="60 540 300 220"')}</div><p class="muted" style="margin-top:6px">302호 창문에서 본 석만마트. 가게 안에서 누군가 이쪽을 보고 있다.</p></div></div>`}
  $('#ah').innerHTML=`<button class="bk" data-appgo="${sub?'jp':'home'}">‹ ${sub?'뒤로':'홈'}</button><span>재이의 휴대폰</span>`}
 
-/* ---------- 인터넷 ---------- */
-function renderWeb(q){
- const head=`<form class="wb" data-form="web"><input name="q" value="${(q||'').replace(/"/g,'')}" placeholder="검색어 입력" autocomplete="off"><button>검색</button></form>`;
- if(q===undefined){$('#ab').innerHTML=head+`<div class="pad"><b>오늘의 뉴스</b></div><div class="sr" data-web="news"><span class="muted">오늘신문 · 사회</span><b>망원동 20대 여성 실종 3개월째… 경찰 “단순 가출 가능성”</b><span class="muted">2026.11.06</span></div><div class="sr" data-web="map"><span class="muted">지도</span><b>석만마트 · 24시 편의점</b><span class="muted">망원동 해담빌라 맞은편 · 영업 중</span></div>`;return}
- if(q==='news'){$('#ab').innerHTML=head+`<div class="pad nw"><span class="muted">사회 · 2026.11.06</span><h2>망원동 20대 여성 실종 3개월째… 경찰 “단순 가출 가능성”</h2><p>서울 마포구 망원동에서 20대 여성 윤모(27)씨가 실종된 지 석 달이 지났지만 행방은 여전히 확인되지 않고 있다.</p><p>윤씨는 8월 6일 퇴근 후 귀가했다가 같은 날 밤 외출한 뒤 연락이 끊겼다. 휴대전화는 그날 밤 9시 30분쯤 자택 인근에서 마지막으로 신호가 잡혔다.</p><p>경찰은 “범죄 정황이 확인되지 않았다”며 단순 가출 가능성을 염두에 두고 있다. 지인 서모씨는 “절대 혼자 사라질 사람이 아니다”라고 말했다.</p><p class="muted">※ 해당 빌라 앞 편의점 CCTV는 당일 고장 상태였던 것으로 확인됐다.</p></div>`;return}
- if(q==='map'){$('#ab').innerHTML=head+`<div class="pad"><div class="h1">석만마트</div><p class="muted">24시 편의점 · ★4.9 (리뷰 212)</p><div class="card" style="margin-top:12px"><div class="row"><span>주소</span><span>망원동 ○○-○ 1층·지하 1층</span></div><div class="row"><span>대표</span><span>오석만</span></div><div class="row"><span>영업</span><span>24시간</span></div><div class="row"><span>시설</span><span>택배 대리수령 · 지하 창고</span></div></div><p class="muted">“사장님이 이름까지 기억해주세요” · “밤에도 항상 계셔서 든든”</p></div>`;return}
- const k=q.replace(/\s/g,'');let res=[];
- if(/재이|윤재이|실종/.test(k))res.push(['news','오늘신문','망원동 20대 여성 실종 3개월째… 경찰 “단순 가출 가능성”']);
- if(/석만|편의점|오석만|마트/.test(k))res.push(['map','지도','석만마트 · 24시 편의점']);
- if(/osm|osm_24/i.test(k))res.push(['none','검색 결과','“osm_24”에 대한 검색 결과가 없습니다.']);
- $('#ab').innerHTML=head+(res.length?res.map(r=>r[0]==='none'?`<div class="pad muted">${r[2]}</div>`:`<div class="sr" data-web="${r[0]}"><span class="muted">${r[1]}</span><b>${r[2]}</b></div>`).join(''):`<div class="pad muted">‘${q.replace(/</g,'')}’에 대한 검색 결과가 없습니다.</div>`)}
+/* ---------- 인터넷 (미니 브라우저) ---------- */
+const LAT=37.5566,LNG=126.9036;
+const GMAP=`https://maps.google.com/maps?q=${LAT},${LNG}&z=17&hl=ko&output=embed`;
+const USE_GMAP=/^https?:$/.test(location.protocol)&&!/claude|anthropic/i.test(location.hostname);
+const FAVS={'naru.kr':['#00a86b','N'],'today-sinmun.kr':['#1c1c1f','今'],'place.naru.kr':['#00a86b','P'],'zipbang.kr':['#ff5a3c','집'],'mangwon.town':['#ff8a3d','이'],'homekeeper.co.kr':['#12b7a5','⌂']};
+const domOf=u=>u.split(/[\/?]/)[0];
+const favH=d=>{const f=FAVS[d];return `<span style="width:18px;height:18px;border-radius:5px;flex:none;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:700;background:${f?f[0]:'#9a9aa2'}">${f?f[1]:'◎'}</span>`};
+let WB={cur:'naru.kr',back:[]};
+function sketchMap(){return `<svg viewBox="0 0 360 220" style="width:100%;display:block;background:#eef1ec">
+ <rect x="0" y="95" width="360" height="30" fill="#fff"/><rect x="165" y="0" width="26" height="220" fill="#fff"/>
+ <rect x="20" y="15" width="130" height="70" fill="#dfe4dc"/><rect x="205" y="15" width="135" height="70" fill="#dfe4dc"/><rect x="20" y="135" width="130" height="70" fill="#dfe4dc"/><rect x="205" y="135" width="135" height="70" fill="#dfe4dc"/>
+ <text x="180" y="113" text-anchor="middle" font-size="9" fill="#888">망원로○길</text>
+ <rect x="95" y="40" width="44" height="40" fill="#c9cfc4"/><text x="117" y="35" text-anchor="middle" font-size="10" fill="#333" font-weight="700">해담빌라</text>
+ <rect x="215" y="40" width="40" height="30" fill="#12b7a5"/><text x="235" y="35" text-anchor="middle" font-size="10" fill="#0b6b62" font-weight="700">석만마트</text>
+ <circle cx="117" cy="60" r="7" fill="#e5484d"/><circle cx="235" cy="55" r="5" fill="#0b6b62"/>
+ <text x="300" y="190" font-size="9" fill="#888">망원역 ↘ 450m</text></svg>`}
+function mapBlock(h){if(!USE_GMAP)return `<div style="border-radius:12px;overflow:hidden;border:1px solid #e3e3e8">${sketchMap()}</div>`;return `<div style="position:relative;border-radius:12px;overflow:hidden;border:1px solid #e3e3e8;background:#eef1ec">
+ <iframe src="${GMAP}" style="width:100%;height:${h||260}px;border:0;display:block" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="지도"></iframe>
+ <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-150%);background:#fff;border-radius:8px;padding:4px 8px;font-size:11px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.25);pointer-events:none;white-space:nowrap">해담빌라 302호 · 내 집</div>
+ <div style="position:absolute;left:50%;top:50%;transform:translate(25%,-40%);background:#12b7a5;color:#04211e;border-radius:8px;padding:4px 8px;font-size:11px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.25);pointer-events:none;white-space:nowrap">석만마트 24 · 맞은편</div>
+ </div>`}
+const IDX=[
+ {k:['재이','윤재이','실종','망원동실종'],u:'today-sinmun.kr/1106',t:'망원동 20대 남성 실종 3개월째… 경찰 “단순 가출 가능성” - 오늘신문',d:'2026.11.06 — 서울 마포구 망원동에서 20대 남성 윤모(27)씨가 실종된 지 석 달이…'},
+ {k:['석만','석만마트','편의점','오석만','마트'],u:'place.naru.kr/seokman',t:'석만마트 : naru 플레이스',d:'편의점 · 망원동 · 24시간 영업 · 리뷰 212'},
+ {k:['해담빌라','302','302호','월세','망원동빌라','부동산'],u:'zipbang.kr/302',t:'[급매] 망원동 해담빌라 302호 · 스마트홈 풀옵션 - 집방',d:'보증금 500 / 월세 38 · 주변 시세 대비 40% 저렴 · 즉시 입주'},
+ {k:['홈키퍼','homekeeper','스마트홈','도어락'],u:'homekeeper.co.kr/faq',t:'홈키퍼 고객센터 - 자주 묻는 질문',d:'공유 사용자 삭제, 지문 삭제, 이전 사용자 로그아웃 방법 안내'},
+ {k:['망원이웃','이웃','동네'],u:'mangwon.town',t:'망원이웃 - 우리 동네 커뮤니티',d:'망원2동 이웃들의 이야기. 앱에서 더 많은 글을 확인하세요.'},
+ {k:['osm','osm_24'],u:null},
+ {k:['층간소음','소음'],u:'naru.kr/q/noise',t:'층간소음 녹음, 증거로 인정될까? - naru 지식',d:'녹음 파일은 일시·장소가 특정되면 참고 자료가 될 수 있습니다…'}
+];
+const WP={};
+WP['naru.kr']=()=>`<div style="padding:70px 22px;text-align:center"><div style="font-weight:800;font-size:44px;color:#00a86b;letter-spacing:-.03em;margin-bottom:22px">naru</div><form data-form="srch" style="display:flex;border:2px solid #00a86b;border-radius:24px;overflow:hidden;height:46px"><input name="q" placeholder="검색어를 입력하세요" autocomplete="off" style="flex:1;border:0;outline:0;padding:0 16px;font-size:15px"><button style="border:0;background:#00a86b;color:#fff;width:54px">검색</button></form>
+ <div style="margin-top:28px;text-align:left"><div class="muted" style="margin-bottom:8px">실시간 많이 본 뉴스</div>
+ <div class="sr" data-wgo="today-sinmun.kr/1106" style="border-bottom:1px solid #eee;padding:10px 0"><b style="font-size:15px">망원동 20대 남성 실종 3개월째…</b></div>
+ <div class="sr" data-wgo="today-sinmun.kr/1112" style="border-bottom:1px solid #eee;padding:10px 0"><b style="font-size:15px">“빈집인데 누가 들어와”… 스마트 도어락 ‘공유 지문’ 사각지대</b></div></div></div>`;
+function searchPage(q){
+ const k=(q||'').toLowerCase().replace(/\s/g,'');const safe=(q||'').replace(/[<>"]/g,'');
+ const res=IDX.filter(e=>e.k.some(w=>k.includes(w.toLowerCase())||(k.length>=2&&w.toLowerCase().includes(k))));
+ const real=res.filter(r=>r.u);
+ return `<div style="padding:10px 14px;border-bottom:1px solid #eee;display:flex;gap:10px;align-items:center"><b style="color:#00a86b;font-size:20px;cursor:pointer" data-wgo="naru.kr">naru</b><form data-form="srch" style="flex:1;display:flex;border:2px solid #00a86b;border-radius:20px;overflow:hidden;height:38px"><input name="q" value="${safe}" style="flex:1;border:0;outline:0;padding:0 12px"><button style="border:0;background:#00a86b;color:#fff;width:44px">🔍</button></form></div>
+ <div style="display:flex;gap:16px;padding:9px 16px;font-size:13px;color:#7a7a82;border-bottom:1px solid #eee"><b style="color:#00a86b">통합</b><span>뉴스</span><span>지도</span><span>이미지</span></div>
+ ${real.length?`<div class="muted" style="padding:10px 16px;font-size:12px">검색결과 약 ${(real.length*830).toLocaleString()}건</div>`+real.map(e=>`<div class="sr" data-wgo="${e.u}"><div style="display:flex;gap:8px;align-items:center;margin-bottom:4px">${favH(domOf(e.u))}<span style="font-size:12px;color:#5f6368">${domOf(e.u)}</span></div><b>${e.t}</b><div style="font-size:13px;color:#4d5156;line-height:1.55">${e.d}</div></div>`).join('')
+ :`<div class="pad"><b>‘${safe}’에 대한 검색결과가 없습니다.</b><p class="muted" style="margin-top:8px">단어의 철자가 정확한지 확인해 보세요.</p></div>`}`}
+const nwHead=()=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid #eee"><span>☰</span><b style="font-family:'Noto Serif KR',serif;font-size:21px;cursor:pointer" data-wgo="today-sinmun.kr">오늘신문</b><span>🔍</span></div><div style="display:flex;gap:16px;padding:8px 16px;font-size:13px;color:#55555c;border-bottom:1px solid #eee"><span>정치</span><span>경제</span><b style="color:#c12d2d">사회</b><span>IT</span><span>문화</span></div>`;
+WP['today-sinmun.kr']=()=>`${nwHead()}<div class="pad"><div class="muted" style="margin-bottom:8px">사회 · 많이 본 기사</div>${[['1106','망원동 20대 남성 실종 3개월째… 경찰 “단순 가출 가능성”','11.06'],['1112','“빈집인데 누가 들어와”… 스마트 도어락 ‘공유 지문’ 사각지대','11.12'],['0807','마포구 일대 편의점 CCTV 고장 잦아… “점검 사각지대”','08.07']].map(a=>`<div data-wgo="today-sinmun.kr/${a[0]}" style="padding:12px 0;border-bottom:1px solid #eee;cursor:pointer;font-family:'Noto Serif KR',serif;font-size:16px;line-height:1.45">${a[1]}<div class="muted" style="font-family:'Noto Sans KR';font-size:11px;margin-top:4px">사회 · ${a[2]}</div></div>`).join('')}</div>`;
+WP['today-sinmun.kr/1106']=()=>`${nwHead()}<div class="pad nw"><span class="muted">사회 · 사건사고</span><h2>망원동 20대 남성 실종 3개월째… 경찰 “단순 가출 가능성”</h2><div class="muted" style="font-size:12px;padding-bottom:12px;border-bottom:1px solid #eee;margin-bottom:14px">정하은 기자 · 입력 2026.11.06 10:12</div>${slot('alley','<div style="height:200px;background:linear-gradient(180deg,#1b2033,#0b0c10)"></div>')}<p class="muted" style="font-size:12px;margin:6px 0 14px">▲ 윤씨가 마지막으로 목격된 망원동 빌라 앞 골목.</p><p>서울 마포구 망원동에서 20대 남성 윤모(27)씨가 실종된 지 석 달이 지났지만 행방은 여전히 확인되지 않고 있다.</p><p>윤씨는 8월 6일 퇴근 후 귀가했다가 같은 날 밤 외출한 뒤 연락이 끊겼다. 휴대전화는 그날 밤 9시 30분쯤 자택 인근에서 마지막으로 신호가 잡혔다.</p><p>경찰은 “범죄 정황이 확인되지 않았다”며 단순 가출 가능성을 염두에 두고 있다. 지인 서모씨는 “절대 혼자 사라질 사람이 아니다”라고 말했다.</p><p>윤씨가 살던 빌라 맞은편 편의점 CCTV는 당일 고장 상태였던 것으로 확인됐다. 편의점 업주 오모씨는 “안타까운 일”이라며 “가게에 전단을 붙여두었다”고 말했다.</p><p class="muted">정하은 기자 ha@today-sinmun.kr</p></div>`;
+WP['today-sinmun.kr/1112']=()=>`${nwHead()}<div class="pad nw"><span class="muted">IT · 생활</span><h2>“빈집인데 누가 들어와”… 스마트 도어락 ‘공유 지문’ 사각지대</h2><div class="muted" style="font-size:12px;padding-bottom:12px;border-bottom:1px solid #eee;margin-bottom:14px">김도경 기자 · 입력 2026.11.12 08:40</div><p>스마트홈 앱의 ‘공유 사용자’ 기능이 사생활 침해에 악용될 수 있다는 지적이 나온다. 한 번 관리자 권한을 받은 계정은 원래 사용자도 삭제할 수 없는 경우가 있기 때문이다.</p><p>업계 관계자는 “기기를 잠깐 다른 사람에게 맡겼을 때 초대 수락이나 지문 등록이 이뤄지면, 사용자가 알아채기 어렵다”고 설명했다.</p><p>세입자가 바뀌어도 이전 사용자의 계정과 공유 권한이 남는 문제도 있다. 전문가들은 이사 직후 관리 업체를 통해 모든 지문과 공유 계정을 초기화할 것을 권한다.</p></div>`;
+WP['today-sinmun.kr/0807']=()=>`${nwHead()}<div class="pad nw"><span class="muted">사회 · 2026.08.07</span><h2>마포구 일대 편의점 CCTV 고장 잦아… “점검 사각지대”</h2><p>마포구 일부 소형 편의점의 방범 CCTV가 장기간 고장 상태로 방치되고 있다는 지적이 나왔다. 영세 점포의 경우 점검 의무가 없어…</p></div>`;
+WP['place.naru.kr/seokman']=()=>{clue('osmplace');return `${slot('mart','<div style="height:180px;background:linear-gradient(160deg,#0b2e2a,#0a0c16)"></div>')}<div style="padding:16px 16px 10px"><div class="muted" style="font-size:12px">편의점 · 망원동</div><div class="h1" style="font-size:22px;margin-top:2px">석만마트</div><div style="font-size:13px"><span style="color:#f5a623;font-weight:700">★ 4.9</span> <span class="muted">방문자 리뷰 212 · 블로그 리뷰 18</span></div>
+ <div style="display:flex;gap:8px;margin-top:12px">${['전화','길찾기','저장','공유'].map(b=>`<button data-toast="${b==='전화'?'02-000-0024 · 연결할 수 없습니다':'로그인이 필요합니다'}" style="flex:1;border:1px solid #e3e3e8;background:#fff;border-radius:10px;padding:9px 0;font-size:12px;cursor:pointer">${b}</button>`).join('')}</div></div>
+ <div style="padding:0 16px 12px">${mapBlock(220)}</div>
+ <div class="pad" style="padding-top:4px"><div class="card"><div class="row"><span>영업</span><span>24시간 영업 · <b style="color:#00a86b">영업 중</b></span></div><div class="row"><span>주소</span><span>망원동 ○○-○ 1층·지하 1층</span></div><div class="row"><span>대표</span><span>오석만</span></div><div class="row"><span>편의</span><span>택배 대리수령 · 커피 · 지하 창고</span></div><div class="row"><span>공지</span><span style="color:#c12d2d">창고 공사로 지하 출입 금지 (08.01~)</span></div></div>
+ <b style="display:block;margin:16px 0 6px">방문자 리뷰</b>
+ ${[['망원새댁','사장님이 이름까지 기억해주세요 ㅎㅎ 택배 맡기기 최고','★★★★★','06.11'],['야근러','새벽에 가도 항상 계심. 커피 서비스 감사합니다','★★★★★','09.02'],['해담빌라 2층','매일 아침 들르는데 인사가 정겹습니다','★★★★☆','10.19'],['(탈퇴한 사용자)','사장님이 제 퇴근 시간을 너무 잘 아세요. 오늘은 제 택배를 들고 가게 밖에 서 계셨어요.','★★★☆☆','07.30'],['산책러','지하 창고 공사 언제 끝나요? 3개월째네','★★★★☆','11.08']].map(r=>`<div style="padding:12px 0;border-bottom:1px solid #f0f0f0;font-size:14px;line-height:1.6"><b style="font-size:13px">${r[0]}</b> <span style="color:#f5a623;font-size:11px">${r[2]}</span> <span class="muted" style="font-size:11px">${r[3]}</span><div>${r[1]}</div></div>`).join('')}
+ <div class="muted" style="font-size:11px;margin-top:10px">사장님 답글: “항상 지켜보고 있습니다^^ 언제든 들르세요” (07.31)</div></div>`};
+WP['zipbang.kr/302']=()=>{clue('listing');return `<div style="background:#ff5a3c;color:#fff;padding:12px 16px;font-weight:800;font-size:18px">집방</div><div style="height:200px;background:linear-gradient(135deg,#d9d4cc,#f2efe9);display:flex;align-items:center;justify-content:center;color:#8a8278;font-size:13px;position:relative;overflow:hidden">사진 12장 · 리모델링 완료<img src="listing.png" alt="" onerror="this.remove()" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span style="position:absolute;left:10px;top:10px;background:#c12d2d;color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;z-index:1">급매</span><span style="position:absolute;right:10px;bottom:10px;background:rgba(0,0,0,.55);color:#fff;font-size:11px;padding:3px 8px;border-radius:6px;z-index:1">1 / 12</span></div>
+ <div class="pad"><div class="muted" style="font-size:12px">빌라 · 마포구 망원동 · 3층</div><div class="h1" style="margin-top:4px">월세 500 / 38</div><div style="font-size:14px;margin-bottom:12px">해담빌라 302호 · 스마트홈 풀옵션</div>
+ <div class="card"><div class="row"><span>전용면적</span><span>26.4㎡ (8평)</span></div><div class="row"><span>구조</span><span>투룸 · 붙박이장</span></div><div class="row"><span>옵션</span><span>스마트 도어락 · AI 스피커 · 홈캠 · 로봇청소기</span></div><div class="row"><span>주변 시세</span><span>월 63만 원 (<b style="color:#c12d2d">-40%</b>)</span></div><div class="row"><span>공실</span><span>2026.08 ~</span></div><div class="row"><span>등록</span><span>09.01 · 수정 11.10</span></div><div class="row"><span>조회</span><span>3,412회 · 문의 0건</span></div></div>
+ <b style="display:block;margin:6px 0">중개사 코멘트</b><p style="font-size:14px;line-height:1.7;color:#3a3a40">전 세입자 짐 정리 완료되었습니다. 스마트홈 기기는 기존 그대로 사용 가능하며, 지문 초기화는 관리 업체를 통해 진행하시면 됩니다. 맞은편 24시 편의점 있어 생활 편리합니다.</p>
+ <div class="card" style="margin-top:12px;background:#fff8f0;border-color:#ffd9c2"><b style="font-size:13px">Q&A (1)</b><div style="font-size:13px;margin-top:6px;line-height:1.6">Q. 왜 이렇게 싸요? 무슨 일 있었던 집인가요? <span class="muted">· 비공개 사용자 · 09.14</span><br><span style="color:#ff5a3c">A. 답변 대기 중</span></div></div>
+ <div style="margin-top:12px">${mapBlock(200)}</div></div>`};
+WP['homekeeper.co.kr/faq']=()=>`<div style="background:#0e1016;color:#fff;padding:14px 16px;font-weight:800;letter-spacing:.08em;color:#12b7a5">HOMEKEEPER <span style="color:#7d8496;font-weight:400;letter-spacing:0;font-size:12px">고객센터</span></div><div class="pad"><div class="h1">자주 묻는 질문</div>${[['공유 사용자를 삭제할 수 없어요','관리자 권한을 가진 공유 사용자는 해당 계정 본인 또는 기기 초기화로만 삭제할 수 있습니다. 기기 초기화는 설치 업체 방문이 필요합니다.'],['이전 사용자의 계정이 로그인되어 있어요','이전 사용자의 비밀번호 없이 로그아웃할 수 없습니다. 기록은 기기에 남아 있으며, 기록 동기화로 최신 기록을 불러올 수 있습니다.'],['GUEST 지문은 무엇인가요?','등록자 이름 없이 추가된 지문입니다. 택배·가사도우미 등 임시 출입용으로 쓰입니다.'],['인증번호는 어디서 받나요?','기기에 새 기록이 생기면 앱 푸시로 6자리 인증번호가 발송됩니다.']].map(f=>`<div class="card"><b style="font-size:14px">Q. ${f[0]}</b><p style="font-size:13px;line-height:1.7;color:#4a4a52;margin-top:6px">${f[1]}</p></div>`).join('')}</div>`;
+WP['mangwon.town']=()=>`<div class="cm-top"><b>망원이웃</b></div><div class="pad" style="text-align:center"><p class="muted" style="margin:20px 0">웹에서는 일부 글만 볼 수 있습니다.</p><button class="btn" data-app="cm" style="background:#ff8a3d">앱에서 열기</button></div>`;
+WP['naru.kr/q/noise']=()=>`<div class="pad"><div class="muted">naru 지식</div><div class="h1">층간소음 녹음, 증거로 인정될까?</div><p style="font-size:14px;line-height:1.8;color:#3a3a40">녹음 파일은 일시와 장소가 특정되고 반복성이 확인되면 참고 자료가 될 수 있습니다. 다만 ‘빈집’에서 소음이 났다는 주장은 관리 주체의 확인이 함께 필요합니다.</p></div>`;
+function noConn(u){return `<div style="padding:70px 26px;color:#3c4043"><div style="font-size:48px">☁︎</div><div class="h1" style="margin-top:12px">사이트에 연결할 수 없음</div><p style="font-size:14px;line-height:1.6"><b>${domOf(u).replace(/</g,'')}</b>의 서버 IP 주소를 찾을 수 없습니다.</p><p class="muted" style="font-size:12px;margin-top:10px">DNS_PROBE_FINISHED_NXDOMAIN</p></div>`}
+function webNorm(u){u=(u||'').trim();if(!u)return 'naru.kr';if(!/[.]/.test(u))return 'naru.kr/search?q='+encodeURIComponent(u);return u.toLowerCase().replace(/^https?:\/\//,'').replace(/^www\./,'').replace(/\/+$/,'')}
+function webGo(u,push=true){u=webNorm(u);if(push&&u!==WB.cur)WB.back.push(WB.cur);WB.cur=u;renderWeb()}
+function renderWeb(){
+ const u=WB.cur;const d=domOf(u);
+ let html;
+ if(u.startsWith('naru.kr/search'))html=searchPage(decodeURIComponent(u.split('q=')[1]||''));
+ else html=WP[u]?WP[u]():(FAVS[d]?`<div class="pad" style="text-align:center;padding-top:60px"><div style="font-size:44px;color:#ccc;font-weight:700">404</div><p class="muted">페이지를 찾을 수 없습니다</p></div>`:noConn(u));
+ const disp=u.startsWith('naru.kr/search')?decodeURIComponent(u.split('q=')[1]||''):u;
+ $('#ah').outerHTML=`<div class="ah" id="ah" style="padding:8px 10px;gap:6px;background:#f2f2f5;border-color:#e3e3e8"><button class="bk" data-appgo="home" style="font-size:14px">‹ 홈</button><button data-wback="1" style="border:0;background:none;font-size:18px;color:${WB.back.length?'#1c1c1f':'#c7c7cc'};cursor:pointer;padding:0 4px">←</button><form data-form="url" style="flex:1;display:flex;align-items:center;gap:6px;background:#fff;border-radius:18px;padding:0 10px;height:36px;box-shadow:inset 0 0 0 1px #dcdce2">${favH(d)}<input name="u" value="${disp.replace(/"/g,'')}" autocomplete="off" autocapitalize="off" style="flex:1;min-width:0;border:0;outline:0;font-size:14px;font-weight:400;background:transparent"></form><button data-wgo="naru.kr" style="border:0;background:none;font-size:16px;cursor:pointer">⌂</button></div>`;
+ const ab=$('#ab');ab.innerHTML=`<div style="height:2px;background:#3b6cf6;width:0;transition:width .3s" id="wload"></div>`+html;ab.scrollTop=0;
+ requestAnimationFrame(()=>{const l=$('#wload');if(l){l.style.width='100%';setTimeout(()=>{l.style.opacity=0},320)}});
+}
+/* ---------- 지도 앱 ---------- */
+function renderMap(){
+ $('#ab').innerHTML=`<div style="position:relative">${USE_GMAP?`<iframe src="${GMAP}" style="width:100%;height:calc(100dvh - 140px);min-height:420px;border:0;display:block" loading="lazy" title="지도"></iframe>`:`<div style="height:calc(100dvh - 140px);min-height:420px;display:flex;align-items:center;background:#eef1ec">${sketchMap()}</div>`}
+ <div style="position:absolute;left:12px;right:12px;top:12px;background:#fff;border-radius:14px;box-shadow:0 4px 16px rgba(0,0,0,.18);padding:10px 14px;font-size:14px;display:flex;gap:8px;align-items:center">🔍 <span class="muted">장소, 주소 검색</span></div>
+${USE_GMAP?`<div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-150%);background:#fff;border-radius:8px;padding:5px 9px;font-size:12px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.25);pointer-events:none;white-space:nowrap">🏠 해담빌라 302호</div><div style="position:absolute;left:50%;top:50%;transform:translate(22%,-30%);background:#12b7a5;color:#04211e;border-radius:8px;padding:5px 9px;font-size:12px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.25);pointer-events:none;white-space:nowrap">🏪 석만마트 24</div>`:''}
+ <div style="position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:18px 18px 0 0;box-shadow:0 -4px 16px rgba(0,0,0,.12);padding:14px 16px 16px"><div style="width:36px;height:4px;background:#d6d6dd;border-radius:2px;margin:0 auto 10px"></div><b>내 주변</b>
+ <div class="li" style="padding:10px 0" data-mapgo="place.naru.kr/seokman"><div class="av" style="background:#12b7a5;width:36px;height:36px;font-size:13px">석</div><div class="m"><b style="font-size:14px">석만마트</b><small>편의점 · 24시간 · 도보 1분 · 맞은편</small></div><div class="t">★4.9</div></div>
+ <div class="li" style="padding:10px 0;border:0"><div class="av" style="background:#8e8e93;width:36px;height:36px;font-size:13px">역</div><div class="m"><b style="font-size:14px">망원역</b><small>지하철 6호선 · 도보 7분</small></div></div></div></div>
+`}
 
 /* ---------- 앱 구성 ---------- */
 const AI={
@@ -476,6 +579,7 @@ function apps(){
  const A=[
   {id:'hk',n:'홈키퍼',bg:'#12b7a5',ic:AI.hk,nb:(sy('s4')&&!S.end)||S.end==='B'?'!':0},
   {id:'cm',n:'망원이웃',bg:'#ff8a3d',ic:AI.cm},
+  {id:'map',n:'지도',bg:'#fff',ic:'<svg viewBox="0 0 24 24"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z" fill="#e8f1ea" stroke="#3aa365" stroke-width="1.4"/><path d="M12 6.5a3 3 0 0 1 3 3c0 2.3-3 5.5-3 5.5s-3-3.2-3-5.5a3 3 0 0 1 3-3z" fill="#e5484d"/><circle cx="12" cy="9.5" r="1.1" fill="#fff"/></svg>'},
   {id:'cam2',n:'카메라',bg:'#2c2c30',ic:AI.cam,toast:'카메라 권한이 없습니다'},
   {id:'note',n:'단서 수첩',bg:'#1c1c1f',ic:AI.note}
  ];
@@ -487,7 +591,7 @@ const appBtn=a=>`<button class="app ${a.isnew?'new':''}" data-app="${a.id}"><spa
 function renderHome(){
  const t=new Date();const days='일월화수목금토';
  const warn=(sy('s4')&&!S.end)||S.end==='B';
- $('#hs').innerHTML=`<div class="wall">${wallSVG()}</div><div class="hs-clock"><b>${t.getHours()}:${String(t.getMinutes()).padStart(2,'0')}</b><span>${t.getMonth()+1}월 ${t.getDate()}일 ${days[t.getDay()]}요일</span></div>
+ $('#hs').innerHTML=`<div class="wall">${wallSVG()}<img src="wall.png" alt="" onerror="this.remove()"></div><div class="hs-clock"><b>${t.getHours()}:${String(t.getMinutes()).padStart(2,'0')}</b><span>${t.getMonth()+1}월 ${t.getDate()}일 ${days[t.getDay()]}요일</span></div>
  <div class="widget ${warn?'alert':''}" data-app="hk"><span class="wi">${AI.hk}</span><span><b>302호 · ${warn?'⚠ 이상 감지':S.end==='A'?'안전':'모든 문 잠김'}</b><small>${warn?'현관 기록을 확인하세요':'기기 7개 연결됨 · 이전 사용자 계정 로그인 중'}</small></span></div>
  <div class="grid4">${apps().map(appBtn).join('')}</div><div class="dock">${DOCK().map(appBtn).join('')}</div>`}
 function setTheme(m){const p=$('#phone');p.classList.remove('light','dark');if(m)p.classList.add(m)}
@@ -503,14 +607,15 @@ function openApp(id,sub){
  setTheme('light');
  if(id==='cm'){head('망원이웃');renderCM(sub);return}
  if(id==='msg'){head('메시지');renderMsg(sub);return}
- if(id==='web'){head('인터넷');renderWeb(sub);return}
+ if(id==='web'){head('인터넷');renderWeb();return}
+ if(id==='map'){head('지도');renderMap();return}
  if(id==='jp'){head('재이의 휴대폰');renderJP(sub);return}
 }
 
 /* ---------- 엔딩 ---------- */
 function showEnd(k){
  const o=$('#endov');
- o.style.background=k==='A'?'linear-gradient(180deg,#0e2a26,#050507)':'linear-gradient(180deg,#2a0508,#050507)';
+ o.style.background=(k==='A'?'linear-gradient(180deg,rgba(14,42,38,.85),rgba(5,5,7,.95))':'linear-gradient(180deg,rgba(42,5,8,.85),rgba(5,5,7,.95))')+',url(basement.png) center/cover,#050507';
  o.innerHTML=k==='A'?`<div style="font-size:12px;letter-spacing:.3em;opacity:.7">ENDING · A</div><h2>문은 이제 닫혀 있다</h2><p>재이는 살아서 나왔다.<br>홈키퍼에서 낯선 계정이 사라졌다.<br>오늘 밤, 302호의 새벽 3시는 조용하다.</p><button data-endclose="1">홈 화면으로</button>`:`<div style="font-size:12px;letter-spacing:.3em;opacity:.7;color:#ff8a8a">ENDING · B</div><h2>OPEN DOOR</h2><p>창고는 비어 있었다.<br>새벽 3시 33분, 현관에서 지문 인식음이 들렸다.<br>침실 홈캠이 혼자 켜졌다.</p><button data-endclose="1">…</button>`;
  o.classList.add('on')}
 
@@ -519,9 +624,13 @@ document.addEventListener('click',e=>{
  const ec=e.target.closest('[data-endclose]');if(ec){$('#endov').classList.remove('on');showHome();return}
  const ap=e.target.closest('[data-app]');if(ap){openApp(ap.dataset.app);return}
  const ag=e.target.closest('[data-appgo]');if(ag){const v=ag.dataset.appgo;if(v==='home'){showHome();return}const [a,sub]=v.split(':');if(a==='cm'){$('#ab').scrollTop=0;renderCM(sub);return}if(a==='msg'){openApp('msg',sub);return}if(a==='jp'){openApp('jp',sub);return}return}
+ const dg=e.target.closest('[data-dong]');if(dg){DONG.cur=dg.dataset.dong;renderCM();$('#ab').scrollTop=0;return}
  const hk=e.target.closest('[data-hk]');if(hk){S.hkTab=hk.dataset.hk;save();renderHK();$('#ab').scrollTop=0;return}
  const dl=e.target.closest('[data-del]');if(dl){toast('삭제 권한이 없습니다. 관리자: osm_24','홈키퍼','#d13438');clue('osm');return}
- const wb=e.target.closest('[data-web]');if(wb){renderWeb(wb.dataset.web);return}
+ const wg=e.target.closest('[data-wgo]');if(wg){webGo(wg.dataset.wgo);return}
+ const wbk=e.target.closest('[data-wback]');if(wbk){if(WB.back.length){WB.cur=WB.back.pop();renderWeb()}return}
+ const mg=e.target.closest('[data-mapgo]');if(mg){openApp('web');webGo(mg.dataset.mapgo);return}
+ const tt=e.target.closest('[data-toast]');if(tt){toast(tt.dataset.toast);return}
  const jk=e.target.closest('[data-jp]');if(jk){const k=jk.dataset.jp;if(k==='지우기')jpCode=jpCode.slice(0,-1);else if(jpCode.length<4)jpCode+=k;
   document.querySelectorAll('#jpPins i').forEach((d,i)=>d.classList.toggle('f',i<jpCode.length));
   if(jpCode.length===4)setTimeout(()=>{if(fnv(jpCode)==='832f01b5'){S.jp=true;save();renderJP();}else{const p=$('#jpPins');p.classList.remove('shake');void p.offsetWidth;p.classList.add('shake');jpCode='';document.querySelectorAll('#jpPins i').forEach(d=>d.classList.remove('f'))}},200);return}
@@ -531,7 +640,8 @@ document.addEventListener('click',e=>{
 document.addEventListener('submit',e=>{
  const f=e.target.closest('[data-form]');if(!f)return;e.preventDefault();
  const d=Object.fromEntries(new FormData(f));
- if(f.dataset.form==='web'){const q=(d.q||'').trim();if(q)renderWeb(q);return}
+ if(f.dataset.form==='url'){f.querySelector('input').blur();webGo(d.u);return}
+ if(f.dataset.form==='srch'){const q=(d.q||'').trim();if(q)webGo('naru.kr/search?q='+encodeURIComponent(q));return}
  if(f.dataset.form==='sync'){
   const c=(d.c||'').replace(/\D/g,'');const s=SYNCS[fnv(c)];const err=f.querySelector('.err');
   if(!s){err.textContent='유효하지 않은 인증번호입니다.';return}
@@ -555,7 +665,7 @@ function openClues(){
 $('#homebar').onclick=showHome;
 
 /* ---------- 시작 ---------- */
-$('#lockwall').innerHTML=wallSVG();
+$('#lockwall').innerHTML=wallSVG()+'<img src="wall.png" alt="" onerror="this.remove()">';
 (function clock(){const t=new Date();const s=t.getHours()+':'+String(t.getMinutes()).padStart(2,'0');$('#clk').textContent=s;$('#lkTime').textContent=s;const days='일월화수목금토';$('#lkDate').textContent=`${t.getMonth()+1}월 ${t.getDate()}일 ${days[t.getDay()]}요일`;setTimeout(clock,30000)})();
 $('#start').onclick=()=>{$('#intro').classList.add('off');S.intro=true;save()};
 $('#unlockBtn').onclick=()=>{$('#lock').classList.add('off');showHome();setTimeout(()=>{if(!has('martmsg'))toast('302호 새로 오셨죠? 택배 맡아드려요^^','석만마트','#12b7a5')},900)};
