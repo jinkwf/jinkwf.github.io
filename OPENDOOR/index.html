@@ -634,7 +634,7 @@ function renderHome(){
  <div class="widget ${warn?'alert':''}" data-app="hk"><span class="wi">${AI.hk}</span><span><b>302호 · ${S.end==='C'?'사용자 부재':warn?'⚠ 이상 감지':S.end==='A'?'안전':'모든 문 잠김'}</b><small>${S.end==='C'?'관리자 nightowl_247 로그인 중':warn?'현관 기록을 확인하세요':'기기 7개 연결됨 · 이전 사용자 계정 로그인 중'}</small></span></div>
  <div class="grid4">${apps().map(appBtn).join('')}</div><div class="dock">${DOCK().map(appBtn).join('')}</div>`}
 function setTheme(m){const p=$('#phone');p.classList.remove('light','dark');if(m)p.classList.add(m)}
-function showHome(){$('#app').classList.remove('on');$('#sheet').classList.remove('on');renderHome();$('#hs').classList.add('on');setTheme('')}
+function showHome(){CUR='home';$('#app').classList.remove('on');$('#sheet').classList.remove('on');renderHome();$('#hs').classList.add('on');setTheme('')}
 function openApp(id,sub){
  const a=[...apps(),...DOCK()].find(x=>x.id===id);
  if(a&&a.toast){toast(a.toast);return}
@@ -644,6 +644,7 @@ function openApp(id,sub){
  $('#hs').classList.remove('on');$('#app').classList.add('on');
  $('#ab').style.background='';$('#ab').scrollTop=0;
  const head=(t,b)=>{$('#ah').outerHTML=`<div class="ah" id="ah"><button class="bk" data-appgo="${b||'home'}">‹ ${b?'뒤로':'홈'}</button><span>${t}</span></div>`};
+ CUR=id;
  if(id==='hk'){setTheme('dark');renderHK();return}
  setTheme('light');
  if(id==='cm'){head('망원이웃');renderCM(sub);return}
@@ -689,7 +690,7 @@ document.addEventListener('submit',e=>{
   const c=(d.c||'').replace(/\D/g,'');const s=SYNCS[fnv(c)];const err=f.querySelector('.err');
   if(!s){err.textContent='유효하지 않은 인증번호입니다.';sfx('err');vib([40,40,40]);return}
   if(S.sync[s.k]){err.textContent='이미 동기화된 기록입니다.';return}
-  S.sync[s.k]=true;S.st=S.st||{};S.st[s.k]=Date.now();
+  S.sync[s.k]=true;S.st=S.st||{};S.st[s.k]=Date.now();batUse(1);
   if(s.k==='endA')S.end='A';if(s.k==='endB')S.end='B';if(s.k==='endC')S.end='C';
   if(s.k==='s1')clue('s1');if(s.k==='s2')clue('s2');if(s.k==='s4')clue('s4');
   S.hkTab=s.tab;save();
@@ -746,21 +747,32 @@ function renderLock(){const st=S.st||{},at=k=>st[k]||((S.t0||Date.now())+({s1:1,
  N.sort((a,b)=>b[3]-a[3]);const more=N.length-4;
  $('#lkNotis').innerHTML=N.slice(0,4).map(n=>`<div class="noti ${n[2]?'red':''}"><b><span>${n[0]}</span><span class="rel" data-ts="${n[3]}"></span></b>${n[1]}</div>`).join('')+(more>0?`<div style="text-align:center;font-size:12px;opacity:.6;margin-top:2px">알림 ${more}개 더 보기</div>`:'');relUpd()}
 function lockNow(){renderLock();$('#lock').classList.remove('off')}
-let hideAt=0;document.addEventListener('visibilitychange',()=>{if(document.hidden)hideAt=Date.now();else if(S.intro&&hideAt&&Date.now()-hideAt>30000&&$('#lock').classList.contains('off'))lockNow()});
-function ev311(){const ph=$('#phone');ph.classList.remove('glitch');void ph.offsetWidth;ph.classList.add('glitch');sfx('lumi');vib([200,100,200]);muteNext=true;toast('“홈캠을 켭니다.”','루미','#d13438')}
+let hideAt=0;document.addEventListener('visibilitychange',()=>{if(document.hidden){hideAt=Date.now();save()}else if(S.intro&&hideAt&&Date.now()-hideAt>30000&&$('#lock').classList.contains('off'))lockNow()});
+function ev311(){batUse(.5);const ph=$('#phone');ph.classList.remove('glitch');void ph.offsetWidth;ph.classList.add('glitch');sfx('lumi');vib([200,100,200]);muteNext=true;toast('“홈캠을 켭니다.”','루미','#d13438')}
 let idleT,idled=false;function idleReset(){clearTimeout(idleT);if(idled)return;idleT=setTimeout(()=>{if(S.intro&&$('#lock').classList.contains('off')){idled=true;sfx('lumi');muteNext=true;toast('“듣고 있어요.”','루미','#12b7a5')}},180000)}
 ['pointerdown','keydown'].forEach(ev=>document.addEventListener(ev,idleReset));idleReset();
 renderLock();
 let lastMin=-1;
+/* 배터리: 화면을 보고 있을 때만, 사용량에 따라 닳음 */
+if(typeof S.bat!=='number')S.bat=64;
+let CUR='home',batN=0;
+function batRate(){if(!$('#lock').classList.contains('off'))return .3;if($('#camov'))return 3;if($('#endov').classList.contains('on'))return .5;
+ if(CUR==='hk')return S.hkTab==='cam'?3:1.3;return ({home:1,msg:1,cm:1,note:1,jp:1.2,web:1.6,map:2.5})[CUR]||1}
+function batUse(d){S.bat=Math.max(5,S.bat-d);batDraw()}
+function batDraw(){const b=Math.ceil(S.bat);$('#batN').textContent=b+'%';$('#bat i').style.width=b+'%';
+ $('#bat').classList.toggle('low',b<=20);$('#batN').classList.toggle('low',b<=20);
+ if(b<=20&&!S.lowbat){S.lowbat=1;save();setTimeout(()=>toast('배터리 잔량 '+b+'%. 저전력 모드를 켜시겠습니까?','배터리','#ff453a'),400)}
+ if(b<=10&&!S.lowbat2){S.lowbat2=1;save();setTimeout(()=>toast('배터리 잔량 '+b+'%. 곧 전원이 꺼질 수 있습니다.','배터리','#ff453a'),400)}}
+function batTick(){if(document.hidden||!S.intro){return}S.bat=Math.max(5,S.bat-(1/240)*batRate());if(++batN%10===0)save();batDraw()}
+batDraw();
 (function tick(){const t=new Date(),m=t.getHours()*60+t.getMinutes();
  if(m!==lastMin){lastMin=m;const plain=t.getHours()+':'+String(t.getMinutes()).padStart(2,'0');
   $('#clk').textContent=plain;$('#lkTime').innerHTML=clockHTML(t);$('#lkDate').textContent=dateTxt(t);
   const h=$('#hsTime');if(h){h.innerHTML=clockHTML(t);$('#hsDate').textContent=dateTxt(t)}
   relUpd();
   if(t.getHours()===3&&t.getMinutes()===11&&S.intro){const dy=t.toDateString();if(S.e311!==dy){S.e311=dy;save();ev311()}}
-  const b=Math.max(7,64-Math.floor((Date.now()-S.t0)/240000));$('#batN').textContent=b+'%';$('#bat i').style.width=b+'%';
-  $('#bat').classList.toggle('low',b<=20);$('#batN').classList.toggle('low',b<=20);
-  if(b<=20&&!S.lowbat){S.lowbat=1;save();setTimeout(()=>toast('배터리 잔량 '+b+'%. 저전력 모드를 켜시겠습니까?','배터리','#ff453a'),400)}}
+  }
+ batTick();
  setTimeout(tick,1000-t.getMilliseconds()+5)})();
 $('#start').onclick=()=>{au();sfx('click');$('#intro').classList.add('off');S.intro=true;save()};
 $('#unlockBtn').onclick=()=>{sfx('click');vib(20);$('#lock').classList.add('off');if(!$('#app').classList.contains('on'))showHome();setTimeout(()=>{if(!has('martmsg'))toast('302호 새로 오셨죠? 택배 맡아드려요^^','석만마트','#12b7a5')},900)};
