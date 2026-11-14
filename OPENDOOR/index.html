@@ -126,8 +126,8 @@ button,input{font:inherit}
 .camv{position:relative;line-height:0;border-radius:12px;overflow:hidden;background:#000}
 .camv svg{width:100%;height:auto;display:block}
 .camv .osd{position:absolute;left:8px;top:8px;font:600 11px/1.3 monospace;color:#dfe;background:rgba(0,0,0,.45);padding:3px 6px;border-radius:4px}
-.camv .live{position:absolute;right:8px;top:8px;font:700 11px monospace;color:#fff;background:#e5484d;padding:2px 7px;border-radius:4px;animation:blink 1s steps(2) infinite}
-@keyframes blink{50%{opacity:.4}}
+.camv .live{position:absolute;right:8px;top:8px;font:700 11px monospace;color:#fff;background:#e5484d;padding:2px 7px;border-radius:4px;animation:livebl 1s steps(2) infinite}
+@keyframes livebl{50%{opacity:.4}}
 .camv:after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 1px,transparent 1px 3px);pointer-events:none}
 .del{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #1f2433;font-size:13px}
 .del .ph{width:64px;height:40px;border-radius:6px;background:repeating-linear-gradient(45deg,#1a1d29 0 6px,#151824 6px 12px);display:flex;align-items:center;justify-content:center;color:#5c6274;font-size:10px;flex:none}
@@ -228,9 +228,7 @@ button,input{font:inherit}
     <div class="wall" id="lockwall"></div>
     <div style="font-size:15px;opacity:.9" id="lkDate">11월 13일 금요일</div>
     <div class="lk-time" id="lkTime">23:14</div>
-    <div class="noti"><b><span>홈키퍼</span><span class="rel" data-ago="512">14:31</span></b>302호 기기 7개가 이 휴대폰에 연결되었습니다.</div>
-    <div class="noti red"><b><span>홈키퍼</span><span class="rel" data-ago="511">14:31</span></b>이전 사용자 ‘jaei.yun’의 계정이 로그아웃되지 않았습니다.</div>
-    <div class="noti"><b><span>메시지</span><span class="rel" data-ago="47">16:20</span></b>석만마트: 302호 새로 오셨죠? 택배 맡아드려요^^</div>
+    <div id="lkNotis" style="width:100%"></div>
     <button class="unlock" id="unlockBtn">밀어서 잠금 해제</button>
   </div>
   <div class="intro" id="intro">
@@ -292,7 +290,7 @@ const CLUES=[
  ['poster','실종 전단','“윤재이(27)를 찾습니다.” 연락처는 서강우.','“강우 씨가 전단 붙였던 거죠?”'],
  ['review','“퇴근 시간을 너무 잘 아세요”','석만마트 후기. 쓴 사람은 탈퇴했다. 7월 30일.',''],
  ['noise','빈집의 층간소음','8월 21일, 202호: “3층 빈집이라던데 새벽마다 쿵쿵.”','“태오 씨, 빈집에서 소리 났던 거 알고 있었죠?”'],
- ['osmplace','석만마트 · 대표 오석만','지하 창고 공사 3개월째. 사장 답글: “항상 지켜보고 있습니다^^”','“편의점 사장님 이름이 오석만이래요. osm…”'],
+ ['osmplace','석만마트 · 대표 오석만','지하 창고 공사 3개월째. 사장 답글: “항상 지켜보고 있습니다^^”','“맞은편 편의점 사장님 이름이 오석만이래요. 24시간 연중무휴.”'],
  ['listing','시세보다 40% 싼 집','‘급매’ 302호. 조회 3,412회, 문의 0건. “무슨 일 있었던 집인가요?” 답변 대기 중.',''],
  ['vent','지하 환풍구의 소리','10.30 새벽 3시, 석만마트 옆 지하 환풍구에서 벽 두드리는 소리. 사장 답글: “냉동고 모터 소리예요^^”','“편의점 지하에서 새벽에 벽 두드리는 소리가 났대요.”'],
  ['past','3동 ‘석만슈퍼’','2년 전, 단골 손님이 갑자기 이사 가고 연락이 끊겼다. 사장 답글: “그분 잘 지내신대요^^”',''],
@@ -363,6 +361,7 @@ const VAC=['11.12 03:14','11.05 03:11','10.29 03:16','10.22 03:12','10.15 03:13'
 function doorLogs(){
  const L=[];
  if(S.end==='B')L.push(['11.17 03:33','GUEST 지문 · 열림','',1,1]);
+ if(S.end==='C'){L.push(['11.17 05:02','GUEST 지문 · 닫힘','',1,1]);L.push(['11.17 04:40','GUEST 지문 · 열림','사용자 부재 중',1,1])}
  if(sy('s4')){L.push(['11.16 02:48','GUEST 지문 · 인증 실패','등록 지문이 일치하지 않음',1,1]);L.push(['11.16 02:47','비밀번호 오류 ×3','외부 키패드',1,1])}
  if(sy('s2')){L.push(['11.14 14:19','닫힘','',0,1]);L.push(['11.14 14:02','GUEST 지문 · 열림','사용자 외출 중',1,1])}
  L.push(['11.14 08:31','비밀번호 · 닫힘','나 · 출근','0']);
@@ -373,6 +372,7 @@ function doorLogs(){
  return L}
 function lumiLogs(){
  const L=[];
+ if(S.end==='C'){L.push(['11.17 04:44','인식되지 않은 사용자: “방은 그대로 둬야지.”','',1,1]);L.push(['11.17 04:42','인식되지 않은 사용자: “불 꺼”','',1,1])}
  if(sy('s1')){L.push(['11.14 03:11','루미: “홈캠을 켭니다.”','',1,1]);L.push(['11.14 03:11','인식되지 않은 사용자: “홈캠 켜”','',1,1])}
  L.push(['11.13 23:50','새 사용자: “불 꺼”','',0]);
  L.push(['11.12 03:15','인식되지 않은 사용자: “불 꺼”','공실',1]);L.push(['11.12 03:12','인식되지 않은 사용자: “불 켜”','공실',1]);
@@ -385,10 +385,11 @@ const lgHTML=L=>L.map(l=>`<div class="lg ${l[3]==1?'warn':''} ${l[4]?'new':''}">
 const SYNCS={
  '266aca8e':{k:'s1',t:'11.14 03:11 · 루미 음성 기록 · 침실 홈캠 녹화',tab:'cam'},
  'c9272db6':{k:'s2',t:'11.14 14:02 · 도어락 GUEST 열림 · 청소기 지도 변경',tab:'door'},
- 'd39e0039':{k:'s3',t:'202호 녹음 파일 3개 수신 · 재이의 공기계 연결됨',tab:'file'},
+ 'd39e0039':{k:'s3',t:'202호 녹음 파일 3개 수신 · 근처에서 꺼진 기기 1대 감지',tab:'file'},
  '7cebb2c0':{k:'s4',t:'11.16 02:47 · 도어락 비밀번호 오류 ×3 · 현관 홈캠 실시간',tab:'cam'},
  '29bdbfa0':{k:'endA',t:'관리자 계정 nightowl_247 삭제됨 · GUEST 지문 삭제됨',tab:'home'},
- '84c85252':{k:'endB',t:'11.17 03:33 · GUEST 지문 · 열림',tab:'cam'}
+ '84c85252':{k:'endB',t:'11.17 03:33 · GUEST 지문 · 열림',tab:'cam'},
+ '7936bfed':{k:'endC',t:'11.17 04:17 · 사용자 휴대폰 위치: 석만마트 지하 1층',tab:'home'}
 };
 
 /* ---------- 홈키퍼 화면 ---------- */
@@ -398,6 +399,7 @@ function hkTab(t){
   const alerts=[];
   if(S.end==='A')alerts.push('관리자 계정 nightowl_247가 삭제되었습니다. 이 집의 모든 기기는 이제 당신의 것입니다.');
   if(S.end==='B')alerts.push('03:33 현관문이 열렸습니다. 침실 홈캠이 켜져 있습니다.');
+  if(S.end==='C')alerts.push('새 기기에서 로그인했습니다: nightowl_247. 이 집의 기기는 관리자가 관리합니다.');
   if(sy('s4')&&!S.end)alerts.push('02:47 현관 비밀번호 오류 3회. 외부 침입 시도가 감지되었습니다.');
   return `${alerts.map(a=>`<div class="alertbar">⚠ ${a}</div>`).join('')}<div class="hk-sec">
   <div class="hk-card"><h4>302호 · 해담빌라 <small>기기 7개 연결됨</small></h4>
@@ -406,7 +408,7 @@ function hkTab(t){
    <div class="kv"><span>홈캠 (거실·침실·현관)</span><span>${S.end==='B'?'<span class="tag r">녹화 중</span>':'꺼짐'}</span></div>
    <div class="kv"><span>로봇청소기</span><span>충전 중</span></div>
    <div class="kv"><span>스마트 플러그</span><span>정상</span></div></div>
-  <div class="hk-card"><h4>계정 <small>로그인 유지</small></h4><div class="kv"><span>현재 로그인</span><span>jaei.yun <span class="tag r">이전 사용자</span></span></div><div class="kv"><span>공유 사용자</span><span>${S.end==='A'?'없음':'1명'}</span></div></div>
+  <div class="hk-card"><h4>계정 <small>로그인 유지</small></h4><div class="kv"><span>현재 로그인</span><span>${S.end==='C'?'nightowl_247 <span class="tag r">관리자</span>':'jaei.yun <span class="tag r">이전 사용자</span>'}</span></div><div class="kv"><span>공유 사용자</span><span>${S.end==='A'?'없음':'1명'}</span></div></div>
   <p class="muted" style="color:#7d8496;font-size:12px;line-height:1.6">이전 사용자의 계정이 로그아웃되지 않아 기록이 유지되고 있습니다. 로그아웃하려면 계정 비밀번호가 필요합니다.</p></div>`}
  if(t==='door'){clue('guest');clue('vacant');return `<div class="hk-sec"><div class="hk-card"><h4>등록된 인증 수단</h4><div class="kv"><span>지문 1</span><span>재이</span></div><div class="kv"><span>지문 2</span><span>${S.end==='A'?'<s>GUEST</s> 삭제됨':'GUEST <span class="tag r">등록자 불명</span>'}</span></div><div class="kv"><span>지문 2 등록일</span><span>2026.05.03 21:47</span></div><div class="kv"><span>비밀번호</span><span>11.13 변경됨</span></div>
   ${S.end==='A'?'':`<button class="btn" style="margin-top:10px;background:#3a1418;color:#ffb3b3" data-del="1">GUEST 지문 삭제</button>`}</div>
@@ -473,8 +475,9 @@ const POSTS3=[
  {id:'c3',ch:'나눔',t:'아기 유모차 나눔합니다',m:'두아이맘 · 망원3동 · 10.27',b:'상태 좋아요. 직접 가져가실 분.',cm:[]},
  {id:'c4',ch:'질문',t:'3동에서 2동 해담빌라 쪽 월세 어때요?',m:'이사고민 · 망원3동 · 10.12',b:'302호 급매 떴던데 왜 이렇게 싼 거죠?',cm:[['망원주민','거기… 그 실종된 사람 살던 집이에요','10.12'],['이사고민','헐','10.12']]}
 ];
-const POSTS_BY={'1':POSTS1,'2':POSTS2,'3':POSTS3};
-const POSTS=[].concat(POSTS1,POSTS2,POSTS3);
+const PC={id:'p0',c:'red',ch:'찾습니다',t:'[찾습니다] 해담빌라 302호 새 세입자 — 11월 17일 이후 연락 두절',m:'서강우 · 망원동 · 11.18',b:'11월 13일에 이사 온 분입니다.\n11월 17일 새벽 이후 연락이 끊겼습니다.\n마지막 목격: 해담빌라 앞, 맞은편 편의점 쪽으로.\n작은 것이라도 보신 분은 연락 부탁드립니다.\n010-7712-0806 (서강우)',cm:[['석만마트 사장','저도 가게에 전단 붙여둘게요. 꼭 찾길 바랍니다.','11.18'],['202호','새벽에 302호 문 다시 열리는 소리 났어요. 이번엔 신고했습니다.','11.18'],['(삭제된 댓글입니다)','','11.19']]};
+const POSTS_BY={'1':POSTS1,get '2'(){return S.end==='C'?[PC].concat(POSTS2):POSTS2},'3':POSTS3};
+const POSTS=[].concat(POSTS1,POSTS2,POSTS3,[PC]);
 function renderCM(post){
  if(!post){const list=POSTS_BY[DONG.cur];$('#ab').innerHTML=`<div class="cm-top"><b>망원이웃</b><span style="font-size:13px">망원${DONG.cur}동</span></div><div style="display:flex;gap:6px;padding:10px 14px;background:#fff7f1;border-bottom:1px solid #ffe2cf">${['1','2','3'].map(d=>`<button data-dong="${d}" style="border:1px solid ${d===DONG.cur?'#ff8a3d':'#f1d6c4'};background:${d===DONG.cur?'#ff8a3d':'#fff'};color:${d===DONG.cur?'#fff':'#8a5a3a'};border-radius:16px;padding:6px 14px;font-size:13px;font-weight:700;cursor:pointer">망원${d}동</button>`).join('')}</div>${list.map(p=>`<div class="post" data-appgo="cm:${p.id}"><span class="chip ${p.c||''}">${p.ch}</span><div class="pt">${p.t}</div><div class="pm">${p.m} · 댓글 ${p.cm.length}</div></div>`).join('')}`;return}
  const p=POSTS.find(x=>x.id===post);
@@ -485,7 +488,7 @@ function renderCM(post){
 function threads(){
  const T=[];
  if(S.end==='B')T.push(['osm','석만마트','자요? ^^','03:34','#12b7a5','석']);
- T.push(['gw','서강우 (301호)',sy('s2')?'아까 누가 302호 들어가던데? 택배 기사?':'무슨 일 있으면 연락해요. 바로 옆이니까','11.14','#5b7bd5','강']);
+ T.push(['gw','서강우 (301호)',S.end==='C'?'전화 좀 받아요':sy('s2')?'아까 누가 302호 들어가던데? 택배 기사?':'무슨 일 있으면 연락해요. 바로 옆이니까','11.14','#5b7bd5','강']);
  if(sy('s3'))T.push(['to','민태오 (202호)','파일 보냈어요. 새벽 세 시 걸 들어봐요.','11.15','#6b6b73','태']);
  if(S.end!=='B')T.push(['osm','석만마트','302호 새로 오셨죠? 택배 맡아드려요^^','11.13','#12b7a5','석']);
  T.push(['re','망원부동산','도어락 비번 꼭 바꾸세요~','11.13','#8e8e93','부']);
@@ -493,7 +496,7 @@ function threads(){
 function renderMsg(sub){
  if(!sub){$('#ab').innerHTML=threads().map(m=>`<div class="li" data-appgo="msg:${m[0]}"><div class="av" style="background:${m[4]}">${m[5]}</div><div class="m"><b>${m[1]}</b><small>${m[2]}</small></div><div class="t">${m[3]}</div></div>`).join('');return}
  const C={
-  gw:['서강우 (301호)',`<div class="bub-t">11월 13일 (금) 오후 8:10</div><div class="bub">옆집 서강우예요. 짐 옮기느라 고생했어요</div><div class="bub">무슨 일 있으면 연락해요. 바로 옆이니까</div><div class="bub me">감사합니다!</div>${sy('s2')?`<div class="bub-t">11월 14일 (토) 오후 2:05</div><div class="bub">혹시 집에 있어요?</div><div class="bub">아까 누가 302호 들어가던데? 택배 기사?</div><div class="bub">모자 쓴 남자였는데</div>`:''}`],
+  gw:['서강우 (301호)',`<div class="bub-t">11월 13일 (금) 오후 8:10</div><div class="bub">옆집 서강우예요. 짐 옮기느라 고생했어요</div><div class="bub">무슨 일 있으면 연락해요. 바로 옆이니까</div><div class="bub me">감사합니다!</div>${sy('s2')?`<div class="bub-t">11월 14일 (토) 오후 2:05</div><div class="bub">혹시 집에 있어요?</div><div class="bub">아까 누가 302호 들어가던데? 택배 기사?</div><div class="bub">모자 쓴 남자였는데</div>`:''}${S.end==='C'?`<div class="bub-t">11월 17일 (화) 오전 4:31</div><div class="bub">어디예요?</div><div class="bub">혼자 들어간 거 아니죠</div><div class="bub-t">오전 7:12</div><div class="bub">302호 불이 계속 꺼져 있어요</div><div class="bub">전화 좀 받아요</div><div class="bub-t" style="color:#c12d2d">부재중 전화 3통</div>`:''}`],
   to:['민태오 (202호)',`<div class="bub-t">11월 15일 (일)</div><div class="bub">파일 보냈어요. 홈키퍼 공유로.</div><div class="bub">새벽 세 시 걸 들어봐요.</div><div class="bub">나 미친 사람 아니었어요.</div>`],
   osm:['석만마트',`<div class="bub-t">11월 13일 (금) 오후 4:20</div><div class="bub">302호 새로 오셨죠? 택배 맡아드려요^^</div><div class="bub">이름이랑 호수만 말씀하시면 돼요. 언제든 들르세요</div>${S.end==='B'?`<div class="bub-t">11월 17일 (화) 오전 3:34</div><div class="bub">자요? ^^</div>`:''}`],
   re:['망원부동산',`<div class="bub-t">11월 13일 (금) 오후 2:31</div><div class="bub">302호 키 전달드렸어요. 도어락 비번 꼭 바꾸세요~</div><div class="bub">전 세입자 짐은 관리인분이 정리하셨고요. 지문은 관리 업체 통해야 지울 수 있다네요</div>`]
@@ -505,10 +508,11 @@ function renderMsg(sub){
 /* ---------- 재이의 공기계 ---------- */
 let jpCode='';
 function renderJP(sub){
+ if(!S.jpOn){$('#ab').innerHTML=`<div class="jp-lock" id="jpOff" style="justify-content:center;background:#000"><div style="font-size:13px;opacity:.55">재이의 휴대폰</div><svg viewBox="0 0 60 30" style="width:110px;margin:26px 0 14px"><rect x="2" y="3" width="50" height="24" rx="5" fill="none" stroke="#555" stroke-width="2.5"/><rect x="54" y="10" width="4" height="10" rx="1.5" fill="#555"/><rect x="6" y="7" width="2" height="16" rx="1" fill="#e5484d"/></svg><div style="font-size:15px;opacity:.85">전원이 꺼져 있습니다</div><div style="font-size:12px;opacity:.45;margin-top:6px">마지막 사용 2026.08.05 23:58</div><button data-jpcharge="1" style="margin-top:34px;border:1px solid rgba(255,255,255,.35);background:none;color:#fff;border-radius:22px;padding:11px 24px;font-size:14px;cursor:pointer">충전기 연결</button><div style="font-size:11px;opacity:.35;margin-top:14px">홈키퍼가 근처의 꺼진 기기를 감지했습니다</div></div>`;return}
  if(!S.jp){$('#ab').innerHTML=`<div class="jp-lock" style="position:relative;overflow:hidden"><img src="img/jp_wall.jpg" alt="" onerror="F(this,'jp_wall')" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.45;filter:blur(1px)"><svg class="crack" viewBox="0 0 400 700" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%"><path d="M300 0 L260 140 L300 210 L230 330 L260 420 L180 700" stroke="#fff" stroke-width="1.5" fill="none"/><path d="M260 140 L360 180" stroke="#fff" fill="none"/><path d="M230 330 L120 360" stroke="#fff" fill="none"/></svg><div style="font-size:13px;opacity:.7">재이의 휴대폰</div><div style="font-size:52px;font-weight:300;margin:8px 0">08:06</div><div style="font-size:12px;opacity:.6">배터리 3% · 충전 중</div><div class="pins" id="jpPins"><i></i><i></i><i></i><i></i></div><div class="kp" id="jpKp">${[1,2,3,4,5,6,7,8,9,'',0,'지우기'].map(k=>k===''?'<span></span>':`<button class="${k==='지우기'?'e':''}" data-jp="${k}">${k}</button>`).join('')}</div><div style="font-size:12px;opacity:.55;margin-top:18px">암호 힌트: 우리 집에 온 날</div></div>`;return}
- if(!sub){clue('jp');$('#ab').innerHTML=`<div class="pad"><div class="h1">재이의 휴대폰</div><p class="muted" style="margin-bottom:14px">8월 6일 이후 꺼져 있던 공기계</p></div>${[['memo','메모','5개'],['jmsg','메시지','임시저장 1'],['shot','스크린샷','2장']].map(a=>`<div class="li" data-appgo="jp:${a[0]}"><div class="av" style="background:${a[0]==='jmsg'?'#34c759':a[0]==='memo'?'#ffd23f':'#5b7bd5'}">${a[1][0]}</div><div class="m"><b>${a[1]}</b><small>${a[2]}</small></div></div>`).join('')}`;return}
+ if(!sub){clue('jp');$('#ab').innerHTML=`<div class="pad"><div class="h1">재이의 휴대폰</div><p class="muted" style="margin-bottom:14px">8월 5일 밤 이후 꺼져 있던 공기계</p></div>${[['memo','메모','5개'],['jmsg','메시지','임시저장 1'],['shot','스크린샷','2장']].map(a=>`<div class="li" data-appgo="jp:${a[0]}"><div class="av" style="background:${a[0]==='jmsg'?'#34c759':a[0]==='memo'?'#ffd23f':'#5b7bd5'}">${a[1][0]}</div><div class="m"><b>${a[1]}</b><small>${a[2]}</small></div></div>`).join('')}`;return}
  if(sub==='memo'){$('#ab').innerHTML=`<div class="memo">${[['07.12','편의점 사장님이 내 퇴근 시간에 맞춰 가게 밖에 나와 있다. 매일. 우연?'],['07.21','도어락에 GUEST 지문. 나는 등록한 적 없음. 5월 3일 밤 9시 47분.<br>5월 3일… 폰 편의점에 두고 온 날.'],['07.28','홈캠 공유 사용자 nightowl_247.<br>삭제가 안 된다. 관리자 권한.'],['08.02','강우한테 말할까. 헤어진 사람한테 이런 얘기 해도 되나.'],['08.05','증거 다 붙박이장 뒤에 숨김. 노트도.<br>내일 경찰서 간다. 택배만 찾고.']].map(m=>`<div style="margin-bottom:18px">${m[1]}<div class="md">2026.${m[0]}</div></div>`).join('')}</div>`}
- if(sub==='jmsg'){clue('last');$('#ab').innerHTML=`<div style="padding:6px 0 20px"><div class="bub-t">8월 3일 (월) · 서강우</div><div class="bub me">요즘 좀 이상한 일 있어</div><div class="bub">무슨 일?</div><div class="bub">말해봐</div><div class="bub-t" style="color:#c12d2d">재이가 답장하지 않음</div><div class="bub-t">8월 6일 (목) 오후 9:24 · 서강우에게</div><div class="bub fail">편의점 창고 지하. 사장이</div><div class="bub-t" style="color:#d13438">전송 실패 · 임시저장됨</div></div>`}
+ if(sub==='jmsg'){clue('last');$('#ab').innerHTML=`<div style="padding:6px 0 20px"><div class="bub-t">8월 3일 (월) · 서강우</div><div class="bub me">요즘 좀 이상한 일 있어</div><div class="bub">무슨 일?</div><div class="bub">말해봐</div><div class="bub-t" style="color:#c12d2d">재이가 답장하지 않음</div><div class="bub-t">8월 6일 (목) 오후 9:24 · 서강우에게</div><div class="bub fail">편의점 창고 지하. 사장이</div><div class="bub-t" style="color:#d13438">전송 실패 · 클라우드 임시저장됨<br><span style="color:#8a8a92">재이의 다른 기기에서 작성</span></div></div>`}
  if(sub==='shot'){$('#ab').innerHTML=`<div class="pad"><div class="card"><b style="font-size:13px">스크린샷 · 07.28</b><div style="background:#0e1016;color:#e7e9ee;border-radius:10px;padding:12px;margin-top:8px;font-size:13px"><div class="kv"><span>공유 사용자</span><span>nightowl_247</span></div><div class="kv"><span>권한</span><span>관리자</span></div><div style="color:#ff8a8a;font-size:12px;margin-top:6px">삭제 권한이 없습니다.</div></div></div><div class="card"><b style="font-size:13px">스크린샷 · 08.05 23:30</b><div style="margin-top:8px;border-radius:10px;overflow:hidden;line-height:0">${wallSVG().replace('viewBox="0 0 400 860"','viewBox="60 540 300 220"')}</div><p class="muted" style="margin-top:6px">302호 창문에서 본 석만마트. 가게 안에서 누군가 이쪽을 보고 있다.</p></div></div>`}
  $('#ah').innerHTML=`<button class="bk" data-appgo="${sub?'jp':'home'}">‹ ${sub?'뒤로':'홈'}</button><span>재이의 휴대폰</span>`}
 
@@ -567,11 +571,11 @@ WP['place.naru.kr/seokman']=()=>{clue('osmplace');return `${slot('mart','<div st
  <b style="display:block;margin:16px 0 6px">방문자 리뷰</b>
  ${[['망원새댁','사장님이 이름까지 기억해주세요 ㅎㅎ 택배 맡기기 최고','★★★★★','06.11'],['야근러','새벽에 가도 항상 계심. 커피 서비스 감사합니다','★★★★★','09.02'],['해담빌라 2층','매일 아침 들르는데 인사가 정겹습니다','★★★★☆','10.19'],['(탈퇴한 사용자)','사장님이 제 퇴근 시간을 너무 잘 아세요. 오늘은 제 택배를 들고 가게 밖에 서 계셨어요.','★★★☆☆','07.30'],['산책러','지하 창고 공사 언제 끝나요? 3개월째네','★★★★☆','11.08']].map(r=>`<div style="padding:12px 0;border-bottom:1px solid #f0f0f0;font-size:14px;line-height:1.6"><b style="font-size:13px">${r[0]}</b> <span style="color:#f5a623;font-size:11px">${r[2]}</span> <span class="muted" style="font-size:11px">${r[3]}</span><div>${r[1]}</div></div>`).join('')}
  <div class="muted" style="font-size:11px;margin-top:10px">사장님 답글: “항상 지켜보고 있습니다^^ 언제든 들르세요” (07.31)</div></div>`};
-WP['zipbang.kr/302']=()=>{clue('listing');return `<div style="background:#ff5a3c;color:#fff;padding:12px 16px;font-weight:800;font-size:18px">집방</div><div style="height:200px;background:linear-gradient(135deg,#d9d4cc,#f2efe9);display:flex;align-items:center;justify-content:center;color:#8a8278;font-size:13px;position:relative;overflow:hidden">사진 12장 · 리모델링 완료<img src="img/listing.jpg" alt="" onerror="F(this,'listing')" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span style="position:absolute;left:10px;top:10px;background:#c12d2d;color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;z-index:1">급매</span><span style="position:absolute;right:10px;bottom:10px;background:rgba(0,0,0,.55);color:#fff;font-size:11px;padding:3px 8px;border-radius:6px;z-index:1">1 / 12</span></div>
- <div class="pad"><div class="muted" style="font-size:12px">빌라 · 마포구 망원동 · 3층</div><div class="h1" style="margin-top:4px">월세 500 / 38</div><div style="font-size:14px;margin-bottom:12px">해담빌라 302호 · 스마트홈 풀옵션</div>
- <div class="card"><div class="row"><span>전용면적</span><span>26.4㎡ (8평)</span></div><div class="row"><span>구조</span><span>투룸 · 붙박이장</span></div><div class="row"><span>옵션</span><span>스마트 도어락 · AI 스피커 · 홈캠 · 로봇청소기</span></div><div class="row"><span>주변 시세</span><span>월 63만 원 (<b style="color:#c12d2d">-40%</b>)</span></div><div class="row"><span>공실</span><span>2026.08 ~</span></div><div class="row"><span>등록</span><span>09.01 · 수정 11.10</span></div><div class="row"><span>조회</span><span>3,412회 · 문의 0건</span></div></div>
+WP['zipbang.kr/302']=()=>{clue('listing');return `<div style="background:#ff5a3c;color:#fff;padding:12px 16px;font-weight:800;font-size:18px">집방</div><div style="height:200px;background:linear-gradient(135deg,#d9d4cc,#f2efe9);display:flex;align-items:center;justify-content:center;color:#8a8278;font-size:13px;position:relative;overflow:hidden">사진 12장 · 리모델링 완료<img src="img/listing.jpg" alt="" onerror="F(this,'listing')" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span style="position:absolute;left:10px;top:10px;background:#c12d2d;color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;z-index:1">${S.end==='C'?'재등록 · 급매':'급매'}</span><span style="position:absolute;right:10px;bottom:10px;background:rgba(0,0,0,.55);color:#fff;font-size:11px;padding:3px 8px;border-radius:6px;z-index:1">1 / 12</span></div>
+ <div class="pad"><div class="muted" style="font-size:12px">빌라 · 마포구 망원동 · 3층</div><div class="h1" style="margin-top:4px">월세 500 / ${S.end==='C'?'35':'38'}</div><div style="font-size:14px;margin-bottom:12px">해담빌라 302호 · 스마트홈 풀옵션</div>
+ <div class="card"><div class="row"><span>전용면적</span><span>26.4㎡ (8평)</span></div><div class="row"><span>구조</span><span>투룸 · 붙박이장</span></div><div class="row"><span>옵션</span><span>스마트 도어락 · AI 스피커 · 홈캠 · 로봇청소기</span></div><div class="row"><span>주변 시세</span><span>월 63만 원 (<b style="color:#c12d2d">-40%</b>)</span></div><div class="row"><span>공실</span><span>2026.08 ~</span></div><div class="row"><span>등록</span><span>${S.end==='C'?'11.20 재등록':'09.01 · 수정 11.10'}</span></div><div class="row"><span>조회</span><span>3,412회 · 문의 0건</span></div></div>
  <b style="display:block;margin:6px 0">중개사 코멘트</b><p style="font-size:14px;line-height:1.7;color:#3a3a40">전 세입자 짐 정리 완료되었습니다. 스마트홈 기기는 기존 그대로 사용 가능하며, 지문 초기화는 관리 업체를 통해 진행하시면 됩니다. 맞은편 24시 편의점 있어 생활 편리합니다.</p>
- <div class="card" style="margin-top:12px;background:#fff8f0;border-color:#ffd9c2"><b style="font-size:13px">Q&A (1)</b><div style="font-size:13px;margin-top:6px;line-height:1.6">Q. 왜 이렇게 싸요? 무슨 일 있었던 집인가요? <span class="muted">· 비공개 사용자 · 09.14</span><br><span style="color:#ff5a3c">A. 답변 대기 중</span></div></div>
+ <div class="card" style="margin-top:12px;background:#fff8f0;border-color:#ffd9c2"><b style="font-size:13px">Q&A (${S.end==='C'?2:1})</b>${S.end==='C'?`<div style="font-size:13px;margin-top:6px;line-height:1.6">Q. 전 세입자분들은 다 어디 가셨어요? <span class="muted">· 비공개 사용자 · 11.21</span><br><span style="color:#ff5a3c">A. 답변 대기 중</span></div>`:''}<div style="font-size:13px;margin-top:6px;line-height:1.6">Q. 왜 이렇게 싸요? 무슨 일 있었던 집인가요? <span class="muted">· 비공개 사용자 · 09.14</span><br><span style="color:#ff5a3c">A. 답변 대기 중</span></div></div>
  <div style="margin-top:12px">${mapBlock(200)}</div></div>`};
 WP['homekeeper.co.kr/faq']=()=>`<div style="background:#0e1016;color:#fff;padding:14px 16px;font-weight:800;letter-spacing:.08em;color:#12b7a5">HOMEKEEPER <span style="color:#7d8496;font-weight:400;letter-spacing:0;font-size:12px">고객센터</span></div><div class="pad"><div class="h1">자주 묻는 질문</div>${[['공유 사용자를 삭제할 수 없어요','관리자 권한을 가진 공유 사용자는 해당 계정 본인 또는 기기 초기화로만 삭제할 수 있습니다. 기기 초기화는 설치 업체 방문이 필요합니다.'],['이전 사용자의 계정이 로그인되어 있어요','이전 사용자의 비밀번호 없이 로그아웃할 수 없습니다. 기록은 기기에 남아 있으며, 기록 동기화로 최신 기록을 불러올 수 있습니다.'],['GUEST 지문은 무엇인가요?','등록자 이름 없이 추가된 지문입니다. 택배·가사도우미 등 임시 출입용으로 쓰입니다.'],['인증번호는 어디서 받나요?','기기에 새 기록이 생기면 앱 푸시로 6자리 인증번호가 발송됩니다.']].map(f=>`<div class="card"><b style="font-size:14px">Q. ${f[0]}</b><p style="font-size:13px;line-height:1.7;color:#4a4a52;margin-top:6px">${f[1]}</p></div>`).join('')}</div>`;
 WP['mangwon.town']=()=>`<div class="cm-top"><b>망원이웃</b></div><div class="pad" style="text-align:center"><p class="muted" style="margin:20px 0">웹에서는 일부 글만 볼 수 있습니다.</p><button class="btn" data-app="cm" style="background:#ff8a3d">앱에서 열기</button></div>`;
@@ -592,7 +596,7 @@ function renderWeb(){
 /* ---------- 지도 앱 ---------- */
 function renderMap(){
  $('#ab').innerHTML=`<div style="position:relative">${USE_GMAP?`<iframe src="${GMAP}" style="width:100%;height:calc(100dvh - 140px);min-height:420px;border:0;display:block" loading="lazy" title="지도"></iframe>`:`<div style="height:calc(100dvh - 140px);min-height:420px;display:flex;align-items:center;background:#eef1ec">${sketchMap()}</div>`}
- <div style="position:absolute;left:12px;right:12px;top:12px;background:#fff;border-radius:14px;box-shadow:0 4px 16px rgba(0,0,0,.18);padding:10px 14px;font-size:14px;display:flex;gap:8px;align-items:center">🔍 <span class="muted">장소, 주소 검색</span></div>
+ <div data-mapgo="naru.kr" style="position:absolute;left:12px;right:12px;top:12px;background:#fff;border-radius:14px;box-shadow:0 4px 16px rgba(0,0,0,.18);padding:10px 14px;font-size:14px;display:flex;gap:8px;align-items:center;cursor:pointer">🔍 <span class="muted">장소, 주소 검색</span></div>
 ${USE_GMAP?`<div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-150%);background:#fff;border-radius:8px;padding:5px 9px;font-size:12px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.25);pointer-events:none;white-space:nowrap">🏠 해담빌라 302호</div><div style="position:absolute;left:50%;top:50%;transform:translate(22%,-30%);background:#12b7a5;color:#04211e;border-radius:8px;padding:5px 9px;font-size:12px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.25);pointer-events:none;white-space:nowrap">🏪 석만마트 24</div>`:''}
  <div style="position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:18px 18px 0 0;box-shadow:0 -4px 16px rgba(0,0,0,.12);padding:14px 16px 16px"><div style="width:36px;height:4px;background:#d6d6dd;border-radius:2px;margin:0 auto 10px"></div><b>내 주변</b>
  <div class="li" style="padding:10px 0" data-mapgo="place.naru.kr/seokman"><div class="av sth" style="background:#12b7a5;width:44px;height:44px;border-radius:10px;font-size:13px">석<img src="img/mart.jpg" alt="" onerror="F(this,'mart')"></div><div class="m"><b style="font-size:14px">석만마트</b><small>편의점 · 24시간 · 도보 1분 · 맞은편</small></div><div class="t">★4.9</div></div>
@@ -612,10 +616,10 @@ const AI={
 };
 function apps(){
  const A=[
-  {id:'hk',n:'홈키퍼',bg:'#12b7a5',ic:AI.hk,nb:(sy('s4')&&!S.end)||S.end==='B'?'!':0},
+  {id:'hk',n:'홈키퍼',bg:'#12b7a5',ic:AI.hk,nb:(sy('s4')&&!S.end)||S.end==='B'||S.end==='C'?'!':0},
   {id:'cm',n:'망원이웃',bg:'#ff8a3d',ic:AI.cm},
   {id:'map',n:'지도',bg:'#fff',ic:'<svg viewBox="0 0 24 24"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z" fill="#e8f1ea" stroke="#3aa365" stroke-width="1.4"/><path d="M12 6.5a3 3 0 0 1 3 3c0 2.3-3 5.5-3 5.5s-3-3.2-3-5.5a3 3 0 0 1 3-3z" fill="#e5484d"/><circle cx="12" cy="9.5" r="1.1" fill="#fff"/></svg>'},
-  {id:'cam2',n:'카메라',bg:'#2c2c30',ic:AI.cam,toast:'카메라 권한이 없습니다'},
+  {id:'cam2',n:'카메라',bg:'#2c2c30',ic:AI.cam},
   {id:'note',n:'단서 수첩',bg:'#1c1c1f',ic:AI.note}
  ];
  if(sy('s3'))A.splice(2,0,{id:'jp',n:'재이의 폰',bg:'#3a2a3f',ic:AI.jp,isnew:!S.jp});
@@ -625,9 +629,9 @@ const DOCK=()=>[{id:'msg',n:'메시지',bg:'linear-gradient(180deg,#5fdc7a,#2fbf
 const appBtn=a=>`<button class="app ${a.isnew?'new':''}" data-app="${a.id}"><span class="ico" style="background:${a.bg}">${a.ic}${a.nb?`<span class="nb">${a.nb}</span>`:''}</span><span class="lb">${a.n}</span></button>`;
 function renderHome(){
  const t=new Date();const days='일월화수목금토';
- const warn=(sy('s4')&&!S.end)||S.end==='B';
+ const warn=(sy('s4')&&!S.end)||S.end==='B'||S.end==='C';
  $('#hs').innerHTML=`<div class="wall">${wallSVG()}<img src="img/wall.jpg" alt="" onerror="F(this,'wall')"></div><div class="hs-clock"><b id="hsTime">${clockHTML(t)}</b><span id="hsDate">${dateTxt(t)}</span></div>
- <div class="widget ${warn?'alert':''}" data-app="hk"><span class="wi">${AI.hk}</span><span><b>302호 · ${warn?'⚠ 이상 감지':S.end==='A'?'안전':'모든 문 잠김'}</b><small>${warn?'현관 기록을 확인하세요':'기기 7개 연결됨 · 이전 사용자 계정 로그인 중'}</small></span></div>
+ <div class="widget ${warn?'alert':''}" data-app="hk"><span class="wi">${AI.hk}</span><span><b>302호 · ${S.end==='C'?'사용자 부재':warn?'⚠ 이상 감지':S.end==='A'?'안전':'모든 문 잠김'}</b><small>${S.end==='C'?'관리자 nightowl_247 로그인 중':warn?'현관 기록을 확인하세요':'기기 7개 연결됨 · 이전 사용자 계정 로그인 중'}</small></span></div>
  <div class="grid4">${apps().map(appBtn).join('')}</div><div class="dock">${DOCK().map(appBtn).join('')}</div>`}
 function setTheme(m){const p=$('#phone');p.classList.remove('light','dark');if(m)p.classList.add(m)}
 function showHome(){$('#app').classList.remove('on');$('#sheet').classList.remove('on');renderHome();$('#hs').classList.add('on');setTheme('')}
@@ -636,6 +640,7 @@ function openApp(id,sub){
  if(a&&a.toast){toast(a.toast);return}
  if(id==='note'){openClues();return}
  if(id==='set'){openSet();return}
+ if(id==='cam2'){openCam();return}
  $('#hs').classList.remove('on');$('#app').classList.add('on');
  $('#ab').style.background='';$('#ab').scrollTop=0;
  const head=(t,b)=>{$('#ah').outerHTML=`<div class="ah" id="ah"><button class="bk" data-appgo="${b||'home'}">‹ ${b?'뒤로':'홈'}</button><span>${t}</span></div>`};
@@ -651,9 +656,9 @@ function openApp(id,sub){
 /* ---------- 엔딩 ---------- */
 function showEnd(k){
  const o=$('#endov');
- o.style.background=(k==='A'?'linear-gradient(180deg,rgba(14,42,38,.85),rgba(5,5,7,.95))':'linear-gradient(180deg,rgba(42,5,8,.85),rgba(5,5,7,.95))')+',url(img/basement.jpg) center/cover,url(basement.png) center/cover,#050507';
- o.innerHTML=k==='A'?`<div style="font-size:12px;letter-spacing:.3em;opacity:.7">ENDING · A</div><h2>문은 이제 닫혀 있다</h2><p>재이는 살아서 나왔다.<br>홈키퍼에서 낯선 계정이 사라졌다.<br>오늘 밤, 302호의 새벽 3시는 조용하다.</p><button data-endclose="1">홈 화면으로</button>`:`<div style="font-size:12px;letter-spacing:.3em;opacity:.7;color:#ff8a8a">ENDING · B</div><h2>OPEN DOOR</h2><p>창고는 비어 있었다.<br>새벽 3시 33분, 현관에서 지문 인식음이 들렸다.<br>침실 홈캠이 혼자 켜졌다.</p><button data-endclose="1">…</button>`;
- o.classList.add('on');if(k==='A')sfx('chord');else sfx('drone')}
+ o.style.background=(k==='A'?'linear-gradient(180deg,rgba(14,42,38,.85),rgba(5,5,7,.95))':k==='C'?'linear-gradient(180deg,rgba(8,8,10,.8),rgba(0,0,0,.97))':'linear-gradient(180deg,rgba(42,5,8,.85),rgba(5,5,7,.95))')+',url(img/basement.jpg) center/cover,url(basement.png) center/cover,#050507';
+ o.innerHTML=k==='C'?`<div style="font-size:12px;letter-spacing:.3em;opacity:.6">ENDING · C</div><h2>302호의 다음 세입자</h2><p>철문이 바깥에서 잠겼다.<br>어둠 속에서 누군가 내 이름을 불렀다.<br>재이였다.<br><br>위층에서, 내 휴대폰 잠금이 풀리는 소리가 났다.</p><button data-endclose="1">…</button>`:k==='A'?`<div style="font-size:12px;letter-spacing:.3em;opacity:.7">ENDING · A</div><h2>문은 이제 닫혀 있다</h2><p>재이는 살아서 나왔다.<br>홈키퍼에서 낯선 계정이 사라졌다.<br>오늘 밤, 302호의 새벽 3시는 조용하다.</p><button data-endclose="1">홈 화면으로</button>`:`<div style="font-size:12px;letter-spacing:.3em;opacity:.7;color:#ff8a8a">ENDING · B</div><h2>OPEN DOOR</h2><p>창고는 비어 있었다.<br>새벽 3시 33분, 현관에서 지문 인식음이 들렸다.<br>침실 홈캠이 혼자 켜졌다.</p><button data-endclose="1">…</button>`;
+ o.classList.add('on');if(k==='A')sfx('chord');else sfx('drone');if(k==='C')vib([400,200,400,200,800])}
 
 /* ---------- 이벤트 ---------- */
 document.addEventListener('click',e=>{
@@ -667,6 +672,7 @@ document.addEventListener('click',e=>{
  const wbk=e.target.closest('[data-wback]');if(wbk){if(WB.back.length){WB.cur=WB.back.pop();renderWeb()}return}
  const mg=e.target.closest('[data-mapgo]');if(mg){openApp('web');webGo(mg.dataset.mapgo);return}
  const tt=e.target.closest('[data-toast]');if(tt){toast(tt.dataset.toast);return}
+ const jc=e.target.closest('[data-jpcharge]');if(jc){jpBoot();return}
  const jk=e.target.closest('[data-jp]');if(jk){const k=jk.dataset.jp;sfx('tap');if(k==='지우기')jpCode=jpCode.slice(0,-1);else if(jpCode.length<4)jpCode+=k;
   document.querySelectorAll('#jpPins i').forEach((d,i)=>d.classList.toggle('f',i<jpCode.length));
   if(jpCode.length===4)setTimeout(()=>{if(fnv(jpCode)==='832f01b5'){S.jp=true;save();sfx('click');renderJP();}else{sfx('err');vib([40,40,40]);const p=$('#jpPins');p.classList.remove('shake');void p.offsetWidth;p.classList.add('shake');jpCode='';document.querySelectorAll('#jpPins i').forEach(d=>d.classList.remove('f'))}},200);return}
@@ -683,16 +689,29 @@ document.addEventListener('submit',e=>{
   const c=(d.c||'').replace(/\D/g,'');const s=SYNCS[fnv(c)];const err=f.querySelector('.err');
   if(!s){err.textContent='유효하지 않은 인증번호입니다.';sfx('err');vib([40,40,40]);return}
   if(S.sync[s.k]){err.textContent='이미 동기화된 기록입니다.';return}
-  S.sync[s.k]=true;
-  if(s.k==='endA')S.end='A';if(s.k==='endB')S.end='B';
+  S.sync[s.k]=true;S.st=S.st||{};S.st[s.k]=Date.now();
+  if(s.k==='endA')S.end='A';if(s.k==='endB')S.end='B';if(s.k==='endC')S.end='C';
   if(s.k==='s1')clue('s1');if(s.k==='s2')clue('s2');if(s.k==='s4')clue('s4');
   S.hkTab=s.tab;save();
   const ph=$('#phone');ph.classList.remove('glitch');void ph.offsetWidth;if(s.k!=='endA')ph.classList.add('glitch');
-  ({s1:'lumi',s2:'open',s3:'hk',s4:'fail',endA:'hk',endB:'open'})[s.k]&&(sfx(({s1:'lumi',s2:'open',s3:'hk',s4:'fail',endA:'hk',endB:'open'})[s.k]),vib(s.k==='s4'||s.k==='endB'?[200,100,200,100,400]:[120,80,120]),muteNext=true);
+  ({s1:'lumi',s2:'open',s3:'hk',s4:'fail',endA:'hk',endB:'open',endC:'fail'})[s.k]&&(sfx(({s1:'lumi',s2:'open',s3:'hk',s4:'fail',endA:'hk',endB:'open',endC:'fail'})[s.k]),vib(s.k==='s4'||s.k==='endB'||s.k==='endC'?[200,100,200,100,400]:[120,80,120]),muteNext=true);
   toast(s.t,'홈키퍼',s.k==='endA'?'#12b7a5':'#d13438');
-  setTimeout(()=>{renderHK();$('#ab').scrollTop=0;if(s.k==='endA'||s.k==='endB')setTimeout(()=>showEnd(s.k==='endA'?'A':'B'),1600)},500);
+  setTimeout(()=>{renderHK();$('#ab').scrollTop=0;if(s.k==='endA'||s.k==='endB'||s.k==='endC')setTimeout(()=>showEnd(s.k.slice(3)),1600)},500);
  }
 });
+function jpBoot(){const b=$('#jpOff');if(!b||b.dataset.busy)return;b.dataset.busy=1;sfx('click');vib(40);
+ b.innerHTML=`<svg viewBox="0 0 60 30" style="width:110px;margin-bottom:14px"><rect x="2" y="3" width="50" height="24" rx="5" fill="none" stroke="#7d7d7d" stroke-width="2.5"/><rect x="54" y="10" width="4" height="10" rx="1.5" fill="#7d7d7d"/><rect id="jpLv" x="6" y="7" width="1" height="16" rx="1" fill="#34c759"/><path d="M29 6l-6 10h5l-2 8 7-11h-5z" fill="#fff"/></svg><div id="jpPct" style="font-size:22px;font-weight:300">0%</div>`;
+ let n=0;const iv=setInterval(()=>{n++;$('#jpPct').textContent=n+'%';$('#jpLv').setAttribute('width',1+n*3);if(n>=3){clearInterval(iv);setTimeout(()=>{
+  b.innerHTML=`<div style="font-size:30px;font-weight:200;letter-spacing:.3em;opacity:.9">○</div><div id="jpBt" style="font-size:12px;opacity:.55;margin-top:16px">부팅 중…</div>`;
+  setTimeout(()=>{const t=$('#jpBt');if(t)t.textContent='Wi-Fi 연결됨 · 클라우드 동기화 중…'},1400);
+  setTimeout(()=>{const t=$('#jpBt');if(t)t.textContent='임시저장 메시지 1개를 불러왔습니다'},2700);
+  setTimeout(()=>{S.jpOn=true;save();sfx('clue');vib(60);renderJP()},3800)},700)}},900)}
+function openCam(){if($('#camov'))return;const o=document.createElement('div');o.id='camov';
+ o.style.cssText='position:absolute;inset:0;z-index:52;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:46px 20px 40px;color:#fff;animation:fadein .2s';
+ o.innerHTML=`<div style="font-size:12px;letter-spacing:.2em;opacity:.7">PHOTO</div><div style="position:relative;width:100%;flex:1;margin:16px 0;border-radius:6px;overflow:hidden;background:radial-gradient(circle at 50% 45%,#1b1d22,#050506 70%)"><div class="camnz" style="position:absolute;inset:0;opacity:.25;background:repeating-linear-gradient(0deg,rgba(255,255,255,.08) 0 1px,transparent 1px 3px)"></div><div id="camMsg" style="position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;font-size:14px;opacity:.6">카메라를 여는 중…</div></div><div style="width:68px;height:68px;border-radius:50%;border:4px solid #fff;opacity:.5"></div>`;
+ $('#phone').appendChild(o);sfx('click');
+ setTimeout(()=>{const m=$('#camMsg');if(!m)return;m.style.opacity=1;m.style.color='#ff8a8a';m.innerHTML='카메라를 사용할 수 없습니다<br><span style="font-size:12px;color:#aaa">다른 기기에서 카메라를 사용 중입니다</span>';sfx('err');vib([60,40,60])},1300);
+ setTimeout(()=>{o.remove()},3400)}
 function openSet(){
  const row=(k,l,d)=>`<div class="setrow" data-tog="${k}"><span><b>${l}</b><small>${d}</small></span><i class="sw ${S[k]===false?'':'on'}"></i></div>`;
  $('#sheetIn').innerHTML=`<div class="sheet-h"><b>설정</b><button class="x">✕</button></div>${row('snd','소리','알림음·도어락·루미 효과음')}${row('vib','진동','알림 진동 (안드로이드)')}<div class="setrow dis"><span><b>공유 사용자 관리</b><small>설정을 변경할 수 없습니다</small></span><span style="color:#d13438;font-size:12px">관리자 전용</span></div>`;
@@ -711,19 +730,40 @@ $('#lockwall').innerHTML=wallSVG()+'<img src="img/wall.jpg" alt="" onerror="F(th
 function clockHTML(t){return t.getHours()+'<span class="colon">:</span>'+String(t.getMinutes()).padStart(2,'0')}
 function dateTxt(t){return `${t.getMonth()+1}월 ${t.getDate()}일 ${'일월화수목금토'[t.getDay()]}요일`}
 if(!S.t0){S.t0=Date.now();save()}
+function relUpd(){document.querySelectorAll('.rel').forEach(e=>{const at=+e.dataset.ts,d=Math.floor((Date.now()-at)/60000);
+ e.textContent=d<1?'방금':d<60?d+'분 전':d<24*60?Math.floor(d/60)+'시간 전':new Date(at).getMonth()+1+'월 '+new Date(at).getDate()+'일'})}
+function renderLock(){const st=S.st||{},at=k=>st[k]||((S.t0||Date.now())+({s1:1,s2:2,s3:3,s4:4,endA:5,endB:5,endC:5}[k]||0)),N=[];
+ if(S.end==='B')N.push(['메시지','석만마트: 자요? ^^',1,at('endB')]);
+ if(S.end==='A')N.push(['홈키퍼','관리자 계정 nightowl_247이 삭제되었습니다.',0,at('endA')]);
+ if(S.end==='C'){N.push(['전화','부재중 전화 3통 · 서강우',1,at('endC')+3]);N.push(['메시지','서강우: 전화 좀 받아요',0,at('endC')+2]);N.push(['홈키퍼','새 기기에서 로그인했습니다: nightowl_247',1,at('endC')+1])}
+ if(sy('s4')&&!S.end){N.push(['메시지','석만마트: 늦게까지 안 주무시네요^^',0,at('s4')+1]);N.push(['홈키퍼','현관 비밀번호 오류 3회. 외부 침입 시도가 감지되었습니다.',1,at('s4')])}
+ if(sy('s3'))N.push(['홈키퍼','근처에서 꺼진 기기 1대가 감지되었습니다.',0,at('s3')]);
+ if(sy('s2'))N.push(['메시지','서강우: 아까 누가 302호 들어가던데?',0,at('s2')]);
+ if(sy('s1'))N.push(['홈키퍼','공유 사용자가 침실 홈캠을 시청했습니다. (15분)',1,at('s1')]);
+ N.push(['메시지','석만마트: 302호 새로 오셨죠? 택배 맡아드려요^^',0,S.t0-47*60000]);
+ N.push(['홈키퍼','이전 사용자 ‘jaei.yun’의 계정이 로그아웃되지 않았습니다.',1,S.t0-511*60000]);
+ N.push(['홈키퍼','302호 기기 7개가 이 휴대폰에 연결되었습니다.',0,S.t0-512*60000]);
+ N.sort((a,b)=>b[3]-a[3]);const more=N.length-4;
+ $('#lkNotis').innerHTML=N.slice(0,4).map(n=>`<div class="noti ${n[2]?'red':''}"><b><span>${n[0]}</span><span class="rel" data-ts="${n[3]}"></span></b>${n[1]}</div>`).join('')+(more>0?`<div style="text-align:center;font-size:12px;opacity:.6;margin-top:2px">알림 ${more}개 더 보기</div>`:'');relUpd()}
+function lockNow(){renderLock();$('#lock').classList.remove('off')}
+let hideAt=0;document.addEventListener('visibilitychange',()=>{if(document.hidden)hideAt=Date.now();else if(S.intro&&hideAt&&Date.now()-hideAt>30000&&$('#lock').classList.contains('off'))lockNow()});
+function ev311(){const ph=$('#phone');ph.classList.remove('glitch');void ph.offsetWidth;ph.classList.add('glitch');sfx('lumi');vib([200,100,200]);muteNext=true;toast('“홈캠을 켭니다.”','루미','#d13438')}
+let idleT,idled=false;function idleReset(){clearTimeout(idleT);if(idled)return;idleT=setTimeout(()=>{if(S.intro&&$('#lock').classList.contains('off')){idled=true;sfx('lumi');muteNext=true;toast('“듣고 있어요.”','루미','#12b7a5')}},180000)}
+['pointerdown','keydown'].forEach(ev=>document.addEventListener(ev,idleReset));idleReset();
+renderLock();
 let lastMin=-1;
 (function tick(){const t=new Date(),m=t.getHours()*60+t.getMinutes();
  if(m!==lastMin){lastMin=m;const plain=t.getHours()+':'+String(t.getMinutes()).padStart(2,'0');
   $('#clk').textContent=plain;$('#lkTime').innerHTML=clockHTML(t);$('#lkDate').textContent=dateTxt(t);
   const h=$('#hsTime');if(h){h.innerHTML=clockHTML(t);$('#hsDate').textContent=dateTxt(t)}
-  document.querySelectorAll('.rel').forEach(e=>{const at=S.t0-(+e.dataset.ago)*60000,d=Math.floor((Date.now()-at)/60000);
-   e.textContent=d<1?'방금':d<60?d+'분 전':d<24*60?Math.floor(d/60)+'시간 전':new Date(at).getMonth()+1+'월 '+new Date(at).getDate()+'일'});
+  relUpd();
+  if(t.getHours()===3&&t.getMinutes()===11&&S.intro){const dy=t.toDateString();if(S.e311!==dy){S.e311=dy;save();ev311()}}
   const b=Math.max(7,64-Math.floor((Date.now()-S.t0)/240000));$('#batN').textContent=b+'%';$('#bat i').style.width=b+'%';
   $('#bat').classList.toggle('low',b<=20);$('#batN').classList.toggle('low',b<=20);
   if(b<=20&&!S.lowbat){S.lowbat=1;save();setTimeout(()=>toast('배터리 잔량 '+b+'%. 저전력 모드를 켜시겠습니까?','배터리','#ff453a'),400)}}
  setTimeout(tick,1000-t.getMilliseconds()+5)})();
 $('#start').onclick=()=>{au();sfx('click');$('#intro').classList.add('off');S.intro=true;save()};
-$('#unlockBtn').onclick=()=>{sfx('click');vib(20);$('#lock').classList.add('off');showHome();setTimeout(()=>{if(!has('martmsg'))toast('302호 새로 오셨죠? 택배 맡아드려요^^','석만마트','#12b7a5')},900)};
+$('#unlockBtn').onclick=()=>{sfx('click');vib(20);$('#lock').classList.add('off');if(!$('#app').classList.contains('on'))showHome();setTimeout(()=>{if(!has('martmsg'))toast('302호 새로 오셨죠? 택배 맡아드려요^^','석만마트','#12b7a5')},900)};
 if(S.intro)$('#intro').style.display='none';
 })();
 </script>
