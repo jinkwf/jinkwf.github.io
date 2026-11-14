@@ -18,7 +18,11 @@ button,input{font:inherit}
 .status b{font-weight:600}
 .sic{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600}
 .bat{width:22px;height:11px;border:1.4px solid currentColor;border-radius:3px;padding:1px;position:relative}
-.bat i{display:block;height:100%;width:64%;background:currentColor;border-radius:1px}
+.bat i{display:block;height:100%;width:64%;background:currentColor;border-radius:1px;transition:width .6s}
+.bat.low i{background:#ff453a}.bat.low+.bt,.bt.low{color:#ff453a}
+.colon{display:inline-block;animation:blink 1s steps(1) infinite;margin:0 .02em}
+@keyframes blink{50%{opacity:0}}
+.lk-time,.hs-clock b{font-variant-numeric:tabular-nums}
 .phone.light .status{color:#1c1c1f;background:#f6f6f8}
 .phone.dark .status{background:#0e1016}
 /* layers */
@@ -208,7 +212,7 @@ button,input{font:inherit}
 </head>
 <body>
 <div class="phone" id="phone">
-  <div class="status"><b id="clk">23:14</b><span class="sic"><svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx="1" fill="currentColor"/><rect x="4.5" y="5" width="3" height="6" rx="1" fill="currentColor"/><rect x="9" y="2.5" width="3" height="8.5" rx="1" fill="currentColor"/><rect x="13.5" y="0" width="3" height="11" rx="1" fill="currentColor"/></svg><svg width="15" height="11" viewBox="0 0 15 11"><path d="M7.5 10.5l2.2-2.6a3 3 0 0 0-4.4 0z" fill="currentColor"/><path d="M3.4 5.9a5.8 5.8 0 0 1 8.2 0" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M1 3.4a9.2 9.2 0 0 1 13 0" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>64%<span class="bat"><i></i></span></span></div>
+  <div class="status"><b id="clk">23:14</b><span class="sic"><svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx="1" fill="currentColor"/><rect x="4.5" y="5" width="3" height="6" rx="1" fill="currentColor"/><rect x="9" y="2.5" width="3" height="8.5" rx="1" fill="currentColor"/><rect x="13.5" y="0" width="3" height="11" rx="1" fill="currentColor"/></svg><svg width="15" height="11" viewBox="0 0 15 11"><path d="M7.5 10.5l2.2-2.6a3 3 0 0 0-4.4 0z" fill="currentColor"/><path d="M3.4 5.9a5.8 5.8 0 0 1 8.2 0" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M1 3.4a9.2 9.2 0 0 1 13 0" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg><span class="bt" id="batN">64%</span><span class="bat" id="bat"><i></i></span></span></div>
   <div class="layer" id="hs"></div>
   <div class="layer" id="app"><div class="ah" id="ah"></div><div class="ab" id="ab"></div></div>
   <div class="homebar" id="homebar" aria-label="홈 화면"><i></i></div>
@@ -219,9 +223,9 @@ button,input{font:inherit}
     <div class="wall" id="lockwall"></div>
     <div style="font-size:15px;opacity:.9" id="lkDate">11월 13일 금요일</div>
     <div class="lk-time" id="lkTime">23:14</div>
-    <div class="noti"><b><span>홈키퍼</span><span>14:31</span></b>302호 기기 7개가 이 휴대폰에 연결되었습니다.</div>
-    <div class="noti red"><b><span>홈키퍼</span><span>14:31</span></b>이전 사용자 ‘jaei.yun’의 계정이 로그아웃되지 않았습니다.</div>
-    <div class="noti"><b><span>메시지</span><span>16:20</span></b>석만마트: 302호 새로 오셨죠? 택배 맡아드려요^^</div>
+    <div class="noti"><b><span>홈키퍼</span><span class="rel" data-ago="512">14:31</span></b>302호 기기 7개가 이 휴대폰에 연결되었습니다.</div>
+    <div class="noti red"><b><span>홈키퍼</span><span class="rel" data-ago="511">14:31</span></b>이전 사용자 ‘jaei.yun’의 계정이 로그아웃되지 않았습니다.</div>
+    <div class="noti"><b><span>메시지</span><span class="rel" data-ago="47">16:20</span></b>석만마트: 302호 새로 오셨죠? 택배 맡아드려요^^</div>
     <button class="unlock" id="unlockBtn">밀어서 잠금 해제</button>
   </div>
   <div class="intro" id="intro">
@@ -591,7 +595,7 @@ const appBtn=a=>`<button class="app ${a.isnew?'new':''}" data-app="${a.id}"><spa
 function renderHome(){
  const t=new Date();const days='일월화수목금토';
  const warn=(sy('s4')&&!S.end)||S.end==='B';
- $('#hs').innerHTML=`<div class="wall">${wallSVG()}<img src="wall.png" alt="" onerror="this.remove()"></div><div class="hs-clock"><b>${t.getHours()}:${String(t.getMinutes()).padStart(2,'0')}</b><span>${t.getMonth()+1}월 ${t.getDate()}일 ${days[t.getDay()]}요일</span></div>
+ $('#hs').innerHTML=`<div class="wall">${wallSVG()}<img src="wall.png" alt="" onerror="this.remove()"></div><div class="hs-clock"><b id="hsTime">${clockHTML(t)}</b><span id="hsDate">${dateTxt(t)}</span></div>
  <div class="widget ${warn?'alert':''}" data-app="hk"><span class="wi">${AI.hk}</span><span><b>302호 · ${warn?'⚠ 이상 감지':S.end==='A'?'안전':'모든 문 잠김'}</b><small>${warn?'현관 기록을 확인하세요':'기기 7개 연결됨 · 이전 사용자 계정 로그인 중'}</small></span></div>
  <div class="grid4">${apps().map(appBtn).join('')}</div><div class="dock">${DOCK().map(appBtn).join('')}</div>`}
 function setTheme(m){const p=$('#phone');p.classList.remove('light','dark');if(m)p.classList.add(m)}
@@ -666,7 +670,20 @@ $('#homebar').onclick=showHome;
 
 /* ---------- 시작 ---------- */
 $('#lockwall').innerHTML=wallSVG()+'<img src="wall.png" alt="" onerror="this.remove()">';
-(function clock(){const t=new Date();const s=t.getHours()+':'+String(t.getMinutes()).padStart(2,'0');$('#clk').textContent=s;$('#lkTime').textContent=s;const days='일월화수목금토';$('#lkDate').textContent=`${t.getMonth()+1}월 ${t.getDate()}일 ${days[t.getDay()]}요일`;setTimeout(clock,30000)})();
+function clockHTML(t){return t.getHours()+'<span class="colon">:</span>'+String(t.getMinutes()).padStart(2,'0')}
+function dateTxt(t){return `${t.getMonth()+1}월 ${t.getDate()}일 ${'일월화수목금토'[t.getDay()]}요일`}
+if(!S.t0){S.t0=Date.now();save()}
+let lastMin=-1;
+(function tick(){const t=new Date(),m=t.getHours()*60+t.getMinutes();
+ if(m!==lastMin){lastMin=m;const plain=t.getHours()+':'+String(t.getMinutes()).padStart(2,'0');
+  $('#clk').textContent=plain;$('#lkTime').innerHTML=clockHTML(t);$('#lkDate').textContent=dateTxt(t);
+  const h=$('#hsTime');if(h){h.innerHTML=clockHTML(t);$('#hsDate').textContent=dateTxt(t)}
+  document.querySelectorAll('.rel').forEach(e=>{const at=S.t0-(+e.dataset.ago)*60000,d=Math.floor((Date.now()-at)/60000);
+   e.textContent=d<1?'방금':d<60?d+'분 전':d<24*60?Math.floor(d/60)+'시간 전':new Date(at).getMonth()+1+'월 '+new Date(at).getDate()+'일'});
+  const b=Math.max(7,64-Math.floor((Date.now()-S.t0)/240000));$('#batN').textContent=b+'%';$('#bat i').style.width=b+'%';
+  $('#bat').classList.toggle('low',b<=20);$('#batN').classList.toggle('low',b<=20);
+  if(b<=20&&!S.lowbat){S.lowbat=1;save();setTimeout(()=>toast('배터리 잔량 '+b+'%. 저전력 모드를 켜시겠습니까?','배터리','#ff453a'),400)}}
+ setTimeout(tick,1000-t.getMilliseconds()+5)})();
 $('#start').onclick=()=>{$('#intro').classList.add('off');S.intro=true;save()};
 $('#unlockBtn').onclick=()=>{$('#lock').classList.add('off');showHome();setTimeout(()=>{if(!has('martmsg'))toast('302호 새로 오셨죠? 택배 맡아드려요^^','석만마트','#12b7a5')},900)};
 if(S.intro)$('#intro').style.display='none';
