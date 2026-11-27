@@ -147,6 +147,8 @@ section.on{display:block}
 .alb.lock .cv{filter:blur(3px) brightness(.5)}
 .alb .lk{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;color:var(--acid);z-index:2}
 .alb b{display:block;font-size:14.5px;font-weight:800;margin-top:10px}
+.au{font-style:normal;font-family:var(--mono);font-size:9.5px;font-weight:700;color:#0a0a0d;background:var(--acid);border-radius:20px;padding:2px 6px;vertical-align:middle;margin-left:4px}
+.alb.lock.playable .cv{filter:blur(2px) brightness(.6)}
 .alb span{font-size:12px;color:var(--sub)}
 
 /* world */
@@ -318,7 +320,7 @@ footer .mono{letter-spacing:2px;color:var(--sub)}
 <div class="player" id="player">
   <div class="in">
     <div class="art" id="pArt"></div>
-    <div class="info"><div class="t" id="pT">복숭아빛 새벽</div><div class="a" id="pA">글래스하우스</div></div>
+    <div class="info"><div class="t" id="pT">Detune</div><div class="a" id="pA">DETUNE · ♪ 들을 수 있는 곡</div></div>
     <button class="pp" id="pp">▶</button>
   </div>
   <div class="bar"><i id="prog"></i></div>
@@ -341,6 +343,11 @@ const COVER={
  'Sunday Filter':IMG+'%EC%95%A8%EB%B2%94%EC%BB%A4%EB%B2%84-sunday%20Filter.png',
  '유리온실':IMG+'%EC%95%A8%EB%B2%94%EC%BB%A4%EB%B2%84-%EC%9C%A0%EB%A6%AC%EC%98%A8%EC%8B%A4.png',
  '복숭아빛 새벽':IMG+'%EB%B3%B5%EC%88%AD%EC%95%84%EB%B9%9B%EC%83%88%EB%B2%BD.png'
+};
+const AUDIO={
+ 'Detune':IMG+'Out%20of%20Tune.mp3',
+ '도돌이표':IMG+'%EB%8F%84%EB%8F%8C%EC%9D%B4%ED%91%9C.mp3',
+ '반음':IMG+'Semitone%20Away.mp3'
 };
 const GH='linear-gradient(135deg,#ffb4c8,#a9c8ff)', DT='linear-gradient(135deg,#1c1f14,#c6ff3d)';
 const bgOf=(t,fb)=>COVER[t]?`url('${COVER[t]}') center/cover,${fb}`:fb;
@@ -408,7 +415,7 @@ const memCard=k=>{const m=members[k];return `<div class="mem" data-m="${k}" styl
 document.getElementById('dtMembers').innerHTML=['wonrim','eunyul'].map(memCard).join('');
 document.getElementById('ghMembers').innerHTML=['haram','ijun','sea','dogyeom'].map(memCard).join('');
 
-const alb=(t,fb,artist,lock)=>{const bg=bgOf(t[0],fb);return `<div class="alb${lock?' lock':''}" data-t="${t[0]}" data-a="${artist}" data-bg="${esc(bg)}" ${lock?'data-lock="1"':''}><div style="position:relative"><div class="cv" style="background:${bg}"></div>${lock?'<div class="lk">🔒 UNRELEASED</div>':''}</div><b>${t[0]}</b><span>${t[1]}</span></div>`};
+const alb=(t,fb,artist,lock)=>{const bg=bgOf(t[0],fb);return `<div class="alb${lock?' lock':''}" data-t="${t[0]}" data-a="${artist}" data-bg="${esc(bg)}" ><div style="position:relative"><div class="cv" style="background:${bg}"></div>${lock?'<div class="lk">🔒 HIDDEN TRACK</div>':''}</div><b>${t[0]}${AUDIO[t[0]]?' <i class="au">♪ LISTEN</i>':''}</b><span>${t[1]}</span></div>`};
 document.getElementById('dtTracks').innerHTML=[['Detune','데뷔곡 · 노이즈록'],['도돌이표','포스트펑크'],['Encore','개러지록'],['반음','미발표 · 발라드']].map((t,i)=>alb(t,DT,'DETUNE',i===3)).join('');
 document.getElementById('ghTracks').innerHTML=[['Sunday Filter','신스팝 · 바이럴'],['유리온실','드림팝 · 대표곡'],['복숭아빛 새벽','인디팝 · 스테디']].map(t=>alb(t,GH,'글래스하우스')).join('');
 
@@ -436,10 +443,19 @@ document.addEventListener('click',e=>{
 /* player */
 const player=document.getElementById('player'),pp=document.getElementById('pp'),prog=document.getElementById('prog');
 let playing=false,timer,pos=0;
-set('pArt',bgOf('복숭아빛 새벽',GH));
-function setPlay(t,a,bg){document.getElementById('pT').textContent=t;document.getElementById('pA').textContent=a;set('pArt',bg);pos=0;start()}
-function start(){playing=true;player.classList.add('playing');pp.textContent='❚❚';clearInterval(timer);timer=setInterval(()=>{pos=(pos+1)%100;prog.style.width=pos+'%'},700)}
-function stop(){playing=false;player.classList.remove('playing');pp.textContent='▶';clearInterval(timer)}
+const audio=new Audio();audio.preload='none';
+let cur='Detune';
+set('pArt',bgOf('Detune',DT));
+audio.addEventListener('timeupdate',()=>{if(audio.duration)prog.style.width=(audio.currentTime/audio.duration*100)+'%'});
+audio.addEventListener('ended',()=>{stop();prog.style.width='0%'});
+function setPlay(t,a,bg){cur=t;document.getElementById('pT').textContent=t;document.getElementById('pA').textContent=a+(AUDIO[t]?' · ♪':' · 미리듣기 없음');set('pArt',bg);
+ audio.pause();prog.style.width='0%';pos=0;
+ if(AUDIO[t]){audio.src=AUDIO[t];}else{audio.removeAttribute('src');}
+ start()}
+function start(){playing=true;player.classList.add('playing');pp.textContent='❚❚';clearInterval(timer);
+ if(AUDIO[cur]){if(!audio.src)audio.src=AUDIO[cur];audio.play().catch(()=>stop());}
+ else{timer=setInterval(()=>{pos=(pos+1)%100;prog.style.width=pos+'%'},700)}}
+function stop(){playing=false;player.classList.remove('playing');pp.textContent='▶';clearInterval(timer);audio.pause()}
 pp.onclick=()=>playing?stop():start();
 </script>
 </body>
