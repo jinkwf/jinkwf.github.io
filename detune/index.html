@@ -351,7 +351,13 @@ set('ghHero',`url('${P.ghHero}') center/cover,#2b2433`);
 set('radioArt',bgOf('복숭아빛 새벽',GH));
 set('ocArt',bgOf('Detune',DT));
 
-const pal=['#3a2f5c','#1f4a4a','#5c2f2f','#2f3f5c','#4a3a1f','#2f5c3a','#5c2f4f','#334055','#4f4a2f','#2f4f5c','#553333','#3d3d4d'];
+const pal=[
+ 'linear-gradient(135deg,#ff9a8b,#ff6a88 55%,#6a3093)','linear-gradient(160deg,#43cea2,#185a9d)','linear-gradient(135deg,#f6d365,#fda085)',
+ 'linear-gradient(200deg,#5ee7df,#b490ca)','linear-gradient(135deg,#232526,#5f6b7a)','linear-gradient(160deg,#ff512f,#3d1a4a)',
+ 'linear-gradient(135deg,#a1c4fd,#c2e9fb)','linear-gradient(200deg,#2b5876,#4e4376)','linear-gradient(135deg,#d4fc79,#3a7d44)',
+ 'linear-gradient(160deg,#fbc2eb,#a6c1ee)','linear-gradient(135deg,#0f2027,#2c5364)','linear-gradient(200deg,#f093fb,#f5576c)',
+ 'linear-gradient(135deg,#e0c3fc,#8ec5fc)','linear-gradient(160deg,#c79081,#3b2a2a)','linear-gradient(135deg,#ffecd2,#fcb69f)',
+ 'linear-gradient(200deg,#30cfd0,#330867)','linear-gradient(135deg,#ee9ca7,#ffdde1)'];
 const chart=[
  ['Sunday Filter','글래스하우스','up',1,'신스팝'],['여름 정전','녹턴클럽','down',1,'인디록'],['복숭아빛 새벽','글래스하우스','same',0,'인디팝'],
  ['반지하 라디오','소란한 고양이들','new',0,'인디록'],['우산을 두고 왔어','오후세시반','up',3,'포크'],['종점','모노트램','down',2,'포스트록'],
@@ -364,7 +370,7 @@ const chart=[
 const ini=s=>s.replace(/\s/g,'').slice(0,2).toUpperCase();
 const chg=(k,n)=>k==='up'?`<em class="up">▲${n}</em>`:k==='down'?`<em class="down">▼${n}</em>`:k==='new'?`<em class="new">NEW</em>`:`<em class="same">—</em>`;
 const isG=a=>a==='글래스하우스';
-const fbOf=(c,i)=>isG(c[1])?GH:`linear-gradient(135deg,${pal[i%pal.length]},#111)`;
+const fbOf=(c,i)=>isG(c[1])?GH:pal[i%pal.length];
 const esc=s=>s.replace(/"/g,'&quot;');
 
 document.getElementById('top3').innerHTML=chart.slice(0,3).map((c,i)=>{
@@ -374,17 +380,17 @@ document.getElementById('chartList').innerHTML=chart.slice(3).map((c,j)=>{
  const i=j+3,bg=bgOf(c[0],fbOf(c,i));
  return `<div class="row" data-t="${c[0]}" data-a="${c[1]}" data-bg="${esc(bg)}">
   <div class="rank"><b>${String(i+1).padStart(2,'0')}</b>${chg(c[2],c[3])}</div>
-  <div class="art" style="background:${bg}">${COVER[c[0]]?'':ini(c[1])}</div>
+  <div class="art" style="background:${bg}"></div>
   <div class="info"><div class="t">${c[0]}</div><div class="a">${isG(c[1])?'<span class="gh">글래스하우스</span>':c[1]} · ${c[4]}</div></div>
   <span class="pl">▶</span></div>`}).join('');
 const d=new Date();document.getElementById('today').textContent=`${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
 
 const members={
- wonrim:{name:'서원림',hanja:'援臨',age:26,part:'DETUNE · GUITAR / COMPOSER',band:'dt',bg:'linear-gradient(160deg,#23251c,#0d0d10)',
+ wonrim:{img:IMG+'%EC%9E%A5%EB%82%9C%EC%8A%A4%EB%A0%88%20%EC%9B%83%EB%8A%94%EB%8B%A4.png',name:'서원림',hanja:'援臨',age:26,part:'DETUNE · GUITAR / COMPOSER',band:'dt',bg:'linear-gradient(160deg,#23251c,#0d0d10)',
   look:'182cm, 마른 근육형. 헝클어진 흑발 아래 반쯤 풀린 듯 나른하지만 날카로운 눈. 늘 한쪽 입꼬리를 비틀어 올린 비웃는 표정, 왼쪽 귀의 피어싱들, 오른쪽 눈썹 끝 작은 흉터. 굳은살 박인 손끝.',
   about:'능글맞고 뻔뻔한 직설가. 아픈 데만 골라 찌르는 독설가지만, 연주에 관해선 지독한 완벽주의자.',
   say:'뭘 봐? 그렇게 볼 시간에 연습이나 더 해.'},
- eunyul:{name:'배은율',age:25,part:'DETUNE · VIOLIN',band:'dt',bg:'linear-gradient(160deg,#2a3140,#0d0d10)',
+ eunyul:{img:IMG+'%EC%9D%80%EC%9C%A8.png',name:'배은율',age:25,part:'DETUNE · VIOLIN',band:'dt',bg:'linear-gradient(160deg,#2a3140,#0d0d10)',
   look:'179cm, 가늘고 곧은 체형. 단정하게 넘긴 밤색 머리, 쌍꺼풀 진 차분한 눈매. 흰 셔츠를 목 끝까지 잠그고 다닌다. 왼쪽 턱 아래 바이올린 자국, 길고 가는 손가락.',
   about:'밖에서는 과묵하다. 집에 들어서는 순간 말이 많아지는 TMI 수다쟁이. 원림의 변칙 연주를 받아낼 수 있는 유일한 사람.',
   say:'밖에선 말 안 해. 집에 가서 해, 할 말 많으니까.'},
