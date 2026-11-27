@@ -305,7 +305,7 @@ const members={
   look:'깔끔하고 정확한 테크니션.',about:'같은 기타리스트라 씬에서 원림과 자주 비교당한다. 예의 바르지만 원림을 은근히 의식한다.',say:'틀린 음은 안 치는 게 실력이죠.'},
  sea:{img:IMG+'%EB%AC%B8%EC%84%B8%EC%95%84.png',name:'문세아',age:24,part:'GLASSHOUSE · 베이스',bg:'#4db6ac',
   look:'무던한 분위기 메이커.',about:'사실은 디튠 팬이라는 소문이 있다. 두 밴드 사이의 허술한 연결고리.',say:'저 그 공연 안 갔어요. ...앞줄에 있긴 했는데.'},
- dogyeom:{name:'권도겸',age:27,part:'GLASSHOUSE · 드럼',bg:'#90a4ae',
+ dogyeom:{img:IMG+'%EA%B6%8C%EB%8F%84%EA%B2%B8.png',name:'권도겸',age:27,part:'GLASSHOUSE · 드럼',bg:'#90a4ae',
   look:'기획사 연습생 출신.',about:'밴드의 실무와 일정을 맡는다. 계산이 빠르다.',say:'다음 주 일정, 단톡에 올렸어요. 읽으세요.'}
 };
 const memCard=k=>{const m=members[k];return `<div class="mem" data-m="${k}"><div class="av" style="background:${m.img?`url('${m.img}')`:m.bg}">${m.img?'':m.name.slice(1)}</div><b>${m.name}</b><span>${m.part.split('· ')[1]}</span><div class="line">"${m.say}"</div></div>`};
