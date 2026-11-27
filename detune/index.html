@@ -26,7 +26,7 @@ section{display:none}
 section.on{display:block}
 
 /* banner */
-.banner{margin:16px 16px 6px;border-radius:16px;padding:20px 18px;background:linear-gradient(135deg,#17171c 0%,#2a2d36 60%,#13c75a 160%);color:#fff;position:relative;overflow:hidden}
+.banner{margin:16px 16px 6px;border-radius:16px;padding:90px 18px 20px;background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.85) 85%),url('https://jinkwf.github.io/detune/%EB%A9%94%EC%9D%B8%20%EB%B0%B0%EB%84%88.png') center/cover,#17171c;color:#fff;position:relative;overflow:hidden}
 .banner .tag{display:inline-block;font-size:11px;font-weight:700;background:var(--g);color:#fff;border-radius:20px;padding:3px 9px;margin-bottom:10px}
 .banner h2{font-size:19px;line-height:1.4;font-weight:800;letter-spacing:-.3px}
 .banner p{font-size:12.5px;opacity:.7;margin-top:6px}
@@ -54,7 +54,7 @@ section.on{display:block}
 .rank b{display:block;font-size:16px;font-weight:800}
 .rank em{display:block;font-style:normal;font-size:10px;font-weight:700;margin-top:1px}
 .up{color:var(--red)}.down{color:var(--blue)}.new{color:var(--g-dark)}.same{color:#bbb}
-.art{width:46px;height:46px;border-radius:6px;flex-shrink:0;display:grid;place-items:center;color:#fff;font-weight:900;font-size:15px;letter-spacing:-.5px;text-shadow:0 1px 3px rgba(0,0,0,.25)}
+.art{background-size:cover!important;background-position:center!important;width:46px;height:46px;border-radius:6px;flex-shrink:0;display:grid;place-items:center;color:#fff;font-weight:900;font-size:15px;letter-spacing:-.5px;text-shadow:0 1px 3px rgba(0,0,0,.25)}
 .info{flex:1;min-width:0}
 .info .t{font-size:14.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .info .a{font-size:12.5px;color:var(--sub);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -70,17 +70,19 @@ section.on{display:block}
 /* artist */
 .artist-hero{position:relative;padding:28px 18px 22px;color:#fff}
 .artist-hero.dt{background:linear-gradient(160deg,#101014 0%,#262832 70%,#3a3f2a 130%)}
-.artist-hero.gh{background:linear-gradient(160deg,#f7c6d0 0%,#c9d9ff 60%,#e7f7ff 120%);color:#2b2b35}
+.artist-hero.gh{background:linear-gradient(180deg,rgba(0,0,0,0) 20%,rgba(0,0,0,.75) 100%),url('https://jinkwf.github.io/detune/%EA%B8%80%EB%9E%98%EC%8A%A4%ED%95%98%EC%9A%B0%EC%8A%A4%20%EC%95%84%ED%8B%B0%EC%8A%A4%ED%8A%B8%20%EC%BB%A4%EB%B2%84.png') center/cover;color:#fff;padding-top:120px}
+.group{margin:0 16px;border-radius:14px;overflow:hidden}.group img{width:100%;display:block}
 .artist-hero .type{font-size:11px;font-weight:700;opacity:.7;letter-spacing:1px}
 .artist-hero h2{font-size:30px;font-weight:900;letter-spacing:-.5px;margin:4px 0}
 .artist-hero p{font-size:13px;line-height:1.6;opacity:.8}
 .artist-hero .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
 .artist-hero .chips span{font-size:11px;font-weight:700;padding:4px 9px;border-radius:20px;background:rgba(255,255,255,.15)}
-.artist-hero.gh .chips span{background:rgba(255,255,255,.6)}
+.artist-hero.gh .chips span{background:rgba(255,255,255,.2)}
 .sub-hd{font-size:16px;font-weight:800;padding:20px 18px 10px}
 .members{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px}
 .members.four{grid-template-columns:1fr 1fr}
 .mem{border:1px solid var(--line);border-radius:14px;padding:14px;cursor:pointer;background:#fff}
+.mem .av,.sheet .pf .av{background-size:cover!important;background-position:center!important}
 .mem .av{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:18px;color:#fff;margin-bottom:10px}
 .mem b{font-size:15px;display:block}
 .mem span{font-size:12px;color:var(--sub)}
@@ -159,7 +161,7 @@ footer a{color:var(--sub)}
 
     <div class="radio">
       <div class="hd"><span class="onair">ON AIR</span>📻 오늘의 곡</div>
-      <div class="song">복숭아빛 새벽<span>글래스하우스</span></div>
+      <div class="song" style="display:flex;align-items:center;gap:10px"><div class="art" id="radioArt" style="width:44px;height:44px"></div><div>복숭아빛 새벽<span>글래스하우스</span></div></div>
       <blockquote>"네, 오늘의 곡입니다. 글래스하우스의 '복숭아빛 새벽'인데요. 밤새 작업하다 창밖이 밝아오는 걸 보고 쓴 곡이라고 해요."</blockquote>
       <blockquote class="quote">"작곡가는 이렇게 말했죠. '해는 내일 또 뜨더라.'"</blockquote>
       <blockquote>"자, 그럼 오늘 밤을 조금 더 시끄럽게 만들어줄 다음 곡, 들어보시죠."</blockquote>
@@ -198,7 +200,8 @@ footer a{color:var(--sub)}
       <div class="chips"><span>드림팝</span><span>신스팝</span><span>인디팝</span><span>숏폼 바이럴</span></div>
     </div>
     <div class="sub-hd">멤버</div>
-    <div class="members four" id="ghMembers"></div>
+    <div class="group"><img src="https://jinkwf.github.io/detune/%EA%B8%80%EB%9E%98%EC%8A%A4%ED%95%98%EC%9A%B0%EC%8A%A4.png" alt="글래스하우스"></div>
+    <div class="members four" id="ghMembers" style="margin-top:10px"></div>
     <div class="sub-hd">인기곡</div>
     <div id="ghTracks"></div>
   </section>
@@ -230,7 +233,7 @@ footer a{color:var(--sub)}
 <div class="player">
   <div class="bar"><i id="prog"></i></div>
   <div class="in">
-    <div class="art" id="pArt" style="background:linear-gradient(135deg,#f7c6d0,#c9d9ff)">GH</div>
+    <div class="art" id="pArt"></div>
     <div class="info"><div class="t" id="pT">복숭아빛 새벽</div><div class="a" id="pA">글래스하우스</div></div>
     <button class="pp" id="pp">▶</button>
   </div>
@@ -240,6 +243,17 @@ footer a{color:var(--sub)}
 <div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
 
 <script>
+const IMG='https://jinkwf.github.io/detune/';
+const COVER={
+ 'Detune':IMG+'%EC%95%A8%EB%B2%94%EC%BB%A4%EB%B2%84-%EB%94%94%ED%8A%A0.png',
+ '도돌이표':IMG+'%EC%95%A8%EB%B2%94%EC%BB%A4%EB%B2%84-%EB%8F%84%EB%8F%8C%EC%9D%B4%ED%91%9C.png',
+ 'Encore':IMG+'%EC%95%A8%EB%B2%94%EC%BB%A4%EB%B2%84-Encore.png',
+ '반음':IMG+'%EC%95%A8%EB%B2%94%EC%BB%A4%EB%B2%84-%EB%B0%98%EC%9D%8C.png',
+ 'Sunday Filter':IMG+'%EC%95%A8%EB%B2%94%EC%BB%A4%EB%B2%84-sunday%20Filter.png',
+ '유리온실':IMG+'%EC%95%A8%EB%B2%94%EC%BB%A4%EB%B2%84-%EC%9C%A0%EB%A6%AC%EC%98%A8%EC%8B%A4.png',
+ '복숭아빛 새벽':IMG+'%EB%B3%B5%EC%88%AD%EC%95%84%EB%B9%9B%EC%83%88%EB%B2%BD.png'
+};
+const cov=(t,bg)=>COVER[t]?`url('${COVER[t]}') center/cover,${bg}`:bg;
 const GH='linear-gradient(135deg,#f7c6d0,#c9d9ff)', DT='linear-gradient(135deg,#2a2d36,#13c75a)';
 const pal=['#ff8a65','#7e57c2','#26a69a','#5c6bc0','#ef5350','#8d6e63','#29b6f6','#9ccc65','#ab47bc','#ffa726','#78909c','#ec407a'];
 const chart=[
@@ -268,10 +282,10 @@ const ini=s=>s.replace(/\s/g,'').slice(0,2).toUpperCase();
 const chg=(k,n)=>k==='up'?`<em class="up">▲${n}</em>`:k==='down'?`<em class="down">▼${n}</em>`:k==='new'?`<em class="new">NEW</em>`:`<em class="same">−</em>`;
 document.getElementById('chartList').innerHTML=chart.map((c,i)=>{
  const isG=c[1]==='글래스하우스';
- const bg=isG?GH:pal[i%pal.length];
- return `<div class="row" data-t="${c[0]}" data-a="${c[1]}" data-bg="${bg}" ${isG?'data-go="glass"':''}>
+ const bg=cov(c[0],isG?GH:pal[i%pal.length]);
+ return `<div class="row" data-t="${c[0]}" data-a="${c[1]}" data-bg="${bg.replace(/"/g,'&quot;')}" ${isG?'data-go="glass"':''}>
   <div class="rank"><b>${i+1}</b>${chg(c[2],c[3])}</div>
-  <div class="art" style="background:${bg}">${ini(isG?'GH':c[1])}</div>
+  <div class="art" style="background:${bg}">${COVER[c[0]]?'':ini(isG?'GH':c[1])}</div>
   <div class="info"><div class="t">${c[0]}</div><div class="a">${isG?'<span class="gh">글래스하우스</span>':c[1]} · ${c[4]}</div></div>
   <button class="play">▶</button></div>`}).join('');
 const d=new Date();document.getElementById('today').textContent=`${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')} 기준`;
@@ -285,20 +299,20 @@ const members={
   look:'179cm, 가늘고 곧은 체형. 단정하게 넘긴 밤색 머리, 쌍꺼풀 진 차분한 눈매. 흰 셔츠를 목 끝까지 잠그고 다닌다. 왼쪽 턱 아래 바이올린 자국, 길고 가는 손가락.',
   about:'밖에서는 과묵하다. 집에 들어서는 순간 말이 많아지는 TMI 수다쟁이. 원림의 변칙 연주를 받아낼 수 있는 유일한 사람.',
   say:'밖에선 말 안 해. 집에 가서 해, 할 말 많으니까.'},
- haram:{name:'유하람',age:25,part:'GLASSHOUSE · 보컬·리더',bg:'#f48fb1',
+ haram:{img:IMG+'%EC%9C%A0%ED%95%98%EB%9E%8C.png',name:'유하람',age:25,part:'GLASSHOUSE · 보컬·리더',bg:'#f48fb1',
   look:'투명한 미성의 보컬.',about:'카메라 앞에서는 늘 다정하고 상냥하다. SNS 감각이 뛰어나지만, 속은 잘 안 보여준다.',say:'오늘도 들어주셔서 고마워요. 진짜로요.'},
- ijun:{name:'차이준',age:26,part:'GLASSHOUSE · 기타',bg:'#7986cb',
+ ijun:{img:IMG+'%EC%B0%A8%EC%9D%B4%EC%A4%80.png',name:'차이준',age:26,part:'GLASSHOUSE · 기타',bg:'#7986cb',
   look:'깔끔하고 정확한 테크니션.',about:'같은 기타리스트라 씬에서 원림과 자주 비교당한다. 예의 바르지만 원림을 은근히 의식한다.',say:'틀린 음은 안 치는 게 실력이죠.'},
- sea:{name:'문세아',age:24,part:'GLASSHOUSE · 베이스',bg:'#4db6ac',
+ sea:{img:IMG+'%EB%AC%B8%EC%84%B8%EC%95%84.png',name:'문세아',age:24,part:'GLASSHOUSE · 베이스',bg:'#4db6ac',
   look:'무던한 분위기 메이커.',about:'사실은 디튠 팬이라는 소문이 있다. 두 밴드 사이의 허술한 연결고리.',say:'저 그 공연 안 갔어요. ...앞줄에 있긴 했는데.'},
  dogyeom:{name:'권도겸',age:27,part:'GLASSHOUSE · 드럼',bg:'#90a4ae',
   look:'기획사 연습생 출신.',about:'밴드의 실무와 일정을 맡는다. 계산이 빠르다.',say:'다음 주 일정, 단톡에 올렸어요. 읽으세요.'}
 };
-const memCard=k=>{const m=members[k];return `<div class="mem" data-m="${k}"><div class="av" style="background:${m.bg}">${m.name.slice(1)}</div><b>${m.name}</b><span>${m.part.split('· ')[1]}</span><div class="line">"${m.say}"</div></div>`};
+const memCard=k=>{const m=members[k];return `<div class="mem" data-m="${k}"><div class="av" style="background:${m.img?`url('${m.img}')`:m.bg}">${m.img?'':m.name.slice(1)}</div><b>${m.name}</b><span>${m.part.split('· ')[1]}</span><div class="line">"${m.say}"</div></div>`};
 document.getElementById('dtMembers').innerHTML=['wonrim','eunyul'].map(memCard).join('');
 document.getElementById('ghMembers').innerHTML=['haram','ijun','sea','dogyeom'].map(memCard).join('');
 
-const trackRow=(t,i,bg,lock)=>`<div class="track"><div class="no">${i+1}</div><div class="art" style="background:${bg};width:42px;height:42px">${lock?'🔒':ini(t[0])}</div><div class="info"><div class="t">${t[0]}</div><div class="genre">${t[1]}</div></div>${lock?'<span class="lock">미발표</span>':'<button class="play">▶</button>'}</div>`;
+const trackRow=(t,i,bg,lock)=>`<div class="track"><div class="no">${i+1}</div><div class="art" style="background:${cov(t[0],bg)};width:42px;height:42px">${COVER[t[0]]?(lock?'🔒':''):(lock?'🔒':ini(t[0]))}</div><div class="info"><div class="t">${t[0]}</div><div class="genre">${t[1]}</div></div>${lock?'<span class="lock">미발표</span>':'<button class="play">▶</button>'}</div>`;
 document.getElementById('dtTracks').innerHTML=[
  ['Detune','데뷔곡 · 포스트록·노이즈록'],['도돌이표','포스트펑크'],['Encore','개러지록 · 관객 반응 최고'],['반음','어쿠스틱 발라드 · 미발표']
 ].map((t,i)=>trackRow(t,i,DT,i===3)).join('');
@@ -316,7 +330,7 @@ const modal=document.getElementById('modal'),sheet=document.getElementById('shee
 document.addEventListener('click',e=>{
  const m=e.target.closest('.mem');
  if(m){const p=members[m.dataset.m];
-  sheet.innerHTML=`<div class="grab"></div><div class="pf"><div class="av" style="background:${p.bg}">${p.name.slice(1)}</div><div><h4>${p.name}${p.hanja?`<small>${p.hanja}</small>`:''}<small>${p.age}</small></h4><span>${p.part}</span></div></div>
+  sheet.innerHTML=`<div class="grab"></div><div class="pf"><div class="av" style="background:${p.img?`url('${p.img}')`:p.bg}">${p.img?'':p.name.slice(1)}</div><div><h4>${p.name}${p.hanja?`<small>${p.hanja}</small>`:''}<small>${p.age}</small></h4><span>${p.part}</span></div></div>
   <dl><dt>외형</dt><dd>${p.look}</dd><dt>한 줄 소개</dt><dd>${p.about}</dd></dl><div class="say">${p.say}</div><button class="close">닫기</button>`;
   modal.classList.add('on');return}
  if(e.target===modal||e.target.classList.contains('close')){modal.classList.remove('on');return}
@@ -327,10 +341,12 @@ document.addEventListener('click',e=>{
 /* player */
 let playing=false,timer,pos=0;
 const pp=document.getElementById('pp'),prog=document.getElementById('prog');
-function setPlay(t,a,bg){document.getElementById('pT').textContent=t;document.getElementById('pA').textContent=a;const art=document.getElementById('pArt');art.style.background=bg;art.textContent=a==='글래스하우스'?'GH':ini(a);pos=0;start()}
+function setPlay(t,a,bg){document.getElementById('pT').textContent=t;document.getElementById('pA').textContent=a;const art=document.getElementById('pArt');art.style.background=bg;art.textContent=COVER[t]?'':(a==='글래스하우스'?'GH':ini(a));pos=0;start()}
 function start(){playing=true;pp.textContent='❚❚';clearInterval(timer);timer=setInterval(()=>{pos=(pos+1)%100;prog.style.width=pos+'%'},600)}
 function stop(){playing=false;pp.textContent='▶';clearInterval(timer)}
 pp.onclick=()=>playing?stop():start();
+document.getElementById('pArt').style.background=cov('복숭아빛 새벽',GH);
+document.getElementById('radioArt').style.background=cov('복숭아빛 새벽',GH);
 </script>
 </body>
 </html>
