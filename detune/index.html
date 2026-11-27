@@ -5,245 +5,334 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HOWLING CHART · DETUNE</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --g:#13c75a; --g-dark:#0ea64a; --ink:#1b1b1f; --sub:#7a7a85; --line:#ededf0;
-  --bg:#f6f6f8; --card:#fff; --red:#ff3d3d; --blue:#3d7bff;
+  --bg:#0a0a0d; --bg2:#121217; --card:#17171d; --line:rgba(255,255,255,.08);
+  --ink:#f4f4f6; --sub:#8b8b96; --dim:#55555f;
+  --acid:#c6ff3d; --pink:#ffb4c8; --sky:#a9c8ff; --red:#ff5a5a; --blue:#6c9bff;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Pretendard,-apple-system,"Apple SD Gothic Neo",sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
-.app{max-width:480px;margin:0 auto;min-height:100vh;background:var(--card);padding-bottom:96px;position:relative}
-header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line)}
-.top{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 10px}
-.logo{font-weight:900;font-size:21px;letter-spacing:-.5px}
-.logo b{color:var(--g)}
-.logo small{font-size:11px;font-weight:600;color:var(--sub);margin-left:6px;letter-spacing:0}
-.search{width:30px;height:30px;border-radius:50%;background:var(--bg);display:grid;place-items:center;font-size:14px;color:var(--sub)}
-nav{display:flex;padding:0 10px}
-nav button{flex:1;background:none;border:0;font:inherit;font-size:15px;font-weight:700;color:var(--sub);padding:10px 0 12px;border-bottom:3px solid transparent;cursor:pointer}
-nav button.on{color:var(--ink);border-color:var(--g)}
-section{display:none}
+html{scroll-behavior:smooth}
+body{font-family:Pretendard,-apple-system,"Apple SD Gothic Neo",sans-serif;background:#050507;color:var(--ink);-webkit-font-smoothing:antialiased;letter-spacing:-.2px}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.app{max-width:480px;margin:0 auto;min-height:100vh;background:var(--bg);padding-bottom:120px;position:relative;overflow:hidden}
+/* grain */
+.app::before{content:"";position:fixed;inset:0;max-width:480px;margin:0 auto;pointer-events:none;z-index:60;opacity:.06;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.mono{font-family:var(--mono)}
+
+/* header */
+header{position:sticky;top:0;z-index:40;background:rgba(10,10,13,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.top{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px}
+.logo{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-weight:800;font-size:16px;letter-spacing:1px}
+.logo .eq{display:flex;gap:2px;align-items:flex-end;height:16px}
+.logo .eq i{width:3px;background:var(--acid);border-radius:2px;animation:eq 1.1s infinite ease-in-out}
+.logo .eq i:nth-child(1){height:6px}.logo .eq i:nth-child(2){animation-delay:.25s}.logo .eq i:nth-child(3){animation-delay:.5s}
+@keyframes eq{0%,100%{height:5px}50%{height:16px}}
+.logo small{font-family:Pretendard;font-weight:600;font-size:11px;color:var(--sub);letter-spacing:0}
+.live{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--acid);border:1px solid rgba(198,255,61,.35);border-radius:20px;padding:4px 8px}
+nav{display:flex;gap:6px;padding:0 16px 12px;overflow-x:auto;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav button{flex-shrink:0;font-size:13.5px;font-weight:700;color:var(--sub);padding:8px 14px;border-radius:30px;border:1px solid var(--line);transition:.2s}
+nav button.on{background:var(--ink);color:#0a0a0d;border-color:var(--ink)}
+section{display:none;animation:fade .35s ease}
 section.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}}
 
-/* banner */
-.banner{margin:16px 16px 6px;border-radius:16px;padding:90px 18px 20px;background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.85) 85%),url('https://jinkwf.github.io/detune/%EB%A9%94%EC%9D%B8%20%EB%B0%B0%EB%84%88.png') center/cover,#17171c;color:#fff;position:relative;overflow:hidden}
-.banner .tag{display:inline-block;font-size:11px;font-weight:700;background:var(--g);color:#fff;border-radius:20px;padding:3px 9px;margin-bottom:10px}
-.banner h2{font-size:19px;line-height:1.4;font-weight:800;letter-spacing:-.3px}
-.banner p{font-size:12.5px;opacity:.7;margin-top:6px}
-.banner .wave{position:absolute;right:14px;bottom:14px;display:flex;gap:3px;align-items:flex-end;height:28px}
-.banner .wave i{width:4px;background:var(--g);border-radius:2px;animation:w 1s infinite ease-in-out}
-.banner .wave i:nth-child(2){animation-delay:.2s}.banner .wave i:nth-child(3){animation-delay:.4s}.banner .wave i:nth-child(4){animation-delay:.1s}
-@keyframes w{0%,100%{height:6px}50%{height:26px}}
+/* hero */
+.hero{position:relative;height:420px;display:flex;flex-direction:column;justify-content:flex-end;padding:24px 22px;overflow:hidden}
+.hero .bgimg{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1.04)}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,13,.1) 0%,rgba(10,10,13,.35) 45%,var(--bg) 100%)}
+.hero > *:not(.bgimg){position:relative;z-index:2}
+.chip{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.8px;padding:5px 10px;border-radius:30px;background:var(--acid);color:#0a0a0d;width:max-content}
+.chip.ghost{background:rgba(255,255,255,.1);color:var(--ink);backdrop-filter:blur(8px)}
+.hero h1{font-size:28px;line-height:1.3;font-weight:900;letter-spacing:-.8px;margin:14px 0 8px}
+.hero p{font-size:13.5px;color:#c9c9d1}
 
-/* radio */
-.radio{margin:14px 16px;border:1px solid var(--line);border-radius:14px;padding:16px}
-.radio .hd{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:var(--g-dark)}
-.radio .hd .onair{font-size:10px;background:var(--red);color:#fff;border-radius:4px;padding:2px 5px;font-weight:800}
-.radio .song{font-size:15px;font-weight:800;margin:8px 0 10px}
-.radio .song span{color:var(--sub);font-weight:600;font-size:13px;margin-left:4px}
-.radio blockquote{font-size:13.5px;line-height:1.7;color:#3a3a42;padding-left:10px;border-left:3px solid var(--line);margin-bottom:6px}
-.radio blockquote.quote{border-color:var(--g);font-weight:700;color:var(--ink)}
+/* section titles */
+.st{display:flex;align-items:baseline;justify-content:space-between;padding:34px 20px 14px}
+.st h3{font-size:20px;font-weight:900;letter-spacing:-.6px}
+.st span{font-family:var(--mono);font-size:11px;color:var(--sub)}
+.st .en{font-family:var(--mono);font-size:10.5px;color:var(--acid);letter-spacing:1.5px;display:block;margin-bottom:4px}
 
-/* chart */
-.chart-hd{display:flex;justify-content:space-between;align-items:flex-end;padding:18px 18px 8px}
-.chart-hd h3{font-size:18px;font-weight:800}
-.chart-hd span{font-size:12px;color:var(--sub)}
-.row{display:flex;align-items:center;gap:12px;padding:9px 18px;cursor:pointer}
-.row:active{background:var(--bg)}
-.rank{width:26px;text-align:center}
-.rank b{display:block;font-size:16px;font-weight:800}
-.rank em{display:block;font-style:normal;font-size:10px;font-weight:700;margin-top:1px}
-.up{color:var(--red)}.down{color:var(--blue)}.new{color:var(--g-dark)}.same{color:#bbb}
-.art{background-size:cover!important;background-position:center!important;width:46px;height:46px;border-radius:6px;flex-shrink:0;display:grid;place-items:center;color:#fff;font-weight:900;font-size:15px;letter-spacing:-.5px;text-shadow:0 1px 3px rgba(0,0,0,.25)}
+/* on air */
+.onair{margin:6px 16px 0;border-radius:22px;background:linear-gradient(145deg,#1b1b22,#121217);border:1px solid var(--line);padding:18px;position:relative;overflow:hidden}
+.onair::before{content:"";position:absolute;right:-60px;top:-60px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(198,255,61,.18),transparent 70%)}
+.onair .hd{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--sub);letter-spacing:1px}
+.onair .hd b{color:var(--red);display:flex;align-items:center;gap:5px}
+.onair .hd b::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--red);animation:blink 1.2s infinite}
+@keyframes blink{50%{opacity:.25}}
+.onair .song{display:flex;gap:14px;align-items:center;margin:16px 0}
+.vinyl{width:64px;height:64px;border-radius:50%;flex-shrink:0;position:relative;background:#000;box-shadow:0 6px 20px rgba(0,0,0,.5);animation:spin 6s linear infinite}
+.vinyl .lbl{position:absolute;inset:14px;border-radius:50%;background-size:cover;background-position:center}
+.vinyl::after{content:"";position:absolute;inset:0;border-radius:50%;background:repeating-radial-gradient(circle,transparent 0 2px,rgba(255,255,255,.04) 2px 3px)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.onair .song b{font-size:17px;font-weight:800;display:block}
+.onair .song span{font-size:12.5px;color:var(--sub)}
+.dj{font-size:13.5px;line-height:1.75;color:#d4d4dc}
+.dj p+p{margin-top:8px}
+.dj .q{font-weight:800;color:var(--ink);padding:10px 12px;border-left:2px solid var(--acid);background:rgba(198,255,61,.05);border-radius:0 10px 10px 0}
+
+/* top3 */
+.top3{display:flex;gap:12px;overflow-x:auto;padding:0 20px 4px;scroll-snap-type:x mandatory;scroll-padding:0 20px;scrollbar-width:none}
+.top3::-webkit-scrollbar{display:none}
+.t3{flex:0 0 62%;scroll-snap-align:start;cursor:pointer}
+.t3 .cv{aspect-ratio:1;border-radius:18px;background-size:cover;background-position:center;position:relative;overflow:hidden;box-shadow:0 14px 30px rgba(0,0,0,.45)}
+.t3 .cv .n{position:absolute;left:12px;bottom:2px;font-family:var(--mono);font-size:64px;font-weight:800;line-height:1;color:#fff;text-shadow:0 4px 20px rgba(0,0,0,.6)}
+.t3 .cv::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,.55))}
+.t3 .cv .n{z-index:2}
+.t3 b{display:block;font-size:15px;font-weight:800;margin-top:12px}
+.t3 span{font-size:12.5px;color:var(--sub)}
+
+/* chart list */
+.row{display:flex;align-items:center;gap:14px;padding:10px 20px;cursor:pointer;transition:background .2s}
+.row:active{background:rgba(255,255,255,.04)}
+.rank{width:30px;text-align:center;flex-shrink:0}
+.rank b{display:block;font-family:var(--mono);font-size:16px;font-weight:800}
+.rank em{display:block;font-family:var(--mono);font-style:normal;font-size:9.5px;font-weight:700;margin-top:2px}
+.up{color:var(--red)}.down{color:var(--blue)}.new{color:var(--acid)}.same{color:var(--dim)}
+.art{width:48px;height:48px;border-radius:10px;flex-shrink:0;display:grid;place-items:center;font-family:var(--mono);color:rgba(255,255,255,.9);font-weight:800;font-size:13px;background-size:cover!important;background-position:center!important}
 .info{flex:1;min-width:0}
-.info .t{font-size:14.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.info .t{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .info .a{font-size:12.5px;color:var(--sub);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.info .a .gh{color:var(--g-dark);font-weight:700}
-.play{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--line);background:#fff;display:grid;place-items:center;font-size:10px;color:var(--ink);flex-shrink:0;cursor:pointer}
-.detune-box{margin:14px 16px 4px;border-radius:12px;background:#17171c;color:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer}
-.detune-box .art{width:40px;height:40px}
-.detune-box .txt{flex:1}
-.detune-box .txt b{font-size:14px;display:block}
-.detune-box .txt span{font-size:12px;opacity:.6}
-.detune-box .out{font-size:11px;font-weight:800;color:var(--g);border:1px solid var(--g);border-radius:20px;padding:4px 9px}
+.info .a .gh{color:var(--pink);font-weight:700}
+.pl{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:10px;color:var(--sub);border:1px solid var(--line);flex-shrink:0}
 
-/* artist */
-.artist-hero{position:relative;padding:28px 18px 22px;color:#fff}
-.artist-hero.dt{background:linear-gradient(180deg,rgba(0,0,0,0) 20%,rgba(0,0,0,.8) 100%),url('https://jinkwf.github.io/detune/%EB%94%94%ED%8A%A0%20%EC%95%84%ED%8B%B0%EC%8A%A4%ED%8A%B8%20%EC%BB%A4%EB%B2%84.png') center/cover,#101014;padding-top:120px}
-.artist-hero.gh{background:linear-gradient(180deg,rgba(0,0,0,0) 20%,rgba(0,0,0,.75) 100%),url('https://jinkwf.github.io/detune/%EA%B8%80%EB%9E%98%EC%8A%A4%ED%95%98%EC%9A%B0%EC%8A%A4%20%EC%95%84%ED%8B%B0%EC%8A%A4%ED%8A%B8%20%EC%BB%A4%EB%B2%84.png') center/cover;color:#fff;padding-top:120px}
-.group{margin:0 16px;border-radius:14px;overflow:hidden}.group img{width:100%;display:block}
-.artist-hero .type{font-size:11px;font-weight:700;opacity:.7;letter-spacing:1px}
-.artist-hero h2{font-size:30px;font-weight:900;letter-spacing:-.5px;margin:4px 0}
-.artist-hero p{font-size:13px;line-height:1.6;opacity:.8}
-.artist-hero .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
-.artist-hero .chips span{font-size:11px;font-weight:700;padding:4px 9px;border-radius:20px;background:rgba(255,255,255,.15)}
-.artist-hero.gh .chips span{background:rgba(255,255,255,.2)}
-.sub-hd{font-size:16px;font-weight:800;padding:20px 18px 10px}
-.members{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px}
-.members.four{grid-template-columns:1fr 1fr}
-.mem{border:1px solid var(--line);border-radius:14px;padding:14px;cursor:pointer;background:#fff}
-.mem .av,.sheet .pf .av{background-size:cover!important;background-position:center!important}
-.mem .av{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:18px;color:#fff;margin-bottom:10px}
-.mem b{font-size:15px;display:block}
-.mem span{font-size:12px;color:var(--sub)}
-.mem .line{font-size:12px;margin-top:8px;color:#4a4a55;line-height:1.5}
-.track{display:flex;align-items:center;gap:12px;padding:10px 18px}
-.track .no{width:18px;font-size:13px;color:var(--sub);font-weight:700;text-align:center}
-.track .lock{font-size:11px;font-weight:700;color:var(--sub);border:1px solid var(--line);border-radius:6px;padding:3px 6px}
-.genre{font-size:11px;color:var(--sub);margin-top:3px}
+/* out of chart */
+.oc{margin:22px 16px 0;border-radius:20px;overflow:hidden;position:relative;cursor:pointer;border:1px solid rgba(198,255,61,.25);background:#0f0f12}
+.oc .tape{background:repeating-linear-gradient(-45deg,var(--acid) 0 14px,#0a0a0d 14px 28px);height:10px}
+.oc .in{display:flex;align-items:center;gap:14px;padding:18px}
+.oc .in .art{width:56px;height:56px}
+.oc .in b{font-family:var(--mono);font-size:17px;letter-spacing:1px}
+.oc .in p{font-size:12.5px;color:var(--sub);margin-top:4px}
+.oc .in .tag{margin-left:auto;font-family:var(--mono);font-size:10.5px;font-weight:700;color:var(--acid);border:1px solid var(--acid);border-radius:30px;padding:5px 10px;white-space:nowrap}
+
+/* artist hero */
+.ahero{position:relative;height:460px;display:flex;flex-direction:column;justify-content:flex-end;padding:24px 22px;overflow:hidden}
+.ahero .bgimg{position:absolute;inset:0;background-size:cover;background-position:center}
+.ahero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,13,0) 30%,rgba(10,10,13,.6) 65%,var(--bg) 100%)}
+.ahero > *:not(.bgimg){position:relative;z-index:2}
+.ahero h2{font-family:var(--mono);font-size:46px;font-weight:800;letter-spacing:2px;line-height:1;margin:12px 0 10px}
+.ahero.dt h2{color:transparent;-webkit-text-stroke:1.5px var(--acid)}
+.ahero.gh h2{color:#fff;text-shadow:0 0 30px rgba(255,180,200,.6)}
+.ahero p{font-size:13.5px;line-height:1.65;color:#d0d0d8}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
+.tags span{font-size:11.5px;font-weight:600;padding:5px 10px;border-radius:30px;background:rgba(255,255,255,.08);border:1px solid var(--line)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);margin:0 16px;border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.stats div{padding:14px 0;text-align:center;border-right:1px solid var(--line)}
+.stats div:last-child{border:0}
+.stats b{display:block;font-family:var(--mono);font-size:17px;font-weight:800}
+.stats span{font-size:11px;color:var(--sub)}
+
+/* members */
+.mems{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px}
+.mem{position:relative;aspect-ratio:3/4;border-radius:20px;overflow:hidden;cursor:pointer;background-size:cover!important;background-position:center top!important;border:1px solid var(--line);transition:transform .2s}
+.mem:active{transform:scale(.97)}
+.mem::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.85))}
+.mem .ini{position:absolute;inset:0;display:grid;place-items:center;font-size:44px;font-weight:900;color:rgba(255,255,255,.18)}
+.mem .cap{position:absolute;left:14px;right:14px;bottom:14px;z-index:2}
+.mem .cap span{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:1px;color:var(--acid)}
+.gh-page .mem .cap span{color:var(--pink)}
+.mem .cap b{display:block;font-size:18px;font-weight:900;margin-top:2px}
+.mem .cap i{display:block;font-style:normal;font-size:11.5px;color:#cfcfd6;margin-top:4px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* album shelf */
+.shelf{display:flex;gap:14px;overflow-x:auto;padding:0 20px;scrollbar-width:none}
+.shelf::-webkit-scrollbar{display:none}
+.alb{flex:0 0 42%;cursor:pointer}
+.alb .cv{aspect-ratio:1;border-radius:14px;background-size:cover!important;background-position:center!important;position:relative;overflow:hidden;box-shadow:0 10px 24px rgba(0,0,0,.4)}
+.alb.lock .cv{filter:blur(3px) brightness(.5)}
+.alb .lk{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;color:var(--acid);z-index:2}
+.alb b{display:block;font-size:14.5px;font-weight:800;margin-top:10px}
+.alb span{font-size:12px;color:var(--sub)}
 
 /* world */
-.world{padding:20px 18px}
-.world .lead{font-size:20px;font-weight:900;line-height:1.45;letter-spacing:-.3px}
-.world .lead em{font-style:normal;color:var(--g-dark)}
-.world p{font-size:14px;line-height:1.75;color:#3a3a42;margin-top:12px}
-.place{display:flex;gap:12px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--line)}
-.place:last-child{border:0}
-.place .ic{width:40px;height:40px;border-radius:10px;background:var(--bg);display:grid;place-items:center;font-size:18px;flex-shrink:0}
-.place b{font-size:14.5px}
-.place p{font-size:13px;margin-top:3px;line-height:1.55;color:var(--sub)}
-.box{border:1px solid var(--line);border-radius:14px;padding:4px 16px;margin:0 16px}
+.wl{padding:30px 22px 4px}
+.wl .en{font-family:var(--mono);font-size:10.5px;color:var(--acid);letter-spacing:2px}
+.wl h2{font-size:26px;font-weight:900;line-height:1.35;letter-spacing:-.8px;margin-top:10px}
+.wl h2 em{font-style:normal;color:var(--acid)}
+.wl p{font-size:14.5px;line-height:1.85;color:#c4c4cd;margin-top:14px}
+.rules{margin:18px 16px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.rules div{border:1px solid var(--line);border-radius:14px;padding:14px 10px;text-align:center;font-size:12px;color:var(--sub);line-height:1.5}
+.rules b{display:block;font-family:var(--mono);font-size:18px;color:var(--ink);margin-bottom:4px}
+.plc{margin:0 16px;display:flex;flex-direction:column;gap:10px}
+.pl-card{display:flex;gap:14px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px}
+.pl-card .no{font-family:var(--mono);font-size:12px;font-weight:800;color:var(--acid);width:24px;flex-shrink:0;padding-top:2px}
+.pl-card b{font-size:15px;font-weight:800}
+.pl-card p{font-size:13px;color:var(--sub);margin-top:4px;line-height:1.6}
+.pl-card .q{color:var(--ink);font-weight:700}
 
-/* modal */
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:flex-end;justify-content:center;z-index:50}
+/* sheet */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);display:none;align-items:flex-end;justify-content:center;z-index:80}
 .modal.on{display:flex}
-.sheet{width:100%;max-width:480px;background:#fff;border-radius:20px 20px 0 0;padding:10px 20px 28px;animation:up .25s ease}
-@keyframes up{from{transform:translateY(40px);opacity:0}}
-.sheet .grab{width:40px;height:4px;border-radius:2px;background:var(--line);margin:0 auto 16px}
-.sheet .pf{display:flex;gap:14px;align-items:center}
-.sheet .pf .av{width:68px;height:68px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:900;font-size:22px}
-.sheet .pf h4{font-size:21px;font-weight:900}
-.sheet .pf h4 small{font-size:13px;color:var(--sub);font-weight:600;margin-left:4px}
-.sheet .pf span{font-size:13px;color:var(--g-dark);font-weight:700}
-.sheet dl{margin-top:16px}
-.sheet dt{font-size:11.5px;font-weight:800;color:var(--sub);margin-top:12px}
-.sheet dd{font-size:14px;line-height:1.65;margin-top:3px}
-.sheet .say{margin-top:16px;background:var(--bg);border-radius:12px;padding:14px;font-size:14.5px;font-weight:700;line-height:1.55}
-.sheet .say::before{content:"💬 ";}
-.sheet .close{margin-top:18px;width:100%;border:0;background:var(--ink);color:#fff;font:inherit;font-weight:700;font-size:14px;border-radius:12px;padding:13px;cursor:pointer}
+.sheet{width:100%;max-width:480px;max-height:90vh;overflow-y:auto;background:var(--bg2);border-radius:26px 26px 0 0;animation:up .3s cubic-bezier(.2,.8,.2,1);border-top:1px solid var(--line)}
+@keyframes up{from{transform:translateY(60px);opacity:0}}
+.sheet .ph{height:300px;background-size:cover!important;background-position:center top!important;position:relative}
+.sheet .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,var(--bg2))}
+.sheet .ph .ini{position:absolute;inset:0;display:grid;place-items:center;font-size:80px;font-weight:900;color:rgba(255,255,255,.12)}
+.sheet .bd{padding:0 22px 30px;margin-top:-50px;position:relative;z-index:2}
+.sheet .part{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:1px;color:var(--acid)}
+.sheet h4{font-size:30px;font-weight:900;letter-spacing:-.8px;margin-top:4px}
+.sheet h4 small{font-size:14px;color:var(--sub);font-weight:600;margin-left:6px}
+.sheet dl{margin-top:18px;border-top:1px solid var(--line)}
+.sheet dl div{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.sheet dt{font-family:var(--mono);font-size:10.5px;font-weight:700;color:var(--sub);width:54px;flex-shrink:0;padding-top:3px;letter-spacing:1px}
+.sheet dd{font-size:14px;line-height:1.7;color:#dcdce3}
+.say{margin-top:18px;border-radius:18px;padding:30px 18px 18px;background:linear-gradient(135deg,rgba(198,255,61,.12),rgba(198,255,61,.02));border:1px solid rgba(198,255,61,.25);font-size:16px;font-weight:800;line-height:1.55;position:relative}
+.say::before{content:"“";position:absolute;top:-6px;left:14px;font-size:44px;color:var(--acid);font-family:Georgia,serif}
+.gh-sheet .part{color:var(--pink)}
+.gh-sheet .say{background:linear-gradient(135deg,rgba(255,180,200,.14),rgba(255,180,200,.02));border-color:rgba(255,180,200,.3)}
+.gh-sheet .say::before{color:var(--pink)}
+.close{margin-top:20px;width:100%;background:var(--ink);color:#0a0a0d;font-weight:800;font-size:14px;border-radius:14px;padding:15px}
 
 /* player */
-.player{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:100%;max-width:480px;background:#fff;border-top:1px solid var(--line);z-index:30}
-.player .bar{height:3px;background:var(--line)}
-.player .bar i{display:block;height:100%;width:0;background:var(--g);transition:width .5s linear}
-.player .in{display:flex;align-items:center;gap:12px;padding:10px 16px}
-.player .art{width:40px;height:40px}
-.player .info .t{font-size:13.5px}
+.player{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;width:calc(100% - 24px);max-width:456px;z-index:50;border-radius:20px;background:rgba(28,28,34,.78);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--line);box-shadow:0 14px 40px rgba(0,0,0,.5);overflow:hidden}
+.player .in{display:flex;align-items:center;gap:12px;padding:10px 12px}
+.player .art{width:42px;height:42px;border-radius:50%;animation:spin 8s linear infinite;animation-play-state:paused}
+.player.playing .art{animation-play-state:running}
+.player .info .t{font-size:14px}
 .player .info .a{font-size:12px}
-.player .pp{width:36px;height:36px;border-radius:50%;background:var(--g);color:#fff;border:0;font-size:12px;cursor:pointer}
-footer{text-align:center;font-size:11.5px;color:var(--sub);padding:28px 0 10px;line-height:1.8}
-footer a{color:var(--sub)}
+.player .pp{width:40px;height:40px;border-radius:50%;background:var(--acid);color:#0a0a0d;font-size:12px;font-weight:900}
+.player .bar{height:2px;background:rgba(255,255,255,.08)}
+.player .bar i{display:block;height:100%;width:0;background:var(--acid);transition:width .6s linear}
+
+footer{text-align:center;font-size:11.5px;color:var(--dim);padding:44px 0 10px;line-height:1.9}
+footer a{color:var(--sub);text-decoration:none}
+footer .mono{letter-spacing:2px;color:var(--sub)}
 </style>
 </head>
 <body>
 <div class="app">
   <header>
     <div class="top">
-      <div class="logo"><b>HOWLING</b>CHART<small>망원·합정·홍대 인디</small></div>
-      <div class="search">⌕</div>
+      <div class="logo"><span class="eq"><i></i><i></i><i></i></span>HOWLING<small>인디차트</small></div>
+      <span class="live">● LIVE</span>
     </div>
     <nav>
       <button class="on" data-tab="chart">차트</button>
-      <button data-tab="detune">디튠</button>
-      <button data-tab="glass">글래스하우스</button>
+      <button data-tab="detune">DETUNE</button>
+      <button data-tab="glass">GLASSHOUSE</button>
       <button data-tab="world">세계관</button>
     </nav>
   </header>
 
   <!-- CHART -->
   <section id="chart" class="on">
-    <div class="banner">
-      <span class="tag">TODAY'S HOOK</span>
-      <h2>버클리에서 같이 쫓겨난 놈과,<br>투룸에서 같이 사는 중.</h2>
-      <p>입은 최악, 연주는 최고. 2인조 인디밴드 디튠</p>
-      <div class="wave"><i></i><i></i><i></i><i></i></div>
+    <div class="hero">
+      <div class="bgimg" id="bannerImg"></div>
+      <span class="chip">TODAY'S HOOK</span>
+      <h1>버클리에서 같이 쫓겨난 놈과,<br>투룸에서 같이 사는 중.</h1>
+      <p>입은 최악, 연주는 최고. 2인조 인디밴드 디튠.</p>
     </div>
 
-    <div class="radio">
-      <div class="hd"><span class="onair">ON AIR</span>📻 오늘의 곡</div>
-      <div class="song" style="display:flex;align-items:center;gap:10px"><div class="art" id="radioArt" style="width:44px;height:44px"></div><div>복숭아빛 새벽<span>글래스하우스</span></div></div>
-      <blockquote>"네, 오늘의 곡입니다. 글래스하우스의 '복숭아빛 새벽'인데요. 밤새 작업하다 창밖이 밝아오는 걸 보고 쓴 곡이라고 해요."</blockquote>
-      <blockquote class="quote">"작곡가는 이렇게 말했죠. '해는 내일 또 뜨더라.'"</blockquote>
-      <blockquote>"자, 그럼 오늘 밤을 조금 더 시끄럽게 만들어줄 다음 곡, 들어보시죠."</blockquote>
+    <div class="onair">
+      <div class="hd"><b>ON AIR</b>· 오늘의 곡</div>
+      <div class="song"><div class="vinyl"><div class="lbl" id="radioArt"></div></div><div><b>복숭아빛 새벽</b><span>글래스하우스</span></div></div>
+      <div class="dj">
+        <p>"네, 오늘의 곡입니다. 글래스하우스의 '복숭아빛 새벽'인데요. 밤새 작업하다 창밖이 밝아오는 걸 보고 쓴 곡이라고 해요."</p>
+        <p class="q">"작곡가는 이렇게 말했죠. '해는 내일 또 뜨더라.'"</p>
+        <p>"자, 그럼 오늘 밤을 조금 더 시끄럽게 만들어줄 다음 곡, 들어보시죠."</p>
+      </div>
     </div>
 
-    <div class="chart-hd"><h3>하울링 인디차트 TOP 20</h3><span id="today"></span></div>
+    <div class="st"><div><span class="en">WEEKLY TOP 3</span><h3>지금 가장 많이 듣는 곡</h3></div><span id="today"></span></div>
+    <div class="top3" id="top3"></div>
+
+    <div class="st"><div><span class="en">CHART 4 — 20</span><h3>하울링 인디차트</h3></div></div>
     <div id="chartList"></div>
 
-    <div class="detune-box" data-go="detune">
-      <div class="art" style="background:linear-gradient(135deg,#2a2d36,#13c75a)">DT</div>
-      <div class="txt"><b>DETUNE</b><span>Detune · 도돌이표 · Encore</span></div>
-      <div class="out">순위권 밖</div>
+    <div class="oc" data-go="detune">
+      <div class="tape"></div>
+      <div class="in">
+        <div class="art" id="ocArt"></div>
+        <div><b>DETUNE</b><p>아직은 순위권 밖. 아직은.</p></div>
+        <span class="tag">OUT OF CHART</span>
+      </div>
     </div>
   </section>
 
   <!-- DETUNE -->
   <section id="detune">
-    <div class="artist-hero dt">
-      <div class="type">BAND · 2인조 · 데뷔 6개월 차</div>
+    <div class="ahero dt">
+      <div class="bgimg" id="dtHero"></div>
+      <span class="chip">BAND · 2인조 · 6개월 차</span>
       <h2>DETUNE</h2>
       <p>음정을 살짝 어긋나게 맞춘다는 뜻의 이름처럼,<br>어딘가 틀어진 것 같은데 이상하게 맞아떨어지는 두 사람.</p>
-      <div class="chips"><span>포스트록</span><span>노이즈록</span><span>기타 × 바이올린</span><span>언더바 B2</span></div>
+      <div class="tags"><span>포스트록</span><span>노이즈록</span><span>기타 × 바이올린</span><span>언더바 B2</span></div>
     </div>
-    <div class="sub-hd">멤버</div>
-    <div class="members" id="dtMembers"></div>
-    <div class="sub-hd">디스코그래피</div>
-    <div id="dtTracks"></div>
+    <div class="stats"><div><b>2</b><span>멤버</span></div><div><b>40</b><span>이번 달 티켓</span></div><div><b>—</b><span>차트 순위</span></div></div>
+    <div class="st"><div><span class="en">MEMBERS</span><h3>멤버</h3></div><span>탭해서 프로필 보기</span></div>
+    <div class="mems" id="dtMembers"></div>
+    <div class="st"><div><span class="en">DISCOGRAPHY</span><h3>디스코그래피</h3></div></div>
+    <div class="shelf" id="dtTracks"></div>
   </section>
 
   <!-- GLASSHOUSE -->
-  <section id="glass">
-    <div class="artist-hero gh">
-      <div class="type">BAND · 4인조 · 차트 상위권</div>
+  <section id="glass" class="gh-page">
+    <div class="ahero gh">
+      <div class="bgimg" id="ghHero"></div>
+      <span class="chip" style="background:var(--pink)">BAND · 4인조 · 차트 상위권</span>
       <h2>GLASSHOUSE</h2>
       <p>예쁜 사운드와 SNS 바이럴로 뜨는 중.<br>디튠의 라이벌이자, 원림이 제일 싫어하는 밴드.</p>
-      <div class="chips"><span>드림팝</span><span>신스팝</span><span>인디팝</span><span>숏폼 바이럴</span></div>
+      <div class="tags"><span>드림팝</span><span>신스팝</span><span>인디팝</span><span>숏폼 바이럴</span></div>
     </div>
-    <div class="sub-hd">멤버</div>
-    <div class="group"><img src="https://jinkwf.github.io/detune/%EA%B8%80%EB%9E%98%EC%8A%A4%ED%95%98%EC%9A%B0%EC%8A%A4.png" alt="글래스하우스"></div>
-    <div class="members four" id="ghMembers" style="margin-top:10px"></div>
-    <div class="sub-hd">인기곡</div>
-    <div id="ghTracks"></div>
+    <div class="stats"><div><b>4</b><span>멤버</span></div><div><b>3</b><span>차트인 곡</span></div><div><b>#1</b><span>최고 순위</span></div></div>
+    <div class="st"><div><span class="en" style="color:var(--pink)">MEMBERS</span><h3>멤버</h3></div><span>탭해서 프로필 보기</span></div>
+    <div class="mems" id="ghMembers"></div>
+    <div class="st"><div><span class="en" style="color:var(--pink)">POPULAR</span><h3>인기곡</h3></div></div>
+    <div class="shelf" id="ghTracks"></div>
   </section>
 
   <!-- WORLD -->
   <section id="world">
-    <div class="world">
-      <div class="lead">2026, 서울 망원·합정·홍대.<br>씬 사람들은 지금을 <em>'정리 시즌'</em>이라 부른다.</div>
-      <p>임대료가 치솟고 라이브 클럽들이 하나둘 문을 닫았다. 이제 실력만으로는 버틸 수 없다. 티켓 할당량을 채우고, 클럽 사장의 눈치를 보고, SNS에서 한 번쯤은 터져줘야 다음 무대가 잡힌다.</p>
+    <div class="wl">
+      <span class="en">HOWLING CITY · 2026</span>
+      <h2>서울 망원·합정·홍대.<br>씬 사람들은 지금을<br><em>'정리 시즌'</em>이라 부른다.</h2>
+      <p>임대료가 치솟고 라이브 클럽들이 하나둘 문을 닫았다. 이제 실력만으로는 버틸 수 없다.</p>
     </div>
-    <div class="sub-hd">주요 장소</div>
-    <div class="box">
-      <div class="place"><div class="ic">🎛️</div><div><b>클럽 언더바 B2</b><p>망원동 지하 2층, 120석. 디튠의 홈그라운드. 하울링이 끊이지 않는다.</p></div></div>
-      <div class="place"><div class="ic">🎸</div><div><b>합정 7번 합주실</b><p>시간당 15,000원. 방음이 엉망이라 옆방 메탈 소리가 새어 들어온다.</p></div></div>
-      <div class="place"><div class="ic">🥫</div><div><b>편의점 앞 계단</b><p>합주가 끝나면 캔커피를 들고 앉는 곳. 싸움이 가끔 대화로 바뀐다.</p></div></div>
-      <div class="place"><div class="ic">🏠</div><div><b>망원동 빌라 투룸</b><p>원림과 은율이 같이 사는 집. 설거지 하나로도 싸운다.</p></div></div>
+    <div class="rules">
+      <div><b>40</b>장의<br>티켓 할당량</div>
+      <div><b>B2</b>사장의<br>눈치</div>
+      <div><b>SNS</b>한 번은<br>터져야</div>
     </div>
-    <div class="sub-hd">씬의 사람들</div>
-    <div class="box">
-      <div class="place"><div class="ic">🍺</div><div><b>오 사장 · 53</b><p>언더바 B2 사장. 씬에서 30년을 버텼다. "티켓 40장 못 팔면 다음 달 무대 없다."</p></div></div>
-      <div class="place"><div class="ic">💼</div><div><b>한서진</b><p>블랙박스 레코드 A&amp;R. 대형 기획사 산하 인디 레이블의 발굴 담당. 디튠의 합주에 관심을 보인다.</p></div></div>
+    <div class="st"><div><span class="en">PLACES</span><h3>주요 장소</h3></div></div>
+    <div class="plc">
+      <div class="pl-card"><div class="no">01</div><div><b>클럽 언더바 B2</b><p>망원동 지하 2층, 120석. 디튠의 홈그라운드. 하울링이 끊이지 않는다.</p></div></div>
+      <div class="pl-card"><div class="no">02</div><div><b>합정 7번 합주실</b><p>시간당 15,000원. 방음이 엉망이라 옆방 메탈 소리가 새어 들어온다.</p></div></div>
+      <div class="pl-card"><div class="no">03</div><div><b>편의점 앞 계단</b><p>합주가 끝나면 캔커피를 들고 앉는 곳. 싸움이 가끔 대화로 바뀐다.</p></div></div>
+      <div class="pl-card"><div class="no">04</div><div><b>망원동 빌라 투룸</b><p>원림과 은율이 같이 사는 집. 설거지 하나로도 싸운다.</p></div></div>
+    </div>
+    <div class="st"><div><span class="en">PEOPLE</span><h3>씬의 사람들</h3></div></div>
+    <div class="plc">
+      <div class="pl-card"><div class="no">53</div><div><b>오 사장</b><p>언더바 B2 사장. 씬에서 30년을 버텼다.</p><p class="q">"티켓 40장 못 팔면 다음 달 무대 없다."</p></div></div>
+      <div class="pl-card"><div class="no">A&amp;R</div><div><b>한서진</b><p>블랙박스 레코드 A&amp;R. 대형 기획사 산하 인디 레이블의 발굴 담당. 디튠의 합주에 관심을 보인다.</p></div></div>
     </div>
   </section>
 
-  <footer>HOWLING CHART는 가상의 음원차트입니다.<br>made by <a href="https://jinkwf.github.io/jinkwrite/" target="_blank">Jin_K</a> · <a href="https://x.com/Jin_k__wf" target="_blank">@Jin_k__wf</a></footer>
+  <footer><span class="mono">HOWLING CHART</span><br>가상의 음원차트입니다<br>made by <a href="https://jinkwf.github.io/jinkwrite/" target="_blank">Jin_K</a> · <a href="https://x.com/Jin_k__wf" target="_blank">@Jin_k__wf</a></footer>
 </div>
 
-<!-- player -->
-<div class="player">
-  <div class="bar"><i id="prog"></i></div>
+<div class="player" id="player">
   <div class="in">
     <div class="art" id="pArt"></div>
     <div class="info"><div class="t" id="pT">복숭아빛 새벽</div><div class="a" id="pA">글래스하우스</div></div>
     <button class="pp" id="pp">▶</button>
   </div>
+  <div class="bar"><i id="prog"></i></div>
 </div>
 
-<!-- modal -->
 <div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
 
 <script>
 const IMG='https://jinkwf.github.io/detune/';
+const P={
+ banner:IMG+'%EB%A9%94%EC%9D%B8%20%EB%B0%B0%EB%84%88.png',
+ dtHero:IMG+'%EB%94%94%ED%8A%A0%20%EC%95%84%ED%8B%B0%EC%8A%A4%ED%8A%B8%20%EC%BB%A4%EB%B2%84.png',
+ ghHero:IMG+'%EA%B8%80%EB%9E%98%EC%8A%A4%ED%95%98%EC%9A%B0%EC%8A%A4%20%EC%95%84%ED%8B%B0%EC%8A%A4%ED%8A%B8%20%EC%BB%A4%EB%B2%84.png'
+};
 const COVER={
  'Detune':IMG+'%EC%95%A8%EB%B2%94%EC%BB%A4%EB%B2%84-%EB%94%94%ED%8A%A0.png',
  '도돌이표':IMG+'%EC%95%A8%EB%B2%94%EC%BB%A4%EB%B2%84-%EB%8F%84%EB%8F%8C%EC%9D%B4%ED%91%9C.png',
@@ -253,100 +342,99 @@ const COVER={
  '유리온실':IMG+'%EC%95%A8%EB%B2%94%EC%BB%A4%EB%B2%84-%EC%9C%A0%EB%A6%AC%EC%98%A8%EC%8B%A4.png',
  '복숭아빛 새벽':IMG+'%EB%B3%B5%EC%88%AD%EC%95%84%EB%B9%9B%EC%83%88%EB%B2%BD.png'
 };
-const cov=(t,bg)=>COVER[t]?`url('${COVER[t]}') center/cover,${bg}`:bg;
-const GH='linear-gradient(135deg,#f7c6d0,#c9d9ff)', DT='linear-gradient(135deg,#2a2d36,#13c75a)';
-const pal=['#ff8a65','#7e57c2','#26a69a','#5c6bc0','#ef5350','#8d6e63','#29b6f6','#9ccc65','#ab47bc','#ffa726','#78909c','#ec407a'];
+const GH='linear-gradient(135deg,#ffb4c8,#a9c8ff)', DT='linear-gradient(135deg,#1c1f14,#c6ff3d)';
+const bgOf=(t,fb)=>COVER[t]?`url('${COVER[t]}') center/cover,${fb}`:fb;
+const set=(id,v)=>document.getElementById(id).style.background=v;
+set('bannerImg',`url('${P.banner}') center/cover,#16161b`);
+set('dtHero',`url('${P.dtHero}') center/cover,#101014`);
+set('ghHero',`url('${P.ghHero}') center/cover,#2b2433`);
+set('radioArt',bgOf('복숭아빛 새벽',GH));
+set('ocArt',bgOf('Detune',DT));
+
+const pal=['#3a2f5c','#1f4a4a','#5c2f2f','#2f3f5c','#4a3a1f','#2f5c3a','#5c2f4f','#334055','#4f4a2f','#2f4f5c','#553333','#3d3d4d'];
 const chart=[
- ['Sunday Filter','글래스하우스','up',1,'신스팝'],
- ['여름 정전','녹턴클럽','down',1,'인디록'],
- ['복숭아빛 새벽','글래스하우스','same',0,'인디팝'],
- ['반지하 라디오','소란한 고양이들','new',0,'인디록'],
- ['우산을 두고 왔어','오후세시반','up',3,'포크'],
- ['종점','모노트램','down',2,'포스트록'],
- ['유리온실','글래스하우스','up',2,'드림팝'],
- ['Blue Static','해저도시','down',1,'신스팝'],
- ['첫차','이른새벽','up',4,'포크'],
- ['말린 꽃','종이달','same',0,'인디팝'],
- ['수면 아래','서울잠수함','down',3,'슈게이즈'],
- ['느린 편지','달팽이공방','new',0,'포크'],
- ['등대지기','회색고래','up',1,'포스트록'],
- ['3AM Loop','Lowfi Kids','down',2,'로파이'],
- ['국밥 한 그릇','망원동 브라더스','up',6,'개러지록'],
- ['산호','코랄리프','down',4,'드림팝'],
- ['퇴근길','노을주의보','up',2,'인디팝'],
- ['빈 방','백색소음','down',1,'슬로코어'],
- ['돗자리','피크닉','new',0,'포크'],
- ['왼쪽 귀','스테레오박스','down',5,'인디록']
+ ['Sunday Filter','글래스하우스','up',1,'신스팝'],['여름 정전','녹턴클럽','down',1,'인디록'],['복숭아빛 새벽','글래스하우스','same',0,'인디팝'],
+ ['반지하 라디오','소란한 고양이들','new',0,'인디록'],['우산을 두고 왔어','오후세시반','up',3,'포크'],['종점','모노트램','down',2,'포스트록'],
+ ['유리온실','글래스하우스','up',2,'드림팝'],['Blue Static','해저도시','down',1,'신스팝'],['첫차','이른새벽','up',4,'포크'],
+ ['말린 꽃','종이달','same',0,'인디팝'],['수면 아래','서울잠수함','down',3,'슈게이즈'],['느린 편지','달팽이공방','new',0,'포크'],
+ ['등대지기','회색고래','up',1,'포스트록'],['3AM Loop','Lowfi Kids','down',2,'로파이'],['국밥 한 그릇','망원동 브라더스','up',6,'개러지록'],
+ ['산호','코랄리프','down',4,'드림팝'],['퇴근길','노을주의보','up',2,'인디팝'],['빈 방','백색소음','down',1,'슬로코어'],
+ ['돗자리','피크닉','new',0,'포크'],['왼쪽 귀','스테레오박스','down',5,'인디록']
 ];
 const ini=s=>s.replace(/\s/g,'').slice(0,2).toUpperCase();
-const chg=(k,n)=>k==='up'?`<em class="up">▲${n}</em>`:k==='down'?`<em class="down">▼${n}</em>`:k==='new'?`<em class="new">NEW</em>`:`<em class="same">−</em>`;
-document.getElementById('chartList').innerHTML=chart.map((c,i)=>{
- const isG=c[1]==='글래스하우스';
- const bg=cov(c[0],isG?GH:pal[i%pal.length]);
- return `<div class="row" data-t="${c[0]}" data-a="${c[1]}" data-bg="${bg.replace(/"/g,'&quot;')}" ${isG?'data-go="glass"':''}>
-  <div class="rank"><b>${i+1}</b>${chg(c[2],c[3])}</div>
-  <div class="art" style="background:${bg}">${COVER[c[0]]?'':ini(isG?'GH':c[1])}</div>
-  <div class="info"><div class="t">${c[0]}</div><div class="a">${isG?'<span class="gh">글래스하우스</span>':c[1]} · ${c[4]}</div></div>
-  <button class="play">▶</button></div>`}).join('');
-const d=new Date();document.getElementById('today').textContent=`${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')} 기준`;
+const chg=(k,n)=>k==='up'?`<em class="up">▲${n}</em>`:k==='down'?`<em class="down">▼${n}</em>`:k==='new'?`<em class="new">NEW</em>`:`<em class="same">—</em>`;
+const isG=a=>a==='글래스하우스';
+const fbOf=(c,i)=>isG(c[1])?GH:`linear-gradient(135deg,${pal[i%pal.length]},#111)`;
+const esc=s=>s.replace(/"/g,'&quot;');
+
+document.getElementById('top3').innerHTML=chart.slice(0,3).map((c,i)=>{
+ const bg=bgOf(c[0],fbOf(c,i));
+ return `<div class="t3" data-t="${c[0]}" data-a="${c[1]}" data-bg="${esc(bg)}"><div class="cv" style="background:${bg}"><span class="n">${i+1}</span></div><b>${c[0]}</b><span>${isG(c[1])?'<span style="color:var(--pink)">글래스하우스</span>':c[1]} · ${c[4]}</span></div>`}).join('');
+document.getElementById('chartList').innerHTML=chart.slice(3).map((c,j)=>{
+ const i=j+3,bg=bgOf(c[0],fbOf(c,i));
+ return `<div class="row" data-t="${c[0]}" data-a="${c[1]}" data-bg="${esc(bg)}">
+  <div class="rank"><b>${String(i+1).padStart(2,'0')}</b>${chg(c[2],c[3])}</div>
+  <div class="art" style="background:${bg}">${COVER[c[0]]?'':ini(c[1])}</div>
+  <div class="info"><div class="t">${c[0]}</div><div class="a">${isG(c[1])?'<span class="gh">글래스하우스</span>':c[1]} · ${c[4]}</div></div>
+  <span class="pl">▶</span></div>`}).join('');
+const d=new Date();document.getElementById('today').textContent=`${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
 
 const members={
- wonrim:{name:'서원림',hanja:'援臨',age:26,part:'DETUNE · 기타 / 작곡·편곡',bg:'#1b1b1f',
+ wonrim:{name:'서원림',hanja:'援臨',age:26,part:'DETUNE · GUITAR / COMPOSER',band:'dt',bg:'linear-gradient(160deg,#23251c,#0d0d10)',
   look:'182cm, 마른 근육형. 헝클어진 흑발 아래 반쯤 풀린 듯 나른하지만 날카로운 눈. 늘 한쪽 입꼬리를 비틀어 올린 비웃는 표정, 왼쪽 귀의 피어싱들, 오른쪽 눈썹 끝 작은 흉터. 굳은살 박인 손끝.',
   about:'능글맞고 뻔뻔한 직설가. 아픈 데만 골라 찌르는 독설가지만, 연주에 관해선 지독한 완벽주의자.',
   say:'뭘 봐? 그렇게 볼 시간에 연습이나 더 해.'},
- eunyul:{name:'배은율',age:25,part:'DETUNE · 바이올린',bg:'#6b7c93',
+ eunyul:{name:'배은율',age:25,part:'DETUNE · VIOLIN',band:'dt',bg:'linear-gradient(160deg,#2a3140,#0d0d10)',
   look:'179cm, 가늘고 곧은 체형. 단정하게 넘긴 밤색 머리, 쌍꺼풀 진 차분한 눈매. 흰 셔츠를 목 끝까지 잠그고 다닌다. 왼쪽 턱 아래 바이올린 자국, 길고 가는 손가락.',
   about:'밖에서는 과묵하다. 집에 들어서는 순간 말이 많아지는 TMI 수다쟁이. 원림의 변칙 연주를 받아낼 수 있는 유일한 사람.',
   say:'밖에선 말 안 해. 집에 가서 해, 할 말 많으니까.'},
- haram:{img:IMG+'%EC%9C%A0%ED%95%98%EB%9E%8C.png',name:'유하람',age:25,part:'GLASSHOUSE · 보컬·리더',bg:'#f48fb1',
+ haram:{img:IMG+'%EC%9C%A0%ED%95%98%EB%9E%8C.png',name:'유하람',age:25,part:'GLASSHOUSE · VOCAL / LEADER',band:'gh',bg:GH,
   look:'투명한 미성의 보컬.',about:'카메라 앞에서는 늘 다정하고 상냥하다. SNS 감각이 뛰어나지만, 속은 잘 안 보여준다.',say:'오늘도 들어주셔서 고마워요. 진짜로요.'},
- ijun:{img:IMG+'%EC%B0%A8%EC%9D%B4%EC%A4%80.png',name:'차이준',age:26,part:'GLASSHOUSE · 기타',bg:'#7986cb',
+ ijun:{img:IMG+'%EC%B0%A8%EC%9D%B4%EC%A4%80.png',name:'차이준',age:26,part:'GLASSHOUSE · GUITAR',band:'gh',bg:GH,
   look:'깔끔하고 정확한 테크니션.',about:'같은 기타리스트라 씬에서 원림과 자주 비교당한다. 예의 바르지만 원림을 은근히 의식한다.',say:'틀린 음은 안 치는 게 실력이죠.'},
- sea:{img:IMG+'%EB%AC%B8%EC%84%B8%EC%95%84.png',name:'문세아',age:24,part:'GLASSHOUSE · 베이스',bg:'#4db6ac',
+ sea:{img:IMG+'%EB%AC%B8%EC%84%B8%EC%95%84.png',name:'문세아',age:24,part:'GLASSHOUSE · BASS',band:'gh',bg:GH,
   look:'무던한 분위기 메이커.',about:'사실은 디튠 팬이라는 소문이 있다. 두 밴드 사이의 허술한 연결고리.',say:'저 그 공연 안 갔어요. ...앞줄에 있긴 했는데.'},
- dogyeom:{img:IMG+'%EA%B6%8C%EB%8F%84%EA%B2%B8.png',name:'권도겸',age:27,part:'GLASSHOUSE · 드럼',bg:'#90a4ae',
+ dogyeom:{img:IMG+'%EA%B6%8C%EB%8F%84%EA%B2%B8.png',name:'권도겸',age:27,part:'GLASSHOUSE · DRUMS',band:'gh',bg:GH,
   look:'기획사 연습생 출신.',about:'밴드의 실무와 일정을 맡는다. 계산이 빠르다.',say:'다음 주 일정, 단톡에 올렸어요. 읽으세요.'}
 };
-const memCard=k=>{const m=members[k];return `<div class="mem" data-m="${k}"><div class="av" style="background:${m.img?`url('${m.img}')`:m.bg}">${m.img?'':m.name.slice(1)}</div><b>${m.name}</b><span>${m.part.split('· ')[1]}</span><div class="line">"${m.say}"</div></div>`};
+const photo=m=>m.img?`url('${m.img}') center top/cover,${m.bg}`:m.bg;
+const memCard=k=>{const m=members[k];return `<div class="mem" data-m="${k}" style="background:${photo(m)}">${m.img?'':`<div class="ini">${m.name.slice(1)}</div>`}<div class="cap"><span>${m.part.split(' · ')[1]}</span><b>${m.name}</b><i>"${m.say}"</i></div></div>`};
 document.getElementById('dtMembers').innerHTML=['wonrim','eunyul'].map(memCard).join('');
 document.getElementById('ghMembers').innerHTML=['haram','ijun','sea','dogyeom'].map(memCard).join('');
 
-const trackRow=(t,i,bg,lock)=>`<div class="track"><div class="no">${i+1}</div><div class="art" style="background:${cov(t[0],bg)};width:42px;height:42px">${COVER[t[0]]?(lock?'🔒':''):(lock?'🔒':ini(t[0]))}</div><div class="info"><div class="t">${t[0]}</div><div class="genre">${t[1]}</div></div>${lock?'<span class="lock">미발표</span>':'<button class="play">▶</button>'}</div>`;
-document.getElementById('dtTracks').innerHTML=[
- ['Detune','데뷔곡 · 포스트록·노이즈록'],['도돌이표','포스트펑크'],['Encore','개러지록 · 관객 반응 최고'],['반음','어쿠스틱 발라드 · 미발표']
-].map((t,i)=>trackRow(t,i,DT,i===3)).join('');
-document.getElementById('ghTracks').innerHTML=[
- ['Sunday Filter','신스팝 · 숏폼 챌린지 히트곡'],['유리온실','드림팝 · 대표곡'],['복숭아빛 새벽','어쿠스틱 인디팝 · 스테디셀러']
-].map((t,i)=>trackRow(t,i,GH)).join('');
+const alb=(t,fb,artist,lock)=>{const bg=bgOf(t[0],fb);return `<div class="alb${lock?' lock':''}" data-t="${t[0]}" data-a="${artist}" data-bg="${esc(bg)}" ${lock?'data-lock="1"':''}><div style="position:relative"><div class="cv" style="background:${bg}"></div>${lock?'<div class="lk">🔒 UNRELEASED</div>':''}</div><b>${t[0]}</b><span>${t[1]}</span></div>`};
+document.getElementById('dtTracks').innerHTML=[['Detune','데뷔곡 · 노이즈록'],['도돌이표','포스트펑크'],['Encore','개러지록'],['반음','미발표 · 발라드']].map((t,i)=>alb(t,DT,'DETUNE',i===3)).join('');
+document.getElementById('ghTracks').innerHTML=[['Sunday Filter','신스팝 · 바이럴'],['유리온실','드림팝 · 대표곡'],['복숭아빛 새벽','인디팝 · 스테디']].map(t=>alb(t,GH,'글래스하우스')).join('');
 
 /* tabs */
-const go=id=>{document.querySelectorAll('section').forEach(s=>s.classList.toggle('on',s.id===id));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab===id));window.scrollTo({top:0,behavior:'smooth'})};
+const go=id=>{document.querySelectorAll('section').forEach(s=>s.classList.toggle('on',s.id===id));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab===id));window.scrollTo({top:0})};
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(b.dataset.tab));
-document.querySelector('.detune-box').onclick=()=>go('detune');
 
-/* profile modal */
+/* sheet + clicks */
 const modal=document.getElementById('modal'),sheet=document.getElementById('sheet');
 document.addEventListener('click',e=>{
  const m=e.target.closest('.mem');
  if(m){const p=members[m.dataset.m];
-  sheet.innerHTML=`<div class="grab"></div><div class="pf"><div class="av" style="background:${p.img?`url('${p.img}')`:p.bg}">${p.img?'':p.name.slice(1)}</div><div><h4>${p.name}${p.hanja?`<small>${p.hanja}</small>`:''}<small>${p.age}</small></h4><span>${p.part}</span></div></div>
-  <dl><dt>외형</dt><dd>${p.look}</dd><dt>한 줄 소개</dt><dd>${p.about}</dd></dl><div class="say">${p.say}</div><button class="close">닫기</button>`;
+  sheet.className='sheet'+(p.band==='gh'?' gh-sheet':'');
+  sheet.innerHTML=`<div class="ph" style="background:${photo(p)}">${p.img?'':`<div class="ini">${p.name.slice(1)}</div>`}</div>
+  <div class="bd"><div class="part">${p.part}</div><h4>${p.name}${p.hanja?`<small>${p.hanja}</small>`:''}<small>${p.age}</small></h4>
+  <dl><div><dt>LOOK</dt><dd>${p.look}</dd></div><div><dt>ABOUT</dt><dd>${p.about}</dd></div></dl>
+  <div class="say">${p.say}</div><button class="close">닫기</button></div>`;
   modal.classList.add('on');return}
  if(e.target===modal||e.target.classList.contains('close')){modal.classList.remove('on');return}
- const r=e.target.closest('.row');
- if(r){setPlay(r.dataset.t,r.dataset.a,r.dataset.bg);if(r.dataset.go&&!e.target.classList.contains('play'))go(r.dataset.go)}
+ if(e.target.closest('.oc')){go('detune');return}
+ const r=e.target.closest('.row,.t3,.alb');
+ if(r&&!r.dataset.lock)setPlay(r.dataset.t,r.dataset.a,r.dataset.bg);
 });
 
 /* player */
+const player=document.getElementById('player'),pp=document.getElementById('pp'),prog=document.getElementById('prog');
 let playing=false,timer,pos=0;
-const pp=document.getElementById('pp'),prog=document.getElementById('prog');
-function setPlay(t,a,bg){document.getElementById('pT').textContent=t;document.getElementById('pA').textContent=a;const art=document.getElementById('pArt');art.style.background=bg;art.textContent=COVER[t]?'':(a==='글래스하우스'?'GH':ini(a));pos=0;start()}
-function start(){playing=true;pp.textContent='❚❚';clearInterval(timer);timer=setInterval(()=>{pos=(pos+1)%100;prog.style.width=pos+'%'},600)}
-function stop(){playing=false;pp.textContent='▶';clearInterval(timer)}
+set('pArt',bgOf('복숭아빛 새벽',GH));
+function setPlay(t,a,bg){document.getElementById('pT').textContent=t;document.getElementById('pA').textContent=a;set('pArt',bg);pos=0;start()}
+function start(){playing=true;player.classList.add('playing');pp.textContent='❚❚';clearInterval(timer);timer=setInterval(()=>{pos=(pos+1)%100;prog.style.width=pos+'%'},700)}
+function stop(){playing=false;player.classList.remove('playing');pp.textContent='▶';clearInterval(timer)}
 pp.onclick=()=>playing?stop():start();
-document.getElementById('pArt').style.background=cov('복숭아빛 새벽',GH);
-document.getElementById('radioArt').style.background=cov('복숭아빛 새벽',GH);
 </script>
 </body>
 </html>
